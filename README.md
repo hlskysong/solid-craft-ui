@@ -104,6 +104,8 @@ render(
 
 问题与建议请提 [Issues](https://github.com/hlskysong/solid-craft-ui/issues)。动手前请读 [`AGENTS.md`](./AGENTS.md)（仓库执行约定）与 `docs/06-工程规范.md`；改动后跑 `pnpm verify`。
 
+发布链路可在本地完整预演：`pnpm preview:release` 会把版本化、打包、发布、安装、消费跑到只监听 `127.0.0.1` 的临时 registry，不触达公网，产物落在仓库外 `.solid-craft-preview/`。真实对外发布是 `pnpm release`，由维护者逐次授权执行。
+
 ## License
 
 MIT © Solid Craft UI contributors · 见 [LICENSE](./LICENSE)

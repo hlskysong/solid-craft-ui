@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-09**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25）
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-09**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27）
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -10,10 +10,10 @@
 | 字段 | 值 |
 | --- | --- |
 | 当前目标 | Phase 0 / Phase 1 落地，M1 Exit 前补齐 T1-11 / T1-12 / T1-13；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
-| 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 发布前置资源未齐不得 publish**、`pnpm verify` 全链 RC=0 |
-| 当前任务 ID | T1-16（已完成）；本轮为 README 对外化重写（§24，非任务 ID，不勾选），下一步 T1-11（仍被 D-10 ③④ 阻塞） |
-| 下一步 | Aming 给齐 D-10 ③④（发布凭据 / npm 登录态、`0.1.0-canary.*` 预演）→ T1-11 → 勾 T1-12 → T1-13 M1 Exit；`npm whoami` 顺带确证账号存在性与包名归属；§23 / §24 的改动已按逐次授权提交推送；**public 历史已按 Aming 2026-11-09 决定重写为单 commit 并强推（§25，此前 3 个 SHA 作废）**；真实 runner 补验截图基线 / Node 24 偏差；T0-04 收口 4 条例外 |
-| 未答决策 | D-02 人数与上线时间、D-04 TS 7 平台包镜像、D-05 Q9–Q15、**D-10 ③④**、npm 账号存在性确证、CI 平台真实 runner |
+| 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0 |
+| 当前任务 ID | T1-16（已完成）；本轮为 D-10 ④ 本地预演固化与主行勾选（§27，非任务 ID，不额外勾任务），下一步 T1-11（真实 canary 发布，待 Aming 决定；D-10 已齐，不再被闸门阻塞） |
+| 下一步 | **D-10 已齐、`check:release --strict` RC=0**（④ = 本地预演，不 publish；详见 §27）；⚠️ **放行 ≠ 授权 publish**：T1-11 真实 canary 发布与 `pnpm release` 仍须 Aming 逐次授权，AI 不擅自执行；§26 与 §27 的改动仍在工作区，`git commit` / `git push origin main` 须逐次授权（禁 force，§25 那次除外）；真实 runner 补验截图基线 / Node 24 偏差；T0-04 收口 4 条例外 |
+| 未答决策 | D-02 人数与上线时间、D-04 TS 7 平台包镜像、D-05 Q9–Q15、T1-11 真实 canary 发布时机与 CI 自动发布通道、包名归属（待首包发布锁定）、CI 平台真实 runner |
 
 ---
 
@@ -30,7 +30,7 @@
 | D-07 | ✅ 已定：试点主力 SPA/MPA，**SSR 必须可用**（双构建进 MVP） | ADR-018 | 见 §3 横切检查 | [x] |
 | D-08 | ✅ 已定：许可证 **MIT** | ADR-020 | 见 T1-08 | [x] |
 | D-09 | ✅ 已定：**发布渠道**（2026-11-06 Aming 明确） | GitHub 仓库 + 公开 npmjs.org | 决定 `access=public` 与公开内容审计；**与 D-01 命名是两件独立的事**，定渠道不等于定名 | [x] |
-| D-10 | 🚧 **发布前置资源**（T1-11 canary 预演依赖） | ① ✅ GitHub 仓库 `https://github.com/hlskysong/solid-craft-ui.git` 已由 Aming 2026-11-09 本人完成首次推送：public / 默认分支 `main` / 单 commit（SHA 以 `git rev-parse HEAD` 为准；§25 重写后旧 SHA 作废） / 本地 HEAD=origin/main / 269 个 tracked 文件（当时）；`check:public` 实测 253 个文本零敏感命中、7 类危险文件零入库、4 份 MIT LICENSE。⚠️ GitHub API 的 `size=0` 是空仓创建后的统计延迟，`GET /contents` 已 200 返回 26 项顶层内容，不是空仓。② ✅ npm 账号 `hlskysong` 已由 Aming 2026-11-08 提供（`NPM_OWNER` 单点定义，`check-release` 第 8 条校验与 D-10 行双向咬合）；三个扁平包名 `solid-craft` / `solid-craft-icons` / `solid-craft-tokens` 在 `registry.npmjs.org` 只读体检均 **HTTP 404 = 未被占用**。⚠️ 账号存在性匿名接口无法确证（`www.npmjs.com` 403、registry user doc 401、`/-/v1/users/<name>` 对已知账号 sindresorhus 同样 404 故端点无效；`maintainer:hlskysong` 搜索 total=0，对照账号 1076，仅说明名下暂无公开包），需 ③ 的凭据跑 `npm whoami` 闭环；404 只代表此刻未占用，归属最终由 canary 首包发布锁定。③ ❌ 发布凭据未提供：本机 `npm whoami` / `pnpm whoami` 均 RC=1（未登录），`.npmrc` 仅 `registry` / `@biomejs:registry` 两键、无 token；④ ❌ `0.1.0-canary.*` 预演未跑 | `check:release --strict` 的硬阻塞点：D-01 已定 + ①② 已登记 + 已推送 ≠ 可发布；**只有 Aming 本人可勾本行**，AI 不得注册 / publish / 写入发布目标；`git commit` / `git push origin main` 须 Aming 逐次明确授权（2026-11-09 已授权本轮，见 §23），除 §25 已授权豁免的历史重写外禁 force push / 改写历史；每次推送前须 `pnpm check:public` RC=0。发布包 author 已按 Aming 要求写 `hlsky@foxmail.com`（§23）。仓库地址由 `scripts/scope.mjs` 单点定义（4 个 `package.json` 同源校验），npm 账号由 `NPM_OWNER` 单点定义（与 D-10 行双向咬合） | [ ] |
+| D-10 | ✅ **发布前置资源** | ① ✅ GitHub 仓库 `https://github.com/hlskysong/solid-craft-ui.git` 已由 Aming 2026-11-09 本人完成首次推送：public / 默认分支 `main` / 单 commit（SHA 以 `git rev-parse HEAD` 为准；§25 重写后旧 SHA 作废） / 本地 HEAD=origin/main / 269 个 tracked 文件（当时）；`check:public` 实测 253 个文本零敏感命中、7 类危险文件零入库、4 份 MIT LICENSE。⚠️ GitHub API 的 `size=0` 是空仓创建后的统计延迟，`GET /contents` 已 200 返回 26 项顶层内容，不是空仓。② ✅ npm 账号 `hlskysong` 已由 Aming 2026-11-08 提供（`NPM_OWNER` 单点定义，`check-release` 第 8 条校验与 D-10 行双向咬合）；三个扁平包名 `solid-craft` / `solid-craft-icons` / `solid-craft-tokens` 在 `registry.npmjs.org` 只读体检均 **HTTP 404 = 未被占用**。✅ 账号存在性已由 2026-11-09 交互式登录后 `npm whoami` = `hlskysong` 的登录态确证（此前匿名接口的 403 / 401 / 404 只说明端点不可用，不再作为判据）；404 只代表此刻未占用，归属最终由 canary 首包发布锁定。③ ✅ 发布凭据已闭环：2026-11-09 Aming 完成交互式 `npm login`，`npm whoami` = `hlskysong`（AI 非交互 shell 复验 RC=0），凭据仅存于用户级 `~/.npmrc`，仓库内 `.npmrc` 零凭据 / 无 registry 声明（`check:public` RC=0）；④ ✅ **本地预演（不 publish）已闭环**：2026-11-09 Aming 把 ④ 由「`0.1.0-canary.*` 预演」重定义为「`pnpm preview:release` 本地影子发布，全程不触达公网」，链路固化进 `scripts/preview-release.mjs` / `scripts/preview-registry.mjs`，由 `check:release` 第 10 条契约判据钉死（只绑 127.0.0.1、网络守卫在位、禁止公网发布命令）；实测全绿：3 个包 publish 到本地 registry / consumer 装 32 包 / 零公网请求 / 公网三包仍 404 / 主仓库零漂移（§27）。⚠️ changesets pre 模式首个真实产出是 **`0.1.1-canary.0`**（先 patch bump），文档口径按工具语义纠正，不再写 `0.1.0-canary.*` | `pnpm release` 已由 `check:release --strict` 放行（D-10 `[x]` 后 RC=0），但 **放行 ≠ 授权 publish**：真实对外发布须 Aming 逐次明确授权，AI 不得在无人值守流程里执行；`git commit` / `git push origin main` 须 Aming 逐次明确授权（2026-11-09 已授权本轮，见 §23），除 §25 已授权豁免的历史重写外禁 force push / 改写历史；每次推送前须 `pnpm check:public` RC=0。发布包 author 已按 Aming 要求写 `hlsky@foxmail.com`（§23）。仓库地址由 `scripts/scope.mjs` 单点定义（4 个 `package.json` 同源校验），npm 账号由 `NPM_OWNER` 单点定义（与 D-10 行双向咬合）；③④ 均已闭环，Aming 2026-11-09 明确授权 AI 勾本行（§27，授权范围仅限本行 + ④ 重定义 + 链路固化） | [x] |
 
 ---
 
@@ -80,7 +80,7 @@
 | T1-08 | **许可证落地**：根目录 + 各包 `LICENSE`；`package.json` 写 `"license": "MIT"`；发布门禁校验 | T0-01 | 技术负责人 | 06 §9.2 门禁检查存在性；ADR-020 | [x] |
 | T1-09 | **双构建正式产物**：`dist/source/*.jsx` 覆盖每个组件子路径 + `"solid"` 条件 + 构建脚本一一对应校验 | S-10 | 技术负责人 | `publint` / `attw` / `examples/solid-start` 三重校验；⭐ 不是骨架，M4 要验收 | [x] |
 | T1-10 | **scope 单点收敛**：`@ui-design/*` 与 `ui-` 前缀抽到单一常量 / 构建脚本 | T0-01 | 技术负责人 | 全库搜索无第二套硬编码前缀；改名不动组件 API | [x] |
-| T1-11 | 发布预演：Changeset + canary 到私有 registry | T1-07 / T1-08 | 技术负责人 | `0.1.0-canary.*` 可安装；`main` 合并即 canary | [ ] |
+| T1-11 | 发布预演：Changeset + canary 到私有 registry | T1-07 / T1-08 | 技术负责人 | `0.1.1-canary.*` 在本地 registry 可安装（§27 已实证）；`main` 合并即 canary 的 CI 自动发布通道未做 | [ ] |
 | T1-12 | **Button 纵向切片**：组件 → 样式 → 测试 → 文档 → 构建 → 发布预演 | T1-04 / T1-05 / T1-06 / T1-07 | 工程师 C | 全流程打通，形成可复制组件模板 | [ ] |
 | T1-13 | M1 Exit 检查 | 全部 | 技术负责人 | 新组件按模板 1–3 天可完成；CI 全绿；文档站可访问 | [ ] |
 | T1-14 | **UI 库完备 `llms.txt`**：根索引 + `llms-full.txt` + 逐组件 / Token / SSR 消费 Markdown 页 + 生成与校验脚本 | T1-06 | DevRel + 工程师 C | ① 根 `llms.txt` 符合 llmstxt.org 结构（H1 + 摘要 + `## Docs` 链接清单 + `## Optional`），链接全部可解析；② `llms-full.txt` 含全部组件 API / Demo / Token / SSR 与三端消费指南；③ `@ui-design/core` 每个 `exports` 子路径都有对应页面，覆盖率 100%，无死链 / 孤儿页；④ 由脚本从 `docs/` + 组件源码 JSDoc 生成，`pnpm check:llms` 接入 `verify`，文档与源码不同步即失败（37 个生成物 / 34 页 / 12 子路径 100% 覆盖，负向实证 7/7，见 §14） | [x] |
@@ -178,7 +178,7 @@ pnpm smoke:start-real
 pnpm size                    # size-limit：Button 1.92 KB / 6 KB、Core 18.86 KB / 180 KB（gzip）
 pnpm check:platforms         # TS 7 平台二进制包 + tsc --version（CI 各架构 job 单独跑）
 pnpm check:ci                # CI 契约：verify 阶段齐全 / 预算同源 / workflow 无伪造发布
-pnpm check:release           # 发布闸门：access=public / changeset 包名同源 / tarball 公开内容审计 / 3 个发布包 author 与 scope.mjs 同源；D-10 未齐时 release --strict 被拦
+pnpm check:release           # 发布闸门：access=public / changeset 包名同源 / tarball 公开内容审计 / 预演链路只连本地；D-10 齐备后 --strict RC=0，但放行 ≠ 授权 publish
 pnpm check:naming            # D-01 正式名门禁：scope 单点定义 / 9 个 workspace 包名 / 真源与对外产物零残留 / 冻结规范映射自证
 pnpm check:public            # public 仓库内容安全：origin 同源 / 269 tracked 零敏感命中 / .npmrc 无凭据 / .gitignore / LICENSE
 pnpm check:goals             # L1 目标冻结：docs/01~07 + AGENTS.md + 治理脚本 SHA256 基线（改目标即红灯）
@@ -1447,3 +1447,105 @@ const full = read('./llms-full.txt');   // 34 页全量正文
 - ⚠️ 旧 commit 在 GitHub 侧可能仍按 SHA 可访问；任何已 clone / fork 需自行重置。**AI 此后仍仅在逐次明确授权时 commit / push，不再自动强推**。
 - ❌ 仍未勾选：`T0-03 / T0-04`、`S-02~S-09`、`T1-11 / T1-12 / T1-13`；4 处倒挂仍由例外清单显式登记。
 - ⚠️ 已知偏差不变：workflow 未在真实 runner 跑过、截图基线绑定 macOS + 系统 Chrome、CI Node 26.12.1 而 01 §3 基线是 24 LTS。
+
+## 26. 第十九轮落地记录（2026-11-09，D-10 ③ 登录态闭环与文案同步）
+
+> Aming 发来 `npm login` / `npm whoami` 截图：交互式终端登录 `https://registry.npmjs.org/` 成功，`npm whoami` = `hlskysong`。Aming 选「先同步 ③ 文案」：**只消除治理文档与发布闸门里「未登录」的失真描述**，不 publish、不勾 D-10、不推进 ④，改动留在工作区等逐次授权提交。
+
+### 26.1 只读实证
+
+| 项 | 结果 |
+| --- | --- |
+| 登录态 | 交互式终端 `npm login` 成功；AI 非交互 shell 用 `fnm exec --using 26.12.1 -- npm whoami` 复验同样返回 `hlskysong`，RC=0 ⇒ 凭据在用户级 `~/.npmrc`，两种 shell 共享 |
+| 账号存在性 | D-10 ② 遗留的「匿名接口无法确证」由此闭环；三个包名归属仍待 canary 首包发布锁定（404 只代表此刻未占用） |
+| 凭据落点 | 仓库内 `.npmrc` 仅 `@biomejs:registry` 官方源例外，无 token、无 registry 声明；`pnpm check:public` RC=0（270 tracked / 254 文本零敏感命中） |
+| 仓库状态 | 工作区干净、`main` 单 commit `5750652`、`HEAD == origin/main` |
+
+### 26.2 同步的失真文案
+
+| 文件 | 改动 |
+| --- | --- |
+| `AGENTS.md` 硬约束 13 | 「账号存在性待 `npm whoami` 确证」→ 已确证；「③④ 仍 `[ ]`」→ ③ ✅ 闭环 / ④ 仍 `[ ]`；补记预演与闸门的校准点 |
+| `scripts/check-release.mjs` | 头部注释与 `--strict` 报错文案里静态写死的「本机 whoami 未登录、`.npmrc` 无凭据」→ 改为 ③ 已闭环、仅 ④ 未跑，并写明死锁须 Aming 本人定路径 |
+| `docs/08` | 顶部状态、当前锚点 3 行、D-10 行的 ②③ 描述与影响列同步；新增 §26 |
+| `scripts/goals.baseline.json` | `AGENTS.md` 是受保护文件，改后跑 `pnpm check:goals --update-baseline` 重算 15 个哈希并回写标记行 |
+
+> 脚本只从 D-10 行是否 `[x]` 判断 `resourcesReady`，**不实时探测登录态**；本轮只改文案、不改判据，故 `check:release --strict` 仍必须 RC=1。
+
+### 26.3 发现的治理死锁（待 Aming 校准）
+
+`pnpm release` = `check:release --strict && build && … && changeset publish`，`--strict` 硬要求 D-10 主行 `[x]`；而 D-10 ④「`0.1.0-canary.*` 预演」又是勾 D-10 的前提 —— **不勾就跑不了预演，不跑预演就不能勾**。CI 无 publish job，预演只能手动走。可选路径（本轮不实施）：① Aming 本人定一条受控预演路径（不绕闸门、不伪造）；② 把 ④ 重定义为本地 tarball 安装验证（不 publish）；③ Aming 本人确认后勾 D-10。**AI 不擅自 publish、不代勾 D-10**。
+
+另：登录截图里的 npm notice 指 bypass-2FA 细粒度令牌弃用（账户 / 包管理已强制 2FA，直接 publish 预计 2027-01 收紧）。本次交互式登录拿的是会话凭据，短期做 canary 可用；CI 长期自动化应规划 OIDC Trusted Publishing 或 staged publish，不依赖长期 token。
+
+### 26.4 允许写入路径
+
+`AGENTS.md`、`scripts/check-release.mjs`、`docs/08-实施Todo.md`、`scripts/goals.baseline.json`、工作区 memory 日志。**未改**：`docs/01~07`（v0.3 冻结，一个字节未动）、`scripts/scope.mjs`、README、组件 / 样式 / 测试源码、生成物、`pnpm-lock.yaml`、CI workflow、`.npmrc`；**未做**：`npm publish`、`changeset publish`、勾 D-10 / 任何任务行、`git commit` / `git push`（本轮未获逐次授权），改动留在工作区。
+
+### 26.5 验收输出（`pnpm verify` RC=0，23 个阶段）
+
+| 项 | 结果 |
+| --- | --- |
+| 只读门禁 | **4/4 RC=0**：`check:goals`（15 个受保护文件哈希一致）/ `check:todo`（认 §26 为最新派发边界）/ `check:naming` / `check:public` |
+| `pnpm verify` | **RC=0，23 阶段全绿**（改动后重跑） |
+| `check:release --strict` | **RC=1**，唯一报错仍为 D-10 主行 `[ ]` / ④ 预演未跑；报错文案已不再声称「未登录」 |
+| 边界验证 | 本轮无新增门禁判据，故不做负向实证；重点验「只改文案不改判据」—— strict 必须仍然拦住 |
+
+### 26.6 状态与遗留
+
+- ✅ 本轮完成：③ 闭环登记与全链文案同步；D-10 主行仍 `[ ]`，未勾选任何任务、未发布任何包。
+- 🚧 工作区改动待 Aming 逐次明确授权后提交推送（`git commit` / `git push origin main`，禁 force）。
+- ❌ 仍未勾选：`T0-03 / T0-04`、`S-02~S-09`、`T1-11 / T1-12 / T1-13`；4 处倒挂仍由例外清单显式登记。
+- ⚠️ 已知偏差不变：workflow 未在真实 runner 跑过、截图基线绑定 macOS + 系统 Chrome、CI Node 26.12.1 而 01 §3 基线是 24 LTS。
+
+## 27. 第二十轮落地记录（2026-11-09，D-10 ④ 本地预演固化与主行勾选）
+
+> 本轮输入是 Aming 一句明确授权：「固化，把 ④ 重定义为『本地预演（不 publish）』，并勾 D-10 主行」。此前 §26 登记的治理死锁由此一次性解开：④ 不再要求真实 publish 到公网，改由仓库内固化的本地影子发布链路闭环；死锁消失后 Aming 本人授权勾 D-10 主行。决策由 Aming 给出，本节只记录执行与验收。
+
+### 27.1 决策与授权边界
+
+| 项 | 内容 |
+| --- | --- |
+| ④ 重定义 | 原「`0.1.0-canary.*` 预演」（语义含公网 canary 发布）→ **「`pnpm preview:release` 本地预演（不 publish）」**：本地 127.0.0.1 registry + 网络守卫 + 离线依赖镜像，版本化 → 打包 → publish → 安装 → 消费全链路真跑，但绝不触达公网 |
+| D-10 主行 | `[ ]` → `[x]`，**由 Aming 2026-11-09 明确授权 AI 代勾**；授权仅限本行、④ 重定义与链路固化三件事 |
+| 放行边界 | `check:release --strict` 随之 RC=0；⚠️ **放行 ≠ 授权 publish**：`pnpm release` / `changeset publish` 仍须逐次授权，AI 不得擅自执行；`git commit` / `git push` 同样须逐次授权 |
+| 未触碰 | 未发任何包到公网、未执行 `pnpm release`、未勾 T1-11 / T1-12 / T1-13、未提交 / 未推送 |
+
+### 27.2 固化内容
+
+| 文件 | 改动 |
+| --- | --- |
+| `package.json` | 新增 `"preview:release": "node scripts/preview-release.mjs"`；`verify` 仍 23 阶段、CI 契约不变（预演是手动长链路，不塞进每次 verify） |
+| `scripts/preview-release.mjs`、`scripts/preview-registry.mjs` | 由仓库外临时脚本正式入库：路径改为按脚本位置推导、产物默认落仓库外 `../.solid-craft-preview/`（可用 `SOLID_CRAFT_PREVIEW_DIR` 覆盖）、移除全部本机绝对路径与占位凭据字面量；P1 的 strict 判据从「预期拦截」改为「已放行且本链路不发布」；P3 补 `llms-full.txt` 版本同步并新增判据 |
+| `scripts/check-release.mjs` | 新增**第 10 条契约判据**：`preview:release` 入口唯一、registry 只绑 `127.0.0.1`、网络守卫与 `--registry` 在位、两个脚本不得出现公网发布命令；同步头部注释、`--strict` 报错与成功输出文案 |
+| `README.md` | 「参与」段补一句 `pnpm preview:release` 与 `pnpm release` 的区别 |
+| `docs/08`、`AGENTS.md`、`scripts/goals.baseline.json` | ④ 与主行状态、锚点、T1-11 验收口径、硬约束 13、SHA256 基线同步（D-10 是决策行，不进 `check:todo` 的证据注册表） |
+
+### 27.3 顺带纠正的三处口径
+
+1. **canary 版本号**：D-10 ④ 原写 `0.1.0-canary.*`，但 changesets `pre enter canary` + patch changeset 的首个真实产出是 **`0.1.1-canary.0`**（pre 模式先做一次 patch bump）。当前状态区、T1-11 验收列、预演脚本全部改为 `0.1.1-canary.*`；历史章节（§19~§26）里的旧写法按「历史叙述不回改」惯例保留。
+2. **`llms-full.txt` 版本同步**：上一轮报告称「真实发布链路不会自动同步」—— 更正：`generate-llms.mjs` 的 4 处 `0.1.0` 均由 `corePkg.version` 生成，`check:llms` 会在版本变更后比对失败并**拦下发布**，因此真实发布须在 `changeset version` 后补跑 `pnpm docs:generate`。这是门禁红灯，不是静默漏。预演 staging 无完整 workspace，改为等价替换并新增判据，使三件套版本一致可验收。
+3. **author 形态**：npm publish 会把 `author: "Name <mail>"` 规范化成 `{name,email}` 对象上传，registry 侧判据必须归一化后比较（预演脚本已实现）。
+
+### 27.4 允许写入路径
+
+`package.json`、`README.md`、`scripts/preview-release.mjs`、`scripts/preview-registry.mjs`、`scripts/check-release.mjs`、`scripts/goals.baseline.json`、`AGENTS.md`、`docs/08-实施Todo.md`、工作区 memory 日志。**未改**：`docs/01~07`（v0.3 冻结，一个字节未动）、`scripts/scope.mjs`、组件 / 样式 / 测试源码、生成物、`pnpm-lock.yaml`、CI workflow、`.npmrc`、`.changeset/`。**未做**：公网 publish、`pnpm release`、勾选任何任务行、`git commit` / `git push`（本轮未获逐次授权）；改动全部留在工作区。
+
+### 27.5 验收输出（D-10 主行勾选证据，`pnpm verify` RC=0，23 个阶段）
+
+| 项 | 结果 |
+| --- | --- |
+| D-10 主行 | `[ ]` → `[x]`；`check:release --strict` 由 RC=1 变 **RC=0**，证明唯一阻塞点确实只有 D-10 |
+| 只读门禁 | `check:goals`（15 个受保护文件哈希一致）/ `check:todo`（认 §27 为最新派发边界；38 任务 / 25 个 `[x]` 全部有证据，D-10 属决策行不占任务证据位）/ `check:naming` / `check:public` 全部 RC=0 |
+| `pnpm verify` | **RC=0，23 阶段全绿**，含新增第 10 条判据的 `check:release` |
+| 负向实证 | **6/6 PASS**：篡改 `preview:release` 入口 / registry 改绑 `0.0.0.0` / 插入公网发布命令 / 删网络守卫 / 移走 registry 脚本 / 撤销 D-10 勾选，`check:release` 均 RC=1 且精确报错；字节级还原后常规与 `--strict` 双 RC=0 |
+| 固化后重跑 | `pnpm preview:release` **RC=0，43 项验收 0 失败**：`0.1.1-canary.0` 三包 publish 到 127.0.0.1 / consumer 装 32 包 / 44 次请求全本机 / 零公网请求与外部 socket / 公网三包仍 HTTP 404 / 主仓库零漂移、无 git tag |
+| 新增脚本安全 | 两个新脚本尚未 `git add`（`check:public` 只扫 tracked，本轮仍为 270 / 254），已用同一套 10 类敏感形态规则单独扫描，零命中；提交后将纳入 272 / 256 |
+| 边界 | 未运行 `pnpm release`；`check:release --strict` 放行仅代表发布前置资源齐备 |
+
+### 27.6 状态与遗留
+
+- ✅ 本轮完成：④ 重定义 + 链路固化 + D-10 主行勾选 + 全链文案与基线同步；未发布任何包。
+- 🚧 工作区改动待 Aming 逐次明确授权后提交推送（`git commit` / `git push origin main`，禁 force）。
+- ❌ 仍未勾选：`T0-03 / T0-04`、`S-02~S-09`、`T1-11 / T1-12 / T1-13`；4 处倒挂仍由例外清单显式登记。T1-11 的「`main` 合并即 canary」CI 自动发布通道尚未做，本地预演不等价于它。
+- ⚠️ 真实发布前须补 `pnpm docs:generate` 重生成 llms 三件套（否则 `check:llms` 拦下）；真实 canary 时机、OIDC Trusted Publishing 规划、真实 runner 截图基线 / Node 24 偏差仍待办。

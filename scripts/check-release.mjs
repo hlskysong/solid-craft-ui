@@ -6,10 +6,13 @@
  * CSS 前缀 scui-*；同日又提供 GitHub 仓库地址（D-10 ①）与 npm 账号 hlskysong（D-10 ②，
  * NPM_OWNER 单点定义，三个扁平包名在 registry.npmjs.org 只读体检均 404 未占用）；
  * 2026-11-09 Aming 本人完成首次推送（单 commit / HEAD=origin/main / public 内容审计零命中）。
- * 但**有名字 + 有仓库 + 有账号 + 已推送 ≠ 可以发布** —— 账号存在性未由登录态确证，
- * 发布凭据（本机 whoami 未登录、.npmrc 无凭据）与 0.1.0-canary.* 预演仍缺（D-10 ③④），
- * T1-11 无法闭环。所以本闸门把「发布前置资源」钉成机器判据，让 AI 在无人干预地跑任务流时
- * 也不可能提前 publish。
+ * ③ 发布凭据由交互式 npm login 闭环（npm whoami = hlskysong，凭据仅在用户级 ~/.npmrc，
+ * 仓库内零凭据），账号存在性由登录态确证。
+ * ④ 经 Aming 2026-11-09 校准：重定义为「本地预演（不 publish）」，由固化的
+ * pnpm preview:release 落地实证（docs/08 §27）；同日 Aming 明确授权勾 D-10 主行，
+ * --strict 随之放行。⚠️ **放行 ≠ 授权 publish**：真实对外发布仍须 Aming 逐次授权，
+ * AI 不得在无人值守流程里调用 pnpm release。
+ * 所以本闸门把「发布前置资源」与「预演链路只连本地」钉成机器判据。
  *
  * 两种模式：
  *   - 常规（verify 调用）：只校验渠道配置与公开内容安全，不阻塞日常开发；
@@ -30,6 +33,9 @@
  *      必须原样登记它，防止单点定义与清单分叉（双向咬合）。
  *   9. 3 个发布包的 author 必须与 scope.mjs 的 AUTHOR 单点定义同源
  *      （Aming 2026-11-09 指定留本人邮箱，不用 GitHub 用户名）。
+ *   10. 本地预演链路契约（D-10 ④ 固化）：根 package.json 必须有 preview:release
+ *       且入口唯一；registry 只绑 127.0.0.1、网络守卫在位，两个脚本不得出现
+ *       公网发布命令 —— 防长期无人值守时脚本漂移成真实 publish。
  */
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -171,7 +177,7 @@ if (d10.length === 0) fail('无法从 docs/08 §0 解析 D-10 行（发布前置
 if (strict && !nameDecided) fail('D-01 正式命名未登记，禁止发布');
 if (strict && !resourcesReady) {
   fail(
-    'D-10 发布前置资源未齐：① GitHub 仓库已由 Aming 2026-11-09 完成首次推送（单 commit / HEAD=origin/main / public 内容审计零命中 / check:public 门禁在位），地址由 scope.mjs 单点定义；② npm 账号 hlskysong 已登记（NPM_OWNER 单点定义），solid-craft / solid-craft-icons / solid-craft-tokens 三个包名在 npmjs.org 只读体检均 404 未占用，但账号存在性与归属未由登录态确证；③ 发布凭据未提供（本机 npm / pnpm whoami 均未登录、.npmrc 无凭据）；④ 0.1.0-canary.* 预演未跑。T1-11 无法闭环，禁止 publish',
+    'D-10 发布前置资源主行不再是 [x]：① GitHub 仓库已由 Aming 2026-11-09 完成首次推送（单 commit / HEAD=origin/main / public 内容审计零命中），地址由 scope.mjs 单点定义；② npm 账号 hlskysong 已登记并由 npm whoami 登录态确证；③ ✅ 发布凭据已闭环（凭据仅存于用户级 ~/.npmrc，仓库内 .npmrc 零凭据）；④ ✅ 本地预演（pnpm preview:release，不 publish）已由 docs/08 §27 实证闭环。若 D-10 被有意撤销，须由 Aming 本人同步文档说明；闸门恢复拦截，禁止 publish',
   );
 }
 
@@ -227,11 +233,38 @@ for (const [label, abs] of authorTargets) {
   }
 }
 
+// 10. D-10 ④ 固化链路契约：预演必须只连本地，且不得漂移成公网发布。
+//     这是长期无人值守跑任务流时的防漂移闸门（T1-16 的延续）。
+const previewEntry = 'node scripts/preview-release.mjs';
+if (rootPkg.scripts?.['preview:release'] !== previewEntry) {
+  fail(`package.json 缺少 preview:release 或入口不是 ${previewEntry}（D-10 ④ 固化链路）`);
+}
+const previewMain = read(join(repoRoot, 'scripts', 'preview-release.mjs'));
+const previewReg = read(join(repoRoot, 'scripts', 'preview-registry.mjs'));
+if (previewMain.length === 0 || previewReg.length === 0) {
+  fail('本地预演脚本缺失：scripts/preview-release.mjs / preview-registry.mjs');
+} else {
+  if (!previewReg.includes("listen(0, '127.0.0.1'")) {
+    fail('本地预演 registry 未只绑 127.0.0.1，存在把包发到公网的风险');
+  }
+  for (const [label, text] of [
+    ['preview-release.mjs', previewMain],
+    ['preview-registry.mjs', previewReg],
+  ]) {
+    if (text.includes('changeset publish')) {
+      fail(`${label} 含公网发布命令：D-10 ④ 只能本地预演（不 publish）`);
+    }
+  }
+  if (!previewMain.includes('PREVIEW_GUARD_MODE') || !previewMain.includes("'--registry',")) {
+    fail('preview-release.mjs 缺少网络守卫或本地 registry 参数（无法证明零公网请求）');
+  }
+}
+
 if (errors.length > 0) {
   console.error(`[check:release] ${strict ? '严格' : '常规'}模式 ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
   process.exit(1);
 }
 console.log(
-  `[check:release] ${strict ? '严格' : '常规'}模式通过：access=public · ${declaredNames.length} 个 changeset 包名与 workspace 一致 · ${scanFiles.length + manifestTargets.length} 个 tarball 文件（含 ${manifestTargets.length} 个 package.json）通过公开内容审计 · release 前置闸门 / check:naming 在位 · ${repoMetaTargets.length} 个 package.json 仓库元数据与 scope.mjs 同源 · npm 账号 ${NPM_OWNER} 与 D-10 登记咬合 · ${authorTargets.length} 个发布包 author 与 scope.mjs 同源 · D-01 ${nameDecided ? '已定（solid-craft-ui / solid-craft / scui-*）' : '未登记'} · D-10 ${resourcesReady ? '已齐' : '未齐（①② 已登记且已推送 / ③④ 待 Aming），release 保持拦截（日常开发不受影响）'}`,
+  `[check:release] ${strict ? '严格' : '常规'}模式通过：access=public · ${declaredNames.length} 个 changeset 包名与 workspace 一致 · ${scanFiles.length + manifestTargets.length} 个 tarball 文件（含 ${manifestTargets.length} 个 package.json）通过公开内容审计 · release 前置闸门 / check:naming 在位 · ${repoMetaTargets.length} 个 package.json 仓库元数据与 scope.mjs 同源 · npm 账号 ${NPM_OWNER} 与 D-10 登记咬合 · ${authorTargets.length} 个发布包 author 与 scope.mjs 同源 · D-01 ${nameDecided ? '已定（solid-craft-ui / solid-craft / scui-*）' : '未登记'} · D-10 ${resourcesReady ? '已齐（④ = 本地预演，不 publish；放行 ≠ 授权公网发布）' : '未齐，release 保持拦截'}`,
 );

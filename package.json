@@ -58,7 +58,8 @@
     "verify": "pnpm build && pnpm test && pnpm test:e2e && pnpm typecheck && pnpm lint && pnpm check:docs && pnpm check:llms && pnpm check:release && pnpm check:naming && pnpm check:public && pnpm check:goals && pnpm check:todo && pnpm check:styles && pnpm check:exports && pnpm size && pnpm check:platforms && pnpm check:ci && pnpm publint && pnpm attw && pnpm smoke:consumers && pnpm smoke:tarball && pnpm smoke:ssr && pnpm smoke:start-real",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "pnpm check:release --strict && pnpm build && pnpm check:naming && pnpm check:public && pnpm check:llms && changeset publish"
+    "release": "pnpm check:release --strict && pnpm build && pnpm check:naming && pnpm check:public && pnpm check:llms && changeset publish",
+    "preview:release": "node scripts/preview-release.mjs"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

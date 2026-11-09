@@ -3,7 +3,7 @@
   "generatedAt": "2026-11-09",
   "note": "由 pnpm check:goals --update-baseline 生成；受保护文件的任何改动都会让 pnpm verify 失败，改动须人工确认并重跑该命令。",
   "files": {
-    "AGENTS.md": "dc476dfcbc0cbefc4a3d24c8a9bf3fde489d1b0a4e73f2eeaadc5c7caa5ff921",
+    "AGENTS.md": "8d16c7e7bec2eef0e38c76e732a055627f01924b3687a82e06b7a8937cdd5050",
     "docs/01-技术选型.md": "d9e376e2444b576310884017f247ac302a4c24bb1a129cc8ba202e839f71afce",
     "docs/02-架构设计.md": "6b45b90ca458bc4aa8d64583fecd35495ce641cbbf379110a820f56fdae5fc70",
     "docs/03-设计系统.md": "87efa5332caf936858e21dbaccf7ef9ce166a6c4cda9a78495ecc8fd3dfcfcfa",
