@@ -1,0 +1,9 @@
+/* Base layer: structural defaults only. All visual values come from token CSS variables.
+   Vendor prefixes are added by autoprefixer at build time, never authored here. */
+:where(body) {
+  margin: 0;
+}
+
+:where(button, input, select, textarea) {
+  font: inherit;
+}

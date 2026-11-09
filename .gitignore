@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.artifacts/
+coverage/
+.turbo/
+*.tsbuildinfo
+.DS_Store
+.env*
+*.pem
+*.key
+*.log
+playwright-report/
+test-results/
+.workbuddy/

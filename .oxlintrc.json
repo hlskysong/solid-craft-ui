@@ -1,0 +1,23 @@
+{
+  "plugins": ["typescript", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "typescript/no-explicit-any": "error",
+    "no-unused-vars": "warn"
+  },
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/.artifacts/**",
+    "**/node_modules/**",
+    "**/coverage/**",
+    "**/.turbo/**",
+    "**/playwright-report/**",
+    "**/test-results/**",
+    "**/src/generated/**",
+    "**/apps/docs/public/**",
+    "**/pnpm-lock.yaml"
+  ]
+}

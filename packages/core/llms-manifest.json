@@ -1,0 +1,242 @@
+{
+  "version": "0.1.0",
+  "package": "solid-craft",
+  "index": "llms.txt",
+  "full": "llms-full.txt",
+  "pageCount": 34,
+  "packageDocs": [
+    "llms.txt",
+    "llms-full.txt",
+    "llms-manifest.json"
+  ],
+  "pages": [
+    {
+      "path": "llms/index.md",
+      "title": "# solid-craft-ui 组件库总览",
+      "kind": "index"
+    },
+    {
+      "path": "llms/exports/root.md",
+      "title": "# 根入口 `solid-craft`",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/button.md",
+      "title": "# Button 按钮（`solid-craft/button`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/icon.md",
+      "title": "# Icon 图标（`solid-craft/icon`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/typography.md",
+      "title": "# Typography 排版（`solid-craft/typography`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/space.md",
+      "title": "# Space 间距（`solid-craft/space`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/divider.md",
+      "title": "# Divider 分割线（`solid-craft/divider`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/layout.md",
+      "title": "# Layout 布局（`solid-craft/layout`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/grid.md",
+      "title": "# Grid 栅格（`solid-craft/grid`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/config-provider.md",
+      "title": "# ConfigProvider 全局配置（`solid-craft/config-provider`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/styles-css.md",
+      "title": "# 子路径 `solid-craft/styles.css`",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/styles.md",
+      "title": "# 子路径 `solid-craft/styles/*`",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/package-json.md",
+      "title": "# 子路径 `solid-craft/package.json`",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/design/tokens.md",
+      "title": "# 设计 Token",
+      "kind": "design"
+    },
+    {
+      "path": "llms/design/color.md",
+      "title": "# 色彩",
+      "kind": "design"
+    },
+    {
+      "path": "llms/design/layout.md",
+      "title": "# 布局与间距",
+      "kind": "design"
+    },
+    {
+      "path": "llms/design/motion.md",
+      "title": "# 动效",
+      "kind": "design"
+    },
+    {
+      "path": "llms/design/dark.md",
+      "title": "# 暗色主题",
+      "kind": "design"
+    },
+    {
+      "path": "llms/design/density.md",
+      "title": "# 密度与方向",
+      "kind": "design"
+    },
+    {
+      "path": "llms/guides/getting-started.md",
+      "title": "# 快速开始",
+      "kind": "guides"
+    },
+    {
+      "path": "llms/guides/ssr.md",
+      "title": "# SSR 与 Hydration",
+      "kind": "guides"
+    },
+    {
+      "path": "llms/guides/vite.md",
+      "title": "# Vite 消费",
+      "kind": "guides"
+    },
+    {
+      "path": "llms/guides/webpack.md",
+      "title": "# Webpack 5 消费",
+      "kind": "guides"
+    },
+    {
+      "path": "llms/guides/rspack.md",
+      "title": "# Rspack 消费",
+      "kind": "guides"
+    },
+    {
+      "path": "llms/demos/overview-basic.md",
+      "title": "# 基础组件总览 · 基础组件总览（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/button-basic.md",
+      "title": "# Button 按钮 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/button-states.md",
+      "title": "# Button 按钮 · 状态与图标（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/button-variants.md",
+      "title": "# Button 按钮 · 变体与语义色（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/icon-basic.md",
+      "title": "# Icon 图标 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/typography-basic.md",
+      "title": "# Typography 排版 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/space-basic.md",
+      "title": "# Space 间距 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/divider-basic.md",
+      "title": "# Divider 分割线 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/layout-basic.md",
+      "title": "# Layout 布局 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/grid-basic.md",
+      "title": "# Grid 栅格 · 基础用法（源码）",
+      "kind": "demos"
+    }
+  ],
+  "exports": {
+    ".": "llms/exports/root.md",
+    "./button": "llms/exports/button.md",
+    "./icon": "llms/exports/icon.md",
+    "./typography": "llms/exports/typography.md",
+    "./space": "llms/exports/space.md",
+    "./divider": "llms/exports/divider.md",
+    "./layout": "llms/exports/layout.md",
+    "./grid": "llms/exports/grid.md",
+    "./config-provider": "llms/exports/config-provider.md",
+    "./styles.css": "llms/exports/styles-css.md",
+    "./styles/*": "llms/exports/styles.md",
+    "./package.json": "llms/exports/package-json.md"
+  },
+  "links": [
+    "llms/index.md",
+    "llms/exports/root.md",
+    "llms/exports/button.md",
+    "llms/exports/icon.md",
+    "llms/exports/typography.md",
+    "llms/exports/space.md",
+    "llms/exports/divider.md",
+    "llms/exports/layout.md",
+    "llms/exports/grid.md",
+    "llms/exports/config-provider.md",
+    "llms/exports/styles-css.md",
+    "llms/exports/styles.md",
+    "llms/exports/package-json.md",
+    "llms/design/tokens.md",
+    "llms/design/color.md",
+    "llms/design/layout.md",
+    "llms/design/motion.md",
+    "llms/design/dark.md",
+    "llms/design/density.md",
+    "llms/guides/getting-started.md",
+    "llms/guides/ssr.md",
+    "llms/guides/vite.md",
+    "llms/guides/webpack.md",
+    "llms/guides/rspack.md",
+    "llms-full.txt",
+    "llms/demos/overview-basic.md",
+    "llms/demos/button-basic.md",
+    "llms/demos/button-states.md",
+    "llms/demos/button-variants.md",
+    "llms/demos/icon-basic.md",
+    "llms/demos/typography-basic.md",
+    "llms/demos/space-basic.md",
+    "llms/demos/divider-basic.md",
+    "llms/demos/layout-basic.md",
+    "llms/demos/grid-basic.md"
+  ],
+  "requiredSections": [
+    "SSR 与 Hydration",
+    "Webpack 5 消费",
+    "Rspack 消费",
+    "Vite 消费",
+    "Token"
+  ]
+}

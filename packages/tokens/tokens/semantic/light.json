@@ -1,0 +1,104 @@
+{
+  "color": {
+    "text": {
+      "primary": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.88)",
+        "$contrastTier": "text",
+        "$contrastBg": "color.bg.surface",
+        "$usage": "正文主文本"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.65)",
+        "$contrastTier": "text",
+        "$contrastBg": "color.bg.surface",
+        "$usage": "次要文本"
+      },
+      "tertiary": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.55)",
+        "$contrastTier": "text",
+        "$contrastBg": "color.bg.surface",
+        "$usage": "辅助文本（v0.2 修正，实测 ≈4.74:1）"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "#ffffff",
+        "$contrastTier": "text",
+        "$contrastBg": "color.primary",
+        "$usage": "实心按钮 / 深色背景上的文本；校验对主色背景的对比度"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.25)",
+        "$contrastTier": "disabled",
+        "$usage": "禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息"
+      }
+    },
+    "bg": {
+      "surface": {
+        "$type": "color",
+        "$value": "#ffffff",
+        "$contrastTier": "background",
+        "$usage": "亮色主题参照背景"
+      }
+    },
+    "border": {
+      "default": {
+        "$type": "color",
+        "$value": "#f0f0f0",
+        "$contrastTier": "decorative",
+        "$usage": "纯装饰性默认边框 / 分割线，不承担控件边界识别"
+      },
+      "strong": {
+        "$type": "color",
+        "$value": "#949494",
+        "$contrastTier": "control",
+        "$contrastBg": "color.bg.surface",
+        "$usage": "输入框 / 按钮等可识别控件边界"
+      }
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "{color.palette.blue.6}",
+      "$contrastTier": "text",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "主操作 / 选中 / 链接；Button 默认色（ADR-019）"
+    },
+    "success": {
+      "$type": "color",
+      "$value": "{color.palette.green.6}",
+      "$contrastTier": "text",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "成功 / 通过 / 在线"
+    },
+    "warning": {
+      "$type": "color",
+      "$value": "{color.palette.amber.6}",
+      "$contrastTier": "text",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "警告 / 待处理 / 风险提示"
+    },
+    "danger": {
+      "$type": "color",
+      "$value": "{color.palette.red.6}",
+      "$contrastTier": "text",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "错误 / 删除 / 失败 / 危险操作"
+    },
+    "focus-ring": {
+      "$type": "color",
+      "$value": "{color.palette.blue.6}",
+      "$contrastTier": "control",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "焦点指示环（WCAG 1.4.11 ≥3:1；03 §11 要求 2px + 2px offset）"
+    }
+  },
+  "motion": {
+    "duration": {
+      "fast": { "$type": "duration", "$value": "120ms" }
+    },
+    "ease": { "$type": "cubicBezier", "$value": "cubic-bezier(0.2, 0, 0, 1)" }
+  }
+}

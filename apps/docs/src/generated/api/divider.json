@@ -1,0 +1,47 @@
+{
+  "slug": "divider",
+  "source": "packages/core/src/components/divider/types.ts",
+  "interfaces": [
+    {
+      "name": "DividerProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "orientation",
+          "type": "'horizontal' | 'vertical'",
+          "optional": true,
+          "description": "分割线方向。",
+          "default": "'horizontal'"
+        },
+        {
+          "name": "dashed",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否使用虚线。",
+          "default": "false"
+        },
+        {
+          "name": "plain",
+          "type": "boolean",
+          "optional": true,
+          "description": "文字是否使用普通字重。",
+          "default": "false"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "分割线文字。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

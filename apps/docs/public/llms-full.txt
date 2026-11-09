@@ -1,0 +1,3229 @@
+# solid-craft-ui · 完整文档（llms-full.txt）
+
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 34 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+
+---
+
+<!-- source: llms/index.md -->
+
+# solid-craft-ui 组件库总览
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`generated/catalog.json` + `packages/core/package.json` + `docs/01~07`；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 12 个 exports 子路径、7 个组件页、10 个 Demo。
+
+## 关键约定
+
+- **样式显式引入**：JS 不隐式加载 CSS，需 `import 'solid-craft/styles.css'`，变量统一为 `--scui-*` 前缀。
+- **状态由 `data-*` 驱动**：组件不叠加 modifier class，样式按属性选择器命中。
+- **双构建 / `"solid"` 条件**：`dist/source/*.jsx` 保留 JSX 供消费方按 SSR / CSR 目标编译，`dist/esm/*.js` 为编译后产物。
+- **响应式契约**：Props 可为值或 Accessor，组件内部统一用 `resolveValue()` 读取。
+- **无障碍**：语义色按 03 §3.1 的 7 档 WCAG21 对比度在构建期校验，不达标即构建失败。
+
+## 语义色速查
+
+| CSS 变量 | light `$value` | dark `$value` | 分档 |
+| --- | --- | --- | --- |
+| `--scui-color-text-primary` | `rgba(0, 0, 0, 0.88)` | `rgba(255, 255, 255, 0.85)` | `text` |
+| `--scui-color-text-secondary` | `rgba(0, 0, 0, 0.65)` | `rgba(255, 255, 255, 0.65)` | `text` |
+| `--scui-color-text-tertiary` | `rgba(0, 0, 0, 0.55)` | `rgba(255, 255, 255, 0.55)` | `text` |
+| `--scui-color-text-inverse` | `#ffffff` | `#1f1f1f` | `text` |
+| `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `rgba(255, 255, 255, 0.25)` | `disabled` |
+| `--scui-color-bg-surface` | `#ffffff` | `#1f1f1f` | `background` |
+| `--scui-color-border-default` | `#f0f0f0` | `#303030` | `decorative` |
+| `--scui-color-border-strong` | `#949494` | `#8a8a8a` | `control` |
+| `--scui-color-primary` | `{color.palette.blue.6}` | `{color.palette.blue.6}` | `text` |
+| `--scui-color-success` | `{color.palette.green.6}` | `{color.palette.green.6}` | `text` |
+| `--scui-color-warning` | `{color.palette.amber.6}` | `{color.palette.amber.6}` | `text` |
+| `--scui-color-danger` | `{color.palette.red.6}` | `{color.palette.red.6}` | `text` |
+| `--scui-color-focus-ring` | `{color.palette.blue.6}` | `{color.palette.blue.6}` | `control` |
+
+带 `{...}` 的值是 DTCG alias 引用，由 style-dictionary 在构建期解析为 CSS `var(--scui-color-palette-*)`。
+
+## 组件与子路径
+
+| 组件 | 子路径 | 说明 |
+| --- | --- | --- |
+| [Button 按钮](llms/exports/button.md) | `solid-craft/button` | 触发操作的主控件，支持变体、语义色、尺寸、形状、加载与图标。 |
+| [Icon 图标](llms/exports/icon.md) | `solid-craft/icon` | 语义色与尺寸统一的图标容器，装饰性图标自动对读屏隐藏。 |
+| [Typography 排版](llms/exports/typography.md) | `solid-craft/typography` | Title / Text / Paragraph / Link 的层级、修饰与语义色。 |
+| [Space 间距](llms/exports/space.md) | `solid-craft/space` | 水平 / 垂直排列、间距档位、分隔与换行。 |
+| [Divider 分割线](llms/exports/divider.md) | `solid-craft/divider` | 水平 / 垂直分割，支持虚线与带文字。 |
+| [Layout 布局](llms/exports/layout.md) | `solid-craft/layout` | Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。 |
+| [Grid 栅格](llms/exports/grid.md) | `solid-craft/grid` | 24 栅格 Row / Col、间距、偏移与响应式断点。 |
+
+- [ConfigProvider 全局配置](llms/exports/config-provider.md) · [样式](llms/exports/styles-css.md) · [按组件样式通配](llms/exports/styles.md) · [package.json](llms/exports/package-json.md)
+
+## 指南与设计
+
+- [设计 Token](llms/design/tokens.md)
+- [色彩](llms/design/color.md)
+- [布局与间距](llms/design/layout.md)
+- [动效](llms/design/motion.md)
+- [暗色主题](llms/design/dark.md)
+- [密度与方向](llms/design/density.md)
+- [快速开始](llms/guides/getting-started.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+- [Vite 消费](llms/guides/vite.md)
+- [Webpack 5 消费](llms/guides/webpack.md)
+- [Rspack 消费](llms/guides/rspack.md)
+
+## 规范摘录
+
+> 规范摘录：`docs/01-技术选型.md` → ## 1. 背景与约束
+
+
+| 维度 | 假设 |
+| --- | --- |
+| 使用场景 | 企业内部中后台：表单、列表、详情、审批、权限、报表入口 |
+| 团队 | 3–4 名前端 + 1 名设计/视觉评审（可兼职）+ 0.5 QA/自动化（可调整） |
+| 技术栈 | 新项目以 SolidJS 为主；可能并存 Vite / Webpack 5 / Rspack / SolidStart |
+| 运行环境 | 桌面端为主，Chrome / Edge 为主；Firefox / Safari best effort；可能运行在微前端容器中 |
+| 交付 | 私有 npm registry，内部文档站，长期维护 |
+| 非目标 | 不做低代码设计器、不做图表库、不做富文本编辑器内核、不追求覆盖 AntD 全量组件 |
+
+选型优先级：**稳定可维护 > 企业场景匹配 > 无障碍与可测试性 > 开发体验 > 包体积**。
+
+> Ant Design / Semi Design 是 React-only，TDesign 目前没有官方 Solid 版本。用 Web Components 包装会引入 SSR、主题、事件、类型和表单集成问题，因此选择自研 Solid 组件层，而不是二次包装现有库。
+
+---
+
+---
+
+<!-- source: llms/exports/root.md -->
+
+# 根入口 `solid-craft`
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+`solid-craft` 是 `solid-craft` 的公开子路径，条件导出如下。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft';
+```
+
+## API
+
+该子路径不暴露组件 Props。
+
+## 根入口导出清单
+
+- `solid-craft/button` → Button 按钮：触发操作的主控件，支持变体、语义色、尺寸、形状、加载与图标。
+- `solid-craft/icon` → Icon 图标：语义色与尺寸统一的图标容器，装饰性图标自动对读屏隐藏。
+- `solid-craft/typography` → Typography 排版：Title / Text / Paragraph / Link 的层级、修饰与语义色。
+- `solid-craft/space` → Space 间距：水平 / 垂直排列、间距档位、分隔与换行。
+- `solid-craft/divider` → Divider 分割线：水平 / 垂直分割，支持虚线与带文字。
+- `solid-craft/layout` → Layout 布局：Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。
+- `solid-craft/grid` → Grid 栅格：24 栅格 Row / Col、间距、偏移与响应式断点。
+
+- `solid-craft/config-provider` → ConfigProvider 全局配置
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 3.2 消费方式
+
+
+```tsx
+// 推荐：按组件引入（tree-shaking 最稳）
+import { Button } from 'solid-craft/button';
+import 'solid-craft/styles.css';
+
+// 或：根导出
+import { Button, Input, Form } from 'solid-craft';
+```
+
+CSS 采用**显式引入**，原因：
+
+- 避免 JS 隐式副作用，SSR / Webpack / Rspack / 微前端行为可预测。
+- 允许两种粒度：
+  - 全量：`import 'solid-craft/styles.css'`（tokens + base + 所有组件）
+  - 按需：`import 'solid-craft/styles/base.css'` + `import 'solid-craft/styles/components/button.css'`
+- 后续可提供 `unplugin-solid-craft` 自动按需引入 CSS，但不作为 v1 前置条件。
+
+> 注意：CSS 显式引入意味着业务方必须记得加。文档、脚手架模板、lint 提示中都要强调；`examples/*` 作为正确用法基准。
+
+---
+
+<!-- source: llms/exports/button.md -->
+
+# Button 按钮（`solid-craft/button`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+触发操作的主控件，支持变体、语义色、尺寸、形状、加载与图标。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/button/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/button/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/button/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/button/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/button';
+```
+
+## API
+
+### ButtonProps
+
+继承：`Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `variant` | `'solid' \| 'outline' \| 'dashed' \| 'text' \| 'link'` | `'solid'` | 视觉变体。 | 否 |
+| `color` | `'primary' \| 'neutral' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | 语义色；neutral 需显式传入。 | 否 |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | 尺寸。 | 否 |
+| `block` | `boolean` | `false` | 是否占满父容器宽度。 | 否 |
+| `loading` | `boolean` | `false` | 加载态；加载时禁用点击。 | 否 |
+| `icon` | `JSX.Element` | `undefined` | 图标内容。 | 否 |
+| `iconPosition` | `'start' \| 'end'` | `'start'` | 图标位置。 | 否 |
+| `shape` | `'default' \| 'round' \| 'circle'` | `'default'` | 形状。 | 否 |
+| `htmlType` | `'button' \| 'submit' \| 'reset'` | `'button'` | 原生 button type，默认 button 以避免误触发表单提交。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/button/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+export interface ButtonProps extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  /**
+   * 视觉变体。
+   * @default 'solid'
+   */
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /**
+   * 语义色；neutral 需显式传入。
+   * @default 'primary'
+   */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  /**
+   * 尺寸。
+   * @default 'medium'
+   */
+  size?: 'small' | 'medium' | 'large';
+  /**
+   * 是否占满父容器宽度。
+   * @default false
+   */
+  block?: boolean;
+  /**
+   * 加载态；加载时禁用点击。
+   * @default false
+   */
+  loading?: boolean;
+  /**
+   * 图标内容。
+   * @default undefined
+   */
+  icon?: JSX.Element;
+  /**
+   * 图标位置。
+   * @default 'start'
+   */
+  iconPosition?: 'start' | 'end';
+  /**
+   * 形状。
+   * @default 'default'
+   */
+  shape?: 'default' | 'round' | 'circle';
+  /**
+   * 原生 button type，默认 button 以避免误触发表单提交。
+   * @default 'button'
+   */
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/button-basic.md)：变体、语义色、尺寸形状、状态与点击 / 键盘交互的完整基线。（源文件 `packages/core/src/components/button/demos/basic.tsx`）
+- [状态与图标](llms/demos/button-states.md)：加载 / 禁用时禁止点击；loading 同时输出 aria-busy；图标支持首尾位置。（源文件 `packages/core/src/components/button/demos/states.tsx`）
+- [变体与语义色](llms/demos/button-variants.md)：五种视觉变体与五种语义色可自由组合；默认变体为 solid、默认色为 primary。（源文件 `packages/core/src/components/button/demos/variants.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/icon.md -->
+
+# Icon 图标（`solid-craft/icon`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+语义色与尺寸统一的图标容器，装饰性图标自动对读屏隐藏。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/icon/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/icon/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/icon/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/icon/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/icon';
+```
+
+## API
+
+### IconProps
+
+继承：`Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'color'>`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | 图标尺寸。 | 否 |
+| `tone` | `'primary' \| 'secondary' \| 'tertiary' \| 'disabled' \| 'success' \| 'warning' \| 'danger'` | `undefined` | 语义色；不传时继承 currentColor。 | 否 |
+| `spin` | `boolean` | `false` | 是否旋转。 | 否 |
+| `label` | `string` | `undefined` | 无障碍标签；传入时作为 img 暴露，未传入时视为装饰图标。 | 否 |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 图标内容。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/icon/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+export interface IconProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'color'> {
+  /**
+   * 图标尺寸。
+   * @default 'medium'
+   */
+  size?: 'small' | 'medium' | 'large';
+  /**
+   * 语义色；不传时继承 currentColor。
+   * @default undefined
+   */
+  tone?: 'primary' | 'secondary' | 'tertiary' | 'disabled' | 'success' | 'warning' | 'danger';
+  /**
+   * 是否旋转。
+   * @default false
+   */
+  spin?: boolean;
+  /**
+   * 无障碍标签；传入时作为 img 暴露，未传入时视为装饰图标。
+   * @default undefined
+   */
+  label?: string;
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 图标内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/icon-basic.md)：语义色图标、装饰图标与三档尺寸。（源文件 `packages/core/src/components/icon/demos/basic.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/typography.md -->
+
+# Typography 排版（`solid-craft/typography`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+Title / Text / Paragraph / Link 的层级、修饰与语义色。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/typography/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/typography/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/typography/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/typography/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/typography';
+```
+
+## API
+
+### TypographyProps
+
+继承：`Omit<   JSX.HTMLAttributes<HTMLSpanElement>,   'color' \| 'ref' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `tone` | `'primary' \| 'secondary' \| 'tertiary' \| 'disabled' \| 'success' \| 'warning' \| 'danger'` | `undefined` | 语义色；不传时继承父级颜色。 | 否 |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | 字号。 | 否 |
+| `bold` | `boolean` | `false` | 是否加粗。 | 否 |
+| `ellipsis` | `boolean` | `false` | 单行溢出省略。 | 否 |
+| `code` | `boolean` | `false` | 是否使用等宽代码样式。 | 否 |
+| `mark` | `boolean` | `false` | 是否使用标记背景。 | 否 |
+| `delete` | `boolean` | `false` | 是否使用删除线。 | 否 |
+| `underline` | `boolean` | `false` | 是否使用下划线。 | 否 |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 文本内容。 | 否 |
+
+### TitleProps
+
+继承：`TypographyProps`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `level` | `1 \| 2 \| 3 \| 4 \| 5` | `1` | 标题层级，决定渲染的 h1~h5。 | 否 |
+
+### LinkProps
+
+继承：`TypographyProps`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `href` | `string` | `undefined` | 链接地址。 | 否 |
+| `target` | `string` | `undefined` | 链接打开方式；target 为 _blank 时默认补充安全的 rel。 | 否 |
+| `rel` | `string` | `undefined` | 链接关系。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/typography/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+export interface TypographyProps extends Omit<
+  JSX.HTMLAttributes<HTMLSpanElement>,
+  'color' | 'ref'
+> {
+  /**
+   * 语义色；不传时继承父级颜色。
+   * @default undefined
+   */
+  tone?: 'primary' | 'secondary' | 'tertiary' | 'disabled' | 'success' | 'warning' | 'danger';
+  /**
+   * 字号。
+   * @default 'medium'
+   */
+  size?: 'small' | 'medium' | 'large';
+  /**
+   * 是否加粗。
+   * @default false
+   */
+  bold?: boolean;
+  /**
+   * 单行溢出省略。
+   * @default false
+   */
+  ellipsis?: boolean;
+  /**
+   * 是否使用等宽代码样式。
+   * @default false
+   */
+  code?: boolean;
+  /**
+   * 是否使用标记背景。
+   * @default false
+   */
+  mark?: boolean;
+  /**
+   * 是否使用删除线。
+   * @default false
+   */
+  delete?: boolean;
+  /**
+   * 是否使用下划线。
+   * @default false
+   */
+  underline?: boolean;
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 文本内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+export interface TitleProps extends TypographyProps {
+  /**
+   * 标题层级，决定渲染的 h1~h5。
+   * @default 1
+   */
+  level?: 1 | 2 | 3 | 4 | 5;
+}
+
+export interface LinkProps extends TypographyProps {
+  /**
+   * 链接地址。
+   * @default undefined
+   */
+  href?: string;
+  /**
+   * 链接打开方式；target 为 _blank 时默认补充安全的 rel。
+   * @default undefined
+   */
+  target?: string;
+  /**
+   * 链接关系。
+   * @default undefined
+   */
+  rel?: string;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/typography-basic.md)：标题层级、文本修饰、字号语义色与段落 / 链接。（源文件 `packages/core/src/components/typography/demos/basic.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/space.md -->
+
+# Space 间距（`solid-craft/space`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+水平 / 垂直排列、间距档位、分隔与换行。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/space/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/space/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/space/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/space/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/space';
+```
+
+## API
+
+### SpaceProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `direction` | `'horizontal' \| 'vertical'` | `'horizontal'` | 排列方向。 | 否 |
+| `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | 间距尺寸。 | 否 |
+| `wrap` | `boolean` | `false` | 是否换行。 | 否 |
+| `align` | `'start' \| 'center' \| 'end' \| 'baseline'` | `undefined` | 交叉轴对齐方式。 | 否 |
+| `split` | `JSX.Element` | `undefined` | 子项之间的分隔内容。 | 否 |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 子项内容。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/space/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+export interface SpaceProps {
+  /**
+   * 排列方向。
+   * @default 'horizontal'
+   */
+  direction?: 'horizontal' | 'vertical';
+  /**
+   * 间距尺寸。
+   * @default 'medium'
+   */
+  size?: 'small' | 'medium' | 'large';
+  /**
+   * 是否换行。
+   * @default false
+   */
+  wrap?: boolean;
+  /**
+   * 交叉轴对齐方式。
+   * @default undefined
+   */
+  align?: 'start' | 'center' | 'end' | 'baseline';
+  /**
+   * 子项之间的分隔内容。
+   * @default undefined
+   */
+  split?: JSX.Element;
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 子项内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/space-basic.md)：水平 / 垂直排列、分隔线与换行对齐。（源文件 `packages/core/src/components/space/demos/basic.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/divider.md -->
+
+# Divider 分割线（`solid-craft/divider`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+水平 / 垂直分割，支持虚线与带文字。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/divider/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/divider/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/divider/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/divider/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/divider';
+```
+
+## API
+
+### DividerProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | 分割线方向。 | 否 |
+| `dashed` | `boolean` | `false` | 是否使用虚线。 | 否 |
+| `plain` | `boolean` | `false` | 文字是否使用普通字重。 | 否 |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 分割线文字。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/divider/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+export interface DividerProps {
+  /**
+   * 分割线方向。
+   * @default 'horizontal'
+   */
+  orientation?: 'horizontal' | 'vertical';
+  /**
+   * 是否使用虚线。
+   * @default false
+   */
+  dashed?: boolean;
+  /**
+   * 文字是否使用普通字重。
+   * @default false
+   */
+  plain?: boolean;
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 分割线文字。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/divider-basic.md)：水平 / 垂直分割线、虚线与带文字分割。（源文件 `packages/core/src/components/divider/demos/basic.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/layout.md -->
+
+# Layout 布局（`solid-craft/layout`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/layout/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/layout/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/layout/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/layout/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/layout';
+```
+
+## API
+
+### LayoutProps
+
+继承：`Omit<   JSX.HTMLAttributes<HTMLDivElement>,   'class' \| 'children' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `hasSider` | `boolean` | `false` | 是否包含侧边栏，包含时布局改为水平排列。 | 否 |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 布局内容。 | 否 |
+
+### HeaderProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 头部内容。 | 否 |
+
+### ContentProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 内容区内容。 | 否 |
+
+### FooterProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 底部内容。 | 否 |
+
+### SiderProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `collapsed` | `MaybeAccessor<boolean>` | `undefined` | 是否折叠；传入后为受控模式。 | 否 |
+| `defaultCollapsed` | `boolean` | `false` | 非受控模式下的初始折叠状态。 | 否 |
+| `collapsible` | `boolean` | `false` | 是否显示折叠触发器。 | 否 |
+| `width` | `number` | `200` | 展开时的宽度（px）。 | 否 |
+| `collapsedWidth` | `number` | `64` | 折叠时的宽度（px）。 | 否 |
+| `onCollapse` | `(collapsed: boolean) => void` | `undefined` | 折叠状态变化时的回调。 | 否 |
+| `trigger` | `JSX.Element` | `undefined` | 自定义折叠触发器内容。 | 否 |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 侧边栏内容。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/layout/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+import type { MaybeAccessor } from '../../utils/resolve-value';
+
+export interface LayoutProps extends Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  'class' | 'children'
+> {
+  /**
+   * 是否包含侧边栏，包含时布局改为水平排列。
+   * @default false
+   */
+  hasSider?: boolean;
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 布局内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+export interface HeaderProps {
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 头部内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+export interface ContentProps {
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 内容区内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+export interface FooterProps {
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 底部内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+export interface SiderProps {
+  /**
+   * 是否折叠；传入后为受控模式。
+   * @default undefined
+   */
+  collapsed?: MaybeAccessor<boolean>;
+  /**
+   * 非受控模式下的初始折叠状态。
+   * @default false
+   */
+  defaultCollapsed?: boolean;
+  /**
+   * 是否显示折叠触发器。
+   * @default false
+   */
+  collapsible?: boolean;
+  /**
+   * 展开时的宽度（px）。
+   * @default 200
+   */
+  width?: number;
+  /**
+   * 折叠时的宽度（px）。
+   * @default 64
+   */
+  collapsedWidth?: number;
+  /**
+   * 折叠状态变化时的回调。
+   * @default undefined
+   */
+  onCollapse?: (collapsed: boolean) => void;
+  /**
+   * 自定义折叠触发器内容。
+   * @default undefined
+   */
+  trigger?: JSX.Element;
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 侧边栏内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/layout-basic.md)：带侧边栏的三段布局，含可折叠触发器。（源文件 `packages/core/src/components/layout/demos/basic.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/grid.md -->
+
+# Grid 栅格（`solid-craft/grid`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+24 栅格 Row / Col、间距、偏移与响应式断点。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/grid/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/grid/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/grid/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/grid/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/grid';
+```
+
+## API
+
+### RowProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `gutter` | `'small' \| 'medium' \| 'large'` | `'medium'` | 栅格间距尺寸。 | 否 |
+| `align` | `'top' \| 'middle' \| 'bottom'` | `undefined` | 交叉轴对齐方式。 | 否 |
+| `justify` | `'start' \| 'center' \| 'end' \| 'space-between' \| 'space-around'` | `undefined` | 主轴对齐方式。 | 否 |
+| `wrap` | `boolean` | `true` | 是否换行。 | 否 |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 栅格内容。 | 否 |
+
+### ColProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `span` | `number` | `24` | 栅格占位列数（1–24）。 | 否 |
+| `offset` | `number` | `0` | 左侧偏移列数。 | 否 |
+| `order` | `number` | `0` | 排列顺序。 | 否 |
+| `xs` | `number` | `undefined` | xs 断点下的占位列数。 | 否 |
+| `sm` | `number` | `undefined` | sm 断点下的占位列数。 | 否 |
+| `md` | `number` | `undefined` | md 断点下的占位列数。 | 否 |
+| `lg` | `number` | `undefined` | lg 断点下的占位列数。 | 否 |
+| `xl` | `number` | `undefined` | xl 断点下的占位列数。 | 否 |
+| `xxl` | `number` | `undefined` | xxl 断点下的占位列数。 | 否 |
+| `class` | `string` | `undefined` | 自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 栅格内容。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/grid/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+export interface RowProps {
+  /**
+   * 栅格间距尺寸。
+   * @default 'medium'
+   */
+  gutter?: 'small' | 'medium' | 'large';
+  /**
+   * 交叉轴对齐方式。
+   * @default undefined
+   */
+  align?: 'top' | 'middle' | 'bottom';
+  /**
+   * 主轴对齐方式。
+   * @default undefined
+   */
+  justify?: 'start' | 'center' | 'end' | 'space-between' | 'space-around';
+  /**
+   * 是否换行。
+   * @default true
+   */
+  wrap?: boolean;
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 栅格内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+export interface ColProps {
+  /**
+   * 栅格占位列数（1–24）。
+   * @default 24
+   */
+  span?: number;
+  /**
+   * 左侧偏移列数。
+   * @default 0
+   */
+  offset?: number;
+  /**
+   * 排列顺序。
+   * @default 0
+   */
+  order?: number;
+  /**
+   * xs 断点下的占位列数。
+   * @default undefined
+   */
+  xs?: number;
+  /**
+   * sm 断点下的占位列数。
+   * @default undefined
+   */
+  sm?: number;
+  /**
+   * md 断点下的占位列数。
+   * @default undefined
+   */
+  md?: number;
+  /**
+   * lg 断点下的占位列数。
+   * @default undefined
+   */
+  lg?: number;
+  /**
+   * xl 断点下的占位列数。
+   * @default undefined
+   */
+  xl?: number;
+  /**
+   * xxl 断点下的占位列数。
+   * @default undefined
+   */
+  xxl?: number;
+  /**
+   * 自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 栅格内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/grid-basic.md)：24 栅格、偏移与对齐换行。（源文件 `packages/core/src/components/grid/demos/basic.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/config-provider.md -->
+
+# ConfigProvider 全局配置（`solid-craft/config-provider`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+全局配置上下文，注入主题 / 密度 / 方向 / 语言 / z-index，注入值一律为 getter。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/config-provider/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/config-provider/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/config-provider/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/config-provider/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/config-provider';
+```
+
+## API
+
+### ConfigProviderProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `locale` | `MaybeAccessor<string>` | `'zh-CN'` | 语言标识。 | 否 |
+| `theme` | `MaybeAccessor<ThemeName>` | `'light'` | 主题；`system` 仅在客户端跟随系统偏好。 | 否 |
+| `density` | `MaybeAccessor<Density>` | `'default'` | 界面密度。 | 否 |
+| `direction` | `MaybeAccessor<Direction>` | `'ltr'` | 文字与布局方向。 | 否 |
+| `zIndexBase` | `MaybeAccessor<number>` | `0` | 浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。 | 否 |
+| `portalContainer` | `MaybeAccessor<HTMLElement \| undefined>` | `undefined` | 浮层挂载容器；未提供时懒加载为 `document.body`。 | 否 |
+| `themeTarget` | `MaybeAccessor<'global' \| 'local'>` | `'local'` | 主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。 | 否 |
+| `class` | `string` | `undefined` | 包裹元素的自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 子树内容。 | 否 |
+
+### UIConfig
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `locale` | `Accessor<string>` | — | 当前语言标识。 | 是 |
+| `theme` | `Accessor<ThemeName>` | — | 当前主题；`system` 已在客户端解析为 `light` / `dark`，服务端一律为 `light`。 | 是 |
+| `density` | `Accessor<Density>` | — | 当前界面密度。 | 是 |
+| `direction` | `Accessor<Direction>` | — | 当前文字与布局方向。 | 是 |
+| `zIndexBase` | `Accessor<number>` | — | 当前浮层 z-index 基础值。 | 是 |
+| `portalContainer` | `Accessor<HTMLElement \| undefined>` | — | 当前浮层挂载容器；调用时才解析默认值。 | 是 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/config-provider/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { Accessor, JSX } from 'solid-js';
+import type { MaybeAccessor } from '../utils/resolve-value';
+
+/** 主题名称；`system` 会在客户端按系统偏好解析为 `light` / `dark`。 */
+export type ThemeName = 'light' | 'dark' | 'system';
+
+/** 界面密度。 */
+export type Density = 'default' | 'compact';
+
+/** 文字与布局方向。 */
+export type Direction = 'ltr' | 'rtl';
+
+export interface ConfigProviderProps {
+  /**
+   * 语言标识。
+   * @default 'zh-CN'
+   */
+  locale?: MaybeAccessor<string>;
+  /**
+   * 主题；`system` 仅在客户端跟随系统偏好。
+   * @default 'light'
+   */
+  theme?: MaybeAccessor<ThemeName>;
+  /**
+   * 界面密度。
+   * @default 'default'
+   */
+  density?: MaybeAccessor<Density>;
+  /**
+   * 文字与布局方向。
+   * @default 'ltr'
+   */
+  direction?: MaybeAccessor<Direction>;
+  /**
+   * 浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。
+   * @default 0
+   */
+  zIndexBase?: MaybeAccessor<number>;
+  /**
+   * 浮层挂载容器；未提供时懒加载为 `document.body`。
+   * @default undefined
+   */
+  portalContainer?: MaybeAccessor<HTMLElement | undefined>;
+  /**
+   * 主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。
+   * @default 'local'
+   */
+  themeTarget?: MaybeAccessor<'global' | 'local'>;
+  /**
+   * 包裹元素的自定义类名。
+   * @default undefined
+   */
+  class?: string;
+  /**
+   * 子树内容。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+export interface UIConfig {
+  /** 当前语言标识。 */
+  locale: Accessor<string>;
+  /** 当前主题；`system` 已在客户端解析为 `light` / `dark`，服务端一律为 `light`。 */
+  theme: Accessor<ThemeName>;
+  /** 当前界面密度。 */
+  density: Accessor<Density>;
+  /** 当前文字与布局方向。 */
+  direction: Accessor<Direction>;
+  /** 当前浮层 z-index 基础值。 */
+  zIndexBase: Accessor<number>;
+  /** 当前浮层挂载容器；调用时才解析默认值。 */
+  portalContainer: Accessor<HTMLElement | undefined>;
+}
+```
+
+---
+
+<!-- source: llms/exports/styles-css.md -->
+
+# 子路径 `solid-craft/styles.css`
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+`solid-craft/styles.css` 是 `solid-craft` 的公开子路径，条件导出如下。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/styles.css.d.ts` | TypeScript 声明入口 |
+| `default` | `./dist/styles/index.css` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/styles.css';
+```
+
+## API
+
+该子路径不暴露组件 Props。
+
+## 样式引入约定
+
+```ts
+// 全量
+import 'solid-craft/styles.css';
+
+// 按需
+import 'solid-craft/styles/base.css';
+import 'solid-craft/styles/components/button.css';
+```
+
+JS 不隐式引入 CSS；所有 CSS 变量由 `solid-craft-tokens` 的 DTCG 源生成，统一以 `--scui-` 开头。
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 3.2 消费方式
+
+
+```tsx
+// 推荐：按组件引入（tree-shaking 最稳）
+import { Button } from 'solid-craft/button';
+import 'solid-craft/styles.css';
+
+// 或：根导出
+import { Button, Input, Form } from 'solid-craft';
+```
+
+CSS 采用**显式引入**，原因：
+
+- 避免 JS 隐式副作用，SSR / Webpack / Rspack / 微前端行为可预测。
+- 允许两种粒度：
+  - 全量：`import 'solid-craft/styles.css'`（tokens + base + 所有组件）
+  - 按需：`import 'solid-craft/styles/base.css'` + `import 'solid-craft/styles/components/button.css'`
+- 后续可提供 `unplugin-solid-craft` 自动按需引入 CSS，但不作为 v1 前置条件。
+
+> 注意：CSS 显式引入意味着业务方必须记得加。文档、脚手架模板、lint 提示中都要强调；`examples/*` 作为正确用法基准。
+
+> 规范摘录：`docs/03-设计系统.md` → ### 2.2 命名规范
+
+
+```text
+--scui-{category}-{role}-{state?}
+```
+
+| 类别 | 示例 |
+| --- | --- |
+| 颜色 | `--scui-color-primary`、`--scui-color-primary-hover`、`--scui-color-text-secondary` |
+| 背景 | `--scui-color-bg-container`、`--scui-color-bg-layout`、`--scui-color-bg-elevated` |
+| 边框 | `--scui-color-border`、`--scui-color-border-secondary` |
+| 填充 | `--scui-color-fill`、`--scui-color-fill-secondary` |
+| 字体 | `--scui-font-family`、`--scui-font-size-md`、`--scui-line-height-md` |
+| 间距 | `--scui-space-xs`、`--scui-space-sm`、`--scui-space-md` |
+| 圆角 | `--scui-radius-sm`、`--scui-radius-md`、`--scui-radius-lg` |
+| 阴影 | `--scui-shadow-sm`、`--scui-shadow-md`、`--scui-shadow-popup` |
+| 动效 | `--scui-motion-duration-fast`、`--scui-motion-ease` |
+| 层级 | `--scui-z-index-dropdown`、`--scui-z-index-modal` |
+| 组件 | `--scui-button-height-md`、`--scui-table-row-height` |
+
+---
+
+<!-- source: llms/exports/styles.md -->
+
+# 子路径 `solid-craft/styles/*`
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+`solid-craft/styles/*` 是 `solid-craft` 的公开子路径，条件导出如下。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `default` | `./dist/styles/*` | 字符串简写，无条件分支 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/styles/*';
+```
+
+## API
+
+该子路径不暴露组件 Props。
+
+## 样式引入约定
+
+```ts
+// 全量
+import 'solid-craft/styles.css';
+
+// 按需
+import 'solid-craft/styles/base.css';
+import 'solid-craft/styles/components/button.css';
+```
+
+JS 不隐式引入 CSS；所有 CSS 变量由 `solid-craft-tokens` 的 DTCG 源生成，统一以 `--scui-` 开头。
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 3.2 消费方式
+
+
+```tsx
+// 推荐：按组件引入（tree-shaking 最稳）
+import { Button } from 'solid-craft/button';
+import 'solid-craft/styles.css';
+
+// 或：根导出
+import { Button, Input, Form } from 'solid-craft';
+```
+
+CSS 采用**显式引入**，原因：
+
+- 避免 JS 隐式副作用，SSR / Webpack / Rspack / 微前端行为可预测。
+- 允许两种粒度：
+  - 全量：`import 'solid-craft/styles.css'`（tokens + base + 所有组件）
+  - 按需：`import 'solid-craft/styles/base.css'` + `import 'solid-craft/styles/components/button.css'`
+- 后续可提供 `unplugin-solid-craft` 自动按需引入 CSS，但不作为 v1 前置条件。
+
+> 注意：CSS 显式引入意味着业务方必须记得加。文档、脚手架模板、lint 提示中都要强调；`examples/*` 作为正确用法基准。
+
+> 规范摘录：`docs/03-设计系统.md` → ### 2.2 命名规范
+
+
+```text
+--scui-{category}-{role}-{state?}
+```
+
+| 类别 | 示例 |
+| --- | --- |
+| 颜色 | `--scui-color-primary`、`--scui-color-primary-hover`、`--scui-color-text-secondary` |
+| 背景 | `--scui-color-bg-container`、`--scui-color-bg-layout`、`--scui-color-bg-elevated` |
+| 边框 | `--scui-color-border`、`--scui-color-border-secondary` |
+| 填充 | `--scui-color-fill`、`--scui-color-fill-secondary` |
+| 字体 | `--scui-font-family`、`--scui-font-size-md`、`--scui-line-height-md` |
+| 间距 | `--scui-space-xs`、`--scui-space-sm`、`--scui-space-md` |
+| 圆角 | `--scui-radius-sm`、`--scui-radius-md`、`--scui-radius-lg` |
+| 阴影 | `--scui-shadow-sm`、`--scui-shadow-md`、`--scui-shadow-popup` |
+| 动效 | `--scui-motion-duration-fast`、`--scui-motion-ease` |
+| 层级 | `--scui-z-index-dropdown`、`--scui-z-index-modal` |
+| 组件 | `--scui-button-height-md`、`--scui-table-row-height` |
+
+---
+
+<!-- source: llms/exports/package-json.md -->
+
+# 子路径 `solid-craft/package.json`
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+`solid-craft/package.json` 是 `solid-craft` 的公开子路径，条件导出如下。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `default` | `./package.json` | 字符串简写，无条件分支 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/package.json';
+```
+
+## API
+
+该子路径不暴露组件 Props。
+
+## 包元信息
+
+| 字段 | 值 |
+| --- | --- |
+| `name` | `solid-craft` |
+| `version` | `0.1.0` |
+| `type` | `module` |
+| `license` | `MIT` |
+| `sideEffects` | `["**/*.css"]` |
+| `dependencies` | `{"solid-craft-icons":"workspace:^","solid-craft-tokens":"workspace:^","@floating-ui/dom":"^1.8.0","@internationalized/date":"^3.12.4","@kobalte/core":"^0.13.14","@tanstack/solid-table":"^9.3.1"}` |
+| `peerDependencies` | `{"solid-js":"^1.9.0"}` |
+
+## 全部 exports 子路径
+
+- `.` → [solid-craft](llms/exports/root.md)
+- `./button` → [solid-craft/button](llms/exports/button.md)
+- `./icon` → [solid-craft/icon](llms/exports/icon.md)
+- `./typography` → [solid-craft/typography](llms/exports/typography.md)
+- `./space` → [solid-craft/space](llms/exports/space.md)
+- `./divider` → [solid-craft/divider](llms/exports/divider.md)
+- `./layout` → [solid-craft/layout](llms/exports/layout.md)
+- `./grid` → [solid-craft/grid](llms/exports/grid.md)
+- `./config-provider` → [solid-craft/config-provider](llms/exports/config-provider.md)
+- `./styles.css` → [solid-craft/styles.css](llms/exports/styles-css.md)
+- `./styles/*` → [solid-craft/styles/*](llms/exports/styles.md)
+- `./package.json` → [solid-craft/package.json](llms/exports/package-json.md)
+
+---
+
+<!-- source: llms/design/tokens.md -->
+
+# 设计 Token
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`apps/docs/src/content/pages.mjs` + `docs/03-设计系统.md` + `packages/tokens/tokens/semantic/*.json`；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+DTCG 三层结构、分档对比度校验与 CSS 变量命名。
+
+关键词：DTCG / token / style-dictionary / colorjs / 对比度 / WCAG。
+
+## 当前语义 Token（构建期校验过的真实值）
+
+| CSS 变量 | 值 | 对比度档位 | 校验背景 | 用途 |
+| --- | --- | --- | --- | --- |
+| `--scui-color-text-primary` | `rgba(0, 0, 0, 0.88)` | `text` | `color.bg.surface` | 正文主文本 |
+| `--scui-color-text-secondary` | `rgba(0, 0, 0, 0.65)` | `text` | `color.bg.surface` | 次要文本 |
+| `--scui-color-text-tertiary` | `rgba(0, 0, 0, 0.55)` | `text` | `color.bg.surface` | 辅助文本（v0.2 修正，实测 ≈4.74:1） |
+| `--scui-color-text-inverse` | `#ffffff` | `text` | `color.primary` | 实心按钮 / 深色背景上的文本；校验对主色背景的对比度 |
+| `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `disabled` | `—` | 禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息 |
+| `--scui-color-bg-surface` | `#ffffff` | `background` | `—` | 亮色主题参照背景 |
+| `--scui-color-border-default` | `#f0f0f0` | `decorative` | `—` | 纯装饰性默认边框 / 分割线，不承担控件边界识别 |
+| `--scui-color-border-strong` | `#949494` | `control` | `color.bg.surface` | 输入框 / 按钮等可识别控件边界 |
+| `--scui-color-primary` | `{color.palette.blue.6}` | `text` | `color.bg.surface` | 主操作 / 选中 / 链接；Button 默认色（ADR-019） |
+| `--scui-color-success` | `{color.palette.green.6}` | `text` | `color.bg.surface` | 成功 / 通过 / 在线 |
+| `--scui-color-warning` | `{color.palette.amber.6}` | `text` | `color.bg.surface` | 警告 / 待处理 / 风险提示 |
+| `--scui-color-danger` | `{color.palette.red.6}` | `text` | `color.bg.surface` | 错误 / 删除 / 失败 / 危险操作 |
+| `--scui-color-focus-ring` | `{color.palette.blue.6}` | `control` | `color.bg.surface` | 焦点指示环（WCAG 1.4.11 ≥3:1；03 §11 要求 2px + 2px offset） |
+
+暗色主题由 `theme-dark.css` 覆盖同名变量；当前构建期按 03 §3.1 的 7 档规则校验，语义色漏标 `$contrastTier` 或不达标都会让 `pnpm build` 失败。
+
+## 规范摘录
+
+> 规范摘录：`docs/03-设计系统.md` → ### 2.1 三层结构
+
+
+| 层级 | 作用 | 示例 | 谁使用 |
+| --- | --- | --- | --- |
+| Primitive | 原始色阶、尺寸、字体 | `--scui-blue-6`、`--scui-space-4` | 构建期 / 主题生成 |
+| Semantic | 语义角色 | `--scui-color-primary`、`--scui-color-text-secondary` | 组件 SCSS、业务覆盖 |
+| Component | 组件级微调 | `--scui-button-height`、`--scui-table-row-height` | 组件内部、业务微调 |
+
+规则：
+
+- 组件 SCSS **禁止硬编码颜色/尺寸**，只能引用 Semantic 或 Component 变量。
+- Primitive 只允许在 token 生成层和极少数布局计算中使用。
+- 业务方优先覆盖 Semantic；需要局部微调时覆盖 Component。
+- 所有 token 必须有类型、说明、默认值；新增/重命名走设计系统评审。
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [样式子路径](llms/exports/styles-css.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+
+---
+
+<!-- source: llms/design/color.md -->
+
+# 色彩
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`apps/docs/src/content/pages.mjs` + `docs/03-设计系统.md` + `packages/tokens/tokens/semantic/*.json`；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+OKLCH 生成的 6 色相 × 10 级色阶与语义色引用。
+
+关键词：色阶 / palette / primary / OKLCH / 暗色。
+
+## 当前语义 Token（构建期校验过的真实值）
+
+| CSS 变量 | 值 | 对比度档位 | 校验背景 | 用途 |
+| --- | --- | --- | --- | --- |
+| `--scui-color-text-primary` | `rgba(0, 0, 0, 0.88)` | `text` | `color.bg.surface` | 正文主文本 |
+| `--scui-color-text-secondary` | `rgba(0, 0, 0, 0.65)` | `text` | `color.bg.surface` | 次要文本 |
+| `--scui-color-text-tertiary` | `rgba(0, 0, 0, 0.55)` | `text` | `color.bg.surface` | 辅助文本（v0.2 修正，实测 ≈4.74:1） |
+| `--scui-color-text-inverse` | `#ffffff` | `text` | `color.primary` | 实心按钮 / 深色背景上的文本；校验对主色背景的对比度 |
+| `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `disabled` | `—` | 禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息 |
+| `--scui-color-bg-surface` | `#ffffff` | `background` | `—` | 亮色主题参照背景 |
+| `--scui-color-border-default` | `#f0f0f0` | `decorative` | `—` | 纯装饰性默认边框 / 分割线，不承担控件边界识别 |
+| `--scui-color-border-strong` | `#949494` | `control` | `color.bg.surface` | 输入框 / 按钮等可识别控件边界 |
+| `--scui-color-primary` | `{color.palette.blue.6}` | `text` | `color.bg.surface` | 主操作 / 选中 / 链接；Button 默认色（ADR-019） |
+| `--scui-color-success` | `{color.palette.green.6}` | `text` | `color.bg.surface` | 成功 / 通过 / 在线 |
+| `--scui-color-warning` | `{color.palette.amber.6}` | `text` | `color.bg.surface` | 警告 / 待处理 / 风险提示 |
+| `--scui-color-danger` | `{color.palette.red.6}` | `text` | `color.bg.surface` | 错误 / 删除 / 失败 / 危险操作 |
+| `--scui-color-focus-ring` | `{color.palette.blue.6}` | `control` | `color.bg.surface` | 焦点指示环（WCAG 1.4.11 ≥3:1；03 §11 要求 2px + 2px offset） |
+
+暗色主题由 `theme-dark.css` 覆盖同名变量；当前构建期按 03 §3.1 的 7 档规则校验，语义色漏标 `$contrastTier` 或不达标都会让 `pnpm build` 失败。
+
+## 规范摘录
+
+> 规范摘录：`docs/03-设计系统.md` → ### 3.1 色板
+
+
+| 语义 | 默认色相 | 用途 |
+| --- | --- | --- |
+| Primary | Blue | 主操作、选中、链接、聚焦 |
+| Neutral | Gray | 文本、背景、边框、禁用 |
+| Success | Green | 成功、通过、在线 |
+| Warning | Amber | 警告、待处理、风险提示 |
+| Danger | Red | 错误、删除、失败、危险操作 |
+| Info | Cyan / Blue | 信息提示、进行中 |
+
+> **v0.3 / Q16 已定**：`Button` 的 `color` 默认值为 `primary`（主蓝），不传 `color` 时按上表 Primary 渲染；`neutral` 必须显式传入。与 06 §2.2 / §3 组件模板的 `?? 'primary'` 及 02 §6.1 类型注释一致。视觉克制由 `variant`（默认 `solid`，可退到 `outline` / `text`）与主色按钮出现频次控制，不靠改默认色。
+
+每个色相生成 **10 级色阶**（1 最浅，10 最深），构建期用 `colorjs.io` 在 OKLCH 空间生成，输出 hex 作为稳定运行时值；`color-mix()` 可用于业务侧渐进增强，但不作为 token 的唯一来源。
+
+生成规则：
+
+- 以品牌主色为基准，保持感知亮度均匀；
+- 1–3 用于浅背景/边框，4–5 用于 hover/浅色强调，6 为主色，7–8 用于 active/深色，9–10 用于深色文本/暗色背景；
+- 构建期校验（**v0.2 修订，按 WCAG 2.1 分档**）：
+  - 正文文本对背景 ≥ 4.5:1，大号文本（≥18.66px bold / 24px）≥ 3:1 —— **不达标直接让构建失败**；
+  - 仅用于「非必要辅助信息」的 token 单列一档，按 ≥ 3:1 校验并标注用途，**禁止用于正文**；
+  - 交互控件的**可识别边界 / 图标 / 焦点指示** ≥ 3:1（WCAG 1.4.11）；纯装饰性分割线与默认边框不参与该判定，但需在 token 说明中标注 `decorative`；真正的控件边界另用 `--scui-color-border-strong`；
+  - 禁用态（`text-disabled`）豁免，但不得单独承载信息；
+  - 暗色主题单独跑同一套校验。
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [样式子路径](llms/exports/styles-css.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+
+---
+
+<!-- source: llms/design/layout.md -->
+
+# 布局与间距
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`apps/docs/src/content/pages.mjs` + `docs/03-设计系统.md` + `packages/tokens/tokens/semantic/*.json`；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+8px 基准间距、24 栅格与响应式断点。
+
+关键词：spacing / grid / 断点 / 响应式。
+
+## 当前语义 Token（构建期校验过的真实值）
+
+| CSS 变量 | 值 | 对比度档位 | 校验背景 | 用途 |
+| --- | --- | --- | --- | --- |
+| `--scui-color-text-primary` | `rgba(0, 0, 0, 0.88)` | `text` | `color.bg.surface` | 正文主文本 |
+| `--scui-color-text-secondary` | `rgba(0, 0, 0, 0.65)` | `text` | `color.bg.surface` | 次要文本 |
+| `--scui-color-text-tertiary` | `rgba(0, 0, 0, 0.55)` | `text` | `color.bg.surface` | 辅助文本（v0.2 修正，实测 ≈4.74:1） |
+| `--scui-color-text-inverse` | `#ffffff` | `text` | `color.primary` | 实心按钮 / 深色背景上的文本；校验对主色背景的对比度 |
+| `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `disabled` | `—` | 禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息 |
+| `--scui-color-bg-surface` | `#ffffff` | `background` | `—` | 亮色主题参照背景 |
+| `--scui-color-border-default` | `#f0f0f0` | `decorative` | `—` | 纯装饰性默认边框 / 分割线，不承担控件边界识别 |
+| `--scui-color-border-strong` | `#949494` | `control` | `color.bg.surface` | 输入框 / 按钮等可识别控件边界 |
+| `--scui-color-primary` | `{color.palette.blue.6}` | `text` | `color.bg.surface` | 主操作 / 选中 / 链接；Button 默认色（ADR-019） |
+| `--scui-color-success` | `{color.palette.green.6}` | `text` | `color.bg.surface` | 成功 / 通过 / 在线 |
+| `--scui-color-warning` | `{color.palette.amber.6}` | `text` | `color.bg.surface` | 警告 / 待处理 / 风险提示 |
+| `--scui-color-danger` | `{color.palette.red.6}` | `text` | `color.bg.surface` | 错误 / 删除 / 失败 / 危险操作 |
+| `--scui-color-focus-ring` | `{color.palette.blue.6}` | `control` | `color.bg.surface` | 焦点指示环（WCAG 1.4.11 ≥3:1；03 §11 要求 2px + 2px offset） |
+
+暗色主题由 `theme-dark.css` 覆盖同名变量；当前构建期按 03 §3.1 的 7 档规则校验，语义色漏标 `$contrastTier` 或不达标都会让 `pnpm build` 失败。
+
+## 规范摘录
+
+> 规范摘录：`docs/03-设计系统.md` → ### 5.1 间距
+
+
+4px 基准：
+
+| Token | 值 | 用途 |
+| --- | --- | --- |
+| `--scui-space-0` | 0 | — |
+| `--scui-space-1` | 2px | 紧凑内联 |
+| `--scui-space-2` | 4px | 图标与文本 |
+| `--scui-space-3` | 6px | 小间距 |
+| `--scui-space-4` | 8px | 控件内边距 |
+| `--scui-space-5` | 12px | 表单项内 |
+| `--scui-space-6` | 16px | 卡片内边距、栅格 gutter |
+| `--scui-space-7` | 20px | 区块间距 |
+| `--scui-space-8` | 24px | 卡片 padding、页面区块 |
+| `--scui-space-9` | 32px | 大区块 |
+| `--scui-space-10` | 40px | 页面级 |
+| `--scui-space-11` | 48px | 页面级 |
+| `--scui-space-12` | 64px | 空状态 / 结果页 |
+
+语义别名（括号为 **px 值**，不是 `--scui-space-N` 的编号，v0.2 明确）：`--scui-space-xs` = `--scui-space-2`(4px)、`sm` = `--scui-space-4`(8px)、`md` = `--scui-space-5`(12px)、`lg` = `--scui-space-6`(16px)、`xl` = `--scui-space-8`(24px)、`2xl` = `--scui-space-9`(32px)。
+
+标称「4px 基准」，`--scui-space-1`(2px) 与 `--scui-space-3`(6px) 是允许的半步例外，仅用于图标与文本微调；组件内边距优先用 4 的倍数。
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [样式子路径](llms/exports/styles-css.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+
+---
+
+<!-- source: llms/design/motion.md -->
+
+# 动效
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`apps/docs/src/content/pages.mjs` + `docs/03-设计系统.md` + `packages/tokens/tokens/semantic/*.json`；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+时长 / 缓动 token 与 reduced-motion 约定。
+
+关键词：duration / ease / transition / animation。
+
+## 当前语义 Token（构建期校验过的真实值）
+
+| CSS 变量 | 值 | 对比度档位 | 校验背景 | 用途 |
+| --- | --- | --- | --- | --- |
+| `--scui-color-text-primary` | `rgba(0, 0, 0, 0.88)` | `text` | `color.bg.surface` | 正文主文本 |
+| `--scui-color-text-secondary` | `rgba(0, 0, 0, 0.65)` | `text` | `color.bg.surface` | 次要文本 |
+| `--scui-color-text-tertiary` | `rgba(0, 0, 0, 0.55)` | `text` | `color.bg.surface` | 辅助文本（v0.2 修正，实测 ≈4.74:1） |
+| `--scui-color-text-inverse` | `#ffffff` | `text` | `color.primary` | 实心按钮 / 深色背景上的文本；校验对主色背景的对比度 |
+| `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `disabled` | `—` | 禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息 |
+| `--scui-color-bg-surface` | `#ffffff` | `background` | `—` | 亮色主题参照背景 |
+| `--scui-color-border-default` | `#f0f0f0` | `decorative` | `—` | 纯装饰性默认边框 / 分割线，不承担控件边界识别 |
+| `--scui-color-border-strong` | `#949494` | `control` | `color.bg.surface` | 输入框 / 按钮等可识别控件边界 |
+| `--scui-color-primary` | `{color.palette.blue.6}` | `text` | `color.bg.surface` | 主操作 / 选中 / 链接；Button 默认色（ADR-019） |
+| `--scui-color-success` | `{color.palette.green.6}` | `text` | `color.bg.surface` | 成功 / 通过 / 在线 |
+| `--scui-color-warning` | `{color.palette.amber.6}` | `text` | `color.bg.surface` | 警告 / 待处理 / 风险提示 |
+| `--scui-color-danger` | `{color.palette.red.6}` | `text` | `color.bg.surface` | 错误 / 删除 / 失败 / 危险操作 |
+| `--scui-color-focus-ring` | `{color.palette.blue.6}` | `control` | `color.bg.surface` | 焦点指示环（WCAG 1.4.11 ≥3:1；03 §11 要求 2px + 2px offset） |
+
+暗色主题由 `theme-dark.css` 覆盖同名变量；当前构建期按 03 §3.1 的 7 档规则校验，语义色漏标 `$contrastTier` 或不达标都会让 `pnpm build` 失败。
+
+## 规范摘录
+
+> 规范摘录：`docs/03-设计系统.md` → ## 6. 动效
+
+
+| Token | 值 | 用途 |
+| --- | --- | --- |
+| `--scui-motion-duration-fast` | 100ms | hover、颜色变化 |
+| `--scui-motion-duration-base` | 150ms | 展开、淡入 |
+| `--scui-motion-duration-slow` | 200ms | Modal / Drawer |
+| `--scui-motion-ease` | `cubic-bezier(0.2, 0, 0, 1)` | 默认 |
+| `--scui-motion-ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)` | 进入 |
+
+原则：
+
+- 动效用于表达状态变化，不用于装饰。
+- 表格排序、筛选、分页不做大幅动画。
+- `prefers-reduced-motion: reduce` 时全部降为 0ms，仅保留必要的透明度变化。
+- 不使用 JS 动画库；CSS transition / animation 足够。
+
+---
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [样式子路径](llms/exports/styles-css.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+
+---
+
+<!-- source: llms/design/dark.md -->
+
+# 暗色主题
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`apps/docs/src/content/pages.mjs` + `docs/03-设计系统.md` + `packages/tokens/tokens/semantic/*.json`；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+theme-dark.css 的覆盖方式与当前验收边界。
+
+关键词：dark / theme / 暗色 / ConfigProvider。
+
+## 当前语义 Token（构建期校验过的真实值）
+
+| CSS 变量 | 值 | 对比度档位 | 校验背景 | 用途 |
+| --- | --- | --- | --- | --- |
+| `--scui-color-text-primary` | `rgba(0, 0, 0, 0.88)` | `text` | `color.bg.surface` | 正文主文本 |
+| `--scui-color-text-secondary` | `rgba(0, 0, 0, 0.65)` | `text` | `color.bg.surface` | 次要文本 |
+| `--scui-color-text-tertiary` | `rgba(0, 0, 0, 0.55)` | `text` | `color.bg.surface` | 辅助文本（v0.2 修正，实测 ≈4.74:1） |
+| `--scui-color-text-inverse` | `#ffffff` | `text` | `color.primary` | 实心按钮 / 深色背景上的文本；校验对主色背景的对比度 |
+| `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `disabled` | `—` | 禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息 |
+| `--scui-color-bg-surface` | `#ffffff` | `background` | `—` | 亮色主题参照背景 |
+| `--scui-color-border-default` | `#f0f0f0` | `decorative` | `—` | 纯装饰性默认边框 / 分割线，不承担控件边界识别 |
+| `--scui-color-border-strong` | `#949494` | `control` | `color.bg.surface` | 输入框 / 按钮等可识别控件边界 |
+| `--scui-color-primary` | `{color.palette.blue.6}` | `text` | `color.bg.surface` | 主操作 / 选中 / 链接；Button 默认色（ADR-019） |
+| `--scui-color-success` | `{color.palette.green.6}` | `text` | `color.bg.surface` | 成功 / 通过 / 在线 |
+| `--scui-color-warning` | `{color.palette.amber.6}` | `text` | `color.bg.surface` | 警告 / 待处理 / 风险提示 |
+| `--scui-color-danger` | `{color.palette.red.6}` | `text` | `color.bg.surface` | 错误 / 删除 / 失败 / 危险操作 |
+| `--scui-color-focus-ring` | `{color.palette.blue.6}` | `control` | `color.bg.surface` | 焦点指示环（WCAG 1.4.11 ≥3:1；03 §11 要求 2px + 2px offset） |
+
+暗色主题由 `theme-dark.css` 覆盖同名变量；当前构建期按 03 §3.1 的 7 档规则校验，语义色漏标 `$contrastTier` 或不达标都会让 `pnpm build` 失败。
+
+## 规范摘录
+
+> 规范摘录：`docs/03-设计系统.md` → ### 3.3 暗色
+
+
+暗色单独定义语义值，不做反色：
+
+| Token | 值（示例） |
+| --- | --- |
+| `--scui-color-text-primary` | `rgba(255,255,255,.85)` |
+| `--scui-color-text-secondary` | `rgba(255,255,255,.65)` |
+| `--scui-color-text-tertiary` | `rgba(255,255,255,.45)` |
+| `--scui-color-bg-layout` | `#0f0f0f` |
+| `--scui-color-bg-container` | `#1f1f1f` |
+| `--scui-color-bg-elevated` | `#262626` |
+| `--scui-color-border` | `#424242`（decorative，≈1.64:1 on #1f1f1f） |
+| `--scui-color-border-strong` | `#8a8a8a`（≈4.7:1 on #1f1f1f） |
+| `--scui-color-border-secondary` | `#303030` |
+| `--scui-color-fill` | `#262626` |
+
+暗色下品牌色需要提高亮度/降低饱和度，构建期单独生成暗色色阶，而不是直接复用亮色 6 级。
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [样式子路径](llms/exports/styles-css.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+
+---
+
+<!-- source: llms/design/density.md -->
+
+# 密度与方向
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`apps/docs/src/content/pages.mjs` + `docs/03-设计系统.md` + `packages/tokens/tokens/semantic/*.json`；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+default / compact 密度与 ltr / rtl 方向的 data-* 契约。
+
+关键词：compact / rtl / direction / density。
+
+## 当前语义 Token（构建期校验过的真实值）
+
+| CSS 变量 | 值 | 对比度档位 | 校验背景 | 用途 |
+| --- | --- | --- | --- | --- |
+| `--scui-color-text-primary` | `rgba(0, 0, 0, 0.88)` | `text` | `color.bg.surface` | 正文主文本 |
+| `--scui-color-text-secondary` | `rgba(0, 0, 0, 0.65)` | `text` | `color.bg.surface` | 次要文本 |
+| `--scui-color-text-tertiary` | `rgba(0, 0, 0, 0.55)` | `text` | `color.bg.surface` | 辅助文本（v0.2 修正，实测 ≈4.74:1） |
+| `--scui-color-text-inverse` | `#ffffff` | `text` | `color.primary` | 实心按钮 / 深色背景上的文本；校验对主色背景的对比度 |
+| `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `disabled` | `—` | 禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息 |
+| `--scui-color-bg-surface` | `#ffffff` | `background` | `—` | 亮色主题参照背景 |
+| `--scui-color-border-default` | `#f0f0f0` | `decorative` | `—` | 纯装饰性默认边框 / 分割线，不承担控件边界识别 |
+| `--scui-color-border-strong` | `#949494` | `control` | `color.bg.surface` | 输入框 / 按钮等可识别控件边界 |
+| `--scui-color-primary` | `{color.palette.blue.6}` | `text` | `color.bg.surface` | 主操作 / 选中 / 链接；Button 默认色（ADR-019） |
+| `--scui-color-success` | `{color.palette.green.6}` | `text` | `color.bg.surface` | 成功 / 通过 / 在线 |
+| `--scui-color-warning` | `{color.palette.amber.6}` | `text` | `color.bg.surface` | 警告 / 待处理 / 风险提示 |
+| `--scui-color-danger` | `{color.palette.red.6}` | `text` | `color.bg.surface` | 错误 / 删除 / 失败 / 危险操作 |
+| `--scui-color-focus-ring` | `{color.palette.blue.6}` | `control` | `color.bg.surface` | 焦点指示环（WCAG 1.4.11 ≥3:1；03 §11 要求 2px + 2px offset） |
+
+暗色主题由 `theme-dark.css` 覆盖同名变量；当前构建期按 03 §3.1 的 7 档规则校验，语义色漏标 `$contrastTier` 或不达标都会让 `pnpm build` 失败。
+
+## 规范摘录
+
+> 规范摘录：`docs/03-设计系统.md` → ## 8. 密度（Density）
+
+
+企业系统需要“默认”和“紧凑”两档；通过 `data-scui-density` 切换，不改变控件 `size` 语义。
+
+| 维度 | 默认 | 紧凑 |
+| --- | --- | --- |
+| 表格行高 | 44px | 36px |
+| 表格单元格 padding | 12px 16px | 8px 12px |
+| Form.Item 垂直间距 | 24px | 16px |
+| Card padding | 24px | 16px |
+| Menu item 高度 | 40px | 32px |
+| Descriptions item padding | 12px 16px | 8px 12px |
+| 页面区块间距 | 24px | 16px |
+
+- 紧凑模式不缩小字号到 12px 以下；表格内可用 `size="small"` 控件。
+- 密度是全局偏好，也可局部通过 `ConfigProvider` 或 `data-scui-density` 覆盖。
+- 业务方可在用户设置中持久化密度。
+
+---
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [样式子路径](llms/exports/styles-css.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+
+---
+
+<!-- source: llms/guides/getting-started.md -->
+
+# 快速开始
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json` + `docs/02-架构设计.md` + `generated/api/config-provider.json`；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+安装、引入 CSS、ConfigProvider 与三端构建器接入。
+
+## 安装
+
+```sh
+pnpm add solid-craft@0.1.0 solid-craft-tokens solid-craft-icons solid-js
+```
+
+## 引入样式（必须显式）
+
+```ts
+import 'solid-craft/styles.css';
+```
+
+## ConfigProvider
+
+```tsx
+import { ConfigProvider } from 'solid-craft';
+
+<ConfigProvider theme="light" density="default" direction="ltr" themeTarget="global">
+  <App />
+</ConfigProvider>
+```
+
+### ConfigProviderProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `locale` | `MaybeAccessor<string>` | `'zh-CN'` | 语言标识。 | 否 |
+| `theme` | `MaybeAccessor<ThemeName>` | `'light'` | 主题；`system` 仅在客户端跟随系统偏好。 | 否 |
+| `density` | `MaybeAccessor<Density>` | `'default'` | 界面密度。 | 否 |
+| `direction` | `MaybeAccessor<Direction>` | `'ltr'` | 文字与布局方向。 | 否 |
+| `zIndexBase` | `MaybeAccessor<number>` | `0` | 浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。 | 否 |
+| `portalContainer` | `MaybeAccessor<HTMLElement \| undefined>` | `undefined` | 浮层挂载容器；未提供时懒加载为 `document.body`。 | 否 |
+| `themeTarget` | `MaybeAccessor<'global' \| 'local'>` | `'local'` | 主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。 | 否 |
+| `class` | `string` | `undefined` | 包裹元素的自定义类名。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 子树内容。 | 否 |
+
+### UIConfig
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `locale` | `Accessor<string>` | — | 当前语言标识。 | 是 |
+| `theme` | `Accessor<ThemeName>` | — | 当前主题；`system` 已在客户端解析为 `light` / `dark`，服务端一律为 `light`。 | 是 |
+| `density` | `Accessor<Density>` | — | 当前界面密度。 | 是 |
+| `direction` | `Accessor<Direction>` | — | 当前文字与布局方向。 | 是 |
+| `zIndexBase` | `Accessor<number>` | — | 当前浮层 z-index 基础值。 | 是 |
+| `portalContainer` | `Accessor<HTMLElement \| undefined>` | — | 当前浮层挂载容器；调用时才解析默认值。 | 是 |
+
+
+## 构建器接入
+
+- [Vite](llms/guides/vite.md) · [Webpack 5](llms/guides/webpack.md) · [Rspack](llms/guides/rspack.md)：三端真实配置与入口源码
+- [SSR 与 Hydration](llms/guides/ssr.md)：SolidStart 与 `"solid"` 条件导出
+
+## 规范摘录
+
+> 规范摘录：`docs/02-架构设计.md` → ### 3.2 消费方式
+
+
+```tsx
+// 推荐：按组件引入（tree-shaking 最稳）
+import { Button } from 'solid-craft/button';
+import 'solid-craft/styles.css';
+
+// 或：根导出
+import { Button, Input, Form } from 'solid-craft';
+```
+
+CSS 采用**显式引入**，原因：
+
+- 避免 JS 隐式副作用，SSR / Webpack / Rspack / 微前端行为可预测。
+- 允许两种粒度：
+  - 全量：`import 'solid-craft/styles.css'`（tokens + base + 所有组件）
+  - 按需：`import 'solid-craft/styles/base.css'` + `import 'solid-craft/styles/components/button.css'`
+- 后续可提供 `unplugin-solid-craft` 自动按需引入 CSS，但不作为 v1 前置条件。
+
+> 注意：CSS 显式引入意味着业务方必须记得加。文档、脚手架模板、lint 提示中都要强调；`examples/*` 作为正确用法基准。
+
+---
+
+<!-- source: llms/guides/ssr.md -->
+
+# SSR 与 Hydration
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`docs/01 / 02 / 06` 规范章节 + `examples/solid-start` / `examples/start-real` 真实源码 + 根 `package.json` 脚本；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+MVP 主力场景是 SPA / MPA，但组件库在 SSR 场景必须 `renderToString` + hydrate 正常（ADR-018）。只发布编译后 ESM 会锁死 client-only DOM，因此每个组件子路径都同时提供 `"solid"` 条件源码产物。
+
+## 验收命令（来自根 package.json）
+
+```json
+{
+  "smoke:ssr": "pnpm --filter solid-craft-example-solid-start bundle && pnpm --filter solid-craft-example-solid-start smoke",
+  "smoke:consumers": "pnpm --filter solid-craft-example-vite bundle && pnpm --filter solid-craft-example-webpack bundle && pnpm --filter solid-craft-example-rspack bundle && node scripts/check-consumers.mjs",
+  "smoke:tarball": "node scripts/smoke-tarball.mjs",
+  "smoke:start-real": "pnpm --filter solid-craft-example-start-real bundle && pnpm --filter solid-craft-example-start-real smoke"
+}
+```
+
+## 真实 SolidStart 入口（全文）
+
+```tsx
+import { generateHydrationScript, renderToString } from 'solid-js/web';
+import { App } from './App';
+
+export interface RenderResult {
+  html: string;
+  hydrationScript: string;
+}
+
+/** 服务端渲染入口；产物由 scripts/smoke.mjs 加载。 */
+export function render(): RenderResult {
+  return {
+    html: renderToString(() => <App />),
+    // Solid 的 hydrate 依赖 window._$HY；真实框架由宿主框架注入这段脚本。
+    hydrationScript: generateHydrationScript({}),
+  };
+}
+```
+
+## 规范摘录：条件导出
+
+> 规范摘录：`docs/02-架构设计.md` → ### 3.3 `solid` 条件导出
+
+
+Kobalte 的做法是同时提供编译后 JS 与保留 JSX 的 `.jsx`，通过 `"solid"` condition 让消费方编译器选择。**v0.2 确认这不是可选优化，而是 SSR 的必要条件；v0.3 依据 Q17 决策把它提前到 MVP。**
+
+vite-plugin-solid 官方说明：Solid 的 JSX 在构建期按目标编译（客户端 DOM / 服务端 SSR / 可 hydrate），**只发布编译后 JS 等于锁死目标**，产物是 client-only DOM，服务端渲染会抛 `Client-only API called on the server side`，且无法 hydrate。官方建议发布 `{ "solid": "./dist/source/*.jsx", "import": "./dist/*.js" }` 双入口，由消费方按目标重新编译；每个子路径导出都要有对应的 `solid` 条目。
+
+| 阶段 | 产物 | SSR 能力 |
+| --- | --- | --- |
+| **MVP（v0.1，v0.3 修订）** | `dist/esm` 编译产物 + `dist/source/*.jsx` 源码产物；全量 `"solid"` 条件导出 | **可用**：`renderToString` + hydration 冒烟（light / ltr / default 单档）为 M4 验收项 |
+| **Phase 1（v0.3 调整）** | 双构建从「骨架」升级为正式构建：源码产物覆盖每个组件子路径 + CI 一一对应校验 | 具备并冻结 `exports` 结构 |
+| **v1.0 / Phase 6** | 暗色 / 紧凑 / RTL 全矩阵 SSR 回归、流式渲染、Portal 细则、已知限制清单 | 完整支持 |
+
+v0.2 把双构建提前到 Phase 1 建骨架，v0.3 再提前为 MVP 必备产物：既避免到 Phase 6 才改 `exports` 结构与所有子路径导出造成破坏性变更，也满足「试点主力 SPA / MPA、但 SSR 使用正常」的业务要求（ADR-018）。
+
+---
+
+## 规范摘录：SSR 与 Hydration
+
+> 规范摘录：`docs/02-架构设计.md` → ## 8. SSR 与 Hydration
+
+
+> **v0.3 边界**（ADR-018）：试点主力 SPA / MPA，不强依赖 SolidStart；但**组件库必须 SSR 可用**。下列 SSR-safe 约束在 MVP 即为验收项；`renderToString` + hydration 冒烟（light / ltr / default 单档）在 M4 验收。暗色 / 紧凑 / RTL 全矩阵 SSR 回归、流式渲染与 Portal 细则仍属 v1.0 目标态。原因见 §3.3 与 01 §6。
+
+- 模块顶层禁止 `window` / `document` / `navigator` / `matchMedia`。
+- 使用 `isServer` 分支；只在 `onMount` 注册浏览器 API。
+- ID 使用 `createUniqueId`，并加组件前缀；禁止 `Math.random()` 作为初始 ID。
+- Portal / 弹层：
+  - 默认客户端渲染；SSR 输出占位或空。
+  - `ConfigProvider` 的 `portalContainer` 在客户端解析。
+- 主题：
+  - SSR 由应用在 `<html>` 上预设 `data-scui-theme`，避免首屏闪烁。
+  - `ConfigProvider` 的 `theme="system"` 在客户端挂载后解析；服务端默认 `light`。
+- 日期 / 相对时间：
+  - 服务端与客户端时区可能不同；需要确定性的场景显式传 `timeZone`，或客户端渲染。
+- CSS：
+  - 消费方负责引入 `styles.css`；SSR 框架需把 CSS 注入 HTML。
+  - 文档提供 SolidStart / Vite SSR 示例。
+- 验证（**MVP / M4**，Phase 4 执行）：
+  - `renderToString` 快照（P0 组件）；
+  - `examples/solid-start` 构建 + SSR 渲染 + hydration 冒烟（light / ltr / default 单档）；
+  - CI 检查 console hydration warning；`"solid"` 条件在 Vite / Webpack 5 / Rspack / SolidStart 均可解析。
+- 验证（**v1.0**，Phase 6 执行）：暗色 / 紧凑 / RTL 全矩阵 SSR 回归、流式渲染、Portal 细则与已知限制清单。
+
+---
+
+## 规范摘录：运行时约束
+
+> 规范摘录：`docs/01-技术选型.md` → ### SSR
+
+
+**为什么必须双构建（依据 vite-plugin-solid 官方文档）**：Solid 在构建期把 JSX 编译为不同目标的产物（客户端 DOM / 服务端 SSR / 可 hydrate），只发布编译后 JavaScript 等于把目标锁死。官方明确：这种产物是 *client-only DOM code that cannot hydrate*；解法是发布带 `"solid"` 条件的 JSX 源码，由消费方按自身目标重新编译。
+
+- **MVP 产物**：`{ "solid": "./dist/source/*.jsx", "import": "./dist/*.js" }` 双入口，**每个含组件的导出都要有对应的 `solid` 条目**；Phase 0 做可行性 Spike，Phase 1 建成正式构建，M4 验收（见 02 §3.3）。
+- **MVP 验收**：`examples/solid-start` 构建 + `renderToString` + hydration 冒烟（light / ltr / default 单档），CI 检查 hydration warning；三端（Vite / Webpack 5 / Rspack）冒烟照旧。
+- **SSR-safe 编码升为 MVP 验收项**：模块顶层不访问 `window` / `document` / `matchMedia`；用 `isServer`、`onMount`、`createUniqueId`；ID 确定性。v0.2「仅约束、不验收」的口径作废。
+- **v1.0 范围**：暗色 / 紧凑 / RTL 全矩阵的 SSR 回归、流式渲染、Portal 类组件（Modal / Drawer / Tooltip / Select popup）SSR 行为细则、已知限制清单。
+- `ConfigProvider` 的主题属性由应用在 HTML 上预设，避免首屏闪烁（客户端同样适用）。
+
+## 规范摘录：验收分档
+
+> 规范摘录：`docs/06-工程规范.md` → ### 5.4 SSR / 消费方（按版本分档）
+
+
+- **MVP**：`examples/solid-start` 构建 + `renderToString` 快照 + hydration 冒烟（light / ltr / default 单档），无 `console` hydration warning；组件模块顶层无 `window` 访问；`"solid"` 条件导出在每个组件子路径均可解析。
+- **v1.0**：暗色 / 紧凑 / RTL 全矩阵 SSR 回归、流式渲染、Portal 细则与已知限制清单。
+- `examples/vite` / `examples/webpack` / `examples/rspack` 构建；检查 CSS、类型、tree-shaking。
+- 发布前用 `pnpm pack` 产物做一次真实安装测试。
+
+## 相关页面
+
+- [根入口与全部子路径](llms/exports/root.md)
+- [Vite 消费](llms/guides/vite.md) · [Webpack 5 消费](llms/guides/webpack.md) · [Rspack 消费](llms/guides/rspack.md)
+
+---
+
+<!-- source: llms/guides/vite.md -->
+
+# Vite 消费
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`examples/vite/**` 的真实配置与入口源码；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+工作区项目 `solid-craft-example-vite`。`"solid"` 条件让构建器命中 `dist/source/*.jsx`，构建产物中实际纳入的模块记录在 `examples/vite/dist/resolved.json`，由 `pnpm smoke:consumers` 校验。
+
+## 依赖与命令
+
+| 字段 | 值 |
+| --- | --- |
+| `dependencies` | `{"solid-craft":"workspace:*","solid-js":"1.9.18"}` |
+| `devDependencies` | `{"typescript":"7.0.2","vite":"8.3.6","vite-plugin-solid":"2.11.15"}` |
+| `scripts` | `{"bundle":"vite build","typecheck":"tsc --noEmit -p tsconfig.json"}` |
+
+## 构建器配置（全文）
+
+```js
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { defineConfig } from 'vite';
+import solid from 'vite-plugin-solid';
+
+const distDir = fileURLToPath(new URL('./dist/', import.meta.url));
+
+/** 记录 Rollup 实际纳入的 solid-craft 模块路径，用于实证 `"solid"` 条件命中。 */
+function recordResolved() {
+  return {
+    name: 'record-resolved-core-modules',
+    enforce: 'post',
+    generateBundle(_options, bundle) {
+      const modules = Object.values(bundle).flatMap((chunk) => {
+        const record = chunk;
+        return 'modules' in record ? Object.keys(record.modules ?? {}) : [];
+      });
+      mkdirSync(distDir, { recursive: true });
+      writeFileSync(
+        `${distDir}resolved.json`,
+        `${JSON.stringify(
+          [...new Set(modules)].toSorted((a, b) => a.localeCompare(b)),
+          null,
+          2,
+        )}\n`,
+      );
+    },
+  };
+}
+
+export default defineConfig({
+  // vite-plugin-solid 会自动把 "solid" 注入 resolve.conditions。
+  plugins: [solid(), recordResolved()],
+  build: {
+    minify: false,
+    outDir: 'dist',
+    emptyOutDir: true,
+    lib: {
+      entry: 'src/index.tsx',
+      formats: ['es'],
+      fileName: () => 'bundle.js',
+    },
+  },
+});
+```
+
+## 入口源码（全文）
+
+```tsx
+import { render } from 'solid-js/web';
+import { Button } from 'solid-craft/button';
+import { ConfigProvider } from 'solid-craft/config-provider';
+import 'solid-craft/styles.css';
+
+/**
+ * S-01 最小消费页面：只按子路径引入 Button / ConfigProvider，
+ * 供 check-consumers.mjs 验证 tree-shaking（其他组件不得进入 bundle）。
+ */
+const root = document.getElementById('app');
+if (!root) {
+  throw new Error('[example-vite] missing #app container');
+}
+
+render(
+  () => (
+    <ConfigProvider theme="light" density="default" direction="ltr">
+      <Button>三端消费冒烟</Button>
+    </ConfigProvider>
+  ),
+  root,
+);
+```
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+- [子路径与条件导出](llms/exports/root.md)
+
+---
+
+<!-- source: llms/guides/webpack.md -->
+
+# Webpack 5 消费
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`examples/webpack/**` 的真实配置与入口源码；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+工作区项目 `solid-craft-example-webpack`。`"solid"` 条件让构建器命中 `dist/source/*.jsx`，构建产物中实际纳入的模块记录在 `examples/webpack/dist/resolved.json`，由 `pnpm smoke:consumers` 校验。
+
+## 依赖与命令
+
+| 字段 | 值 |
+| --- | --- |
+| `dependencies` | `{"solid-craft":"workspace:*","solid-js":"1.9.18"}` |
+| `devDependencies` | `{"@babel/core":"7.29.13","@babel/preset-typescript":"7.29.7","babel-loader":"10.1.1","babel-preset-solid":"1.9.16","css-loader":"7.1.5","mini-css-extract-plugin":"2.10.2","typescript":"7.0.2","webpack":"5.112.2"}` |
+| `scripts` | `{"bundle":"node scripts/bundle.mjs","typecheck":"tsc --noEmit -p tsconfig.json"}` |
+
+## 构建器配置（全文）
+
+```js
+import { mkdirSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+const here = fileURLToPath(new URL('.', import.meta.url));
+const coreSourceDir = path.resolve(here, '../../packages/core/dist/source');
+const resolved = new Set();
+
+/**
+ * 记录 webpack 实际解析到的 solid-craft 模块路径。
+ * 用于实证 resolve.conditionNames 里的 "solid" 命中了 dist/source/*.jsx。
+ */
+function collect(resource) {
+  if (typeof resource === 'string' && resource.includes('core/dist')) {
+    resolved.add(resource.replaceAll(path.sep, '/'));
+  }
+}
+
+class RecordCoreModules {
+  apply(compiler) {
+    compiler.hooks.normalModuleFactory.tap('RecordCoreModules', (factory) => {
+      factory.hooks.afterResolve.tap('RecordCoreModules', (data) => {
+        collect(data?.createData?.resource);
+      });
+    });
+    compiler.hooks.compilation.tap('RecordCoreModules', (compilation) => {
+      compilation.hooks.succeedModule.tap('RecordCoreModules', (module) => {
+        collect(module?.resource);
+      });
+    });
+    compiler.hooks.done.tap('RecordCoreModules', () => {
+      mkdirSync(path.join(here, 'dist'), { recursive: true });
+      writeFileSync(
+        path.join(here, 'dist', 'resolved.json'),
+        `${JSON.stringify(
+          [...resolved].toSorted((a, b) => a.localeCompare(b)),
+          null,
+          2,
+        )}\n`,
+      );
+    });
+  }
+}
+
+export default {
+  mode: 'production',
+  context: here,
+  entry: './src/index.tsx',
+  output: {
+    path: path.join(here, 'dist'),
+    filename: 'bundle.js',
+    clean: false,
+  },
+  optimization: {
+    minimize: false,
+    usedExports: true,
+    sideEffects: true,
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    // "solid" 条件命中 dist/source/*.jsx（保留 JSX 的源码产物）；
+    // browser 条件保证 solid-js 解析到客户端构建。
+    conditionNames: ['solid', 'webpack', 'browser', 'import', 'default'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.[jt]sx?$/,
+        include: [path.join(here, 'src'), coreSourceDir],
+        resolve: { fullySpecified: false },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            configFile: false,
+            presets: [
+              ['babel-preset-solid', { generate: 'dom', hydratable: false }],
+              ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
+            ],
+          },
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+    ],
+  },
+  plugins: [new MiniCssExtractPlugin({ filename: 'bundle.css' }), new RecordCoreModules()],
+};
+```
+
+## 入口源码（全文）
+
+```tsx
+import { render } from 'solid-js/web';
+import { Button } from 'solid-craft/button';
+import { ConfigProvider } from 'solid-craft/config-provider';
+import 'solid-craft/styles.css';
+
+/**
+ * S-01 最小消费页面：只按子路径引入 Button / ConfigProvider，
+ * 供 check-consumers.mjs 验证 tree-shaking（其他组件不得进入 bundle）。
+ */
+const root = document.getElementById('app');
+if (!root) {
+  throw new Error('[example-webpack] missing #app container');
+}
+
+render(
+  () => (
+    <ConfigProvider theme="light" density="default" direction="ltr">
+      <Button>三端消费冒烟</Button>
+    </ConfigProvider>
+  ),
+  root,
+);
+```
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+- [子路径与条件导出](llms/exports/root.md)
+
+---
+
+<!-- source: llms/guides/rspack.md -->
+
+# Rspack 消费
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`examples/rspack/**` 的真实配置与入口源码；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+工作区项目 `solid-craft-example-rspack`。`"solid"` 条件让构建器命中 `dist/source/*.jsx`，构建产物中实际纳入的模块记录在 `examples/rspack/dist/resolved.json`，由 `pnpm smoke:consumers` 校验。
+
+## 依赖与命令
+
+| 字段 | 值 |
+| --- | --- |
+| `dependencies` | `{"solid-craft":"workspace:*","solid-js":"1.9.18"}` |
+| `devDependencies` | `{"@babel/core":"7.29.13","@babel/preset-typescript":"7.29.7","@rspack/cli":"2.3.1","@rspack/core":"2.3.1","@rspack/dev-server":"2.2.2","babel-loader":"10.1.1","babel-preset-solid":"1.9.16","css-loader":"7.1.5","typescript":"7.0.2"}` |
+| `scripts` | `{"bundle":"rspack build --config rspack.config.mjs","typecheck":"tsc --noEmit -p tsconfig.json"}` |
+
+## 构建器配置（全文）
+
+```js
+import { mkdirSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { CssExtractRspackPlugin } from '@rspack/core';
+
+const here = fileURLToPath(new URL('.', import.meta.url));
+const coreSourceDir = path.resolve(here, '../../packages/core/dist/source');
+const resolved = new Set();
+
+/**
+ * 记录 Rspack 实际解析到的 solid-craft 模块路径。
+ * 用于实证 resolve.conditionNames 里的 "solid" 命中了 dist/source/*.jsx。
+ */
+function collect(resource) {
+  if (typeof resource === 'string' && resource.includes('core/dist')) {
+    resolved.add(resource.replaceAll(path.sep, '/'));
+  }
+}
+
+class RecordCoreModules {
+  apply(compiler) {
+    compiler.hooks.normalModuleFactory.tap('RecordCoreModules', (factory) => {
+      factory.hooks.afterResolve.tap('RecordCoreModules', (data) => {
+        collect(data?.createData?.resource);
+      });
+    });
+    compiler.hooks.compilation.tap('RecordCoreModules', (compilation) => {
+      compilation.hooks.succeedModule.tap('RecordCoreModules', (module) => {
+        collect(module?.resource);
+      });
+    });
+    compiler.hooks.done.tap('RecordCoreModules', () => {
+      mkdirSync(path.join(here, 'dist'), { recursive: true });
+      writeFileSync(
+        path.join(here, 'dist', 'resolved.json'),
+        `${JSON.stringify(
+          [...resolved].toSorted((a, b) => a.localeCompare(b)),
+          null,
+          2,
+        )}\n`,
+      );
+    });
+  }
+}
+
+export default {
+  mode: 'production',
+  context: here,
+  entry: './src/index.tsx',
+  output: {
+    path: path.join(here, 'dist'),
+    filename: 'bundle.js',
+    clean: false,
+  },
+  optimization: {
+    minimize: false,
+    usedExports: true,
+    sideEffects: true,
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
+    // 与 Webpack 5 保持同一组条件，验证 Rspack 2.x 行为一致。
+    conditionNames: ['solid', 'webpack', 'browser', 'import', 'default'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.[jt]sx?$/,
+        include: [path.join(here, 'src'), coreSourceDir],
+        resolve: { fullySpecified: false },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            configFile: false,
+            presets: [
+              ['babel-preset-solid', { generate: 'dom', hydratable: false }],
+              ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
+            ],
+          },
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [CssExtractRspackPlugin.loader, 'css-loader'],
+      },
+    ],
+  },
+  plugins: [new CssExtractRspackPlugin({ filename: 'bundle.css' }), new RecordCoreModules()],
+};
+```
+
+## 入口源码（全文）
+
+```tsx
+import { render } from 'solid-js/web';
+import { Button } from 'solid-craft/button';
+import { ConfigProvider } from 'solid-craft/config-provider';
+import 'solid-craft/styles.css';
+
+/**
+ * S-01 最小消费页面：只按子路径引入 Button / ConfigProvider，
+ * 供 check-consumers.mjs 验证 tree-shaking（其他组件不得进入 bundle）。
+ */
+const root = document.getElementById('app');
+if (!root) {
+  throw new Error('[example-rspack] missing #app container');
+}
+
+render(
+  () => (
+    <ConfigProvider theme="light" density="default" direction="ltr">
+      <Button>三端消费冒烟</Button>
+    </ConfigProvider>
+  ),
+  root,
+);
+```
+
+## 相关页面
+
+- [快速开始](llms/guides/getting-started.md)
+- [SSR 与 Hydration](llms/guides/ssr.md)
+- [子路径与条件导出](llms/exports/root.md)
+
+---
+
+<!-- source: llms/demos/overview-basic.md -->
+
+# 基础组件总览 · 基础组件总览（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/overview/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。
+
+## 完整源码
+
+```tsx
+import {
+  Button,
+  Col,
+  Content,
+  Divider,
+  Footer,
+  Header,
+  Icon,
+  Layout,
+  Link,
+  Paragraph,
+  Row,
+  Space,
+  Text,
+  Title,
+} from 'solid-craft';
+import { DemoSection, DotIcon } from '../../demos/shared';
+
+export const demo = {
+  title: '基础组件总览',
+  description: '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。',
+};
+
+export default function Basic() {
+  return (
+    <>
+      <DemoSection title="Button">
+        <Button>默认主色</Button>
+        <Button variant="outline" color="danger">
+          危险描边
+        </Button>
+        <Button size="small" loading>
+          加载中
+        </Button>
+      </DemoSection>
+      <DemoSection title="Icon / Typography">
+        <Icon label="示例">
+          <DotIcon />
+        </Icon>
+        <Title level={3}>三级标题</Title>
+        <Text tone="secondary">次要文本</Text>
+        <Paragraph>固定段落文本</Paragraph>
+        <Link href="#overview-anchor">锚点链接</Link>
+      </DemoSection>
+      <DemoSection title="Space / Divider">
+        <Space>
+          <Text>A</Text>
+          <Text>B</Text>
+          <Text>C</Text>
+        </Space>
+        <Divider>分区</Divider>
+      </DemoSection>
+      <DemoSection title="Layout / Grid">
+        <Layout>
+          <Header>页头</Header>
+          <Content>内容区</Content>
+          <Footer>页脚</Footer>
+        </Layout>
+        <Row class="demo-grid-row">
+          <Col span={12}>span 12</Col>
+          <Col span={12}>span 12</Col>
+        </Row>
+      </DemoSection>
+      <p id="overview-anchor">锚点目标</p>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [基础组件总览](llms/exports/root.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/button-basic.md -->
+
+# Button 按钮 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/button/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+变体、语义色、尺寸形状、状态与点击 / 键盘交互的完整基线。
+
+## 完整源码
+
+```tsx
+import { createSignal, For } from 'solid-js';
+import { Button } from 'solid-craft';
+import { COLORS, DemoSection, DotIcon, SIZES, VARIANTS } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '变体、语义色、尺寸形状、状态与点击 / 键盘交互的完整基线。',
+};
+
+export default function Basic() {
+  const [clicks, setClicks] = createSignal(0);
+  const [keyboardClicks, setKeyboardClicks] = createSignal(0);
+
+  return (
+    <>
+      <DemoSection title="变体">
+        <For each={VARIANTS}>
+          {(variant, index) => (
+            <Button data-testid={index() === 0 ? 'first-focusable' : undefined} variant={variant}>
+              {`variant ${variant}`}
+            </Button>
+          )}
+        </For>
+      </DemoSection>
+      <DemoSection title="语义色">
+        <For each={COLORS}>{(color) => <Button color={color}>{`color ${color}`}</Button>}</For>
+      </DemoSection>
+      <DemoSection title="尺寸与形状">
+        <For each={SIZES}>{(size) => <Button size={size}>{`size ${size}`}</Button>}</For>
+        <Button shape="round">round</Button>
+        <Button shape="circle" aria-label="圆形按钮" icon={<DotIcon />} />
+      </DemoSection>
+      <DemoSection title="状态">
+        <Button disabled>disabled</Button>
+        <Button loading>loading</Button>
+        <Button block>block</Button>
+      </DemoSection>
+      <DemoSection title="交互与默认色">
+        <Button data-testid="click-target" onClick={() => setClicks((n) => n + 1)}>
+          计数按钮
+        </Button>
+        <Button data-testid="keyboard-target" onClick={() => setKeyboardClicks((n) => n + 1)}>
+          键盘按钮
+        </Button>
+        <Button data-testid="default-primary">默认主色</Button>
+        <span>
+          点击 <output data-testid="click-count">{clicks()}</output> 次 / 键盘{' '}
+          <output data-testid="keyboard-count">{keyboardClicks()}</output> 次
+        </span>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Button 按钮 API](llms/exports/button.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/button-states.md -->
+
+# Button 按钮 · 状态与图标（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/button/demos/states.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+加载 / 禁用时禁止点击；loading 同时输出 aria-busy；图标支持首尾位置。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button } from 'solid-craft';
+import { DotIcon } from '../../demos/shared';
+
+export const demo = {
+  title: '状态与图标',
+  description: '加载 / 禁用时禁止点击；loading 同时输出 aria-busy；图标支持首尾位置。',
+};
+
+export default function States() {
+  const [loading, setLoading] = createSignal(false);
+  return (
+    <div class="demo-stack">
+      <div class="demo-row">
+        <Button disabled>禁用</Button>
+        <Button loading>加载中</Button>
+        <Button icon={<DotIcon />}>前置图标</Button>
+        <Button icon={<DotIcon />} iconPosition="end">
+          后置图标
+        </Button>
+      </div>
+      <div class="demo-row">
+        <Button loading={loading()} onClick={() => setLoading((value) => !value)}>
+          {loading() ? '点击结束加载' : '点击进入加载态'}
+        </Button>
+      </div>
+    </div>
+  );
+}
+```
+
+## 相关页面
+
+- [Button 按钮 API](llms/exports/button.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/button-variants.md -->
+
+# Button 按钮 · 变体与语义色（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/button/demos/variants.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+五种视觉变体与五种语义色可自由组合；默认变体为 solid、默认色为 primary。
+
+## 完整源码
+
+```tsx
+import { For } from 'solid-js';
+import { Button } from 'solid-craft';
+import { COLORS, VARIANTS } from '../../demos/shared';
+
+export const demo = {
+  title: '变体与语义色',
+  description: '五种视觉变体与五种语义色可自由组合；默认变体为 solid、默认色为 primary。',
+};
+
+export default function Variants() {
+  return (
+    <div class="demo-stack">
+      <div class="demo-row">
+        <For each={VARIANTS}>{(variant) => <Button variant={variant}>{variant}</Button>}</For>
+      </div>
+      <div class="demo-row">
+        <For each={COLORS}>
+          {(color) => (
+            <Button variant="outline" color={color}>
+              {color}
+            </Button>
+          )}
+        </For>
+      </div>
+    </div>
+  );
+}
+```
+
+## 相关页面
+
+- [Button 按钮 API](llms/exports/button.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/icon-basic.md -->
+
+# Icon 图标 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/icon/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+语义色图标、装饰图标与三档尺寸。
+
+## 完整源码
+
+```tsx
+import { For } from 'solid-js';
+import { Icon } from 'solid-craft';
+import { DemoSection, DotIcon, SIZES } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '语义色图标、装饰图标与三档尺寸。',
+};
+
+export default function Basic() {
+  return (
+    <>
+      <DemoSection title="语义图标">
+        <Icon label="提示">
+          <DotIcon />
+        </Icon>
+        <Icon label="成功" tone="success">
+          <DotIcon />
+        </Icon>
+        <Icon label="警告" tone="warning">
+          <DotIcon />
+        </Icon>
+      </DemoSection>
+      <DemoSection title="装饰图标与尺寸">
+        <For each={SIZES}>
+          {(size) => (
+            <Icon size={size}>
+              <DotIcon />
+            </Icon>
+          )}
+        </For>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Icon 图标 API](llms/exports/icon.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/typography-basic.md -->
+
+# Typography 排版 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/typography/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+标题层级、文本修饰、字号语义色与段落 / 链接。
+
+## 完整源码
+
+```tsx
+import { For } from 'solid-js';
+import { Link, Paragraph, Text, Title } from 'solid-craft';
+import { DemoSection, LEVELS, SIZES } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '标题层级、文本修饰、字号语义色与段落 / 链接。',
+};
+
+export default function Basic() {
+  return (
+    <>
+      <DemoSection title="标题层级">
+        <For each={LEVELS}>{(level) => <Title level={level}>{`H${level} 标题`}</Title>}</For>
+      </DemoSection>
+      <DemoSection title="文本修饰">
+        <Text bold>bold</Text>
+        <Text underline>underline</Text>
+        <Text delete>delete</Text>
+        <Text mark>mark</Text>
+        <Text code>code</Text>
+        <Text ellipsis>ellipsis</Text>
+      </DemoSection>
+      <DemoSection title="字号与语义色">
+        <For each={SIZES}>{(size) => <Text size={size}>{`size ${size}`}</Text>}</For>
+        <Text tone="primary">primary</Text>
+        <Text tone="secondary">secondary</Text>
+        <Text tone="tertiary">tertiary</Text>
+        <Text tone="danger">danger</Text>
+      </DemoSection>
+      <DemoSection title="段落与链接">
+        <Paragraph>这是一段用于视觉基线的固定文本，不含随机内容与时间。</Paragraph>
+        <Link href="#typography-anchor" data-testid="keyboard-link">
+          跳转到锚点
+        </Link>
+      </DemoSection>
+      <p id="typography-anchor">锚点目标</p>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Typography 排版 API](llms/exports/typography.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/space-basic.md -->
+
+# Space 间距 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/space/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+水平 / 垂直排列、分隔线与换行对齐。
+
+## 完整源码
+
+```tsx
+import { For } from 'solid-js';
+import { Button, Divider, Space, Text } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '水平 / 垂直排列、分隔线与换行对齐。',
+};
+
+export default function Basic() {
+  return (
+    <>
+      <DemoSection title="水平 / 垂直">
+        <Space size="small">
+          <Button>small</Button>
+          <Button>A</Button>
+          <Button>B</Button>
+        </Space>
+        <Space direction="vertical" size="large">
+          <Button>vertical 1</Button>
+          <Button>vertical 2</Button>
+        </Space>
+      </DemoSection>
+      <DemoSection title="分隔与对齐">
+        <Space split={<Divider orientation="vertical" />} align="center">
+          <Text>one</Text>
+          <Text>two</Text>
+          <Text>three</Text>
+        </Space>
+        <Space wrap>
+          <For each={[1, 2, 3, 4, 5, 6]}>
+            {(index) => <Button variant="outline">{`wrap ${index}`}</Button>}
+          </For>
+        </Space>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Space 间距 API](llms/exports/space.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/divider-basic.md -->
+
+# Divider 分割线 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/divider/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+水平 / 垂直分割线、虚线与带文字分割。
+
+## 完整源码
+
+```tsx
+import { Divider, Text } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '水平 / 垂直分割线、虚线与带文字分割。',
+};
+
+export default function Basic() {
+  return (
+    <>
+      <DemoSection title="水平分割线">
+        <div class="demo-stack">
+          <Text>上方内容</Text>
+          <Divider />
+          <Text>下方内容</Text>
+          <Divider dashed>虚线分割</Divider>
+          <Divider plain>带文字分割</Divider>
+        </div>
+      </DemoSection>
+      <DemoSection title="垂直分割线">
+        <div class="demo-inline">
+          <Text>左</Text>
+          <Divider orientation="vertical" />
+          <Text>中</Text>
+          <Divider orientation="vertical" dashed />
+          <Text>右</Text>
+        </div>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Divider 分割线 API](llms/exports/divider.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/layout-basic.md -->
+
+# Layout 布局 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/layout/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+带侧边栏的三段布局，含可折叠触发器。
+
+## 完整源码
+
+```tsx
+import { Content, Footer, Header, Layout, Sider } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '带侧边栏的三段布局，含可折叠触发器。',
+};
+
+export default function Basic() {
+  return (
+    <DemoSection title="带侧边栏的三段布局">
+      <Layout hasSider class="demo-layout">
+        <Sider collapsible width={160} collapsedWidth={64}>
+          侧边栏
+        </Sider>
+        <Layout>
+          <Header>页头</Header>
+          <Content>内容区</Content>
+          <Footer>页脚</Footer>
+        </Layout>
+      </Layout>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Layout 布局 API](llms/exports/layout.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/grid-basic.md -->
+
+# Grid 栅格 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/grid/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+24 栅格、偏移与对齐换行。
+
+## 完整源码
+
+```tsx
+import { Col, Row } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '24 栅格、偏移与对齐换行。',
+};
+
+export default function Basic() {
+  return (
+    <>
+      <DemoSection title="24 栅格">
+        <Row gutter="medium" class="demo-grid-row">
+          <Col span={6}>span 6</Col>
+          <Col span={6}>span 6</Col>
+          <Col span={6}>span 6</Col>
+          <Col span={6}>span 6</Col>
+        </Row>
+        <Row gutter="large" class="demo-grid-row">
+          <Col span={8} offset={2}>
+            span 8 / offset 2
+          </Col>
+          <Col span={12}>span 12</Col>
+        </Row>
+      </DemoSection>
+      <DemoSection title="对齐与换行">
+        <Row align="middle" justify="space-between" class="demo-grid-row">
+          <Col span={5}>left</Col>
+          <Col span={5}>right</Col>
+        </Row>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Grid 栅格 API](llms/exports/grid.md)
+- [设计 Token](llms/design/tokens.md)
+
+---

@@ -1,0 +1,19 @@
+{
+  "name": "solid-craft-example-vite",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bundle": "vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "solid-craft": "workspace:*",
+    "solid-js": "1.9.18"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vite": "8.3.6",
+    "vite-plugin-solid": "2.11.15"
+  }
+}

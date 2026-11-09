@@ -1,0 +1,54 @@
+{
+  "slug": "icon",
+  "source": "packages/core/src/components/icon/types.ts",
+  "interfaces": [
+    {
+      "name": "IconProps",
+      "inherits": "Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'color'>",
+      "props": [
+        {
+          "name": "size",
+          "type": "'small' | 'medium' | 'large'",
+          "optional": true,
+          "description": "图标尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "tone",
+          "type": "'primary' | 'secondary' | 'tertiary' | 'disabled' | 'success' | 'warning' | 'danger'",
+          "optional": true,
+          "description": "语义色；不传时继承 currentColor。",
+          "default": "undefined"
+        },
+        {
+          "name": "spin",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否旋转。",
+          "default": "false"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "optional": true,
+          "description": "无障碍标签；传入时作为 img 暴露，未传入时视为装饰图标。",
+          "default": "undefined"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "图标内容。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

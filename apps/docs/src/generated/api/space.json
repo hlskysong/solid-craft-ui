@@ -1,0 +1,61 @@
+{
+  "slug": "space",
+  "source": "packages/core/src/components/space/types.ts",
+  "interfaces": [
+    {
+      "name": "SpaceProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "direction",
+          "type": "'horizontal' | 'vertical'",
+          "optional": true,
+          "description": "排列方向。",
+          "default": "'horizontal'"
+        },
+        {
+          "name": "size",
+          "type": "'small' | 'medium' | 'large'",
+          "optional": true,
+          "description": "间距尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否换行。",
+          "default": "false"
+        },
+        {
+          "name": "align",
+          "type": "'start' | 'center' | 'end' | 'baseline'",
+          "optional": true,
+          "description": "交叉轴对齐方式。",
+          "default": "undefined"
+        },
+        {
+          "name": "split",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "子项之间的分隔内容。",
+          "default": "undefined"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "子项内容。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

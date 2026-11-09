@@ -1,0 +1,9 @@
+/* Optional reset. Consumed explicitly: solid-craft/styles/reset.css */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, figure, blockquote) {
+  margin: 0;
+  padding: 0;
+}
+
+:where(ul, ol) {
+  list-style: none;
+}

@@ -1,0 +1,723 @@
+[
+  {
+    "type": "guide",
+    "title": "快速开始",
+    "description": "安装、引入 CSS、ConfigProvider 与三端构建器接入。",
+    "keywords": "安装 install CSS ConfigProvider Vite Webpack Rspack SolidStart SSR",
+    "href": "/docs/getting-started#getting-started"
+  },
+  {
+    "type": "design",
+    "title": "设计 Token",
+    "description": "DTCG 三层结构、分档对比度校验与 CSS 变量命名。",
+    "keywords": "DTCG token style-dictionary colorjs 对比度 WCAG",
+    "href": "/docs/design/tokens"
+  },
+  {
+    "type": "design",
+    "title": "色彩",
+    "description": "OKLCH 生成的 6 色相 × 10 级色阶与语义色引用。",
+    "keywords": "色阶 palette primary OKLCH 暗色",
+    "href": "/docs/design/color"
+  },
+  {
+    "type": "design",
+    "title": "布局与间距",
+    "description": "8px 基准间距、24 栅格与响应式断点。",
+    "keywords": "spacing grid 断点 响应式",
+    "href": "/docs/design/layout"
+  },
+  {
+    "type": "design",
+    "title": "动效",
+    "description": "时长 / 缓动 token 与 reduced-motion 约定。",
+    "keywords": "duration ease transition animation",
+    "href": "/docs/design/motion"
+  },
+  {
+    "type": "design",
+    "title": "暗色主题",
+    "description": "theme-dark.css 的覆盖方式与当前验收边界。",
+    "keywords": "dark theme 暗色 ConfigProvider",
+    "href": "/docs/design/dark"
+  },
+  {
+    "type": "design",
+    "title": "密度与方向",
+    "description": "default / compact 密度与 ltr / rtl 方向的 data-* 契约。",
+    "keywords": "compact rtl direction density",
+    "href": "/docs/design/density"
+  },
+  {
+    "type": "component",
+    "title": "基础组件总览",
+    "description": "当前 MVP 已落地的 7 个基础组件聚合预览。",
+    "keywords": "overview ",
+    "href": "/components/overview"
+  },
+  {
+    "type": "demo",
+    "title": "基础组件总览 · 基础组件总览",
+    "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。",
+    "keywords": "overview basic",
+    "href": "/components/overview/basic"
+  },
+  {
+    "type": "component",
+    "title": "Button 按钮",
+    "description": "触发操作的主控件，支持变体、语义色、尺寸、形状、加载与图标。",
+    "keywords": "button solid-craft/button",
+    "href": "/components/button"
+  },
+  {
+    "type": "demo",
+    "title": "Button 按钮 · 基础用法",
+    "description": "变体、语义色、尺寸形状、状态与点击 / 键盘交互的完整基线。",
+    "keywords": "button basic",
+    "href": "/components/button/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Button 按钮 · 状态与图标",
+    "description": "加载 / 禁用时禁止点击；loading 同时输出 aria-busy；图标支持首尾位置。",
+    "keywords": "button states",
+    "href": "/components/button/states"
+  },
+  {
+    "type": "demo",
+    "title": "Button 按钮 · 变体与语义色",
+    "description": "五种视觉变体与五种语义色可自由组合；默认变体为 solid、默认色为 primary。",
+    "keywords": "button variants",
+    "href": "/components/button/variants"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.variant",
+    "description": "视觉变体。",
+    "keywords": "button 'solid' | 'outline' | 'dashed' | 'text' | 'link'",
+    "href": "/components/button#api-variant"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.color",
+    "description": "语义色；neutral 需显式传入。",
+    "keywords": "button 'primary' | 'neutral' | 'success' | 'warning' | 'danger'",
+    "href": "/components/button#api-color"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.size",
+    "description": "尺寸。",
+    "keywords": "button 'small' | 'medium' | 'large'",
+    "href": "/components/button#api-size"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.block",
+    "description": "是否占满父容器宽度。",
+    "keywords": "button boolean",
+    "href": "/components/button#api-block"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.loading",
+    "description": "加载态；加载时禁用点击。",
+    "keywords": "button boolean",
+    "href": "/components/button#api-loading"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.icon",
+    "description": "图标内容。",
+    "keywords": "button JSX.Element",
+    "href": "/components/button#api-icon"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.iconPosition",
+    "description": "图标位置。",
+    "keywords": "button 'start' | 'end'",
+    "href": "/components/button#api-iconPosition"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.shape",
+    "description": "形状。",
+    "keywords": "button 'default' | 'round' | 'circle'",
+    "href": "/components/button#api-shape"
+  },
+  {
+    "type": "api",
+    "title": "ButtonProps.htmlType",
+    "description": "原生 button type，默认 button 以避免误触发表单提交。",
+    "keywords": "button 'button' | 'submit' | 'reset'",
+    "href": "/components/button#api-htmlType"
+  },
+  {
+    "type": "component",
+    "title": "Icon 图标",
+    "description": "语义色与尺寸统一的图标容器，装饰性图标自动对读屏隐藏。",
+    "keywords": "icon solid-craft/icon",
+    "href": "/components/icon"
+  },
+  {
+    "type": "demo",
+    "title": "Icon 图标 · 基础用法",
+    "description": "语义色图标、装饰图标与三档尺寸。",
+    "keywords": "icon basic",
+    "href": "/components/icon/basic"
+  },
+  {
+    "type": "api",
+    "title": "IconProps.size",
+    "description": "图标尺寸。",
+    "keywords": "icon 'small' | 'medium' | 'large'",
+    "href": "/components/icon#api-size"
+  },
+  {
+    "type": "api",
+    "title": "IconProps.tone",
+    "description": "语义色；不传时继承 currentColor。",
+    "keywords": "icon 'primary' | 'secondary' | 'tertiary' | 'disabled' | 'success' | 'warning' | 'danger'",
+    "href": "/components/icon#api-tone"
+  },
+  {
+    "type": "api",
+    "title": "IconProps.spin",
+    "description": "是否旋转。",
+    "keywords": "icon boolean",
+    "href": "/components/icon#api-spin"
+  },
+  {
+    "type": "api",
+    "title": "IconProps.label",
+    "description": "无障碍标签；传入时作为 img 暴露，未传入时视为装饰图标。",
+    "keywords": "icon string",
+    "href": "/components/icon#api-label"
+  },
+  {
+    "type": "api",
+    "title": "IconProps.class",
+    "description": "自定义类名。",
+    "keywords": "icon string",
+    "href": "/components/icon#api-class"
+  },
+  {
+    "type": "api",
+    "title": "IconProps.children",
+    "description": "图标内容。",
+    "keywords": "icon JSX.Element",
+    "href": "/components/icon#api-children"
+  },
+  {
+    "type": "component",
+    "title": "Typography 排版",
+    "description": "Title / Text / Paragraph / Link 的层级、修饰与语义色。",
+    "keywords": "typography solid-craft/typography",
+    "href": "/components/typography"
+  },
+  {
+    "type": "demo",
+    "title": "Typography 排版 · 基础用法",
+    "description": "标题层级、文本修饰、字号语义色与段落 / 链接。",
+    "keywords": "typography basic",
+    "href": "/components/typography/basic"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.tone",
+    "description": "语义色；不传时继承父级颜色。",
+    "keywords": "typography 'primary' | 'secondary' | 'tertiary' | 'disabled' | 'success' | 'warning' | 'danger'",
+    "href": "/components/typography#api-tone"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.size",
+    "description": "字号。",
+    "keywords": "typography 'small' | 'medium' | 'large'",
+    "href": "/components/typography#api-size"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.bold",
+    "description": "是否加粗。",
+    "keywords": "typography boolean",
+    "href": "/components/typography#api-bold"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.ellipsis",
+    "description": "单行溢出省略。",
+    "keywords": "typography boolean",
+    "href": "/components/typography#api-ellipsis"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.code",
+    "description": "是否使用等宽代码样式。",
+    "keywords": "typography boolean",
+    "href": "/components/typography#api-code"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.mark",
+    "description": "是否使用标记背景。",
+    "keywords": "typography boolean",
+    "href": "/components/typography#api-mark"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.delete",
+    "description": "是否使用删除线。",
+    "keywords": "typography boolean",
+    "href": "/components/typography#api-delete"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.underline",
+    "description": "是否使用下划线。",
+    "keywords": "typography boolean",
+    "href": "/components/typography#api-underline"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.class",
+    "description": "自定义类名。",
+    "keywords": "typography string",
+    "href": "/components/typography#api-class"
+  },
+  {
+    "type": "api",
+    "title": "TypographyProps.children",
+    "description": "文本内容。",
+    "keywords": "typography JSX.Element",
+    "href": "/components/typography#api-children"
+  },
+  {
+    "type": "api",
+    "title": "TitleProps.level",
+    "description": "标题层级，决定渲染的 h1~h5。",
+    "keywords": "typography 1 | 2 | 3 | 4 | 5",
+    "href": "/components/typography#api-level"
+  },
+  {
+    "type": "api",
+    "title": "LinkProps.href",
+    "description": "链接地址。",
+    "keywords": "typography string",
+    "href": "/components/typography#api-href"
+  },
+  {
+    "type": "api",
+    "title": "LinkProps.target",
+    "description": "链接打开方式；target 为 _blank 时默认补充安全的 rel。",
+    "keywords": "typography string",
+    "href": "/components/typography#api-target"
+  },
+  {
+    "type": "api",
+    "title": "LinkProps.rel",
+    "description": "链接关系。",
+    "keywords": "typography string",
+    "href": "/components/typography#api-rel"
+  },
+  {
+    "type": "component",
+    "title": "Space 间距",
+    "description": "水平 / 垂直排列、间距档位、分隔与换行。",
+    "keywords": "space solid-craft/space",
+    "href": "/components/space"
+  },
+  {
+    "type": "demo",
+    "title": "Space 间距 · 基础用法",
+    "description": "水平 / 垂直排列、分隔线与换行对齐。",
+    "keywords": "space basic",
+    "href": "/components/space/basic"
+  },
+  {
+    "type": "api",
+    "title": "SpaceProps.direction",
+    "description": "排列方向。",
+    "keywords": "space 'horizontal' | 'vertical'",
+    "href": "/components/space#api-direction"
+  },
+  {
+    "type": "api",
+    "title": "SpaceProps.size",
+    "description": "间距尺寸。",
+    "keywords": "space 'small' | 'medium' | 'large'",
+    "href": "/components/space#api-size"
+  },
+  {
+    "type": "api",
+    "title": "SpaceProps.wrap",
+    "description": "是否换行。",
+    "keywords": "space boolean",
+    "href": "/components/space#api-wrap"
+  },
+  {
+    "type": "api",
+    "title": "SpaceProps.align",
+    "description": "交叉轴对齐方式。",
+    "keywords": "space 'start' | 'center' | 'end' | 'baseline'",
+    "href": "/components/space#api-align"
+  },
+  {
+    "type": "api",
+    "title": "SpaceProps.split",
+    "description": "子项之间的分隔内容。",
+    "keywords": "space JSX.Element",
+    "href": "/components/space#api-split"
+  },
+  {
+    "type": "api",
+    "title": "SpaceProps.class",
+    "description": "自定义类名。",
+    "keywords": "space string",
+    "href": "/components/space#api-class"
+  },
+  {
+    "type": "api",
+    "title": "SpaceProps.children",
+    "description": "子项内容。",
+    "keywords": "space JSX.Element",
+    "href": "/components/space#api-children"
+  },
+  {
+    "type": "component",
+    "title": "Divider 分割线",
+    "description": "水平 / 垂直分割，支持虚线与带文字。",
+    "keywords": "divider solid-craft/divider",
+    "href": "/components/divider"
+  },
+  {
+    "type": "demo",
+    "title": "Divider 分割线 · 基础用法",
+    "description": "水平 / 垂直分割线、虚线与带文字分割。",
+    "keywords": "divider basic",
+    "href": "/components/divider/basic"
+  },
+  {
+    "type": "api",
+    "title": "DividerProps.orientation",
+    "description": "分割线方向。",
+    "keywords": "divider 'horizontal' | 'vertical'",
+    "href": "/components/divider#api-orientation"
+  },
+  {
+    "type": "api",
+    "title": "DividerProps.dashed",
+    "description": "是否使用虚线。",
+    "keywords": "divider boolean",
+    "href": "/components/divider#api-dashed"
+  },
+  {
+    "type": "api",
+    "title": "DividerProps.plain",
+    "description": "文字是否使用普通字重。",
+    "keywords": "divider boolean",
+    "href": "/components/divider#api-plain"
+  },
+  {
+    "type": "api",
+    "title": "DividerProps.class",
+    "description": "自定义类名。",
+    "keywords": "divider string",
+    "href": "/components/divider#api-class"
+  },
+  {
+    "type": "api",
+    "title": "DividerProps.children",
+    "description": "分割线文字。",
+    "keywords": "divider JSX.Element",
+    "href": "/components/divider#api-children"
+  },
+  {
+    "type": "component",
+    "title": "Layout 布局",
+    "description": "Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。",
+    "keywords": "layout solid-craft/layout",
+    "href": "/components/layout"
+  },
+  {
+    "type": "demo",
+    "title": "Layout 布局 · 基础用法",
+    "description": "带侧边栏的三段布局，含可折叠触发器。",
+    "keywords": "layout basic",
+    "href": "/components/layout/basic"
+  },
+  {
+    "type": "api",
+    "title": "LayoutProps.hasSider",
+    "description": "是否包含侧边栏，包含时布局改为水平排列。",
+    "keywords": "layout boolean",
+    "href": "/components/layout#api-hasSider"
+  },
+  {
+    "type": "api",
+    "title": "LayoutProps.class",
+    "description": "自定义类名。",
+    "keywords": "layout string",
+    "href": "/components/layout#api-class"
+  },
+  {
+    "type": "api",
+    "title": "LayoutProps.children",
+    "description": "布局内容。",
+    "keywords": "layout JSX.Element",
+    "href": "/components/layout#api-children"
+  },
+  {
+    "type": "api",
+    "title": "HeaderProps.class",
+    "description": "自定义类名。",
+    "keywords": "layout string",
+    "href": "/components/layout#api-class"
+  },
+  {
+    "type": "api",
+    "title": "HeaderProps.children",
+    "description": "头部内容。",
+    "keywords": "layout JSX.Element",
+    "href": "/components/layout#api-children"
+  },
+  {
+    "type": "api",
+    "title": "ContentProps.class",
+    "description": "自定义类名。",
+    "keywords": "layout string",
+    "href": "/components/layout#api-class"
+  },
+  {
+    "type": "api",
+    "title": "ContentProps.children",
+    "description": "内容区内容。",
+    "keywords": "layout JSX.Element",
+    "href": "/components/layout#api-children"
+  },
+  {
+    "type": "api",
+    "title": "FooterProps.class",
+    "description": "自定义类名。",
+    "keywords": "layout string",
+    "href": "/components/layout#api-class"
+  },
+  {
+    "type": "api",
+    "title": "FooterProps.children",
+    "description": "底部内容。",
+    "keywords": "layout JSX.Element",
+    "href": "/components/layout#api-children"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.collapsed",
+    "description": "是否折叠；传入后为受控模式。",
+    "keywords": "layout MaybeAccessor<boolean>",
+    "href": "/components/layout#api-collapsed"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.defaultCollapsed",
+    "description": "非受控模式下的初始折叠状态。",
+    "keywords": "layout boolean",
+    "href": "/components/layout#api-defaultCollapsed"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.collapsible",
+    "description": "是否显示折叠触发器。",
+    "keywords": "layout boolean",
+    "href": "/components/layout#api-collapsible"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.width",
+    "description": "展开时的宽度（px）。",
+    "keywords": "layout number",
+    "href": "/components/layout#api-width"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.collapsedWidth",
+    "description": "折叠时的宽度（px）。",
+    "keywords": "layout number",
+    "href": "/components/layout#api-collapsedWidth"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.onCollapse",
+    "description": "折叠状态变化时的回调。",
+    "keywords": "layout (collapsed: boolean) => void",
+    "href": "/components/layout#api-onCollapse"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.trigger",
+    "description": "自定义折叠触发器内容。",
+    "keywords": "layout JSX.Element",
+    "href": "/components/layout#api-trigger"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.class",
+    "description": "自定义类名。",
+    "keywords": "layout string",
+    "href": "/components/layout#api-class"
+  },
+  {
+    "type": "api",
+    "title": "SiderProps.children",
+    "description": "侧边栏内容。",
+    "keywords": "layout JSX.Element",
+    "href": "/components/layout#api-children"
+  },
+  {
+    "type": "component",
+    "title": "Grid 栅格",
+    "description": "24 栅格 Row / Col、间距、偏移与响应式断点。",
+    "keywords": "grid solid-craft/grid",
+    "href": "/components/grid"
+  },
+  {
+    "type": "demo",
+    "title": "Grid 栅格 · 基础用法",
+    "description": "24 栅格、偏移与对齐换行。",
+    "keywords": "grid basic",
+    "href": "/components/grid/basic"
+  },
+  {
+    "type": "api",
+    "title": "RowProps.gutter",
+    "description": "栅格间距尺寸。",
+    "keywords": "grid 'small' | 'medium' | 'large'",
+    "href": "/components/grid#api-gutter"
+  },
+  {
+    "type": "api",
+    "title": "RowProps.align",
+    "description": "交叉轴对齐方式。",
+    "keywords": "grid 'top' | 'middle' | 'bottom'",
+    "href": "/components/grid#api-align"
+  },
+  {
+    "type": "api",
+    "title": "RowProps.justify",
+    "description": "主轴对齐方式。",
+    "keywords": "grid 'start' | 'center' | 'end' | 'space-between' | 'space-around'",
+    "href": "/components/grid#api-justify"
+  },
+  {
+    "type": "api",
+    "title": "RowProps.wrap",
+    "description": "是否换行。",
+    "keywords": "grid boolean",
+    "href": "/components/grid#api-wrap"
+  },
+  {
+    "type": "api",
+    "title": "RowProps.class",
+    "description": "自定义类名。",
+    "keywords": "grid string",
+    "href": "/components/grid#api-class"
+  },
+  {
+    "type": "api",
+    "title": "RowProps.children",
+    "description": "栅格内容。",
+    "keywords": "grid JSX.Element",
+    "href": "/components/grid#api-children"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.span",
+    "description": "栅格占位列数（1–24）。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-span"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.offset",
+    "description": "左侧偏移列数。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-offset"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.order",
+    "description": "排列顺序。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-order"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.xs",
+    "description": "xs 断点下的占位列数。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-xs"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.sm",
+    "description": "sm 断点下的占位列数。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-sm"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.md",
+    "description": "md 断点下的占位列数。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-md"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.lg",
+    "description": "lg 断点下的占位列数。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-lg"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.xl",
+    "description": "xl 断点下的占位列数。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-xl"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.xxl",
+    "description": "xxl 断点下的占位列数。",
+    "keywords": "grid number",
+    "href": "/components/grid#api-xxl"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.class",
+    "description": "自定义类名。",
+    "keywords": "grid string",
+    "href": "/components/grid#api-class"
+  },
+  {
+    "type": "api",
+    "title": "ColProps.children",
+    "description": "栅格内容。",
+    "keywords": "grid JSX.Element",
+    "href": "/components/grid#api-children"
+  },
+  {
+    "type": "page",
+    "title": "更新记录",
+    "description": "Changesets 版本记录",
+    "keywords": "changelog",
+    "href": "/changelog"
+  },
+  {
+    "type": "page",
+    "title": "首页",
+    "description": "基础组件总览与快速导航",
+    "keywords": "home",
+    "href": "/"
+  }
+]

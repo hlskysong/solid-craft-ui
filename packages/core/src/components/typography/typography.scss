@@ -1,0 +1,105 @@
+@use 'mixins' as m;
+
+:where(.scui-typography) {
+  margin: 0;
+  color: inherit;
+  font-size: var(--scui-space-4);
+  line-height: var(--scui-space-6);
+
+  &[data-tone='primary'] {
+    color: var(--scui-color-text-primary);
+  }
+
+  &[data-tone='secondary'] {
+    color: var(--scui-color-text-secondary);
+  }
+
+  &[data-tone='tertiary'] {
+    color: var(--scui-color-text-tertiary);
+  }
+
+  &[data-tone='disabled'] {
+    color: var(--scui-color-text-disabled);
+  }
+
+  &[data-tone='success'] {
+    color: var(--scui-color-success);
+  }
+
+  &[data-tone='warning'] {
+    color: var(--scui-color-warning);
+  }
+
+  &[data-tone='danger'] {
+    color: var(--scui-color-danger);
+  }
+
+  &[data-size='small'] {
+    font-size: var(--scui-space-3);
+    line-height: var(--scui-space-4);
+  }
+
+  &[data-size='medium'] {
+    font-size: var(--scui-space-4);
+    line-height: var(--scui-space-6);
+  }
+
+  &[data-size='large'] {
+    font-size: var(--scui-space-6);
+    line-height: var(--scui-space-8);
+  }
+
+  &[data-bold='true'] {
+    font-weight: 600;
+  }
+
+  &[data-ellipsis='true'] {
+    display: block;
+    overflow: hidden;
+    max-inline-size: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &[data-code='true'] {
+    padding-inline: var(--scui-space-1);
+    border-radius: var(--scui-radius-1);
+    background: var(--scui-color-neutral-50);
+    font-family: scui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.9em;
+  }
+
+  &[data-mark='true'] {
+    background: var(--scui-color-neutral-100);
+    color: var(--scui-color-text-primary);
+  }
+
+  &[data-delete='true'] {
+    text-decoration: line-through;
+  }
+
+  &[data-underline='true'] {
+    text-decoration: underline;
+  }
+}
+
+:where(.scui-typography)[data-type='text'][data-ellipsis='true'] {
+  display: inline-block;
+}
+
+:where(.scui-typography)[data-type='title'] {
+  font-weight: 600;
+}
+
+:where(.scui-typography)[data-type='link'] {
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-typography)[data-type='link']:not([data-tone]) {
+  color: var(--scui-color-primary);
+}

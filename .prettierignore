@@ -1,0 +1,13 @@
+node_modules
+dist
+.artifacts
+coverage
+.turbo
+playwright-report
+test-results
+pnpm-lock.yaml
+apps/docs/src/generated
+apps/docs/public
+docs
+*.md
+.DS_Store

@@ -1,0 +1,54 @@
+name: CI
+
+# T1-07：门禁链全部收敛到 pnpm verify，CI 只负责装依赖、验平台包、跑这一条命令。
+# D-09 已定：GitHub Actions + 公开 npmjs.org；D-01 正式名已定，仓库地址与 npm 账号
+# 均已登记（D-10 ①②，见 scripts/scope.mjs），Aming 已于 2026-11-09 完成首次推送。
+# 但 D-10 ③④（凭据 / canary 预演）未齐、T1-11 未完成，本文件不含任何凭据或发布步骤。
+# 仓库地址由 scope.mjs 单点定义、check:release 校验 4 个 package.json 同源；
+# 入库内容安全由 check:public 守着（pnpm verify 已接入），checkout 由 Actions 自动完成。
+# 发布闸门由 scripts/check-release.mjs 守着，预演完成后再补发布 job。
+# 切换 CI 平台只需替换本文件，scripts/check-ci.mjs 的契约校验与 pnpm verify 不变。
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Full gate (pnpm verify)
+    # 16 张截图基线在本机 macOS + 系统 Chrome + Arial/PingFang SC 生成（08 §11.5），
+    # 主门禁也跑在同一平台，避免跨平台字体 / 渲染差异造成假 FAIL。
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec tsc --version
+      - run: pnpm verify
+
+  platform-packages:
+    name: 'TS 7 platform packages (${{ matrix.os }})'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2022]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec tsc --version
+      - run: pnpm check:platforms

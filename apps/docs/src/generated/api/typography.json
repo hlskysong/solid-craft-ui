@@ -1,0 +1,122 @@
+{
+  "slug": "typography",
+  "source": "packages/core/src/components/typography/types.ts",
+  "interfaces": [
+    {
+      "name": "TypographyProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLSpanElement>,\n  'color' | 'ref'\n>",
+      "props": [
+        {
+          "name": "tone",
+          "type": "'primary' | 'secondary' | 'tertiary' | 'disabled' | 'success' | 'warning' | 'danger'",
+          "optional": true,
+          "description": "语义色；不传时继承父级颜色。",
+          "default": "undefined"
+        },
+        {
+          "name": "size",
+          "type": "'small' | 'medium' | 'large'",
+          "optional": true,
+          "description": "字号。",
+          "default": "'medium'"
+        },
+        {
+          "name": "bold",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否加粗。",
+          "default": "false"
+        },
+        {
+          "name": "ellipsis",
+          "type": "boolean",
+          "optional": true,
+          "description": "单行溢出省略。",
+          "default": "false"
+        },
+        {
+          "name": "code",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否使用等宽代码样式。",
+          "default": "false"
+        },
+        {
+          "name": "mark",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否使用标记背景。",
+          "default": "false"
+        },
+        {
+          "name": "delete",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否使用删除线。",
+          "default": "false"
+        },
+        {
+          "name": "underline",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否使用下划线。",
+          "default": "false"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "文本内容。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "TitleProps",
+      "inherits": "TypographyProps",
+      "props": [
+        {
+          "name": "level",
+          "type": "1 | 2 | 3 | 4 | 5",
+          "optional": true,
+          "description": "标题层级，决定渲染的 h1~h5。",
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "name": "LinkProps",
+      "inherits": "TypographyProps",
+      "props": [
+        {
+          "name": "href",
+          "type": "string",
+          "optional": true,
+          "description": "链接地址。",
+          "default": "undefined"
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "optional": true,
+          "description": "链接打开方式；target 为 _blank 时默认补充安全的 rel。",
+          "default": "undefined"
+        },
+        {
+          "name": "rel",
+          "type": "string",
+          "optional": true,
+          "description": "链接关系。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

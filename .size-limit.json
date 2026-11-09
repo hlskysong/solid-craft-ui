@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Button（JS + CSS）",
+    "path": [
+      "packages/core/dist/esm/components/button/*.js",
+      "packages/core/dist/styles/components/button.css"
+    ],
+    "limit": "6 KB",
+    "gzip": true
+  },
+  {
+    "name": "Core 全量（不含图标）",
+    "path": ["packages/core/dist/esm/**/*.js", "packages/core/dist/styles/**/*.css"],
+    "limit": "180 KB",
+    "gzip": true
+  }
+]

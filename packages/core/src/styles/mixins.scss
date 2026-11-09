@@ -1,0 +1,5 @@
+/* Shared SCSS mixins. Components may @use 'mixins' as m (build-css adds styles/ to loadPaths). */
+@mixin scui-focus-ring {
+  outline: 2px solid var(--scui-color-focus-ring);
+  outline-offset: 2px;
+}

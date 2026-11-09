@@ -1,0 +1,395 @@
+/**
+ * 文档站自身样式：一律以 .docs-* 作用域，绝不写裸标签 / 全局规则，
+ * 因此 ?standalone=1 的截图宿主不会被站点 chrome 影响（T1-05 基线零漂移）。
+ */
+.docs-app {
+  min-height: 100vh;
+}
+
+.docs-skip {
+  position: absolute;
+  left: -9999px;
+}
+
+.docs-skip:focus {
+  position: static;
+  display: inline-block;
+  padding: 8px 12px;
+  color: #2d66f5;
+}
+
+.docs-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 20px;
+  border-block-end: 1px solid #e8e8e8;
+  background: #ffffff;
+}
+
+.docs-brand {
+  color: #1f1f1f;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.docs-version {
+  padding: 2px 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.docs-version-note,
+.docs-settings__note {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+}
+
+.docs-settings__note {
+  flex-basis: 100%;
+}
+
+.docs-settings {
+  display: flex;
+  gap: 12px;
+  margin-inline-start: auto;
+}
+
+.docs-settings label {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 12px;
+}
+
+.docs-settings select {
+  padding: 2px 4px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1f1f1f;
+  font: inherit;
+}
+
+.docs-search {
+  position: relative;
+  width: 240px;
+}
+
+.docs-search__input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1f1f1f;
+  font: inherit;
+}
+
+.docs-search__input::placeholder {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.docs-search__results {
+  position: absolute;
+  z-index: 10;
+  inset-block-start: 110%;
+  inset-inline-start: 0;
+  width: 320px;
+  max-height: 320px;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 8%);
+  list-style: none;
+}
+
+.docs-search__results a {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  color: #1f1f1f;
+  text-decoration: none;
+}
+
+.docs-search__results a:hover,
+.docs-search__results a:focus {
+  background: #f5f7ff;
+}
+
+.docs-search__results span,
+.docs-search__empty {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+}
+
+.docs-search__empty {
+  padding: 8px;
+}
+
+.docs-body {
+  display: grid;
+  min-height: calc(100vh - 100px);
+  grid-template-columns: 220px minmax(0, 1fr);
+}
+
+.docs-sider {
+  padding: 20px 12px;
+  border-inline-end: 1px solid #e8e8e8;
+  background: #fafafa;
+}
+
+.docs-nav__group {
+  margin: 16px 8px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.docs-nav__link {
+  display: block;
+  padding: 5px 8px;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.docs-nav__link:hover,
+.docs-nav__link.is-active {
+  background: #eaf0ff;
+  color: #1f47b8;
+}
+
+.docs-main {
+  min-width: 0;
+  padding: 28px 32px 64px;
+}
+
+.docs-page {
+  max-width: 1020px;
+}
+
+.docs-page h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.docs-page h2 {
+  margin: 32px 0 12px;
+  font-size: 20px;
+}
+
+.docs-page h3 {
+  margin: 20px 0 8px;
+  font-size: 16px;
+}
+
+.docs-lead {
+  max-width: 720px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.docs-muted {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 13px;
+}
+
+.docs-paragraph {
+  max-width: 720px;
+}
+
+.docs-section {
+  margin-block-start: 28px;
+}
+
+.docs-page a {
+  color: #2d66f5;
+}
+
+.docs-cards {
+  display: grid;
+  gap: 12px;
+  margin-block: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.docs-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  color: #1f1f1f;
+  text-decoration: none;
+}
+
+.docs-card span {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+}
+
+.docs-card:hover,
+.docs-card:focus {
+  border-color: #2d66f5;
+}
+
+.docs-demo {
+  margin-block: 16px 28px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.docs-demo__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-block-end: 1px solid #e8e8e8;
+  background: #fafafa;
+}
+
+.docs-demo__heading h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.docs-demo__heading p {
+  margin: 4px 0 0;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+}
+
+.docs-demo__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.docs-button {
+  padding: 4px 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1f1f1f;
+  font: inherit;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.docs-button:hover,
+.docs-button:focus {
+  border-color: #2d66f5;
+  color: #1f47b8;
+}
+
+.docs-demo__stage {
+  padding: 20px 16px;
+  overflow-x: auto;
+}
+
+.docs-demo__source {
+  border-block-start: 1px solid #e8e8e8;
+  background: #fafafa;
+}
+
+.docs-demo__source-path {
+  margin: 0;
+  padding: 8px 16px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+}
+
+.docs-demo__source .shiki {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.docs-api__block {
+  margin-block: 20px;
+}
+
+.docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.docs-table th,
+.docs-table td {
+  padding: 8px 10px;
+  border: 1px solid #e8e8e8;
+  text-align: start;
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.docs-table thead th {
+  background: #fafafa;
+}
+
+.docs-table code {
+  font-size: 12px;
+}
+
+.docs-required {
+  margin-inline-start: 6px;
+  color: #b45309;
+  font-size: 11px;
+}
+
+.docs-code-block {
+  padding: 12px 16px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  background: #fafafa;
+  overflow-x: auto;
+  font-size: 12px;
+}
+
+.docs-import code {
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: #fafafa;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .docs-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-sider {
+    border-inline-end: 0;
+    border-block-end: 1px solid #e8e8e8;
+  }
+
+  .docs-main {
+    padding: 20px 16px 48px;
+  }
+
+  .docs-settings {
+    margin-inline-start: 0;
+  }
+
+  .docs-search {
+    width: 100%;
+  }
+}

@@ -1,0 +1,28 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+  - "examples/*"
+minimumReleaseAgeExclude:
+  - "@biomejs/biome@2.6.5"
+  - "@biomejs/cli-android-arm64@2.6.5"
+  - "@biomejs/cli-android-x64@2.6.5"
+  - "@biomejs/cli-darwin-arm64@2.6.5"
+  - "@biomejs/cli-darwin-x64@2.6.5"
+  - "@biomejs/cli-linux-arm64-musl@2.6.5"
+  - "@biomejs/cli-linux-arm64@2.6.5"
+  - "@biomejs/cli-linux-x64-musl@2.6.5"
+  - "@biomejs/cli-linux-x64@2.6.5"
+  - "@biomejs/cli-win32-arm64@2.6.5"
+  - "@biomejs/cli-win32-x64@2.6.5"
+  - lucide-solid@1.69.0
+  - vite@8.3.6
+  - "@babel/core@7.29.13"
+  - "@babel/generator@7.29.13"
+  - "@babel/helper-compilation-targets@7.29.13"
+  - "@babel/helper-module-transforms@7.29.13"
+  - "@babel/helpers@7.29.13"
+  - "@babel/parser@7.29.13"
+  - "@babel/traverse@7.29.13"
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true

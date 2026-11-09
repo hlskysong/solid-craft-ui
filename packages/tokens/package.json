@@ -1,0 +1,33 @@
+{
+  "name": "solid-craft-tokens",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "author": "Aming <hlsky@foxmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hlskysong/solid-craft-ui.git"
+  },
+  "homepage": "https://github.com/hlskysong/solid-craft-ui",
+  "bugs": {
+    "url": "https://github.com/hlskysong/solid-craft-ui/issues"
+  },
+  "files": ["dist", "tokens", "LICENSE"],
+  "exports": {
+    "./css": "./dist/css/tokens.css",
+    "./css/dark": "./dist/css/theme-dark.css",
+    "./css/*": "./dist/css/*",
+    "./json": "./dist/json/tokens.json",
+    "./ts": "./dist/ts/tokens.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "node scripts/build.mjs --check",
+    "test": "node --test scripts/*.test.mjs"
+  },
+  "devDependencies": {
+    "colorjs.io": "0.7.1",
+    "style-dictionary": "5.8.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.5/schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/.artifacts",
+      "!**/node_modules",
+      "!**/coverage",
+      "!**/.turbo",
+      "!**/playwright-report",
+      "!**/test-results",
+      "!**/src/generated",
+      "!**/apps/docs/public",
+      "!**/pnpm-lock.yaml"
+    ]
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended"
+    },
+    "domains": {
+      "solid": "recommended"
+    }
+  },
+  "formatter": {
+    "enabled": false
+  }
+}

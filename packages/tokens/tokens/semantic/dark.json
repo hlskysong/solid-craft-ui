@@ -1,0 +1,104 @@
+{
+  "color": {
+    "text": {
+      "primary": {
+        "$type": "color",
+        "$value": "rgba(255, 255, 255, 0.85)",
+        "$contrastTier": "text",
+        "$contrastBg": "color.bg.surface",
+        "$usage": "暗色正文主文本"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "rgba(255, 255, 255, 0.65)",
+        "$contrastTier": "text",
+        "$contrastBg": "color.bg.surface",
+        "$usage": "暗色次要文本"
+      },
+      "tertiary": {
+        "$type": "color",
+        "$value": "rgba(255, 255, 255, 0.55)",
+        "$contrastTier": "text",
+        "$contrastBg": "color.bg.surface",
+        "$usage": "暗色辅助文本"
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "#1f1f1f",
+        "$contrastTier": "text",
+        "$contrastBg": "color.primary",
+        "$usage": "暗色实心按钮文本；与 --scui-color-bg-surface 一致，校验对主色背景的对比度"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "rgba(255, 255, 255, 0.25)",
+        "$contrastTier": "disabled",
+        "$usage": "禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息"
+      }
+    },
+    "bg": {
+      "surface": {
+        "$type": "color",
+        "$value": "#1f1f1f",
+        "$contrastTier": "background",
+        "$usage": "暗色主题参照背景"
+      }
+    },
+    "border": {
+      "default": {
+        "$type": "color",
+        "$value": "#303030",
+        "$contrastTier": "decorative",
+        "$usage": "纯装饰性默认边框 / 分割线，不承担控件边界识别"
+      },
+      "strong": {
+        "$type": "color",
+        "$value": "#8a8a8a",
+        "$contrastTier": "control",
+        "$contrastBg": "color.bg.surface",
+        "$usage": "输入框 / 按钮等可识别控件边界"
+      }
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "{color.palette.blue.6}",
+      "$contrastTier": "text",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "暗色主操作 / 选中 / 链接（03 §3.3 单独定义，不做反色）"
+    },
+    "success": {
+      "$type": "color",
+      "$value": "{color.palette.green.6}",
+      "$contrastTier": "text",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "暗色成功 / 通过 / 在线"
+    },
+    "warning": {
+      "$type": "color",
+      "$value": "{color.palette.amber.6}",
+      "$contrastTier": "text",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "暗色警告 / 待处理 / 风险提示"
+    },
+    "danger": {
+      "$type": "color",
+      "$value": "{color.palette.red.6}",
+      "$contrastTier": "text",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "暗色错误 / 删除 / 失败 / 危险操作"
+    },
+    "focus-ring": {
+      "$type": "color",
+      "$value": "{color.palette.blue.6}",
+      "$contrastTier": "control",
+      "$contrastBg": "color.bg.surface",
+      "$usage": "焦点指示环（WCAG 1.4.11 ≥3:1）"
+    }
+  },
+  "motion": {
+    "duration": {
+      "fast": { "$type": "duration", "$value": "120ms" }
+    },
+    "ease": { "$type": "cubicBezier", "$value": "cubic-bezier(0.2, 0, 0, 1)" }
+  }
+}

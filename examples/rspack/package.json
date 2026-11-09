@@ -1,0 +1,25 @@
+{
+  "name": "solid-craft-example-rspack",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bundle": "rspack build --config rspack.config.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "solid-craft": "workspace:*",
+    "solid-js": "1.9.18"
+  },
+  "devDependencies": {
+    "@babel/core": "7.29.13",
+    "@babel/preset-typescript": "7.29.7",
+    "@rspack/cli": "2.3.1",
+    "@rspack/core": "2.3.1",
+    "@rspack/dev-server": "2.2.2",
+    "babel-loader": "10.1.1",
+    "babel-preset-solid": "1.9.16",
+    "css-loader": "7.1.5",
+    "typescript": "7.0.2"
+  }
+}

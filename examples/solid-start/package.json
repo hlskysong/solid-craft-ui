@@ -1,0 +1,19 @@
+{
+  "name": "solid-craft-example-solid-start",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bundle": "vite build && vite build --config vite.server.config.mjs",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "solid-craft": "workspace:*",
+    "solid-js": "1.9.18"
+  },
+  "devDependencies": {
+    "jsdom": "30.1.3",
+    "vite": "8.3.6",
+    "vite-plugin-solid": "2.11.15"
+  }
+}

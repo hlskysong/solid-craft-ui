@@ -1,0 +1,123 @@
+{
+  "slug": "config-provider",
+  "source": "packages/core/src/config-provider/types.ts",
+  "interfaces": [
+    {
+      "name": "ConfigProviderProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "locale",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "语言标识。",
+          "default": "'zh-CN'"
+        },
+        {
+          "name": "theme",
+          "type": "MaybeAccessor<ThemeName>",
+          "optional": true,
+          "description": "主题；`system` 仅在客户端跟随系统偏好。",
+          "default": "'light'"
+        },
+        {
+          "name": "density",
+          "type": "MaybeAccessor<Density>",
+          "optional": true,
+          "description": "界面密度。",
+          "default": "'default'"
+        },
+        {
+          "name": "direction",
+          "type": "MaybeAccessor<Direction>",
+          "optional": true,
+          "description": "文字与布局方向。",
+          "default": "'ltr'"
+        },
+        {
+          "name": "zIndexBase",
+          "type": "MaybeAccessor<number>",
+          "optional": true,
+          "description": "浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。",
+          "default": "0"
+        },
+        {
+          "name": "portalContainer",
+          "type": "MaybeAccessor<HTMLElement | undefined>",
+          "optional": true,
+          "description": "浮层挂载容器；未提供时懒加载为 `document.body`。",
+          "default": "undefined"
+        },
+        {
+          "name": "themeTarget",
+          "type": "MaybeAccessor<'global' | 'local'>",
+          "optional": true,
+          "description": "主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。",
+          "default": "'local'"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "包裹元素的自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "子树内容。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "UIConfig",
+      "inherits": null,
+      "props": [
+        {
+          "name": "locale",
+          "type": "Accessor<string>",
+          "optional": false,
+          "description": "当前语言标识。",
+          "default": null
+        },
+        {
+          "name": "theme",
+          "type": "Accessor<ThemeName>",
+          "optional": false,
+          "description": "当前主题；`system` 已在客户端解析为 `light` / `dark`，服务端一律为 `light`。",
+          "default": null
+        },
+        {
+          "name": "density",
+          "type": "Accessor<Density>",
+          "optional": false,
+          "description": "当前界面密度。",
+          "default": null
+        },
+        {
+          "name": "direction",
+          "type": "Accessor<Direction>",
+          "optional": false,
+          "description": "当前文字与布局方向。",
+          "default": null
+        },
+        {
+          "name": "zIndexBase",
+          "type": "Accessor<number>",
+          "optional": false,
+          "description": "当前浮层 z-index 基础值。",
+          "default": null
+        },
+        {
+          "name": "portalContainer",
+          "type": "Accessor<HTMLElement | undefined>",
+          "optional": false,
+          "description": "当前浮层挂载容器；调用时才解析默认值。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

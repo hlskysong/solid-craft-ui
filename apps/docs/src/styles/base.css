@@ -1,0 +1,111 @@
+/**
+ * T1-05 截图稳定性基线：固定字体 / 字号 / 行高 / 背景，关闭全部动画。
+ * 这里只作用于 Demo 宿主页面，不修改组件库样式。
+ * 由 examples/visual-demo 逐字迁入（T1-06 文档站接管），保证 16 张基线零漂移。
+ */
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+}
+
+body {
+  color: rgba(0, 0, 0, 0.88);
+  font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  /* biome-ignore lint/complexity/noImportantStyles: 截图基线必须压过组件库的 transition 声明 */
+  animation: none !important;
+  /* biome-ignore lint/complexity/noImportantStyles: 同上，避免 hover / focus 动效造成像素漂移 */
+  transition: none !important;
+}
+
+.demo-root {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.demo-root__title {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.demo-root__meta {
+  margin: 0 0 24px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+}
+
+.demo-section {
+  margin-block-end: 24px;
+  padding-block-end: 16px;
+  border-block-end: 1px solid #f0f0f0;
+}
+
+.demo-section__title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.demo-stack {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.demo-inline {
+  display: flex;
+  height: 48px;
+  gap: 12px;
+  align-items: center;
+}
+
+.demo-layout {
+  width: 100%;
+  border: 1px solid #f0f0f0;
+}
+
+.demo-layout .scui-layout__header,
+.demo-layout .scui-layout__sider,
+.demo-layout .scui-layout__content,
+.demo-layout .scui-layout__footer {
+  padding: 8px 12px;
+}
+
+.demo-layout .scui-layout__sider,
+.demo-layout .scui-layout__header {
+  background: #fafafa;
+}
+
+.demo-grid-row {
+  width: 100%;
+}
+
+.demo-grid-row .scui-col {
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #d9d9d9;
+  background: #fafafa;
+}

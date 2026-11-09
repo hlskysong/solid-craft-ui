@@ -1,0 +1,137 @@
+{
+  "slug": "grid",
+  "source": "packages/core/src/components/grid/types.ts",
+  "interfaces": [
+    {
+      "name": "RowProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "gutter",
+          "type": "'small' | 'medium' | 'large'",
+          "optional": true,
+          "description": "栅格间距尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "align",
+          "type": "'top' | 'middle' | 'bottom'",
+          "optional": true,
+          "description": "交叉轴对齐方式。",
+          "default": "undefined"
+        },
+        {
+          "name": "justify",
+          "type": "'start' | 'center' | 'end' | 'space-between' | 'space-around'",
+          "optional": true,
+          "description": "主轴对齐方式。",
+          "default": "undefined"
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否换行。",
+          "default": "true"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "栅格内容。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "ColProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "span",
+          "type": "number",
+          "optional": true,
+          "description": "栅格占位列数（1–24）。",
+          "default": "24"
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "optional": true,
+          "description": "左侧偏移列数。",
+          "default": "0"
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": true,
+          "description": "排列顺序。",
+          "default": "0"
+        },
+        {
+          "name": "xs",
+          "type": "number",
+          "optional": true,
+          "description": "xs 断点下的占位列数。",
+          "default": "undefined"
+        },
+        {
+          "name": "sm",
+          "type": "number",
+          "optional": true,
+          "description": "sm 断点下的占位列数。",
+          "default": "undefined"
+        },
+        {
+          "name": "md",
+          "type": "number",
+          "optional": true,
+          "description": "md 断点下的占位列数。",
+          "default": "undefined"
+        },
+        {
+          "name": "lg",
+          "type": "number",
+          "optional": true,
+          "description": "lg 断点下的占位列数。",
+          "default": "undefined"
+        },
+        {
+          "name": "xl",
+          "type": "number",
+          "optional": true,
+          "description": "xl 断点下的占位列数。",
+          "default": "undefined"
+        },
+        {
+          "name": "xxl",
+          "type": "number",
+          "optional": true,
+          "description": "xxl 断点下的占位列数。",
+          "default": "undefined"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "栅格内容。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "slug": "button",
+  "source": "packages/core/src/components/button/types.ts",
+  "interfaces": [
+    {
+      "name": "ButtonProps",
+      "inherits": "Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>",
+      "props": [
+        {
+          "name": "variant",
+          "type": "'solid' | 'outline' | 'dashed' | 'text' | 'link'",
+          "optional": true,
+          "description": "视觉变体。",
+          "default": "'solid'"
+        },
+        {
+          "name": "color",
+          "type": "'primary' | 'neutral' | 'success' | 'warning' | 'danger'",
+          "optional": true,
+          "description": "语义色；neutral 需显式传入。",
+          "default": "'primary'"
+        },
+        {
+          "name": "size",
+          "type": "'small' | 'medium' | 'large'",
+          "optional": true,
+          "description": "尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "block",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否占满父容器宽度。",
+          "default": "false"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "optional": true,
+          "description": "加载态；加载时禁用点击。",
+          "default": "false"
+        },
+        {
+          "name": "icon",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "图标内容。",
+          "default": "undefined"
+        },
+        {
+          "name": "iconPosition",
+          "type": "'start' | 'end'",
+          "optional": true,
+          "description": "图标位置。",
+          "default": "'start'"
+        },
+        {
+          "name": "shape",
+          "type": "'default' | 'round' | 'circle'",
+          "optional": true,
+          "description": "形状。",
+          "default": "'default'"
+        },
+        {
+          "name": "htmlType",
+          "type": "'button' | 'submit' | 'reset'",
+          "optional": true,
+          "description": "原生 button type，默认 button 以避免误触发表单提交。",
+          "default": "'button'"
+        }
+      ]
+    }
+  ]
+}

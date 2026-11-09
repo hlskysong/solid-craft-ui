@@ -1,0 +1,162 @@
+{
+  "slug": "layout",
+  "source": "packages/core/src/components/layout/types.ts",
+  "interfaces": [
+    {
+      "name": "LayoutProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'class' | 'children'\n>",
+      "props": [
+        {
+          "name": "hasSider",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否包含侧边栏，包含时布局改为水平排列。",
+          "default": "false"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "布局内容。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "HeaderProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "头部内容。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "ContentProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "内容区内容。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "FooterProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "底部内容。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "SiderProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "collapsed",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "是否折叠；传入后为受控模式。",
+          "default": "undefined"
+        },
+        {
+          "name": "defaultCollapsed",
+          "type": "boolean",
+          "optional": true,
+          "description": "非受控模式下的初始折叠状态。",
+          "default": "false"
+        },
+        {
+          "name": "collapsible",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否显示折叠触发器。",
+          "default": "false"
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "optional": true,
+          "description": "展开时的宽度（px）。",
+          "default": "200"
+        },
+        {
+          "name": "collapsedWidth",
+          "type": "number",
+          "optional": true,
+          "description": "折叠时的宽度（px）。",
+          "default": "64"
+        },
+        {
+          "name": "onCollapse",
+          "type": "(collapsed: boolean) => void",
+          "optional": true,
+          "description": "折叠状态变化时的回调。",
+          "default": "undefined"
+        },
+        {
+          "name": "trigger",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "自定义折叠触发器内容。",
+          "default": "undefined"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "自定义类名。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "侧边栏内容。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}
