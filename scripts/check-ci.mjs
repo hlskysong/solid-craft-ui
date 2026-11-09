@@ -4,8 +4,9 @@
  * 平台无关部分全部落在这个脚本里；切换 CI 平台只需替换 .github/workflows/ci.yml。
  * 判据：
  *   1. 根 verify 脚本阶段齐全（06 §1.3 / §13.1 的 lint/typecheck/unit/build/size/
- *      publint/attw/Playwright + 本仓库已有的 check:* 与 4 个 smoke），且 build 必须
- *      排在 size / check:styles / check:release / check:naming / check:ci 之前（五者都读 dist 产物）。
+ *      publint/attw/Playwright + 本仓库已有的 check:* 与 4 个 smoke，含 T1-12 的
+ *      check:slice），且 build 必须排在 size / check:styles / check:release /
+ *      check:naming / check:ci / check:slice 之前（六者都读 dist 产物）。
  *   2. .size-limit.json 每条的名称与预算值逐字对齐 docs/02 §4.6（唯一真源）；
  *      规范里产物尚未实现的预算行只报告、不伪造配置。
  *   3. 每条 path glob 至少命中一个真实的 dist 文件 —— 防止 size-limit 空匹配
@@ -52,6 +53,7 @@ const requiredStages = [
   'size',
   'check:ci',
   'check:exports',
+  'check:slice',
   'publint',
   'attw',
   'smoke:consumers',
@@ -63,7 +65,14 @@ for (const stage of requiredStages) {
   if (!stages.includes(stage)) fail(`verify 缺少必需阶段 pnpm ${stage}`);
 }
 const buildAt = stages.indexOf('build');
-for (const stage of ['size', 'check:styles', 'check:release', 'check:naming', 'check:ci']) {
+for (const stage of [
+  'size',
+  'check:styles',
+  'check:release',
+  'check:naming',
+  'check:ci',
+  'check:slice',
+]) {
   if (buildAt >= 0 && stages.indexOf(stage) >= 0 && stages.indexOf(stage) < buildAt) {
     fail(`pnpm ${stage} 依赖 dist 产物，必须排在 pnpm build 之后`);
   }

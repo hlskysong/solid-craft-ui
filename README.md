@@ -39,7 +39,7 @@ cd solid-craft-ui
 pnpm install
 pnpm build
 pnpm docs:dev     # 文档站：组件 Demo + API 表
-pnpm verify       # 23 阶段全链验收：单测 / E2E / 类型 / lint / 体积 / SSR / tarball
+pnpm verify       # 24 阶段全链验收：单测 / E2E / 类型 / lint / 体积 / SSR / tarball / 组件纵向切片
 ```
 
 > 用 fnm 时，仓库 `.node-version` 会自动切到 Node 26.12.1，直接 `pnpm <script>` 即可。
@@ -102,7 +102,7 @@ render(
 
 ## 参与
 
-问题与建议请提 [Issues](https://github.com/hlskysong/solid-craft-ui/issues)。动手前请读 [`AGENTS.md`](./AGENTS.md)（仓库执行约定）与 `docs/06-工程规范.md`；改动后跑 `pnpm verify`。
+问题与建议请提 [Issues](https://github.com/hlskysong/solid-craft-ui/issues)。动手前请读 [`AGENTS.md`](./AGENTS.md)（仓库执行约定）与 `docs/06-工程规范.md`；改动后跑 `pnpm verify`。新增组件按 `docs/06` §3 的模板落地，`pnpm check:slice` 会逐项校验源码、样式、单测、Demo、exports 子路径、双构建产物与文档生成物是否齐备，缺任一环即红灯。
 
 发布链路可在本地完整预演：`pnpm preview:release` 会把版本化、打包、发布、安装、消费跑到只监听 `127.0.0.1` 的临时 registry，不触达公网，产物落在仓库外 `.solid-craft-preview/`。`pnpm stage:release -- --tag canary --dry-run` 可本地验收受控发布通道的 staging 组装，同样不连公网。真实对外发布是 `pnpm release`，由维护者逐次授权执行；CI 侧受控通道只把包提交到 npm 暂存队列，仍须维护者 2FA 批准才上线。
 

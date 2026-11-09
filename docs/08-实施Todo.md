@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-09**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28）
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-09**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29）
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | Phase 0 / Phase 1 落地，M1 Exit 前补齐 T1-12 / T1-13（T1-11 已由 §28 闭环）；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | Phase 0 / Phase 1 落地，M1 Exit 前补齐 T1-13（T1-11 已由 §28、T1-12 已由 §29 闭环）；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0 |
-| 当前任务 ID | T1-11（§28 已闭环：验收口径重定义为 OIDC stage-only 受控发布通道 + §27 本地预演实证）；下一步 T1-12 / T1-13 |
-| 下一步 | **T1-11 已闭环**（§28）：`release.yml` 只做手动触发 + environment 审批 + OIDC 暂存提交；账号侧 trusted publisher 配置与首包发布是 Aming 人工前置；⚠️ **放行 ≠ 授权 publish**：`pnpm release` / 真实上线仍须逐次授权；§28 改动仍在工作区，`git commit` / `git push origin main` 须逐次授权（禁 force，§25 那次除外）；真实 runner 补验截图基线 / Node 24 偏差；T0-04 收口 4 条例外 |
+| 当前任务 ID | T1-12（§29 已闭环：Button 纵向切片六环节全齐 + `check:slice` 模板契约）；下一步 T1-13（M1 Exit，依赖「全部」，仍有 T0-03 / T0-04 / S-02~S-09 未勾） |
+| 下一步 | **T1-12 已闭环**（§29）：`pnpm check:slice` 已并入 `verify` 第 24 阶段，7 个基础组件六环节全齐；§29 改动仍在工作区，`git commit` / `git push origin main` 须逐次授权（禁 force，§25 那次除外）；⚠️ **放行 ≠ 授权 publish**：`pnpm release` / 真实上线仍须逐次授权，账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置；T1-13 因依赖「全部」暂不可勾，需先 T0-04 收口 4 条例外并定 S-02~S-09 口径；真实 runner 补验截图基线 / Node 24 偏差 |
 | 未答决策 | D-02 人数与上线时间、D-04 TS 7 平台包镜像、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、CI 平台真实 runner |
 
 ---
@@ -81,7 +81,7 @@
 | T1-09 | **双构建正式产物**：`dist/source/*.jsx` 覆盖每个组件子路径 + `"solid"` 条件 + 构建脚本一一对应校验 | S-10 | 技术负责人 | `publint` / `attw` / `examples/solid-start` 三重校验；⭐ 不是骨架，M4 要验收 | [x] |
 | T1-10 | **scope 单点收敛**：`@ui-design/*` 与 `ui-` 前缀抽到单一常量 / 构建脚本 | T0-01 | 技术负责人 | 全库搜索无第二套硬编码前缀；改名不动组件 API | [x] |
 | T1-11 | 发布预演：Changeset + canary 到私有 registry | T1-07 / T1-08 | 技术负责人 | **口径已由 §28 重定义**（公开 npmjs.org 上「`main` 合并即自动 canary」与防漂移硬约束冲突）：① `0.1.1-canary.*` 本地 registry 可安装（§27 实证）；② OIDC stage-only 受控发布通道落地（`release.yml` 手动触发 + environment 审批 + 零长期凭据，`check:ci` 全 workflow 扫描钉死禁直发 / 禁 push 触发，`check:release` 第 11 条钉死脚本只许暂存提交）；③ 账号侧 publisher 配置与首包发布登记为 Aming 人工前置 | [x] |
-| T1-12 | **Button 纵向切片**：组件 → 样式 → 测试 → 文档 → 构建 → 发布预演 | T1-04 / T1-05 / T1-06 / T1-07 | 工程师 C | 全流程打通，形成可复制组件模板 | [ ] |
+| T1-12 | **Button 纵向切片**：组件 → 样式 → 测试 → 文档 → 构建 → 发布预演 | T1-04 / T1-05 / T1-06 / T1-07 | 工程师 C | **已由 §29 闭环**：`docs/06` §3 模板为唯一出处；`pnpm check:slice` 把「组件 / 样式 / 测试 / 文档 / 构建 / 发布预演」横切成逐组件门禁并并入 `verify` 第 24 阶段——7 个基础组件各具备 6 件源文件、`./<name>` 四条件 exports、4 件双构建产物、4 件文档生成物；`--template-dir` 影子演练证明模板可复制，负向实证逐环节红灯（见 §29.5） | [x] |
 | T1-13 | M1 Exit 检查 | 全部 | 技术负责人 | 新组件按模板 1–3 天可完成；CI 全绿；文档站可访问 | [ ] |
 | T1-14 | **UI 库完备 `llms.txt`**：根索引 + `llms-full.txt` + 逐组件 / Token / SSR 消费 Markdown 页 + 生成与校验脚本 | T1-06 | DevRel + 工程师 C | ① 根 `llms.txt` 符合 llmstxt.org 结构（H1 + 摘要 + `## Docs` 链接清单 + `## Optional`），链接全部可解析；② `llms-full.txt` 含全部组件 API / Demo / Token / SSR 与三端消费指南；③ `@ui-design/core` 每个 `exports` 子路径都有对应页面，覆盖率 100%，无死链 / 孤儿页；④ 由脚本从 `docs/` + 组件源码 JSDoc 生成，`pnpm check:llms` 接入 `verify`，文档与源码不同步即失败（37 个生成物 / 34 页 / 12 子路径 100% 覆盖，负向实证 7/7，见 §14） | [x] |
 | T1-15 | **Q1-L1：`llms.txt` 随 `@ui-design/core` NPM 包发布**：包内 3 个平铺文件、机器可解析版本头、tarball 与 Agent 端定位双重实证 | T1-14 | DevRel + 工程师 C | ① `files` 白名单带 3 个文件，`pnpm pack` 实测 144 entries 含之；② `llms.txt` 版本头与 `package.json` 强一致，改版本未重生成即 `check:llms` 失败；③ Agent 用 `import.meta.resolve('@ui-design/core/package.json')` 在真实解包目录离线读到索引 / 全量正文 / manifest；④ 站点与包内副本逐字一致（E2E 断言）；⑤ 负向 4 类 + 还原 `smoke:tarball` RC=0（见 §15） | [x] |
@@ -182,12 +182,13 @@ pnpm check:release           # 发布闸门：access=public / changeset 包名�
 pnpm preview:release         # D-10 ④ 本地影子发布：只连 127.0.0.1，零公网
 pnpm stage:release -- --tag canary --dry-run   # T1-11 受控通道本地验收：只组装 staging，不连公网
 pnpm check:naming            # D-01 正式名门禁：scope 单点定义 / 9 个 workspace 包名 / 真源与对外产物零残留 / 冻结规范映射自证
-pnpm check:public            # public 仓库内容安全：origin 同源 / 269 tracked 零敏感命中 / .npmrc 无凭据 / .gitignore / LICENSE
+pnpm check:public            # public 仓库内容安全：origin 同源 / 274 tracked 零敏感命中 / .npmrc 无凭据 / .gitignore / LICENSE
 pnpm check:goals             # L1 目标冻结：docs/01~07 + AGENTS.md + 治理脚本 SHA256 基线（改目标即红灯）
 pnpm check:todo              # L2~L5：[x] 需验收证据 / 依赖倒挂 / 例外有效性 / 当前锚点 / 派发边界
+pnpm check:slice             # T1-12 组件纵向切片：逐组件校验源文件 / exports / 双构建产物 / 文档生成物 / 发布预演链路（§29）
 ```
 
-> `pnpm verify` = `build → test → test:e2e → typecheck → lint → check:docs → check:llms → check:release → check:naming → check:public → check:goals → check:todo → check:styles → check:exports → size → check:platforms → check:ci → publint → attw → smoke:consumers → smoke:tarball → smoke:ssr → smoke:start-real`，CI 直接调用它。**【2026-11-06 补注：T1-07 后新增 `size` / `check:platforms` / `check:ci` 三段；`check:styles` 是第八轮并入的；第十轮并入 `check:release`（宽松模式，不阻塞日常开发），`release` 用 `--strict` 严格模式；2026-11-07 第十一轮并入 `check:goals` / `check:todo`；2026-11-08 D-01 定名后并入 `check:naming`，共 22 个阶段；2026-11-09 首次推送后并入 `check:public`，共 23 个阶段；`release` 把两者排在 build 之后、publish 之前】**`build` 已包含 `apps/docs` 的 Vite 构建（文档站可构建）。`test:e2e` 依赖 `pnpm build` 产出的 `dist/`，且默认使用本机系统 Chrome（`channel: 'chrome'`）；CI 固定 Docker 镜像里若只有 bundled chromium，设 `PLAYWRIGHT_USE_BUNDLED=1` 切换（该变量已在 `turbo.json` 的 `globalPassThroughEnv` 声明）。
+> `pnpm verify` = `build → test → test:e2e → typecheck → lint → check:docs → check:llms → check:release → check:naming → check:public → check:goals → check:todo → check:styles → check:exports → check:slice → size → check:platforms → check:ci → publint → attw → smoke:consumers → smoke:tarball → smoke:ssr → smoke:start-real`，CI 直接调用它。**【2026-11-06 补注：T1-07 后新增 `size` / `check:platforms` / `check:ci` 三段；`check:styles` 是第八轮并入的；第十轮并入 `check:release`（宽松模式，不阻塞日常开发），`release` 用 `--strict` 严格模式；2026-11-07 第十一轮并入 `check:goals` / `check:todo`；2026-11-08 D-01 定名后并入 `check:naming`，共 22 个阶段；2026-11-09 首次推送后并入 `check:public`，共 23 个阶段；2026-11-10 T1-12 闭环后并入 `check:slice`，共 24 个阶段；`release` 把两者排在 build 之后、publish 之前】**`build` 已包含 `apps/docs` 的 Vite 构建（文档站可构建）。`test:e2e` 依赖 `pnpm build` 产出的 `dist/`，且默认使用本机系统 Chrome（`channel: 'chrome'`）；CI 固定 Docker 镜像里若只有 bundled chromium，设 `PLAYWRIGHT_USE_BUNDLED=1` 切换（该变量已在 `turbo.json` 的 `globalPassThroughEnv` 声明）。
 > `attw` 用 `--profile esm-only` 并排除非 JS 的 CSS 入口：本库是 ESM-only + bundler 消费矩阵，node10（不支持 `exports`）、node16-CJS、CSS 子路径不在适用范围。`pnpm smoke:ssr` 需先 `pnpm build` 产出 `dist/source`。
 
 > `pnpm publint` / `pnpm attw` 校验 `exports` 的 `"solid"` 条件与 `dist/source` 产物；`pnpm smoke:tarball`（S-01）已补齐 02 架构 §4.5 的 `pnpm pack` 真实发布产物校验：`files` 白名单、`workspace:` 协议改写、39→40 条 exports 目标文件、`types`/`import`/`solid` 三条件在解包目录中可解析。三端 example 为复用 workspace / turbo 仍用 `workspace:*` 链接（解析到的同样是 `packages/core/dist/` 真实产物），差异与理由见 §10.5。
@@ -1596,3 +1597,49 @@ Aming 2026-11-10 明确授权「按 OIDC + stage-only 落地方案 A」。本轮
 - ❌ 仍未勾选：`T0-03 / T0-04`、`S-02~S-09`、`T1-12 / T1-13`；4 处倒挂仍由例外清单显式登记。
 - ⚠️ §27.6 中「T1-11 未勾选 / CI 自动发布通道未做」是上一轮快照，按「历史叙述不回改」保留；当前状态以本节与顶部锚点为准。
 - ⚠️ 真实 runner 补验截图基线 / Node 24 偏差、T0-04 收口 4 条例外、npm 账号侧 publisher 配置与首包发布仍待办。
+
+## 29. 第二十二轮落地记录（2026-11-10，T1-12 Button 纵向切片闭环）
+
+### 29.1 结论与口径
+
+T1-12 的六个环节（组件 → 样式 → 测试 → 文档 → 构建 → 发布预演）在此前 21 轮中已逐项真实落地，只是一直未勾：§9.4 记「组件 / 样式 / 测试 / 构建 / 导出已通；文档站与发布预演未做」，这两项分别由 T1-06（§13）、T1-11（§28）补齐；§16.6 也确认依赖列 `T1-04 / T1-05 / T1-06 / T1-07` 早已全部 `[x]`，勾选无倒挂。本轮不新增业务组件，而是把「**形成可复制组件模板**」从 `docs/06` §3 的文字约定升级为机器判据，避免虚勾。
+
+### 29.2 落地内容
+
+| 文件 | 改动 |
+| --- | --- |
+| `scripts/check-slice.mjs` | 新增：按组件维度横切校验 6 件源文件、实现走 `CSS_PREFIX` + `data-*`、`./<name>` 四条件 exports、4 件双构建产物、4 件文档生成物、发布预演链路；`--template-dir <dir>` 只验模板结构，供仓库外影子演练 |
+| `package.json` / `scripts/check-ci.mjs` | `check:slice` 并入 `verify` **第 24 阶段**（排在 `build` 之后）；CI 契约 `requiredStages` 与「依赖 dist」列表同步 |
+| `README.md` | 阶段数 23→24；参与段说明新增组件须过 `pnpm check:slice` |
+| `docs/08` | T1-12 `[ ]`→`[x]` 并补验收列实证、顶部锚点 3 行、§6 命令速查与阶段数补注、新增本节 |
+| `scripts/todo-governance.json` / `scripts/goals.baseline.json` / `AGENTS.md` | `evidence["T1-12"]="29.5"`；刷新 15 个受保护文件 SHA256 基线；`AGENTS.md` **仅由 `--update-baseline` 回写目标基线哈希标记行**（硬约束内容零改动） |
+
+### 29.3 模板契约（为什么这样判）
+
+- 复合组件不叫 `<Name>Props`（Grid = `Row`/`Col`，Layout = `Header`/`Content`/…，Typography 同理），故类型判据只要求「至少一个 `*Props` 且 `index.ts` 全部转出」，不强求单一命名、也不为迁就门禁改源码。
+- 组件清单以 `package.json` 的 `exports` 子路径为权威来源，与源码目录**双向比对**：删掉某个 `index.ts` 不会让组件凭空消失而假 PASS，删整个组件目录也会因 `exports` 仍声明而红灯；`overview/`（仅 demo）、`demos/shared.tsx`、`config-provider`（设施）显式排除。
+- 现有 `check:exports` / `check:llms` / `check:styles` / `check:docs` 各验纵向一层；`check:slice` 补的是「**一个组件必须同时具备哪些东西**」，二者互补而非重复。
+- `docs/06` §3 是模板唯一出处且受 `check-goals` SHA256 冻结；本门禁显式校验它存在，防止模板被删后判据失去依据。
+
+### 29.4 允许写入路径（L4，本轮派发边界）
+
+`scripts/check-slice.mjs`（新增）、`package.json`、`scripts/check-ci.mjs`、`README.md`、`docs/08-实施Todo.md`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`、工作区 memory 日志。**未改内容**：`docs/01~07`（v0.3 冻结，仅在负向实证中临时篡改后字节级还原）、`AGENTS.md` 的 15 条硬约束（仅标记行随基线回写）、`scripts/scope.mjs`、组件 / 样式 / 测试源码、生成物、`.github/workflows/**`、`pnpm-lock.yaml`、`.npmrc`、`.changeset/`。
+
+### 29.5 验收输出（T1-12 勾选证据，`pnpm verify` RC=0，24 个阶段）
+
+| 项 | 结果 |
+| --- | --- |
+| T1-12 主行 | `[ ]` → `[x]`；`evidence["T1-12"] = "29.5"`，本节正文点名 T1-12 |
+| `pnpm check:slice` | **RC=0**：7 个组件 × 6 源文件 / 4 类 exports 条件 / 4 件构建产物 / 4 件文档生成物全齐；发布预演链路在位 |
+| 模板可复制性演练 | **RC=0**：按 `docs/06` §3 模板把 Button 克隆成仓库外 `Badge/`（6 件文件 / 9.7 KB），`pnpm check:slice -- --template-dir <dir>` 通过；影子组件缺单测的对照红灯（N18） |
+| 负向实证 | **19/19 PASS**：逐项移走 6 件源文件 / 4 类产物 / llms 页 / 发布预演脚本、绕过 `CSS_PREFIX`、改冻结规范模板标题、删 exports 子路径、删 verify 阶段、撤销勾选，每例均精确红灯且校验关键词（排除「模块找不到」式假红灯）；16 个文件字节级还原 `DRIFT=[]`；另修掉一个实证抓到的盲区：原按 `index.ts + types.ts` 自识别组件，删掉 `index.ts` 会让组件凭空消失而假 PASS，已改为 exports 子路径权威清单 + 双向比对 |
+| `pnpm verify` | **RC=0，24 阶段全绿**（`check:slice` 为第 24 阶段，排在 `build` 之后；oxlint 0 error，2 个既有 warning 未动） |
+| 只读门禁 | **7/7 RC=0**：`check:goals`（15 哈希一致）/ `check:todo`（认 §29、27 个 `[x]` 全有证据）/ `check:naming`（234 源文件零残留）/ `check:public`（274 tracked / 258 文本零敏感命中）/ `check:release --strict` / `check:ci`（24 阶段）/ `check:slice`；新脚本未 tracked，另按同一套 10 类敏感规则单独扫描 **零命中** |
+| 边界 | 未发任何包到公网（npmjs.org 三包仍 **404**）、未运行 `pnpm release` / 真实 `npm stage publish`、**未提交 / 未推送**、无 git tag、`.changeset/` 仍只有 `config.json`；`HEAD == origin/main == 1ad281b`；产物在仓库外 `.solid-craft-slice/` |
+
+### 29.6 状态与遗留
+
+- ❌ 仍未勾选：`T0-03 / T0-04`、`S-02~S-09`、`T1-13`；4 处倒挂仍由例外清单显式登记。T1-13 依赖列是「全部」，须先由 T0-04 收口例外并定 S 系列口径，本轮不虚勾。
+- ⚠️ §28.3 / §28.5 中「未提交 / 未推送」「提交后将纳入 274/258」是上一轮的提交前快照，按 §28.6 已确立的「历史叙述不回改」原则保留；当前状态以本节与顶部锚点为准（`1ad281b` 已提交并推送，274/258 已实证）。
+- ⚠️ 真实 runner 补验截图基线 / Node 24 偏差、npm 账号侧 publisher 配置与首包发布仍待办；**放行 ≠ 授权 publish** 不变。
+- 📌 本轮 **8 个改动**（7 M + 1 新脚本）仍在工作区，`git commit` / `git push origin main` 须逐次授权；提交后 `check:public` 将从 **274/258 变为 275 tracked / 259 文本**（新脚本纳入常规审计）。
