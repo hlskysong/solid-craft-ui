@@ -36,6 +36,8 @@
  *   10. 本地预演链路契约（D-10 ④ 固化）：根 package.json 必须有 preview:release
  *       且入口唯一；registry 只绑 127.0.0.1、网络守卫在位，两个脚本不得出现
  *       公网发布命令 —— 防长期无人值守时脚本漂移成真实 publish。
+ *   11. T1-11 受控发布通道：stage:release 入口唯一，脚本唯一发布命令锚点为
+ *       npm stage publish，禁止直发命令与凭据字面量（认证必须走 OIDC）。
  */
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -260,11 +262,31 @@ if (previewMain.length === 0 || previewReg.length === 0) {
   }
 }
 
+// 11. T1-11 受控发布通道：仓库内只允许暂存提交，杜绝把 stage 脚本改成直发。
+const stageEntry = 'node scripts/stage-release.mjs';
+if (rootPkg.scripts?.['stage:release'] !== stageEntry) {
+  fail(`package.json 缺少 stage:release 或入口不是 ${stageEntry}`);
+}
+const stageScript = read(join(repoRoot, 'scripts', 'stage-release.mjs'));
+if (stageScript.length === 0) {
+  fail('缺少 scripts/stage-release.mjs（T1-11 受控发布通道）');
+} else {
+  if (!stageScript.includes("const STAGE_COMMAND = 'npm stage publish'")) {
+    fail('stage-release.mjs 的唯一发布命令锚点被改动（只允许暂存提交）');
+  }
+  if (/\bnpm publish\b|changeset publish/.test(stageScript)) {
+    fail('stage-release.mjs 出现直发命令（T1-11 只允许提交暂存队列）');
+  }
+  if (/NPM_TOKEN|NODE_AUTH_TOKEN|_authToken/.test(stageScript)) {
+    fail('stage-release.mjs 出现发布凭据字面量（认证必须走 OIDC）');
+  }
+}
+
 if (errors.length > 0) {
   console.error(`[check:release] ${strict ? '严格' : '常规'}模式 ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
   process.exit(1);
 }
 console.log(
-  `[check:release] ${strict ? '严格' : '常规'}模式通过：access=public · ${declaredNames.length} 个 changeset 包名与 workspace 一致 · ${scanFiles.length + manifestTargets.length} 个 tarball 文件（含 ${manifestTargets.length} 个 package.json）通过公开内容审计 · release 前置闸门 / check:naming 在位 · ${repoMetaTargets.length} 个 package.json 仓库元数据与 scope.mjs 同源 · npm 账号 ${NPM_OWNER} 与 D-10 登记咬合 · ${authorTargets.length} 个发布包 author 与 scope.mjs 同源 · D-01 ${nameDecided ? '已定（solid-craft-ui / solid-craft / scui-*）' : '未登记'} · D-10 ${resourcesReady ? '已齐（④ = 本地预演，不 publish；放行 ≠ 授权公网发布）' : '未齐，release 保持拦截'}`,
+  `[check:release] ${strict ? '严格' : '常规'}模式通过：access=public · ${declaredNames.length} 个 changeset 包名与 workspace 一致 · ${scanFiles.length + manifestTargets.length} 个 tarball 文件（含 ${manifestTargets.length} 个 package.json）通过公开内容审计 · release 前置闸门 / check:naming 在位 · ${repoMetaTargets.length} 个 package.json 仓库元数据与 scope.mjs 同源 · npm 账号 ${NPM_OWNER} 与 D-10 登记咬合 · ${authorTargets.length} 个发布包 author 与 scope.mjs 同源 · D-01 ${nameDecided ? '已定（solid-craft-ui / solid-craft / scui-*）' : '未登记'} · D-10 ${resourcesReady ? '已齐（④ = 本地预演，不 publish；放行 ≠ 授权公网发布）' : '未齐，release 保持拦截'} · T1-11 stage-only 通道在位（禁直发 / 禁 push 自动发包）`,
 );

@@ -11,12 +11,13 @@
  *   3. 每条 path glob 至少命中一个真实的 dist 文件 —— 防止 size-limit 空匹配
  *      算成 0 字节而「假 PASS」。
  *   4. CI workflow 契约：--frozen-lockfile、pnpm verify、各架构 tsc --version、
- *      node-version-file、多架构 matrix、与截图基线同平台；且不含任何 registry
- *      地址或发布凭据（渠道已定为公开 npmjs.org、D-01 正式名已定、D-10 ①② 已登记
- *      且首次推送已完成，但 ③④ 发布前置资源未齐 / T1-11 未完成，发布 job 不许先写死）。
+ *      node-version-file、多架构 matrix、与截图基线同平台；ci.yml 不含发布凭据或直发命令。
  *   5. 工具链单点：size 脚本必须走 size-limit，且 @size-limit/file 插件已声明。
+ *   6. T1-11 受控发布通道：扫描 .github/workflows/ 下全部 yml（只扫 ci.yml 会留绕过盲区），
+ *      凭据字面量与直发命令零容忍；release.yml 必须手动触发 + environment 审批 +
+ *      id-token: write + 指向 pnpm stage:release，禁止 push 触发与非官方 registry。
  */
-import { existsSync, globSync, readFileSync } from 'node:fs';
+import { existsSync, globSync, readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const repoRoot = resolve(import.meta.dirname, '..');
@@ -27,7 +28,8 @@ const toKb = (value, unit) => (unit.toUpperCase() === 'MB' ? value * 1024 : valu
 
 const rootPkg = JSON.parse(read(join(repoRoot, 'package.json')));
 const sizeConfigPath = join(repoRoot, '.size-limit.json');
-const workflowPath = join(repoRoot, '.github', 'workflows', 'ci.yml');
+const workflowsDir = join(repoRoot, '.github', 'workflows');
+const workflowPath = join(workflowsDir, 'ci.yml');
 
 // 1. verify 阶段契约
 const verify = rootPkg.scripts?.verify ?? '';
@@ -143,10 +145,8 @@ if (workflow.length === 0) {
   if (!osList || osList.split(',').filter(Boolean).length < 3) {
     fail('ci.yml 的 matrix 架构少于 3 个（S-09 要求各架构验证平台包）');
   }
-  if (/NPM_TOKEN|NODE_AUTH_TOKEN|npm publish|registry:\s*https?:\/\//.test(workflow)) {
-    fail(
-      'ci.yml 出现 registry 地址或发布凭据；D-10 发布前置资源未齐（①② 已登记且已推送，③④ 凭据 / canary 预演仍缺）且 T1-11 未完成，发布 job 不得先写死',
-    );
+  if (/NPM_TOKEN|NODE_AUTH_TOKEN|\bnpm publish\b|changeset publish/.test(workflow)) {
+    fail('ci.yml 出现发布凭据或直发命令：verify job 只负责门禁，不参与发布');
   }
 }
 
@@ -162,6 +162,47 @@ if (sizeLimit && filePlugin && sizeLimit !== filePlugin) {
   fail(`size-limit@${sizeLimit} 与 @size-limit/file@${filePlugin} 版本不一致`);
 }
 
+// 6. T1-11 受控发布通道契约：全 workflow 扫描，杜绝「新增一个 yml 就绕过门禁」
+const workflowFiles = existsSync(workflowsDir)
+  ? readdirSync(workflowsDir)
+      .filter((file) => /\.ya?ml$/.test(file))
+      .toSorted()
+  : [];
+for (const file of workflowFiles) {
+  const text = read(join(workflowsDir, file));
+  if (/NPM_TOKEN|NODE_AUTH_TOKEN|_authToken/.test(text)) {
+    fail(`${file} 出现发布凭据字面量：T1-11 通道只允许 OIDC 短期凭据`);
+  }
+  if (/\bnpm publish\b|changeset publish/.test(text)) {
+    fail(`${file} 出现直接发布命令：T1-11 通道只允许把包提交到暂存队列`);
+  }
+  for (const match of text.matchAll(/registry-url:\s*['"]?([^'"\s]+)/g)) {
+    if (match[1] !== 'https://registry.npmjs.org/') {
+      fail(`${file} 的 registry-url 不是公开 npmjs.org：${match[1]}`);
+    }
+  }
+}
+const releaseWorkflow = read(join(workflowsDir, 'release.yml'));
+if (releaseWorkflow.length === 0) {
+  fail('缺少 .github/workflows/release.yml（T1-11 受控发布通道）');
+} else {
+  if (!/workflow_dispatch:/.test(releaseWorkflow)) {
+    fail('release.yml 未限制为 workflow_dispatch 手动触发');
+  }
+  if (/^\s*push:/m.test(releaseWorkflow) || /^\s*pull_request:/m.test(releaseWorkflow)) {
+    fail('release.yml 含 push / pull_request 触发：代码合并不得自动发包');
+  }
+  if (!/environment:\s*\S+/.test(releaseWorkflow)) {
+    fail('release.yml 缺少 environment 人工审批');
+  }
+  if (!/id-token:\s*write/.test(releaseWorkflow)) {
+    fail('release.yml 缺少 id-token: write（OIDC 短期凭据）');
+  }
+  if (!releaseWorkflow.includes('pnpm stage:release')) {
+    fail('release.yml 未指向 pnpm stage:release');
+  }
+}
+
 if (errors.length > 0) {
   console.error(`[check:ci] ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
@@ -169,5 +210,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · size-limit@${sizeLimit} + file 插件`,
 );

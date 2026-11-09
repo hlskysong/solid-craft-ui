@@ -1,0 +1,58 @@
+name: Staged release
+
+# T1-11 受控发布通道：CI 只把候选版本提交到 npm 暂存队列，不直接对外发布。
+# 触发方式被刻意限制为手动 + environment 审批，任何代码合并都不会发包。
+# 认证用 npm Trusted Publishing（OIDC 短期凭据），仓库内不存任何长期凭据。
+# 人工前置（须 Aming 本人在 npmjs.com 用 2FA 完成，AI 不代做）：
+#   1. 三个包各配一条 trusted publisher，workflow 文件名必须是 release.yml；
+#   2. allowed action 只开 stage 类命令、关闭直发，让 registry 拒绝本 workflow 的直接发布；
+#   3. 包尚未存在时，先建立占位版本再配置 publisher（占位版本公开、内容不公开）。
+# 上线由维护者执行批准命令（强制 2FA）；OIDC 短期凭据无权批准，CI 无法自己批准自己。
+# 本地人工发布仍走 pnpm release，须 Aming 逐次授权，与本通道互不影响。
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'npm dist-tag（预发布必须显式指定）'
+        required: true
+        default: 'canary'
+        type: choice
+        options:
+          - canary
+          - latest
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: staged-release
+  cancel-in-progress: false
+
+jobs:
+  stage:
+    name: Stage packages for maintainer approval
+    runs-on: ubuntu-24.04
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          registry-url: 'https://registry.npmjs.org/'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: npm --version
+      - run: pnpm check:release --strict
+      - run: pnpm build
+      - run: pnpm check:naming
+      - run: pnpm check:llms
+      - name: Stage all three packages
+        run: pnpm stage:release -- --tag ${{ inputs.tag }}
+      - name: Approval is a manual 2FA step
+        run: |
+          echo "Packages are staged, not live."
+          echo "Review: npm stage list / npm stage view <stage-id>"
+          echo "Approve with 2FA: npm stage approve <stage-id>"

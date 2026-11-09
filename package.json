@@ -59,7 +59,8 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm check:release --strict && pnpm build && pnpm check:naming && pnpm check:public && pnpm check:llms && changeset publish",
-    "preview:release": "node scripts/preview-release.mjs"
+    "preview:release": "node scripts/preview-release.mjs",
+    "stage:release": "node scripts/stage-release.mjs"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

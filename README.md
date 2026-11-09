@@ -104,7 +104,7 @@ render(
 
 问题与建议请提 [Issues](https://github.com/hlskysong/solid-craft-ui/issues)。动手前请读 [`AGENTS.md`](./AGENTS.md)（仓库执行约定）与 `docs/06-工程规范.md`；改动后跑 `pnpm verify`。
 
-发布链路可在本地完整预演：`pnpm preview:release` 会把版本化、打包、发布、安装、消费跑到只监听 `127.0.0.1` 的临时 registry，不触达公网，产物落在仓库外 `.solid-craft-preview/`。真实对外发布是 `pnpm release`，由维护者逐次授权执行。
+发布链路可在本地完整预演：`pnpm preview:release` 会把版本化、打包、发布、安装、消费跑到只监听 `127.0.0.1` 的临时 registry，不触达公网，产物落在仓库外 `.solid-craft-preview/`。`pnpm stage:release -- --tag canary --dry-run` 可本地验收受控发布通道的 staging 组装，同样不连公网。真实对外发布是 `pnpm release`，由维护者逐次授权执行；CI 侧受控通道只把包提交到 npm 暂存队列，仍须维护者 2FA 批准才上线。
 
 ## License
 
