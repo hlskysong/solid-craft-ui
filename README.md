@@ -39,7 +39,7 @@ cd solid-craft-ui
 pnpm install
 pnpm build
 pnpm docs:dev     # 文档站：组件 Demo + API 表
-pnpm verify       # 24 阶段全链验收：单测 / E2E / 类型 / lint / 体积 / SSR / tarball / 组件纵向切片
+pnpm verify       # 25 阶段全链验收：单测 / E2E / 类型 / lint / 体积 / SSR / tarball / 组件纵向切片 / Phase 0 决策检查点
 ```
 
 > 用 fnm 时，仓库 `.node-version` 会自动切到 Node 26.12.1，直接 `pnpm <script>` 即可。

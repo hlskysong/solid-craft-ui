@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalPassThroughEnv": ["PLAYWRIGHT_USE_BUNDLED"],
+  "globalPassThroughEnv": ["PLAYWRIGHT_USE_SYSTEM_CHROME"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

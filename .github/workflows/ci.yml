@@ -20,8 +20,9 @@ on:
 jobs:
   verify:
     name: Full gate (pnpm verify)
-    # 16 张截图基线在本机 macOS + 系统 Chrome + Arial/PingFang SC 生成（08 §11.5），
-    # 主门禁也跑在同一平台，避免跨平台字体 / 渲染差异造成假 FAIL。
+    # 16 张截图基线在 macOS + Playwright bundled chromium（版本由 lockfile 锁定）下生成，
+    # 主门禁跑同一 runner 平台（macOS 字体集）+ 同一浏览器 build，消除跨环境渲染差异。
+    # 2026-11-10 前用系统 Chrome，CI runner 版本与本机不同导致 5 次视觉基线失败（§30.8）。
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
@@ -31,8 +32,21 @@ jobs:
           node-version-file: '.node-version'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # channel:'chromium' 用完整 build 的 new headless，--no-shell 跳过用不到的
+      # 99 MiB headless-shell（本机代理下已证实卡住，CI 不必承担同一失败面）。
+      - run: pnpm exec playwright install chromium --no-shell
       - run: pnpm exec tsc --version
       - run: pnpm verify
+      # 视觉基线若仍出现跨环境差异，上传 actual / diff 截图供像素级定位，不必只靠日志猜。
+      - name: Upload visual diff on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diff-${{ github.run_id }}
+          path: |
+            test-results/e2e
+            playwright-report
+          retention-days: 7
 
   platform-packages:
     name: 'TS 7 platform packages (${{ matrix.os }})'

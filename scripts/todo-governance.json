@@ -22,6 +22,10 @@
   "evidence": {
     "T1-11": "28.5",
     "T1-12": "29.5",
+    "S-03": "30.7",
+    "S-09": "30.7",
+    "S-07": "30.5",
+    "S-08": "30.5",
     "T0-01": "8.3",
     "T0-02": "8.3",
     "S-01": "9.4",
@@ -48,35 +52,6 @@
     "X-07": "8.3",
     "X-08": "8.3"
   },
-  "maxExceptions": 4,
-  "exceptions": [
-    {
-      "task": "S-10",
-      "missingDep": "S-08",
-      "reason": "S-10 的 SSR 双构建结论已由第三轮真实 SolidStart 冒烟实证；S-08 是整条 TS 7 工具链的 Spike 复验，仍待 T0-04 统一收口",
-      "registeredAt": "2026-11-07",
-      "resolveBy": "T0-04"
-    },
-    {
-      "task": "T1-01",
-      "missingDep": "S-03",
-      "reason": "Token 正式管线已由第五轮 style-dictionary + colorjs 落地；S-03 描述的 dark/compact/rtl 主题切换属 v1.0 视觉矩阵，未勾选不等于管线缺失",
-      "registeredAt": "2026-11-07",
-      "resolveBy": "T0-04"
-    },
-    {
-      "task": "T1-06",
-      "missingDep": "S-07",
-      "reason": "文档站已由第六轮落地（Demo / API 表 / 截图回归均已实证）；S-07 与 T1-06 描述重叠，需 T0-04 决定合并还是补齐，不擅自代勾",
-      "registeredAt": "2026-11-07",
-      "resolveBy": "T0-04"
-    },
-    {
-      "task": "T1-07",
-      "missingDep": "S-09",
-      "reason": "CI 门禁链已由第九轮落地并校验 20/20 平台包；S-09 原描述为「私有 registry 镜像」，D-09 定为公开 npmjs.org 后语义作废，待 T0-04 重定义",
-      "registeredAt": "2026-11-07",
-      "resolveBy": "T0-04"
-    }
-  ]
+  "maxExceptions": 0,
+  "exceptions": []
 }
