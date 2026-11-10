@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9）
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6）
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -11,9 +11,9 @@
 | --- | --- |
 | 当前目标 | Phase 0 / Phase 1 落地，M1 Exit 前补齐 T1-13（T1-11 已由 §28、T1-12 已由 §29 闭环）；**方案 A 已确认 M1 范围收窄**（7 个基础组件 + Token 管线 + 文档站 + 构建 / 双构建 / 发布预演 / 治理门禁，四个 P0 组件与 T0-03 移出 M1），裁决转 `confirmed`、例外清零；T0-04 主行仍因「全部 Spike」依赖未齐 `[ ]`，T1-13 仍 `[ ]`；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 A 确认 ≠ 授权改 T0-04 依赖列（B 未选）≠ 勾主行；例外 0/0 且只减不增** |
-| 当前任务 ID | T0-04（§30 裁决 + §30.7 方案 A 确认：S-03 / S-09 重定义并实证补勾、4 条例外全消解为 0 条；主行仍未勾）；§30.8 已实证 CI 真实 run（「根因已修复」结论由 §30.9 更正）；§30.9 已落地视觉基线方案 B：仓库内固定 Web 字体 + 16 张基线重生成（CI Full gate 待授权 push 后复验）；下一步 T1-13（M1 Exit，依赖「全部」，仍有 T0-03 / T0-04 / S-02 / S-04 / S-05 / S-06 未勾） |
-| 下一步 | **Aming 已选方案 A（§30.7）**：M1 范围收窄生效、S-03 / S-09 重定义并补勾、例外 2→0；**仍需 Aming 定 T0-04 依赖列口径（方案 B 或 C）**，在此之前 T0-04 / T1-13 均 `[ ]`；✅ 2026-11-10 认证 REST API 实证取回 7 次 CI run：三架构 job 6 次全 success / 1 次容量取消，Full gate 5 次视觉基线失败 + 2 次 runner 取消（§30.8 已更正三处失真陈述）；⚠️ **CI Full gate 从未全绿的欠账**：§30.8「统一 bundled chromium 即根因」已被 run `42758329334` 的 artifact 推翻（CI 与本机同为 Chrome for Testing 156.0.8078.4，5 张失败截图差异像素数一个没变），真根因是 **Demo 宿主中文命中系统 PingFang SC、本机 macOS 26.5.1 与 macos-15 runner 的字体文件不同**；§30.9 已用仓库内固定 Web 字体替换该系统字体栈，本机 `pnpm verify` 全绿，但**须以 push 后触发的真实 run 复验为准**，本机全绿不冒充 CI 全绿；§29 改动已提交推送为 `1ce1592`，§30 + §30.7 + §30.8 改动已由 Aming 授权提交推送为 `63c3add`（禁 force，§25 那次除外）；**§30.9 改动未提交 / 未推送，须 Aming 逐次授权**，该 push 同时即 CI 复验；⚠️ **放行 ≠ 授权 publish**：账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置；Node 24 偏差补验 |
-| 未答决策 | **T0-04 依赖列口径（方案 B 或 C，A 未授权改）**、D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、CI Full gate 首次全绿复验（需 Aming 授权 push 后触发，§30.9 方案 B 已落地待验）；**已关闭**：M1 范围收窄（方案 A 确认）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8 已实证取回） |
+| 当前任务 ID | T0-04（§30 裁决 + §30.7 方案 A 确认：S-03 / S-09 重定义并实证补勾、4 条例外全消解为 0 条；主行仍未勾）；§30.8 已实证 CI 真实 run（其「跨 Chrome 版本是根因 / 已修复」结论由 §30.9 推翻）；§30.9 已落地视觉基线方案 B：仓库内固定 Web 字体 + 16 张基线重生成；✅ CI run `42822339834` 4/4 job 全绿、视觉 16/16，Full gate 首次全绿复验通过（§30.9.6）；下一步 T1-13（M1 Exit，依赖「全部」，仍有 T0-03 / T0-04 / S-02 / S-04 / S-05 / S-06 未勾，且 C03 是否倒改 pass 须 Aming 裁决） |
+| 下一步 | **Aming 已选方案 A（§30.7）**：M1 范围收窄生效、S-03 / S-09 重定义并补勾、例外 2→0；**仍需 Aming 定 T0-04 依赖列口径（方案 B 或 C）**，在此之前 T0-04 / T1-13 均 `[ ]`；✅ 2026-11-10 认证 REST API 实证取回 7 次 CI run：三架构 job 6 次全 success / 1 次容量取消，Full gate 5 次视觉基线失败 + 2 次 runner 取消（§30.8 已更正三处失真陈述）；✅ **CI Full gate 欠账已结清**：run `42822339834`（`0899769`）4/4 job 全 success、视觉 16/16、verify 25 阶段在 runner 上全绿（§30.9.6）；⚠️ §30.8「统一 bundled chromium 即根因」已被 run `42758329334` 的 artifact 推翻（CI 与本机同为 Chrome for Testing 156.0.8078.4，5 张失败截图差异像素数一个没变），真根因是 **Demo 宿主中文命中系统 PingFang SC、本机 macOS 26.5.1 与 macos-15 runner 的字体文件不同**；§30.9 已用仓库内固定 Web 字体替换该系统字体栈并由真实 run 验真；§29 改动已提交推送为 `1ce1592`，§30 + §30.7 + §30.8 改动已由 Aming 授权提交推送为 `63c3add`，§30.9 改动已由 Aming 授权提交推送为 `0899769`（禁 force，§25 那次除外）；⚠️ **放行 ≠ 授权 publish**：账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置；Node 24 偏差补验；C03 `partial` 是否倒改 `pass`、T1-07 / T1-13 是否推进须 Aming 另行裁决 |
+| 未答决策 | **T0-04 依赖列口径（方案 B 或 C，A 未授权改）**、D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、**C03 是否倒改 `pass` / T1-07 · T1-13 是否推进（CI 全绿前置已成立，须 Aming 裁决）**；**已关闭**：M1 范围收窄（方案 A 确认）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8 已实证取回）、**CI Full gate 首次全绿复验（run `42822339834`，§30.9.6）** |
 
 ---
 
@@ -59,7 +59,7 @@
 | S-06 | Form 校验链路 | T0-01 | 2 天 | Input + Select + 校验 + 错误滚动；字段级更新不整表重渲染 | 工程师 A | [ ] |
 | S-07 | 文档站 Demo + API 表 | T0-01 | 2 天 | 实时渲染 + 源码 + `oxc-parser` API 表 + 截图回归（MVP 基线 light/ltr/default）。**§30.5 实证补勾**：`test:docs` 8/8、`test:visual` 16/16、`check:docs` 20 生成物一致、C10 判据全通过，与 T1-06 同源合并 | 工程师 C | [x] |
 | S-08 | TS 7 工具链 | T0-01 | 2 天 | `tsc --emitDeclarationOnly` / `declarationMap`、`oxlint --type-aware`、Biome `solid` domain、`oxc-parser` 全部跑通；`baseUrl` 已迁移、`rootDir` / `include` 补齐。**§30.5 实证补勾**：C02 五条判据逐项核验（tsconfig.build.json / baseUrl 零命中 / lint / check:docs / typecheck） | 技术负责人 | [x] |
-| S-09 | TS 7 平台包 | D-03 / D-04 | 1 天 | **§30.7 方案 A 口径重定义**：公开 npmjs.org 冻结 lock 20/20 平台包（`check:platforms`）+ CI 三架构 matrix 配置就位 + 本机 darwin-arm64 真实安装且 `tsc --version` 通过；D-04「私有 registry 镜像」语义随 D-09 作废并关闭。✅ 2026-11-10 认证 REST API 已取回 7 次 run 的 job 级记录（三架构 job 6 次全 success / 1 次 runner 容量取消，§30.8）；⚠️ 主门禁 Full gate 从未全绿，其根因修复与待复验见 §30.8，不构成 S-09 判据 | 技术负责人 | [x] |
+| S-09 | TS 7 平台包 | D-03 / D-04 | 1 天 | **§30.7 方案 A 口径重定义**：公开 npmjs.org 冻结 lock 20/20 平台包（`check:platforms`）+ CI 三架构 matrix 配置就位 + 本机 darwin-arm64 真实安装且 `tsc --version` 通过；D-04「私有 registry 镜像」语义随 D-09 作废并关闭。✅ 2026-11-10 认证 REST API 已取回 7 次 run 的 job 级记录（三架构 job 6 次全 success / 1 次 runner 容量取消，§30.8）；✅ 主门禁 Full gate 已由 run `42822339834` 首次全绿（§30.9.6），不构成 S-09 判据 | 技术负责人 | [x] |
 | S-10 | **SSR 双构建（v0.3 提级为 MVP 必备）** | S-01 / S-08 | 1 天 | `"solid"` 条件 + `dist/source/*.jsx` 在消费方可解析、可 `renderToString`、可 hydrate；⭐ 不再只是 v1.0 前置 | 技术负责人 | [x] |
 
 > S-10 是 v0.3 相对 v0.2 的最大变化：它的结论直接决定 T1-09 的实现方式，务必在 M0 前给出「可行 / 替代方案」结论并写入 07 ADR。
@@ -1663,7 +1663,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 | --- | --- | --- | --- | --- |
 | C01 | 三端 + SolidStart SSR + Kobalte 0.13 | ⚠️ partial | ✅ `smoke:consumers` 三端 PASS、`smoke:start-real` 真实 SolidStart 11 项 OK；❌ Kobalte 只在依赖与 lockfile，无 Select / Dialog 实现（S-02 `[ ]`） | 拆出 Kobalte 封装交回 S-02，M1 不含 Select / Dialog；构建消费链路判通过 |
 | C02 | TS 7 工具链（emitDeclarationOnly / declarationMap / oxlint / Biome / oxc-parser / baseUrl / rootDir / include） | ✅ pass | ✅ `tsconfig.build.json` 逐项齐、全仓 `baseUrl` 零命中、`pnpm lint` 0 error、`check:docs` 20 生成物一致、`typecheck` RC=0 | —（判据全通过，成为 S-08 补勾依据） |
-| C03 | 20 个平台包 + 私有 registry / CI 各架构 | ⚠️ partial | ✅ `check:platforms` 20/20 + darwin-arm64 已装 + tsc 通过、ci.yml 三架构 matrix；✅ 2026-11-10 认证 REST API 取回 7 次 run：三架构 job 6 次全 success / 1 次 runner 容量取消；❌ 主门禁 Full gate 5 次 failure（视觉基线 1% 像素差）+ 2 次 runner 取消，CI 从未全绿；私有 registry 语义随 D-09 作废 | 改判「公开 npmjs.org 冻结 lock + 三架构可安装性」，D-04 于方案 A 确认后关闭；⚠️ partial 理由由「runner 未验」更正为「Full gate 未绿」，修复与待复验见 §30.8 |
+| C03 | 20 个平台包 + 私有 registry / CI 各架构 | ⚠️ partial | ✅ `check:platforms` 20/20 + darwin-arm64 已装 + tsc 通过、ci.yml 三架构 matrix；✅ 2026-11-10 认证 REST API 取回 7 次 run：三架构 job 6 次全 success / 1 次 runner 容量取消；✅ 第 8 次 run `42822339834`（`0899769`）4/4 job 全 success，Full gate 首次全绿、视觉 16/16（§30.9.6）；私有 registry 语义随 D-09 作废 | 改判「公开 npmjs.org 冻结 lock + 三架构可安装性」，D-04 于方案 A 确认后关闭；⚠️ `partial` 原理由「Full gate 未绿」已消除，是否倒改 `pass` 须 Aming 裁决，AI 不擅自倒改；根因更正见 §30.9 |
 | C04 | Chrome 128+ / Firefox / Safari | ❌ fail | ✅ Chrome 157 + E2E 36/36 + 16 张基线；❌ playwright 无 firefox / webkit project | 按 ADR-011 已关闭的 Q3，MVP 只承诺 Chrome + Edge；跨引擎后置 v1.0，07 §6 该条属 v0.2 遗留口径 |
 | C05 | CSS 显式引入 + 微前端 + SSR 注入 HTML | ⚠️ partial | ✅ 5 个入口显式 import styles.css、SSR HTML 引用组件 CSS、三端构建纳入 CSS；❌ 微前端真实宿主无样例 | 微前端按 Q4/Q5 best effort 不进 Phase 0 验收，M4 再补 |
 | C06 | Token → CSS 变量 → 暗色/密度/品牌 | ⚠️ partial | ✅ light/dark 语义 token + theme-dark.css + style-dictionary + ConfigProvider 骨架；❌ 密度 / 品牌 / 无闪烁无 Spike 实证（S-03 `[ ]`） | Phase 0 只验可行性：亮/暗机制判可行；完整视觉矩阵按 ADR-014 归 v1.0，S-03 口径待 Aming 重定义 |
@@ -1714,7 +1714,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 - 📌 **§30 当时**仍未勾选：`T0-03 / T0-04`、`S-02 / S-03 / S-04 / S-05 / S-06 / S-09`、`T1-13`；例外从 4 条降到 **2 条**（§30.7 后为 **0 条**）。
 - 📌 **§30 当时** `decisionStatus=proposed` / `scopeDecision.approval=pending`；2026-11-10 方案 A 确认后转 `confirmed` / `approved`（`confirmedBy=Aming`）。⚠️ **确认裁决 ≠ 勾 T0-04**：`docs/07` §6 的「不通过就不进 Phase 1」冲突由 Aming 以「M1 范围收窄」裁决，冻结规范一个字节未改。
-- ⚠️ §30 当时待办：真实 runner 三架构复验（**§30.8 已实证取回**）、截图基线跨平台（**§30.8 已定位根因并修复**）、Node 24 偏差、npm 账号侧 publisher 配置与首包发布；**放行 ≠ 授权 publish** 不变。
+- ⚠️ §30 当时待办：真实 runner 三架构复验（**§30.8 已实证取回**）、截图基线跨平台（**§30.8 初判根因有误，真修复见 §30.9，CI 全绿复验见 §30.9.6**）、Node 24 偏差、npm 账号侧 publisher 配置与首包发布；**放行 ≠ 授权 publish** 不变。
 
 **下一步三选一（A/B/C，Aming 已选 A）**：
 
@@ -1756,7 +1756,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 ⚠️ **事实更正（2026-11-10，详见 §30.8）**：本节原记「本机无 `gh` CLI、真实 run 记录未取回」，并把真实 run 剥离为非阻塞人工验收项 —— **该事实陈述错误**。当日稍后用本机 `~/.git-credentials` 凭据 + GitHub REST API（无需 `gh` CLI、无需 MCP Actions 工具集）直接取回 7 次 workflow run 的 job 级记录与失败日志正文：三架构 `platform-packages` job 6 次全 `success`、1 次（`1ad281b`）macos-15 因 runner 容量取消；主门禁 `Full gate (pnpm verify)` 5 次 `failure`、2 次被 runner 取消。5 次失败同一根因：`playwright.config.ts` 默认 `channel: 'chrome'`，CI runner 与本机 Chrome 版本不同，`maxDiffPixelRatio=0.002` 而实测差异 ratio 0.01（2640 / 4494 / 1830 px，11 passed / 5 failed）。
 
-因此：① S-09 的重定义与勾选**依然成立**（三架构真实 run 已实证，且判据本就不含真实 run）；② `T1-07` / `T1-13` 验收列的「CI 全绿」**从来不成立**，须登记为 T0-04 之后的新欠账；③ C03 的 `verdict` 仍记 `partial`，理由由「runner 未验」换成「Full gate 未绿」，不得倒改成 `pass`；④ 视觉基线根因的修复见 §30.8，修复后须待 Aming 授权的下一次 push 触发真实 run 复验，**本机全绿不冒充 CI 全绿**。
+因此（本节为 2026-11-10 当时结论）：① S-09 的重定义与勾选**依然成立**（三架构真实 run 已实证，且判据本就不含真实 run）；② `T1-07` / `T1-13` 验收列的「CI 全绿」**截至当时不成立**，登记为 T0-04 之后的新欠账（✅ 已由 run `42822339834` 结清，见 §30.9.6）；③ C03 的 `verdict` 当时仍记 `partial`，理由由「runner 未验」换成「Full gate 未绿」，不得擅自倒改成 `pass`（现理由已消除，倒改须 Aming 裁决）；④ 视觉基线根因当时按「跨 Chrome 版本」初判，**已由 §30.9 推翻**；真实 run 复验已由 `42822339834` 完成，本机全绿不再只是本机口径。
 
 #### 30.7.3 机器边界：方案 A 的授权范围被写进门禁
 
@@ -1778,11 +1778,11 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 | 例外收口 | 4 条历史例外全部 `resolved`，`todo-governance.json` 的 `exceptions=[]` / `maxExceptions=0`；`check:todo` 的僵尸例外与新增倒挂判据同时为零 |
 | 边界 | 未发任何包到公网（npmjs.org 三包仍 404）、未运行 `pnpm release` / 真实 `npm stage publish`、无 git tag、`.changeset/` 未写入；`HEAD == origin/main == 1ce1592`；**§30 + §30.7 改动未提交 / 未推送**，`git commit` / `git push origin main` 须逐次授权 |
 
-> 下一步仍是 Aming 定 T0-04 依赖列口径（方案 B 或 C）；在此之前 `T1-13（M1 Exit）` 依赖「全部」，机器不会放行。⚠️ 本节原记「真实 runner 三架构复验仍是人工前置」已由 §30.8 实证更正；剩余人工前置是 **CI Full gate 修复后的真实 run 复验**（需授权 push）、npm 账号侧 trusted publisher 配置与首包发布；**放行 ≠ 授权 publish**。
+> 下一步仍是 Aming 定 T0-04 依赖列口径（方案 B 或 C）；在此之前 `T1-13（M1 Exit）` 依赖「全部」，机器不会放行。⚠️ 本节原记「真实 runner 三架构复验仍是人工前置」已由 §30.8 实证更正；**CI Full gate 真实 run 复验已由 run `42822339834` 完成（4/4 全绿，§30.9.6）**；剩余人工前置是 npm 账号侧 trusted publisher 配置与首包发布、C03 是否倒改 `pass`；**放行 ≠ 授权 publish**。
 
-### 30.8 CI 真实 run 实证更正 + 视觉基线根因修复（2026-11-10）
+### 30.8 CI 真实 run 实证更正 + 视觉基线根因初判（2026-11-10，⚠️ 根因结论已被 §30.9 推翻）
 
-**结论先行**：三处「真实 run 未取回」失真陈述已按实证更正；**CI Full gate 从未全绿**登记为新欠账；视觉基线根因（跨 Chrome 版本渲染差）已定位并修复为「本机与 CI 统一 bundled chromium」；本机 `pnpm verify` 25 阶段全绿，但 **CI 是否转绿必须等 Aming 授权的下一次 push 触发真实 run 复验，本机全绿不冒充 CI 全绿**。`T0-04` / `T1-13` 主行仍 `[ ]`，方案 B / C 均未授权。
+**结论先行（本节保留当时的取证与初判，结论已按后续实证更正）**：三处「真实 run 未取回」失真陈述已按实证更正；截至本节（commit `63c3add`）**CI Full gate 从未全绿**，登记为新欠账；当时把视觉基线根因初判为「跨 Chrome 版本渲染差」并称「统一 bundled chromium 已修复」——⚠️ **这是错判**：run `42758329334` 证明 CI 与本机同为 Chrome for Testing 156.0.8078.4，5 张失败截图差异像素数一个没变，真根因是 Demo 宿主依赖 runner 系统 PingFang SC（见 §30.9）。✅ 欠账已由方案 B + run `42822339834` 结清：4/4 job 全 success、视觉 16/16、CI `verify` 25 阶段全绿（§30.9.6）。`T0-04` / `T1-13` 主行仍 `[ ]`，方案 B / C（T0-04 依赖列口径）均未授权，C03 是否倒改 `pass` 须 Aming 裁决。
 
 #### 30.8.1 实证通道：`gh` CLI 与 MCP Actions 工具集都不是必需
 
@@ -1807,37 +1807,39 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 | 42654048240 | `1ad281b` | failure | failure | success | **cancelled** | success |
 | 42659266638 | `1ce1592` | failure | **cancelled** | success | success | success |
 
-⇒ 三架构 `platform-packages` job **6 次全 success、1 次 macos-15 因 runner 容量取消**；`Full gate` **5 次真跑失败 + 2 次 runner 排队取消**。「三架构真实 run 已通过」成立，但「CI 全绿」从来不成立，`T1-07` / `T1-13` 的验收前置均不成立。
+⇒ 三架构 `platform-packages` job **6 次全 success、1 次 macos-15 因 runner 容量取消**；`Full gate` **5 次真跑失败 + 2 次 runner 排队取消**。「三架构真实 run 已通过」成立，但「CI 全绿」**截至本节当时（最新 `1ce1592`）不成立**，`T1-07` / `T1-13` 的验收前置当时均不成立 —— 该欠账已由第 8 次 run `42822339834` 结清，见 §30.9.6。
 
 #### 30.8.3 三处失真陈述：之前 / 现在
 
 | 位置 | 之前（失真） | 现在（实证更正） |
 | --- | --- | --- |
-| `phase0-decisions.json` 的 C03 `alternative` | 「本机没有 gh CLI，无法取回真实 run 记录，因此『CI 各架构真实运行』只能记为未验」 | 7 次 run 的 job 级记录已取回，三架构 6 次全 success；⚠️ 但 Full gate 5 失败 + 2 取消，CI 从未全绿，故 `verdict` 仍 `partial` |
-| `exceptionClosures["T1-07<-S-09"].followUp` | 「首次三架构真实 run 复验由 Aming 在 GitHub 侧确认（非阻塞人工验收项）」 | 三架构真实 run 已实证取回，不再是人工待办；剩余是 **视觉基线修复后 push 触发 Full gate 复验** + npm trusted publisher 配置 |
-| `docs/08` §30.7.2 偏差说明 | 「本机无 `gh` CLI、真实 run 记录未取回」→ 把真实 run 剥离为人工待办 | 事实错误，整段重写；S-09 重定义与勾选**依然成立**（判据本就不含真实 run），但新增「CI 全绿不成立」欠账 |
+| `phase0-decisions.json` 的 C03 `alternative` | 「本机没有 gh CLI，无法取回真实 run 记录，因此『CI 各架构真实运行』只能记为未验」 | 7 次 run 的 job 级记录已取回，三架构 6 次全 success；当时 Full gate 5 失败 + 2 取消（欠账已由 §30.9.6 结清）；`verdict` 仍 `partial`，原理由已消除，倒改须 Aming 裁决 |
+| `exceptionClosures["T1-07<-S-09"].followUp` | 「首次三架构真实 run 复验由 Aming 在 GitHub 侧确认（非阻塞人工验收项）」 | 三架构真实 run 已实证取回，不再是人工待办；**Full gate 复验已由 run `42822339834` 完成（4/4 全绿，§30.9.6）**；剩余仅 npm trusted publisher 配置与 C03 裁决 |
+| `docs/08` §30.7.2 偏差说明 | 「本机无 `gh` CLI、真实 run 记录未取回」→ 把真实 run 剥离为人工待办 | 事实错误，整段重写；S-09 重定义与勾选**依然成立**（判据本就不含真实 run），但当时新增「CI 全绿不成立」欠账（✅ 已由 §30.9.6 结清） |
 
 派生同步（同一事实的其它陈述）：C03 `decision` / `evidence`、C04 `evidence`（引擎变量名）、§30.2 裁决表 C03 行、§30.3 例外表、§30.6 历史待办标注、锚点 3 行、S-09 验收列、§30.7.5 末尾引用、文件头状态行。**14 项 `specText` 与 `verdict` 零改动**，`docs/01~07` 冻结零改动。
 
-#### 30.8.4 视觉基线根因
+#### 30.8.4 视觉基线根因（当时的证据表，⚠️ 归因结论已被推翻）
+
+> ⚠️ **本节表格记录的是 2026-11-10 当时的实测数据，数据本身有效，但「引擎 = 根因」的归因是错的**。下方「引擎」与「真根因」两行已按 run `42758329334` 的像素级 artifact 与 §30.9 的 CDP 实测更正；最终修复与 CI 全绿复验见 §30.9 / §30.9.6。
 
 | 证据 | 值 |
 | --- | --- |
 | 失败用例 | 5 / 16（`overview@1280` / `typography@1280` / `overview@768` / `button@768` / `typography@768`），`11 passed / 5 failed` |
 | 差异像素 | 2640 / 4494 / 2640 / 1830 / 4494，`ratio 0.01`；1280 与 768 下同一 demo 数值完全相同 ⇒ 与宽度无关，是固定元素的渲染差 |
 | 阈值 | `maxDiffPixelRatio: 0.002`，实测超阈值 **5 倍**；`threshold: 0.2` / `animations: disabled` / `fonts loaded` 均正常 |
-| 引擎 | 旧配置默认 `channel:'chrome'` 依赖 runner 预装 Chrome；本机为 157.0.8103.38，`ci.yml` 注释原以为「同为 macOS 即可避免差异」，实际 Chrome 版本不同 |
+| 引擎（⚠️ 当时误判为根因） | 旧配置默认 `channel:'chrome'` 依赖 runner 预装 Chrome；本机为 157.0.8103.38，`ci.yml` 注释原以为「同为 macOS 即可避免差异」。**run `42758329334` 实测 CI 与本机同为 156.0.8078.4 / chromium v1248，统一引擎后 5 张差异像素数一个没变 ⇒ 引擎不是根因**；统一 bundled chromium 只是必要不充分的修正 |
 | 已排除 | Node 20→24 强制、依赖冻结失败、shallow clone、字体未加载、发布凭据 —— 都不是 step 7 的失败原因 |
-| **未完全排除** | 字体栈 `Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif`；两次 run 的 `artifacts=0`，拿不到 actual/diff 截图，runner 字体集差异尚未像素级排除 |
+| **真根因（§30.9 实证）** | 字体栈 `Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif` 命中 runner 系统 `PingFangSC-Regular`；`visual-diff-42758329334` 红/黄高亮全在中文笔画、英文与边框零差异，mean RGB delta 70~89，CDP `CSS.getPlatformFontsForNode` 实测中文命中系统字体。本机 macOS 26.5.1 与 `macos-15-arm64` 镜像的中文字体 / CoreText 版本不同 ⇒ 跨环境漂移。修复见 §30.9，CI 验真见 §30.9.6 |
 
-#### 30.8.5 修复：之前 / 现在
+#### 30.8.5 第一次修复（只消除引擎变量，⚠️ 未消除字体变量）：之前 / 现在
 
 | 项 | 之前 | 现在 |
 | --- | --- | --- |
 | `playwright.config.ts` | 默认 `channel:'chrome'`（系统 Chrome），`PLAYWRIGHT_USE_BUNDLED=1` 才切 bundled | 默认 `channel:'chromium'`（bundled 完整 build **156.0.8078.4** 的 new headless，版本由 `pnpm-lock.yaml` 锁定）；逃生舱 `PLAYWRIGHT_USE_SYSTEM_CHROME=1` 仅供本地排查，CI 不得使用 |
 | `.github/workflows/ci.yml` | 无浏览器安装步骤、失败无截图产物 | 加 `pnpm exec playwright install chromium --no-shell`（只装完整 build，跳过 99 MiB headless-shell）；`if: failure()` 上传 `visual-diff-<run_id>` artifact（`test-results/e2e` + `playwright-report`，保留 7 天） |
 | `turbo.json` | `globalPassThroughEnv: ['PLAYWRIGHT_USE_BUNDLED']` | `['PLAYWRIGHT_USE_SYSTEM_CHROME']` |
-| 16 张基线 PNG | — | **字节未变**：bundled chromium 156 复验 `16/16` 零差异，与旧基线（本机 Chrome 157 生成）逐像素一致 ⇒ 修复是「把 CI 引擎锁到与基线一致的 build」，**不是重生成基线**，不虚报产物 |
+| 16 张基线 PNG | — | **字节未变**：bundled chromium 156 复验 `16/16` 零差异，与旧基线（本机 Chrome 157 生成）逐像素一致 ⇒ 这一步是「把 CI 引擎锁到与基线一致的 build」，**不是重生成基线**，不虚报产物。⚠️ 但 run `42758329334` 仍 5 张红，**证明该修复并未解决跨环境漂移**；真正修复是 §30.9 的仓库内固定字体（16 张基线全量重生成） |
 | `scripts/check-ci.mjs` | 只校验 workflow 契约 | 新增视觉基线防漂移判据（见 30.8.6） |
 
 ⚠️ 本机 `playwright install chromium` 的 headless-shell 下载（99 MiB）在本机代理下卡在 70%，已停止；改用**完整 build 的 new headless 模式**绕开该依赖（实测 `chromium.launch({ channel: 'chromium' })` 返回 156.0.8078.4 并成功渲染）。**CI 同步改带 `--no-shell`**：既然只走完整 build 的 new headless，就没必要让 runner 也下载这份用不到、且本机已证实会卡的二进制；本机如需补装可单独跑 `pnpm exec playwright install chromium-headless-shell`（**非必需**，不影响 16 张基线与 `verify`）。
@@ -1865,10 +1867,10 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 **本轮改动**：`.github/workflows/ci.yml`、`playwright.config.ts`、`turbo.json`、`scripts/check-ci.mjs`、`scripts/phase0-decisions.json`、`docs/08-实施Todo.md`、工作区 memory 日志。**未改**：`docs/01~07`（v0.3 冻结）、`AGENTS.md` 15 条硬约束、`package.json` / `README.md` / `scripts/todo-governance.json` / `scripts/goals.baseline.json`（均为 §30.7 遗留改动，本轮零改动，故 SHA256 基线无需重校）、组件 / 样式 / 测试源码、16 张基线 PNG（字节未变）、`.npmrc`、`.changeset/`、任何发布配置。
 
-- `HEAD == origin/main == 1ce1592`；§30 + §30.7 + §30.8 改动**未提交 / 未推送**，`git commit` / `git push origin main` 须逐次授权（禁 force，§25 那次除外）。
+- 本节为 `1ce1592` 时的快照：§30 + §30.7 + §30.8 当时未提交 / 未推送；后续已由 Aming 逐次授权提交推送为 `63c3add`（§30.8）与 `0899769`（§30.9，禁 force，§25 那次除外）。
 - 未发任何包到公网、未运行 `pnpm release`、无 git tag、`.changeset/` 未写入；**放行 ≠ 授权 publish**。
-- ⚠️ **CI Full gate 尚未被真实 run 验证为绿**：修复后没有新 push，`T1-07` / `T1-13` 的「CI 全绿」前置在复验前仍不成立，C03 的 `verdict` 保持 `partial` 不倒改成 `pass`，`T0-04` / `T1-13` 主行仍 `[ ]`。
-- 若下次 run 仍失败：用新上传的 `visual-diff-<run_id>` artifact 做像素级定位；若确认是 runner 字体集差异，再评估 CI 专属基线集或仓库内固定字体，**不放宽 `maxDiffPixelRatio`**。
+- ✅ **CI Full gate 已由真实 run 验证为绿**：run `42822339834`（`0899769`）4/4 job success、视觉 16/16、verify 25 阶段全绿（§30.9.6），`T1-07` / `T1-13` 的「CI 全绿」前置成立；但 C03 的 `verdict` 仍记 `partial`（原理由已消除，倒改须 Aming 裁决），`T0-04` / `T1-13` 主行仍 `[ ]`，机器不放行 M1 Exit。
+- 若后续 run 再失败：用 `visual-diff-<run_id>` artifact 做像素级定位；A（环境双基线）/ C（`macos-26` runner）仍是后备，**不放宽 `maxDiffPixelRatio: 0.002`**。本次 run 全绿，两方案均未启用。
 - 剩余人工前置：npm 账号侧 trusted publisher 配置与首包发布、Node 24 偏差补验；1 次 macos-15 runner 容量取消属平台排队，不是门禁失败。
 
 ---
@@ -1924,8 +1926,24 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 #### 30.9.5 边界与欠账
 
-- **本轮改动 24 个文件**：4 个源码/脚本改动（`base.css`、`check-ci.mjs`、`generate-llms.mjs`、`visual.spec.ts`）+ 16 张基线 PNG + 4 个新文件（`fonts/` 三件套、`build-visual-font.py`）+ `docs/08`。**未改**：`docs/01~07`（v0.3 冻结）、`AGENTS.md` 15 条硬约束、`package.json` / `pnpm-lock.yaml` / `turbo.json` / `ci.yml` / `playwright.config.ts` / `phase0-decisions.json` / `goals.baseline.json` / 组件与 core 源码 / 任何发布配置 ⇒ `check:goals` 基线无需重校。
-- `HEAD == origin/main == 63c3add`；**§30.9 改动未提交 / 未推送**，`git commit` / `git push origin main` 须 Aming 逐次授权（禁 force，§25 那次除外）。
-- ⚠️ **CI Full gate 仍未经真实 run 验证为绿**：字体统一了字形来源，但光栅化仍走 CoreText，本机 macOS 26.5.1 与 `macos-15` 差一个大版本，**不能 100% 排除细微差异**；必须靠授权后的那次 push 触发 run 验真，本机全绿不冒充 CI 全绿。若仍失败，用 `visual-diff-<run_id>` artifact 像素级定位，A（环境双基线）/ C（`macos-26` runner）作为后备；**不放宽 `maxDiffPixelRatio: 0.002`**。
-- `T1-07` / `T1-13` 的「CI 全绿」前置在复验前仍不成立，C03 的 `verdict` 保持 `partial`；`T0-04` / `T1-13` 主行仍 `[ ]`。
+- **本轮改动 25 个文件（含 `docs/08`）**：4 个源码/脚本改动（`base.css`、`check-ci.mjs`、`generate-llms.mjs`、`visual.spec.ts`）+ 16 张基线 PNG + 4 个新文件（`fonts/` 三件套、`build-visual-font.py`）+ 文档。**未改**：`docs/01~07`（v0.3 冻结）、`AGENTS.md` 15 条硬约束、`package.json` / `pnpm-lock.yaml` / `turbo.json` / `ci.yml` / `playwright.config.ts` / `goals.baseline.json` / 组件与 core 源码 / 任何发布配置 ⇒ `check:goals` 基线无需重校。
+- ✅ **已由 Aming 授权「提交」**：`git commit` → `0899769`（作者 Aming，25 files / +443 −10），非 force 快进推送 `63c3add..0899769`；提交前 `pnpm verify` RC=0、工作树干净，提交后真实 run `42822339834` 全绿（§30.9.6）。
+- ✅ **CI Full gate 已由真实 run `42822339834` 验证为绿**：字体统一了字形来源，光栅化虽仍走 CoreText，但本机 macOS 26.5.1 与 `macos-15` 的大版本差未再造成任何像素差（16/16 零差异）；`maxDiffPixelRatio: 0.002` 未放宽，A / C 备用未启用。
+- `T1-07` / `T1-13` 的「CI 全绿」前置已成立；但 C03 的 `verdict` 仍记 `partial`（原理由已消除，**是否倒改 `pass` 及是否推进 T1-13 须 Aming 另行裁决**）；`T0-04` / `T1-13` 主行仍 `[ ]`，依赖列仍「全部 Spike」，例外 0/0。
 - 未发任何包到公网、未运行 `pnpm release`、无 git tag、`.changeset/` 未写入；**放行 ≠ 授权 publish**。npm 账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置。
+
+#### 30.9.6 真实 CI run 首次全绿复验（2026-11-10 晚，Aming 授权「提交」）
+
+**结论先行**：方案 B 由 Aming 授权提交为 `0899769`（非 force，快进 `63c3add..0899769`）并推送，触发 run **`42822339834`**（sha `0899769`，2026-11-10 13:12:04Z 创建）⇒ `conclusion=success`，**4/4 job 全 success**：`Full gate (pnpm verify)` 13:12:09→13:16:02（3 分 53 秒）、`TS 7 platform packages` 的 `macos-15` / `windows-2022` / `ubuntu-24.04` 三架构 13:12:07→13:12:58 全绿。⏱ **CI Full gate 首次全绿**，§30.8 登记的「CI 从未全绿」欠账结清；本机全绿不再只是本机口径。
+
+| 取证项 | 实测 |
+| --- | --- |
+| 视觉用例 | CI 日志 `playwright test tests/e2e/specs/visual.spec.ts`（**无 `--update-snapshots`**）→ `16 passed (21.7s)`；`##[error]` / `Error:` / `FAIL` **0 命中** |
+| 字体契约 | `[check:ci] ... 固定字体契约在位（SHA256 锁定 / 536 字集 / 无系统回退 / OFL-1.1）`（日志第 919 行），`verify` 25 阶段在 runner 上全绿；`check-consumers` / `smoke-tarball` / `smoke:start-real` 均 PASS |
+| 引擎与 runner | 仍是 `macos-15` + bundled chromium 156.0.8078.4（与本机同 build）；阈值 `maxDiffPixelRatio: 0.002` 未放宽 |
+| artifact | 成功 run 按 `if: failure()` 规则**不上传** `visual-diff-*`，符合预期 |
+| 取回通道 | `~/.git-credentials` + 认证 GitHub REST API（`/actions/runs` → `/jobs` → `/jobs/{id}/logs` 302→Location 无认证下载），日志落 `/tmp/t30_09_ci_job_129850752439.log`；全程只读，未打印 / 未落盘凭据 |
+
+⇒ **反向确认根因**：只把**字形来源**从 runner 系统字体换成仓库内固定 Web 字体，其余变量（runner label、chromium build、像素阈值、16 张基线 PNG、`ci.yml`、`playwright.config.ts`）全部未动，CI 即由 5 张红转 16/16 全绿 ⇒ 真根因确为系统字体环境；§30.8 的「跨 Chrome 版本 + 统一 bundled chromium 即修复」是错判（消除引擎变量必要但不充分）。A（环境双基线）/ C（`macos-26` runner）**未启用**。
+
+**裁决边界不变**：`T0-04` / `T1-13` 主行仍 `[ ]`，T0-04 依赖列仍「全部 Spike」，例外 0/0，`confirmedOption=A`；C03 `verdict` 仍记 `partial`（原「Full gate 未绿」理由已消除，是否倒改成 `pass` 以及 `T1-07` / `T1-13` 是否推进，属 Aming 的裁决权限，AI 不擅自倒改；本轮同步只更正事实陈述，未改任何 verdict / 勾选 / 例外 / 冻结规范）。真实 publish 未授权、未发生，无 git tag、`.changeset/` 未写入；npm trusted publisher 配置与首包发布仍是人工前置。

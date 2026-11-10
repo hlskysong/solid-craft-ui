@@ -46,10 +46,10 @@
         "pnpm check:platforms：20/20 平台包锁定进 lockfile、darwin-arm64 已真实安装、tsc --version 通过",
         ".github/workflows/ci.yml 的 platform-packages job 有 ubuntu-24.04 / macos-15 / windows-2022 三架构 matrix，每架构跑 check:platforms",
         "D-09 已定发布渠道为 GitHub + 公开 npmjs.org；D-03 的私有 registry 语义作废",
-        "2026-11-10 认证 REST API 取回 7 次 workflow run 的 job 级记录与失败日志正文：三架构 platform-packages job 6 次全 success / 1 次（1ad281b）macos-15 因 runner 容量取消；Full gate 5 次 failure（视觉基线 1% 像素差）+ 2 次 runner 取消（详见 docs/08 §30.8）"
+        "2026-11-10 认证 REST API 取回 7 次 workflow run 的 job 级记录与失败日志正文：三架构 platform-packages job 6 次全 success / 1 次（1ad281b）macos-15 因 runner 容量取消；Full gate 5 次 failure（视觉基线 1% 像素差）+ 2 次 runner 取消（详见 docs/08 §30.8）；第 8 次 run 42822339834（0899769，方案 B 固定 Web 字体）4/4 job 全 success、Full gate 首次全绿、视觉 16/16（详见 docs/08 §30.9.6）"
       ],
-      "alternative": "以公开 npmjs.org + pnpm install --frozen-lockfile 替代私有镜像。2026-11-10 更正：本机 git 凭据 + GitHub REST API 已实证取回 7 次 workflow run 的 job 级记录，『CI 各架构真实运行』不再是未验项，未拿 workflow 文件冒充运行结果。⚠️ 但主门禁 Full gate (pnpm verify) 5 次 failure（均为视觉基线截图 ratio 0.01 像素差）、2 次被 runner 取消，CI 从未全绿，故本项仍记 partial。",
-      "decision": "lock 完整性与本机安装判通过；三架构真实 run 已于 2026-11-10 由认证 REST API 实证取回（见 evidence / alternative），不再是待验人工项。D-04『私有 registry 镜像』语义随 D-09 作废，改判『lock 完整性 + 三架构可安装性』；方案 A 确认后 D-04 关闭，S-09 按此口径重定义。⚠️ verdict 仍记 partial，但理由由「runner 未验」改换为「主门禁 Full gate 从未绿过」——根因是 playwright.config.ts 默认 channel:'chrome' 造成跨 Chrome 版本渲染差异，修复与本机实证见 docs/08 §30.8；修复后须待 Aming 授权的下一次 push 触发真实 run 复验，本机全绿不冒充 CI 全绿，在此之前不得倒改成 pass。"
+      "alternative": "以公开 npmjs.org + pnpm install --frozen-lockfile 替代私有镜像。2026-11-10 更正：本机 git 凭据 + GitHub REST API 已实证取回 7 次 workflow run 的 job 级记录，『CI 各架构真实运行』不再是未验项，未拿 workflow 文件冒充运行结果。⚠️ 当时主门禁 Full gate (pnpm verify) 5 次 failure（ratio 0.01 像素差）+ 2 次 runner 取消；真因是 Demo 宿主依赖 runner 系统 PingFang SC，而非浏览器版本（docs/08 §30.9 已用像素级 artifact 更正）。2026-11-10 run 42822339834 首次 4/4 job 全绿、视觉 16/16，原 partial 理由已消除。verdict 仍记 partial，是否倒改 pass 须 Aming 另行裁决，AI 不擅自倒改。",
+      "decision": "lock 完整性与本机安装判通过；三架构真实 run 已于 2026-11-10 由认证 REST API 实证取回（见 evidence / alternative），不再是待验人工项。D-04『私有 registry 镜像』语义随 D-09 作废，改判『lock 完整性 + 三架构可安装性』；方案 A 确认后 D-04 关闭，S-09 按此口径重定义。⚠️ verdict 仍记 partial：原理由「主门禁 Full gate 从未绿过」已由 run 42822339834（0899769）消除。当时把根因误判为跨 Chrome 版本，run 42758329334 的像素级 artifact 证明 CI 与本机同为 Chrome for Testing 156.0.8078.4；真根因是 Demo 宿主依赖 runner 系统字体（docs/08 §30.9）。方案 B 用仓库内固定 Web 字体修复，CI 4/4 job 全绿、视觉 16/16（§30.9.6）。是否倒改 pass、以及 T1-07 / T1-13 是否推进，须 Aming 另行裁决，AI 不擅自倒改。"
     },
     {
       "id": "C04",
@@ -223,7 +223,7 @@
       "status": "resolved",
       "resolution": "2026-11-10 方案 A 确认：S-09 验收列重定义为『公开 npmjs.org 冻结 lock 20/20 平台包 + CI 三架构 matrix 配置就位 + 本机 darwin-arm64 真实安装且 tsc --version 通过』，D-04 关闭。⚠️ §30.7 原记『本机无 gh CLI、真实 run 未取回』已由当日认证 REST API 实证更正（docs/08 §30.8）：7 次 run 的 job 级记录已取回，三架构 platform job 6 次全 success / 1 次 runner 容量取消。S-09 的重定义与勾选因此依然成立（判据本就不含真实 run），但主门禁 Full gate 5 次失败 + 2 次 runner 取消，CI 从未全绿 —— T1-07 与 T1-13 的『CI 全绿』前置仍不成立，不得把三架构 job 的 success 当成 Full gate 通过。",
       "refs": ["C03", "C13"],
-      "followUp": "三架构真实 run 已实证取回，不再是人工待办。剩余人工项：docs/08 §30.8 的视觉基线修复后，须由 Aming 授权下一次 push 触发 Full gate 真实 run 复验；以及 npm 账号侧 trusted publisher 配置与首包发布。不得据此把 C03 的 verdict 倒改成 pass。"
+      "followUp": "三架构真实 run 已实证取回，不再是人工待办；Full gate 真实 run 复验已由 Aming 授权 push 后的 run 42822339834 完成（4/4 全绿，docs/08 §30.9.6）。剩余人工项：npm 账号侧 trusted publisher 配置与首包发布；C03 verdict 是否倒改 pass 与 T1-07 / T1-13 是否推进（须 Aming 裁决）。"
     }
   ]
 }
