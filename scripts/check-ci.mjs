@@ -21,7 +21,13 @@
  *      playwright.config.ts 默认不得回退系统 Chrome、不得放宽 maxDiffPixelRatio，
  *      channel:'chrome' 只能作为本地排查的条件分支存在；ci.yml 安装 chromium 必须
  *      带 --no-shell（new headless 不需要 headless-shell）。
+ *   8. 视觉基线字体契约（2026-11-10 §30.9 方案 B）：Demo 宿主必须用仓库内固定
+ *      Web 字体（哈希锁定 + 字集与 apps/docs/src 源码逐字一致 + OFL 许可证在位），
+ *      禁止写回任何系统字体回退，杜绝 runner 字体集再次参与像素比对。
+ *      字体判据放在本脚本而非新脚本，是为了让 verify 的 25 阶段数量不变，
+ *      不触碰根级 package.json / pnpm-lock.yaml（AGENTS.md §5）。
  */
+import { createHash } from 'node:crypto';
 import { existsSync, globSync, readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
@@ -159,7 +165,7 @@ if (workflow.length === 0) {
   }
   if (!/runs-on:\s*macos-15/.test(workflow)) {
     fail(
-      'ci.yml 主门禁未使用与截图基线相同的 macOS runner（基线绑定 macOS 字体集 + bundled chromium）',
+      'ci.yml 主门禁未使用 macos-15 runner（字形已由仓库内字体固定，但光栅化仍走 CoreText，需与基线同 macOS 大系列）',
     );
   }
   if (!workflow.includes('matrix:')) fail('ci.yml 缺少多架构 matrix');
@@ -256,6 +262,104 @@ if (releaseWorkflow.length === 0) {
   }
 }
 
+// 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
+const FONT_SHA256 = '1dda1ebeef2959e9ba17a36d58a67b81a2e0d7fa8948501ab7f3fd06079aae2d';
+const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
+const fontFile = join(fontsDir, 'scui-visual.woff2');
+const charsetFile = join(fontsDir, 'charset.txt');
+const oflFile = join(fontsDir, 'OFL.txt');
+const docsBaseCss = read(join(repoRoot, 'apps', 'docs', 'src', 'styles', 'base.css'));
+
+if (!existsSync(fontFile)) {
+  fail('缺少仓库内固定字体 apps/docs/public/fonts/scui-visual.woff2');
+} else {
+  const fontHash = createHash('sha256').update(readFileSync(fontFile)).digest('hex');
+  if (fontHash !== FONT_SHA256) {
+    fail(
+      `固定字体 SHA256=${fontHash} 与判据不符：重跑 build-visual-font.py 后须同步更新 FONT_SHA256 并重生成 16 张基线`,
+    );
+  }
+}
+if (!/SIL OPEN FONT LICENSE Version 1\.1/.test(read(oflFile))) {
+  fail('缺少字体许可证全文 apps/docs/public/fonts/OFL.txt（OFL-1.1）');
+}
+if (!existsSync(join(repoRoot, 'scripts', 'build-visual-font.py'))) {
+  fail('缺少可复现的字体子集生成脚本 scripts/build-visual-font.py');
+}
+
+// 先剥离 CSS 注释，再解析真实配置块：注释里写完整 @font-face 也不得冒充
+// （N15 / N26 / N37 同型盲区）
+const baseCssCode = docsBaseCss.replace(/\/\*[\s\S]*?\*\//g, '');
+const fontFaceBlock = baseCssCode.match(/@font-face\s*\{([\s\S]*?)\}/)?.[1] ?? '';
+if (fontFaceBlock.length === 0) fail('base.css 缺少 @font-face 配置块');
+if (!/font-family:\s*['"]SCUI Visual['"]/.test(fontFaceBlock)) {
+  fail('@font-face 未声明 SCUI Visual 字体族');
+}
+if (
+  !/src:\s*url\(['"]?\/fonts\/scui-visual\.woff2['"]?\)\s*format\(['"]woff2['"]\)/.test(
+    fontFaceBlock,
+  )
+) {
+  fail('@font-face 的 src 未指向仓库内 /fonts/scui-visual.woff2（禁止 CDN / 系统字体）');
+}
+if (!/font-weight:\s*100\s+900/.test(fontFaceBlock)) {
+  fail('@font-face 未声明可变字重 100 900（标题 font-weight:600 会退化为合成粗体）');
+}
+if (!/font-display:\s*block/.test(fontFaceBlock)) {
+  fail('@font-face 未设 font-display:block（字体未就绪就截图会退回系统字体）');
+}
+const demoRootBlock = baseCssCode.match(/\.demo-root\s*\{([\s\S]*?)\}/)?.[1] ?? '';
+if (demoRootBlock.length === 0) fail('base.css 缺少 .demo-root 配置块');
+if (!/font-family:\s*['"]SCUI Visual['"],\s*sans-serif/.test(demoRootBlock)) {
+  fail('.demo-root 未把 SCUI Visual 设为首选字体');
+}
+if (
+  /PingFang|Microsoft YaHei|Hiragino|Songti|Heiti|system-ui|-apple-system|Arial|Helvetica/i.test(
+    demoRootBlock,
+  )
+) {
+  fail('.demo-root 出现系统字体回退：runner 字体集会重新参与截图比对');
+}
+// 字集口径与 build-visual-font.py 一致：整个 docs 源码树，覆盖 Demo 内容 / 组件标题 /
+// 宿主固定文案 / 注释。只扫 demos/*.json 会漏掉 standalone 的「· 固定字体」等字形，
+// 那些字符会悄悄回退系统字体，runner 字体集再次参与比对（CDP 实测已复现）。
+const docsSrcTextFile = /\.(?:ts|tsx|css|scss|json|md|html|js|mjs)$/;
+const walkDocsSrc = (dir) =>
+  existsSync(dir)
+    ? readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+        const abs = join(dir, entry.name);
+        if (entry.isDirectory()) return walkDocsSrc(abs);
+        return docsSrcTextFile.test(entry.name) ? [abs] : [];
+      })
+    : [];
+const docsSrcFiles = walkDocsSrc(join(repoRoot, 'apps', 'docs', 'src'));
+if (docsSrcFiles.length < 10) fail('apps/docs/src 源文件过少，字集判据可能失效');
+// 与 build-visual-font.py 的 renderable() 逐条一致：变体选择符 / 零宽 / 组合符不单独成字形
+const isRenderable = (cp) => {
+  if (cp <= 0x7f) return false;
+  if (cp >= 0xfe00 && cp <= 0xfe0f) return false;
+  if (cp >= 0x1f3fb && cp <= 0x1f3ff) return false;
+  if ([0x200b, 0x200c, 0x200d, 0x200e, 0x200f, 0x2060, 0xfeff, 0x00ad].includes(cp)) {
+    return false;
+  }
+  if (cp >= 0x0300 && cp <= 0x036f) return false;
+  return true;
+};
+const renderedChars = new Set();
+for (const abs of docsSrcFiles) {
+  for (const char of read(abs)) {
+    if (isRenderable(char.codePointAt(0) ?? 0)) renderedChars.add(char);
+  }
+}
+if (renderedChars.size === 0) fail('未从 docs 源码扫描到任何非 ASCII 字符（字集判据失效）');
+// 按码位数值排序：与 build-visual-font.py 的 sorted() 一致（UTF-16 码元序会在 astral 字符上分叉）
+const compareChars = (a, b) => (a.codePointAt(0) ?? 0) - (b.codePointAt(0) ?? 0);
+if (read(charsetFile).trim() !== [...renderedChars].toSorted(compareChars).join('')) {
+  fail(
+    'charset.txt 与 apps/docs/src 源码字集不一致：新增汉字/标点须重跑 build-visual-font.py 并重生成 16 张基线',
+  );
+}
+
 if (errors.length > 0) {
   console.error(`[check:ci] ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
@@ -263,5 +367,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· size-limit@${sizeLimit} + file 插件`,
 );

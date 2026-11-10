@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-09**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正 / 视觉基线根因修复（§30.8）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8）
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9）
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -11,9 +11,9 @@
 | --- | --- |
 | 当前目标 | Phase 0 / Phase 1 落地，M1 Exit 前补齐 T1-13（T1-11 已由 §28、T1-12 已由 §29 闭环）；**方案 A 已确认 M1 范围收窄**（7 个基础组件 + Token 管线 + 文档站 + 构建 / 双构建 / 发布预演 / 治理门禁，四个 P0 组件与 T0-03 移出 M1），裁决转 `confirmed`、例外清零；T0-04 主行仍因「全部 Spike」依赖未齐 `[ ]`，T1-13 仍 `[ ]`；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 A 确认 ≠ 授权改 T0-04 依赖列（B 未选）≠ 勾主行；例外 0/0 且只减不增** |
-| 当前任务 ID | T0-04（§30 裁决 + §30.7 方案 A 确认：S-03 / S-09 重定义并实证补勾、4 条例外全消解为 0 条；主行仍未勾）；§30.8 已实证 CI 真实 run 并修复视觉基线根因（CI Full gate 待授权 push 后复验）；下一步 T1-13（M1 Exit，依赖「全部」，仍有 T0-03 / T0-04 / S-02 / S-04 / S-05 / S-06 未勾） |
-| 下一步 | **Aming 已选方案 A（§30.7）**：M1 范围收窄生效、S-03 / S-09 重定义并补勾、例外 2→0；**仍需 Aming 定 T0-04 依赖列口径（方案 B 或 C）**，在此之前 T0-04 / T1-13 均 `[ ]`；✅ 2026-11-10 认证 REST API 实证取回 7 次 CI run：三架构 job 6 次全 success / 1 次容量取消，Full gate 5 次视觉基线失败 + 2 次 runner 取消（§30.8 已更正三处失真陈述）；⚠️ **CI Full gate 从未全绿的欠账**：视觉基线根因已定位并修复为本机与 CI 统一 bundled chromium，本机 `pnpm verify` 全绿，但**须以 push 后触发的真实 run 复验为准**，本机全绿不冒充 CI 全绿；§29 改动已提交推送为 `1ce1592`，§30 + §30.7 + §30.8 改动已由 Aming 授权提交推送（禁 force，§25 那次除外），CI Full gate 结果以真实 run 为准；⚠️ **放行 ≠ 授权 publish**：账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置；Node 24 偏差补验 |
-| 未答决策 | **T0-04 依赖列口径（方案 B 或 C，A 未授权改）**、D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、CI Full gate 首次全绿复验（需 Aming 授权 push 后触发）；**已关闭**：M1 范围收窄（方案 A 确认）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8 已实证取回） |
+| 当前任务 ID | T0-04（§30 裁决 + §30.7 方案 A 确认：S-03 / S-09 重定义并实证补勾、4 条例外全消解为 0 条；主行仍未勾）；§30.8 已实证 CI 真实 run（「根因已修复」结论由 §30.9 更正）；§30.9 已落地视觉基线方案 B：仓库内固定 Web 字体 + 16 张基线重生成（CI Full gate 待授权 push 后复验）；下一步 T1-13（M1 Exit，依赖「全部」，仍有 T0-03 / T0-04 / S-02 / S-04 / S-05 / S-06 未勾） |
+| 下一步 | **Aming 已选方案 A（§30.7）**：M1 范围收窄生效、S-03 / S-09 重定义并补勾、例外 2→0；**仍需 Aming 定 T0-04 依赖列口径（方案 B 或 C）**，在此之前 T0-04 / T1-13 均 `[ ]`；✅ 2026-11-10 认证 REST API 实证取回 7 次 CI run：三架构 job 6 次全 success / 1 次容量取消，Full gate 5 次视觉基线失败 + 2 次 runner 取消（§30.8 已更正三处失真陈述）；⚠️ **CI Full gate 从未全绿的欠账**：§30.8「统一 bundled chromium 即根因」已被 run `42758329334` 的 artifact 推翻（CI 与本机同为 Chrome for Testing 156.0.8078.4，5 张失败截图差异像素数一个没变），真根因是 **Demo 宿主中文命中系统 PingFang SC、本机 macOS 26.5.1 与 macos-15 runner 的字体文件不同**；§30.9 已用仓库内固定 Web 字体替换该系统字体栈，本机 `pnpm verify` 全绿，但**须以 push 后触发的真实 run 复验为准**，本机全绿不冒充 CI 全绿；§29 改动已提交推送为 `1ce1592`，§30 + §30.7 + §30.8 改动已由 Aming 授权提交推送为 `63c3add`（禁 force，§25 那次除外）；**§30.9 改动未提交 / 未推送，须 Aming 逐次授权**，该 push 同时即 CI 复验；⚠️ **放行 ≠ 授权 publish**：账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置；Node 24 偏差补验 |
+| 未答决策 | **T0-04 依赖列口径（方案 B 或 C，A 未授权改）**、D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、CI Full gate 首次全绿复验（需 Aming 授权 push 后触发，§30.9 方案 B 已落地待验）；**已关闭**：M1 范围收窄（方案 A 确认）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8 已实证取回） |
 
 ---
 
@@ -1870,3 +1870,62 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 - ⚠️ **CI Full gate 尚未被真实 run 验证为绿**：修复后没有新 push，`T1-07` / `T1-13` 的「CI 全绿」前置在复验前仍不成立，C03 的 `verdict` 保持 `partial` 不倒改成 `pass`，`T0-04` / `T1-13` 主行仍 `[ ]`。
 - 若下次 run 仍失败：用新上传的 `visual-diff-<run_id>` artifact 做像素级定位；若确认是 runner 字体集差异，再评估 CI 专属基线集或仓库内固定字体，**不放宽 `maxDiffPixelRatio`**。
 - 剩余人工前置：npm 账号侧 trusted publisher 配置与首包发布、Node 24 偏差补验；1 次 macos-15 runner 容量取消属平台排队，不是门禁失败。
+
+---
+
+### 30.9 视觉基线方案 B：仓库内固定 Web 字体（2026-11-10 晚，Aming 选定）
+
+> ⚠️ **口径区分**：本节「方案 B」是 §30.8.8 遗留的**视觉基线三选一**（A 环境双基线 / B 固定 Web 字体 / C 换 `macos-26` runner），与 §30.7 的「T0-04 依赖列口径 A/B/C」是两件事。`phase0-decisions.json` 的 `confirmedOption=A` 不变，T0-04 / T1-13 主行仍 `[ ]`，例外 0/0 不变。
+
+**结论先行**：§30.8 的「视觉基线根因 = 跨 Chrome 版本、已由统一 bundled chromium 修复」是**失真陈述**。run `42758329334` 的日志确认 CI 与本机同为 Chrome for Testing **156.0.8078.4 / chromium v1248**，5 张失败截图差异像素数（2640 / 4494 / 2640 / 1830 / 4494，ratio 0.01）**一个都没变**；`visual-diff-42758329334` 的红/黄高亮全部落在中文笔画，英文与边框零差异，mean RGB delta 70~89，CDP `CSS.getPlatformFontsForNode` 实测中文命中 `PingFangSC-Regular`。⇒ 真根因是 **Demo 宿主字体栈 `Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif` 依赖 runner 系统字体**（本机 macOS 26.5.1 vs `macos-15-arm64` 镜像），统一浏览器 build 只消除了引擎变量，没有消除字体变量。本节按 Aming 选定的方案 B 消除后者。
+
+#### 30.9.1 之前 / 现在
+
+| 项 | 之前 | 现在 |
+| --- | --- | --- |
+| Demo 宿主中文 | 系统 `PingFang SC` / `Microsoft YaHei` 回退，随 OS 与 runner 镜像变化 | `@font-face` 指向仓库内 `scui-visual.woff2`，`.demo-root` 只用它（`sans-serif` 仅为加载失败兜底） |
+| 字重 | 系统字体合成 600 | 可变轴 `wght 100 900`，CDP 实测标题命中 `SCUIVisual_SemiBold` |
+| 截图前字体就绪 | 依赖 Playwright 隐式等待 | `visual.spec.ts` 显式 `await document.fonts.ready` + `font-display: block` |
+| 16 张基线 | 460,819 B，绑定本机 macOS 字体集 | **16/16 全部重生成**，469,772 B，复验 16/16 零差异 |
+| 防漂移判据 | `check:ci` 只管浏览器 build / 阈值 / 动画 | 新增字体哈希 / 字集 / 回退 / 许可证 4 组判据，`verify` 仍 **25 阶段** |
+| `generate-llms.mjs` | `diskFiles()` 把 public 下所有 `.md/.txt/.json` 当生成物，非 `--check` 会直接删 | `STATIC_ASSET_DIRS = ['fonts/']` 精确豁免手工静态资产，其余目录仍严格逐文件比对 |
+
+#### 30.9.2 字体真源、体积与许可
+
+| 项 | 值 |
+| --- | --- |
+| 源字体 | Google Fonts `ofl/notosanssc/NotoSansSC[wght].ttf`，17,772,300 B，wght 100~900，SIL OFL 1.1（版权声明含 RFN `Source`） |
+| 产物 | `apps/docs/public/fonts/scui-visual.woff2` **189,108 B**（可变字重子集），内部 family / full / PostScript 名改为 `SCUI Visual` / `SCUIVisual`（子集修改版不用保留名） |
+| 字集 | `charset.txt` **536 个 CJK/符号** + 固定 ASCII 95 = **631 码位，生成时断言 631/631 全有字形**；口径 = `apps/docs/src` 全文本源码树的 U+007F 以上可渲染字符，排除变体选择符 U+FE0F、零宽字符、组合附加符号 |
+| 许可证 | `OFL.txt` 4,388 B 随字体同目录，Vite build 后三者一并进 `dist/fonts/`（已实证） |
+| SHA256 | `1dda1ebeef2959e9ba17a36d58a67b81a2e0d7fa8948501ab7f3fd06079aae2d`（`check-ci.mjs` 的 `FONT_SHA256` 常量） |
+| 生成脚本 | `scripts/build-visual-font.py`（Python + fontTools/brotli，**只在重新生成时手动跑**；`verify` 不依赖 Python，未新增任何 npm 依赖） |
+| 影响面 | 只作用于 `.demo-root`，文档站非 Demo 区域仍用原系统字体栈；`packages/core` 的 `files` 白名单不含 docs 资源 ⇒ **3 个 npm tarball / llms.txt / size-limit 零影响**；CI 零下载（随 checkout 入库） |
+
+字集口径中途修正过一次：首版只收 `generated/demos/*.json`（160 字符 / 91,332 B），CDP 复验发现 `.demo-root__meta` 仍有 **6 个字形回退 PingFang SC**（宿主固定文案「· 固定字体 · 关闭动画」与 catalog 标题不在 Demo json 里）。扩到整个 `apps/docs/src` 源码树后，CDP 复验 `.demo-root__title` 6/6、`__meta` 35/35 **全部 `isCustomFont: true`，系统字体回退归零**，字体请求 200、失败请求 0。宁可多收注释里的字，也不让某个字形悄悄回退再造成漂移。
+
+#### 30.9.3 判据为什么挂在 `check-ci.mjs`
+
+`AGENTS.md` §5 禁止改根级配置（`package.json` / `turbo.json` / lint 配置）、禁止改 `pnpm-lock.yaml`、禁止新增依赖；§14 规定改受保护治理脚本要重校 `check:goals` SHA256 基线。`scripts/check-ci.mjs` **已在 `verify` 25 阶段链里、且不在 `goals.baseline.json` 的保护清单内** ⇒ 把字体判据并入它，可在**零授权改动、零新增依赖、verify 阶段数不变**的前提下让无人值守流程自动守着字体，且 `check:goals` 15 项哈希保持一致。
+
+判据内容：① woff2 SHA256 与常量一致；② `OFL.txt` 含 OFL-1.1 全文、`build-visual-font.py` 存在；③ **先剥离 CSS 注释**再解析 `@font-face` 与 `.demo-root` 配置块，校验字体族 / `src` 必须指向仓库内 `/fonts/scui-visual.woff2` / 可变字重 `100 900` / `font-display: block` / 禁止 `PingFang|Microsoft YaHei|Arial|system-ui` 等系统字体回退；④ `charset.txt` 与 `apps/docs/src` 源码字集**逐字相等**（生成脚本的 `renderable()` 与判据的 `isRenderable()` 口径逐条一致，按码位数值排序避免 astral 字符分叉）。新增汉字会让 `pnpm check:ci` 红灯，必须重跑生成脚本、更新 `FONT_SHA256` 并复跑视觉基线。
+
+#### 30.9.4 本机复核
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0，25 阶段全绿**（首次因 `check:llms` 把 `fonts/OFL.txt` / `charset.txt` 判孤儿而红灯，加精确豁免后重跑通过） |
+| `pnpm test:visual:update` / `test:visual` | 16 张全部 re-generated（16/16 哈希全变）→ 不带 `--update-snapshots` 复验 **16/16 零差异** |
+| CDP 平台字体 | `.demo-root__title` / `__meta` 全 `SCUI Visual`，**0 个 PingFang 字形**，字体请求 200、失败请求 0 |
+| 只读门禁 | **8/8 RC=0**：`check:goals`（15 哈希一致，无需重校）/ `check:todo`（31 个 `[x]` 全有证据、例外 0/0）/ `check:decisions` / `check:ci` / `check:public`（277 tracked / 261 文本零敏感）/ `check:release --strict` / `check:naming` / `check:slice` |
+| 未 tracked 新文件 | 4 个按 7 类危险文件名 + 10 类敏感规则单独审计，**0 命中** |
+| 负向实证 | **10/10 PASS / `DRIFT=[]`**（N28~N37：删 `@font-face` / 写回系统字体栈 / 改字体 1 字节 / 删字集汉字 / 删 OFL / 指向 CDN / 退化字重 / `font-display` 改 swap / 删生成脚本 / **注释里伪造完整 `@font-face` 冒充配置**）。N30 首跑因「woff2 末字节本来就是 0」等于没改而假 FAIL，已改为异或翻转第 100 字节，并给负向脚本加「破坏必须产生字节变化」自检 |
+| `pnpm lint` | RC=0（oxlint / biome / stylelint / Prettier 全过；`Array#sort()` 改 `toSorted(compareChars)` 满足 `require-array-sort-compare`） |
+
+#### 30.9.5 边界与欠账
+
+- **本轮改动 24 个文件**：4 个源码/脚本改动（`base.css`、`check-ci.mjs`、`generate-llms.mjs`、`visual.spec.ts`）+ 16 张基线 PNG + 4 个新文件（`fonts/` 三件套、`build-visual-font.py`）+ `docs/08`。**未改**：`docs/01~07`（v0.3 冻结）、`AGENTS.md` 15 条硬约束、`package.json` / `pnpm-lock.yaml` / `turbo.json` / `ci.yml` / `playwright.config.ts` / `phase0-decisions.json` / `goals.baseline.json` / 组件与 core 源码 / 任何发布配置 ⇒ `check:goals` 基线无需重校。
+- `HEAD == origin/main == 63c3add`；**§30.9 改动未提交 / 未推送**，`git commit` / `git push origin main` 须 Aming 逐次授权（禁 force，§25 那次除外）。
+- ⚠️ **CI Full gate 仍未经真实 run 验证为绿**：字体统一了字形来源，但光栅化仍走 CoreText，本机 macOS 26.5.1 与 `macos-15` 差一个大版本，**不能 100% 排除细微差异**；必须靠授权后的那次 push 触发 run 验真，本机全绿不冒充 CI 全绿。若仍失败，用 `visual-diff-<run_id>` artifact 像素级定位，A（环境双基线）/ C（`macos-26` runner）作为后备；**不放宽 `maxDiffPixelRatio: 0.002`**。
+- `T1-07` / `T1-13` 的「CI 全绿」前置在复验前仍不成立，C03 的 `verdict` 保持 `partial`；`T0-04` / `T1-13` 主行仍 `[ ]`。
+- 未发任何包到公网、未运行 `pnpm release`、无 git tag、`.changeset/` 未写入；**放行 ≠ 授权 publish**。npm 账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置。

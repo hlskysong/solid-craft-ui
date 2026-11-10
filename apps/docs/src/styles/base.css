@@ -1,8 +1,22 @@
 /**
  * T1-05 截图稳定性基线：固定字体 / 字号 / 行高 / 背景，关闭全部动画。
  * 这里只作用于 Demo 宿主页面，不修改组件库样式。
- * 由 examples/visual-demo 逐字迁入（T1-06 文档站接管），保证 16 张基线零漂移。
+ * 由 examples/visual-demo 逐字迁入（T1-06 文档站接管）。
+ *
+ * §30.9 方案 B：Demo 宿主的中文改由仓库内固定字体子集渲染（Noto Sans SC / OFL-1.1，
+ * 见 public/fonts/OFL.txt 与 scripts/build-visual-font.py）。此前用系统 PingFang SC，
+ * 本机 macOS 26.5.1 与 CI macos-15 runner 的字体文件不同，导致 5 张基线 ratio 0.01 失败；
+ * 字体随仓库入库后，截图不再依赖 runner 的字体集。文档站非 Demo 区域仍用原系统字体栈。
+ * 字体契约由 `pnpm check:ci` 守着（哈希 / 字集 / 禁止系统字体回退）。
  */
+@font-face {
+  font-family: 'SCUI Visual';
+  src: url('/fonts/scui-visual.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+}
+
 :root {
   color-scheme: light;
 }
@@ -35,6 +49,8 @@ body {
   max-width: 960px;
   margin: 0 auto;
   padding: 24px;
+  /* 只用仓库内字体；sans-serif 仅为加载失败时的兜底，不得写回具体系统字体 */
+  font-family: 'SCUI Visual', sans-serif;
 }
 
 .demo-root__title {

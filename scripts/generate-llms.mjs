@@ -26,6 +26,10 @@ import { PACKAGE_BASE, REPO_NAME } from './scope.mjs';
  *   由 package.json#files 带入 tarball，版本与所安装的包天然一致。
  * 逐页 Markdown 不随包发布：全量正文已合并进 llms-full.txt，离线可直接读取。
  * `--check` 只比对不落盘，另外校验结构、链接可达性、exports 覆盖率、full 完整性与包内副本。
+ *
+ * §30.9：`public/fonts/` 是手工维护的静态资产（固定 Web 字体 + OFL 许可证 + 字集清单），
+ * 不是 llms 生成物，由 STATIC_ASSET_DIRS 精确豁免孤儿检测；其余目录仍逐文件严格比对，
+ * 且非 `--check` 模式会清理真正的孤儿。豁免只按目录前缀，不放宽任何其它路径。
  */
 const repoRoot = resolve(import.meta.dirname, '..');
 const publicRoot = join(repoRoot, 'apps', 'docs', 'public');
@@ -850,16 +854,21 @@ const validate = (readOutput) => {
   return { errors, linked, linkLines: linkLines.length };
 };
 
+// 手工静态资产目录：不属于 llms 生成物，既不判孤儿也不得被 generate 模式删除。
+const STATIC_ASSET_DIRS = ['fonts/'];
 const diskFiles = () => {
   const found = [];
   const walk = (dir) => {
     if (!existsSync(dir)) return;
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const abs = join(dir, entry.name);
-      if (entry.isDirectory()) walk(abs);
-      else if (/\.(md|txt|json)$/.test(entry.name)) {
-        found.push(relative(publicRoot, abs).replaceAll('\\', '/'));
+      if (entry.isDirectory()) {
+        walk(abs);
+        continue;
       }
+      const rel = relative(publicRoot, abs).replaceAll('\\', '/');
+      const isStaticAsset = STATIC_ASSET_DIRS.some((prefix) => rel.startsWith(prefix));
+      if (!isStaticAsset && /\.(md|txt|json)$/.test(entry.name)) found.push(rel);
     }
   };
   walk(publicRoot);

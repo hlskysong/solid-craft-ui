@@ -14,6 +14,9 @@ for (const width of VIEWPORTS) {
     for (const id of DEMO_IDS) {
       test(`${id} 截图基线`, async ({ page }) => {
         await page.goto(demoPath(id));
+        // §30.9 方案 B：固定 Web 字体（font-display:block）必须在截图前完成加载，
+        // 否则 Chrome 会回退到系统字体，runner 字体集再次参与像素比对。
+        await page.evaluate(() => document.fonts.ready.then(() => true));
         const root = page.getByTestId('demo-root');
         await expect(root).toBeVisible();
         await expect(root).toHaveAttribute('data-demo', id);
