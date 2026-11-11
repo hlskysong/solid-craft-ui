@@ -11,7 +11,7 @@
 | --- | --- |
 | 当前目标 | **M1 Exit 已于 2026-11-11 闭合**（T0-03 评审签字 → T0-04 → T1-13 全部 `[x]`，38/38 任务完成，见 §30.11）；方案 C 四个 Phase 0 Spike 可行性实证（§30.10）与 T0-04 依赖列「全部 Spike」均已闭合，例外 0/0；下一阶段为 M2 复杂组件正式实现；R1~R5 的 4 条修改要求中 **① R1 已于 2026-11-11 落实（§30.12）**，**②③④ 已于 2026-11-11 复查完毕（§30.13）**；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | T1-13（M1 Exit 已于 2026-11-11 闭合，见 §30.11；38/38 任务全勾，下一阶段转 M2 复杂组件正式实现）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；C09 复审 `partial`、C14 复审 `pass`；CI Full gate 由 run `42977984086`（7f7832a）4/4 全绿复验，前次 `42959040941`（d1cf29f）、`42938773154`（757dae4）亦全绿 |
+| 当前任务 ID | T1-13（M1 Exit 已于 2026-11-11 闭合，见 §30.11；38/38 任务全勾，下一阶段转 M2 复杂组件正式实现）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；C09 复审 `partial`、C14 复审 `pass`；CI Full gate 由 run `43006966939`（0d77fc2）4/4 全绿复验，前次 `42977984086`（7f7832a）、`42959040941`（d1cf29f）、`42938773154`（757dae4）亦全绿 |
 | 下一步 | **M2 复杂组件正式实现开工前，先落实并复查 R1~R5 的 4 条修改要求**（§30.11）：✅ ① R1 全量切 `data-scui-*` + `.scui-` CSS 作用域（**已于 2026-11-11 落实：31 种裸属性 / 208 处 / 23 文件，88 个选择器全带类作用域，视觉基线 16/16 零差异，`llms` 生成物零变化、无需重生成视觉基线**，见 §30.12）；② R3 函数类型禁用约束（已写入 `resolve-value.ts`，并已同步进 8 个 prop 的正式 API 表 / `llms/exports` / `llms-full`）；③ R4 Table client-only 边界（已标注 `Table.md`，复查时 S-04 SSR 冒烟可复现：5292 chars / 双渲一致 / 2/2 markers）；④ R5 RangePicker 排期重排为 M2 与 DatePicker 同批交付（Aming 2026-11-11 确认「最终肯定要有，节点问题不大」，M1 Exit 不因此重开，见 §30.14）；⑤ R3 的「`MaybeAccessor` 禁函数型实参」已从 JSDoc 升级为机器判据 `check:accessors`（§30.14）。✅ T0-03 已由 Aming 签字、M1 Exit 已闭合（§30.11）；✅ CI run `42977984086`（7f7832a）4/4 全绿，前次 `42959040941`（d1cf29f）亦全绿；⚠️ 真实 publish 未授权、未发生，npm trusted publisher 配置与首包发布仍是人工前置 |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）** |
 
@@ -2131,11 +2131,12 @@ Aming 原话（2026-11-11）：「RangePicker 最终肯定要有，这个不行�
 | --- | --- |
 | `pnpm check:accessors` | RC=0：8 处非函数型 / 2 处泛型签名跳过 / 契约定义在位 / 49 个源文件 |
 | `pnpm check:ci` | RC=0：**verify 26 个阶段齐全且 build 优先**，其余契约（体积预算 / workflow / 视觉基线 / 字体 / Spike）全部保持 |
-| 10 个只读门禁 | RC=0（`check:docs` / `check:llms` / `check:styles` / `check:todo` / `check:decisions` / `check:ci` / `check:naming` / `check:slice` / `check:public` / `check:goals`） |
+| 11 个只读门禁 | RC=0（`check:docs` / `check:llms` / `check:styles` / `check:accessors` / `check:todo` / `check:decisions` / `check:ci` / `check:naming` / `check:slice` / `check:public` / `check:goals`） |
 | `pnpm verify` | **RC=0，26 阶段全绿** |
+| CI（回写） | 提交 `0d77fc2` 推送后 **run `43006966939` = success 4/4**：Full gate（`pnpm verify` 26 阶段）2m29s + TS 7 platform 三架构（ubuntu-24.04 / windows-2022 / macos-15）全 success |
 | 负向实证 | N59a~N59i **10/10 PASS**，全部字节级还原、`LEFTOVER []` |
 | 冻结与锁 | `docs/01~07` 零改动；`pnpm-lock.yaml` 零改动（`oxc-parser` 本就在 devDependencies，无新增依赖） |
 
 **治理同步**：`AGENTS.md §10（类型）` 增补 R3 硬约束（含「tsgo 无编译器 API，故用 `oxc-parser`」的实现理由），`check:goals` 因此重校基线 —— 实测只重算 `AGENTS.md` 1 项哈希与标记行，其余 14 项不动。
 
-**边界**：本节只新增一个门禁脚本、`package.json` 两行接线、`check-ci` 一条必需阶段与四处文档表述；**未改任何组件运行时语义、props 类型、Token、样式、产物**。R3 判据只覆盖「类型实参顶层是否函数型」，不覆盖运行期误用（如把函数当 getter 传进去）——后者仍靠类型系统与评审。真实 publish 依旧未授权、未发生。
+**边界**：本节只新增一个门禁脚本、`package.json` 两行接线、`check-ci` 一条必需阶段与四处文档表述；**未改任何组件运行时语义、props 类型、Token、样式、产物**。R3 判据只覆盖「类型实参顶层是否函数型」，不覆盖运行期误用（如把函数当 getter 传进去）——后者仍靠类型系统与评审。本轮改动已由 Aming 授权提交并推送：`0d77fc2`（17 files / +360 −66，非 force，`7f7832a..0d77fc2`），CI run `43006966939` 4/4 全绿。真实 publish 依旧未授权、未发生。
