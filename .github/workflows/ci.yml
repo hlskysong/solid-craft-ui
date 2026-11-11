@@ -10,12 +10,30 @@ name: CI
 # 发布闸门由 scripts/check-release.mjs 守着，发布走 release.yml 的暂存通道
 # （手动触发 + environment 审批 + 维护者 2FA 批准后才上线）。
 # 切换 CI 平台只需替换本文件，scripts/check-ci.mjs 的契约校验与 pnpm verify 不变。
+#
+# 用量红线（2026-11-11 §30.17，Aming 提出）：一次 push 只允许跑 1 个 job。
+# 公开仓库不按分钟计费，但短时间内大量 workflow run / job 会触发用量告警甚至封号；
+# 本仓单维护者、每次提交前都在本机跑完整 pnpm verify，CI 只当第二意见，不必每条链都上 CI。
+#   - verify：macOS 主门禁，push main + 手动派发，跑完整 pnpm verify（26 阶段，含视觉基线）；
+#   - platform-packages：三架构跨平台矩阵，只在 workflow_dispatch 跑（出包前 / 定期人工校验），
+#     macOS 架构已由 verify 覆盖，故不随每次 push 付三个 runner；
+#   - 不接 pull_request：本仓无 PR 流程（AGENTS.md 硬约束 13 直推 main），接上等于每个 PR 再跑一整套；
+#   - concurrency + cancel-in-progress：连续 push 时取消上一轮，不留并发堆积；
+#   - 每个 job 设 timeout-minutes：卡死的 runner 不会烧到默认 6 小时。
+# 判据机器化：scripts/check-ci.mjs 第 4 条按「每次 push 运行的 job 数 ≤ 1」计数，
+# 新增 job 不显式 gate 就红灯 —— 省用量这件事靠脚本，不靠记性。
 
 on:
   push:
     branches: [main]
-  pull_request:
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   verify:
@@ -24,6 +42,7 @@ jobs:
     # 主门禁跑同一 runner 平台（macOS 字体集）+ 同一浏览器 build，消除跨环境渲染差异。
     # 2026-11-10 前用系统 Chrome，CI runner 版本与本机不同导致 5 次视觉基线失败（§30.8）。
     runs-on: macos-15
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -48,9 +67,13 @@ jobs:
             playwright-report
           retention-days: 7
 
+  # 三架构平台包校验（S-09）：TS 7 的平台二进制按 os/cpu 分发，跨架构必须真跑过。
+  # 只在手动派发时执行 —— push 已有 verify 在 macOS 上覆盖本架构，另两架构按需验。
   platform-packages:
     name: 'TS 7 platform packages (${{ matrix.os }})'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:

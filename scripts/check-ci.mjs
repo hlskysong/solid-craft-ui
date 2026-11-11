@@ -13,6 +13,10 @@
  *      算成 0 字节而「假 PASS」。
  *   4. CI workflow 契约：--frozen-lockfile、pnpm verify、各架构 tsc --version、
  *      node-version-file、多架构 matrix、与截图基线同平台；ci.yml 不含发布凭据或直发命令。
+ *      2026-11-11 起加用量红线（§30.17，Aming 提出「过量跑 Actions 有封号风险」）：
+ *      每次 push 真正运行的 job 数 ≤ 1、跨架构矩阵必须被 workflow_dispatch gate 住、
+ *      不接 pull_request、必须有 concurrency cancel-in-progress 与 per-job timeout-minutes。
+ *      计数式判据（数 job）而不是白名单式判据（只认 job 名），新增 job 必须显式 gate。
  *   5. 工具链单点：size 脚本必须走 size-limit，且 @size-limit/file 插件已声明。
  *   6. T1-11 受控发布通道：扫描 .github/workflows/ 下全部 yml（只扫 ci.yml 会留绕过盲区），
  *      凭据字面量与直发命令零容忍；release.yml 必须手动触发 + environment 审批 +
@@ -149,6 +153,8 @@ for (const check of checks) {
 
 // 4. CI workflow 契约
 const workflow = read(workflowPath);
+// 用量红线的统计结果要在收尾汇总里打印，先在外层占位（判据本身在下面的 else 块里）
+const ciUsage = { pushJobs: 0, totalJobs: 0 };
 if (workflow.length === 0) {
   fail('缺少 .github/workflows/ci.yml');
 } else {
@@ -185,6 +191,55 @@ if (workflow.length === 0) {
   }
   if (/NPM_TOKEN|NODE_AUTH_TOKEN|\bnpm publish\b|changeset publish/.test(workflow)) {
     fail('ci.yml 出现发布凭据或直发命令：verify job 只负责门禁，不参与发布');
+  }
+
+  // 4a. 用量红线（§30.17）：每次 push 只允许 1 个 job 真跑，其余必须显式 gate
+  if (/^ {2}pull_request:\s*$/m.test(workflow)) {
+    fail('ci.yml 接了 pull_request 触发：本仓无 PR 流程，接上等于每个 PR 再跑一整套门禁');
+  }
+  if (!/cancel-in-progress:\s*true/.test(workflow)) {
+    fail('ci.yml 缺少 concurrency.cancel-in-progress: true（连续 push 会堆并发 run）');
+  }
+  // gate 住的 job 必须有触发方式，否则等于把跨架构校验改成不可达的死代码
+  if (!/^ {2}workflow_dispatch:/m.test(workflow)) {
+    fail('ci.yml 缺少 workflow_dispatch 触发：被 gate 住的跨架构矩阵会变成永不执行的死代码');
+  }
+  const jobsBlock = workflow.split(/^jobs:\s*$/m)[1] ?? '';
+  const jobHeads = [...jobsBlock.matchAll(/^ {2}([A-Za-z0-9_-]+):\s*$/gm)];
+  if (jobHeads.length === 0) {
+    fail('ci.yml 未解析到任何 job（jobs: 块结构变化会让用量判据空转）');
+  }
+  const jobList = jobHeads.map((head, index) => {
+    const start = head.index ?? 0;
+    const end = jobHeads[index + 1]?.index ?? jobsBlock.length;
+    const chunk = jobsBlock.slice(start, end);
+    return {
+      name: head[1] ?? '',
+      chunk,
+      // 4 空格缩进 = job 级键；6 空格是 steps 内的键，不参与判断
+      gated: /^ {4}if:/m.test(chunk),
+      hasTimeout: /^ {4}timeout-minutes:/m.test(chunk),
+    };
+  });
+  const pushJobs = jobList.filter((job) => !job.gated);
+  ciUsage.pushJobs = pushJobs.length;
+  ciUsage.totalJobs = jobList.length;
+  if (pushJobs.length > 1) {
+    fail(
+      `ci.yml 有 ${pushJobs.length} 个 job 会在每次 push 时运行（用量红线 ≤ 1）：${pushJobs.map((job) => job.name).join(' / ')} —— 新增 job 必须用 if: 显式 gate`,
+    );
+  }
+  for (const job of jobList) {
+    if (!job.hasTimeout)
+      fail(`ci.yml 的 job "${job.name}" 未设 timeout-minutes（卡死会烧到默认 6 小时）`);
+  }
+  const platformJob = jobList.find((job) => job.chunk.includes('pnpm check:platforms'));
+  if (!platformJob) {
+    fail('ci.yml 没有跑 pnpm check:platforms 的 job');
+  } else if (!/^ {4}if:.*workflow_dispatch/m.test(platformJob.chunk)) {
+    fail(
+      `ci.yml 的跨架构 job "${platformJob.name}" 未按 workflow_dispatch gate：三架构矩阵不能随每次 push 跑`,
+    );
   }
 }
 
@@ -474,5 +529,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· size-limit@${sizeLimit} + file 插件`,
 );

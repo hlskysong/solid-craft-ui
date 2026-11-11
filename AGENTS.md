@@ -2,7 +2,7 @@
 
 > 供 AI 编码代理（opencode / WorkBuddy）读取。**规范全文见 `docs/01~07`（v0.3）**，本文件只列执行时必须遵守的硬约束与落盘清单；冲突时以 `docs/01~07` 为准。
 > 本文件对应实施清单 `docs/08-实施Todo.md` 的 T0-01 / T0-02。
-> 目标基线 SHA256: b570206061036966508133024bd30a3ff609b262e6677ea95878f1b1bbd7b255
+> 目标基线 SHA256: d2bd8c34a24ef3f7ad9fde87940ce828e0bc8fd31ffa5544fc8b762c7ebee889
 
 ## 1. 运行环境
 
@@ -59,6 +59,7 @@ ui-design/
 13. **正式名已定（D-01 `[x]`，Aming 2026-11-08 本人给定）**：仓库 / 展示名 `solid-craft-ui`，主包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS / 组件前缀 `scui-*`。**只有 Aming 本人可再次改名或勾 D-10**（2026-11-09 已明确授权 AI 代勾本行一次，见 §27）；AI 不得擅自注册 scope、发布或写入发布目标。定名不等于放行：D-10 ① GitHub 仓库地址已由 Aming 2026-11-08 提供（`https://github.com/hlskysong/solid-craft-ui.git`，public / `main`，单点定义见硬约束 1），并已于 **2026-11-09 由 Aming 本人完成首次推送**（HEAD=origin/main、`check:public` 审计零敏感命中）；② npm 账号 `hlskysong` 亦已登记（三个包名 npmjs.org 只读体检均 404 未占用；2026-11-09 `npm whoami` = `hlskysong` 已由登录态确证账号存在性），**③ ✅ 发布凭据 / 登录态已闭环**（凭据仅存于用户级 `~/.npmrc`，仓库内 `.npmrc` 零凭据），**④ ✅ 已由 Aming 重定义为「本地预演（不 publish）」并闭环**：链路固化为 `pnpm preview:release`（`scripts/preview-release.mjs` / `preview-registry.mjs`，只连 127.0.0.1），由 `check:release` 第 10 条判据钉死，实测零公网请求（§27）；changesets pre 首个真实产出为 `0.1.1-canary.0`，旧 `0.1.0-canary.*` 口径已纠正。**D-10 主行 `[x]`**（Aming 2026-11-09 授权），`check:release --strict` RC=0。⚠️ **放行 ≠ 授权 publish**：`pnpm release` / 公网发布仍须 Aming 逐次明确授权，AI 不得在无人值守流程里擅自执行；**T1-11 已由 §28 重定义为 OIDC stage-only 受控发布通道并勾选**：`release.yml` 仅手动触发 + environment 审批 + OIDC 短期凭据，零长期凭据；`check:ci` 全 workflow 扫描与 `check:release` 第 11 条共同钉死「禁直发 / 禁 push 自动发包 / 只许暂存提交」，npm 账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置；`pnpm release` 仍是人工直发路径，须逐次授权。**2026-11-09 Aming 明确授权 AI 提交并推送本轮改动（§23），并本人决定把 public 历史重写为单一干净 root commit 后强推（§25）**；重写后此前 3 个 commit 的 SHA（`f1ae98e` / `b8606c0` / `fa15f5d`）全部作废，§22/§23/§24 中的引用仅作历史叙述、不可再解析，当前 SHA 一律以 `git rev-parse HEAD` 为准；此后 AI 仅在逐次明确授权时执行 `git commit` / `git push origin main`，**除 §25 已豁免的这次历史重写外，禁止 force push / 改写历史 / 直推 master**，提交身份必须为 `Aming / hlsky@foxmail.com`；每次推送前须 `pnpm check:public` RC=0。渠道 GitHub + 公开 npmjs.org（D-09）。
 14. **上下文恢复第一件事**：读 `docs/08` 顶部的「当前锚点」，收尾时增量更新它。禁止一次性批量勾选；每个 `[x]` 必须在验收输出区块被点名，新增依赖倒挂会被 `check:todo` 拦下，历史例外只减不增。改 `docs/01~07` / 本文件 / 治理脚本会触发 `check:goals` 基线红灯，必须人工确认后跑 `pnpm check:goals --update-baseline`。
 15. **冻结规范与正式名并存**：`docs/01~07` 是 v0.3 冻结基线，正文仍为改名前占位名，**一个字节都不许改**；`scripts/naming-legacy.mjs` 是唯一允许出现占位名的真源，`generate-llms.mjs` 生成对外产物时必须过 `applyNaming()` 映射层。`scripts/check-naming.mjs` 校验真源与对外产物零残留 + 映射层自证。本地工作目录仍叫 `ui-design/`，属路径不是品牌名，不参与改名。
+16. **CI 用量红线**（Aming 2026-11-11 提出「过量跑 Actions 有封号风险，尽量集中」）：`.github/workflows/ci.yml` **每次 push 只允许跑 1 个 job**，其余 job 必须用 job 级 `if:` 显式 gate（三架构平台矩阵按 `workflow_dispatch` 派发，macOS 由主门禁覆盖）；**不接 `pull_request`**（本仓无 PR 流程，接上等于每个 PR 再跑一整套）；连续 push 靠 `concurrency` + `cancel-in-progress: true` 收敛；每个 job 必须设 `timeout-minutes`。门禁链本身仍全部收敛到 `pnpm verify` —— 加一条检查就加进 verify，不要新开 workflow 或新开 job。判据是 `scripts/check-ci.mjs` 第 4 条的**计数式**校验（数「没有 `if:` 的 job 个数」，不维护 job 名白名单），另见 `docs/08 §30.17`。**省用量靠脚本，不靠记性**：新增 workflow 文件同样受此约束。
 
 ## 4. 新增一个组件必须同时落盘
 

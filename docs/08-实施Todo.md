@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -10,7 +10,7 @@
 | 字段 | 值 |
 | --- | --- |
 | 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），当前无 T2 任务 `[x]`，起始项 T2-01（`primitives/` 适配层）；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
-| 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
+| 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
 | 当前任务 ID | **T2-02**（M2 第二项「表单控件基座 `FieldContext` + `useFormField`」，见 §4.1；T2-01 已完成，见 §30.16）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿，前次 `43006966939`（`0d77fc2`）、`42977984086`（`7f7832a`）、`42959040941`（`d1cf29f`）、`42938773154`（`757dae4`）亦全绿 |
 | 下一步 | **按 §4.1 执行 M2（13 项，已完成 1 项）**：~~T2-01 primitives 适配层~~（§30.16）→ T2-02 表单控件基座（两者是全链前提，不做基座后续每个控件都要返工）→ T2-03 / T2-05 / T2-06 并行 → T2-07 Select 与 T2-08 Form 并行 → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker（最长尾巴，尽早启动）→ T2-12 体积预算 → T2-13 M2 Exit。每项完成后回读文件 + 跑对应验收 + 在后续落地记录（§31 起）点名，才可勾 `[x]` |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
@@ -76,7 +76,7 @@
 | T1-04 | 基础组件：Button、Icon、Typography、Space、Divider、Layout、Grid | T1-02 / T1-03 | 工程师 C | ⭐ Button `color` 默认 `primary`（ADR-019）；size 唯一口径 `small/medium/large` | [x] |
 | T1-05 | 测试设施：Vitest + Testing Library + jsdom；Playwright + axe + 截图 | T0-01 | QA + 工程师 C | 单测 / 浏览器 / 截图三条链可跑（35 / 8 / 16 用例全绿，见 §11） | [x] |
 | T1-06 | 文档设施：路由、Demo 渲染、源码高亮、API 生成、搜索 | S-07 | 工程师 C + DevRel | 文档站可访问，Demo 与源码同源 | [x] |
-| T1-07 | CI/CD：lint / typecheck / test / build / size / publint / attw | T0-01 / S-09 | 技术负责人 | CI 全绿；各架构 `tsc --version` 通过（`pnpm verify` 18 个阶段 + `size-limit` 体积预算 + `check:ci` 契约 + `check:platforms` 20/20 平台包 + 3 架构 CI matrix，负向 11/11，见 §16） | [x] |
+| T1-07 | CI/CD：lint / typecheck / test / build / size / publint / attw | T0-01 / S-09 | 技术负责人 | CI 全绿；各架构 `tsc --version` 通过（`pnpm verify` 18 个阶段 + `size-limit` 体积预算 + `check:ci` 契约 + `check:platforms` 20/20 平台包 + 3 架构 CI matrix（2026-11-11 起该矩阵改为 `workflow_dispatch` 按需派发，macOS 由主门禁覆盖，§30.17），负向 11/11，见 §16） | [x] |
 | T1-08 | **许可证落地**：根目录 + 各包 `LICENSE`；`package.json` 写 `"license": "MIT"`；发布门禁校验 | T0-01 | 技术负责人 | 06 §9.2 门禁检查存在性；ADR-020 | [x] |
 | T1-09 | **双构建正式产物**：`dist/source/*.jsx` 覆盖每个组件子路径 + `"solid"` 条件 + 构建脚本一一对应校验 | S-10 | 技术负责人 | `publint` / `attw` / `examples/solid-start` 三重校验；⭐ 不是骨架，M4 要验收 | [x] |
 | T1-10 | **scope 单点收敛**：`@ui-design/*` 与 `ui-` 前缀抽到单一常量 / 构建脚本 | T0-01 | 技术负责人 | 全库搜索无第二套硬编码前缀；改名不动组件 API | [x] |
@@ -200,8 +200,8 @@ pnpm smoke:consumers
 pnpm smoke:tarball
 pnpm smoke:start-real
 pnpm size                    # size-limit：Button 1.92 KB / 6 KB、Core 18.86 KB / 180 KB（gzip）
-pnpm check:platforms         # TS 7 平台二进制包 + tsc --version（CI 各架构 job 单独跑）
-pnpm check:ci                # CI 契约：verify 阶段齐全 / 预算同源 / workflow 无伪造发布
+pnpm check:platforms         # TS 7 平台二进制包 + tsc --version（CI 按 workflow_dispatch 派发时跑三架构，§30.17）
+pnpm check:ci                # CI 契约：verify 阶段齐全 / 预算同源 / 用量红线（每 push ≤ 1 job）/ workflow 无伪造发布
 pnpm check:release           # 发布闸门：access=public / changeset 包名同源 / tarball 公开内容审计 / 预演只连本地 / stage-only 通道禁直发；D-10 齐备后 --strict RC=0，但放行 ≠ 授权 publish
 pnpm preview:release         # D-10 ④ 本地影子发布：只连 127.0.0.1，零公网
 pnpm stage:release -- --tag canary --dry-run   # T1-11 受控通道本地验收：只组装 staging，不连公网
@@ -2299,3 +2299,56 @@ S-02 的注释写「jsdom 下原语不响应 click / keydown / pointer* 的选�
 | 还原 | 四处 `cp` 字节级还原 | 全绿 | ✅ `check:exports` / `ssr-smoke` / `vitest` 三者 RC=0，`DRIFT []` |
 
 脚本 `/tmp/neg_t201.py`（每例重新备份当前字节 + `finally` 还原 + 结尾 sha256 比对）。
+
+### 30.17 CI 用量收敛：一次 push 只跑一个 job（2026-11-11，Aming 提出）
+
+**结论先行**：Aming 指出「过量使用 GitHub Actions 用量有封号风险，尽量集中做 CI 检测」。盘完现状：每次 push `main` 会拉起 **4 个 runner**（macOS 全量 `verify` + ubuntu / macos / windows 三架构矩阵），而本仓单维护者、每次提交前都在本机跑过完整 `pnpm verify`，CI 只是第二意见。改为 **push 只跑 1 个 job**，三架构矩阵收成手动派发时跑，并把「省用量」做成 `check:ci` 第 4 条的**计数式判据**，而不是靠记性。
+
+#### 一、改动前后
+
+| 维度 | 改前 | 改后 |
+| --- | --- | --- |
+| 触发 | `push: [main]` + `pull_request`（全部分支）+ `workflow_dispatch` | `push: [main]` + `workflow_dispatch`（去掉 `pull_request`：本仓无 PR 流程，接上等于每个 PR 再跑一整套） |
+| 每次 push 的 job 数 | 4（1 × macos-15 `verify` + 3 × 平台矩阵） | **1**（macos-15 `verify`） |
+| 三架构平台校验 | 每次 push 都跑 | 只在 `workflow_dispatch` 派发时跑（`if: github.event_name == 'workflow_dispatch'`） |
+| 并发 | 无 `concurrency`，连推会堆多轮 | `group: ${{ github.workflow }}-${{ github.ref }}` + `cancel-in-progress: true` |
+| 超时 | 默认 6 小时 | `verify` 45 分钟 / `platform-packages` 20 分钟 |
+| 权限 | 未声明 | 顶层 `permissions: contents: read` |
+
+#### 二、为什么不是直接删掉矩阵
+
+S-09 的承诺是「各架构真跑过平台包」，删掉等于撤回验收。macOS 那一格本来就被 `pnpm verify` 第 19 阶段 `check:platforms` 覆盖（每次 push 都跑），所以按需派发保留的是 ubuntu / windows 两格的增量价值：出包前手动跑一次，或怀疑平台包漂移时跑。代价是这两格从「每 push 都验」降为「按需验」—— 这是明确接受的取舍，写成判据而不是口头约定。
+
+#### 三、机器判据（`scripts/check-ci.mjs` 第 4 条新增）
+
+| 判据 | 拦的是什么 |
+| --- | --- |
+| 每次 push 运行的 job 数 ≤ 1 | 新加 job 忘了 gate，用量悄悄翻倍 |
+| 跨架构 job 必须带 `workflow_dispatch` gate | 把矩阵改回「每 push 都跑」 |
+| 必须存在 `workflow_dispatch` 触发 | 被 gate 住的 job 变成永不执行的死代码 |
+| 不得接 `pull_request` | 本仓无 PR 流程，接上等于每个 PR 再跑一整套 |
+| `cancel-in-progress: true` | 连续 push 堆并发 |
+| 每个 job 有 `timeout-minutes` | 卡死的 runner 烧到默认 6 小时 |
+
+判据是**数 job 个数**，不是认 job 名：新增 job 只要没写 `if:` 就红灯，不需要维护白名单（否则又是一条会腐化的名单）。收尾汇总行会打印 `push 时运行 1/2 个 job`，改坏了读数立刻变形。
+
+#### 四、负向实证 N65~N70（6/6 PASS）
+
+| 用例 | 注入 | 期望 | 实测 |
+| --- | --- | --- | --- |
+| N65 | 删掉 `concurrency.cancel-in-progress: true` | `check:ci` RC=1 | ✅ 报「缺少 cancel-in-progress」 |
+| N66 | `on:` 下加回 `pull_request:` | RC=1 | ✅ 报「接了 pull_request 触发」 |
+| N67 | 摘掉跨架构 job 的 `if:` | RC=1 | ✅ 报「2 个 job 会在每次 push 时运行」 |
+| N68 | 删掉 `platform-packages` 的 `timeout-minutes` | RC=1 | ✅ 报「未设 timeout-minutes」 |
+| N69 | 删掉 `pnpm check:platforms` 那一步 | RC=1 | ✅ 报「没有跑 check:platforms 的 job」 |
+| N70 | 删掉 `on:` 下的 `workflow_dispatch:` | RC=1 | ✅ 报「跨架构矩阵会变成死代码」 |
+| 还原 | 用例级逐次还原 + 结尾 sha256 比对 | 全绿 | ✅ `check:ci` RC=0，`DRIFT []` |
+
+脚本 `/tmp/neg_ci.py`（N65~N69，每例前重新备份、破坏后立即还原并断言 sha256 未漂移）+ 一段一次性 python（N70，同口径还原校验）。YAML 结构另用 `yaml@2.9.1` 实际解析过一遍：`jobs=[verify, platform-packages]`、`triggers=push,workflow_dispatch`、`concurrency.cancel-in-progress=true`、`matrix.os` 三架构齐全。
+
+#### 五、本轮边界与一条补记
+
+- 本轮**未推送**（Aming 指示「提交但不 push」），因此**没有新的 CI run**。最后一次真实 run 仍是 `43007953713`（`0b08a25`，attempt 2）4/4 全绿 —— 该 run 的 attempt 1 是 macOS runner 排队 ~15 分钟被 cancel（jobs 的 `steps` 数组为空，属于 runner 从未启动，不是测试失败），`rerun-failed-jobs` 后 56 秒跑完。这条同时补上 §30.14 验收表里缺的那次 run。
+- `check:ci` 只保证「配置形态」合规，**不保证 GitHub 侧的实际计数**：真省了多少要等下次推送后看 run 里只有 1 个 job。这一点不糊。
+- `docs/01~07` 零改动、`pnpm-lock.yaml` 零改动、未 publish。
+
