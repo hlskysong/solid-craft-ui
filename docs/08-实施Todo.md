@@ -2351,4 +2351,3 @@ S-09 的承诺是「各架构真跑过平台包」，删掉等于撤回验收。
 - 本轮**未推送**（Aming 指示「提交但不 push」），因此**没有新的 CI run**。最后一次真实 run 仍是 `43007953713`（`0b08a25`，attempt 2）4/4 全绿 —— 该 run 的 attempt 1 是 macOS runner 排队 ~15 分钟被 cancel（jobs 的 `steps` 数组为空，属于 runner 从未启动，不是测试失败），`rerun-failed-jobs` 后 56 秒跑完。这条同时补上 §30.14 验收表里缺的那次 run。
 - `check:ci` 只保证「配置形态」合规，**不保证 GitHub 侧的实际计数**：真省了多少要等下次推送后看 run 里只有 1 个 job。这一点不糊。
 - `docs/01~07` 零改动、`pnpm-lock.yaml` 零改动、未 publish。
-
