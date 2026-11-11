@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），当前无 T2 任务 `[x]`，起始项 T2-01（`primitives/` 适配层）；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 2 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18），下一项 T2-03；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T2-02**（M2 第二项「表单控件基座 `FieldContext` + `useFormField`」，见 §4.1；T2-01 已完成，见 §30.16）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿，前次 `43006966939`（`0d77fc2`）、`42977984086`（`7f7832a`）、`42959040941`（`d1cf29f`）、`42938773154`（`757dae4`）亦全绿 |
-| 下一步 | **按 §4.1 执行 M2（13 项，已完成 1 项）**：~~T2-01 primitives 适配层~~（§30.16）→ T2-02 表单控件基座（两者是全链前提，不做基座后续每个控件都要返工）→ T2-03 / T2-05 / T2-06 并行 → T2-07 Select 与 T2-08 Form 并行 → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker（最长尾巴，尽早启动）→ T2-12 体积预算 → T2-13 M2 Exit。每项完成后回读文件 + 跑对应验收 + 在后续落地记录（§31 起）点名，才可勾 `[x]` |
+| 当前任务 ID | **T2-03**（M2 第三项「Input（Textarea 并入）」，见 §4.1；T2-01 / T2-02 已完成，见 §30.16 / §30.18，T2-05 / T2-06 可并行）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后两次提交（`5951d25` T2-01 / `c118680` CI 用量收敛）**未推送**，故无新 run |
+| 下一步 | **按 §4.1 执行 M2（13 项，已完成 2 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ **T2-03 Input（Textarea 并入）**（与 T2-05 Checkbox/Radio/Switch、T2-06 App 可并行）→ T2-07 Select 与 T2-08 Form 并行 → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker → T2-12 体积预算 → T2-13 M2 Exit。每项完成后回读文件 + 跑对应验收 + 在落地记录（§31 起）点名，才可勾 `[x]` |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
 
 ---
@@ -126,7 +126,7 @@
 | ID | 任务 | 依赖 | 主责 | 验收 | 状态 |
 | --- | --- | --- | --- | --- | --- |
 | T2-01 | `primitives/` 适配层：Kobalte（Dialog / Select 原语）+ Floating UI 封装进 `src/primitives/`，公共 API 不暴露其类型；SSR 出静态骨架、交互在 `onMount` 后接管 | — | 技术负责人 | ADR-004 边界落地；`renderToString` 双渲确定；产物零 Kobalte 类型泄漏；`check:accessors` 通过 | [x] |
-| T2-02 | 表单控件基座：`FieldContext` + `useFormField(name)`，`value` / `status` / `disabled` 一律 getter，统一注入 `id` / `aria-invalid` / `aria-describedby` | T2-01 | 工程师 C | 任一控件被 `Form.Item` 包裹后受控链路通；Context 缺失抛明确错误 | [ ] |
+| T2-02 | 表单控件基座：`FieldContext` + `useFormField(name)`，`value` / `status` / `disabled` 一律 getter，统一注入 `id` / `aria-invalid` / `aria-describedby` | T2-01 | 工程师 C | 任一控件被 `Form.Item` 包裹后受控链路通；Context 缺失抛明确错误（本项以 `FieldProvider` + 同协议探针顶位，`<Form.Item>` 壳在 T2-08，见 §30.18） | [x] |
 | T2-03 | `Input`（Textarea 并入）：前后缀、清除、密码、搜索；Textarea 自动高度 + 字数统计 | T2-02 | 工程师 C | 每个子能力有单测；`data-scui-*` 作用域齐全；键盘 + axe 通过 | [ ] |
 | T2-04 | `InputNumber`：步进、精度、格式化、范围 | T2-03 | 工程师 C | 边界值 / 精度 / 受控同步；不出现浮点误差（整数缩放或 big.js） | [ ] |
 | T2-05 | `Checkbox`（Group + indeterminate）/ `Radio`（Group）/ `Switch` | T2-02 | 工程师 C | `aria-checked` / `mixed` 正确；三件套共享 label 逻辑 | [ ] |
@@ -2351,3 +2351,72 @@ S-09 的承诺是「各架构真跑过平台包」，删掉等于撤回验收。
 - 本轮**未推送**（Aming 指示「提交但不 push」），因此**没有新的 CI run**。最后一次真实 run 仍是 `43007953713`（`0b08a25`，attempt 2）4/4 全绿 —— 该 run 的 attempt 1 是 macOS runner 排队 ~15 分钟被 cancel（jobs 的 `steps` 数组为空，属于 runner 从未启动，不是测试失败），`rerun-failed-jobs` 后 56 秒跑完。这条同时补上 §30.14 验收表里缺的那次 run。
 - `check:ci` 只保证「配置形态」合规，**不保证 GitHub 侧的实际计数**：真省了多少要等下次推送后看 run 里只有 1 个 job。这一点不糊。
 - `docs/01~07` 零改动、`pnpm-lock.yaml` 零改动、未 publish。
+
+### 30.18 T2-02 表单控件基座：字段上下文落地（2026-11-11 实测与验收）
+
+**结论先行**：`src/form/` 落地 `FieldContext` + `FieldProvider` + `useFormField` / `useFormFieldOptional` + `toFieldText`。控件从此只读 getter（值 / 状态 / 禁用 / id 三件套 / aria），不持有快照、不复制状态；用错位置当场抛错，而不是静默渲染一个不受表单控制的输入框。过程中**被自己的测试抓到一个真 bug**（探针 label 漏了 `id`，`aria-labelledby` 指向空处），恰恰证明了「id 三件套必须由宿主同源产出」—— 这就是本层存在的理由。
+
+#### 一、交付物
+
+| 文件 | 作用 |
+| --- | --- |
+| `src/form/types.ts` | `FieldStatus` / `FieldIds` / `FieldAria` / `FieldControl` 契约（全部 getter） |
+| `src/form/field-context.tsx` | `FieldContext` + `FieldProvider`：**不产出 DOM**，纯 Context 写入端 |
+| `src/form/use-form-field.ts` | `useFormField(name)` 严格版（缺上下文 / 字段名不匹配都抛错）+ `useFormFieldOptional()` |
+| `src/form/field-value.ts` | `toFieldText()`：`unknown` → 可渲染字符串的唯一收窄点 |
+| `src/form/index.ts` | 内部 barrel；**不进 `src/index.ts`**、无 exports 子路径 |
+| `src/form/field.test.tsx` | 17 条实证（受控链路 / a11y / id / getter 响应式 / 报错质量 / 值收窄） |
+| `src/form/__tests__/ssr-entry.tsx` | SSR 入口；`collect-sources` 与 `tsconfig.build.json` 双重排除，不进 dist 与 npm 包 |
+| `spikes/shared/ssr-smoke.mjs` | 新增 T2-02 入口（5 个 marker） |
+
+#### 二、范围边界：现在为什么还没有 `<Form.Item>`
+
+任务表验收写的是「任一控件被 `Form.Item` 包裹后受控链路通」，而 `<Form.Item>` 属 T2-08。本项的处理是把 `<Form.Item>` 的**内核**先落地 —— `FieldProvider` 就是它要渲染的东西 —— 再用一个与真实控件同协议的探针顶位。T2-08 落地时 `<Form.Item>` 只是「`FieldProvider` + label + 错误文案 + 布局」的壳，不需要再动本层。
+
+这是**替代证据，不是省略证据**：T2-08 的验收会用真组件把同一条链路再跑一遍。这一点写在任务行里，避免以后有人只看勾选就以为 `<Form.Item>` 已经存在。
+
+#### 三、三条设计取舍
+
+| 取舍 | 选择 | 理由 |
+| --- | --- | --- |
+| 值类型 | `unknown` + `toFieldText` 收窄 | 字段运行期可能是 `string` / `boolean` / `number`；泛型只是把断言推给每个调用点。`toFieldText` 集中回答「`null` / 布尔 / 对象怎么显示」，顺手消掉 oxlint 的 3 处 `no-base-to-string` |
+| id 归属 | 宿主生成，控件只读 | `label[for]` / `aria-describedby` / 控件 id 是三方共享；控件自造 id，被包裹时 label 就指向空处（第四节实测） |
+| status 来源 | 缺省由 message 推导，可显式覆盖 | 避免宿主同时维护 message 与 status 两份真源；将来加 warning 态由宿主显式给 |
+
+#### 四、被测试抓到的真问题
+
+「`label[for]` / `aria-labelledby` / 控件 id 三者同源」这条断言第一次跑是红的：探针写了 `for={field.ids.control}` 却漏了 `id={field.ids.label}`，于是 `aria-labelledby` 指向一个不存在的 id。修的是**探针**（补 label id），不是放松断言 —— 这条断言本身就是「id 必须由宿主同源产出」的证据。
+
+#### 五、验收输出
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0 / 26 阶段**（视觉 16 张基线零差异，SSR 冒烟 6 入口全绿，`smoke:start-real` 真实 SolidStart 通过） |
+| 单测 | `packages/core` **89 tests / 16 files passed**（表单单测 17 条），此前 72 |
+| SSR 冒烟 | 6 个入口全绿；`T2-02 739 chars · 双渲一致 · 5/5 markers`（同页并存 `aria-invalid="false"` 与 `"true"`，`aria-describedby` 指向 field id） |
+| 构建 | `dist/esm/form` / `dist/source/form` / `dist/types/form` 三产物各 5 件 |
+| `check:exports` | RC=0：**40 个声明文件零第三方引用**（T2-01 时 35） |
+| `check:accessors` | RC=0：14 处（本层未新增 `MaybeAccessor` —— 值 / 状态直接就是 `Accessor`） |
+| `check:styles` | RC=0（首次红：注释里写的 `data-attributes.md` 被当成裸 `data-*`；改注释口径后通过，**没有为讨好判据去放宽规则**） |
+| `check:slice` / `check:naming` / `check:public` | RC=0（`src/form` 不在 components 切片内，也未进 exports） |
+| lint | 0 errors / 12 warnings（与改前同；3 条 `no-base-to-string` 由 `toFieldText` 消掉） |
+| size | Core 26.62 kB / 180 kB、Button 1.95 kB / 6 kB（gzip） |
+| `docs/01~07` | 零改动 |
+
+#### 六、负向实证 N71~N74（4/4 PASS）
+
+| 用例 | 注入 | 期望 | 实测 |
+| --- | --- | --- | --- |
+| N71 | `aria-invalid` 改成「有错才输出」 | `ssr-smoke` RC=1 | ✅ 缺 `aria-invalid="false"` marker |
+| N72 | 删掉 `useFormField` 的上下文缺失报错 | 单测 RC=1 | ✅ 「上下文缺失时抛明确错误」红灯 |
+| N73 | `toFieldText` 不再处理数字 | 单测 RC=1 | ✅ `0 → '0'` 红灯 |
+| N74 | `FieldProvider` 不再透传 `disabled` | 单测 RC=1 | ✅ 「disabled 是 getter」红灯 |
+| 还原 | 字节级还原 | 全绿 | ✅ `vitest` / `ssr-smoke` 双 RC=0，`DRIFT []` |
+
+脚本 `/tmp/neg_t202.py`（每例重新备份 + 破坏后立即还原 + sha256 断言）。
+
+#### 七、边界
+
+- `FieldProvider` 不产出 DOM、不带样式、不做校验；校验引擎与布局在 T2-08。
+- `useFormField` / `useFormFieldOptional` / `toFieldText` 目前是**内部 API**：等 T2-08 的 `<Form>` 把公共出口定下来再导出，避免冻结一份还没被 Form 用过的协议。
+- 未推送、未 publish；`docs/01~07` 与 `pnpm-lock.yaml` 零改动。

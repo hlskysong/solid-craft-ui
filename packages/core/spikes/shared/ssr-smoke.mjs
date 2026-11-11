@@ -64,6 +64,19 @@ const cases = [
       'aria-haspopup',
     ],
   },
+  {
+    // T2-02：表单字段基座。服务端必须输出 aria-invalid 的字符串两态（无错也出 'false'），
+    // 且 aria-describedby 只在有错误文案时出现 —— 否则服务端与客户端首帧属性集不同。
+    id: 'T2-02',
+    file: '/src/form/__tests__/ssr-entry.tsx',
+    markers: [
+      'data-scui-role="form"',
+      'data-scui-field="city"',
+      'aria-invalid="false"',
+      'aria-invalid="true"',
+      'aria-describedby="scui-field-',
+    ],
+  },
 ];
 
 const errors = [];
