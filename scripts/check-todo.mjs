@@ -29,7 +29,7 @@ const governance = JSON.parse(
 const lines = todoText.split('\n');
 const errors = [];
 const fail = (message) => errors.push(message);
-const taskIdRe = /^(?:T0|T1|S|X)-\d+$/;
+const taskIdRe = /^(?:T0|T1|T2|S|X)-\d+$/;
 // 显式比较器：oxlint type-aware 要求 sort 类调用带 compare，且避免 locale 差异
 const compare = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 

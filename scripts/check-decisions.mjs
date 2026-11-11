@@ -153,16 +153,28 @@ if (!nonEmpty(gate.blocker) && t004 === '[ ]') {
 // 3b. 「全部」是文字依赖：check:todo 的 L3 只解析显式任务 ID，抓不到这类倒挂。
 //     负向实证 N08 暴露了这个盲区，这里对所有依赖列写「全部 / 全部 Spike」的任务兜底，
 //     T1-13（M1 Exit，依赖「全部」）也在覆盖范围内。
+//     「全部」的语义边界 = **该检查点所在阶段及更早的全部任务**：T0 / T1 是 M1 阶段，
+//     故 M2 起（T2-xx）的任务不进入它们的集合（2026-11-11 展开 M2 拆解后修正，
+//     否则每加一个后续阶段任务都会误报「M1 检查点虚勾」）。S-xx / X-xx 是横切项，
+//     不属时间阶段，恒计入。
 const allTaskIds = governance.taskIds ?? [];
-const uncheckedAll = allTaskIds.filter((id) => stateOf(id) !== '[x]');
+const stageRank = (id) => {
+  const matched = id.match(/^T(\d)-/);
+  return matched ? Number(matched[1]) : -1;
+};
 const allDepsRows = todoLines.filter(
   (line) => /^\| (?:T0|T1|S|X)-\d+ \|/.test(line) && /\| 全部(?: Spike)? \|/.test(line),
 );
 for (const row of allDepsRows) {
   const id = row.match(/^\| ((?:T0|T1|S|X)-\d+) \|/)?.[1] ?? '';
-  if (id && stateOf(id) === '[x]' && uncheckedAll.length > 0) {
+  if (!id || stateOf(id) !== '[x]') continue;
+  const rank = stageRank(id);
+  const uncheckedAll = allTaskIds.filter(
+    (taskId) => stateOf(taskId) !== '[x]' && stageRank(taskId) <= rank,
+  );
+  if (uncheckedAll.length > 0) {
     fail(
-      `${id} 依赖「全部」却已勾 [x]：仍有 ${uncheckedAll.length} 个任务未勾（文字依赖 L3 抓不到，本门禁兜底）`,
+      `${id} 依赖「全部」却已勾 [x]：其阶段内仍有 ${uncheckedAll.length} 个任务未勾（文字依赖 L3 抓不到，本门禁兜底）`,
     );
   }
 }

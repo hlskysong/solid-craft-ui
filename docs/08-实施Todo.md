@@ -9,11 +9,11 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M1 Exit 已于 2026-11-11 闭合**（T0-03 评审签字 → T0-04 → T1-13 全部 `[x]`，38/38 任务完成，见 §30.11）；方案 C 四个 Phase 0 Spike 可行性实证（§30.10）与 T0-04 依赖列「全部 Spike」均已闭合，例外 0/0；下一阶段为 M2 复杂组件正式实现；R1~R5 的 4 条修改要求中 **① R1 已于 2026-11-11 落实（§30.12）**，**②③④ 已于 2026-11-11 复查完毕（§30.13）**；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），当前无 T2 任务 `[x]`，起始项 T2-01（`primitives/` 适配层）；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | T1-13（M1 Exit 已于 2026-11-11 闭合，见 §30.11；38/38 任务全勾，下一阶段转 M2 复杂组件正式实现）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；C09 复审 `partial`、C14 复审 `pass`；CI Full gate 由 run `43006966939`（0d77fc2）4/4 全绿复验，前次 `42977984086`（7f7832a）、`42959040941`（d1cf29f）、`42938773154`（757dae4）亦全绿 |
-| 下一步 | **M2 复杂组件正式实现开工前，先落实并复查 R1~R5 的 4 条修改要求**（§30.11）：✅ ① R1 全量切 `data-scui-*` + `.scui-` CSS 作用域（**已于 2026-11-11 落实：31 种裸属性 / 208 处 / 23 文件，88 个选择器全带类作用域，视觉基线 16/16 零差异，`llms` 生成物零变化、无需重生成视觉基线**，见 §30.12）；② R3 函数类型禁用约束（已写入 `resolve-value.ts`，并已同步进 8 个 prop 的正式 API 表 / `llms/exports` / `llms-full`）；③ R4 Table client-only 边界（已标注 `Table.md`，复查时 S-04 SSR 冒烟可复现：5292 chars / 双渲一致 / 2/2 markers）；④ R5 RangePicker 排期重排为 M2 与 DatePicker 同批交付（Aming 2026-11-11 确认「最终肯定要有，节点问题不大」，M1 Exit 不因此重开，见 §30.14）；⑤ R3 的「`MaybeAccessor` 禁函数型实参」已从 JSDoc 升级为机器判据 `check:accessors`（§30.14）。✅ T0-03 已由 Aming 签字、M1 Exit 已闭合（§30.11）；✅ CI run `42977984086`（7f7832a）4/4 全绿，前次 `42959040941`（d1cf29f）亦全绿；⚠️ 真实 publish 未授权、未发生，npm trusted publisher 配置与首包发布仍是人工前置 |
-| 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）** |
+| 当前任务 ID | **T2-01**（M2 首项 `primitives/` 适配层，见 §4.1）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿，前次 `43006966939`（`0d77fc2`）、`42977984086`（`7f7832a`）、`42959040941`（`d1cf29f`）、`42938773154`（`757dae4`）亦全绿 |
+| 下一步 | **按 §4.1 执行 M2（13 项）**：T2-01 primitives 适配层 → T2-02 表单控件基座（两者是全链前提，不做基座后续每个控件都要返工）→ T2-03 / T2-05 / T2-06 并行 → T2-07 Select 与 T2-08 Form 并行 → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker（最长尾巴，尽早启动）→ T2-12 体积预算 → T2-13 M2 Exit。每项完成后回读文件 + 跑对应验收 + 在后续落地记录（§31 起）点名，才可勾 `[x]` |
+| 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
 
 ---
 
@@ -110,12 +110,36 @@
 | --- | --- | --- | --- |
 | M0 | 第 2 周末 | 10 个 Spike 通过；脚手架可构建；API 草案评审；07 §6 检查点 14 项通过 | [ ] |
 | M1 | 第 5 周末 | Button 端到端；CI 全绿；文档站可用；§3 横切检查全绿 | [ ] |
-| M2 | 第 9 周末 | 表单页可开发；Form/Select/DatePicker 可用（**R5：含 DatePicker + RangePicker，见 §30.14**）；A11y 通过；`renderToString` 无报错 | [ ] |
+| M2 | 第 9 周末 | 表单页可开发；**表单 9 件套 + Textarea + App 可用（13 项任务拆解见 §4.1，Upload 后移 M3）**；A11y 通过；`renderToString` 无报错 | [ ] |
 | M3 | 第 12 周末 | CRUD 列表页可开发；Table 基础稳定 | [ ] |
 | M4 | **第 15 周末** | 试点页面上线；`0.1.0` 发布；无 P0 阻塞；视觉基线 light/ltr/default；**`"solid"` 双构建齐全 + SolidStart SSR/hydration 冒烟无 warning** | [ ] |
 | M5 | 第 22 周末 | v1.0 功能完成；API 冻结 | [ ] |
 | M6 | 第 28 周末 | 质量门禁全绿；`1.0.0` 发布；两个试点稳定 | [ ] |
 | M7 | 第 29 周起 | 业务组件与生态 | [ ] |
+
+---
+
+### 4.1 M2 表单闭环任务拆解（2026-11-11 展开，13 项）
+
+**范围裁决（Aming 2026-11-11 确认）**：M2 交付 = **表单 9 件套**（Input / InputNumber / Checkbox / Radio / Switch / Select / Form / DatePicker / RangePicker）+ **Textarea 并入 Input** + **App 组件**；**Upload 不进 M2**（`docs/05` 里程碑表列了它，属 L 复杂度，后移 M3 与列表页同期）。该口径与 `docs/05` 冻结正文的差异属范围调整，`docs/05` 一个字节未改 —— 依据是 `docs/05 §5` 的验收原文「表单页可开发」本身要求 Input / Checkbox / Radio / Switch 在场，只做 Form / Select / DatePicker 无法满足。13 项是计划展开，勾选仍须逐个跑验收。
+
+| ID | 任务 | 依赖 | 主责 | 验收 | 状态 |
+| --- | --- | --- | --- | --- | --- |
+| T2-01 | `primitives/` 适配层：Kobalte（Dialog / Select 原语）+ Floating UI 封装进 `src/primitives/`，公共 API 不暴露其类型；SSR 出静态骨架、交互在 `onMount` 后接管 | — | 技术负责人 | ADR-004 边界落地；`renderToString` 双渲确定；产物零 Kobalte 类型泄漏；`check:accessors` 通过 | [ ] |
+| T2-02 | 表单控件基座：`FieldContext` + `useFormField(name)`，`value` / `status` / `disabled` 一律 getter，统一注入 `id` / `aria-invalid` / `aria-describedby` | T2-01 | 工程师 C | 任一控件被 `Form.Item` 包裹后受控链路通；Context 缺失抛明确错误 | [ ] |
+| T2-03 | `Input`（Textarea 并入）：前后缀、清除、密码、搜索；Textarea 自动高度 + 字数统计 | T2-02 | 工程师 C | 每个子能力有单测；`data-scui-*` 作用域齐全；键盘 + axe 通过 | [ ] |
+| T2-04 | `InputNumber`：步进、精度、格式化、范围 | T2-03 | 工程师 C | 边界值 / 精度 / 受控同步；不出现浮点误差（整数缩放或 big.js） | [ ] |
+| T2-05 | `Checkbox`（Group + indeterminate）/ `Radio`（Group）/ `Switch` | T2-02 | 工程师 C | `aria-checked` / `mixed` 正确；三件套共享 label 逻辑 | [ ] |
+| T2-06 | `App`：Message / Notification 容器与 context（`docs/04 §3.1` P0 基础第 9 个，此前未落地） | T2-01 | 工程师 C | 脱离树亦可调用；SSR 不报错；错误提示可被 Form 复用 | [ ] |
+| T2-07 | `Select`（L）：R2 = A 对外 `value` 为 string（封装层做 option 映射）、键盘 / typeahead / Floating UI 弹层 / client-only 边界 | T2-01 / T2-02 | 技术负责人 | 受控与非受控 / 搜索 / 清除 / 空态 / loading 全覆盖；SSR 输出静态骨架 | [ ] |
+| T2-08 | `Form` 引擎：`useForm` / `Form.Item` / 校验（required·min·max·pattern·type·自定义 sync·async）/ 三种布局 / 错误滚动 | T2-02 | 技术负责人 | `validateFields` / `resetFields` / `setFieldsValue` / `getFieldsValue` 全通；`aria-invalid` 到位 | [ ] |
+| T2-09 | 控件接入 Form：Input / Textarea / InputNumber / Checkbox / Radio / Switch / Select 全部走 `useFormField` | T2-03 / T2-04 / T2-05 / T2-07 / T2-08 | 工程师 C | 一页真实表单 Demo（新增 + 编辑）端到端可跑 | [ ] |
+| T2-10 | `DatePicker`（XL）：单选 / `min`·`max`·`disabledDate` / `format` / 中文 locale / 键盘 / `editing` 状态机 / SSR 不取当前时间 | T2-02 | 技术负责人 | 非法输入可恢复；`@internationalized/date` + `Intl`，不自造日期轮子 | [ ] |
+| T2-11 | `RangePicker`（R5 已定 M2）：hover 预览、键盘、焦点管理 | T2-10 | 技术负责人 | 同日 / 跨月 / 跨年边界；`min`·`max` 约束生效 | [ ] |
+| T2-12 | 体积预算落地：`size-limit` 补「Form + Input + Select ≤ 25 KB」与「DatePicker ≤ 30 KB」两条，`check:ci` 的未实现清单相应缩短 | T2-07 / T2-08 / T2-10 | 技术负责人 | `pnpm size` 两条新预算实跑；超预算先拆再合并 | [ ] |
+| T2-13 | **M2 Exit 检查**：表单页 Demo 端到端 / axe / 每组件 ≥3 Demo / 视觉基线（@1280·@768）/ SSR 冒烟 / 文档生成物 | T2-09 / T2-11 / T2-12 | 技术负责人 | `pnpm verify` RC=0；六条预算中四条落地；表单页可独立开发 | [ ] |
+
+**推进顺序**：T2-01 → T2-02 是全链前提（不做基座，后面每个控件都要返工）；T2-03 / T2-05 / T2-06 可并行；T2-07 与 T2-08 并行；T2-09 必须等控件与 Form 都在位；T2-10 / T2-11 是最长尾巴，越早启动越好。
 
 ---
 
@@ -2140,3 +2164,52 @@ Aming 原话（2026-11-11）：「RangePicker 最终肯定要有，这个不行�
 **治理同步**：`AGENTS.md §10（类型）` 增补 R3 硬约束（含「tsgo 无编译器 API，故用 `oxc-parser`」的实现理由），`check:goals` 因此重校基线 —— 实测只重算 `AGENTS.md` 1 项哈希与标记行，其余 14 项不动。
 
 **边界**：本节只新增一个门禁脚本、`package.json` 两行接线、`check-ci` 一条必需阶段与四处文档表述；**未改任何组件运行时语义、props 类型、Token、样式、产物**。R3 判据只覆盖「类型实参顶层是否函数型」，不覆盖运行期误用（如把函数当 getter 传进去）——后者仍靠类型系统与评审。本轮改动已由 Aming 授权提交并推送：`0d77fc2`（17 files / +360 −66，非 force，`7f7832a..0d77fc2`），CI run `43006966939` 4/4 全绿。真实 publish 依旧未授权、未发生。
+
+### 30.15 M2 开工：范围裁决、13 项拆解与治理同步（2026-11-11 实测与验收）
+
+**结论先行**：Aming 已裁决 M2 范围（表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3），13 项任务已拆到任务级并登记进治理契约；因新增后续阶段任务，`check:decisions` 的「全部」文字依赖兜底同步修正阶段边界，并做了负向实证。
+
+#### 一、范围裁决与口径冲突的处置
+
+三处文档本来不一致：`docs/05` 里程碑表写 Input / Select / Form / DatePicker / **Upload**；`docs/05 §5` 验收写「表单页可开发；Form/Select/DatePicker 可用」；`docs/04 §3.1` P0 表单是 **9 个**。Aming 选择「表单 9 件套」并额外确认两项轻量附属。
+
+| 项 | 裁决 |
+| --- | --- |
+| M2 交付 | Input / InputNumber / Checkbox / Radio / Switch / Select / Form / DatePicker / RangePicker |
+| 附属 | **Textarea 并入 Input**（复用边框/状态/计数，增量小）；**App 随 M2**（`docs/04 §3.1` P0 基础第 9 个，此前唯一未落地项） |
+| Upload | **不进 M2**，后移 M3 与列表页同期（L 复杂度，且「表单页可开发」不依赖它） |
+| 冻结规范 | `docs/05` 一个字节未改；差异以本节与 §4.1 记录，做法同 R5 |
+
+依据：`docs/05 §5` 的验收原文「表单页可开发」本身要求 Input / Checkbox / Radio / Switch 在场，只做 Form / Select / DatePicker 无法满足该条。
+
+#### 二、13 项拆解与推进顺序
+
+任务表落在 §4.1（`T2-01`~`T2-13`，6 列：ID / 任务 / 依赖 / 主责 / 验收 / 状态）。顺序约束来自依赖本身，不是排期偏好：
+
+- **T2-01 `primitives/` 适配层 → T2-02 表单控件基座**是全链前提：不做基座，后面每个控件都要返工；
+- T2-03 / T2-05 / T2-06 可并行（Input / 三件轻控件 / App）；
+- T2-07 Select 与 T2-08 Form 并行；T2-09 必须等控件与 Form 都在位；
+- **T2-10 DatePicker / T2-11 RangePicker 是最长尾巴**，应尽早启动；
+- T2-12 体积预算（`Form + Input + Select ≤ 25 KB`、`DatePicker ≤ 30 KB`）与 T2-13 M2 Exit 收口。
+
+#### 三、治理同步（三处，均可复现）
+
+| 改动 | 理由 |
+| --- | --- |
+| `scripts/check-todo.mjs`：`taskIdRe` 由 `T0/T1/S/X` 扩为 `T0/T1/T2/S/X` | 不扩则 T2 任务行不被解析，「任务 ID 集合与契约不一致」直接红灯 |
+| `scripts/todo-governance.json`：`taskIds` 38 → **51**（+13） | 契约是任务 ID 的唯一真源；新增任务必须同时登记，否则视为「批量新增」违规 |
+| `scripts/check-decisions.mjs`：依赖「全部」的兜底改为**按阶段边界**统计 | 原实现统计**全部**未勾任务，新增 13 个 T2 后立刻把 T0-04 / T1-13 判成「依赖全部却已勾」——属误报。`T0`/`T1` 是 M1 阶段，「全部」的语义边界应是「该检查点所在阶段及更早」，`S`/`X` 横切项恒计入，`T2` 起的后续阶段不进入 |
+
+**负向实证 N60（3/3 PASS）**：基线（13 个 T2 未勾不得误报）RC=0；把 M1 阶段内已勾的 `T1-02` 改回 `[ ]` → **RC=1**，精确报「T1-13 依赖『全部』却已勾 [x]：其阶段内仍有 1 个任务未勾」；还原后 RC=0 且 `BYTE_IDENTICAL True`。脚本 `/tmp/n60.py`。
+
+#### 四、验收输出（`pnpm verify` RC=0）
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm check:todo` | RC=0：**51 个任务**结构完整 / 38 个 `[x]` 全有验收证据 / 71 个验收区块 / **倒挂 0 处** / 锚点 5 字段齐全 |
+| `pnpm check:decisions` | RC=0：14 项裁决 pass 6 / partial 5 / fail 3 不变；方案 C 授权边界在位；「全部」兜底已按阶段修正 |
+| `pnpm check:goals` | RC=0：基线重校后只动 `check-todo.mjs` / `todo-governance.json` 两处哈希（`check-decisions.mjs` 不在受保护 15 项内） |
+| 其余门禁 | `check:docs` / `check:llms` / `check:styles` / `check:accessors` / `check:ci` / `check:naming` / `check:slice` / `check:public` 均 RC=0 |
+| 冻结与锁 | `docs/01~07` 零改动；`pnpm-lock.yaml` 零改动 |
+
+**边界**：本节只做**计划展开与治理同步**，未写任何组件源码、未新增依赖、未改 `docs/01~07`。13 项任务全部 `[ ]`，勾选仍须逐项跑验收并在后续落地记录点名 —— 计划展开不等于动工，更不等于验收通过。真实 publish 依旧未授权、未发生。
