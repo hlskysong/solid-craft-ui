@@ -26,7 +26,12 @@
  *      禁止写回任何系统字体回退，杜绝 runner 字体集再次参与像素比对。
  *      字体判据放在本脚本而非新脚本，是为了让 verify 的 25 阶段数量不变，
  *      不触碰根级 package.json / pnpm-lock.yaml（AGENTS.md §5）。
+ *   9. Phase 0 Spike 契约（2026-11-10 §30.10 方案 C）：四个 Spike 的目录 / 客户端实证 /
+ *      SSR 入口 / 统一模板 API 草案必须在位，spikes/ 不得渗入发布包（files / exports /
+ *      src），且 ssr-smoke.mjs 必须真实跑绿。客户端实证由 vitest include 自动接进
+ *      pnpm test（verify 第 2 阶段），此处只校验配置未被摘掉。
  */
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, globSync, readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -360,6 +365,85 @@ if (read(charsetFile).trim() !== [...renderedChars].toSorted(compareChars).join(
   );
 }
 
+// ---------------------------------------------------------------------------
+// 9. Phase 0 Spike 契约：四个 Spike 必须真有产物、真能 SSR、且真的不进发布包
+// ---------------------------------------------------------------------------
+const coreDir = join(repoRoot, 'packages', 'core');
+const spikesRoot = join(coreDir, 'spikes');
+const spikeCases = [
+  { id: 'S-02', dir: 's02-kobalte', tests: ['s02.test.tsx'], draft: 'Select.md' },
+  { id: 'S-04', dir: 's04-table', tests: ['s04.test.tsx'], draft: 'Table.md' },
+  {
+    id: 'S-05',
+    dir: 's05-date-picker',
+    tests: ['s05.test.tsx', 'hydration.test.tsx'],
+    draft: 'DatePicker.md',
+  },
+  { id: 'S-06', dir: 's06-form', tests: ['s06.test.tsx'], draft: 'Form.md' },
+];
+for (const item of spikeCases) {
+  const dir = join(spikesRoot, item.dir);
+  if (!existsSync(dir)) fail(`${item.id} 缺少 Spike 目录 spikes/${item.dir}/`);
+  for (const test of item.tests) {
+    if (!existsSync(join(dir, test))) fail(`${item.id} 缺少客户端实证 ${test}`);
+  }
+  if (!existsSync(join(dir, 'ssr.tsx'))) fail(`${item.id} 缺少 SSR 入口 ssr.tsx`);
+  const draft = read(join(spikesRoot, 'api-draft', item.draft));
+  if (!draft.includes('## 9. 评审结论')) {
+    fail(`${item.id} 的 API 草案 ${item.draft} 未按统一模板写满 9 节`);
+  }
+}
+const draftFiles = [
+  'TEMPLATE.md',
+  'REVIEW.md',
+  'data-attributes.md',
+  'Select.md',
+  'Table.md',
+  'DatePicker.md',
+  'Form.md',
+];
+for (const name of draftFiles) {
+  if (!existsSync(join(spikesRoot, 'api-draft', name))) {
+    fail(`T0-03 评审材料缺失：api-draft/${name}`);
+  }
+}
+const reviewText = read(join(spikesRoot, 'api-draft', 'REVIEW.md'));
+if (!reviewText.includes('不得代填') || !reviewText.includes('（待填）')) {
+  fail('REVIEW.md 必须保留「AI 不得代填评审结论」声明与空的结论栏');
+}
+const spikeCss = read(join(spikesRoot, 'spikes.css'));
+if (!/\[data-[\w-]+\]/.test(spikeCss) || !spikeCss.includes(':focus-visible')) {
+  fail('spikes.css 缺少 [data-*] 状态选择器或 :focus-visible 焦点规则');
+}
+const corePkgJson = JSON.parse(read(join(coreDir, 'package.json')));
+const coreFiles = corePkgJson.files ?? [];
+if (coreFiles.some((entry) => String(entry).includes('spikes'))) {
+  fail('packages/core/package.json#files 含 spikes/（预研产物不得进 npm 包）');
+}
+if (Object.keys(corePkgJson.exports ?? {}).some((key) => key.includes('spikes'))) {
+  fail('packages/core exports 含 spikes 子路径（预研产物不得对外导出）');
+}
+const coreVitestConfig = read(join(coreDir, 'vitest.config.mjs'));
+if (!coreVitestConfig.includes('spikes/**/*.test')) {
+  fail('vitest include 未包含 spikes/**/*.test（Spike 客户端实证不会自动跑）');
+}
+const ssrSmoke = join(spikesRoot, 'shared', 'ssr-smoke.mjs');
+if (!existsSync(ssrSmoke)) {
+  fail('缺少 spikes/shared/ssr-smoke.mjs');
+} else {
+  const result = spawnSync(process.execPath, [ssrSmoke], {
+    cwd: coreDir,
+    encoding: 'utf8',
+    timeout: 180_000,
+  });
+  const output = `${result.stdout ?? ''}${result.stderr ?? ''}`;
+  if (result.status !== 0 || !output.includes('[spikes:ssr] PASS')) {
+    fail(
+      `Spike SSR 冒烟未通过（rc=${result.status}，${result.error?.message ?? '无异常'}）：${output.trim().slice(-400)}`,
+    );
+  }
+}
+
 if (errors.length > 0) {
   console.error(`[check:ci] ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
@@ -367,5 +451,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· size-limit@${sizeLimit} + file 插件`,
 );

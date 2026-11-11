@@ -1,0 +1,85 @@
+/*
+ * Phase 0 Spike 样式覆盖层（仅预研用，不进 dist / npm 包）。
+ * 约定：状态一律 [data-*] 选择器，不生成 modifier class；颜色/尺寸走 --scui-* 变量；
+ * 焦点可见用 2px outline + 2px offset（AGENTS.md §11）。
+ */
+
+.scui-select-wrapper {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.scui-select-wrapper,
+.scui-date-picker,
+.scui-form,
+.scui-table-scroll {
+  --scui-control-height: 32px;
+  --scui-focus-ring: #2563eb;
+  --scui-error: #dc2626;
+  --scui-border: #d4d4d8;
+  font-family: inherit;
+}
+
+[data-scui-size='small'] { --scui-control-height: 24px; }
+[data-scui-size='medium'] { --scui-control-height: 32px; }
+[data-scui-size='large'] { --scui-control-height: 40px; }
+
+.scui-select-trigger,
+.scui-date-input,
+.scui-input,
+.scui-dialog-trigger,
+.scui-form-submit {
+  min-height: var(--scui-control-height);
+  border: 1px solid var(--scui-border);
+  border-radius: 4px;
+  background: #fff;
+  color: inherit;
+}
+
+.scui-select-trigger:focus-visible,
+.scui-date-input:focus-visible,
+.scui-input:focus-visible,
+.scui-dialog-trigger:focus-visible,
+[role='gridcell']:focus-visible,
+[role='option']:focus-visible {
+  outline: 2px solid var(--scui-focus-ring);
+  outline-offset: 2px;
+}
+
+[data-scui-disabled] .scui-select-trigger,
+[data-scui-disabled=''] { opacity: 0.55; cursor: not-allowed; }
+
+[data-scui-invalid='true'] .scui-input,
+[aria-invalid='true'] { border-color: var(--scui-error); }
+[data-scui-role='field-error']:not(:empty) { color: var(--scui-error); font-size: 12px; }
+
+.scui-calendar { border-collapse: collapse; }
+[data-scui-open] .scui-calendar,
+.scui-calendar:not([hidden]) {
+  display: grid;
+  gap: 2px;
+  border: 1px solid var(--scui-border);
+  padding: 8px;
+  background: #fff;
+}
+
+.scui-calendar th,
+.scui-calendar td { padding: 2px; text-align: center; font-weight: 400; }
+.scui-calendar caption { font-weight: 600; padding: 4px; }
+[data-scui-day] { min-width: 28px; border: 0; background: transparent; cursor: pointer; }
+[data-scui-day][data-scui-outside] { opacity: 0.4; }
+[data-scui-day][data-scui-selected] { background: var(--scui-focus-ring); color: #fff; }
+[data-scui-day][data-scui-disabled] { text-decoration: line-through; opacity: 0.4; }
+
+.scui-table-scroll { overflow: auto; max-height: 420px; }
+.scui-table { border-collapse: separate; border-spacing: 0; width: 100%; }
+.scui-table th,
+.scui-table td { border-bottom: 1px solid var(--scui-border); padding: 4px 8px; white-space: nowrap; }
+[data-scui-fixed='left'] { position: sticky; left: 0; background: #fff; z-index: 1; }
+[data-scui-fixed='right'] { position: sticky; right: 0; background: #fff; z-index: 1; }
+[data-scui-fixed][data-scui-scrolled] { box-shadow: 2px 0 4px rgb(0 0 0 / 12%); }
+[data-scui-selected] > td { background: #eff6ff; }
+[data-scui-sort='asc'],
+[data-scui-sort='desc'] { font-weight: 600; }

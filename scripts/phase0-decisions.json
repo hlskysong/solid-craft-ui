@@ -6,12 +6,13 @@
   "decidedBy": "AI 逐条实证提案 / Aming 于 2026-11-10 确认方案 A",
   "scopeDecision": {
     "fact": "docs/07 §6 规定『任何一项不通过，先调整方案，不进入 Phase 1 实现』，但 T1-01~T1-16 已在 Phase 1 先行落地，属于既成事实的历史偏差，不得回改冻结规范或伪造通过。",
-    "proposal": "把 M1 范围显式收窄为『7 个基础组件 + Token 管线 + 文档站 + 构建/双构建/发布预演/治理门禁』；Table / Form / Select / DatePicker 四个高风险 P0 组件及其 API 草案评审（T0-03）留在 M1 之后，S-02 / S-04 / S-05 / S-06 保持未勾。",
+    "proposal": "方案 C：不再以「移出 M1」跳过 Phase 0 检查点。严格按 docs/07 §6「Phase 0 只验可行性」补齐 S-02 / S-04 / S-05 / S-06 四个 Spike 的可运行实证，落盘统一模板 API 草案，由 Aming 主持 T0-03 评审后再勾 T0-04；正式组件实现 / 完整视觉回归仍留在 M1 之后。",
     "approval": "approved",
-    "selectedOption": "A",
+    "selectedOption": "C",
     "confirmedBy": "Aming",
     "confirmedAt": "2026-11-10",
-    "confirmedScope": "M1 = 7 个基础组件 + Token 管线 + 文档站 + 构建 / 双构建 / 发布预演 / 治理门禁；Table / Form / Select / DatePicker 四个 P0 组件及其 API 草案评审（T0-03）明确移出 M1，S-02 / S-04 / S-05 / S-06 保持未勾。方案 B（重定义 T0-04 依赖列）与方案 C（补齐四个 Spike）均未授权。"
+    "confirmedScope": "方案 C 口径：M1 收窄只针对「正式组件实现 + 完整视觉回归」；四个 Phase 0 Spike 的可行性实证与 T0-03 评审材料必须补齐，不得再以移出 M1 为由跳过检查点。S-02 / S-04 / S-05 / S-06 已按实证补勾，T0-03 / T0-04 / T1-13 待评审签字。方案 B（重定义 T0-04 依赖列）未授权。",
+    "optionChangedAt": "2026-11-10"
   },
   "items": [
     {
@@ -23,8 +24,8 @@
         "pnpm smoke:ssr + smoke:start-real：真实 @solidjs/start 渲染 11 项 OK，命中 dist/source/*.jsx 与 hydratable 编译",
         "Solid 1.9.18 / Vite 8 / TypeScript 7.0.2 / @kobalte/core 0.13.14 均在 lockfile"
       ],
-      "alternative": "把『Kobalte 0.13 封装（Select / Dialog）』从本项拆出，交回 S-02；当前组件目录只有 7 个基础组件，没有 Select / Dialog 实现，不能因为依赖装了就判封装可用。",
-      "decision": "构建消费链路与 SSR 冒烟判通过；Kobalte 封装判未通过，M1 范围不含 Select / Dialog，S-02 保留 Phase 0 待办。本项整体记 partial，不虚勾。"
+      "alternative": "「Kobalte 0.13 封装」已由 §30.10 的 S-02 Spike 验证可行性（spikes/s02-kobalte/：Select + Dialog、键盘、焦点、SSR 零报错），但正式组件目录仍只有 7 个基础组件，没有可发布的 Select / Dialog，故本项维持 partial。",
+      "decision": "构建消费链路与 SSR 冒烟判通过；S-02 可行性实证已补齐并勾 [x]，但正式组件实现与真实浏览器 e2e 补验仍缺，本项整体维持 partial，不虚勾。"
     },
     {
       "id": "C02",
@@ -41,15 +42,16 @@
     {
       "id": "C03",
       "specText": "**TS 7 的 20 个平台二进制包在私有 registry / CI 各架构可安装，`tsc --version` 正常运行？**",
-      "verdict": "partial",
+      "verdict": "pass",
       "evidence": [
         "pnpm check:platforms：20/20 平台包锁定进 lockfile、darwin-arm64 已真实安装、tsc --version 通过",
         ".github/workflows/ci.yml 的 platform-packages job 有 ubuntu-24.04 / macos-15 / windows-2022 三架构 matrix，每架构跑 check:platforms",
         "D-09 已定发布渠道为 GitHub + 公开 npmjs.org；D-03 的私有 registry 语义作废",
-        "2026-11-10 认证 REST API 取回 7 次 workflow run 的 job 级记录与失败日志正文：三架构 platform-packages job 6 次全 success / 1 次（1ad281b）macos-15 因 runner 容量取消；Full gate 5 次 failure（视觉基线 1% 像素差）+ 2 次 runner 取消（详见 docs/08 §30.8）；第 8 次 run 42822339834（0899769，方案 B 固定 Web 字体）4/4 job 全 success、Full gate 首次全绿、视觉 16/16（详见 docs/08 §30.9.6）"
+        "2026-11-10 认证 REST API 取回 7 次 workflow run 的 job 级记录与失败日志正文：三架构 platform-packages job 6 次全 success / 1 次（1ad281b）macos-15 因 runner 容量取消；Full gate 5 次 failure（视觉基线 1% 像素差）+ 2 次 runner 取消（详见 docs/08 §30.8）；第 8 次 run 42822339834（0899769，方案 B 固定 Web 字体）4/4 job 全 success、Full gate 首次全绿、视觉 16/16（详见 docs/08 §30.9.6）",
+        "2026-11-10 Aming 裁决转 pass；第 9 次 run 42824357648（0947ff5，纯事实同步）同样 4/4 job success"
       ],
-      "alternative": "以公开 npmjs.org + pnpm install --frozen-lockfile 替代私有镜像。2026-11-10 更正：本机 git 凭据 + GitHub REST API 已实证取回 7 次 workflow run 的 job 级记录，『CI 各架构真实运行』不再是未验项，未拿 workflow 文件冒充运行结果。⚠️ 当时主门禁 Full gate (pnpm verify) 5 次 failure（ratio 0.01 像素差）+ 2 次 runner 取消；真因是 Demo 宿主依赖 runner 系统 PingFang SC，而非浏览器版本（docs/08 §30.9 已用像素级 artifact 更正）。2026-11-10 run 42822339834 首次 4/4 job 全绿、视觉 16/16，原 partial 理由已消除。verdict 仍记 partial，是否倒改 pass 须 Aming 另行裁决，AI 不擅自倒改。",
-      "decision": "lock 完整性与本机安装判通过；三架构真实 run 已于 2026-11-10 由认证 REST API 实证取回（见 evidence / alternative），不再是待验人工项。D-04『私有 registry 镜像』语义随 D-09 作废，改判『lock 完整性 + 三架构可安装性』；方案 A 确认后 D-04 关闭，S-09 按此口径重定义。⚠️ verdict 仍记 partial：原理由「主门禁 Full gate 从未绿过」已由 run 42822339834（0899769）消除。当时把根因误判为跨 Chrome 版本，run 42758329334 的像素级 artifact 证明 CI 与本机同为 Chrome for Testing 156.0.8078.4；真根因是 Demo 宿主依赖 runner 系统字体（docs/08 §30.9）。方案 B 用仓库内固定 Web 字体修复，CI 4/4 job 全绿、视觉 16/16（§30.9.6）。是否倒改 pass、以及 T1-07 / T1-13 是否推进，须 Aming 另行裁决，AI 不擅自倒改。"
+      "alternative": "Aming 于 2026-11-10 裁决 C03 转 pass：原 partial 理由「主门禁 Full gate 从未绿过」已由 run 42822339834（0899769，方案 B 固定 Web 字体）4/4 job 全绿、视觉 16/16 消除；D-03 私有 registry 语义随 D-09 作废，改判「公开 npmjs.org 冻结 lock + 三架构可安装性」，D-04 关闭。§30.8 曾把根因误判为跨 Chrome 版本，已由像素级 artifact 更正为系统字体环境。",
+      "decision": "本项判 pass。20/20 平台包冻结、三架构 CI 真实 run 全 success、Full gate 首次全绿，证据链完整；裁决依据为 Aming 2026-11-10 的明确选择（方案 C 前置核对），AI 未擅自倒改。"
     },
     {
       "id": "C04",
@@ -93,9 +95,9 @@
       "specText": "Table 1 万行 + 固定列**方案可行**（60fps 性能验收移至 Phase 5）？",
       "verdict": "fail",
       "evidence": [
-        "packages/core/src/components 只有 button / divider / grid / icon / layout / space / typography 七个基础组件，无 table",
-        "docs/04 §5.1 只有 Table 设计描述，没有 Spike 产物；S-04 仍 [ ]",
-        ".size-limit.json 只覆盖已实现的 2/6 条预算（check:ci 明确列出 Table + Virtual 未实现）"
+        "§30.10 已补 S-04 可行性实证：spikes/s04-table/ 的 1 万行确定性数据、排序 / 选择、窗口化与 sticky 固定列方案（7 例客户端测试 + SSR）",
+        "packages/core/src/components 仍只有 7 个基础组件，无可发布 table 组件；docs/04 §5.1 是设计描述，Spike 产物不冒充正式实现",
+        ".size-limit.json 仍只覆盖已实现的 2/6 条预算（Table + Virtual 未实现），60fps 验收按规范仍在 Phase 5"
       ],
       "alternative": "M1 不含 Table；S-04 保持 Phase 0 待办，60fps 验收按规范仍在 Phase 5。",
       "decision": "判未通过并登记为 M1 之后的阻塞项；T0-04 主行不因其它项通过而虚勾。"
@@ -105,8 +107,9 @@
       "specText": "DatePicker 基础 + 键盘可用（范围为可行性预研）？",
       "verdict": "fail",
       "evidence": [
-        "组件目录无 date-picker，S-05 仍 [ ]",
-        "docs/04 §5 只列范围与 v1.0 边界，没有可行性预研产物"
+        "§30.10 已补 S-05 可行性实证：spikes/s05-date-picker/ 的基础单选 / 禁用 / 键盘 / 中文 locale / hydration 冒烟（7+1 例客户端测试 + SSR）",
+        "packages/core/src/components 仍无 date-picker 正式组件；范围选择按 docs/04 §5.4 仍属 v1.0",
+        "严格 hydration 归 smoke:start-real 链路，Spike 的 hydrate() 冒烟走降级路径并已如实标注"
       ],
       "alternative": "M1 不含 DatePicker；基础单选 / 键盘 / 中文 locale 的 Spike 留到 M1 之后，范围选择按规范仍在 v1.0。",
       "decision": "判未通过，S-05 保持未勾并作为 T1-13 依赖『全部』无法闭合的原因之一。"
@@ -116,9 +119,9 @@
       "specText": "Form + Select + Input 校验链路可用，且**响应式契约（值 / Accessor / getter 注入）评审通过**？",
       "verdict": "fail",
       "evidence": [
-        "组件目录无 form / select / input，S-06 / T0-03 仍 [ ]",
-        "docs/04 §5.2 写了 Form.Item 必须注入 getter 的契约设计，但没有评审通过记录",
-        "pnpm check:slice 覆盖的 7 个组件均不含表单控件"
+        "§30.10 已补 S-06 可行性实证：spikes/s06-form/ 的字段级 signal + getter 注入 + 校验 + 错误滚动，effect 计数证明改一字段不触发另一字段",
+        "docs/04 §5.2 的 Form.Item getter 契约已按统一模板写入 api-draft/Form.md，但 T0-03 评审结论仍为空",
+        "packages/core/src/components 仍无 form / select / input 正式组件；S-06 已 [x]、T0-03 仍 [ ]"
       ],
       "alternative": "M1 不含表单链路；T0-03 的 API 草案评审须 Aming 主持，作为复杂组件开工前置。",
       "decision": "判未通过，S-06 / T0-03 保持未勾；响应式契约评审结论不得用 docs/04 的设计文字冒充。"
@@ -171,9 +174,9 @@
       "specText": "API 草案（Form / Table / Select / DatePicker）按统一模板与 `data-*` 口径评审通过？",
       "verdict": "fail",
       "evidence": [
-        "T0-03 仍 [ ]，docs/08 无 API 草案评审记录",
-        "docs/04 §5 有四个组件的 API 设计文字，但没有评审结论、没有统一模板落盘",
-        "四个组件均未实现，无法用 check:slice 的 data-* 判据反推评审通过"
+        "§30.10 已落盘统一模板 TEMPLATE.md（9 节）、data-*-口径真源、Form / Table / Select / DatePicker 四份草案与 REVIEW.md（R1~R5）",
+        "REVIEW.md 第 9 节评审结论与 R1~R5 逐项裁决仍为空：评审须 Aming 主持，AI 不得代签；T0-03 仍 [ ]",
+        "四个 Spike 是可运行可行性实证，正式组件实现未启动；check-ci.mjs 硬判据禁止结论栏被代填"
       ],
       "alternative": "T0-03 作为 T1-13（M1 Exit）的硬前置，由 Aming 主持评审后单独一轮落地；评审前不启动复杂组件实现。",
       "decision": "判未通过；T0-03 保持未勾，不把设计文档冒充评审记录。"
@@ -185,11 +188,25 @@
     "decisionStatus": "confirmed",
     "confirmedBy": "Aming",
     "confirmedAt": "2026-11-10",
-    "confirmedOption": "A",
-    "blocker": "方案 A 未授权改 T0-04 依赖列，仍是『全部 Spike』；S-02 / S-04 / S-05 / S-06 四个 Spike 仍 [ ]（M1 收窄后明确移出范围），勾主行会被 check:decisions 的文字依赖兜底拦下。当前例外 0 条、maxExceptions=0，也不允许再靠登记例外放行。",
+    "confirmedOption": "C",
+    "blocker": "方案 C 已补齐 S-02 / S-04 / S-05 / S-06 四个 Spike 的可行性实证并补勾；但 T0-03 API 草案评审须 Aming 主持并签字（REVIEW.md 第 9 节与 R1~R5 仍为空），签字前 T0-03 / T0-04 / T1-13 一律保持 [ ]，check:decisions 的方案 C 守卫会拦住虚勾。",
     "requires": [
-      "Aming 另行授权方案 B（把 T0-04 依赖列重定义为『14 项裁决 + 例外收口』）或方案 C（补齐 4 个 Spike + T0-03 评审）",
-      "在此之前 T0-04 主行保持 [ ]；decisionStatus=confirmed 不构成勾选授权"
+      "Aming 主持 T0-03 API 草案评审并在 REVIEW.md 落盘结论（R1~R5 逐项裁决）",
+      "评审结论落盘后由 Aming 授权把 gate.reviewSigned 置 true，才依次勾 T0-03 / T0-04 / T1-13",
+      "方案 B（重定义 T0-04 依赖列）始终未授权；依赖列保持「全部 Spike」"
+    ],
+    "reviewSigned": false,
+    "optionHistory": [
+      {
+        "option": "A",
+        "decidedAt": "2026-11-10",
+        "note": "早间确认 M1 范围收窄 + S-03 / S-09 重定义 + 例外清零（成果保留）"
+      },
+      {
+        "option": "C",
+        "decidedAt": "2026-11-10",
+        "note": "晚间改选：严格按冻结规范补齐四个 Spike 实证 + T0-03 评审交回 Aming 主持"
+      }
     ]
   },
   "exceptionClosures": [
@@ -198,7 +215,10 @@
       "upstream": "S-08",
       "status": "resolved",
       "resolution": "S-08 的 5 条判据（emitDeclarationOnly / declarationMap / oxlint type-aware / Biome solid / oxc-parser + baseUrl 迁移 + rootDir / include）已由 C02 逐项实证；本轮勾 S-08 并删除该例外，倒挂自然消失。",
-      "refs": ["C02", "C10"],
+      "refs": [
+        "C02",
+        "C10"
+      ],
       "followUp": "无；例外不得回增，僵尸例外由 check:todo 拦截。"
     },
     {
@@ -206,7 +226,9 @@
       "upstream": "S-07",
       "status": "resolved",
       "resolution": "T0-04 决策：S-07 与 T1-06 是同一套文档站产物的两种描述（实时渲染 / 源码 / oxc-parser API 表 / 16 张截图基线），按 C10 实证合并口径，本轮勾 S-07 并删除该例外。",
-      "refs": ["C10"],
+      "refs": [
+        "C10"
+      ],
       "followUp": "无；文档站后续新增组件仍按 check:docs / test:docs / test:visual 验收。"
     },
     {
@@ -214,7 +236,9 @@
       "upstream": "S-03",
       "status": "resolved",
       "resolution": "2026-11-10 方案 A 确认：S-03 验收列重定义为『Phase 0 可行性：DTCG → CSS 变量 → 亮/暗双主题切换 + CSS 变量业务可覆盖（机制层）』；密度 / 品牌 / 无闪烁 / 完整视觉矩阵明确归 v1.0，不进 Phase 0 判据。C06 的实证（light/dark 语义 token + style-dictionary 正式管线 + 构建期对比度校验）逐项覆盖新判据，故勾 S-03 并删除例外，倒挂消失。",
-      "refs": ["C06"],
+      "refs": [
+        "C06"
+      ],
       "followUp": "v1.0 视觉矩阵另立任务，不得借本例外复活；T1-01 的上游依赖 S-03 已闭合。"
     },
     {
@@ -222,8 +246,11 @@
       "upstream": "S-09",
       "status": "resolved",
       "resolution": "2026-11-10 方案 A 确认：S-09 验收列重定义为『公开 npmjs.org 冻结 lock 20/20 平台包 + CI 三架构 matrix 配置就位 + 本机 darwin-arm64 真实安装且 tsc --version 通过』，D-04 关闭。⚠️ §30.7 原记『本机无 gh CLI、真实 run 未取回』已由当日认证 REST API 实证更正（docs/08 §30.8）：7 次 run 的 job 级记录已取回，三架构 platform job 6 次全 success / 1 次 runner 容量取消。S-09 的重定义与勾选因此依然成立（判据本就不含真实 run），但主门禁 Full gate 5 次失败 + 2 次 runner 取消，CI 从未全绿 —— T1-07 与 T1-13 的『CI 全绿』前置仍不成立，不得把三架构 job 的 success 当成 Full gate 通过。",
-      "refs": ["C03", "C13"],
-      "followUp": "三架构真实 run 已实证取回，不再是人工待办；Full gate 真实 run 复验已由 Aming 授权 push 后的 run 42822339834 完成（4/4 全绿，docs/08 §30.9.6）。剩余人工项：npm 账号侧 trusted publisher 配置与首包发布；C03 verdict 是否倒改 pass 与 T1-07 / T1-13 是否推进（须 Aming 裁决）。"
+      "refs": [
+        "C03",
+        "C13"
+      ],
+      "followUp": "C03 已由 Aming 于 2026-11-10 裁决转 pass（依据 run 42822339834 全绿）；T1-07 / T1-13 的「CI 全绿」前置成立，但 T1-13 仍须等 T0-03 评审签字后才可放行。"
     }
   ]
 }

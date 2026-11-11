@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6）
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,11 +9,11 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | Phase 0 / Phase 1 落地，M1 Exit 前补齐 T1-13（T1-11 已由 §28、T1-12 已由 §29 闭环）；**方案 A 已确认 M1 范围收窄**（7 个基础组件 + Token 管线 + 文档站 + 构建 / 双构建 / 发布预演 / 治理门禁，四个 P0 组件与 T0-03 移出 M1），裁决转 `confirmed`、例外清零；T0-04 主行仍因「全部 Spike」依赖未齐 `[ ]`，T1-13 仍 `[ ]`；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
-| 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 A 确认 ≠ 授权改 T0-04 依赖列（B 未选）≠ 勾主行；例外 0/0 且只减不增** |
-| 当前任务 ID | T0-04（§30 裁决 + §30.7 方案 A 确认：S-03 / S-09 重定义并实证补勾、4 条例外全消解为 0 条；主行仍未勾）；§30.8 已实证 CI 真实 run（其「跨 Chrome 版本是根因 / 已修复」结论由 §30.9 推翻）；§30.9 已落地视觉基线方案 B：仓库内固定 Web 字体 + 16 张基线重生成；✅ CI run `42822339834` 4/4 job 全绿、视觉 16/16，Full gate 首次全绿复验通过（§30.9.6）；下一步 T1-13（M1 Exit，依赖「全部」，仍有 T0-03 / T0-04 / S-02 / S-04 / S-05 / S-06 未勾，且 C03 是否倒改 pass 须 Aming 裁决） |
-| 下一步 | **Aming 已选方案 A（§30.7）**：M1 范围收窄生效、S-03 / S-09 重定义并补勾、例外 2→0；**仍需 Aming 定 T0-04 依赖列口径（方案 B 或 C）**，在此之前 T0-04 / T1-13 均 `[ ]`；✅ 2026-11-10 认证 REST API 实证取回 7 次 CI run：三架构 job 6 次全 success / 1 次容量取消，Full gate 5 次视觉基线失败 + 2 次 runner 取消（§30.8 已更正三处失真陈述）；✅ **CI Full gate 欠账已结清**：run `42822339834`（`0899769`）4/4 job 全 success、视觉 16/16、verify 25 阶段在 runner 上全绿（§30.9.6）；⚠️ §30.8「统一 bundled chromium 即根因」已被 run `42758329334` 的 artifact 推翻（CI 与本机同为 Chrome for Testing 156.0.8078.4，5 张失败截图差异像素数一个没变），真根因是 **Demo 宿主中文命中系统 PingFang SC、本机 macOS 26.5.1 与 macos-15 runner 的字体文件不同**；§30.9 已用仓库内固定 Web 字体替换该系统字体栈并由真实 run 验真；§29 改动已提交推送为 `1ce1592`，§30 + §30.7 + §30.8 改动已由 Aming 授权提交推送为 `63c3add`，§30.9 改动已由 Aming 授权提交推送为 `0899769`（禁 force，§25 那次除外）；⚠️ **放行 ≠ 授权 publish**：账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置；Node 24 偏差补验；C03 `partial` 是否倒改 `pass`、T1-07 / T1-13 是否推进须 Aming 另行裁决 |
-| 未答决策 | **T0-04 依赖列口径（方案 B 或 C，A 未授权改）**、D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、**C03 是否倒改 `pass` / T1-07 · T1-13 是否推进（CI 全绿前置已成立，须 Aming 裁决）**；**已关闭**：M1 范围收窄（方案 A 确认）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8 已实证取回）、**CI Full gate 首次全绿复验（run `42822339834`，§30.9.6）** |
+| 当前目标 | Phase 0 / Phase 1 落地，M1 Exit 前补齐 T1-13（T1-11 已由 §28、T1-12 已由 §29 闭环）；**方案 C 已由 Aming 授权并于 §30.10 落地四个 Phase 0 Spike 可行性实证**（S-02 / S-04 / S-05 / S-06 已按实证补勾 `[x]`），C03 已裁决转 `pass`；T0-04 依赖列仍「全部 Spike」，**T0-03 API 草案评审须 Aming 主持签字**，签字前 T0-03 / T0-04 / T1-13 均保持 `[ ]`；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权（§30.10）：四个 Phase 0 Spike 按可行性实证补勾，但 T0-03 评审未签字前 T0-03 / T0-04 / T1-13 一律 `[ ]`；T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增** |
+| 当前任务 ID | T0-03（§30.10：四个 Spike 实证已补齐，统一模板 API 草案与 R1~R5 裁决项已落盘 `packages/core/spikes/api-draft/`，**评审结论待 Aming 主持填写**）；§30.9.6 CI Full gate 已由 run `42822339834` 首次全绿；§30.10 已把 C03 转 `pass`、门禁由方案 A 切到方案 C 并加严依赖守卫；T0-04 / T1-13 仍 `[ ]` |
+| 下一步 | **等 Aming 主持 T0-03 API 草案评审**：材料在 `packages/core/spikes/api-draft/REVIEW.md`（R1~R5 五项裁决 + 4 份草案 + `data-*` 口径），Aming 给出结论并落盘后，才勾 T0-03 → 复审 C09 / C14 → 勾 T0-04 → 勾 T1-13（M1 Exit）；AI 不代签评审结论。✅ CI Full gate 欠账已结清（run `42822339834`，§30.9.6）；✅ 方案 C 四个 Spike 实证与 25 阶段 `pnpm verify RC=0` 已完成（§30.10）；⚠️ 真实 publish 未授权、未发生，npm trusted publisher 配置与首包发布仍是人工前置 |
+| 未答决策 | **T0-03 API 草案评审结论（Aming 主持，R1~R5）**、D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）；**已关闭**：M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）** |
 
 ---
 
@@ -45,18 +45,18 @@
 | T0-01 | 仓库脚手架：pnpm workspace + Turborepo + Changesets + lint/test/build | — | 技术负责人 | `pnpm build` / `pnpm test` / `pnpm lint` 三命令可跑 | [x] |
 | T0-02 | `AGENTS.md` / 贡献规范 + 组件模板落地（06 §2/§3 唯一模板） | T0-01 | 技术负责人 | 模板与 SCSS `[data-*]` 选择器互相匹配 | [x] |
 | T0-03 | API 草案评审：Form / Table / Select / DatePicker | T0-01 | 工程师 A + 技术负责人 | 含响应式契约（`resolveValue()`）与 `data-*` 口径，评审通过 | [ ] |
-| T0-04 | Phase 0 决策检查点（07 §6 共 14 项） | 全部 Spike | 技术负责人 | 14 项全通过；未通过项有替代方案与决策记录。**§30 已逐条裁决（pass 4 / partial 5 / fail 5，均有实证 + 替代方案 + 决策记录）并收口 4 条历史例外；§30.7 方案 A 已确认 M1 范围收窄 + S-03 / S-09 重定义，裁决转 `confirmed`、例外清零，但主行仍不勾**：依赖「全部 Spike」仍有 S-02 / S-04 / S-05 / S-06 四个 `[ ]`，方案 B（重定义依赖列）未授权 | [ ] |
+| T0-04 | Phase 0 决策检查点（07 §6 共 14 项） | 全部 Spike | 技术负责人 | 14 项全通过；未通过项有替代方案与决策记录。**§30 当时逐条裁决为 pass 4 / partial 5 / fail 5（均有实证 + 替代方案 + 决策记录；§30.10 由 Aming 裁决 C03 转 `pass` 后变为 pass 5 / partial 4 / fail 5）并收口 4 条历史例外；§30.7 方案 A 曾确认 M1 范围收窄，§30.10 由 Aming 改选方案 C 并补齐 S-02 / S-04 / S-05 / S-06 四个 Spike 实证，C03 转 `pass`、例外仍 0/0**：依赖「全部 Spike」中的四个已 `[x]`，但 **T0-03 API 草案评审仍须 Aming 主持签字**，故主行仍 `[ ]`；方案 B（重定义依赖列）始终未授权 | [ ] |
 
 ### 1.2 十个 Spike（对应 01 §9）
 
 | ID | Spike | 依赖 | Timebox | 验收判据（只验可行性） | 主责 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | S-01 | 包构建 + 三端消费 | T0-01 | 3 天 | Vite / Webpack 5 / Rspack 可 import、类型正确、CSS 生效、tree-shaking 生效；SolidStart 的 `"solid"` 条件可解析并跑通 SSR 渲染冒烟 | 技术负责人 | [x] |
-| S-02 | Kobalte 封装（Select + Dialog） | T0-01 | 2 天 | 样式覆盖、键盘、焦点；客户端与 `renderToString` 均无报错 | 工程师 A | [ ] |
+| S-02 | Kobalte 封装（Select + Dialog） | T0-01 | 2 天 | 样式覆盖、键盘、焦点；客户端与 `renderToString` 均无报错。✅ §30.10 实证：`spikes/s02-kobalte/` 5 例客户端测试 + SSR 单档渲染；Kobalte 0.13.14 的真实 API 边界与 jsdom 交互限制已写入 `api-draft/Select.md` | 工程师 A | [x] |
 | S-03 | Token / 主题 | T0-01 | 2 天 | **§30.7 方案 A 口径重定义**：Phase 0 可行性 = DTCG → CSS 变量 → 亮/暗双主题切换 + CSS 变量业务可覆盖（机制层，`:root` / `[data-theme='dark']` 定义、组件 `var(--scui-*)` 消费）；密度 / 品牌 / 无闪烁 / 完整视觉矩阵明确归 v1.0，不进本 Spike 判据。实证：`tokens.css` + `theme-dark.css`、style-dictionary + colorjs.io 正式管线、构建期对比度校验（§12.2）、C06 | 工程师 C | [x] |
-| S-04 | Table 1 万行 + 固定列**方案** | T0-01 | 3 天 | 排序/选择可用；⚠️ **60fps 性能验收在 Phase 5，不在此处** | 工程师 B | [ ] |
-| S-05 | DatePicker 基础 | T0-01 | 3 天 | 基础/禁用/键盘/中文 locale；范围仅预研；含 hydration 冒烟 | 工程师 A | [ ] |
-| S-06 | Form 校验链路 | T0-01 | 2 天 | Input + Select + 校验 + 错误滚动；字段级更新不整表重渲染 | 工程师 A | [ ] |
+| S-04 | Table 1 万行 + 固定列**方案** | T0-01 | 3 天 | 排序/选择可用；⚠️ **60fps 性能验收在 Phase 5，不在此处**。✅ §30.10 实证：`spikes/s04-table/` 7 例（1 万行确定性 / 排序 / 选择 / 窗口化 / sticky 方案）+ SSR | 工程师 B | [x] |
+| S-05 | DatePicker 基础 | T0-01 | 3 天 | 基础/禁用/键盘/中文 locale；范围仅预研；含 hydration 冒烟。✅ §30.10 实证：`spikes/s05-date-picker/` 7 例 + hydration 冒烟 1 例 + SSR；严格 hydration 边界已如实标注 | 工程师 A | [x] |
+| S-06 | Form 校验链路 | T0-01 | 2 天 | Input + Select + 校验 + 错误滚动；字段级更新不整表重渲染。✅ §30.10 实证：`spikes/s06-form/` 5 例（含 effect 计数证明字段级更新）+ SSR | 工程师 A | [x] |
 | S-07 | 文档站 Demo + API 表 | T0-01 | 2 天 | 实时渲染 + 源码 + `oxc-parser` API 表 + 截图回归（MVP 基线 light/ltr/default）。**§30.5 实证补勾**：`test:docs` 8/8、`test:visual` 16/16、`check:docs` 20 生成物一致、C10 判据全通过，与 T1-06 同源合并 | 工程师 C | [x] |
 | S-08 | TS 7 工具链 | T0-01 | 2 天 | `tsc --emitDeclarationOnly` / `declarationMap`、`oxlint --type-aware`、Biome `solid` domain、`oxc-parser` 全部跑通；`baseUrl` 已迁移、`rootDir` / `include` 补齐。**§30.5 实证补勾**：C02 五条判据逐项核验（tsconfig.build.json / baseUrl 零命中 / lint / check:docs / typecheck） | 技术负责人 | [x] |
 | S-09 | TS 7 平台包 | D-03 / D-04 | 1 天 | **§30.7 方案 A 口径重定义**：公开 npmjs.org 冻结 lock 20/20 平台包（`check:platforms`）+ CI 三架构 matrix 配置就位 + 本机 darwin-arm64 真实安装且 `tsc --version` 通过；D-04「私有 registry 镜像」语义随 D-09 作废并关闭。✅ 2026-11-10 认证 REST API 已取回 7 次 run 的 job 级记录（三架构 job 6 次全 success / 1 次 runner 容量取消，§30.8）；✅ 主门禁 Full gate 已由 run `42822339834` 首次全绿（§30.9.6），不构成 S-09 判据 | 技术负责人 | [x] |
@@ -1651,9 +1651,9 @@ T1-12 的六个环节（组件 → 样式 → 测试 → 文档 → 构建 → �
 
 ### 30.1 结论先行：T0-04 已做「决策检查点」，但主行不勾
 
-T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策记录」，依赖列是「全部 Spike」。本轮把 `docs/07` §6 的 14 条 checkbox 逐条实证裁决：**pass 4 / partial 5 / fail 5**，每个未通过项都写了替代方案与决策记录；4 条历史倒挂例外逐条给出收口裁定，**其中 2 条实证补齐后消解（例外 4→2）**。
+T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策记录」，依赖列是「全部 Spike」。本轮把 `docs/07` §6 的 14 条 checkbox 逐条实证裁决：**pass 4 / partial 5 / fail 5（§30 当时；§30.10 由 Aming 裁决 C03 转 `pass` 后为 pass 5 / partial 4 / fail 5）**，每个未通过项都写了替代方案与决策记录；4 条历史倒挂例外逐条给出收口裁定，**其中 2 条实证补齐后消解（例外 4→2）**。
 
-⚠️ **主行仍 `[ ]`**：`S-02 / S-03 / S-04 / S-05 / S-06 / S-09` 六个 Spike 未勾，勾 T0-04 会新增 6 处依赖倒挂，超过 `maxExceptions=2` 且违反「例外只减不增」。`pnpm check:decisions` 把这条写成硬判据——只要还有 Spike 未勾，T0-04 就勾不动。**不虚勾、不改冻结规范、不代 Aming 改清单口径**是本轮边界。
+⚠️ **主行仍 `[ ]`**（§30 当时）：`S-02 / S-03 / S-04 / S-05 / S-06 / S-09` 六个 Spike 未勾，勾 T0-04 会新增 6 处依赖倒挂，超过 `maxExceptions=2` 且违反「例外只减不增」。`pnpm check:decisions` 把这条写成硬判据——只要还有 Spike 未勾，T0-04 就勾不动。**不虚勾、不改冻结规范、不代 Aming 改清单口径**是本轮边界。**【§30.10 现状补注】四个 Spike 已按可行性实证补勾 `[x]`，依赖倒挂不再存在；但 T0-03 API 草案评审仍须 Aming 主持签字，签字前 T0-04 / T1-13 仍 `[ ]`，门禁改由「评审签字」守卫。本段保留 §30 当时的历史叙述，不回改。**
 
 **必须登记的既成偏差**：`docs/07` §6 明确「任何一项不通过，先调整方案，不进入 Phase 1 实现」，但 T1-01~T1-16 早已落地。本轮不回改冻结规范（一个字节不动），而是把「M1 范围收窄」作为**待 Aming 确认的提案**写进裁决真源 `scopeDecision`：M1 只覆盖 7 个基础组件 + Token 管线 + 文档站 + 构建/双构建/发布预演/治理门禁；Table / Form / Select / DatePicker 及其 API 草案评审（T0-03）留在 M1 之后。
 
@@ -1661,13 +1661,13 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 | # | 07 §6 检查点 | 裁决 | 实证 / 缺口 | 替代方案 + 决策记录 |
 | --- | --- | --- | --- | --- |
-| C01 | 三端 + SolidStart SSR + Kobalte 0.13 | ⚠️ partial | ✅ `smoke:consumers` 三端 PASS、`smoke:start-real` 真实 SolidStart 11 项 OK；❌ Kobalte 只在依赖与 lockfile，无 Select / Dialog 实现（S-02 `[ ]`） | 拆出 Kobalte 封装交回 S-02，M1 不含 Select / Dialog；构建消费链路判通过 |
+| C01 | 三端 + SolidStart SSR + Kobalte 0.13 | ⚠️ partial | ✅ `smoke:consumers` 三端 PASS、`smoke:start-real` 真实 SolidStart 11 项 OK；❌ 当时 Kobalte 只在依赖与 lockfile、无 Select / Dialog 正式组件（S-02 `[ ]`）；§30.10 已补 S-02 可行性实证并勾 `[x]`，但正式组件仍缺，verdict 不变 | 拆出 Kobalte 封装交回 S-02，M1 不含 Select / Dialog；构建消费链路判通过 |
 | C02 | TS 7 工具链（emitDeclarationOnly / declarationMap / oxlint / Biome / oxc-parser / baseUrl / rootDir / include） | ✅ pass | ✅ `tsconfig.build.json` 逐项齐、全仓 `baseUrl` 零命中、`pnpm lint` 0 error、`check:docs` 20 生成物一致、`typecheck` RC=0 | —（判据全通过，成为 S-08 补勾依据） |
-| C03 | 20 个平台包 + 私有 registry / CI 各架构 | ⚠️ partial | ✅ `check:platforms` 20/20 + darwin-arm64 已装 + tsc 通过、ci.yml 三架构 matrix；✅ 2026-11-10 认证 REST API 取回 7 次 run：三架构 job 6 次全 success / 1 次 runner 容量取消；✅ 第 8 次 run `42822339834`（`0899769`）4/4 job 全 success，Full gate 首次全绿、视觉 16/16（§30.9.6）；私有 registry 语义随 D-09 作废 | 改判「公开 npmjs.org 冻结 lock + 三架构可安装性」，D-04 于方案 A 确认后关闭；⚠️ `partial` 原理由「Full gate 未绿」已消除，是否倒改 `pass` 须 Aming 裁决，AI 不擅自倒改；根因更正见 §30.9 |
+| C03 | 20 个平台包 + 私有 registry / CI 各架构 | ✅ pass | ✅ `check:platforms` 20/20 + darwin-arm64 已装 + tsc 通过、ci.yml 三架构 matrix；✅ 2026-11-10 认证 REST API 取回 7 次 run：三架构 job 6 次全 success / 1 次 runner 容量取消；✅ 第 8 次 run `42822339834`（`0899769`）4/4 job 全 success，Full gate 首次全绿、视觉 16/16（§30.9.6）；私有 registry 语义随 D-09 作废 | **Aming 于 2026-11-10 裁决转 `pass`**：原 `partial` 理由「Full gate 未绿」已由真实 run 消除；改判「公开 npmjs.org 冻结 lock + 三架构可安装性」，D-04 关闭，方案 B 的字体修复已由 CI 反向确认根因 |
 | C04 | Chrome 128+ / Firefox / Safari | ❌ fail | ✅ Chrome 157 + E2E 36/36 + 16 张基线；❌ playwright 无 firefox / webkit project | 按 ADR-011 已关闭的 Q3，MVP 只承诺 Chrome + Edge；跨引擎后置 v1.0，07 §6 该条属 v0.2 遗留口径 |
 | C05 | CSS 显式引入 + 微前端 + SSR 注入 HTML | ⚠️ partial | ✅ 5 个入口显式 import styles.css、SSR HTML 引用组件 CSS、三端构建纳入 CSS；❌ 微前端真实宿主无样例 | 微前端按 Q4/Q5 best effort 不进 Phase 0 验收，M4 再补 |
-| C06 | Token → CSS 变量 → 暗色/密度/品牌 | ⚠️ partial | ✅ light/dark 语义 token + theme-dark.css + style-dictionary + ConfigProvider 骨架；❌ 密度 / 品牌 / 无闪烁无 Spike 实证（S-03 `[ ]`） | Phase 0 只验可行性：亮/暗机制判可行；完整视觉矩阵按 ADR-014 归 v1.0，S-03 口径待 Aming 重定义 |
-| C07 | Table 1 万行 + 固定列方案 | ❌ fail | ❌ 无 table 组件、无 Spike 产物、size 预算未实现 4 条之一 | M1 不含 Table；60fps 按规范仍在 Phase 5 |
+| C06 | Token → CSS 变量 → 暗色/密度/品牌 | ⚠️ partial | ✅ light/dark 语义 token + theme-dark.css + style-dictionary + ConfigProvider 骨架；❌ 密度 / 品牌 / 无闪烁无 Spike 实证（§30 当时 S-03 `[ ]`；§30.7 已按重定义口径补勾 `[x]`，verdict 仍 partial） | Phase 0 只验可行性：亮/暗机制判可行；完整视觉矩阵按 ADR-014 归 v1.0，S-03 口径待 Aming 重定义 |
+| C07 | Table 1 万行 + 固定列方案 | ❌ fail | ❌ 无 table 正式组件、size 预算未实现（§30 当时也无 Spike 产物；§30.10 已补 S-04 的 1 万行 / 窗口化 / 固定列可行性实证并勾 `[x]`，但正式组件仍缺、60fps 仍在 Phase 5，verdict 不变） | M1 不含 Table；60fps 按规范仍在 Phase 5 |
 | C08 | DatePicker 基础 + 键盘 | ❌ fail | ❌ 无 date-picker 组件，S-05 `[ ]` | M1 不含 DatePicker，范围选择仍属 v1.0 |
 | C09 | Form + Select + Input 校验链路 + 响应式契约评审 | ❌ fail | ❌ 无表单控件、T0-03 无评审记录；docs/04 §5.2 只有 getter 契约设计 | 评审须 Aming 主持，设计文档不冒充评审结论 |
 | C10 | 文档 Demo + API 表 + MVP 截图回归 | ✅ pass | ✅ `test:docs` 8/8、`test:visual` 16/16、`check:docs` 20 生成物一致、oxc-parser API 表、`check:llms` 34 页 | —（成为 S-07 补勾依据） |
@@ -1676,7 +1676,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 | C13 | 剩余待定项 + Q1/Q8/Q16/Q17 | ⚠️ partial | ✅ ADR-018~020 关闭 Q 系列、D-01 / D-09 / D-10 已定；⚠️ D-02 / D-05 按 07 §3.1 走建议默认、D-04 语义作废 | 判「有明确默认」但保留待答决策；D-04 待确认后关闭 |
 | C14 | Form / Table / Select / DatePicker API 草案评审 | ❌ fail | ❌ T0-03 `[ ]`，无评审结论、无统一模板落盘 | 作为 T1-13 硬前置，评审前不启动复杂组件实现 |
 
-> 未通过项共 10 条（partial 5 + fail 5），真源每条都有 `evidence` / `alternative` / `decision` 三段；`check:decisions` 逐字比对 `specText` 与冻结规范，改规范、删条目、把替代方案复制成决策记录都会红灯。
+> 未通过项共 10 条（§30 当时 partial 5 + fail 5；§30.10 C03 转 `pass` 后为 9 条 = partial 4 + fail 5），真源每条都有 `evidence` / `alternative` / `decision` 三段；`check:decisions` 逐字比对 `specText` 与冻结规范，改规范、删条目、把替代方案复制成决策记录都会红灯。
 
 ### 30.3 4 条历史例外：之前 / 现在
 
@@ -1700,8 +1700,8 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 | --- | --- |
 | S-08 | `[ ]`→`[x]`；`evidence["S-08"]="30.5"`；C02 证据：`tsconfig.build.json` 的 declaration / emitDeclarationOnly / declarationMap / rootDir / include、`baseUrl` 零命中、`pnpm lint` 全通过、`check:docs` 20 生成物一致、`typecheck` + `check:platforms` RC=0 |
 | S-07 | `[ ]`→`[x]`；`evidence["S-07"]="30.5"`；C10 证据：`test:docs` 8/8、`test:visual` 16/16、oxc-parser API 表、`check:docs` 20 生成物一致，与 T1-06 同源 |
-| T0-04 主行 | **仍 `[ ]`**；`pnpm check:decisions` 在 6 个 Spike 未勾时禁止虚勾，负向实证逐例验证 |
-| `pnpm check:decisions` | **RC=0**：docs/07 §6 14 项逐字对齐、pass 4 / partial 5 / fail 5 均有实证与决策、4 条例外逐条收口、§30 派发边界在位 |
+| T0-04 主行 | **仍 `[ ]`**；`pnpm check:decisions` 在 6 个 Spike 未勾时禁止虚勾（§30 当时；§30.10 后四个 Spike 已勾，改由「T0-03 评审签字」守卫），负向实证逐例验证 |
+| `pnpm check:decisions` | **RC=0**：docs/07 §6 14 项逐字对齐、pass 4 / partial 5 / fail 5（§30 当时；§30.10 后为 pass 5 / partial 4 / fail 5）均有实证与决策、4 条例外逐条收口、§30 派发边界在位 |
 | `pnpm verify` | **RC=0，25 阶段全绿**（`check:decisions` 为第 13 阶段，紧接 `check:todo`）；首轮因新脚本未按 Prettier 格式化红灯，格式化后复跑 RC=0 |
 | 负向实证 | **17/17 PASS**：改冻结规范 §6 原文 / 删 C14 / 删替代方案 / 复制决策记录 / 篡改 4 种例外收口状态 / 伪造引用编号 / 勾 T0-04 / 冒充 Aming 确认 / gate 脱节 / 删允许写入路径 / 摘掉 verify 阶段 / 撤 S-08 / 勾 S-03 制造僵尸 / 删 C14 表格行 / 非法 verdict / 勾 T1-13，每例均精确红灯且校验关键词（排除「模块找不到」式假红灯）；**全部字节级还原 `DRIFT=[]`**，还原后 `check:decisions` RC=0 |
 | 只读门禁 | **8/8 RC=0**：`check:goals`（15 哈希一致）/ `check:todo`（29 个 `[x]` 全有证据、倒挂 2 处例外 2/2）/ `check:decisions` / `check:ci`（25 阶段）/ `check:public`（275 tracked / 259 文本零敏感命中）/ `check:naming`（236 源文件零残留）/ `check:slice` / `check:release --strict` |
@@ -1710,7 +1710,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 **负向实证抓到的盲区（N08）**：把 T0-04 勾成 `[x]` 时，`check:todo` 的 L3 只报「证据注册表无条目」，**并不会报依赖倒挂**——因为 T0-04 / T1-13 的依赖列写的是「全部 Spike」/「全部」这种文字，L3 只解析显式任务 ID。本轮因此在 `check:decisions` 里补了「文字依赖兜底」：凡依赖列含「全部」的任务，勾选时全部 38 个任务必须已 `[x]`，N17 单独验证 T1-13 也被这条拦住。这是新门禁相对既有 L3 的增量价值，不是重复造轮子。
 
-### 30.6 状态与遗留（§30 当时的历史快照；Aming 已选方案 A，落地结果见 §30.7）
+### 30.6 状态与遗留（§30 当时的历史快照；Aming 早间选方案 A，落地见 §30.7；同日晚间改选方案 C，落地见 §30.10）
 
 - 📌 **§30 当时**仍未勾选：`T0-03 / T0-04`、`S-02 / S-03 / S-04 / S-05 / S-06 / S-09`、`T1-13`；例外从 4 条降到 **2 条**（§30.7 后为 **0 条**）。
 - 📌 **§30 当时** `decisionStatus=proposed` / `scopeDecision.approval=pending`；2026-11-10 方案 A 确认后转 `confirmed` / `approved`（`confirmedBy=Aming`）。⚠️ **确认裁决 ≠ 勾 T0-04**：`docs/07` §6 的「不通过就不进 Phase 1」冲突由 Aming 以「M1 范围收窄」裁决，冻结规范一个字节未改。
@@ -1720,28 +1720,28 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 | 方案 | 内容 | 后果 |
 | --- | --- | --- |
-| **A（✅ Aming 已选 2026-11-10）** | 确认本轮 M1 范围收窄提案 + S-03 / S-09 口径重定义，勾这两个 Spike 并清零例外 | **已按 §30.7 落地**：例外 2→0；T0-04 依赖列仍是「全部 Spike」，仍因 S-02 / S-04 / S-05 / S-06 未勾而不能勾；T1-13 保持 `[ ]` |
+| **A（曾于 2026-11-10 早间选中，同日晚间改选 C）** | 确认本轮 M1 范围收窄提案 + S-03 / S-09 口径重定义，勾这两个 Spike 并清零例外 | 例外 2→0、S-03 / S-09 补勾已落地且**保留**；其「四个 P0 移出 M1、Spike 保持未勾」口径由 §30.10 方案 C 覆盖 |
 | **B（未授权）** | 在 A 之外，额外授权把 T0-04 依赖列重定义为「14 项裁决 + 4 条例外收口」 | 可勾 T0-04（改的是清单口径，属治理契约变更，需明确授权）；T1-13 依赖「全部」仍不可勾 |
-| **C（未选）** | 严格按冻结规范补齐 S-02 / S-04 / S-05 / S-06 四个 Spike（约 10 人日）+ T0-03 API 评审，再勾 T0-04 | 最合规、无口径变更，但工作量最大，M1 时间线顺延 |
+| **C（✅ Aming 已选 2026-11-10 晚间）** | 严格按冻结规范补齐 S-02 / S-04 / S-05 / S-06 四个 Spike（约 10 人日）+ T0-03 API 评审，再勾 T0-04 | **已按 §30.10 落地四个 Spike 的可行性实证并补勾 `[x]`**（不冒充正式组件实现）；T0-03 统一模板草案与 R1~R5 已落盘，**评审结论仍待 Aming 主持签字**，签字前 T0-03 / T0-04 / T1-13 均 `[ ]` |
 
 > 无论选哪个，`T1-13（M1 Exit）` 的依赖列是「全部」，在 `T0-03` 与全部 Spike 勾完前都不会被机器放行。
 
 ### 30.7 方案 A 确认验收输出：M1 范围收窄 + S-03 / S-09 重定义 + 例外清零（2026-11-10）
 
-**结论先行**：Aming 于 2026-11-10 选 **方案 A**。本节把「确认」与「授权」分开：`decisionStatus` 由 `proposed` → `confirmed`（`confirmedBy=Aming` / `confirmedAt=2026-11-10` / `scopeDecision.approval=approved`），M1 范围收窄正式生效；**方案 B（重定义 T0-04 依赖列）与方案 C（补齐四个 Spike）均未授权**，所以 T0-04 依赖列仍是「全部 Spike」、主行仍 `[ ]`，T1-13 仍 `[ ]`。**确认裁决 ≠ 通过 Phase 0 检查点**。
+**结论先行（历史记录 + §30.10 更新）**：Aming 于 2026-11-10 早间选 **方案 A**（M1 范围收窄、S-03 / S-09 重定义、例外清零），同日晚间改选 **方案 C**：严格按冻结规范补齐四个 Spike 可行性实证，并把 T0-03 API 草案评审交回本人主持。`decisionStatus` 保持 `confirmed`（`confirmedBy=Aming`），`confirmedOption` 由 `A` → `C`；T0-04 依赖列仍是「全部 Spike」（方案 B 始终未授权）。⚠️ **方案 C 已完成的是「四个 Spike 实证」这一半，评审未签字 ⇒ T0-04 / T1-13 仍 `[ ]`**。
 
 #### 30.7.1 之前 / 现在
 
 | 项 | 之前（§30） | 现在（§30.7） |
 | --- | --- | --- |
 | 裁决状态 | `proposed` / `approval=pending`，AI 提案 | `confirmed` / `approved`，Aming 确认；14 项 `specText` 与 `verdict` **一个字未改** |
-| M1 范围 | 收窄为提案，未生效 | 正式收窄：7 个基础组件 + Token 管线 + 文档站 + 构建 / 双构建 / 发布预演 / 治理门禁；Table / Form / Select / DatePicker 与 T0-03 明确移出 M1 |
+| M1 范围 | 收窄为提案，未生效 | 方案 A 曾正式收窄；方案 C 接替后 **不再以「移出 M1」跳过 Phase 0 检查点**——四个 Spike 的可行性实证与 T0-03 评审材料必须补齐，正式组件实现 / 完整视觉回归仍留在 M1 之后 |
 | S-03 验收列 | 「亮/暗/密度/品牌切换可行、无闪烁；CSS 变量可被业务覆盖」——把 Phase 0 与 v1.0 混在一起 | 重定义为「Phase 0 可行性：DTCG → CSS 变量 → 亮/暗双主题切换 + CSS 变量业务可覆盖（机制层）」；密度 / 品牌 / 无闪烁 / 完整视觉矩阵归 v1.0 |
 | S-03 状态 | `[ ]`，挂 `T1-01<-S-03` 例外 | **`[x]`**，`evidence["S-03"]="30.7"`，例外删除 |
 | S-09 验收列 | 「私有 registry 镜像 20 个平台包；CI 各架构 `tsc --version` + 声明产出可运行」——D-09 后语义作废 | 重定义为「公开 npmjs.org 冻结 lock 20/20 + CI 三架构 matrix 配置就位 + 本机 darwin-arm64 真实安装且 `tsc --version` 通过」；D-04 关闭 |
 | S-09 状态 | `[ ]`，挂 `T1-07<-S-09` 例外 | **`[x]`**，`evidence["S-09"]="30.7"`，例外删除 |
 | 例外 | 2 条 / `maxExceptions=2` | **0 条 / `maxExceptions=0`**（只减不增写死） |
-| T0-04 / T1-13 | 均 `[ ]` | **仍均 `[ ]`**，S-02 / S-04 / S-05 / S-06 四个 Spike 未勾 |
+| T0-04 / T1-13 | 均 `[ ]` | **仍均 `[ ]`**（§30.10 后）：四个 Spike 已补齐，但 T0-03 评审结论未由 Aming 签字 |
 
 #### 30.7.2 逐条实证（两个 `[x]` 都是实证补勾，不是批量勾选）
 
@@ -1758,9 +1758,9 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 因此（本节为 2026-11-10 当时结论）：① S-09 的重定义与勾选**依然成立**（三架构真实 run 已实证，且判据本就不含真实 run）；② `T1-07` / `T1-13` 验收列的「CI 全绿」**截至当时不成立**，登记为 T0-04 之后的新欠账（✅ 已由 run `42822339834` 结清，见 §30.9.6）；③ C03 的 `verdict` 当时仍记 `partial`，理由由「runner 未验」换成「Full gate 未绿」，不得擅自倒改成 `pass`（现理由已消除，倒改须 Aming 裁决）；④ 视觉基线根因当时按「跨 Chrome 版本」初判，**已由 §30.9 推翻**；真实 run 复验已由 `42822339834` 完成，本机全绿不再只是本机口径。
 
-#### 30.7.3 机器边界：方案 A 的授权范围被写进门禁
+#### 30.7.3 机器边界：方案 A 的授权范围被写进门禁（§30.10 后 A 分支保留，另增方案 C 分支）
 
-`scripts/check-decisions.mjs` 新增硬判据：① `decisionStatus=confirmed` 必须 `approval=approved` + `confirmedBy=Aming`（禁止 AI 自批）；② `confirmedOption=A` 时 T0-04 依赖列必须仍是「全部 Spike」、T0-04 与 T1-13 必须 `[ ]`、例外必须 `0 / 0`；③ 已确认裁决不得回退 `proposed`；④ §30 的 14 行裁决表**逐行解析**而非全文字符串包含。负向实证逐例验证。
+`scripts/check-decisions.mjs` 新增硬判据：① `decisionStatus=confirmed` 必须 `approval=approved` + `confirmedBy=Aming`（禁止 AI 自批）；② `confirmedOption=A` 时 T0-04 依赖列必须仍是「全部 Spike」、T0-04 与 T1-13 必须 `[ ]`、例外必须 `0 / 0`；③ 已确认裁决不得回退 `proposed`；④ §30 的 14 行裁决表**逐行解析**而非全文字符串包含。负向实证逐例验证。**【§30.10 补注】`gate.confirmedOption` 现为 `C`：A 分支保留但不再进入；C 分支要求四个 Spike 全 `[x]`、依赖列保持「全部 Spike」、`REVIEW.md` 结论栏不得代填、`reviewSigned=false` 时 T0-03 / T0-04 / T1-13 必须 `[ ]`，只有本人签字且填满结论栏后才允许放行。N31~N40 共 10 条负向实证逐例验证。**
 
 ⚠️ **负向实证抓到的第二个盲区（N15）**：原判据用 `section30.includes('C14')` 判断 14 项裁决表是否写全，但 §30.5 的叙述文字里有「删 C14 表格行」——把表格行删掉后，这句叙述仍让判据通过，**假 PASS**。已改为逐行解析 `| Cxx |` 表格行并与真源 14 个 id 逐一比对，N15 复验精确红灯。这与 §30 的 N08（文字依赖兜底）是同一类问题：**全文字符串包含不能充当结构化证据**。
 
@@ -1869,7 +1869,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 - 本节为 `1ce1592` 时的快照：§30 + §30.7 + §30.8 当时未提交 / 未推送；后续已由 Aming 逐次授权提交推送为 `63c3add`（§30.8）与 `0899769`（§30.9，禁 force，§25 那次除外）。
 - 未发任何包到公网、未运行 `pnpm release`、无 git tag、`.changeset/` 未写入；**放行 ≠ 授权 publish**。
-- ✅ **CI Full gate 已由真实 run 验证为绿**：run `42822339834`（`0899769`）4/4 job success、视觉 16/16、verify 25 阶段全绿（§30.9.6），`T1-07` / `T1-13` 的「CI 全绿」前置成立；但 C03 的 `verdict` 仍记 `partial`（原理由已消除，倒改须 Aming 裁决），`T0-04` / `T1-13` 主行仍 `[ ]`，机器不放行 M1 Exit。
+- ✅ **CI Full gate 已由真实 run 验证为绿**：run `42822339834`（`0899769`）4/4 job success、视觉 16/16、verify 25 阶段全绿（§30.9.6），`T1-07` / `T1-13` 的「CI 全绿」前置成立；但 C03 的 `verdict` 在 §30.9.6 当时仍记 `partial`（原理由已消除；**Aming 已于 §30.10 裁决转 `pass`**），`T0-04` / `T1-13` 主行仍 `[ ]`，机器不放行 M1 Exit。
 - 若后续 run 再失败：用 `visual-diff-<run_id>` artifact 做像素级定位；A（环境双基线）/ C（`macos-26` runner）仍是后备，**不放宽 `maxDiffPixelRatio: 0.002`**。本次 run 全绿，两方案均未启用。
 - 剩余人工前置：npm 账号侧 trusted publisher 配置与首包发布、Node 24 偏差补验；1 次 macos-15 runner 容量取消属平台排队，不是门禁失败。
 
@@ -1877,7 +1877,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 ### 30.9 视觉基线方案 B：仓库内固定 Web 字体（2026-11-10 晚，Aming 选定）
 
-> ⚠️ **口径区分**：本节「方案 B」是 §30.8.8 遗留的**视觉基线三选一**（A 环境双基线 / B 固定 Web 字体 / C 换 `macos-26` runner），与 §30.7 的「T0-04 依赖列口径 A/B/C」是两件事。`phase0-decisions.json` 的 `confirmedOption=A` 不变，T0-04 / T1-13 主行仍 `[ ]`，例外 0/0 不变。
+> ⚠️ **口径区分**：本节「方案 B」是 §30.8.8 遗留的**视觉基线三选一**（A 环境双基线 / B 固定 Web 字体 / C 换 `macos-26` runner），与 §30.7 的「T0-04 依赖列口径 A/B/C」是两件事。本节成文时 `phase0-decisions.json` 的 `confirmedOption=A`；**§30.10 已由 Aming 改选 `C`**（这是 T0-04 依赖列口径，勿与本节视觉基线方案 B 混淆），但 T0-04 / T1-13 主行仍 `[ ]`、例外 0/0 不变。
 
 **结论先行**：§30.8 的「视觉基线根因 = 跨 Chrome 版本、已由统一 bundled chromium 修复」是**失真陈述**。run `42758329334` 的日志确认 CI 与本机同为 Chrome for Testing **156.0.8078.4 / chromium v1248**，5 张失败截图差异像素数（2640 / 4494 / 2640 / 1830 / 4494，ratio 0.01）**一个都没变**；`visual-diff-42758329334` 的红/黄高亮全部落在中文笔画，英文与边框零差异，mean RGB delta 70~89，CDP `CSS.getPlatformFontsForNode` 实测中文命中 `PingFangSC-Regular`。⇒ 真根因是 **Demo 宿主字体栈 `Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif` 依赖 runner 系统字体**（本机 macOS 26.5.1 vs `macos-15-arm64` 镜像），统一浏览器 build 只消除了引擎变量，没有消除字体变量。本节按 Aming 选定的方案 B 消除后者。
 
@@ -1929,7 +1929,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 - **本轮改动 25 个文件（含 `docs/08`）**：4 个源码/脚本改动（`base.css`、`check-ci.mjs`、`generate-llms.mjs`、`visual.spec.ts`）+ 16 张基线 PNG + 4 个新文件（`fonts/` 三件套、`build-visual-font.py`）+ 文档。**未改**：`docs/01~07`（v0.3 冻结）、`AGENTS.md` 15 条硬约束、`package.json` / `pnpm-lock.yaml` / `turbo.json` / `ci.yml` / `playwright.config.ts` / `goals.baseline.json` / 组件与 core 源码 / 任何发布配置 ⇒ `check:goals` 基线无需重校。
 - ✅ **已由 Aming 授权「提交」**：`git commit` → `0899769`（作者 Aming，25 files / +443 −10），非 force 快进推送 `63c3add..0899769`；提交前 `pnpm verify` RC=0、工作树干净，提交后真实 run `42822339834` 全绿（§30.9.6）。
 - ✅ **CI Full gate 已由真实 run `42822339834` 验证为绿**：字体统一了字形来源，光栅化虽仍走 CoreText，但本机 macOS 26.5.1 与 `macos-15` 的大版本差未再造成任何像素差（16/16 零差异）；`maxDiffPixelRatio: 0.002` 未放宽，A / C 备用未启用。
-- `T1-07` / `T1-13` 的「CI 全绿」前置已成立；但 C03 的 `verdict` 仍记 `partial`（原理由已消除，**是否倒改 `pass` 及是否推进 T1-13 须 Aming 另行裁决**）；`T0-04` / `T1-13` 主行仍 `[ ]`，依赖列仍「全部 Spike」，例外 0/0。
+- `T1-07` / `T1-13` 的「CI 全绿」前置已成立；C03 的 `verdict` 在 §30.9.6 当时仍记 `partial`（原理由已消除；**Aming 已于 §30.10 裁决转 `pass`**；T1-13 是否推进改由 T0-03 评审签字决定）；`T0-04` / `T1-13` 主行仍 `[ ]`，依赖列仍「全部 Spike」，例外 0/0。
 - 未发任何包到公网、未运行 `pnpm release`、无 git tag、`.changeset/` 未写入；**放行 ≠ 授权 publish**。npm 账号侧 trusted publisher 配置与首包发布仍是 Aming 人工前置。
 
 #### 30.9.6 真实 CI run 首次全绿复验（2026-11-10 晚，Aming 授权「提交」）
@@ -1946,4 +1946,26 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 ⇒ **反向确认根因**：只把**字形来源**从 runner 系统字体换成仓库内固定 Web 字体，其余变量（runner label、chromium build、像素阈值、16 张基线 PNG、`ci.yml`、`playwright.config.ts`）全部未动，CI 即由 5 张红转 16/16 全绿 ⇒ 真根因确为系统字体环境；§30.8 的「跨 Chrome 版本 + 统一 bundled chromium 即修复」是错判（消除引擎变量必要但不充分）。A（环境双基线）/ C（`macos-26` runner）**未启用**。
 
-**裁决边界不变**：`T0-04` / `T1-13` 主行仍 `[ ]`，T0-04 依赖列仍「全部 Spike」，例外 0/0，`confirmedOption=A`；C03 `verdict` 仍记 `partial`（原「Full gate 未绿」理由已消除，是否倒改成 `pass` 以及 `T1-07` / `T1-13` 是否推进，属 Aming 的裁决权限，AI 不擅自倒改；本轮同步只更正事实陈述，未改任何 verdict / 勾选 / 例外 / 冻结规范）。真实 publish 未授权、未发生，无 git tag、`.changeset/` 未写入；npm trusted publisher 配置与首包发布仍是人工前置。
+**§30.10 裁决边界**：`T0-03` / `T0-04` / `T1-13` 主行仍 `[ ]`，T0-04 依赖列仍「全部 Spike」，例外 0/0，`confirmedOption=C`；C03 已由 Aming 裁决转 `pass`，四个 Spike 按实证补勾 `[x]`；C01 / C07 / C08 / C09 / C14 的 `verdict` 一律**保持不变**（正式组件实现与 T0-03 评审仍缺，只同步 evidence 的事实陈述）。真实 publish 未授权、未发生，无 git tag、`.changeset/` 未写入；npm trusted publisher 配置与首包发布仍是人工前置。
+
+### 30.10 四个 Spike 补齐与验收输出（方案 C，Aming 2026-11-10 授权）
+
+**结论先行**：按 `docs/07 §6`「Phase 0 只验可行性」补齐 S-02 / S-04 / S-05 / S-06 四个 Spike 的**可运行实证**并补勾 `[x]`；C03 由 Aming 裁决转 `pass`；门禁由方案 A 切到方案 C 并改成「依赖满足 + 评审签字」守卫。**T0-03 API 草案评审结论仍待 Aming 主持签字**，因此 T0-03 / T0-04 / T1-13 三项主行全部保持 `[ ]`。四个 Spike 的实证是**预研产物**（`packages/core/spikes/`，不进 `src/` / `dist` / npm 包 / exports / 字体字集 / 16 张视觉基线），不冒充正式组件实现。
+
+**允许写入路径（L4）**：`packages/core/spikes/**`、`packages/core/vitest.config.mjs`（include 加 Spike）、`packages/core/tsconfig.json`（include 加 Spike 以过 tsc）、`scripts/check-ci.mjs`（新增第 9 条 Spike 契约）、`scripts/check-decisions.mjs`（方案 C 守卫）、`scripts/phase0-decisions.json`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（重校）、`docs/08` 本文件；`AGENTS.md` **仅由 `pnpm check:goals --update-baseline` 同步了「目标基线 SHA256」标记行**（15 条硬约束与所有规则正文一个字节未动；`check-goals` 用归一化文本算哈希，故该行变化不改变 `AGENTS.md` 自身的受保护哈希，本次基线只重算了 `scripts/todo-governance.json` 一项）；**未改**：`docs/01~07` 冻结规范（一个字节未动）、根级 `package.json` / `pnpm-lock.yaml` / `turbo.json`、`ci.yml`、`playwright.config.ts`、`apps/docs/public/fonts/*`、16 张基线 PNG、`packages/core/src/**`、任何发布配置。零新增依赖。
+
+| 任务 | 实证产物 | 客户端 | SSR |
+| --- | --- | --- | --- |
+| S-02 | `spikes/s02-kobalte/`（Kobalte Select + Dialog 封装、`spikes.css` 覆盖层） | `s02.test.tsx` 5 例：data-* / A11y / getter / 键盘展开→Enter→Esc / 焦点陷阱 / Dialog 开关 | `ssr.tsx`（含 `data-hk`） |
+| S-04 | `spikes/s04-table/`（1 万行引擎 + 窗口化视图 + sticky 固定列方案） | `s04.test.tsx` 7 例：确定性 / 排序 / 选择 / 只渲染 20 行保留 10000 计数 / 回调 | `ssr.tsx` |
+| S-05 | `spikes/s05-date-picker/`（中文 locale、6×7 网格、禁用、键盘、SSR 固定锚点） | `s05.test.tsx` 7 例 + `hydration.test.tsx` 1 例 | `ssr.tsx` |
+| S-06 | `spikes/s06-form/`（字段级 signal、getter 注入、校验、错误滚动） | `s06.test.tsx` 5 例（effect 计数证明改一字段不触发另一字段） | `ssr.tsx` |
+| 共用 | `spikes/shared/ssr-smoke.mjs`、`spikes/api-draft/`（TEMPLATE / REVIEW / data-attributes / 4 份草案） | — | 4/4 双渲一致 + 0 warning |
+
+**验收输出**：`pnpm --filter solid-craft exec vitest run spikes` → **24/24 PASS**；`node packages/core/spikes/shared/ssr-smoke.mjs` → **4/4 PASS**；`pnpm typecheck` RC=0（Spike 源码一起过 tsc）、`pnpm lint` RC=0、`pnpm check:ci` RC=0（新增第 9 条真实跑 SSR 冒烟）、**`pnpm verify` RC=0 / 25 阶段全绿**；`check:goals` 15 哈希在本轮因 `todo-governance.json` 证据注册表新增 4 条而重校一次（理由即本节；基线只重算了该文件 1 项哈希，`AGENTS.md` 仅同步「目标基线 SHA256」标记行）；方案 C 门禁负向实证 **N31~N40 共 10/10 PASS**（未授权方案 B / 删签字字段 / AI 代填评审人 / 撤回 Spike 勾选 / 未签字虚勾 T1-13 / 偷改依赖列 / 只翻 `true` 不填结论 / 翻 `gate.checked` / 范围口径不一致 / 例外回增），每例精确红灯且字节级还原、`DRIFT=[]`，还原后 `check:decisions` RC=0。
+
+**评审材料（T0-03，待签字）**：`packages/core/spikes/api-draft/REVIEW.md` 列出 R1~R5 五项待裁决（`data-*` 命名空间 / Kobalte 受控值 / 响应式契约 / Table 虚拟化 / DatePicker 范围）与 Spike 期间查明的四条事实；`TEMPLATE.md` 定义 9 节统一模板，4 份草案逐份填满但**第 9 节评审结论一律留空**，`check-ci.mjs` 硬判据禁止 AI 代填。
+
+**实证边界（不冒充）**：① Table 只验 1 万行数据与固定列方案，60fps 仍在 Phase 5；② 除 S-02（Kobalte 复合组件，其 HTML 含 `data-hk`）外，`ssrLoadModule` 产出不带 `data-hk` 的纯 SSR 字符串，S-05 的 `hydrate()` 冒烟走 `done=true` 降级路径，严格 hydration 归 `pnpm smoke:start-real`（verify 第 25 阶段已验）；③ Kobalte 0.13.14 在 jsdom 下不响应选中链路，S-02 封装层自接管键盘/选中，正式实现需在真实浏览器 e2e 补验；④ 四个 Spike 是可行性预研，C01/C07/C08/C09/C14 的 `verdict` 未倒改。
+
+**裁决与勾选边界**：`C03 = pass`（Aming 裁决）、S-02 / S-04 / S-05 / S-06 = `[x]`、例外 `0/0`、`confirmedOption=C`；`T0-03` / `T0-04` / `T1-13` = `[ ]`。`check:decisions` 方案 C 分支要求：四个 Spike 全 `[x]`、T0-04 依赖列保持「全部 Spike」、`REVIEW.md` 结论栏保持为空、`reviewSigned=false` 时三项主行必须 `[ ]`；只有 Aming 签字并把 `gate.reviewSigned` 置 true 后，依赖守卫才允许放行。**提交 / 推送按 `AGENTS.md` §13 须 Aming 逐次授权（本节记录的是方案 C 的产物与裁决边界，与是否提交无关）；真实 publish 始终未授权、未发生**。

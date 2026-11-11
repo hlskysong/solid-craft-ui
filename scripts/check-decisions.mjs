@@ -12,8 +12,11 @@
  *      且「确认裁决」不等于「授权勾主行 / 改依赖列」。主行勾 [x] 时还必须
  *      全部 Spike 已 [x]；依赖列写「全部」的文字依赖（T0-04 / T1-13）也在此兜底，
  *      因为 check:todo 的 L3 只解析显式任务 ID，抓不到「全部」二字。
- *      confirmedOption=A（2026-11-10 Aming 选择）时额外锁死：T0-04 依赖列保持
- *      「全部 Spike」、T0-04 / T1-13 均 [ ]、例外 0/0 —— 方案 B/C 未授权不得越界。
+ *      confirmedOption 的授权边界（2026-11-10 Aming 早间选 A、晚间改选 C）：
+ *      A 锁死 T0-04 / T1-13 均 [ ]；C 要求四个 Spike 全部 [x] 且依赖列保持
+ *      「全部 Spike」，并把 T0-03 / T0-04 / T1-13 的放行条件改成
+ *      「Aming 主持评审签字（gate.reviewSigned=true）+ REVIEW.md 结论栏保持为空直到本人填写」。
+ *      两种口径都禁止例外新增（0/0）与方案 B 的重定义依赖列。
  *   4. 例外收口：§18.2 登记的 4 条历史例外必须逐条有裁决；已收口（resolved）的
  *      例外不得继续留在 todo-governance.json（僵尸例外），且其上游 Spike 必须已 [x]；
  *      仍待确认（pending-approval）的例外必须真实存在、上游仍 [ ]。
@@ -23,7 +26,7 @@
  * 注意：这里不判断「技术是否真的可行」（那是 verify 的 25 个阶段与各 smoke 的事），
  * 只判断「裁决有没有逐条对齐规范、有没有证据、有没有替未做的活打勾」。
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const repoRoot = resolve(import.meta.dirname, '..');
@@ -164,12 +167,14 @@ for (const row of allDepsRows) {
   }
 }
 
-// 3c. 方案 A 的授权边界（2026-11-10 Aming 选择）：确认裁决 ≠ 改依赖列 ≠ 勾主行。
-//     方案 B（重定义 T0-04 依赖列）与方案 C（补齐四个 Spike）均未授权，机器必须拦住
-//     后续无人值守轮次把 A 偷换成 B 或顺手勾掉 T1-13。
+// 3c. 方案授权边界：确认裁决 ≠ 改依赖列 ≠ 勾主行。A 是「一律禁勾」，
+//     C 是「补齐 Spike + 评审签字」的依赖守卫；两者都拦住无人值守轮次偷换口径或虚勾。
 if (gate.confirmedOption) {
   if (gate.decisionStatus !== 'confirmed') {
     fail('gate.confirmedOption 存在但裁决仍未确认（decisionStatus≠confirmed）');
+  }
+  if (!['A', 'C'].includes(gate.confirmedOption)) {
+    fail(`gate.confirmedOption 非法："${gate.confirmedOption}"（只允许 A / C）`);
   }
   if (gate.confirmedOption === 'A') {
     const t004Row = todoLines.find((line) => line.startsWith('| T0-04 |')) ?? '';
@@ -190,6 +195,71 @@ if (gate.confirmedOption) {
     }
     if (decisions.scopeDecision?.selectedOption !== 'A') {
       fail('scopeDecision.selectedOption 与 gate.confirmedOption 不一致');
+    }
+  }
+  if (gate.confirmedOption === 'C') {
+    const t004Row = todoLines.find((line) => line.startsWith('| T0-04 |')) ?? '';
+    if (!/\| 全部 Spike \|/.test(t004Row)) {
+      fail('方案 C 下 T0-04 依赖列仍必须保持「全部 Spike」（方案 B 始终未授权）');
+    }
+    const fourSpikes = ['S-02', 'S-04', 'S-05', 'S-06'];
+    const missingSpikes = fourSpikes.filter((id) => stateOf(id) !== '[x]');
+    if (missingSpikes.length > 0) {
+      fail(`方案 C 要求四个 Phase 0 Spike 全部按实证补勾 [x]：${missingSpikes.join(', ')}`);
+    }
+    if (decisions.scopeDecision?.selectedOption !== 'C') {
+      fail('scopeDecision.selectedOption 与 gate.confirmedOption 不一致');
+    }
+    const liveCount = (governance.exceptions ?? []).length;
+    if (liveCount !== 0 || governance.maxExceptions !== 0) {
+      fail(
+        `方案 C 要求例外清零：exceptions=${liveCount} / maxExceptions=${governance.maxExceptions}（应为 0 / 0，只减不增）`,
+      );
+    }
+    if (typeof gate.reviewSigned !== 'boolean') {
+      fail('方案 C 要求 gate.reviewSigned 显式为布尔值（评审签字状态不得靠字段缺失冒充）');
+    }
+
+    // 评审结论栏：逐行解析表格，不能只看「文件里有（待填）」。负向实证 N15 已证明
+    // 用一句叙述文字就能把被删掉的表格行冒充回来；这里要求 5 行结论全部显式空置。
+    const reviewPath = 'packages/core/spikes/api-draft/REVIEW.md';
+    if (!existsSync(join(repoRoot, reviewPath))) {
+      fail('缺少 T0-03 评审清单 api-draft/REVIEW.md');
+    } else {
+      const reviewText = read(reviewPath);
+      const conclusion = reviewText.split(/^## 评审结论（Aming 填写）\s*$/m)[1] ?? '';
+      const conclusionRows = [...conclusion.matchAll(/^\| ([^|]+?) \| ([^|]+?) \|$/gm)]
+        .map((match) => [match[1].trim(), match[2].trim()])
+        .filter(([key]) => key !== '项' && !/^:?-+:?$/.test(key));
+      if (conclusionRows.length < 5) {
+        fail(`REVIEW.md 评审结论栏少于 5 行（实际 ${conclusionRows.length} 行），模板被削过`);
+      }
+      const pendingCells = conclusionRows.filter(([, value]) => value === '（待填）');
+      if (!reviewText.includes('不得代填')) {
+        fail('REVIEW.md 缺少「AI 不得代填评审结论」声明');
+      }
+      if (gate.reviewSigned === false) {
+        if (pendingCells.length !== conclusionRows.length) {
+          fail('方案 C 未签字：REVIEW.md 评审结论栏必须全部保持「（待填）」，禁止 AI 代签');
+        }
+        for (const id of ['T0-03', 'T0-04', 'T1-13']) {
+          if (stateOf(id) === '[x]') {
+            fail(`方案 C 未签字：${id} 必须保持 [ ]（T0-03 评审须 Aming 主持并落盘结论）`);
+          }
+        }
+        if (gate.checked === true) {
+          fail('方案 C 未签字：gate.checked 不得为 true（确认裁决不等于通过检查点）');
+        }
+      } else {
+        // 只有本人签字才能翻 reviewSigned；同时要求结论栏真的填满，
+        // 防止「只改一个 true、材料还是空的」把守卫绕过去。
+        if (pendingCells.length > 0) {
+          fail('gate.reviewSigned=true 但 REVIEW.md 仍有「（待填）」结论栏，签字不实');
+        }
+        if (!reviewText.includes('评审人')) {
+          fail('gate.reviewSigned=true 但 REVIEW.md 缺少评审人记录');
+        }
+      }
     }
   }
 }
@@ -265,5 +335,5 @@ if (errors.length > 0) {
   process.exit(1);
 }
 console.log(
-  `[check:decisions] docs/07 §6 14 项逐字对齐 · 裁决 pass ${verdicts.pass} / partial ${verdicts.partial} / fail ${verdicts.fail}（未通过项均有替代方案 + 决策记录）· decisionStatus=${gate.decisionStatus}（confirmedBy=${gate.confirmedBy ?? '—'}）· 方案 ${gate.confirmedOption ?? '未选'} 授权边界在位 · T0-04 ${t004} 且 ${uncheckedSpikes.length} 个 Spike 未勾时禁止虚勾 · 4 条历史例外 ${closures.filter((entry) => entry.status === 'resolved').length} 条已消解 / ${liveKeys.size} 条仍挂账 · §30 / §30.7 派发边界在位`,
+  `[check:decisions] docs/07 §6 14 项逐字对齐 · 裁决 pass ${verdicts.pass} / partial ${verdicts.partial} / fail ${verdicts.fail}（未通过项均有替代方案 + 决策记录）· decisionStatus=${gate.decisionStatus}（confirmedBy=${gate.confirmedBy ?? '—'}）· 方案 ${gate.confirmedOption ?? '未选'} 授权边界在位（${gate.confirmedOption === 'C' ? `四个 Spike 全 [x] / 依赖列保持「全部 Spike」/ 评审签字=${gate.reviewSigned}` : 'A 一律禁勾'}）· T0-04 ${t004} 且 ${uncheckedSpikes.length} 个 Spike 未勾时禁止虚勾 · 4 条历史例外 ${closures.filter((entry) => entry.status === 'resolved').length} 条已消解 / ${liveKeys.size} 条仍挂账 · §30 / §30.7 / §30.10 派发边界在位`,
 );
