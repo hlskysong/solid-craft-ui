@@ -9,7 +9,7 @@ export const COMPONENTS = [
     slug: 'overview',
     title: '基础组件总览',
     category: '总览',
-    description: '当前 MVP 已落地的 7 个基础组件聚合预览。',
+    description: '当前 MVP 已落地的 8 个基础组件聚合预览。',
     exportPath: null,
     hasApi: false,
   },
@@ -67,6 +67,14 @@ export const COMPONENTS = [
     category: '布局',
     description: '24 栅格 Row / Col、间距、偏移与响应式断点。',
     exportPath: 'solid-craft/grid',
+    hasApi: true,
+  },
+  {
+    slug: 'input',
+    title: 'Input 输入框',
+    category: '表单',
+    description: '单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。',
+    exportPath: 'solid-craft/input',
     hasApi: true,
   },
 ];

@@ -6,6 +6,11 @@
  * ③ 各入口约定的 data-* 状态真实输出（只有 S-02 的 Kobalte 复合组件另验 data-hk，
  *    其余是纯 SSR 字符串、不带 hydration key）；④ 渲染期 0 console warning/error。
  *
+ * `counts` 是 `markers` 的补充：markers 只判「出现过」，当同一标记有多个来源
+ * （T2-03 的 `data-scui-invalid="false"` 在页面里出现 4 次）时，单点退化成
+ * `undefined` 仍会被别的组件兜住 → 假绿。这类标记必须同时断言**出现次数**，
+ * 少一次即红灯（负向实证 N75 记录的正是这件事）。
+ *
  * 这里**不设**「弹层内容必须缺席」的 forbid 判据：T2-01 实测即便把 `ready` 改成恒 true，
  * Kobalte 的 Portal 在服务端构建下依然是空操作、SSR 输出不含任何弹层节点 ——
  * 那种判据恒真、破坏不了，属于假判据（负向实证 N62 记录的正是这件事）。
@@ -77,6 +82,22 @@ const cases = [
       'aria-describedby="scui-field-',
     ],
   },
+  {
+    // T2-03：Input / Textarea。验壳与控件的 data 契约、内联值、以及「错误态也输出两态」。
+    // 自动高度不进 SSR（无布局可测），服务端高度由 rows 决定。
+    id: 'T2-03',
+    file: '/src/components/input/__tests__/ssr-entry.tsx',
+    markers: [
+      'data-scui-role="input"',
+      'data-scui-role="textarea"',
+      'data-scui-invalid="false"',
+      'data-scui-count',
+      'value="服务端值"',
+    ],
+    // 3 个 Input + 1 个 Textarea 各自输出一次；少一次说明某个组件的
+    // 「无错也输出 false」退化了，而 markers 会被其余组件兜住。
+    counts: [['data-scui-invalid="false"', 4]],
+  },
 ];
 
 const errors = [];
@@ -120,12 +141,19 @@ try {
     for (const marker of item.markers) {
       if (!html.includes(marker)) errors.push(`${item.id} HTML 缺少标记 ${marker}`);
     }
+    for (const [marker, expected] of item.counts ?? []) {
+      const actual = html.split(marker).length - 1;
+      if (actual !== expected) {
+        errors.push(`${item.id} 标记 ${marker} 出现 ${actual} 次，期望 ${expected} 次`);
+      }
+    }
     if (/Client-only API|hydration mismatch/i.test(html)) {
       errors.push(`${item.id} HTML 含客户端专用 API / hydration mismatch 文本`);
     }
     originalWarn.call(
       console,
-      `[spikes:ssr] ${item.id} ${html.length} chars · 双渲一致 · ${item.markers.length}/${item.markers.length} markers`,
+      `[spikes:ssr] ${item.id} ${html.length} chars · 双渲一致 · ${item.markers.length}/${item.markers.length} markers` +
+        (item.counts?.length ? ` · ${item.counts.length}/${item.counts.length} counts` : ''),
     );
   }
 } finally {

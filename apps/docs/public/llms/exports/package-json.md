@@ -44,6 +44,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./divider` → [solid-craft/divider](../exports/divider.md)
 - `./layout` → [solid-craft/layout](../exports/layout.md)
 - `./grid` → [solid-craft/grid](../exports/grid.md)
+- `./input` → [solid-craft/input](../exports/input.md)
 - `./config-provider` → [solid-craft/config-provider](../exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](../exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](../exports/styles.md)

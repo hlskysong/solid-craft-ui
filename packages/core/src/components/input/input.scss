@@ -1,0 +1,251 @@
+@use 'mixins' as m;
+
+/* Input / Textarea（T2-03）
+   状态一律 [data-scui-*]；类名只有块与元素两级（无 modifier）。
+   尺寸走 --scui-input-height-* 组件 token，token 未接入时用与 Button 同值的兜底，
+   避免「变量没定义 → padding 归零」这种只在视觉上才发现的退化。 */
+
+:where(.scui-input) {
+  --scui-input-current-height: var(--scui-input-height-medium, 32px);
+  --scui-input-current-padding: var(--scui-space-3, 12px);
+  --scui-input-current-border: var(--scui-color-border-strong);
+  --scui-input-current-accent: var(--scui-color-primary);
+  --scui-input-current-danger: var(--scui-color-danger);
+  --scui-input-current-radius: var(--scui-input-radius-default, 6px);
+
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+  inline-size: 100%;
+  min-block-size: var(--scui-input-current-height);
+  padding-inline: var(--scui-input-current-padding);
+  border: 1px solid var(--scui-input-current-border);
+  border-radius: var(--scui-input-current-radius);
+  background: var(--scui-color-bg-surface);
+  color: var(--scui-color-text-primary);
+  transition: border-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+
+  &:hover:not([data-scui-disabled]) {
+    border-color: var(--scui-input-current-accent);
+  }
+
+  &:focus-within {
+    border-color: var(--scui-input-current-accent);
+
+    @include m.scui-focus-ring;
+  }
+
+  &[data-scui-invalid='true'] {
+    border-color: var(--scui-input-current-danger);
+  }
+
+  &[data-scui-disabled] {
+    border-color: var(--scui-color-border-default);
+    background: var(--scui-color-bg-surface);
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-input)[data-scui-size='small'] {
+  --scui-input-current-height: var(--scui-input-height-small, 24px);
+  --scui-input-current-padding: var(--scui-space-2, 8px);
+}
+
+:where(.scui-input)[data-scui-size='large'] {
+  --scui-input-current-height: var(--scui-input-height-large, 40px);
+  --scui-input-current-padding: var(--scui-space-4, 16px);
+}
+
+:where(.scui-input__control) {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  block-size: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+
+  /* 焦点环由壳的 :focus-within 统一承担（2px outline + 2px offset），
+     控件自身不再叠第二层环 —— 这是替代视觉，不是裸 outline: none。 */
+  outline: none;
+
+  &::placeholder {
+    color: var(--scui-color-text-tertiary);
+  }
+
+  /* 原生搜索框的清除叉与我们自己的 allowClear 重复，隐藏原生那个。 */
+  &::-webkit-search-cancel-button {
+    appearance: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-input__prefix),
+:where(.scui-input__suffix) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  color: var(--scui-color-text-tertiary);
+}
+
+:where(.scui-input__clear),
+:where(.scui-input__toggle) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--scui-color-text-tertiary);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--scui-color-text-secondary);
+  }
+}
+
+:where(.scui-input__search) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  margin-inline-end: calc(-1 * var(--scui-input-current-padding));
+  padding-inline: var(--scui-space-2, 8px);
+  border: 0;
+  border-inline-start: 1px solid var(--scui-input-current-border);
+  border-start-end-radius: var(--scui-input-current-radius);
+  border-end-end-radius: var(--scui-input-current-radius);
+  background: var(--scui-input-current-accent);
+  color: var(--scui-color-bg-surface);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---- Textarea：与 Input 共用变量语义，但布局是纵向流 ---- */
+
+:where(.scui-textarea) {
+  --scui-textarea-current-height: var(--scui-textarea-height-medium, 72px);
+  --scui-textarea-current-padding: var(--scui-space-2, 8px) var(--scui-space-3, 12px);
+  --scui-textarea-current-border: var(--scui-color-border-strong);
+  --scui-textarea-current-accent: var(--scui-color-primary);
+  --scui-textarea-current-danger: var(--scui-color-danger);
+  --scui-textarea-current-radius: var(--scui-input-radius-default, 6px);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  inline-size: 100%;
+  padding: var(--scui-textarea-current-padding);
+  border: 1px solid var(--scui-textarea-current-border);
+  border-radius: var(--scui-textarea-current-radius);
+  background: var(--scui-color-bg-surface);
+  color: var(--scui-color-text-primary);
+  transition: border-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+
+  &:hover:not([data-scui-disabled]) {
+    border-color: var(--scui-textarea-current-accent);
+  }
+
+  &:focus-within {
+    border-color: var(--scui-textarea-current-accent);
+
+    @include m.scui-focus-ring;
+  }
+
+  &[data-scui-invalid='true'] {
+    border-color: var(--scui-textarea-current-danger);
+  }
+
+  &[data-scui-disabled] {
+    border-color: var(--scui-color-border-default);
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  /* 有字数统计时给页脚留出空间，避免文字被页脚压住。 */
+  &[data-scui-count] {
+    padding-block-end: calc(var(--scui-space-2, 8px) + 1.25em);
+  }
+}
+
+:where(.scui-textarea)[data-scui-size='small'] {
+  --scui-textarea-current-height: var(--scui-textarea-height-small, 56px);
+}
+
+:where(.scui-textarea)[data-scui-size='large'] {
+  --scui-textarea-current-height: var(--scui-textarea-height-large, 96px);
+}
+
+:where(.scui-textarea__control) {
+  flex: 1 1 auto;
+  inline-size: 100%;
+  min-block-size: var(--scui-textarea-current-height);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+
+  /* 同 Input：焦点环由壳承担，控件自身不再叠一层。 */
+  outline: none;
+  resize: vertical;
+
+  &::placeholder {
+    color: var(--scui-color-text-tertiary);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+/* 自动高度由 JS 写内联 height，拖拽手柄会与测量结果打架，这里关掉。 */
+:where(.scui-textarea)[data-scui-auto-size] :where(.scui-textarea__control) {
+  resize: none;
+}
+
+:where(.scui-textarea__footer) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--scui-space-2, 8px);
+  color: var(--scui-color-text-tertiary);
+  font-size: 0.875em;
+  line-height: 1;
+}
+
+:where(.scui-textarea__count) {
+  font-variant-numeric: tabular-nums;
+}
+
+:where(.scui-textarea__clear) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--scui-color-text-tertiary);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--scui-color-text-secondary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.scui-input),
+  :where(.scui-textarea) {
+    transition: none;
+  }
+}

@@ -8,14 +8,15 @@
     "space",
     "divider",
     "layout",
-    "grid"
+    "grid",
+    "input"
   ],
   "components": [
     {
       "slug": "overview",
       "title": "基础组件总览",
       "category": "总览",
-      "description": "当前 MVP 已落地的 7 个基础组件聚合预览。",
+      "description": "当前 MVP 已落地的 8 个基础组件聚合预览。",
       "exportPath": null,
       "hasApi": false,
       "demos": [
@@ -23,7 +24,7 @@
           "name": "basic",
           "path": "packages/core/src/components/overview/demos/basic.tsx",
           "title": "基础组件总览",
-          "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。"
+          "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。"
         }
       ]
     },
@@ -148,6 +149,34 @@
           "path": "packages/core/src/components/grid/demos/basic.tsx",
           "title": "基础用法",
           "description": "24 栅格、偏移与对齐换行。"
+        }
+      ]
+    },
+    {
+      "slug": "input",
+      "title": "Input 输入框",
+      "category": "表单",
+      "description": "单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。",
+      "exportPath": "solid-craft/input",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "affix",
+          "path": "packages/core/src/components/input/demos/affix.tsx",
+          "title": "前缀与后缀",
+          "description": "用前缀拼协议、用后缀挂单位与字数提示，并演示 createSignal 驱动的受控写法。"
+        },
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/input/demos/basic.tsx",
+          "title": "单行输入",
+          "description": "三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。"
+        },
+        {
+          "name": "textarea",
+          "path": "packages/core/src/components/input/demos/textarea.tsx",
+          "title": "多行输入",
+          "description": "自动高度（true 与 minRows / maxRows 两种口径）、字数统计、清除按钮与禁用态。"
         }
       ]
     }

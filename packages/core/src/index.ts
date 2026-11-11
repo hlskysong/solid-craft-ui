@@ -20,6 +20,16 @@ export type {
 } from './components/layout';
 export { Row, Col } from './components/grid';
 export type { RowProps, ColProps } from './components/grid';
+export { Input, Textarea } from './components/input';
+export type {
+  InputChangeEvent,
+  InputChangeHandler,
+  InputProps,
+  InputSize,
+  InputStatus,
+  TextareaAutoSize,
+  TextareaProps,
+} from './components/input';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';

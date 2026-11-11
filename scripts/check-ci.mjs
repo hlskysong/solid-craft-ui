@@ -328,7 +328,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '1dda1ebeef2959e9ba17a36d58a67b81a2e0d7fa8948501ab7f3fd06079aae2d';
+const FONT_SHA256 = '0ad7c77205f6b85cb0fc8c3547284c8d4a14b322bf5aa933c48cc72bd39e238b';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -341,7 +341,7 @@ if (!existsSync(fontFile)) {
   const fontHash = createHash('sha256').update(readFileSync(fontFile)).digest('hex');
   if (fontHash !== FONT_SHA256) {
     fail(
-      `固定字体 SHA256=${fontHash} 与判据不符：重跑 build-visual-font.py 后须同步更新 FONT_SHA256 并重生成 16 张基线`,
+      `固定字体 SHA256=${fontHash} 与判据不符：重跑 build-visual-font.py 后须同步更新 FONT_SHA256 并重生成全部视觉基线`,
     );
   }
 }
@@ -421,7 +421,7 @@ if (renderedChars.size === 0) fail('未从 docs 源码扫描到任何非 ASCII �
 const compareChars = (a, b) => (a.codePointAt(0) ?? 0) - (b.codePointAt(0) ?? 0);
 if (read(charsetFile).trim() !== [...renderedChars].toSorted(compareChars).join('')) {
   fail(
-    'charset.txt 与 apps/docs/src 源码字集不一致：新增汉字/标点须重跑 build-visual-font.py 并重生成 16 张基线',
+    'charset.txt 与 apps/docs/src 源码字集不一致：新增汉字/标点须重跑 build-visual-font.py 并重生成全部视觉基线',
   );
 }
 

@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 34,
+  "pageCount": 38,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -53,6 +53,11 @@
     {
       "path": "llms/exports/grid.md",
       "title": "# Grid 栅格（`solid-craft/grid`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/input.md",
+      "title": "# Input 输入框（`solid-craft/input`）",
       "kind": "exports"
     },
     {
@@ -179,6 +184,21 @@
       "path": "llms/demos/grid-basic.md",
       "title": "# Grid 栅格 · 基础用法（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/input-affix.md",
+      "title": "# Input 输入框 · 前缀与后缀（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/input-basic.md",
+      "title": "# Input 输入框 · 单行输入（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/input-textarea.md",
+      "title": "# Input 输入框 · 多行输入（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -190,6 +210,7 @@
     "./divider": "llms/exports/divider.md",
     "./layout": "llms/exports/layout.md",
     "./grid": "llms/exports/grid.md",
+    "./input": "llms/exports/input.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -205,6 +226,7 @@
     "llms/exports/divider.md",
     "llms/exports/layout.md",
     "llms/exports/grid.md",
+    "llms/exports/input.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -230,7 +252,10 @@
     "llms/demos/space-basic.md",
     "llms/demos/divider-basic.md",
     "llms/demos/layout-basic.md",
-    "llms/demos/grid-basic.md"
+    "llms/demos/grid-basic.md",
+    "llms/demos/input-affix.md",
+    "llms/demos/input-basic.md",
+    "llms/demos/input-textarea.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

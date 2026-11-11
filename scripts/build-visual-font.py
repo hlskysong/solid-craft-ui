@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """重新生成视觉基线固定字体（docs/08 §30.9，方案 B：仓库内固定 Web 字体）。
 
-用途：把 16 张 light/ltr/default 截图的中文渲染从「macOS 系统字体」切换到仓库内
+用途：把 light/ltr/default 全部截图的中文渲染从「macOS 系统字体」切换到仓库内
 随包的开源字体子集，使本机与 CI runner 的字体集不再参与像素比对。
 
 用法（需 Python 3 + fontTools + brotli；**只在重新生成时手动运行**，
@@ -28,7 +28,7 @@ family / full / PostScript name 改为 `SCUI Visual`（不含保留名 'Source'�
     宁可多收注释里的字，也不能让某个字形悄悄回退到系统字体再造成漂移。
 
 新增汉字会使 `pnpm check:ci` 红灯：届时重新运行本脚本、更新
-check-ci.mjs 的 FONT_SHA256，并跑 `pnpm test:visual:update` 重生成 16 张基线。
+check-ci.mjs 的 FONT_SHA256，并跑 `pnpm test:visual:update` 重生成全部基线。
 """
 
 import argparse

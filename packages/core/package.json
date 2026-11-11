@@ -12,8 +12,16 @@
   "bugs": {
     "url": "https://github.com/hlskysong/solid-craft-ui/issues"
   },
-  "sideEffects": ["**/*.css"],
-  "files": ["dist", "LICENSE", "llms.txt", "llms-full.txt", "llms-manifest.json"],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "LICENSE",
+    "llms.txt",
+    "llms-full.txt",
+    "llms-manifest.json"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -62,6 +70,12 @@
       "solid": "./dist/source/components/grid/index.jsx",
       "import": "./dist/esm/components/grid/index.js",
       "default": "./dist/esm/components/grid/index.js"
+    },
+    "./input": {
+      "types": "./dist/types/components/input/index.d.ts",
+      "solid": "./dist/source/components/input/index.jsx",
+      "import": "./dist/esm/components/input/index.js",
+      "default": "./dist/esm/components/input/index.js"
     },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",

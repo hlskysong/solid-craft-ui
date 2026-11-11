@@ -11,6 +11,8 @@
 | `data-scui-disabled` | `''`（存在即真） | 禁用态，配合原生 `disabled` / `aria-disabled` | 全部 |
 | `data-scui-invalid` | `'true' \| 'false'` | 校验失败；SSR 也输出，避免 hydration 属性差 | Form |
 | `data-scui-open` | `''` | 弹层展开 | Select / DatePicker |
+| `data-scui-auto-size` | `''`（存在即真） | 自动高度生效中（关闭拖拽手柄，高度由 JS 写内联值） | Input（Textarea） |
+| `data-scui-count` | `''`（存在即真） | 字数统计显示中（页脚留位） | Input（Textarea） |
 | `data-scui-role` | 见下表 | 结构定位（测试/样式锚点），**不表达状态** | 全部 |
 | `data-scui-field` | 字段名 | 字段定位 + 错误滚动目标 | Form |
 | `data-scui-selected` | `''` | 选中态 | Select / DatePicker / Table |
@@ -31,7 +33,9 @@
 | `select-all` / `sort-trigger` | Table | 交互锚点 |
 | `table` / `table-scroll` | Table | 结构锚点 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
-| `form` / `form-item` / `input` / `field-error` / `form-submit` | Form | 结构锚点 |
+| `form` / `form-item` / `field-error` / `form-submit` | Form | 结构锚点 |
+| `input` / `input-clear` / `input-password-toggle` / `input-search` | Input | 结构锚点（T2-03） |
+| `textarea` / `textarea-clear` / `textarea-count` | Input（Textarea） | 结构锚点（T2-03） |
 
 ## 焦点与状态样式
 

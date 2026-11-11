@@ -4,7 +4,7 @@
 
 ## 说明
 
-首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。
+首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。
 
 ## 完整源码
 
@@ -17,19 +17,21 @@ import {
   Footer,
   Header,
   Icon,
+  Input,
   Layout,
   Link,
   Paragraph,
   Row,
   Space,
   Text,
+  Textarea,
   Title,
 } from 'solid-craft';
 import { DemoSection, DotIcon } from '../../demos/shared';
 
 export const demo = {
   title: '基础组件总览',
-  description: '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。',
+  description: '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。',
 };
 
 export default function Basic() {
@@ -71,6 +73,16 @@ export default function Basic() {
           <Col span={12}>span 12</Col>
           <Col span={12}>span 12</Col>
         </Row>
+      </DemoSection>
+      <DemoSection title="Input / Textarea">
+        <Input defaultValue="带清除" aria-label="总览：可清除输入" allowClear />
+        <Input type="password" defaultValue="secret" aria-label="总览：密码" />
+        <Textarea
+          autoSize={{ minRows: 2, maxRows: 4 }}
+          showCount
+          maxLength={40}
+          aria-label="总览：备注"
+        />
       </DemoSection>
       <p id="overview-anchor">锚点目标</p>
     </>

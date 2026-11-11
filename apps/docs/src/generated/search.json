@@ -51,14 +51,14 @@
   {
     "type": "component",
     "title": "基础组件总览",
-    "description": "当前 MVP 已落地的 7 个基础组件聚合预览。",
+    "description": "当前 MVP 已落地的 8 个基础组件聚合预览。",
     "keywords": "overview ",
     "href": "/components/overview"
   },
   {
     "type": "demo",
     "title": "基础组件总览 · 基础组件总览",
-    "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。",
+    "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。",
     "keywords": "overview basic",
     "href": "/components/overview/basic"
   },
@@ -705,6 +705,167 @@
     "description": "栅格内容。",
     "keywords": "grid JSX.Element",
     "href": "/components/grid#api-children"
+  },
+  {
+    "type": "component",
+    "title": "Input 输入框",
+    "description": "单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。",
+    "keywords": "input solid-craft/input",
+    "href": "/components/input"
+  },
+  {
+    "type": "demo",
+    "title": "Input 输入框 · 前缀与后缀",
+    "description": "用前缀拼协议、用后缀挂单位与字数提示，并演示 createSignal 驱动的受控写法。",
+    "keywords": "input affix",
+    "href": "/components/input/affix"
+  },
+  {
+    "type": "demo",
+    "title": "Input 输入框 · 单行输入",
+    "description": "三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。",
+    "keywords": "input basic",
+    "href": "/components/input/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Input 输入框 · 多行输入",
+    "description": "自动高度（true 与 minRows / maxRows 两种口径）、字数统计、清除按钮与禁用态。",
+    "keywords": "input textarea",
+    "href": "/components/input/textarea"
+  },
+  {
+    "type": "api",
+    "title": "TextareaAutoSize.minRows",
+    "description": "最少显示行数（决定初始高度）。@default 2",
+    "keywords": "input number",
+    "href": "/components/input#api-minRows"
+  },
+  {
+    "type": "api",
+    "title": "TextareaAutoSize.maxRows",
+    "description": "最多显示行数；超出后内部滚动。@default undefined（不封顶）",
+    "keywords": "input number",
+    "href": "/components/input#api-maxRows"
+  },
+  {
+    "type": "api",
+    "title": "InputSharedProps.value",
+    "description": "受控值；支持传值或 getter（`MaybeAccessor`，`T` 不得为函数类型，见 `resolveValue` 契约）。 与 `defaultValue` 二选一，传了 `value` 即为受控。",
+    "keywords": "input MaybeAccessor<string>",
+    "href": "/components/input#api-value"
+  },
+  {
+    "type": "api",
+    "title": "InputSharedProps.defaultValue",
+    "description": "非受控初始值；支持传值或 getter，仅在挂载时读取一次。",
+    "keywords": "input MaybeAccessor<string>",
+    "href": "/components/input#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "InputSharedProps.onChange",
+    "description": "值变更回调；第一参数是收窄后的字符串。",
+    "keywords": "input InputChangeHandler<HTMLElement>",
+    "href": "/components/input#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "InputSharedProps.size",
+    "description": "尺寸。",
+    "keywords": "input InputSize",
+    "href": "/components/input#api-size"
+  },
+  {
+    "type": "api",
+    "title": "InputSharedProps.status",
+    "description": "校验态；`error` 时边框转危险色并输出 `data-scui-invalid=\"true\"`。 被 `<Form.Item>` 包裹时字段状态优先。",
+    "keywords": "input InputStatus",
+    "href": "/components/input#api-status"
+  },
+  {
+    "type": "api",
+    "title": "InputProps.type",
+    "description": "强类型：文本输入只需要这几种；`password` / `search` 会启用对应子能力。",
+    "keywords": "input 'text' | 'password' | 'search' | 'email' | 'tel' | 'url'",
+    "href": "/components/input#api-type"
+  },
+  {
+    "type": "api",
+    "title": "InputProps.prefix",
+    "description": "前缀内容（图标或文本）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。",
+    "keywords": "input JSX.Element",
+    "href": "/components/input#api-prefix"
+  },
+  {
+    "type": "api",
+    "title": "InputProps.suffix",
+    "description": "后缀内容（图标或文本）。",
+    "keywords": "input JSX.Element",
+    "href": "/components/input#api-suffix"
+  },
+  {
+    "type": "api",
+    "title": "InputProps.allowClear",
+    "description": "展示清除按钮（有值时出现）。",
+    "keywords": "input boolean",
+    "href": "/components/input#api-allowClear"
+  },
+  {
+    "type": "api",
+    "title": "InputProps.onClear",
+    "description": "清除回调；在 `onChange('')` 之前触发。",
+    "keywords": "input () => void",
+    "href": "/components/input#api-onClear"
+  },
+  {
+    "type": "api",
+    "title": "InputProps.visibilityToggle",
+    "description": "密码可见性切换按钮；仅 `type=\"password\"` 生效。",
+    "keywords": "input boolean",
+    "href": "/components/input#api-visibilityToggle"
+  },
+  {
+    "type": "api",
+    "title": "InputProps.onSearch",
+    "description": "回车搜索回调；仅 `type=\"search\"` 生效，输入法组合态下的回车不触发。",
+    "keywords": "input (value: string) => void",
+    "href": "/components/input#api-onSearch"
+  },
+  {
+    "type": "api",
+    "title": "InputProps.enterButton",
+    "description": "搜索按钮：传 `true` 渲染默认搜索图标，传 JSX 则渲染自定义内容。仅 `type=\"search\"` 生效。 （`JSX.Element` 已包含 `boolean`，不再写 `boolean | JSX.Element`，避免冗余联合。）",
+    "keywords": "input JSX.Element",
+    "href": "/components/input#api-enterButton"
+  },
+  {
+    "type": "api",
+    "title": "TextareaProps.autoSize",
+    "description": "自动高度：随内容增高；`maxRows` 封顶后转内部滚动。",
+    "keywords": "input boolean | TextareaAutoSize",
+    "href": "/components/input#api-autoSize"
+  },
+  {
+    "type": "api",
+    "title": "TextareaProps.showCount",
+    "description": "展示字数统计；配合原生 `maxLength` 显示「已输入 / 上限」。",
+    "keywords": "input boolean",
+    "href": "/components/input#api-showCount"
+  },
+  {
+    "type": "api",
+    "title": "TextareaProps.allowClear",
+    "description": "展示清除按钮（有值时出现）。",
+    "keywords": "input boolean",
+    "href": "/components/input#api-allowClear"
+  },
+  {
+    "type": "api",
+    "title": "TextareaProps.onClear",
+    "description": "清除回调；在 `onChange('')` 之前触发。",
+    "keywords": "input () => void",
+    "href": "/components/input#api-onClear"
   },
   {
     "type": "page",

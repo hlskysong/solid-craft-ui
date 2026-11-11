@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 2 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18），下一项 T2-03；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 3 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19），下一项 T2-04；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T2-03**（M2 第三项「Input（Textarea 并入）」，见 §4.1；T2-01 / T2-02 已完成，见 §30.16 / §30.18，T2-05 / T2-06 可并行）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后两次提交（`5951d25` T2-01 / `c118680` CI 用量收敛）**未推送**，故无新 run |
-| 下一步 | **按 §4.1 执行 M2（13 项，已完成 2 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ **T2-03 Input（Textarea 并入）**（与 T2-05 Checkbox/Radio/Switch、T2-06 App 可并行）→ T2-07 Select 与 T2-08 Form 并行 → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker → T2-12 体积预算 → T2-13 M2 Exit。每项完成后回读文件 + 跑对应验收 + 在落地记录（§31 起）点名，才可勾 `[x]` |
+| 当前任务 ID | **T2-04**（M2 第四项「InputNumber」，见 §4.1；T2-01~T2-03 已完成，见 §30.16 / §30.18 / §30.19，T2-05 / T2-06 可并行）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后四次提交（`5951d25` T2-01 / `c118680` CI 用量收敛 / `74f3e32` 空白修正 / `f108def` T2-02）**未推送**，故无新 run |
+| 下一步 | **按 §4.1 执行 M2（13 项，已完成 3 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ ~~T2-03 Input（Textarea 并入）~~（§30.19）→ **T2-04 InputNumber**（与 T2-05 Checkbox/Radio/Switch、T2-06 App 可并行）→ T2-07 Select 与 T2-08 Form 并行 → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker → T2-12 体积预算 → T2-13 M2 Exit。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
 
 ---
@@ -127,7 +127,7 @@
 | --- | --- | --- | --- | --- | --- |
 | T2-01 | `primitives/` 适配层：Kobalte（Dialog / Select 原语）+ Floating UI 封装进 `src/primitives/`，公共 API 不暴露其类型；SSR 出静态骨架、交互在 `onMount` 后接管 | — | 技术负责人 | ADR-004 边界落地；`renderToString` 双渲确定；产物零 Kobalte 类型泄漏；`check:accessors` 通过 | [x] |
 | T2-02 | 表单控件基座：`FieldContext` + `useFormField(name)`，`value` / `status` / `disabled` 一律 getter，统一注入 `id` / `aria-invalid` / `aria-describedby` | T2-01 | 工程师 C | 任一控件被 `Form.Item` 包裹后受控链路通；Context 缺失抛明确错误（本项以 `FieldProvider` + 同协议探针顶位，`<Form.Item>` 壳在 T2-08，见 §30.18） | [x] |
-| T2-03 | `Input`（Textarea 并入）：前后缀、清除、密码、搜索；Textarea 自动高度 + 字数统计 | T2-02 | 工程师 C | 每个子能力有单测；`data-scui-*` 作用域齐全；键盘 + axe 通过 | [ ] |
+| T2-03 | `Input`（Textarea 并入）：前后缀、清除、密码、搜索；Textarea 自动高度 + 字数统计 | T2-02 | 工程师 C | 每个子能力有单测；`data-scui-*` 作用域齐全；键盘 + axe 通过（21 条单测 / 键盘链路已验；**axe 已在 `verify` 的 `browser.spec.ts` 里扫全部 Demo**，本轮由它抓出 label(critical) 并已修复，见 §30.19 第四节） | [x] |
 | T2-04 | `InputNumber`：步进、精度、格式化、范围 | T2-03 | 工程师 C | 边界值 / 精度 / 受控同步；不出现浮点误差（整数缩放或 big.js） | [ ] |
 | T2-05 | `Checkbox`（Group + indeterminate）/ `Radio`（Group）/ `Switch` | T2-02 | 工程师 C | `aria-checked` / `mixed` 正确；三件套共享 label 逻辑 | [ ] |
 | T2-06 | `App`：Message / Notification 容器与 context（`docs/04 §3.1` P0 基础第 9 个，此前未落地） | T2-01 | 工程师 C | 脱离树亦可调用；SSR 不报错；错误提示可被 Form 复用 | [ ] |
@@ -2412,6 +2412,108 @@ S-09 的承诺是「各架构真跑过平台包」，删掉等于撤回验收。
 | N73 | `toFieldText` 不再处理数字 | 单测 RC=1 | ✅ `0 → '0'` 红灯 |
 | N74 | `FieldProvider` 不再透传 `disabled` | 单测 RC=1 | ✅ 「disabled 是 getter」红灯 |
 | 还原 | 字节级还原 | 全绿 | ✅ `vitest` / `ssr-smoke` 双 RC=0，`DRIFT []` |
+
+### 30.19 T2-03 Input / Textarea：输入类控件落地（2026-11-11 实测与验收）
+
+**结论先行**：`src/components/input/` 交付 `Input` + `Textarea`（「Textarea 并入 Input」按共用值桥而非共用文件实现），六项子能力（前后缀 / 清除 / 密码显隐 / 回车搜索 / 自动高度 / 字数统计）全部落地并有单测。本轮**又抓到一个假判据**：`data-scui-invalid="false"` 在 SSR 输出里有 4 个来源（3 个 Input + 1 个 Textarea），单点退化成 `undefined` 时 `markers` 仍被其余组件兜住 → 判据恒真。修法是给 SSR 冒烟加**出现次数断言**（`counts`），不是改文档措辞。
+
+**Aming 本轮明确要求**：「过量使用 GitHub Actions 用量可能会被封号，尽量集中做 CI 检测」（已在 §30.17 落成红线）+「业务代码可以分摊给 opencode」。本项的 demos 交由 `opencode`（v2.0.32，`opencode run --auto`）编写，见第三节。
+
+#### 一、交付物
+
+| 文件 | 作用 |
+| --- | --- |
+| `src/components/input/types.ts` | `InputProps` / `TextareaProps` / `InputSize` / `InputStatus` / `InputChangeEvent` / `TextareaAutoSize`，全部带 JSDoc 与 `@default` |
+| `src/components/input/use-input-value.ts` | 值桥：`Form 上下文 > value > defaultValue/内部`；写值分流；`toFieldText` 收窄 |
+| `src/components/input/Input.tsx` | 壳 + 控件 + 插槽（prefix → 控件 → 清除 → 密码切换 → suffix → 搜索） |
+| `src/components/input/Textarea.tsx` | 多行控件 + 自动高度（客户端测量）+ 字数统计 + 页脚清除 |
+| `src/components/input/input-icons.tsx` | 四个内联图标；不走 `solid-craft-icons`，避免 `solid-craft/input` 拖进整个图标包 |
+| `src/components/input/input.scss` | 8 个组件样式表之一；状态全 `[data-scui-*]`，token 未接入处带同值兜底 |
+| `src/components/input/Input.test.tsx` | 21 条实证（契约 / 值流转 / 密码 / 搜索 / 字段上下文 / Textarea） |
+| `src/components/input/__tests__/ssr-entry.tsx` | SSR 入口；`__tests__` 双重排除，不进 dist / npm 包 |
+| `src/components/input/demos/{basic,affix,textarea}.tsx` | 3 个 Demo（opencode 编写，人工审查）；`demos` 目录不进产物 |
+| `src/index.ts` / `package.json` | 追加 `Input` / `Textarea` 公共导出与 `./input` 子路径（四条件齐全） |
+
+#### 二、三条设计取舍
+
+| 取舍 | 选择 | 理由 |
+| --- | --- | --- |
+| Textarea 怎么「并入」 | 独立组件 + 共用值桥，不做 `Input.Textarea` 复合 | 复合导出会把 `TextareaProps` 挂到 `Input` 上，`<Input>` 的属性面被撑大且类型提示混乱；共用 `useInputValue` 才是真正的复用点（值流转只写一次） |
+| 值来源优先级 | 字段上下文 > `value` > `defaultValue`/内部 | 被 `<Form.Item>` 包裹时 Form 必须是唯一数据源（`docs/02 §6.2`）；受控但外部未回写时表现是「输入框回弹」，而不是控件偷偷接管（N77 钉住） |
+| 自动高度 | 客户端 `scrollHeight` 测量，`scrollHeight === 0` 直接返回 | 服务端与 jsdom 都量不出高度，写 `0px` 反而把首帧/测试样式打坏；`maxRows` 换算成像素上限后转内部滚动 |
+
+#### 三、opencode 分摊（Aming 指示）
+
+| 项 | 结果 |
+| --- | --- |
+| 分摊范围 | `demos/basic.tsx` / `demos/affix.tsx` / `demos/textarea.tsx`（纯展示件，不进产物、不进门禁判据） |
+| 交付 | 3 个文件 63 秒完成，自检 `tsc --noEmit` RC=0 + prettier 通过；未改其他文件 |
+| 人工审查 | 结构与范式正确（`demo` 元信息 + `DemoSection` + `createSignal` 真受控）；**改掉 1 处文案与代码矛盾**：注释写「不传 maxLength 时不显示上限」但实际传了 `maxLength={120}` —— 去掉该 `maxLength`，让 demo 真的演示「无上限」 |
+| 未分摊的部分 | 组件实现 / 契约类型 / 测试 / 样式 / 治理同步。这些要么受 R1~R3 硬约束，要么是验收判据本身，出错的代价远高于写代码的时间 |
+
+#### 四、被门禁抓到的两个真问题
+
+**(1) `counts` 缺失导致 N75 假绿（假判据）**
+
+N75 的设计意图是「把 `data-scui-invalid` 改成有错才输出 ⇒ `ssr-smoke` 红」。第一次跑 **RC=0**：因为 SSR 入口里有 3 个 `Input` + 1 个 `Textarea`，破坏任意一个，其余三个仍输出 `data-scui-invalid="false"`，`markers` 的 `includes` 判据被兜住。
+
+处置：`ssr-smoke.mjs` 增加 `counts`（标记出现次数）判据，T2-03 断言恰好 4 次；重跑 N75 → **RC=1**（`出现 3 次，期望 4 次`）。这条判据同时保护「每个控件都输出两态」这个真正的契约，而不是「页面上至少有一个人输出」。
+
+**(2) `axe` 抓出 label(critical)（真缺陷，非判据问题）**
+
+`pnpm verify` 首轮在 `browser.spec.ts:102` 的「全部 Demo 无 serious/critical 违规」这一步红：`overview` 与 `input` 各 3 个 `label(critical)` —— Demo 里裸用的输入控件没有可访问名称。
+
+这是**使用方责任**，不是组件缺陷：`Input` / `Textarea` 不产 label（label 归 `<Form.Item>`，见 `api-draft/Form.md`），独立使用时调用方必须给 `aria-label` 或外部 `<label>`。处置是**给 31 处 Demo 控件补 `aria-label`**（4 个文件：`input/basic` 13 处、`input/affix` 6 处、`input/textarea` 9 处、`overview/basic` 3 处），并把这些 demo 文案纳入字集（连带第二次扩子集）。
+
+没有做的事：没有让组件从 `placeholder` 推导 `aria-label`。那会把「缺 label」这个真问题掩盖成「能过 axe」，而 placeholder 在输入后即消失、屏幕阅读器也不把它当名称。
+
+#### 五、验收输出
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0 / 26 阶段**（视觉 18 张基线零差异，SSR 冒烟 7 入口全绿，`smoke:start-real` 真实 SolidStart 通过） |
+| 单测 | `packages/core` **110 tests / 17 files passed**（input 21 条），此前 89 / 16 |
+| SSR 冒烟 | 7 个入口全绿；`T2-03 2137 chars · 双渲一致 · 5/5 markers · 1/1 counts` |
+| 视觉基线 | **18 passed**：新增 `input` 2 张（@1280 / @768），`overview` 2 张因新增输入组件分组而更新（diff 图确认差异只在页面底部新增区块，上半部分零变化）；**其余 14 张字节零变化**，证明本次字体子集扩容是像素中性的 |
+| 构建 | `dist/esm|source|types/components/input` 三产物齐全；`Input.js` 6.53 kB（gzip 2.27）/ `Textarea.js` 6.00 kB（gzip 2.45）；`build-css` 8 个组件样式表 |
+| `check:exports` | RC=0：**46 个声明文件零第三方类型引用**（T2-02 时 40） |
+| `check:accessors` | RC=0：18 处（新增 4 处 `MaybeAccessor<string>` —— `value` / `defaultValue` 各两处，`string` 非函数型） |
+| `check:styles` | RC=0：8 个样式表 / 59 个 `data-*` 取值 / 100 个选择器全部带 `.scui-` 作用域 / 0 modifier class；**SCSS 去掉颜色 `var(…, #hex)` 兜底后视觉 18 张零差异**（token 已定义，兜底本就不生效，但 biome 的 `noUnknownUnit` 会把 `#2d66f5` 误读成单位 → 与 Button 统一为无兜底写法） |
+| `check:slice` | RC=0：8 个组件 × 6 源文件 / 4 类 exports 条件 / 4 件构建产物 / 4 件文档生成物 |
+| `check:docs` / `check:llms` | RC=0：24 个生成物一致；41 个站点产物 + 3 个包内副本，38 页 / 13 个 exports 子路径 100% 覆盖 |
+| lint | 0 errors / 12 warnings（input 目录零告警；`no-redundant-type-constituents`、3 处 `no-unsafe-type-assertion`、2 处 `consistent-function-scoping` 均按判据改正，未放宽） |
+| size | Core **37.12 kB** / 180 kB、Button 1.95 kB / 6 kB（gzip）；`Form + Input + Select ≤ 25 KB` 待 T2-12 落地 |
+| 治理 | `AGENTS.md §3` 补「表单用 `-invalid` / `-auto-size` / `-count`」；`api-draft/data-attributes.md` 补 2 个属性 + 7 个 role 取值；`apps/docs/src/content/catalog.mjs` 新增 `input` 页（分类「表单」） |
+| `docs/01~07` / `pnpm-lock.yaml` | 零改动（未新增任何依赖） |
+
+#### 六、负向实证 N75~N78（4/4 PASS）
+
+| 用例 | 注入 | 期望 | 实测 |
+| --- | --- | --- | --- |
+| N75 | `Textarea` 的 `data-scui-invalid` 退化成「有错才输出」 | `ssr-smoke` RC=1 | ✅ 首跑假绿 → 加 `counts` 后 `出现 3 次，期望 4 次` |
+| N76 | 删掉 `Textarea` 的 `data-scui-count` 输出 | `check:styles` RC=1 | ✅ `textarea.scss 使用 data-scui-count，但同目录组件源码未输出该属性` |
+| N77 | 字段值不再优先于 `props.value` | 单测 RC=1 | ✅ 「值从字段来、写回字段」红灯 |
+| N78 | `rows` 不再取 `autoSize().minRows` | 单测 RC=1 | ✅ `rows="4"` 红灯 |
+| 还原 | 字节级还原 | 全绿 | ✅ `vitest` / `ssr-smoke` / `check:styles` 三处 RC=0，`DRIFT []` |
+
+脚本 `/tmp/neg_t203.py`（每例重新备份当前字节 + `finally` 还原 + 结尾 sha256 比对）。
+
+#### 七、固定字体子集扩容（本轮连带工作）
+
+新增组件的 demo 文案带入 **58 个新字**（`¥` `串` `缀` `额` `箱` `槽` `滚` 等），`charset.txt` 与 `apps/docs/src` 字集不一致 → `check:ci` 第 10 条红灯（这是设计如此：字形缺失会悄悄回退系统字体，runner 字体集重新参与像素比对）。
+
+处置链路（与脚本头部说明逐条对齐）：
+
+| 步骤 | 结果 |
+| --- | --- |
+| 源字体 | `google/fonts` 的 `ofl/notosanssc/NotoSansSC[wght].ttf`（17.7 MB，OFL-1.1） |
+| 重建子集 | 536 → **594 个 CJK/符号** + 95 个 ASCII = 689 个码位全部有字形；woff2 **189 108 → 205 232 bytes**（分两轮：组件 demo 后 593，补完 `aria-label` 后 594） |
+| 新 SHA256 | `0ad7c772…39e238b`（最终值），已同步进 `check-ci.mjs` 的 `FONT_SHA256`（判据同时把提示文案从「16 张」改为「全部视觉基线」，不再写死数量） |
+| 基线重生成 | `pnpm test:visual:update` 后复跑 **18 passed**；`tests/e2e/baselines` 变更仅 4 个文件（2 新增 + 2 overview），其余 14 张未变 |
+
+工具链是临时 venv（`python3 -m venv /tmp/fontvenv` + `pip install fonttools brotli`），**不入库**、不进 `pnpm verify`（与脚本「只在重新生成时手动运行」的约定一致）。
+
+
 
 脚本 `/tmp/neg_t202.py`（每例重新备份 + 破坏后立即还原 + sha256 断言）。
 

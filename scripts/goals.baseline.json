@@ -3,7 +3,7 @@
   "generatedAt": "2026-11-11",
   "note": "由 pnpm check:goals --update-baseline 生成；受保护文件的任何改动都会让 pnpm verify 失败，改动须人工确认并重跑该命令。",
   "files": {
-    "AGENTS.md": "5b07c3cdd344eac5bcb4c50c498a90436ab21fe3e15fb8019136963d1829e8c3",
+    "AGENTS.md": "190bae4d6a1eff9024c08063a0c842f84d157b9f7cdc2551895931adc60de816",
     "docs/01-技术选型.md": "d9e376e2444b576310884017f247ac302a4c24bb1a129cc8ba202e839f71afce",
     "docs/02-架构设计.md": "6b45b90ca458bc4aa8d64583fecd35495ce641cbbf379110a820f56fdae5fc70",
     "docs/03-设计系统.md": "87efa5332caf936858e21dbaccf7ef9ce166a6c4cda9a78495ecc8fd3dfcfcfa",
@@ -17,6 +17,6 @@
     "scripts/check-todo.mjs": "ab15ab6670cb08de9bc28209436a4fc3bba877ffba4dcf081e6901cbe2fdd6d6",
     "scripts/naming-legacy.mjs": "f51a922a1e69577768dc5297b3c8d2e84468a1b74539a5e58cee1dd491a542d9",
     "scripts/scope.mjs": "49cb4a450039f3106632affc532890ddb715567a83ae661484104e691441bafc",
-    "scripts/todo-governance.json": "ab35fffa05b1514c3f27a121a0c1fa78043ba19f1d01645b989cd4d55be28716"
+    "scripts/todo-governance.json": "5aeb9570efd863a80b215f5ce5167c9ebffc06e7a75cb31a694d33d20c8fa4d2"
   }
 }

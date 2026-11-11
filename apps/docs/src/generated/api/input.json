@@ -1,0 +1,163 @@
+{
+  "slug": "input",
+  "source": "packages/core/src/components/input/types.ts",
+  "interfaces": [
+    {
+      "name": "TextareaAutoSize",
+      "inherits": null,
+      "props": [
+        {
+          "name": "minRows",
+          "type": "number",
+          "optional": true,
+          "description": "最少显示行数（决定初始高度）。@default 2",
+          "default": null
+        },
+        {
+          "name": "maxRows",
+          "type": "number",
+          "optional": true,
+          "description": "最多显示行数；超出后内部滚动。@default undefined（不封顶）",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "InputSharedProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "value",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "受控值；支持传值或 getter（`MaybeAccessor`，`T` 不得为函数类型，见 `resolveValue` 契约）。 与 `defaultValue` 二选一，传了 `value` 即为受控。",
+          "default": "undefined"
+        },
+        {
+          "name": "defaultValue",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "非受控初始值；支持传值或 getter，仅在挂载时读取一次。",
+          "default": "undefined"
+        },
+        {
+          "name": "onChange",
+          "type": "InputChangeHandler<HTMLElement>",
+          "optional": true,
+          "description": "值变更回调；第一参数是收窄后的字符串。",
+          "default": "undefined"
+        },
+        {
+          "name": "size",
+          "type": "InputSize",
+          "optional": true,
+          "description": "尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "status",
+          "type": "InputStatus",
+          "optional": true,
+          "description": "校验态；`error` 时边框转危险色并输出 `data-scui-invalid=\"true\"`。 被 `<Form.Item>` 包裹时字段状态优先。",
+          "default": "'default'"
+        }
+      ]
+    },
+    {
+      "name": "InputProps",
+      "inherits": "Omit<\n      JSX.InputHTMLAttributes<HTMLInputElement>,\n      // 原生 value / defaultValue 是 string | number | readonly string[]，这里统一收窄为字符串；\n      // prefix 在原生是 RDFa 字符串属性，这里改为 JSX 插槽。\n      'value' | 'defaultValue' | 'onChange' | 'children' | 'size' | 'prefix'\n    >",
+      "props": [
+        {
+          "name": "type",
+          "type": "'text' | 'password' | 'search' | 'email' | 'tel' | 'url'",
+          "optional": true,
+          "description": "强类型：文本输入只需要这几种；`password` / `search` 会启用对应子能力。",
+          "default": null
+        },
+        {
+          "name": "prefix",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "前缀内容（图标或文本）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。",
+          "default": "undefined"
+        },
+        {
+          "name": "suffix",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "后缀内容（图标或文本）。",
+          "default": "undefined"
+        },
+        {
+          "name": "allowClear",
+          "type": "boolean",
+          "optional": true,
+          "description": "展示清除按钮（有值时出现）。",
+          "default": "false"
+        },
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "optional": true,
+          "description": "清除回调；在 `onChange('')` 之前触发。",
+          "default": "undefined"
+        },
+        {
+          "name": "visibilityToggle",
+          "type": "boolean",
+          "optional": true,
+          "description": "密码可见性切换按钮；仅 `type=\"password\"` 生效。",
+          "default": "true"
+        },
+        {
+          "name": "onSearch",
+          "type": "(value: string) => void",
+          "optional": true,
+          "description": "回车搜索回调；仅 `type=\"search\"` 生效，输入法组合态下的回车不触发。",
+          "default": "undefined"
+        },
+        {
+          "name": "enterButton",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "搜索按钮：传 `true` 渲染默认搜索图标，传 JSX 则渲染自定义内容。仅 `type=\"search\"` 生效。 （`JSX.Element` 已包含 `boolean`，不再写 `boolean | JSX.Element`，避免冗余联合。）",
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "name": "TextareaProps",
+      "inherits": "Omit<\n      JSX.TextareaHTMLAttributes<HTMLTextAreaElement>,\n      'value' | 'defaultValue' | 'onChange' | 'children' | 'size'\n    >",
+      "props": [
+        {
+          "name": "autoSize",
+          "type": "boolean | TextareaAutoSize",
+          "optional": true,
+          "description": "自动高度：随内容增高；`maxRows` 封顶后转内部滚动。",
+          "default": "false"
+        },
+        {
+          "name": "showCount",
+          "type": "boolean",
+          "optional": true,
+          "description": "展示字数统计；配合原生 `maxLength` 显示「已输入 / 上限」。",
+          "default": "false"
+        },
+        {
+          "name": "allowClear",
+          "type": "boolean",
+          "optional": true,
+          "description": "展示清除按钮（有值时出现）。",
+          "default": "false"
+        },
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "optional": true,
+          "description": "清除回调；在 `onChange('')` 之前触发。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

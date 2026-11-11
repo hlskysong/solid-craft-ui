@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 34 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 38 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 12 个 exports 子路径、7 个组件页、10 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 13 个 exports 子路径、8 个组件页、13 个 Demo。
 
 ## 关键约定
 
@@ -53,6 +53,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Divider 分割线](llms/exports/divider.md) | `solid-craft/divider` | 水平 / 垂直分割，支持虚线与带文字。 |
 | [Layout 布局](llms/exports/layout.md) | `solid-craft/layout` | Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。 |
 | [Grid 栅格](llms/exports/grid.md) | `solid-craft/grid` | 24 栅格 Row / Col、间距、偏移与响应式断点。 |
+| [Input 输入框](llms/exports/input.md) | `solid-craft/input` | 单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。 |
 
 - [ConfigProvider 全局配置](llms/exports/config-provider.md) · [样式](llms/exports/styles-css.md) · [按组件样式通配](llms/exports/styles.md) · [package.json](llms/exports/package-json.md)
 
@@ -130,6 +131,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/divider` → Divider 分割线：水平 / 垂直分割，支持虚线与带文字。
 - `solid-craft/layout` → Layout 布局：Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。
 - `solid-craft/grid` → Grid 栅格：24 栅格 Row / Col、间距、偏移与响应式断点。
+- `solid-craft/input` → Input 输入框：单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 
@@ -1269,6 +1271,275 @@ export interface ButtonProps
 
 ---
 
+<!-- source: llms/exports/input.md -->
+
+# Input 输入框（`solid-craft/input`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/input/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/input/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/input/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/input/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/input';
+```
+
+## API
+
+### TextareaAutoSize
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `minRows` | `number` | — | 最少显示行数（决定初始高度）。@default 2 | 否 |
+| `maxRows` | `number` | — | 最多显示行数；超出后内部滚动。@default undefined（不封顶） | 否 |
+
+### InputSharedProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `value` | `MaybeAccessor<string>` | `undefined` | 受控值；支持传值或 getter（`MaybeAccessor`，`T` 不得为函数类型，见 `resolveValue` 契约）。 与 `defaultValue` 二选一，传了 `value` 即为受控。 | 否 |
+| `defaultValue` | `MaybeAccessor<string>` | `undefined` | 非受控初始值；支持传值或 getter，仅在挂载时读取一次。 | 否 |
+| `onChange` | `InputChangeHandler<HTMLElement>` | `undefined` | 值变更回调；第一参数是收窄后的字符串。 | 否 |
+| `size` | `InputSize` | `'medium'` | 尺寸。 | 否 |
+| `status` | `InputStatus` | `'default'` | 校验态；`error` 时边框转危险色并输出 `data-scui-invalid="true"`。 被 `<Form.Item>` 包裹时字段状态优先。 | 否 |
+
+### InputProps
+
+继承：`Omit<       JSX.InputHTMLAttributes<HTMLInputElement>,       // 原生 value / defaultValue 是 string \| number \| readonly string[]，这里统一收窄为字符串；       // prefix 在原生是 RDFa 字符串属性，这里改为 JSX 插槽。       'value' \| 'defaultValue' \| 'onChange' \| 'children' \| 'size' \| 'prefix'     >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `type` | `'text' \| 'password' \| 'search' \| 'email' \| 'tel' \| 'url'` | — | 强类型：文本输入只需要这几种；`password` / `search` 会启用对应子能力。 | 否 |
+| `prefix` | `JSX.Element` | `undefined` | 前缀内容（图标或文本）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。 | 否 |
+| `suffix` | `JSX.Element` | `undefined` | 后缀内容（图标或文本）。 | 否 |
+| `allowClear` | `boolean` | `false` | 展示清除按钮（有值时出现）。 | 否 |
+| `onClear` | `() => void` | `undefined` | 清除回调；在 `onChange('')` 之前触发。 | 否 |
+| `visibilityToggle` | `boolean` | `true` | 密码可见性切换按钮；仅 `type="password"` 生效。 | 否 |
+| `onSearch` | `(value: string) => void` | `undefined` | 回车搜索回调；仅 `type="search"` 生效，输入法组合态下的回车不触发。 | 否 |
+| `enterButton` | `JSX.Element` | `false` | 搜索按钮：传 `true` 渲染默认搜索图标，传 JSX 则渲染自定义内容。仅 `type="search"` 生效。 （`JSX.Element` 已包含 `boolean`，不再写 `boolean \| JSX.Element`，避免冗余联合。） | 否 |
+
+### TextareaProps
+
+继承：`Omit<       JSX.TextareaHTMLAttributes<HTMLTextAreaElement>,       'value' \| 'defaultValue' \| 'onChange' \| 'children' \| 'size'     >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `autoSize` | `boolean \| TextareaAutoSize` | `false` | 自动高度：随内容增高；`maxRows` 封顶后转内部滚动。 | 否 |
+| `showCount` | `boolean` | `false` | 展示字数统计；配合原生 `maxLength` 显示「已输入 / 上限」。 | 否 |
+| `allowClear` | `boolean` | `false` | 展示清除按钮（有值时出现）。 | 否 |
+| `onClear` | `() => void` | `undefined` | 清除回调；在 `onChange('')` 之前触发。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/input/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+import type { MaybeAccessor } from '../../utils/resolve-value';
+
+/** 尺寸口径与全局一致：只有 small / medium / large，不存在 md / sm。 */
+export type InputSize = 'small' | 'medium' | 'large';
+
+/** 校验态。与 `FieldStatus` 同值域，避免控件与表单出现两套状态词。 */
+export type InputStatus = 'default' | 'error';
+
+/**
+ * 输入类控件的值变更事件。
+ *
+ * 第一参数是**已收窄的字符串值**，第二参数才是原生事件 —— 业务侧 90% 的场景只要值，
+ * 少数要 `preventDefault` 的场景再取事件。
+ */
+export type InputChangeEvent<T extends HTMLElement> = InputEvent & {
+  currentTarget: T;
+  target: T;
+};
+
+/** 值变更回调；`event` 在程序化写值（清除）时为 `undefined`。 */
+export type InputChangeHandler<T extends HTMLElement> = (
+  value: string,
+  event?: InputChangeEvent<T>,
+) => void;
+
+/**
+ * `Textarea` 自动高度配置。
+ *
+ * `true` 等价于 `{ minRows: 2 }`（不限制上限，由容器滚动承担）；
+ * 传对象时 `maxRows` 一旦给到，高度在此行数封顶并转为内部滚动。
+ */
+export interface TextareaAutoSize {
+  /** 最少显示行数（决定初始高度）。@default 2 */
+  minRows?: number;
+  /** 最多显示行数；超出后内部滚动。@default undefined（不封顶） */
+  maxRows?: number;
+}
+
+interface InputSharedProps {
+  /**
+   * 受控值；支持传值或 getter（`MaybeAccessor`，`T` 不得为函数类型，见 `resolveValue` 契约）。
+   * 与 `defaultValue` 二选一，传了 `value` 即为受控。
+   * @default undefined
+   */
+  value?: MaybeAccessor<string>;
+  /**
+   * 非受控初始值；支持传值或 getter，仅在挂载时读取一次。
+   * @default undefined
+   */
+  defaultValue?: MaybeAccessor<string>;
+  /**
+   * 值变更回调；第一参数是收窄后的字符串。
+   * @default undefined
+   */
+  onChange?: InputChangeHandler<HTMLElement>;
+  /**
+   * 尺寸。
+   * @default 'medium'
+   */
+  size?: InputSize;
+  /**
+   * 校验态；`error` 时边框转危险色并输出 `data-scui-invalid="true"`。
+   * 被 `<Form.Item>` 包裹时字段状态优先。
+   * @default 'default'
+   */
+  status?: InputStatus;
+}
+
+/** `Input` 的入参。原生属性照常透传，仅覆盖与前者语义冲突的项。 */
+export interface InputProps
+  extends
+    Omit<
+      JSX.InputHTMLAttributes<HTMLInputElement>,
+      // 原生 value / defaultValue 是 string | number | readonly string[]，这里统一收窄为字符串；
+      // prefix 在原生是 RDFa 字符串属性，这里改为 JSX 插槽。
+      'value' | 'defaultValue' | 'onChange' | 'children' | 'size' | 'prefix'
+    >,
+    InputSharedProps {
+  /** 强类型：文本输入只需要这几种；`password` / `search` 会启用对应子能力。 */
+  type?: 'text' | 'password' | 'search' | 'email' | 'tel' | 'url';
+  /**
+   * 前缀内容（图标或文本）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。
+   * @default undefined
+   */
+  prefix?: JSX.Element;
+  /**
+   * 后缀内容（图标或文本）。
+   * @default undefined
+   */
+  suffix?: JSX.Element;
+  /**
+   * 展示清除按钮（有值时出现）。
+   * @default false
+   */
+  allowClear?: boolean;
+  /**
+   * 清除回调；在 `onChange('')` 之前触发。
+   * @default undefined
+   */
+  onClear?: () => void;
+  /**
+   * 密码可见性切换按钮；仅 `type="password"` 生效。
+   * @default true
+   */
+  visibilityToggle?: boolean;
+  /**
+   * 回车搜索回调；仅 `type="search"` 生效，输入法组合态下的回车不触发。
+   * @default undefined
+   */
+  onSearch?: (value: string) => void;
+  /**
+   * 搜索按钮：传 `true` 渲染默认搜索图标，传 JSX 则渲染自定义内容。仅 `type="search"` 生效。
+   * （`JSX.Element` 已包含 `boolean`，不再写 `boolean | JSX.Element`，避免冗余联合。）
+   * @default false
+   */
+  enterButton?: JSX.Element;
+}
+
+/** `Textarea` 的入参。 */
+export interface TextareaProps
+  extends
+    Omit<
+      JSX.TextareaHTMLAttributes<HTMLTextAreaElement>,
+      'value' | 'defaultValue' | 'onChange' | 'children' | 'size'
+    >,
+    InputSharedProps {
+  /**
+   * 自动高度：随内容增高；`maxRows` 封顶后转内部滚动。
+   * @default false
+   */
+  autoSize?: boolean | TextareaAutoSize;
+  /**
+   * 展示字数统计；配合原生 `maxLength` 显示「已输入 / 上限」。
+   * @default false
+   */
+  showCount?: boolean;
+  /**
+   * 展示清除按钮（有值时出现）。
+   * @default false
+   */
+  allowClear?: boolean;
+  /**
+   * 清除回调；在 `onChange('')` 之前触发。
+   * @default undefined
+   */
+  onClear?: () => void;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [前缀与后缀](llms/demos/input-affix.md)：用前缀拼协议、用后缀挂单位与字数提示，并演示 createSignal 驱动的受控写法。（源文件 `packages/core/src/components/input/demos/affix.tsx`）
+- [单行输入](llms/demos/input-basic.md)：三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。（源文件 `packages/core/src/components/input/demos/basic.tsx`）
+- [多行输入](llms/demos/input-textarea.md)：自动高度（true 与 minRows / maxRows 两种口径）、字数统计、清除按钮与禁用态。（源文件 `packages/core/src/components/input/demos/textarea.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
 <!-- source: llms/exports/config-provider.md -->
 
 # ConfigProvider 全局配置（`solid-craft/config-provider`）
@@ -1637,6 +1908,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./divider` → [solid-craft/divider](llms/exports/divider.md)
 - `./layout` → [solid-craft/layout](llms/exports/layout.md)
 - `./grid` → [solid-craft/grid](llms/exports/grid.md)
+- `./input` → [solid-craft/input](llms/exports/input.md)
 - `./config-provider` → [solid-craft/config-provider](llms/exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](llms/exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](llms/exports/styles.md)
@@ -2645,7 +2917,7 @@ render(
 
 ## 说明
 
-首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。
+首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。
 
 ## 完整源码
 
@@ -2658,19 +2930,21 @@ import {
   Footer,
   Header,
   Icon,
+  Input,
   Layout,
   Link,
   Paragraph,
   Row,
   Space,
   Text,
+  Textarea,
   Title,
 } from 'solid-craft';
 import { DemoSection, DotIcon } from '../../demos/shared';
 
 export const demo = {
   title: '基础组件总览',
-  description: '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid。',
+  description: '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。',
 };
 
 export default function Basic() {
@@ -2712,6 +2986,16 @@ export default function Basic() {
           <Col span={12}>span 12</Col>
           <Col span={12}>span 12</Col>
         </Row>
+      </DemoSection>
+      <DemoSection title="Input / Textarea">
+        <Input defaultValue="带清除" aria-label="总览：可清除输入" allowClear />
+        <Input type="password" defaultValue="secret" aria-label="总览：密码" />
+        <Textarea
+          autoSize={{ minRows: 2, maxRows: 4 }}
+          showCount
+          maxLength={40}
+          aria-label="总览：备注"
+        />
       </DemoSection>
       <p id="overview-anchor">锚点目标</p>
     </>
@@ -3232,6 +3516,349 @@ export default function Basic() {
 ## 相关页面
 
 - [Grid 栅格 API](llms/exports/grid.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/input-affix.md -->
+
+# Input 输入框 · 前缀与后缀（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/input/demos/affix.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+用前缀拼协议、用后缀挂单位与字数提示，并演示 createSignal 驱动的受控写法。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Input } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '前缀与后缀',
+  description: '用前缀拼协议、用后缀挂单位与字数提示，并演示 createSignal 驱动的受控写法。',
+};
+
+export default function Affix() {
+  const [site, setSite] = createSignal('docs');
+  const [amount, setAmount] = createSignal('128');
+  const [title, setTitle] = createSignal('可编辑的标题');
+
+  const titleLimit = 20;
+
+  return (
+    <>
+      <DemoSection title="协议前缀">
+        <Input
+          prefix="https://"
+          aria-label="站点名"
+          value={site()}
+          onChange={(value) => setSite(value)}
+          placeholder="example"
+          suffix=".cn"
+        />
+        <span>
+          访问地址：<output>https://{site() || '（空）'}.cn</output>
+        </span>
+      </DemoSection>
+
+      <DemoSection title="单位后缀">
+        <Input
+          suffix="元"
+          aria-label="金额"
+          value={amount()}
+          onChange={(value) => setAmount(value.replace(/[^0-9]/g, ''))}
+          placeholder="请输入金额"
+        />
+        <Input defaultValue="30" suffix="天" aria-label="天数" placeholder="请输入天数" />
+        <Input defaultValue="80" suffix="%" aria-label="百分比" placeholder="请输入百分比" />
+      </DemoSection>
+
+      <DemoSection title="字数提示后缀">
+        <Input
+          aria-label="标题"
+          value={title()}
+          onChange={(value) => setTitle(value.slice(0, titleLimit))}
+          maxLength={titleLimit}
+          suffix={
+            <span>
+              {title().length}/{titleLimit}
+            </span>
+          }
+          placeholder="请输入标题"
+        />
+      </DemoSection>
+
+      <DemoSection title="组合用法">
+        <Input
+          prefix="¥"
+          suffix="/ 月"
+          aria-label="订阅价格"
+          defaultValue="99"
+          placeholder="订阅价格"
+          allowClear
+        />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Input 输入框 API](llms/exports/input.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/input-basic.md -->
+
+# Input 输入框 · 单行输入（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/input/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Input } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '单行输入',
+  description: '三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。',
+};
+
+function SearchIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none">
+      <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5" />
+      <path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  );
+}
+
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none">
+      <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.5" />
+      <path
+        d="M3 13c0-2.2 2.2-4 5-4s5 1.8 5 4"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none">
+      <rect x="2" y="3.5" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5" />
+      <path d="M2.5 4.5L8 8.5l5.5-4" stroke="currentColor" stroke-width="1.5" />
+    </svg>
+  );
+}
+
+export default function Basic() {
+  const [searched, setSearched] = createSignal('（尚未搜索）');
+  const [cleared, setCleared] = createSignal(0);
+
+  return (
+    <>
+      <DemoSection title="尺寸">
+        <Input size="small" aria-label="small 尺寸" placeholder="small 尺寸" />
+        <Input size="medium" aria-label="medium 尺寸" placeholder="medium 尺寸（默认）" />
+        <Input size="large" aria-label="large 尺寸" placeholder="large 尺寸" />
+      </DemoSection>
+
+      <DemoSection title="禁用">
+        <Input disabled aria-label="禁用态输入" placeholder="禁用占位文案" />
+        <Input disabled aria-label="已填写但不可编辑" defaultValue="已填写但不可编辑" allowClear />
+      </DemoSection>
+
+      <DemoSection title="前后缀图标">
+        <Input prefix={<UserIcon />} aria-label="用户名" placeholder="用户名" />
+        <Input suffix={<MailIcon />} aria-label="邮箱地址" placeholder="邮箱地址" />
+        <Input prefix={<SearchIcon />} suffix=".com" aria-label="站点域名" placeholder="站点域名" />
+      </DemoSection>
+
+      <DemoSection title="允许清除">
+        <Input
+          aria-label="可清除的输入"
+          allowClear
+          defaultValue="点右侧按钮可清空"
+          onClear={() => setCleared((count) => count + 1)}
+        />
+        <span>
+          已清除 <output>{cleared()}</output> 次
+        </span>
+      </DemoSection>
+
+      <DemoSection title="密码显隐">
+        <Input
+          type="password"
+          aria-label="密码"
+          defaultValue="scui-secret"
+          placeholder="请输入密码"
+        />
+        <Input
+          type="password"
+          visibilityToggle={false}
+          aria-label="不可切换的密码"
+          defaultValue="不可切换"
+        />
+      </DemoSection>
+
+      <DemoSection title="回车搜索">
+        <Input
+          type="search"
+          aria-label="关键词"
+          placeholder="输入关键词后回车"
+          onSearch={(value) => setSearched(value === '' ? '（空关键词）' : value)}
+        />
+        <Input
+          type="search"
+          enterButton
+          aria-label="带搜索按钮的关键词"
+          placeholder="带搜索按钮"
+          onSearch={(value) => setSearched(value === '' ? '（空关键词）' : value)}
+        />
+        <span>
+          最近一次搜索：<output>{searched()}</output>
+        </span>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Input 输入框 API](llms/exports/input.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/input-textarea.md -->
+
+# Input 输入框 · 多行输入（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/input/demos/textarea.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+自动高度（true 与 minRows / maxRows 两种口径）、字数统计、清除按钮与禁用态。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Textarea } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '多行输入',
+  description: '自动高度（true 与 minRows / maxRows 两种口径）、字数统计、清除按钮与禁用态。',
+};
+
+export default function TextareaDemo() {
+  const [remark, setRemark] = createSignal('这段文字由 createSignal 驱动，可以继续输入。');
+  const [limited, setLimited] = createSignal('');
+
+  const limit = 50;
+
+  return (
+    <>
+      <DemoSection title="自动高度（true）">
+        <Textarea
+          autoSize
+          aria-label="备注内容"
+          defaultValue={'第一行\n第二行\n第三行'}
+          placeholder="内容增多时会自动撑高，不封顶"
+        />
+      </DemoSection>
+
+      <DemoSection title="自动高度（minRows / maxRows）">
+        <Textarea
+          autoSize={{ minRows: 3, maxRows: 6 }}
+          aria-label="多行备注"
+          defaultValue={'最少显示 3 行，最多 6 行，超出后内部滚动。\n可以继续输入观察高度变化。'}
+          placeholder="行数在 3 到 6 之间伸缩"
+        />
+        <Textarea
+          autoSize={{ minRows: 2, maxRows: 4 }}
+          disabled
+          aria-label="禁用态多行输入"
+          defaultValue="禁用态不参与交互"
+        />
+      </DemoSection>
+
+      <DemoSection title="字数统计与上限">
+        <Textarea
+          showCount
+          maxLength={limit}
+          aria-label="受限备注"
+          value={limited()}
+          onChange={(value) => setLimited(value)}
+          placeholder="最多输入 50 个字"
+        />
+        <Textarea
+          showCount
+          aria-label="无上限备注"
+          defaultValue="不传 maxLength 时只显示已输入字数，不显示上限。"
+          placeholder="展示已输入字数"
+        />
+      </DemoSection>
+
+      <DemoSection title="允许清除">
+        <Textarea
+          allowClear
+          aria-label="可清除备注"
+          defaultValue="有值时右下角出现清除按钮。"
+          placeholder="试试清空"
+        />
+        <Textarea
+          allowClear
+          showCount
+          maxLength={80}
+          aria-label="清除与统计"
+          value={remark()}
+          onChange={(value) => setRemark(value)}
+          placeholder="清除与统计可以同时出现"
+        />
+      </DemoSection>
+
+      <DemoSection title="禁用">
+        <Textarea
+          disabled
+          aria-label="禁用的多行输入"
+          defaultValue="禁用状态下不可编辑，也不出现清除按钮。"
+        />
+        <Textarea
+          showCount
+          maxLength={40}
+          disabled
+          aria-label="禁用但计数的多行输入"
+          defaultValue="禁用但保留字数统计。"
+        />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Input 输入框 API](llms/exports/input.md)
 - [设计 Token](llms/design/tokens.md)
 
 ---
