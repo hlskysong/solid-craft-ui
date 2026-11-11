@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M1 Exit 已于 2026-11-11 闭合**（T0-03 评审签字 → T0-04 → T1-13 全部 `[x]`，38/38 任务完成，见 §30.11）；方案 C 四个 Phase 0 Spike 可行性实证（§30.10）与 T0-04 依赖列「全部 Spike」均已闭合，例外 0/0；下一阶段为 M2 复杂组件正式实现；R1~R5 的 4 条修改要求中 **① R1 已于 2026-11-11 落实（§30.12）**，②③④ 已随 §30.11 落盘，剩复查一轮；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M1 Exit 已于 2026-11-11 闭合**（T0-03 评审签字 → T0-04 → T1-13 全部 `[x]`，38/38 任务完成，见 §30.11）；方案 C 四个 Phase 0 Spike 可行性实证（§30.10）与 T0-04 依赖列「全部 Spike」均已闭合，例外 0/0；下一阶段为 M2 复杂组件正式实现；R1~R5 的 4 条修改要求中 **① R1 已于 2026-11-11 落实（§30.12）**，**②③④ 已于 2026-11-11 复查完毕（§30.13）**；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | T1-13（M1 Exit 已于 2026-11-11 闭合，见 §30.11；38/38 任务全勾，下一阶段转 M2 复杂组件正式实现）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；C09 复审 `partial`、C14 复审 `pass`；CI Full gate 由 run `42938773154`（757dae4）4/4 全绿复验 |
-| 下一步 | **M2 复杂组件正式实现开工前，先落实并复查 R1~R5 的 4 条修改要求**（§30.11）：✅ ① R1 全量切 `data-scui-*` + `.scui-` CSS 作用域（**已于 2026-11-11 落实：31 种裸属性 / 208 处 / 23 文件，88 个选择器全带类作用域，视觉基线 16/16 零差异，`llms` 生成物零变化、无需重生成视觉基线**，见 §30.12）；② R3 函数类型禁用约束（已写入 `resolve-value.ts`）；③ R4 Table client-only 边界（已标注 `Table.md`）；④ R5 RangePicker M1 内正式实现（已标注 `DatePicker.md`）。✅ T0-03 已由 Aming 签字、M1 Exit 已闭合（§30.11）；✅ CI run `42938773154` 4/4 全绿；⚠️ 真实 publish 未授权、未发生，npm trusted publisher 配置与首包发布仍是人工前置 |
+| 当前任务 ID | T1-13（M1 Exit 已于 2026-11-11 闭合，见 §30.11；38/38 任务全勾，下一阶段转 M2 复杂组件正式实现）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；C09 复审 `partial`、C14 复审 `pass`；CI Full gate 由 run `42977984086`（7f7832a）4/4 全绿复验，前次 `42959040941`（d1cf29f）、`42938773154`（757dae4）亦全绿 |
+| 下一步 | **M2 复杂组件正式实现开工前，先落实并复查 R1~R5 的 4 条修改要求**（§30.11）：✅ ① R1 全量切 `data-scui-*` + `.scui-` CSS 作用域（**已于 2026-11-11 落实：31 种裸属性 / 208 处 / 23 文件，88 个选择器全带类作用域，视觉基线 16/16 零差异，`llms` 生成物零变化、无需重生成视觉基线**，见 §30.12）；② R3 函数类型禁用约束（已写入 `resolve-value.ts`，并已同步进 8 个 prop 的正式 API 表 / `llms/exports` / `llms-full`）；③ R4 Table client-only 边界（已标注 `Table.md`，复查时 S-04 SSR 冒烟可复现：5292 chars / 双渲一致 / 2/2 markers）；④ R5 RangePicker 排期重排为 M2 与 DatePicker 同批交付（Aming 2026-11-11 确认「最终肯定要有，节点问题不大」，M1 Exit 不因此重开，见 §30.14）；⑤ R3 的「`MaybeAccessor` 禁函数型实参」已从 JSDoc 升级为机器判据 `check:accessors`（§30.14）。✅ T0-03 已由 Aming 签字、M1 Exit 已闭合（§30.11）；✅ CI run `42977984086`（7f7832a）4/4 全绿，前次 `42959040941`（d1cf29f）亦全绿；⚠️ 真实 publish 未授权、未发生，npm trusted publisher 配置与首包发布仍是人工前置 |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）** |
 
 ---
@@ -110,7 +110,7 @@
 | --- | --- | --- | --- |
 | M0 | 第 2 周末 | 10 个 Spike 通过；脚手架可构建；API 草案评审；07 §6 检查点 14 项通过 | [ ] |
 | M1 | 第 5 周末 | Button 端到端；CI 全绿；文档站可用；§3 横切检查全绿 | [ ] |
-| M2 | 第 9 周末 | 表单页可开发；Form/Select/DatePicker 可用；A11y 通过；`renderToString` 无报错 | [ ] |
+| M2 | 第 9 周末 | 表单页可开发；Form/Select/DatePicker 可用（**R5：含 DatePicker + RangePicker，见 §30.14**）；A11y 通过；`renderToString` 无报错 | [ ] |
 | M3 | 第 12 周末 | CRUD 列表页可开发；Table 基础稳定 | [ ] |
 | M4 | **第 15 周末** | 试点页面上线；`0.1.0` 发布；无 P0 阻塞；视觉基线 light/ltr/default；**`"solid"` 双构建齐全 + SolidStart SSR/hydration 冒烟无 warning** | [ ] |
 | M5 | 第 22 周末 | v1.0 功能完成；API 冻结 | [ ] |
@@ -186,10 +186,11 @@ pnpm check:public            # public 仓库内容安全：origin 同源 / 274 t
 pnpm check:goals             # L1 目标冻结：docs/01~07 + AGENTS.md + 治理脚本 SHA256 基线（改目标即红灯）
 pnpm check:todo              # L2~L5：[x] 需验收证据 / 依赖倒挂 / 例外有效性 / 当前锚点 / 派发边界
 pnpm check:decisions         # T0-04：docs/07 §6 14 项裁决逐字对齐 / 未通过项替代方案 + 决策记录 / 4 条例外收口 / 防 T0-04 虚勾（§30）
+pnpm check:accessors         # R3 访问器契约：MaybeAccessor<X> 的 X 不得为函数型 / 契约定义自证 / 扫描点非空防假 PASS（§30.14）
 pnpm check:slice             # T1-12 组件纵向切片：逐组件校验源文件 / exports / 双构建产物 / 文档生成物 / 发布预演链路（§29）
 ```
 
-> `pnpm verify` = `build → test → test:e2e → typecheck → lint → check:docs → check:llms → check:release → check:naming → check:public → check:goals → check:todo → check:decisions → check:styles → check:exports → check:slice → size → check:platforms → check:ci → publint → attw → smoke:consumers → smoke:tarball → smoke:ssr → smoke:start-real`，CI 直接调用它。**【2026-11-06 补注：T1-07 后新增 `size` / `check:platforms` / `check:ci` 三段；`check:styles` 是第八轮并入的；第十轮并入 `check:release`（宽松模式，不阻塞日常开发），`release` 用 `--strict` 严格模式；2026-11-07 第十一轮并入 `check:goals` / `check:todo`；2026-11-08 D-01 定名后并入 `check:naming`，共 22 个阶段；2026-11-09 首次推送后并入 `check:public`，共 23 个阶段；2026-11-10 T1-12 闭环后并入 `check:slice`，共 24 个阶段；2026-11-10 T0-04 决策检查点后并入 `check:decisions`，共 25 个阶段；`release` 把两者排在 build 之后、publish 之前】**`build` 已包含 `apps/docs` 的 Vite 构建（文档站可构建）。`test:e2e` 依赖 `pnpm build` 产出的 `dist/`，且默认使用本机系统 Chrome（`channel: 'chrome'`）；CI 固定 Docker 镜像里若只有 bundled chromium，设 `PLAYWRIGHT_USE_BUNDLED=1` 切换（该变量已在 `turbo.json` 的 `globalPassThroughEnv` 声明）。
+> `pnpm verify` = `build → test → test:e2e → typecheck → lint → check:docs → check:llms → check:release → check:naming → check:public → check:goals → check:todo → check:decisions → check:styles → check:accessors → check:exports → check:slice → size → check:platforms → check:ci → publint → attw → smoke:consumers → smoke:tarball → smoke:ssr → smoke:start-real`，CI 直接调用它。**【2026-11-06 补注：T1-07 后新增 `size` / `check:platforms` / `check:ci` 三段；`check:styles` 是第八轮并入的；第十轮并入 `check:release`（宽松模式，不阻塞日常开发），`release` 用 `--strict` 严格模式；2026-11-07 第十一轮并入 `check:goals` / `check:todo`；2026-11-08 D-01 定名后并入 `check:naming`，共 22 个阶段；2026-11-09 首次推送后并入 `check:public`，共 23 个阶段；2026-11-10 T1-12 闭环后并入 `check:slice`，共 24 个阶段；2026-11-10 T0-04 决策检查点后并入 `check:decisions`，共 25 个阶段；2026-11-11 R3 访问器契约门禁并入 `check:accessors`，共 26 个阶段；`release` 把两者排在 build 之后、publish 之前】**`build` 已包含 `apps/docs` 的 Vite 构建（文档站可构建）。`test:e2e` 依赖 `pnpm build` 产出的 `dist/`，且默认使用本机系统 Chrome（`channel: 'chrome'`）；CI 固定 Docker 镜像里若只有 bundled chromium，设 `PLAYWRIGHT_USE_BUNDLED=1` 切换（该变量已在 `turbo.json` 的 `globalPassThroughEnv` 声明）。
 > `attw` 用 `--profile esm-only` 并排除非 JS 的 CSS 入口：本库是 ESM-only + bundler 消费矩阵，node10（不支持 `exports`）、node16-CJS、CSS 子路径不在适用范围。`pnpm smoke:ssr` 需先 `pnpm build` 产出 `dist/source`。
 
 > `pnpm publint` / `pnpm attw` 校验 `exports` 的 `"solid"` 条件与 `dist/source` 产物；`pnpm smoke:tarball`（S-01）已补齐 02 架构 §4.5 的 `pnpm pack` 真实发布产物校验：`files` 白名单、`workspace:` 协议改写、39→40 条 exports 目标文件、`types`/`import`/`solid` 三条件在解包目录中可解析。三端 example 为复用 workspace / turbo 仍用 `workspace:*` 链接（解析到的同样是 `packages/core/dist/` 真实产物），差异与理由见 §10.5。
@@ -1993,6 +1994,8 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 
 **R5 范围调整依据**：`docs/04 L168` 的「试点若强依赖，提前」豁免口**不适用于本次**——Q17 已确认试点强依赖的是 SolidStart SSR，不是 RangePicker。故本次记为「**Aming 主动裁决提前 + M1 DatePicker 范围调整**」，不挂豁免、不回改 `docs/04 §5.4`（RangePicker 仍列 P1，其 hover 预览 / 键盘 / 焦点管理 / `editing` 状态机按原文单独排期）。`docs/02 §4.6` 的 `DatePicker ≤ 30 KB（含 Calendar / Range）` 预算已含 Range，体积无障碍。
 
+**复查结论（2026-11-11，Aming `继续` 授权，落地记录见 §30.13）**：② R3 约束已同步进**正式 API 文档** —— 8 个 `MaybeAccessor` prop 的 JSDoc 补上访问器契约（`ConfigProvider` 7 个 + `Sider.collapsed`），随 `docs:generate` 进 API 表 / `llms/exports/{config-provider,layout}.md` / `llms-full.txt` / `search.json`；③ R4 标注复查通过且可复现（`node packages/core/spikes/shared/ssr-smoke.mjs`：S-04 5292 chars、双渲一致、2/2 markers、0 warning）；④ R5 排期落点已确认为 **M2 与 DatePicker 同批交付** —— 事实是 M1 Exit 于 2026-11-11 闭合且不含 DatePicker（仓库无 `date-picker` 组件、C08 仍 `fail`、M1 范围由 `scopeDecision` 收窄），故裁决的「M1 内」顺延到 M2，不降级为 P1 独立任务，`docs/04 §5.4` 一个字节未改。
+
 **门禁同步（签字态互斥修复）**：原 `check-ci.mjs` 第 9 条硬编码要求 `REVIEW.md` 必须含「（待填）」，与 `check-decisions.mjs` 的「`reviewSigned=true` 时结论栏必须全填满」互斥，签字落盘必然让 `pnpm verify` 红灯。本轮改为按 `gate.reviewSigned` 分岔：未签字 → 结论栏必须全空且保留「不得自行裁决」声明；已签字 → 禁止残留「（待填）」且逐行正则要求「评审人 = Aming」。两条门禁同口径，签字后仍禁止 AI 代签。
 
 **允许写入路径（L4）**：`packages/core/spikes/api-draft/**`（REVIEW / 4 份草案 / data-attributes）、`packages/core/src/utils/resolve-value.ts`（仅 JSDoc）、`scripts/check-ci.mjs`（签字态契约）、`scripts/phase0-decisions.json`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（重校）、`docs/08` 本文件；**未改**：`docs/01~07` 冻结规范（一个字节未动）、`AGENTS.md` 规则正文、`pnpm-lock.yaml`（零新增依赖）、根级配置、`packages/core/package.json` 的 `files` / `exports`（Spike 仍不进 npm 包）。`check:goals` 因 `todo-governance.json` 新增 3 条 evidence 而重校，实测只重算该文件 1 项哈希。
@@ -2026,6 +2029,7 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 | `pnpm verify` | **RC=0**，25 阶段全绿（含 `check:docs` / `check:llms` 生成物同步、`check:styles` 第 4 层、`size`、`check:platforms`、`check:ci`、`publint` / `attw`、4 条 smoke） |
 | 单元测试 | `packages/core` **60 passed / 14 files**，其中 `Space` 5 条（4 条原有 + 1 条新增回归断言） |
 | 视觉基线 | **16/16 零差异**（含 space @1280 与 @768），**未重生成基线文件** ⇒ 改名对渲染完全中性 |
+| CI（回写） | 提交 `7f7832a` 推送后 **run `42977984086` = success 4/4**：Full gate（`pnpm verify`）2m41s + TS 7 platform 三架构（ubuntu-24.04 / windows-2022 / macos-15）全 success |
 | 产物核对 | `dist/source/components/space/Space.jsx` 与 `dist/styles/components/space.css` 只出现 `data-scui-orientation`；`dist/source/config-provider/ConfigProvider.jsx` 只出现 `data-scui-direction` |
 | N56 | `Space.tsx` 退回 `data-scui-direction` → **RC=1**，`Space > does not reuse data-scui-direction reserved for writing direction` 精确红灯（连同 2 条 orientation 断言共 3 failed） |
 | N57 | `space.scss` 两个选择器不同步改回 `data-scui-direction`（组件仍发 orientation）→ **静态门禁先红**：`check:styles` RC=1，报 `space.scss 使用 data-scui-direction，但同目录组件源码未输出该属性`；同时 **space 视觉基线 @1280 与 @768 双红**。两路都拦，不靠人肉看 |
@@ -2057,3 +2061,81 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 **验收输出**：`pnpm verify` **25 阶段 RC=0**；`check:styles` RC=0（7 个组件样式表 / 60 个 data-* 取值 / **88 个 `[data-*]` 选择器全部带 `.scui-` 作用域** / 0 modifier class / 产物零裸属性回流）；`pnpm test` 与 `pnpm typecheck` RC=0；**视觉基线 16/16 零差异（`tests/e2e/baselines/` 未产生任何改动）**；`pnpm generate:llms` 与 `check:llms` RC=0（34 页 / 12 个 exports 子路径 / 0 孤儿页 / 0 死链，生成物零变化）。
 
 **边界**：仅改属性名与选择器，未改任何组件语义、props 签名、Token、样式值；`docs/01~07` 冻结规范一个字节未动（其代码示例中的旧属性名属遗留差异，见上）；`pnpm-lock.yaml` 零改动；`AGENTS.md` 第 3 条硬约束随 R1 改写并重校 `check:goals` 基线（只动该 1 项哈希 + 标记行）；提交 / 推送按 `AGENTS.md §13` 须 Aming 逐次授权，真实 publish 始终未授权、未发生。
+
+### 30.13 R3 / R4 / R5 三条修改要求复查实测（2026-11-11）
+
+**结论先行**：§30.11 的四条修改要求中，① R1 已在 §30.12 落实；本节收口 ② R3 文档同步、③ R4 标注复查、④ R5 排期落点，三项**全部完成且可复现**，M2 复杂组件正式实现的前置清零。
+
+| 项 | 复查结论 | 证据 |
+| --- | --- | --- |
+| ② R3 函数类型禁用约束 | **正式 API 文档已同步**：`MaybeAccessor` 的访问器契约（支持传值 / getter，`T` 不得为函数类型）写进 8 个 prop 的 JSDoc —— `ConfigProviderProps` 的 `locale` / `theme` / `density` / `direction` / `zIndexBase` / `portalContainer` / `themeTarget` + `SiderProps.collapsed`，随 `docs:generate` 流入 API 表、`llms/exports/{config-provider,layout}.md`、`llms-full.txt`、`search.json`（单一来源，无第二份文本，靠 `check:docs` / `check:llms` 钉死不漂移） | 生成物 `apps/docs/src/generated/api/{config-provider,layout}.json` 与 `packages/core/llms-full.txt` 均出现该句；`check:docs` / `check:llms` RC=0 |
+| ③ R4 Table client-only 标注 | **标注在位、无失真**：`Table.md` §1 渲染边界行 + §6 `client-only 边界` 四段（服务端静态骨架 / 客户端 `onMount` 接管 / 不引入 client-only 副作用 / 与冻结规范冲突的落地口径）与 Aming 裁决原话一致，未夸大为「整组件不参与 SSR」 | `node packages/core/spikes/shared/ssr-smoke.mjs` RC=0：**S-04 5292 chars · 双渲一致 · 2/2 markers**，四个 Spike 全 PASS（0 warning），即「SSR 静态骨架已验」的陈述可复现 |
+| ④ R5 RangePicker 排期 | **已重排期，不再按「M1 顺延」表述**（Aming 2026-11-11 追加裁决：「RangePicker 最终肯定要有，这个不行就重新安排排期，节点倒是问题不大」）：交付节点定为 **M2 与 DatePicker 同批**，M1 Exit **不因此重开**、C08 维持 `fail` 现状；`docs/04 §5.4` 仍列 P1 一个字节未改，hover 预览 / 键盘 / 焦点管理 / `editing` 状态机按原文独立排期，见 §30.14 | `docs/08` §4 M2 行补注「R5：含 DatePicker + RangePicker」；`api-draft/DatePicker.md` §1 范围调整行改为「重排期至 M2」 |
+
+**边界与遗留**：本轮只改文档与 JSDoc 注释，**未改任何组件运行时语义、props 类型、Token、样式**；`docs/01~07` 冻结规范一个字节未动；`pnpm-lock.yaml` 零改动（虚拟滚动库仍为可选项未装）；真实 publish 未授权、未发生。R3 的约束此时只对「新增 `MaybeAccessor` prop」的评审人可见，**尚无机器判据**——曾计划在门禁层新增「`MaybeAccessor<T>` 的 `T` 不得含函数类型」的类型层扫描；Aming 当日追加裁决「看实现成本，不大就加上」，已由 §30.14 落地为 `pnpm check:accessors`（verify 第 16 阶段）。
+
+### 30.14 R3 访问器契约门禁 + R5 RangePicker 排期重排（2026-11-11 实测与验收）
+
+**结论先行**：Aming 两条追加裁决已落地 —— ① R3 从「只有 JSDoc 与评审材料」升级为**机器判据** `pnpm check:accessors`，破坏形态逐例精确红灯；② RangePicker 交付节点**重排为 M2**，「最终肯定要有」但节点不作为约束，M1 Exit 不因此重开。
+
+#### 一、R3 门禁：把「函数类型禁用」变成可执行判据
+
+`MaybeAccessor<T> = T | Accessor<T>`，`resolveValue` 靠 `typeof value === 'function'` 区分「传值」与「传 getter」。`T` 一旦是函数型，值与 getter 在运行时**不可区分**，`MaybeAccessor` 形同虚设甚至双错。这条约束此前只在 `resolve-value.ts` 的 JSDoc 与 8 个 prop 的 API 文档里，靠评审人记住。
+
+| 项 | 实现 |
+| --- | --- |
+| 判据 | `MaybeAccessor<X>` 的 `X` 顶层不得是函数型：`() => void`（`TSFunctionType`）/ `new () => X`（`TSConstructorType`）/ 函数型别名引用 `Accessor`·`Setter`·`Function`·`CallableFunction`·`NewableFunction`·`AnyFunction`，以及它们经 union / intersection / 括号包裹的组合 |
+| 放行 | `Record<string, () => void>` 这类**对象套函数**（顶层是对象，`typeof` 得到 `'object'`）—— 负向实证 N59c 专门钉住「不误报」 |
+| 契约自证 | `resolve-value.ts` 的定义必须仍是 `export type MaybeAccessor<T> = T | Accessor<T>;`，形态变了判定前提即失效，直接红灯要求重写判据（N59h） |
+| 防假 PASS | 扫描点必须非空：0 处 `MaybeAccessor<…>` 类型实参一律红灯（N59g） |
+| 解析器 | 仓库 `typescript@7` 是 **tsgo**（Go 原生端口），`import('typescript')` 只导出 `version` / `versionMajorMinor`，**没有 `createSourceFile`**；改用 devDependencies 已有的 `oxc-parser@0.157.0` 做语法层 AST 解析（判定「顶层是不是函数」只看语法结构，不需要类型检查器） |
+| 排除项 | 泛型签名里的 `MaybeAccessor<T>`（`isAccessor` / `resolveValue` 共 2 处）：文件内声明的类型参数名先收集，引用位置命中即不参与判定 |
+| 接线 | `package.json` 加 `check:accessors` → `verify` 第 16 阶段（`check:styles` 之后）→ `check:ci` 的 `requiredStages` 同步，**摘掉即红灯**（N59i） |
+
+现状扫描：**8 处**具体类型实参全部非函数型（`ConfigProviderProps` 7 个 + `SiderProps.collapsed` 1 个），2 处泛型签名不参与判定，扫描 49 个源文件。
+
+**负向实证 N59a~N59i（10/10 PASS，含 1 例防误报绿灯）**
+
+| 用例 | 注入 | 期望 | 实测 |
+| --- | --- | --- | --- |
+| N59a | `MaybeAccessor<() => void>` | RC=1 | ✅ 精确报 `__probe_n59.ts:1` |
+| N59b | `MaybeAccessor<Accessor<string>>` | RC=1 | ✅ |
+| N59c | `MaybeAccessor<Record<string, () => void>>` | **RC=0（防误报）** | ✅ 9 处全绿 |
+| N59d | `MaybeAccessor<string \| (() => void)>` | RC=1 | ✅ union 展开命中 |
+| N59e | `MaybeAccessor<Setter<number>>` | RC=1 | ✅ |
+| N59f | `MaybeAccessor<new () => HTMLElement>` | RC=1 | ✅ |
+| N59g | 清空 `packages/core/src` | RC=1 | ✅ 真源缺失 + 扫描点为空双报 |
+| N59h | 定义改成 `T \| (() => T)` | RC=1 | ✅ 要求重写判据 |
+| N59i | 从 `verify` 摘掉 `check:accessors` | RC=1 | ✅ `check:ci` 报「缺少必需阶段」 |
+| RESTORE | 全部字节级还原 | RC=0 | ✅ `LEFTOVER []` |
+
+脚本 `/tmp/n59.py`（逐例写临时探针文件 / 改名扫描根 / 改定义 / 改 `package.json`，每步 `finally` 还原并断言）。
+
+**verify 阶段数：25 → 26。** `check:ci` 摘要行由动态 `requiredStages.length` 输出「26 个阶段齐全且 build 优先」；`scripts/check-ci.mjs` 头部第 8 条里「让 verify 的 25 阶段数量不变」的历史理由已补注为「当时」并写明现状，避免与事实打架。
+
+#### 二、R5 RangePicker：重排期而非压 M1
+
+Aming 原话（2026-11-11）：「RangePicker 最终肯定要有，这个不行就重新安排排期，节点倒是问题不大」。
+
+| 项 | 裁决口径 |
+| --- | --- |
+| 产品 | RangePicker **必须交付**，不是可选项 |
+| 节点 | **不作为约束** ⇒ 重新排期，不去压缩已闭合的 M1 |
+| 落点 | **M2 与 DatePicker 同批交付**；M1 Exit 不重开，C08 维持 `fail`，仓库仍无 `date-picker` 组件 |
+| 冻结规范 | `docs/04 §5.4` 一个字节未改（RangePicker 仍列 P1）；hover 预览 / 键盘 / 焦点管理 / `editing` 状态机按原文独立排期 |
+| 文档同步 | `docs/08` §4 M2 行改为「Form/Select/DatePicker 可用（R5：含 DatePicker + RangePicker）」；`api-draft/DatePicker.md` §1 改为「要交付 + 排出 M2」；§30.13 的 ④ 行改为「已重排期」并指向本节 |
+
+#### 三、验收输出（`pnpm verify` RC=0，26 个阶段）
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm check:accessors` | RC=0：8 处非函数型 / 2 处泛型签名跳过 / 契约定义在位 / 49 个源文件 |
+| `pnpm check:ci` | RC=0：**verify 26 个阶段齐全且 build 优先**，其余契约（体积预算 / workflow / 视觉基线 / 字体 / Spike）全部保持 |
+| 10 个只读门禁 | RC=0（`check:docs` / `check:llms` / `check:styles` / `check:todo` / `check:decisions` / `check:ci` / `check:naming` / `check:slice` / `check:public` / `check:goals`） |
+| `pnpm verify` | **RC=0，26 阶段全绿** |
+| 负向实证 | N59a~N59i **10/10 PASS**，全部字节级还原、`LEFTOVER []` |
+| 冻结与锁 | `docs/01~07` 零改动；`pnpm-lock.yaml` 零改动（`oxc-parser` 本就在 devDependencies，无新增依赖） |
+
+**治理同步**：`AGENTS.md §10（类型）` 增补 R3 硬约束（含「tsgo 无编译器 API，故用 `oxc-parser`」的实现理由），`check:goals` 因此重校基线 —— 实测只重算 `AGENTS.md` 1 项哈希与标记行，其余 14 项不动。
+
+**边界**：本节只新增一个门禁脚本、`package.json` 两行接线、`check-ci` 一条必需阶段与四处文档表述；**未改任何组件运行时语义、props 类型、Token、样式、产物**。R3 判据只覆盖「类型实参顶层是否函数型」，不覆盖运行期误用（如把函数当 getter 传进去）——后者仍靠类型系统与评审。真实 publish 依旧未授权、未发生。

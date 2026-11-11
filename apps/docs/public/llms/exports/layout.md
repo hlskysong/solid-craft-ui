@@ -66,7 +66,7 @@ import { /* 导出符号 */ } from 'solid-craft/layout';
 
 | 属性 | 类型 | 默认值 | 说明 | 必填 |
 | --- | --- | --- | --- | --- |
-| `collapsed` | `MaybeAccessor<boolean>` | `undefined` | 是否折叠；传入后为受控模式。 | 否 |
+| `collapsed` | `MaybeAccessor<boolean>` | `undefined` | 是否折叠；传入后为受控模式。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。 | 否 |
 | `defaultCollapsed` | `boolean` | `false` | 非受控模式下的初始折叠状态。 | 否 |
 | `collapsible` | `boolean` | `false` | 是否显示折叠触发器。 | 否 |
 | `width` | `number` | `200` | 展开时的宽度（px）。 | 否 |
@@ -148,6 +148,7 @@ export interface FooterProps {
 export interface SiderProps {
   /**
    * 是否折叠；传入后为受控模式。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default undefined
    */
   collapsed?: MaybeAccessor<boolean>;

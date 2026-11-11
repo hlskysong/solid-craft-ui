@@ -24,12 +24,16 @@
  *   8. 视觉基线字体契约（2026-11-10 §30.9 方案 B）：Demo 宿主必须用仓库内固定
  *      Web 字体（哈希锁定 + 字集与 apps/docs/src 源码逐字一致 + OFL 许可证在位），
  *      禁止写回任何系统字体回退，杜绝 runner 字体集再次参与像素比对。
- *      字体判据放在本脚本而非新脚本，是为了让 verify 的 25 阶段数量不变，
- *      不触碰根级 package.json / pnpm-lock.yaml（AGENTS.md §5）。
+ *      字体判据放在本脚本而非新脚本，是为了当时不改 verify 阶段数量、不触碰根级
+ *      package.json / pnpm-lock.yaml（AGENTS.md §5）；2026-11-11 起 R3 门禁已作为
+ *      独立阶段 `check:accessors` 加入，verify 现为 26 阶段。
  *   9. Phase 0 Spike 契约（2026-11-10 §30.10 方案 C）：四个 Spike 的目录 / 客户端实证 /
  *      SSR 入口 / 统一模板 API 草案必须在位，spikes/ 不得渗入发布包（files / exports /
  *      src），且 ssr-smoke.mjs 必须真实跑绿。客户端实证由 vitest include 自动接进
  *      pnpm test（verify 第 2 阶段），此处只校验配置未被摘掉。
+ *  10. R3 访问器契约门禁（2026-11-11 §30.14）：`check:accessors` 必须在 verify 里（判据
+ *      本身在 scripts/check-accessors.mjs）。摘掉即让 `MaybeAccessor` 的函数型实参失去
+ *      机器兜底 —— 那是运行时 `typeof === 'function'` 区分值与 getter 的唯一前提。
  */
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -59,6 +63,7 @@ const requiredStages = [
   'check:docs',
   'check:llms',
   'check:styles',
+  'check:accessors',
   'check:release',
   'check:naming',
   'check:public',

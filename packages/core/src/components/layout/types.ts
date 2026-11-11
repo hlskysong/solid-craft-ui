@@ -64,6 +64,7 @@ export interface FooterProps {
 export interface SiderProps {
   /**
    * 是否折叠；传入后为受控模式。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default undefined
    */
   collapsed?: MaybeAccessor<boolean>;

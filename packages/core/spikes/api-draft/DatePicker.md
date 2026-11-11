@@ -9,7 +9,7 @@
 | 组件名 | `ScuiDatePicker`，类名 `scui-date-picker*` |
 | Phase 0 只验可行性 | 是：基础单选 / 禁用 / 键盘 / 中文 locale / hydration 冒烟 |
 | 不做的部分 | `showTime`、时区、月份年份快选、快捷选项（docs/04 §5.4 P1/P2） |
-| **范围调整（R5 = B，2026-11-11）** | **RangePicker 在 M1 内正式实现**（Aming 主动裁决提前，非「试点强依赖」豁免）；仍需按 `docs/04 §5.4` 单独排期 hover 预览 / 键盘 / 焦点管理与 `editing` 状态机 |
+| **范围调整（R5 = B，2026-11-11）** | **RangePicker 要交付**（Aming 主动裁决提前，非「试点强依赖」豁免）；仍需按 `docs/04 §5.4` 单独排期 hover 预览 / 键盘 / 焦点管理与 `editing` 状态机。**排期（2026-11-11 重排，见 `docs/08 §30.14`）：M2 与 DatePicker 同批交付** —— Aming 确认「最终肯定要有，节点问题不大」，故 M1 Exit 不重开（C08 维持 `fail`、仓库仍无 `date-picker` 组件），节点不作为约束；`docs/04 §5.4` 仍列 P1，未改 |
 | 依赖真源 | `@internationalized/date@3.12.4` + `Intl`（`DateFormatter`），零新增依赖 |
 
 ## 2. Props 表

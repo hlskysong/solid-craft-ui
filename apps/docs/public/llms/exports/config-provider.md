@@ -29,13 +29,13 @@ import { /* 导出符号 */ } from 'solid-craft/config-provider';
 
 | 属性 | 类型 | 默认值 | 说明 | 必填 |
 | --- | --- | --- | --- | --- |
-| `locale` | `MaybeAccessor<string>` | `'zh-CN'` | 语言标识。 | 否 |
-| `theme` | `MaybeAccessor<ThemeName>` | `'light'` | 主题；`system` 仅在客户端跟随系统偏好。 | 否 |
-| `density` | `MaybeAccessor<Density>` | `'default'` | 界面密度。 | 否 |
-| `direction` | `MaybeAccessor<Direction>` | `'ltr'` | 文字与布局方向。 | 否 |
-| `zIndexBase` | `MaybeAccessor<number>` | `0` | 浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。 | 否 |
-| `portalContainer` | `MaybeAccessor<HTMLElement \| undefined>` | `undefined` | 浮层挂载容器；未提供时懒加载为 `document.body`。 | 否 |
-| `themeTarget` | `MaybeAccessor<'global' \| 'local'>` | `'local'` | 主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。 | 否 |
+| `locale` | `MaybeAccessor<string>` | `'zh-CN'` | 语言标识。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。 | 否 |
+| `theme` | `MaybeAccessor<ThemeName>` | `'light'` | 主题；`system` 仅在客户端跟随系统偏好。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。 | 否 |
+| `density` | `MaybeAccessor<Density>` | `'default'` | 界面密度。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。 | 否 |
+| `direction` | `MaybeAccessor<Direction>` | `'ltr'` | 文字与布局方向。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。 | 否 |
+| `zIndexBase` | `MaybeAccessor<number>` | `0` | 浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。 | 否 |
+| `portalContainer` | `MaybeAccessor<HTMLElement \| undefined>` | `undefined` | 浮层挂载容器；未提供时懒加载为 `document.body`。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。 | 否 |
+| `themeTarget` | `MaybeAccessor<'global' \| 'local'>` | `'local'` | 主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。 | 否 |
 | `class` | `string` | `undefined` | 包裹元素的自定义类名。 | 否 |
 | `children` | `JSX.Element` | `undefined` | 子树内容。 | 否 |
 
@@ -73,36 +73,43 @@ export type Direction = 'ltr' | 'rtl';
 export interface ConfigProviderProps {
   /**
    * 语言标识。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'zh-CN'
    */
   locale?: MaybeAccessor<string>;
   /**
    * 主题；`system` 仅在客户端跟随系统偏好。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'light'
    */
   theme?: MaybeAccessor<ThemeName>;
   /**
    * 界面密度。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'default'
    */
   density?: MaybeAccessor<Density>;
   /**
    * 文字与布局方向。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'ltr'
    */
   direction?: MaybeAccessor<Direction>;
   /**
    * 浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 0
    */
   zIndexBase?: MaybeAccessor<number>;
   /**
    * 浮层挂载容器；未提供时懒加载为 `document.body`。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default undefined
    */
   portalContainer?: MaybeAccessor<HTMLElement | undefined>;
   /**
    * 主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'local'
    */
   themeTarget?: MaybeAccessor<'global' | 'local'>;

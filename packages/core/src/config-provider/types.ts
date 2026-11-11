@@ -13,36 +13,43 @@ export type Direction = 'ltr' | 'rtl';
 export interface ConfigProviderProps {
   /**
    * 语言标识。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'zh-CN'
    */
   locale?: MaybeAccessor<string>;
   /**
    * 主题；`system` 仅在客户端跟随系统偏好。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'light'
    */
   theme?: MaybeAccessor<ThemeName>;
   /**
    * 界面密度。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'default'
    */
   density?: MaybeAccessor<Density>;
   /**
    * 文字与布局方向。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'ltr'
    */
   direction?: MaybeAccessor<Direction>;
   /**
    * 浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 0
    */
   zIndexBase?: MaybeAccessor<number>;
   /**
    * 浮层挂载容器；未提供时懒加载为 `document.body`。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default undefined
    */
   portalContainer?: MaybeAccessor<HTMLElement | undefined>;
   /**
    * 主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。
+   * 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。
    * @default 'local'
    */
   themeTarget?: MaybeAccessor<'global' | 'local'>;

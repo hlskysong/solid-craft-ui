@@ -10,49 +10,49 @@
           "name": "locale",
           "type": "MaybeAccessor<string>",
           "optional": true,
-          "description": "语言标识。",
+          "description": "语言标识。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。",
           "default": "'zh-CN'"
         },
         {
           "name": "theme",
           "type": "MaybeAccessor<ThemeName>",
           "optional": true,
-          "description": "主题；`system` 仅在客户端跟随系统偏好。",
+          "description": "主题；`system` 仅在客户端跟随系统偏好。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。",
           "default": "'light'"
         },
         {
           "name": "density",
           "type": "MaybeAccessor<Density>",
           "optional": true,
-          "description": "界面密度。",
+          "description": "界面密度。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。",
           "default": "'default'"
         },
         {
           "name": "direction",
           "type": "MaybeAccessor<Direction>",
           "optional": true,
-          "description": "文字与布局方向。",
+          "description": "文字与布局方向。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。",
           "default": "'ltr'"
         },
         {
           "name": "zIndexBase",
           "type": "MaybeAccessor<number>",
           "optional": true,
-          "description": "浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。",
+          "description": "浮层 z-index 的基础值，组件通过 CSS 变量叠加偏移量。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。",
           "default": "0"
         },
         {
           "name": "portalContainer",
           "type": "MaybeAccessor<HTMLElement | undefined>",
           "optional": true,
-          "description": "浮层挂载容器；未提供时懒加载为 `document.body`。",
+          "description": "浮层挂载容器；未提供时懒加载为 `document.body`。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。",
           "default": "undefined"
         },
         {
           "name": "themeTarget",
           "type": "MaybeAccessor<'global' | 'local'>",
           "optional": true,
-          "description": "主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。",
+          "description": "主题作用目标；`local` 写到包裹元素，`global` 写到 `document.documentElement`。 支持传值或 getter（`MaybeAccessor`；`T` 不得为函数类型，见 `resolveValue` 契约）。",
           "default": "'local'"
         },
         {
