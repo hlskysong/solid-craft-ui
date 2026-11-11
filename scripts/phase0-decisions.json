@@ -11,7 +11,7 @@
     "selectedOption": "C",
     "confirmedBy": "Aming",
     "confirmedAt": "2026-11-10",
-    "confirmedScope": "方案 C 口径：M1 收窄只针对「正式组件实现 + 完整视觉回归」；四个 Phase 0 Spike 的可行性实证与 T0-03 评审材料必须补齐，不得再以移出 M1 为由跳过检查点。S-02 / S-04 / S-05 / S-06 已按实证补勾，T0-03 / T0-04 / T1-13 待评审签字。方案 B（重定义 T0-04 依赖列）未授权。",
+    "confirmedScope": "方案 C 口径：M1 收窄只针对「正式组件实现 + 完整视觉回归」；四个 Phase 0 Spike 的可行性实证与 T0-03 评审材料必须补齐，不得再以移出 M1 为由跳过检查点。S-02 / S-04 / S-05 / S-06 已按实证补勾；2026-11-11 Aming 主持 T0-03 评审签字后，T0-03 / T0-04 / T1-13 已依次闭合，38/38 任务全勾、M1 Exit 达成。方案 B（重定义 T0-04 依赖列）未授权。M2 开工前须落实 R1~R5 的 4 条修改要求。",
     "optionChangedAt": "2026-11-10"
   },
   "items": [
@@ -117,14 +117,15 @@
     {
       "id": "C09",
       "specText": "Form + Select + Input 校验链路可用，且**响应式契约（值 / Accessor / getter 注入）评审通过**？",
-      "verdict": "fail",
+      "verdict": "partial",
       "evidence": [
         "§30.10 已补 S-06 可行性实证：spikes/s06-form/ 的字段级 signal + getter 注入 + 校验 + 错误滚动，effect 计数证明改一字段不触发另一字段",
         "docs/04 §5.2 的 Form.Item getter 契约已按统一模板写入 api-draft/Form.md，但 T0-03 评审结论仍为空",
-        "packages/core/src/components 仍无 form / select / input 正式组件；S-06 已 [x]、T0-03 仍 [ ]"
+        "packages/core/src/components 仍无 form / select / input 正式组件；S-06 已 [x]、T0-03 仍 [ ]",
+        "2026-11-11 Aming 主持 T0-03 评审签字，R3 = A 保留 MaybeAccessor / resolveValue 并新增函数类型禁用约束；S-06 Spike 的字段级 getter 注入链路与响应式契约评审通过（REVIEW.md 第 9 节 / docs/08 §30.11）"
       ],
-      "alternative": "M1 不含表单链路；T0-03 的 API 草案评审须 Aming 主持，作为复杂组件开工前置。",
-      "decision": "判未通过，S-06 / T0-03 保持未勾；响应式契约评审结论不得用 docs/04 的设计文字冒充。"
+      "alternative": "正式 Form / Select / Input 组件与完整视觉回归仍留 M2；本阶段只判可行性 + 契约评审，不把 Spike 预研产物冒充已发布组件。",
+      "decision": "复审判 partial：链路可行性实证与响应式契约评审均已达成，故不再是 fail；但 packages/core/src/components 仍无正式表单组件，按「Phase 0 只验可行性」不判 pass。R1~R5 的 4 条修改要求在 M2 开工前复查。"
     },
     {
       "id": "C10",
@@ -172,30 +173,32 @@
     {
       "id": "C14",
       "specText": "API 草案（Form / Table / Select / DatePicker）按统一模板与 `data-*` 口径评审通过？",
-      "verdict": "fail",
+      "verdict": "pass",
       "evidence": [
         "§30.10 已落盘统一模板 TEMPLATE.md（9 节）、data-*-口径真源、Form / Table / Select / DatePicker 四份草案与 REVIEW.md（R1~R5）",
         "REVIEW.md 第 9 节评审结论与 R1~R5 逐项裁决仍为空：评审须 Aming 主持，AI 不得代签；T0-03 仍 [ ]",
-        "四个 Spike 是可运行可行性实证，正式组件实现未启动；check-ci.mjs 硬判据禁止结论栏被代填"
+        "四个 Spike 是可运行可行性实证，正式组件实现未启动；check-ci.mjs 硬判据禁止结论栏被代填",
+        "2026-11-11 Aming 主持 T0-03 评审并签字：统一模板 9 节、data-* 口径真源、4 份草案与 R1~R5 逐项裁决均已落盘（REVIEW.md 第 9 节 / docs/08 §30.11），附条件通过"
       ],
-      "alternative": "T0-03 作为 T1-13（M1 Exit）的硬前置，由 Aming 主持评审后单独一轮落地；评审前不启动复杂组件实现。",
-      "decision": "判未通过；T0-03 保持未勾，不把设计文档冒充评审记录。"
+      "alternative": "原 fail 理由「评审须 Aming 主持、设计文档不冒充评审结论」已由本人签字消除；4 条修改要求留 M2 开工前复查，不构成本项不通过。",
+      "decision": "复审判 pass：API 草案按统一模板与 data-* 口径已由 Aming 主持评审通过，裁决原话在 REVIEW.md，AI 未自行裁决、未代签。"
     }
   ],
   "gate": {
     "taskId": "T0-04",
-    "checked": false,
+    "checked": true,
     "decisionStatus": "confirmed",
     "confirmedBy": "Aming",
     "confirmedAt": "2026-11-10",
     "confirmedOption": "C",
-    "blocker": "方案 C 已补齐 S-02 / S-04 / S-05 / S-06 四个 Spike 的可行性实证并补勾；但 T0-03 API 草案评审须 Aming 主持并签字（REVIEW.md 第 9 节与 R1~R5 仍为空），签字前 T0-03 / T0-04 / T1-13 一律保持 [ ]，check:decisions 的方案 C 守卫会拦住虚勾。",
+    "blocker": "已解除：T0-03 由 Aming 于 2026-11-11 主持评审并签字（附条件通过），REVIEW.md 第 9 节 5 行结论栏已按原话填满；四个 Spike 全 [x]、依赖「全部 Spike」闭合。遗留的是 4 条修改要求，须在 M2 复杂组件正式实现开工前复查一轮，不阻塞 M1 Exit。",
     "requires": [
-      "Aming 主持 T0-03 API 草案评审并在 REVIEW.md 落盘结论（R1~R5 逐项裁决）",
-      "评审结论落盘后由 Aming 授权把 gate.reviewSigned 置 true，才依次勾 T0-03 / T0-04 / T1-13",
-      "方案 B（重定义 T0-04 依赖列）始终未授权；依赖列保持「全部 Spike」"
+      "✅ 已满足：Aming 主持 T0-03 API 草案评审并在 REVIEW.md 落盘结论（R1~R5 逐项裁决，2026-11-11）",
+      "✅ 已满足：Aming 授权把 gate.reviewSigned 置 true，T0-03 / T0-04 / T1-13 已依次闭合",
+      "方案 B（重定义 T0-04 依赖列）始终未授权；依赖列保持「全部 Spike」",
+      "遗留：R1~R5 的 4 条修改要求在 M2 复杂组件正式实现开工前复查一轮（docs/08 §30.11）"
     ],
-    "reviewSigned": false,
+    "reviewSigned": true,
     "optionHistory": [
       {
         "option": "A",
@@ -207,7 +210,9 @@
         "decidedAt": "2026-11-10",
         "note": "晚间改选：严格按冻结规范补齐四个 Spike 实证 + T0-03 评审交回 Aming 主持"
       }
-    ]
+    ],
+    "reviewSignedAt": "2026-11-11",
+    "reviewSource": "packages/core/spikes/api-draft/REVIEW.md 第 9 节（Aming 主持，R1~R5 逐项裁决）"
   },
   "exceptionClosures": [
     {

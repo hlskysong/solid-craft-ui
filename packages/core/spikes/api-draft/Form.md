@@ -1,6 +1,6 @@
 # Form API 草案（S-06 / T0-03 核心）
 
-> 按 `TEMPLATE.md` 9 节填写；**第 9 节留空待 Aming 评审**。
+> 按 `TEMPLATE.md` 9 节填写；**第 9 节结论以 `REVIEW.md` 为唯一真源**（Aming 2026-11-11 已签字）。
 > 本草案承载 `docs/07 §6` 第 9 项的「响应式契约（值 / Accessor / getter 注入）评审」。
 
 ## 1. 组件定位与范围
@@ -30,6 +30,7 @@
 - 所有控件实现 `useFormField(name)` 协议；控件不保留重复状态，Form 是唯一数据源。
 - **每个字段一个独立 `createSignal`**（含独立 error signal），Form.Item 只订阅自己的字段 ⇒ 改一个字段不触发其它字段的 effect。
 - `resolveValue()` 是「值 / Accessor / getter」统一归一入口，来自 `packages/core/src/utils/resolve-value.ts`。
+- **R3 = A（2026-11-11 裁决）**：保留 `MaybeAccessor<T>` / `resolveValue()`；新增硬约束「禁止用于 `T` 本身可能为函数类型的 prop」，理由是该工具用 `typeof v === "function"` 判定 accessor，无法区分函数值与 getter。
 - 禁止解构 props；派生用 `createMemo`。
 
 ## 4. `data-*` 口径
@@ -64,4 +65,5 @@
 
 ## 9. 评审结论（Aming 填写）
 
-（待填：评审人 / 日期 / 结论 / R3 响应式契约口径 / 修改要求）
+已由 Aming 于 2026-11-11 在 `REVIEW.md` 第 9 节统一裁决（本项对应结论见该文件）。
+本草案不重复记录结论，避免双真源；裁决原话与修改要求以 `REVIEW.md` 为准。

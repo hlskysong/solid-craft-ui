@@ -1,6 +1,6 @@
 # Select / Dialog API 草案（S-02）
 
-> 按 `TEMPLATE.md` 9 节填写；**第 9 节留空待 Aming 评审**。
+> 按 `TEMPLATE.md` 9 节填写；**第 9 节结论以 `REVIEW.md` 为唯一真源**（Aming 2026-11-11 已签字）。
 
 ## 1. 组件定位与范围
 
@@ -53,6 +53,7 @@ Kobalte 自身输出 `data-expanded` / `data-closed` / `aria-expanded` / `role="
 ## 7. 事件与受控 / 非受控
 
 - 选中触发 `onChange(value)`；禁用项与重复值不触发（`value === currentValue()` 去重）。
+- **R2 = A（2026-11-11 裁决）**：对外只暴露字符串 `value` / `onChange(value)`，封装层用 `selected()` memo 映射 Kobalte 的 option 对象；公共 API 不泄漏第三方数据结构。
 - 外部传 `value` 时以外部为准，回调仍发出，由业务决定是否更新。
 
 ## 8. 实证清单
@@ -66,4 +67,5 @@ Kobalte 自身输出 `data-expanded` / `data-closed` / `aria-expanded` / `role="
 
 ## 9. 评审结论（Aming 填写）
 
-（待填：评审人 / 日期 / 结论 / R2 受控值口径 / 修改要求）
+已由 Aming 于 2026-11-11 在 `REVIEW.md` 第 9 节统一裁决（本项对应结论见该文件）。
+本草案不重复记录结论，避免双真源；裁决原话与修改要求以 `REVIEW.md` 为准。

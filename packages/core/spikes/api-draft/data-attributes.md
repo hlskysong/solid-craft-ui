@@ -39,9 +39,15 @@
 - `:focus-visible` → `outline: 2px solid var(--scui-focus-ring); outline-offset: 2px;`，禁止裸 `outline: none`。
 - 禁用态不靠 class 覆盖：`[data-scui-disabled]` + 原生 `disabled` 双保险。
 
-## 与已发布组件的一致性
+## 与已发布组件的一致性（2026-11-11 已裁决，不再是待决分歧）
 
 现有 7 个基础组件使用 `data-variant` / `data-size` / `data-color` / `data-loading` 等**裸属性**；
-本表新增的 Spike 属性统一带 `scui-` 命名空间以免与业务 DOM 冲突。
-**这是 T0-03 评审必须裁决的口径分歧**：正式实现时是沿用裸属性，还是全量切到 `data-scui-*`？
-评审结论未给出之前，不得启动复杂组件正式实现（C14 决策记录）。
+`packages/core/src` 实测 32 种裸属性 / 221 处 / 25 个文件，带 `scui-` 前缀的仅 3 种 / 22 处，属混用状态。
+
+**Aming 于 2026-11-11 裁决 R1 = B**：正式实现时全量切到 `data-scui-*`，并把 **CSS 作用域并入裁决** ——
+样式选择器一律带 `.scui-` 静态类作用域。动机是 Kobalte 0.13.14 原语层自身输出无命名空间的
+`data-orientation` / `data-type` / `data-disabled` / `data-selected` 等同名属性，裸属性会与业务 DOM 及第三方原语互串。
+
+**例外（不切）**：`data-testid`（测试锚点，行业通用）与 Solid 的 `data-hk`（hydration key，第三方产物）。
+B 只保护组件库自有属性，Kobalte 原语层的裸属性改不了，因此必须同时落实 `.scui-` 作用域才算闭环。
+本表即统一口径真源；`check:llms` 与视觉基线在正式切换时需同步重生成（见 `docs/08 §30.11` 修改要求 ①）。

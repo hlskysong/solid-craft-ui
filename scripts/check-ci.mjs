@@ -408,8 +408,26 @@ for (const name of draftFiles) {
   }
 }
 const reviewText = read(join(spikesRoot, 'api-draft', 'REVIEW.md'));
-if (!reviewText.includes('不得代填') || !reviewText.includes('（待填）')) {
-  fail('REVIEW.md 必须保留「AI 不得代填评审结论」声明与空的结论栏');
+if (!reviewText.includes('不得代填')) {
+  fail('REVIEW.md 必须保留「AI 不得自行裁决 / 不得代填评审结论」声明');
+}
+// 签字前结论栏必须全空；签字后必须全填满且评审人为 Aming。
+// 与 check-decisions.mjs 的方案 C 守卫同口径，避免两条门禁在签字态互斥。
+const phase0Decisions = JSON.parse(read(join(repoRoot, 'scripts', 'phase0-decisions.json')));
+const reviewSigned = phase0Decisions.gate?.reviewSigned;
+if (reviewSigned === false) {
+  if (!reviewText.includes('（待填）')) {
+    fail('T0-03 未签字：REVIEW.md 结论栏必须全部保持「（待填）」，禁止 AI 代签');
+  }
+} else if (reviewSigned === true) {
+  if (reviewText.includes('（待填）')) {
+    fail('T0-03 已签字：REVIEW.md 仍残留「（待填）」结论栏');
+  }
+  if (!/^\| 评审人 \| Aming \|$/m.test(reviewText)) {
+    fail('T0-03 已签字：REVIEW.md 的评审人必须为 Aming（AI 不得代签）');
+  }
+} else {
+  fail('gate.reviewSigned 必须是显式布尔值');
 }
 const spikeCss = read(join(spikesRoot, 'spikes.css'));
 if (!/\[data-[\w-]+\]/.test(spikeCss) || !spikeCss.includes(':focus-visible')) {

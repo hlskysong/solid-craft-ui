@@ -1,6 +1,6 @@
 # DatePicker API 草案（S-05）
 
-> 按 `TEMPLATE.md` 9 节填写；**第 9 节留空待 Aming 评审**。
+> 按 `TEMPLATE.md` 9 节填写；**第 9 节结论以 `REVIEW.md` 为唯一真源**（Aming 2026-11-11 已签字）。
 
 ## 1. 组件定位与范围
 
@@ -8,7 +8,8 @@
 | --- | --- |
 | 组件名 | `ScuiDatePicker`，类名 `scui-date-picker*` |
 | Phase 0 只验可行性 | 是：基础单选 / 禁用 / 键盘 / 中文 locale / hydration 冒烟 |
-| 不做的部分 | RangePicker、`showTime`、时区、月份年份快选、快捷选项（docs/04 §5.4 P1/P2） |
+| 不做的部分 | `showTime`、时区、月份年份快选、快捷选项（docs/04 §5.4 P1/P2） |
+| **范围调整（R5 = B，2026-11-11）** | **RangePicker 在 M1 内正式实现**（Aming 主动裁决提前，非「试点强依赖」豁免）；仍需按 `docs/04 §5.4` 单独排期 hover 预览 / 键盘 / 焦点管理与 `editing` 状态机 |
 | 依赖真源 | `@internationalized/date@3.12.4` + `Intl`（`DateFormatter`），零新增依赖 |
 
 ## 2. Props 表
@@ -60,4 +61,5 @@
 
 ## 9. 评审结论（Aming 填写）
 
-（待填：评审人 / 日期 / 结论 / R5 范围口径 / 修改要求）
+已由 Aming 于 2026-11-11 在 `REVIEW.md` 第 9 节统一裁决（本项对应结论见该文件）。
+本草案不重复记录结论，避免双真源；裁决原话与修改要求以 `REVIEW.md` 为准。
