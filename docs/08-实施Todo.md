@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），当前无 T2 任务 `[x]`，起始项 T2-01（`primitives/` 适配层）；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T2-01**（M2 首项 `primitives/` 适配层，见 §4.1）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿，前次 `43006966939`（`0d77fc2`）、`42977984086`（`7f7832a`）、`42959040941`（`d1cf29f`）、`42938773154`（`757dae4`）亦全绿 |
-| 下一步 | **按 §4.1 执行 M2（13 项）**：T2-01 primitives 适配层 → T2-02 表单控件基座（两者是全链前提，不做基座后续每个控件都要返工）→ T2-03 / T2-05 / T2-06 并行 → T2-07 Select 与 T2-08 Form 并行 → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker（最长尾巴，尽早启动）→ T2-12 体积预算 → T2-13 M2 Exit。每项完成后回读文件 + 跑对应验收 + 在后续落地记录（§31 起）点名，才可勾 `[x]` |
+| 当前任务 ID | **T2-02**（M2 第二项「表单控件基座 `FieldContext` + `useFormField`」，见 §4.1；T2-01 已完成，见 §30.16）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿，前次 `43006966939`（`0d77fc2`）、`42977984086`（`7f7832a`）、`42959040941`（`d1cf29f`）、`42938773154`（`757dae4`）亦全绿 |
+| 下一步 | **按 §4.1 执行 M2（13 项，已完成 1 项）**：~~T2-01 primitives 适配层~~（§30.16）→ T2-02 表单控件基座（两者是全链前提，不做基座后续每个控件都要返工）→ T2-03 / T2-05 / T2-06 并行 → T2-07 Select 与 T2-08 Form 并行 → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker（最长尾巴，尽早启动）→ T2-12 体积预算 → T2-13 M2 Exit。每项完成后回读文件 + 跑对应验收 + 在后续落地记录（§31 起）点名，才可勾 `[x]` |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
 
 ---
@@ -125,7 +125,7 @@
 
 | ID | 任务 | 依赖 | 主责 | 验收 | 状态 |
 | --- | --- | --- | --- | --- | --- |
-| T2-01 | `primitives/` 适配层：Kobalte（Dialog / Select 原语）+ Floating UI 封装进 `src/primitives/`，公共 API 不暴露其类型；SSR 出静态骨架、交互在 `onMount` 后接管 | — | 技术负责人 | ADR-004 边界落地；`renderToString` 双渲确定；产物零 Kobalte 类型泄漏；`check:accessors` 通过 | [ ] |
+| T2-01 | `primitives/` 适配层：Kobalte（Dialog / Select 原语）+ Floating UI 封装进 `src/primitives/`，公共 API 不暴露其类型；SSR 出静态骨架、交互在 `onMount` 后接管 | — | 技术负责人 | ADR-004 边界落地；`renderToString` 双渲确定；产物零 Kobalte 类型泄漏；`check:accessors` 通过 | [x] |
 | T2-02 | 表单控件基座：`FieldContext` + `useFormField(name)`，`value` / `status` / `disabled` 一律 getter，统一注入 `id` / `aria-invalid` / `aria-describedby` | T2-01 | 工程师 C | 任一控件被 `Form.Item` 包裹后受控链路通；Context 缺失抛明确错误 | [ ] |
 | T2-03 | `Input`（Textarea 并入）：前后缀、清除、密码、搜索；Textarea 自动高度 + 字数统计 | T2-02 | 工程师 C | 每个子能力有单测；`data-scui-*` 作用域齐全；键盘 + axe 通过 | [ ] |
 | T2-04 | `InputNumber`：步进、精度、格式化、范围 | T2-03 | 工程师 C | 边界值 / 精度 / 受控同步；不出现浮点误差（整数缩放或 big.js） | [ ] |
@@ -2213,3 +2213,89 @@ Aming 原话（2026-11-11）：「RangePicker 最终肯定要有，这个不行�
 | 冻结与锁 | `docs/01~07` 零改动；`pnpm-lock.yaml` 零改动 |
 
 **边界**：本节只做**计划展开与治理同步**，未写任何组件源码、未新增依赖、未改 `docs/01~07`。13 项任务全部 `[ ]`，勾选仍须逐项跑验收并在后续落地记录点名 —— 计划展开不等于动工，更不等于验收通过。真实 publish 依旧未授权、未发生。
+
+### 30.16 T2-01 原语层落地与 SSR / 类型隔离实测
+
+**结论先行**：M2 首项 T2-01 完成 —— `src/primitives/` 适配层落地，Kobalte 的 Dialog / Select 被收敛成组件库自有 props，公共 `.d.ts` 零第三方引用；SSR 走「服务端只出触发骨架、弹层 `onMount` 后装载」，双渲逐字一致。过程中**证伪了 S-02 的一条结论**（详见第三节），并据此把控件里的键盘接管整段删掉，代码比预研时更少。
+
+#### 一、交付物
+
+| 文件 | 作用 |
+| --- | --- |
+| `src/primitives/types.ts` | 公共类型（`PrimitiveOption` / `PrimitiveDialogProps` / `PrimitiveSelectProps`），不引用任何第三方库类型 |
+| `src/primitives/use-client-ready.ts` | 统一的客户端就绪信号：服务端与客户端首帧均 `false`，`onMount` 后 `true`；两阶段渲染的单一开关 |
+| `src/primitives/dialog.tsx` | Dialog 原语：`Show when={ready()}` 保住 Portal，服务端只出 `data-scui-primitive="dialog-trigger"` |
+| `src/primitives/select.tsx` | Select 原语：R2 = A 的 string ↔ option 对象映射；`data-scui-primitive` / `data-scui-state` / `data-scui-option` 契约 |
+| `src/primitives/index.ts` | 内部 barrel；**不进 `src/index.ts`**（原语是实现细节，不是公共 API，也没有 exports 子路径） |
+| `src/primitives/primitives.test.tsx` | 11 条客户端实证（DOM 契约 / A11y / 键盘选中 / 受控与非受控 / 禁用 / getter 响应式） |
+| `src/primitives/__tests__/ssr-entry.tsx` | SSR 入口；`collect-sources` 与 `tsconfig.build.json` 都排除 `__tests__`，故不进 `dist` 与 npm 包，但过 `tsc` |
+| `spikes/shared/ssr-smoke.mjs` | 扩为「SSR 冒烟」并新增 `T2-01` 入口（4 个 marker：两个 `data-scui-primitive` + `data-scui-state` + `aria-haspopup`） |
+| `scripts/check-exports.mjs` | 新增第 6 条：`dist/types` 全域零第三方类型引用 |
+| `vitest.setup.ts` | stub `window.scrollTo`（jsdom 未实现，Kobalte 弹层会调它刷噪音） |
+
+#### 二、SSR 边界：静态骨架 + `onMount` 接管
+
+`docs/02 §8` 要求「Portal / 弹层默认客户端渲染，SSR 输出占位或空」，同时 `AGENTS.md §7` 要求组件库 SSR 可用。落地方式是**两阶段渲染**，不是「绕开 SSR」：
+
+| 阶段 | Dialog | Select |
+| --- | --- | --- |
+| 服务端 `renderToString` | 只输出触发按钮（`aria-haspopup="dialog"` + `data-scui-primitive="dialog-trigger"`），Portal 整段不求值 | 只输出触发按钮与根节点 `data-scui-state="closed"`，Portal 整段不求值 |
+| 客户端首帧 | 同上（`ready()` 仍为 `false`）⇒ 与 SSR 结构一致，无 hydration mismatch | 同上 |
+| `onMount` 之后 | `ready()` 转 `true`，Portal 装载 | 同 |
+
+为什么首帧不能直接 `!isServer`：那样客户端首次渲染就出真实弹层，`renderToString` 的骨架与首次 `render` 的结构不一致，必然 mismatch。这是 Solid 下两阶段渲染的标准做法，`useClientReady` 把它收敛成一个开关，后续 Table / Toast 复用同一条。
+
+#### 三、证伪 S-02 的一条结论（重要）
+
+S-02 的注释写「jsdom 下原语不响应 click / keydown / pointer* 的选中链路（真实浏览器才生效），因此封装层自己接管 open 键盘切换与选中回调」。T2-01 按这条结论先做了接管，结果**测试 4 条红**，追下去发现：
+
+- 栈追踪（`new Error().stack`）显示 close 来自 `HTMLButtonElement.onKeyDown → toggle() → close()`，即**原语自己响应了 ArrowDown**；
+- 我们的 handler 在事件流里比原语的 document 级委托**更早**执行（capture 更早、bubble 更晚但原语在 document capture 已处理完），于是「我们先开 → 原语 toggle 关」⇒ `aria-expanded` 恒为 false；
+- 把接管整段删掉（连 item 的 `onClick` / `onKeyDown` 一起），只保留 `value` 映射与 `optionTextValue`，**11 条测试一次全绿**。
+
+结论与处置：**原语在 jsdom 下能响应键盘与选中，接管是多余的且有害**。`select.tsx` 因此比 S-02 版本少了约 40 行；S-02 的注释作为历史记录保留不改（它属于 Phase 0 实证产物），差异记在本节与 `api-draft/Select.md`。
+
+#### 四、类型隔离判据与一次误报修正
+
+新增 `check:exports` 第 6 条：扫 `packages/core/dist/types/**/*.d.ts`，出现 `from '@kobalte/…'` / `import('@kobalte/…')` 即红灯；`dist/types` 为空也算失败（防判据空转）。现状 **35 个声明文件零第三方引用**。
+
+第一版判据用纯字符串 `includes('@kobalte/')`，立刻命中 `dist/types/primitives/types.d.ts` —— 但泄漏的是**注释文本**（JSDoc 里写着「本目录产出的 `.d.ts` 不得出现 `@kobalte/`」），不是真实 import。这是判据不够精确，改成只匹配模块引用语法（`from '...'` / `import('...')`）后通过。**没有为了讨好判据去改注释措辞** —— 注释里的约束说明是有价值的，该修的是判据。
+
+#### 五、验收输出
+
+| 项 | 结果 |
+| --- | --- |
+| 单测 | `packages/core` **71 tests / 15 files passed**（原语层 11 条），`Window's scrollTo` 噪音已随 setup stub 消除 |
+| SSR 冒烟 | `ssr-smoke.mjs` **5/5 PASS**：`T2-01 双渲一致 · 4/4 markers · 0 warning` |
+| `check:exports` | RC=0：**35 个声明文件零第三方引用** |
+| `check:accessors` | RC=0：**14 处** `MaybeAccessor<…>` 实参全非函数型（原语层新增 6 处），2 处泛型签名跳过 |
+| `check:styles` | RC=0：R1 三条判据保持（88 个 `[data-*]` 选择器全部带 `.scui-` 作用域，产物零裸属性） |
+| `check:slice` / `check:naming` / `check:public` | RC=0（原语层不在 components 切片范围内，也未进 exports） |
+| 构建 | `dist/esm/primitives/*`、`dist/source/primitives/*.jsx`、`dist/types/primitives/*.d.ts` 三产物齐全 |
+| `docs/01~07` | 零改动 |
+
+**治理同步**：`AGENTS.md §3` 补「原语层三个槽位属性」（`data-scui-primitive` / `data-scui-state` / `data-scui-option`）与其消费方式，`check:goals` 因此重校基线（只重算 `AGENTS.md` 1 项哈希 + 标记行）。
+
+**边界**：原语层**不带任何样式**（无 SCSS，不进 `dist/styles`），`class` 只做透传，视觉由上层组件的 `[data-scui-primitive='…']` 选择器接管；`ConfigProvider.portalContainer` 的解析留给上层组件，原语层固定挂 `document.body`。真实 publish 仍未授权、未发生。
+
+#### 六、一条被自己删掉的假判据
+
+第一版 SSR 冒烟给 `T2-01` 加了 `forbid`：断言 HTML 里不得出现 `data-scui-primitive="dialog-content"` / `"select-content"` 等弹层节点。逻辑上很顺 —— 服务端不该出弹层，那就断言它缺席。
+
+负向实证 N62 把它推翻了：把 `dialog.tsx` 的 `const ready = useClientReady()` 临时改成恒 `true`（等于删掉两阶段保护），`ssr-smoke` **依然 RC=0**。dump 出来的 SSR 字符串里确实一个弹层节点都没有 —— 因为 **Kobalte 的 `Portal` 在服务端构建下本身就是空操作**（`solid-js/web` 的服务端 `Portal` 不输出），所以「弹层缺席」是底层库送的，不是我们那层 `Show` 保证的。
+
+⇒ 这条判据**恒真、破坏不了**，属于假判据，已连同 `ssr-smoke.mjs` 里的 `forbid` 机制一起删除（无调用方不留代码）。
+
+**两阶段渲染仍然必要**，只是它的作用在客户端首帧而不是服务端：客户端 `Portal` 会真把内容挂到 `body`，若首帧 `ready()` 直接为 `true`，首帧 DOM 就比 SSR 骨架多出一整块弹层 ⇒ hydration mismatch。这条改由单测直接钉住：`useClientReady` 的「组件体同步读取必须为 `false`」，改动 `createSignal(false)` 即红（N63）。
+
+#### 七、负向实证 N61~N64（4/4 PASS）
+
+| 用例 | 注入 | 期望 | 实测 |
+| --- | --- | --- | --- |
+| N61 | `dist/types/primitives/types.d.ts` 追加 `import('@kobalte/core/dialog').DialogRootProps` | `check:exports` RC=1 | ✅ 精确报 `引用第三方类型 @kobalte/` |
+| N62 | `dialog.tsx` 的 `ready` 改恒 `true`（删掉两阶段保护） | `ssr-smoke` RC=0 —— **记录 forbid 判据恒真** | ✅ RC=0，据此删除该判据 |
+| N63 | `use-client-ready.ts` 的 `createSignal(false)` 改 `true` | `vitest src/primitives` RC=1 | ✅ 首帧断言红灯 |
+| N64 | `select.tsx` 删掉 `data-scui-primitive="select-trigger"` | `ssr-smoke` RC=1 | ✅ 缺 marker 红灯 |
+| 还原 | 四处 `cp` 字节级还原 | 全绿 | ✅ `check:exports` / `ssr-smoke` / `vitest` 三者 RC=0，`DRIFT []` |
+
+脚本 `/tmp/neg_t201.py`（每例重新备份当前字节 + `finally` 还原 + 结尾 sha256 比对）。

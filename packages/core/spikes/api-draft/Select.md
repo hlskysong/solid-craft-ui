@@ -55,6 +55,7 @@ Kobalte 自身输出 `data-expanded` / `data-closed` / `aria-expanded` / `role="
 - 选中触发 `onChange(value)`；禁用项与重复值不触发（`value === currentValue()` 去重）。
 - **R2 = A（2026-11-11 裁决）**：对外只暴露字符串 `value` / `onChange(value)`，封装层用 `selected()` memo 映射 Kobalte 的 option 对象；公共 API 不泄漏第三方数据结构。
 - 外部传 `value` 时以外部为准，回调仍发出，由业务决定是否更新。
+- **T2-01 复查修正（2026-11-11，见 `docs/08 §30.16`）**：S-02 当时推断「jsdom 下原语不响应交互，需封装层接管键盘与选中」，T2-01 实测**证伪** —— 原语自身会响应 `ArrowDown` 打开、选项 `Enter` 选中；封装层接管反而与原语状态机双重 toggle（我们先打开、随即被原语 `toggle()` 关掉，`aria-expanded` 恒为 false）。因此正式原语层（`src/primitives/select.tsx`）**不接管键盘与选中**，只保留 `value` 的 string ↔ option 映射与 `optionTextValue`。`s02-kobalte/s02.test.tsx` 的 5 例作为历史实证保留不改。
 
 ## 8. 实证清单
 
