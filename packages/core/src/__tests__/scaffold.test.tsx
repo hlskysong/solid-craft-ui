@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { CSS_PREFIX, UI_SCOPE, classNames } from '../index';
 
 function Hello() {
-  return <p data-scope={UI_SCOPE}>scaffold-ok</p>;
+  return <p data-scui-scope={UI_SCOPE}>scaffold-ok</p>;
 }
 
 describe('workspace scaffold', () => {
@@ -11,7 +11,7 @@ describe('workspace scaffold', () => {
     render(() => <Hello />);
     const node = screen.getByText('scaffold-ok');
     expect(node).toBeInTheDocument();
-    expect(node.getAttribute('data-scope')).toBe(UI_SCOPE);
+    expect(node.getAttribute('data-scui-scope')).toBe(UI_SCOPE);
     expect(UI_SCOPE).toBe('solid-craft');
   });
 

@@ -31,12 +31,12 @@ export function Button(props: ButtonProps) {
       {...rest}
       type={local.htmlType ?? 'button'}
       class={classNames(`${CSS_PREFIX}button`, local.class)}
-      data-size={size()}
-      data-variant={variant()}
-      data-color={color()}
-      data-shape={shape()}
-      data-block={local.block ? 'true' : undefined}
-      data-loading={local.loading ? 'true' : undefined}
+      data-scui-size={size()}
+      data-scui-variant={variant()}
+      data-scui-color={color()}
+      data-scui-shape={shape()}
+      data-scui-block={local.block ? 'true' : undefined}
+      data-scui-loading={local.loading ? 'true' : undefined}
       disabled={disabled()}
       aria-busy={local.loading ? 'true' : undefined}
       onClick={(event) => {

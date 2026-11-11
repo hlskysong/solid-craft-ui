@@ -11,7 +11,7 @@ export function Layout(props: LayoutProps) {
     <div
       {...rest}
       class={classNames(`${CSS_PREFIX}layout`, local.class)}
-      data-has-sider={local.hasSider ? 'true' : 'false'}
+      data-scui-has-sider={local.hasSider ? 'true' : 'false'}
     >
       {local.children}
     </div>
@@ -74,8 +74,8 @@ export function Sider(props: SiderProps) {
     <aside
       {...rest}
       class={classNames(`${CSS_PREFIX}layout__sider`, local.class)}
-      data-collapsed={collapsed() ? 'true' : 'false'}
-      data-collapsible={local.collapsible ? 'true' : 'false'}
+      data-scui-collapsed={collapsed() ? 'true' : 'false'}
+      data-scui-collapsible={local.collapsible ? 'true' : 'false'}
       style={{ '--scui-sider-width': `${siderWidth()}px` }}
     >
       {local.children}

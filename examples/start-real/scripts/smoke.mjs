@@ -72,7 +72,7 @@ assert(html.includes('<html'), '返回完整 HTML 文档');
 assert(html.includes('id="app"'), '存在 #app 挂载容器');
 assert(html.includes('真实 SolidStart SSR'), '路由页面内容已服务端渲染');
 assert(html.includes('scui-button'), 'Button 组件类名出现在 SSR HTML');
-assert(html.includes('data-variant'), 'Button 的 data-* 状态属性正确输出');
+assert(html.includes('data-scui-variant'), 'Button 的 data-scui-* 状态属性正确输出');
 assert(html.includes('data-testid="stable-id"'), 'createUniqueId 确定性 ID 输出');
 assert(html.includes('data-hk'), 'HTML 含 data-hk（"solid" 源码产物 + hydratable 编译）');
 assert(html.includes('entry-client'), 'HTML 引用客户端 bundle');
@@ -108,7 +108,7 @@ const clientJs = existsSync(clientAssetsDir)
       .map((name) => readFileSync(path.join(clientAssetsDir, name), 'utf8'))
       .join('\n')
   : '';
-assert(clientJs.includes('data-variant'), '客户端 bundle 含组件逻辑（可 hydrate）');
+assert(clientJs.includes('data-scui-variant'), '客户端 bundle 含组件逻辑（可 hydrate）');
 
 assert(warnings.length === 0, `SSR 阶段 0 console warning/error（实际 ${warnings.length}）`);
 for (const warning of warnings) console.error(`    CONSOLE ${warning}`);

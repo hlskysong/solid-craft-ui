@@ -13,7 +13,7 @@ describe('Icon', () => {
     ));
 
     const icon = screen.getByTestId('icon');
-    expect(icon).toHaveAttribute('data-size', 'medium');
+    expect(icon).toHaveAttribute('data-scui-size', 'medium');
     expect(icon).toHaveAttribute('aria-hidden', 'true');
     expect(icon).not.toHaveAttribute('role');
   });
@@ -26,8 +26,8 @@ describe('Icon', () => {
     ));
 
     const icon = screen.getByTestId('icon');
-    expect(icon).toHaveAttribute('data-size', 'large');
-    expect(icon).toHaveAttribute('data-tone', 'danger');
+    expect(icon).toHaveAttribute('data-scui-size', 'large');
+    expect(icon).toHaveAttribute('data-scui-tone', 'danger');
   });
 
   it('exposes spin state and an accessible name when label is provided', () => {
@@ -38,7 +38,7 @@ describe('Icon', () => {
     ));
 
     const icon = screen.getByRole('img', { name: '加载中' });
-    expect(icon).toHaveAttribute('data-spin', 'true');
+    expect(icon).toHaveAttribute('data-scui-spin', 'true');
     expect(icon).toHaveAttribute('aria-label', '加载中');
   });
 });

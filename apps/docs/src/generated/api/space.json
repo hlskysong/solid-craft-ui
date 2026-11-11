@@ -10,7 +10,7 @@
           "name": "direction",
           "type": "'horizontal' | 'vertical'",
           "optional": true,
-          "description": "排列方向。",
+          "description": "排列方向，写入 DOM 属性 `data-scui-orientation`。",
           "default": "'horizontal'"
         },
         {

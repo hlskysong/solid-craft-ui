@@ -637,7 +637,7 @@ import { /* 导出符号 */ } from 'solid-craft/space';
 
 | 属性 | 类型 | 默认值 | 说明 | 必填 |
 | --- | --- | --- | --- | --- |
-| `direction` | `'horizontal' \| 'vertical'` | `'horizontal'` | 排列方向。 | 否 |
+| `direction` | `'horizontal' \| 'vertical'` | `'horizontal'` | 排列方向，写入 DOM 属性 `data-scui-orientation`。 | 否 |
 | `size` | `'small' \| 'medium' \| 'large'` | `'medium'` | 间距尺寸。 | 否 |
 | `wrap` | `boolean` | `false` | 是否换行。 | 否 |
 | `align` | `'start' \| 'center' \| 'end' \| 'baseline'` | `undefined` | 交叉轴对齐方式。 | 否 |
@@ -655,7 +655,7 @@ import type { JSX } from 'solid-js';
 
 export interface SpaceProps {
   /**
-   * 排列方向。
+   * 排列方向，写入 DOM 属性 `data-scui-orientation`。
    * @default 'horizontal'
    */
   direction?: 'horizontal' | 'vertical';

@@ -17,7 +17,7 @@ describe('Layout', () => {
     const root = container.firstElementChild;
     expect(root).not.toBeNull();
     expect(root).toHaveClass('scui-layout');
-    expect(root).toHaveAttribute('data-has-sider', 'false');
+    expect(root).toHaveAttribute('data-scui-has-sider', 'false');
 
     expect(screen.getByRole('banner')).toHaveClass('scui-layout__header');
     expect(screen.getByRole('main')).toHaveClass('scui-layout__content');
@@ -34,7 +34,7 @@ describe('Layout', () => {
 
     const root = container.firstElementChild;
     expect(root).not.toBeNull();
-    expect(root).toHaveAttribute('data-has-sider', 'true');
+    expect(root).toHaveAttribute('data-scui-has-sider', 'true');
   });
 
   it('uses the default sider width and expanded state', () => {
@@ -45,8 +45,8 @@ describe('Layout', () => {
     ));
 
     const sider = screen.getByRole('complementary');
-    expect(sider).toHaveAttribute('data-collapsed', 'false');
-    expect(sider).toHaveAttribute('data-collapsible', 'false');
+    expect(sider).toHaveAttribute('data-scui-collapsed', 'false');
+    expect(sider).toHaveAttribute('data-scui-collapsible', 'false');
     expect(sider.getAttribute('style')).toMatch(/--scui-sider-width:\s*200px/);
   });
 
@@ -63,13 +63,13 @@ describe('Layout', () => {
     const trigger = screen.getByRole('button', { name: '切换侧边栏' });
 
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    expect(sider).toHaveAttribute('data-collapsed', 'false');
+    expect(sider).toHaveAttribute('data-scui-collapsed', 'false');
 
     fireEvent.click(trigger);
 
     expect(onCollapse).toHaveBeenCalledWith(true);
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
-    expect(sider).toHaveAttribute('data-collapsed', 'true');
+    expect(sider).toHaveAttribute('data-scui-collapsed', 'true');
     expect(sider.getAttribute('style')).toMatch(/--scui-sider-width:\s*64px/);
   });
 
@@ -85,11 +85,11 @@ describe('Layout', () => {
     const sider = screen.getByRole('complementary');
     const trigger = screen.getByRole('button', { name: '切换侧边栏' });
 
-    expect(sider).toHaveAttribute('data-collapsed', 'true');
+    expect(sider).toHaveAttribute('data-scui-collapsed', 'true');
 
     fireEvent.click(trigger);
 
-    expect(sider).toHaveAttribute('data-collapsed', 'true');
+    expect(sider).toHaveAttribute('data-scui-collapsed', 'true');
     expect(onCollapse).toHaveBeenCalledWith(false);
   });
 });

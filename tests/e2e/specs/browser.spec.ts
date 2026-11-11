@@ -73,9 +73,9 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
       (element) => getComputedStyle(element).backgroundColor,
     );
     expect(background).toBe('rgb(45, 102, 245)');
-    await expect(button).toHaveAttribute('data-color', 'primary');
-    await expect(button).toHaveAttribute('data-variant', 'solid');
-    await expect(button).toHaveAttribute('data-size', 'medium');
+    await expect(button).toHaveAttribute('data-scui-color', 'primary');
+    await expect(button).toHaveAttribute('data-scui-variant', 'solid');
+    await expect(button).toHaveAttribute('data-scui-size', 'medium');
 
     const primary = await page.evaluate(() =>
       getComputedStyle(document.documentElement).getPropertyValue('--scui-color-primary').trim(),

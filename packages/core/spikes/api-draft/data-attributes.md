@@ -41,7 +41,7 @@
 
 ## 与已发布组件的一致性（2026-11-11 已裁决，不再是待决分歧）
 
-现有 7 个基础组件使用 `data-variant` / `data-size` / `data-color` / `data-loading` 等**裸属性**；
+迁移**前**，现有 7 个基础组件使用 `data-variant` / `data-size` / `data-color` / `data-loading` 等**裸属性**；
 `packages/core/src` 实测 32 种裸属性 / 221 处 / 25 个文件，带 `scui-` 前缀的仅 3 种 / 22 处，属混用状态。
 
 **Aming 于 2026-11-11 裁决 R1 = B**：正式实现时全量切到 `data-scui-*`，并把 **CSS 作用域并入裁决** ——
@@ -50,4 +50,30 @@
 
 **例外（不切）**：`data-testid`（测试锚点，行业通用）与 Solid 的 `data-hk`（hydration key，第三方产物）。
 B 只保护组件库自有属性，Kobalte 原语层的裸属性改不了，因此必须同时落实 `.scui-` 作用域才算闭环。
-本表即统一口径真源；`check:llms` 与视觉基线在正式切换时需同步重生成（见 `docs/08 §30.11` 修改要求 ①）。
+本表即统一口径真源。
+
+## 迁移完成（2026-11-11，§30.11 修改要求 ① 已落实，见 `docs/08 §30.12`）
+
+**R1 = B 已全量落地**：`packages/core/src` 的 **31 种裸属性**（`data-testid` 白名单除外）
+共 **205 处** + `tests/e2e/specs/browser.spec.ts` **3 处** = **208 处 / 23 个文件** 已切到
+`data-scui-*`；迁移后 src 内 `data-scui-*` 共 33 种 / 227 处，**零裸属性残留**。
+
+**迁移方式**：1:1 改名，不做语义合并。`Divider` 保持 `data-scui-orientation`、`Space` 当时保持
+`data-scui-direction`、`ConfigProvider` 根节点也是 `data-scui-direction`（ltr/rtl）——三者
+`.scui-` 类作用域不同，CSS 不会互相命中；但消费端若直接写 `[data-scui-direction]` 查询，
+语义存在歧义，列为后续可选项，当时的 R1 命名授权边界不覆盖它。
+
+**补充裁决（2026-11-11，紧随 R1 落地）**：上述可选项已执行 —— `Space` 的 `data-scui-direction`
+改为 **`data-scui-orientation`**（与 `Divider` 对齐，值域同为 `horizontal` / `vertical`）。
+自此 `data-scui-direction` **只表示书写方向**（`ConfigProvider` 的 `ltr` / `rtl`，
+与 CSS `direction` 属性同义），消费端写 `[data-scui-direction]` 不再有歧义。
+`SpaceProps.direction` **属性名不变**（写法仍是 `<Space direction="vertical">`），仅 DOM 属性改名，
+因此对使用方零破坏。改动落在 `Space.tsx` / `space.scss` / `Space.test.tsx`，并在 `Space.test.tsx`
+新增「不得复用 `data-scui-direction`」的回归断言，防止后续又合并回去。
+
+**CSS 作用域**：88 个 `[data-*]` 选择器全部经 `:where(.scui-*)` 父块或 `&` 嵌套解析后带类作用域，
+由 `check:styles` 第 4 层判据（含 `&` 与 `@media` 嵌套解析）守住，不再靠人肉检查。
+
+**验证**：`pnpm verify` 25 阶段 RC=0；视觉基线 **16/16 零差异**（未重生成基线文件，证明改名对渲染中性）；
+`pnpm test` / `pnpm typecheck` RC=0；门禁负向实证 5/5（裸属性 / 去作用域 / 退回旧名 / 产物回流 全部红灯，
+`data-testid` 正向对照保持绿）。

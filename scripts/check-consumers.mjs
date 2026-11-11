@@ -59,13 +59,16 @@ for (const target of targets) {
       'resolved.json 含 button 子路径源码（目标组件已进入产物）',
       sourceFiles.some((file) => file.includes('dist/source/components/button/')),
     ],
-    ['JS 含 data-variant 状态属性（Button 渲染逻辑未被摇掉）', js.includes('data-variant')],
+    [
+      'JS 含 data-scui-variant 状态属性（Button 渲染逻辑未被摇掉）',
+      js.includes('data-scui-variant'),
+    ],
     [
       `tree-shaking：未引用的 ${unusedComponentDirs.length} 个组件模块均未纳入`,
       extraComponentFiles.length === 0,
     ],
     ['CSS 产物存在', cssFiles.length > 0],
-    ['CSS 含 data-variant 状态选择器', css.includes('data-variant')],
+    ['CSS 含 data-scui-variant 状态选择器', css.includes('data-scui-variant')],
     ['CSS 含 .scui-button 组件样式', css.includes('.scui-button')],
     ['CSS 含 token 变量引用', /var\(--scui-/.test(css)],
     [

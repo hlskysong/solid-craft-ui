@@ -6,7 +6,7 @@
   min-block-size: 100%;
 }
 
-:where(.scui-layout)[data-has-sider='true'] {
+:where(.scui-layout)[data-scui-has-sider='true'] {
   flex-direction: row;
 }
 
@@ -43,7 +43,7 @@
   transition: inline-size var(--scui-motion-duration-fast) var(--scui-motion-ease);
 }
 
-:where(.scui-layout__sider)[data-collapsed='true'] {
+:where(.scui-layout__sider)[data-scui-collapsed='true'] {
   overflow: hidden;
 }
 

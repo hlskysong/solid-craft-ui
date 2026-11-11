@@ -11,9 +11,9 @@ export function Icon(props: IconProps) {
     <span
       {...rest}
       class={classNames(`${CSS_PREFIX}icon`, local.class)}
-      data-size={local.size ?? 'medium'}
-      data-tone={local.tone}
-      data-spin={local.spin ? 'true' : undefined}
+      data-scui-size={local.size ?? 'medium'}
+      data-scui-tone={local.tone}
+      data-scui-spin={local.spin ? 'true' : undefined}
       role={local.label ? 'img' : undefined}
       aria-label={local.label}
       aria-hidden={local.label ? undefined : 'true'}

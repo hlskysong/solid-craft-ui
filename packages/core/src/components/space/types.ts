@@ -2,7 +2,7 @@ import type { JSX } from 'solid-js';
 
 export interface SpaceProps {
   /**
-   * 排列方向。
+   * 排列方向，写入 DOM 属性 `data-scui-orientation`。
    * @default 'horizontal'
    */
   direction?: 'horizontal' | 'vertical';

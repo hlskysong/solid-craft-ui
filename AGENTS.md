@@ -2,7 +2,7 @@
 
 > 供 AI 编码代理（opencode / WorkBuddy）读取。**规范全文见 `docs/01~07`（v0.3）**，本文件只列执行时必须遵守的硬约束与落盘清单；冲突时以 `docs/01~07` 为准。
 > 本文件对应实施清单 `docs/08-实施Todo.md` 的 T0-01 / T0-02。
-> 目标基线 SHA256: 36e4a1147b6127ff2ee6a31991aa019f16a0a94048d2c41a696023484d3814c4
+> 目标基线 SHA256: 0db3bf5a6301cab649be541baafe6df070841c3337f773fd4cfdac99e3cc421f
 
 ## 1. 运行环境
 
@@ -46,7 +46,7 @@ ui-design/
 
 1. **正式名单点定义**（D-01，Aming 2026-11-08 定名）：`scripts/scope.mjs` 的 `REPO_NAME='solid-craft-ui'` / `PACKAGE_BASE='solid-craft'` / `PACKAGE_NAMES` / `CSS_PREFIX='scui-'` 是唯一来源；`packages/core/src/scope.ts` 导出运行时常量，`scripts/check-exports.mjs` 与 `scripts/check-naming.mjs` 强制校验所有 `package.json` 名称与前缀派生一致。主包 `solid-craft`、兄弟包 `solid-craft-icons` / `solid-craft-tokens`（**无 npm scope**）。组件根节点类名用 `` `${CSS_PREFIX}button` `` 之类拼装，CSS 变量 `--scui-*`、配置属性 `data-scui-*` 均由前缀派生，**不要硬编码第二套前缀**。D-10 ① 的仓库地址同样在此单点定义（`REPO_GIT_URL` / `REPO_WEB_URL` / `REPO_BUGS_URL`），4 个 `package.json` 由 `check:release` 校验同源；D-10 ② 的 npm 账号为 `NPM_OWNER='hlskysong'`（与 `REPO_OWNER` 语义独立，勿合并），由 `check-release` 第 8 条校验与 `docs/08` 的 D-10 行双向咬合。发布包 author 由 `AUTHOR_NAME` / `AUTHOR_EMAIL` / `AUTHOR` 单点定义（Aming 2026-11-09 指定留本人邮箱 `hlsky@foxmail.com`，不用 GitHub 用户名），`check-release` 第 9 条校验 3 个发布包同源。
 2. **响应式契约**：props 一律传值或 getter，由组件内部 `props.xxx` / `splitProps` 读取；**禁止解构 props**（`noSolidDestructuredProps`）。派生状态用 `createMemo`，字段级更新不整表重渲染。
-3. **状态只用 `data-*`**：变体 / 尺寸 / 颜色 / 形状 / 加载 / block 一律 `data-variant` / `data-size` / `data-color` / `data-shape` / `data-loading` / `data-block`；**不生成 `scui-button--sm` 之类 modifier class**，SCSS 只认 `[data-*]` 选择器。
+3. **状态用 `data-scui-*`，一个属性名只表达一个语义**（R1 = B，Aming 2026-11-11 裁决并已全量迁移；实现与门禁记录见 `docs/08 §30.12`）：组件自有状态一律 `data-scui-<语义>` —— 变体 / 尺寸 / 颜色 / 形状 / 加载 / block 用 `data-scui-variant` / `-size` / `-color` / `-shape` / `-loading` / `-block`；布局用 `-orientation` / `-align` / `-justify` / `-wrap` / `-gutter` / `-span` / `-offset` / `-collapsed`；文本用 `-type` / `-tone` / `-level` / `-bold` / `-underline` / `-mark` / `-code` / `-delete` / `-ellipsis`；主题用 `-theme` / `-density` / `-direction`。**同名不同义属违规**：`data-scui-direction` 只表示书写方向（`ltr` / `rtl`，与 CSS `direction` 同义，由 `ConfigProvider` 写在根节点），排列方向一律 `data-scui-orientation`（`horizontal` / `vertical`，`Divider` / `Space` 共用；`SpaceProps.direction` 属性名不改，只落成 `data-scui-orientation`）。**例外只有 `data-testid`（测试锚点，当前 16 处）与 `data-hk`（Solid hydration key，组件代码内不出现）**。**不生成 `scui-button--sm` 之类 modifier class**（现有类名只有块 `scui-button` 与元素 `scui-button__icon`）；SCSS 的状态选择器只认 `[data-scui-*]`，且每个 `[data-*]` 选择器解析后必须被 `.scui-` 静态类作用域覆盖（`:where(.scui-*)` 父块或 `&` 嵌套后命中）。`scripts/check-styles.mjs` 用「前缀同源自检 + 3 条判据」拦下三类破坏：4a `src` 内零裸 `data-*`（白名单除外）、4b 选择器必须带 `.scui-` 作用域且属性名必须是 `data-scui-*`、4c `dist/styles` 产物零裸属性回流；另有组件层判据「SCSS 用到的每个 `data-<attr>` 必须在同目录 `*.tsx` 里输出」，所以改名必须源码与样式两端同步。改名或新增属性时扫描根必须覆盖 `packages/core/src`、`tests/`、`scripts/`、`examples/**/scripts/`——后两者把属性字符串当「组件渲染逻辑有没有被 tree-shaking 摇掉」的冒烟锚点，漏改会让 `smoke:consumers` / `smoke:start-real` 假红。`docs/01~07` 冻结正文的代码示例仍写旧裸属性名（§15 一个字节不许改），这是规范遗留差异，本条硬约束按 R1 执行。
 4. **size 唯一口径**：`small | medium | large`（默认 `medium`）；不存在 `md` / `sm`。
 5. **Button 默认 `color='primary'`**（ADR-019 / Q16），默认 `variant='solid'`；`neutral` 需显式传入。原生 `type` 默认 `button`，`loading` 时 `disabled` + `aria-busy`。
 6. **组件源码不 import SCSS**：样式由 `scripts/build-css.mjs` 独立产出到 `dist/styles/`，CSS 由消费方显式引入。

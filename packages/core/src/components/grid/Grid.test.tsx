@@ -15,8 +15,8 @@ describe('Grid', () => {
     const row = screen.getByText('行内容').parentElement;
     expect(row).not.toBeNull();
     expect(row).toHaveClass('scui-row');
-    expect(row).toHaveAttribute('data-gutter', 'medium');
-    expect(row).toHaveAttribute('data-wrap', 'true');
+    expect(row).toHaveAttribute('data-scui-gutter', 'medium');
+    expect(row).toHaveAttribute('data-scui-wrap', 'true');
   });
 
   it('renders span and offset through data attributes and custom properties', () => {
@@ -31,8 +31,8 @@ describe('Grid', () => {
     const col = screen.getByText('栅格内容').parentElement;
     expect(col).not.toBeNull();
     expect(col).toHaveClass('scui-col');
-    expect(col).toHaveAttribute('data-span', '12');
-    expect(col).toHaveAttribute('data-offset', '6');
+    expect(col).toHaveAttribute('data-scui-span', '12');
+    expect(col).toHaveAttribute('data-scui-offset', '6');
 
     const style = col?.getAttribute('style') ?? '';
     expect(style).toMatch(/--scui-col-span:\s*12/);
@@ -91,9 +91,9 @@ describe('Grid', () => {
     const upper = screen.getByText('超上界').parentElement;
     const lower = screen.getByText('超下界').parentElement;
 
-    expect(upper).toHaveAttribute('data-span', '24');
+    expect(upper).toHaveAttribute('data-scui-span', '24');
     expect(upper?.getAttribute('style')).toMatch(/--scui-col-span:\s*24/);
-    expect(lower).toHaveAttribute('data-span', '1');
+    expect(lower).toHaveAttribute('data-scui-span', '1');
     expect(lower?.getAttribute('style')).toMatch(/--scui-col-span:\s*1/);
   });
 });

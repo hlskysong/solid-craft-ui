@@ -31,10 +31,10 @@ export function Row(props: RowProps) {
     <div
       {...rest}
       class={classNames(`${CSS_PREFIX}row`, local.class)}
-      data-gutter={local.gutter ?? 'medium'}
-      data-align={local.align}
-      data-justify={local.justify}
-      data-wrap={(local.wrap ?? true) ? 'true' : 'false'}
+      data-scui-gutter={local.gutter ?? 'medium'}
+      data-scui-align={local.align}
+      data-scui-justify={local.justify}
+      data-scui-wrap={(local.wrap ?? true) ? 'true' : 'false'}
     >
       {local.children}
     </div>
@@ -77,8 +77,8 @@ export function Col(props: ColProps) {
     <div
       {...rest}
       class={classNames(`${CSS_PREFIX}col`, local.class)}
-      data-span={String(clampSpan(local.span))}
-      data-offset={String(clampOffset(local.offset))}
+      data-scui-span={String(clampSpan(local.span))}
+      data-scui-offset={String(clampOffset(local.offset))}
       style={colStyle()}
     >
       {local.children}

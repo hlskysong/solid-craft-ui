@@ -7,8 +7,8 @@ describe('Button', () => {
     render(() => <Button>默认按钮</Button>);
 
     const button = screen.getByRole('button', { name: '默认按钮' });
-    expect(button).toHaveAttribute('data-color', 'primary');
-    expect(button).toHaveAttribute('data-size', 'medium');
+    expect(button).toHaveAttribute('data-scui-color', 'primary');
+    expect(button).toHaveAttribute('data-scui-size', 'medium');
     expect(button).toHaveAttribute('type', 'button');
   });
 
@@ -20,9 +20,9 @@ describe('Button', () => {
     ));
 
     const button = screen.getByRole('button', { name: '中性按钮' });
-    expect(button).toHaveAttribute('data-color', 'neutral');
-    expect(button).toHaveAttribute('data-size', 'large');
-    expect(button).toHaveAttribute('data-variant', 'outline');
+    expect(button).toHaveAttribute('data-scui-color', 'neutral');
+    expect(button).toHaveAttribute('data-scui-size', 'large');
+    expect(button).toHaveAttribute('data-scui-variant', 'outline');
   });
 
   it('is disabled and busy while loading, and does not fire onClick', () => {

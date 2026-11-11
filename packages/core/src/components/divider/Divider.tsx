@@ -14,10 +14,10 @@ export function Divider(props: DividerProps) {
       class={classNames(`${CSS_PREFIX}divider`, local.class)}
       role="separator"
       aria-orientation={orientation()}
-      data-orientation={orientation()}
-      data-dashed={local.dashed ? 'true' : undefined}
-      data-plain={local.plain ? 'true' : undefined}
-      data-has-text={local.children ? 'true' : undefined}
+      data-scui-orientation={orientation()}
+      data-scui-dashed={local.dashed ? 'true' : undefined}
+      data-scui-plain={local.plain ? 'true' : undefined}
+      data-scui-has-text={local.children ? 'true' : undefined}
     >
       <Show when={local.children}>
         <span class={`${CSS_PREFIX}divider__text`}>{local.children}</span>

@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M1 Exit 已于 2026-11-11 闭合**（T0-03 评审签字 → T0-04 → T1-13 全部 `[x]`，38/38 任务完成，见 §30.11）；方案 C 四个 Phase 0 Spike 可行性实证（§30.10）与 T0-04 依赖列「全部 Spike」均已闭合，例外 0/0；下一阶段为 M2 复杂组件正式实现，须先落实 R1~R5 的 4 条修改要求并复查一轮；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M1 Exit 已于 2026-11-11 闭合**（T0-03 评审签字 → T0-04 → T1-13 全部 `[x]`，38/38 任务完成，见 §30.11）；方案 C 四个 Phase 0 Spike 可行性实证（§30.10）与 T0-04 依赖列「全部 Spike」均已闭合，例外 0/0；下一阶段为 M2 复杂组件正式实现；R1~R5 的 4 条修改要求中 **① R1 已于 2026-11-11 落实（§30.12）**，②③④ 已随 §30.11 落盘，剩复查一轮；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 15 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
 | 当前任务 ID | T1-13（M1 Exit 已于 2026-11-11 闭合，见 §30.11；38/38 任务全勾，下一阶段转 M2 复杂组件正式实现）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；C09 复审 `partial`、C14 复审 `pass`；CI Full gate 由 run `42938773154`（757dae4）4/4 全绿复验 |
-| 下一步 | **M2 复杂组件正式实现开工前，先落实并复查 R1~R5 的 4 条修改要求**（§30.11）：① R1 全量切 `data-scui-*` + `.scui-` CSS 作用域（32 种裸属性 / 约 103 处选择器，同步 `llms` 与视觉基线）；② R3 函数类型禁用约束（已写入 `resolve-value.ts`）；③ R4 Table client-only 边界（已标注 `Table.md`）；④ R5 RangePicker M1 内正式实现（已标注 `DatePicker.md`）。✅ T0-03 已由 Aming 签字、M1 Exit 已闭合（§30.11）；✅ CI run `42938773154` 4/4 全绿；⚠️ 真实 publish 未授权、未发生，npm trusted publisher 配置与首包发布仍是人工前置 |
+| 下一步 | **M2 复杂组件正式实现开工前，先落实并复查 R1~R5 的 4 条修改要求**（§30.11）：✅ ① R1 全量切 `data-scui-*` + `.scui-` CSS 作用域（**已于 2026-11-11 落实：31 种裸属性 / 208 处 / 23 文件，88 个选择器全带类作用域，视觉基线 16/16 零差异，`llms` 生成物零变化、无需重生成视觉基线**，见 §30.12）；② R3 函数类型禁用约束（已写入 `resolve-value.ts`）；③ R4 Table client-only 边界（已标注 `Table.md`）；④ R5 RangePicker M1 内正式实现（已标注 `DatePicker.md`）。✅ T0-03 已由 Aming 签字、M1 Exit 已闭合（§30.11）；✅ CI run `42938773154` 4/4 全绿；⚠️ 真实 publish 未授权、未发生，npm trusted publisher 配置与首包发布仍是人工前置 |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）** |
 
 ---
@@ -2000,3 +2000,60 @@ T0-04 的验收列是「14 项全通过；未通过项有替代方案与决策�
 **验收输出**：`pnpm verify RC=0` / 25 阶段全绿；`check:goals` 15 哈希一致；`check:todo` 38 个 `[x]` 全有证据；`check:decisions` / `check:ci` / `check:public` / `check:naming` / `check:slice` / `check:llms` 全 RC=0；签字态负向实证逐条精确红灯、字节级还原。
 
 **边界**：真实 publish 未授权、未发生；无 git tag；`.changeset/` 仅 `config.json`；npm trusted publisher 配置与首包发布仍是人工前置。提交 / 推送按 `AGENTS.md §13` 须 Aming 逐次授权（本节记录的是 R1~R5 裁决、评审签字与 M1 Exit 闭合的产物与边界，与是否提交无关）；真实 publish 始终未授权、未发生。
+
+### 30.12 R1 全量切 data-scui-* 与 .scui- 作用域门禁落地实测（2026-11-11）
+
+**结论先行**：按 `REVIEW.md` 第 9 节「R1 = B」裁决，`packages/core/src` 的 **31 种裸 `data-*`**（白名单 `data-testid` 除外）已全量切到 `data-scui-*`，共改写 **208 处 / 23 个文件**；`check:styles` 新增第 4 层判据，把「src 零裸属性 + 选择器全量 `.scui-` 作用域 + 产物零裸属性回流」变成机器闸门。**视觉基线 16/16 零差异且未重生成基线文件**，证明改名对渲染完全中性。
+
+**迁移口径**
+
+| 项 | 内容 |
+| --- | --- |
+| 切（31 种 / 216 处） | ① `packages/core/src` 205 处；② `tests/e2e/specs/browser.spec.ts` 3 处；③ **断言脚本 8 处**（`scripts/check-consumers.mjs` 2、`examples/start-real/scripts/smoke.mjs` 2、`examples/solid-start/scripts/smoke.mjs` 4——这三处是消费端 tree-shaking / SSR 冒烟用来判断「Button 渲染逻辑没被摇掉」的字符串锚点，改名后必须同步，否则 `smoke:consumers` 与 `smoke:start-real` 会假红）；例：`data-size` → `data-scui-size`、`data-has-text` → `data-scui-has-text` |
+| 不切 | `data-testid`（src 16 处，行业通用测试锚点）、`data-hk`（Solid hydration key，src 内不出现） |
+| 不碰 | `apps/docs` 站点自有锚点（`data-demo` / `data-api` / `data-prop` / `data-copied` / `data-component` / `data-demo-card` / `data-design`）；spikes 文档里描述的 Kobalte 原生属性（`data-selected` / `data-expanded` / `data-highlighted` / `data-closed` / `data-disabled`） |
+| 迁移后 | src 内 `data-scui-*` 共 **33 种 / 227 处**，裸属性残留 **0** |
+| 方式 | 1:1 改名，不做语义合并（`Divider` 仍 `data-scui-orientation`、`ConfigProvider` 根节点仍 `data-scui-direction` ltr/rtl；当时 `Space` 也落在 `data-scui-direction`，类作用域不同不会互相命中，但消费端按属性查询存在语义歧义 —— 该项歧义随后已执行改名，见下方「补充改名」） |
+
+**补充改名（同日，R1 落地后紧接着执行）**：`Space` 的 `data-scui-direction` 改为 **`data-scui-orientation`**，与 `Divider` 对齐（值域同为 `horizontal` / `vertical`）。自此 **`data-scui-direction` 只表示书写方向**（`ConfigProvider` 的 `ltr` / `rtl`，与 CSS `direction` 同义），消费端写 `[data-scui-direction]` 不再有歧义。`SpaceProps.direction` **属性名不变**（写法仍是 `<Space direction="vertical">`），只有 DOM 属性改名，对使用方零破坏；属性种类数不变（`data-scui-direction` 仍由 `ConfigProvider` 使用、`data-scui-orientation` 本就由 `Divider` 使用）。
+
+改动落在 `Space.tsx`（1 处）、`space.scss`（2 个选择器）、`Space.test.tsx`（2 处断言改写 + **新增 1 条回归断言**：`Space` 不得再输出 `data-scui-direction`，防止后续把两者合并回去）、`types.ts`（`direction` 的 JSDoc 补注「写入 DOM 属性 `data-scui-orientation`」，随 `docs:generate` 进 API 表与 llms 产物）、本表与 `spikes/api-draft/data-attributes.md` 口径同步。**未改**：`ConfigProvider` 的 `data-scui-direction`（ltr/rtl 语义正确）、`docs/01~07` 冻结规范、`pnpm-lock.yaml`。
+
+**补充改名的验收与负向实证**
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0**，25 阶段全绿（含 `check:docs` / `check:llms` 生成物同步、`check:styles` 第 4 层、`size`、`check:platforms`、`check:ci`、`publint` / `attw`、4 条 smoke） |
+| 单元测试 | `packages/core` **60 passed / 14 files**，其中 `Space` 5 条（4 条原有 + 1 条新增回归断言） |
+| 视觉基线 | **16/16 零差异**（含 space @1280 与 @768），**未重生成基线文件** ⇒ 改名对渲染完全中性 |
+| 产物核对 | `dist/source/components/space/Space.jsx` 与 `dist/styles/components/space.css` 只出现 `data-scui-orientation`；`dist/source/config-provider/ConfigProvider.jsx` 只出现 `data-scui-direction` |
+| N56 | `Space.tsx` 退回 `data-scui-direction` → **RC=1**，`Space > does not reuse data-scui-direction reserved for writing direction` 精确红灯（连同 2 条 orientation 断言共 3 failed） |
+| N57 | `space.scss` 两个选择器不同步改回 `data-scui-direction`（组件仍发 orientation）→ **静态门禁先红**：`check:styles` RC=1，报 `space.scss 使用 data-scui-direction，但同目录组件源码未输出该属性`；同时 **space 视觉基线 @1280 与 @768 双红**。两路都拦，不靠人肉看 |
+| 还原 | 两处负向改动均 `cp` 字节级还原，`DRIFT=[]`（`Space.tsx` / `space.scss` SHA256 前后一致），还原后 `check:styles` RC=0，并重跑 `pnpm --filter solid-craft build` 让 `dist` 回到正确源 |
+
+**门禁新增（`scripts/check-styles.mjs` 第 4 层，前缀自检 + 3 条判据；编号与脚本内注释一致）**
+
+| 判据 | 实现要点 |
+| --- | --- |
+| 前缀同源自检（先于 4a） | `DATA_PREFIX = "data-" + CSS_PREFIX`，不等于 `data-scui-` 直接红灯，防 `scope.mjs` 改名后两边脱节 |
+| 4a src 禁裸属性 | 递归扫 `packages/core/src` 全部 `.ts/.tsx/.css/.scss`（含 `*.test.tsx`），只放行 `data-<CSS_PREFIX>*` 与白名单 `data-testid` / `data-hk`；报错带 `文件:行号` |
+| 4b 作用域覆盖 | 自写 SCSS 规则解析器（跳过注释 / 字符串、跟踪花括号栈、解析 `&` 与 `@media` 嵌套），要求含 `[data-*]` 的解析后选择器必须命中 `.scui-*`，且属性名必须是 `data-scui-*` |
+| 4c 产物不回流 | `dist/styles` 全量 CSS 扫裸属性，防 PostCSS 插件或第三方样式把旧属性带回来 |
+
+**负向实证（N51~N55，5/5 PASS，字节级还原 `DRIFT=[]`）**
+
+| 编号 | 破坏方式 | 预期 | 实测 |
+| --- | --- | --- | --- |
+| N51 | `Button.tsx` 塞 `<button data-foo="x">` | 红灯 | rc=1，命中「src 内出现 1 处裸 data-*」 |
+| N52 | `button.scss` 把 `:where(.scui-button)[data-scui-size='small']` 改成裸 `[data-scui-size='small']` | 红灯 | rc=1，命中「缺少 .scui- 静态类作用域」 |
+| N53 | `icon.scss` 退回 `&[data-size='small']` | 红灯 | rc=1，命中「使用了非 data-scui-* 的 data 属性」 |
+| N54 | `dist/styles/index.css` 追加 `[data-legacy='x']` | 红灯 | rc=1，命中「产物出现裸 data-*」 |
+| N55 | `Button.tsx` 加 `data-testid="probe"` | **必须绿**（正向对照） | rc=0，白名单未误伤 |
+
+**治理同步（AGENTS.md §3，Aming 2026-11-11 复核通过）**：`AGENTS.md` 第 3 条硬约束原文是「状态只用 `data-*`：… 一律 `data-variant` / `data-size` / …，SCSS 只认 `[data-*]` 选择器」，与 R1 裁决和新门禁直接矛盾——不改就会让后续组件照着写裸属性、被 `check:styles` 拦下。本轮按 R1 口径改写为 `data-scui-*`；Aming 于 2026-11-11 15:0x 原话「按事实更新」后，又按实测事实补齐四处：① 增加**同名不同义属违规**条款（`data-scui-direction` 只表示书写方向 ltr/rtl、排列方向用 `data-scui-orientation`，`SpaceProps.direction` 名字不改），把 §30.12 的「补充改名」写成硬约束；② 判据编号与脚本内注释对齐（前缀同源自检 + 4a 裸属性 / 4b 作用域 / 4c 产物回流，此前文档误记为 4a~4d 四项，属失真已纠正）；③ 点明**组件层判据**「SCSS 用到的每个 `data-<attr>` 必须在同目录 `*.tsx` 输出」，即改名必须源码与样式两端同步；④ 点明扫描根含 `tests/` 与 `examples/**/scripts/`，避免只改 `src/` 造成冒烟假红。`check:goals` 因此重校基线，实测**只重算 AGENTS.md 1 项哈希 + 标记行**，其余 14 项不动。**`docs/01~07` 冻结正文（`docs/04` §Button 口径表、`docs/06` §3 组件模板示例、`docs/07` ADR）仍写旧裸属性名，按 §15 一个字节未改**，属规范遗留差异，已在 §3 与本节双处记录；照抄 `docs/06` 模板会产出裸属性并被门禁拦下，属预期行为。
+
+**迁移中暴露的耦合面**：属性名不只出现在组件与样式里，还被 ① e2e 断言、② 三端消费端 tree-shaking 锚点、③ 真实 SolidStart SSR 冒烟锚点当作「组件逻辑是否进产物」的判据。这类字符串锚点改名后会先假红（`verify` 第三轮才过），说明「全量切」不能只搜 `src/`——已把 `scripts/` 与 `examples/**/scripts/` 纳入同一轮扫描。
+
+**验收输出**：`pnpm verify` **25 阶段 RC=0**；`check:styles` RC=0（7 个组件样式表 / 60 个 data-* 取值 / **88 个 `[data-*]` 选择器全部带 `.scui-` 作用域** / 0 modifier class / 产物零裸属性回流）；`pnpm test` 与 `pnpm typecheck` RC=0；**视觉基线 16/16 零差异（`tests/e2e/baselines/` 未产生任何改动）**；`pnpm generate:llms` 与 `check:llms` RC=0（34 页 / 12 个 exports 子路径 / 0 孤儿页 / 0 死链，生成物零变化）。
+
+**边界**：仅改属性名与选择器，未改任何组件语义、props 签名、Token、样式值；`docs/01~07` 冻结规范一个字节未动（其代码示例中的旧属性名属遗留差异，见上）；`pnpm-lock.yaml` 零改动；`AGENTS.md` 第 3 条硬约束随 R1 改写并重校 `check:goals` 基线（只动该 1 项哈希 + 标记行）；提交 / 推送按 `AGENTS.md §13` 须 Aming 逐次授权，真实 publish 始终未授权、未发生。

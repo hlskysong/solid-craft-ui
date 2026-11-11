@@ -19,10 +19,10 @@ export function Space(props: SpaceProps) {
     <div
       {...rest}
       class={classNames(`${CSS_PREFIX}space`, local.class)}
-      data-direction={local.direction ?? 'horizontal'}
-      data-size={local.size ?? 'medium'}
-      data-wrap={local.wrap ? 'true' : undefined}
-      data-align={local.align}
+      data-scui-orientation={local.direction ?? 'horizontal'}
+      data-scui-size={local.size ?? 'medium'}
+      data-scui-wrap={local.wrap ? 'true' : undefined}
+      data-scui-align={local.align}
     >
       <For each={resolved.toArray()}>
         {(child, index) => (

@@ -48,8 +48,8 @@ const requiredSnippets = [
   'data-scui-theme="light"',
   'data-scui-density="default"',
   'data-scui-direction="ltr"',
-  'data-color="primary"',
-  'data-size="medium"',
+  'data-scui-color="primary"',
+  'data-scui-size="medium"',
   'data-testid="stable-id"',
   'SSR 冒烟',
   '默认按钮',
@@ -85,7 +85,7 @@ const snapshot = () => ({
   nodes: container.querySelectorAll('*').length,
   buttons: container.querySelectorAll('button').length,
   stableId: doc.querySelector('[data-testid="stable-id"]')?.textContent ?? null,
-  primary: container.querySelector('[data-color="primary"]')?.textContent ?? null,
+  primary: container.querySelector('[data-scui-color="primary"]')?.textContent ?? null,
 });
 
 const before = snapshot();
@@ -130,7 +130,7 @@ if (!html.includes('data-hk')) {
 }
 
 // 交互实证：只有 hydrate 真正绑定了事件委托，click 才会到达组件 onClick。
-const primaryButton = container.querySelector('[data-color="primary"]');
+const primaryButton = container.querySelector('[data-scui-color="primary"]');
 primaryButton.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
 const clicks = dom.window.uiSmokeClicks ?? 0;
 if (clicks !== 1) {

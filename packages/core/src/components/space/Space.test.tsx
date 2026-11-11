@@ -5,7 +5,7 @@ import { Space } from './Space';
 afterEach(cleanup);
 
 describe('Space', () => {
-  it('uses horizontal direction and medium size by default', () => {
+  it('uses horizontal orientation and medium size by default', () => {
     render(() => (
       <Space>
         <span>第一项</span>
@@ -15,11 +15,11 @@ describe('Space', () => {
 
     const root = screen.getByText('第一项').parentElement;
     expect(root).not.toBeNull();
-    expect(root).toHaveAttribute('data-direction', 'horizontal');
-    expect(root).toHaveAttribute('data-size', 'medium');
+    expect(root).toHaveAttribute('data-scui-orientation', 'horizontal');
+    expect(root).toHaveAttribute('data-scui-size', 'medium');
   });
 
-  it('renders vertical direction and custom size through data attributes', () => {
+  it('renders vertical orientation and custom size through data attributes', () => {
     render(() => (
       <Space direction="vertical" size="large">
         <span>甲</span>
@@ -29,8 +29,20 @@ describe('Space', () => {
 
     const root = screen.getByText('甲').parentElement;
     expect(root).not.toBeNull();
-    expect(root).toHaveAttribute('data-direction', 'vertical');
-    expect(root).toHaveAttribute('data-size', 'large');
+    expect(root).toHaveAttribute('data-scui-orientation', 'vertical');
+    expect(root).toHaveAttribute('data-scui-size', 'large');
+  });
+
+  it('does not reuse data-scui-direction reserved for writing direction', () => {
+    render(() => (
+      <Space direction="vertical">
+        <span>丙</span>
+      </Space>
+    ));
+
+    const root = screen.getByText('丙').parentElement;
+    expect(root).not.toBeNull();
+    expect(root).not.toHaveAttribute('data-scui-direction');
   });
 
   it('renders one split element between each pair of children', () => {
@@ -56,7 +68,7 @@ describe('Space', () => {
 
     const root = screen.getByText('换行项').parentElement;
     expect(root).not.toBeNull();
-    expect(root).toHaveAttribute('data-wrap', 'true');
-    expect(root).toHaveAttribute('data-align', 'baseline');
+    expect(root).toHaveAttribute('data-scui-wrap', 'true');
+    expect(root).toHaveAttribute('data-scui-align', 'baseline');
   });
 });

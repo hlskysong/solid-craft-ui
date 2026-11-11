@@ -10,7 +10,7 @@ describe('Divider', () => {
 
     const divider = screen.getByRole('separator');
     expect(divider).toHaveAttribute('aria-orientation', 'horizontal');
-    expect(divider).toHaveAttribute('data-orientation', 'horizontal');
+    expect(divider).toHaveAttribute('data-scui-orientation', 'horizontal');
   });
 
   it('reflects vertical orientation and dashed style through data attributes', () => {
@@ -18,15 +18,15 @@ describe('Divider', () => {
 
     const divider = screen.getByRole('separator');
     expect(divider).toHaveAttribute('aria-orientation', 'vertical');
-    expect(divider).toHaveAttribute('data-orientation', 'vertical');
-    expect(divider).toHaveAttribute('data-dashed', 'true');
+    expect(divider).toHaveAttribute('data-scui-orientation', 'vertical');
+    expect(divider).toHaveAttribute('data-scui-dashed', 'true');
   });
 
   it('renders text and marks the root as having text', () => {
     render(() => <Divider>分组标题</Divider>);
 
     const divider = screen.getByRole('separator');
-    expect(divider).toHaveAttribute('data-has-text', 'true');
+    expect(divider).toHaveAttribute('data-scui-has-text', 'true');
     expect(screen.getByText('分组标题')).toBeInTheDocument();
   });
 
@@ -34,7 +34,7 @@ describe('Divider', () => {
     render(() => <Divider plain>普通文字</Divider>);
 
     const divider = screen.getByRole('separator');
-    expect(divider).toHaveAttribute('data-plain', 'true');
+    expect(divider).toHaveAttribute('data-scui-plain', 'true');
     expect(screen.getByText('普通文字')).toBeInTheDocument();
   });
 });
