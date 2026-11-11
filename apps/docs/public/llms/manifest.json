@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 38,
+  "pageCount": 41,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -196,6 +196,21 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/input-number-format.md",
+      "title": "# Input 输入框 · 精度与格式化（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/input-number-step.md",
+      "title": "# Input 输入框 · 步进与范围（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/input-number.md",
+      "title": "# Input 输入框 · 数字输入框（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/input-textarea.md",
       "title": "# Input 输入框 · 多行输入（源码）",
       "kind": "demos"
@@ -255,6 +270,9 @@
     "llms/demos/grid-basic.md",
     "llms/demos/input-affix.md",
     "llms/demos/input-basic.md",
+    "llms/demos/input-number-format.md",
+    "llms/demos/input-number-step.md",
+    "llms/demos/input-number.md",
     "llms/demos/input-textarea.md"
   ],
   "requiredSections": [

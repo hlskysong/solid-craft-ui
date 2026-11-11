@@ -58,7 +58,7 @@
   {
     "type": "demo",
     "title": "基础组件总览 · 基础组件总览",
-    "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。",
+    "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input、InputNumber。",
     "keywords": "overview basic",
     "href": "/components/overview/basic"
   },
@@ -709,7 +709,7 @@
   {
     "type": "component",
     "title": "Input 输入框",
-    "description": "单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。",
+    "description": "单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。",
     "keywords": "input solid-craft/input",
     "href": "/components/input"
   },
@@ -726,6 +726,27 @@
     "description": "三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。",
     "keywords": "input basic",
     "href": "/components/input/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Input 输入框 · 精度与格式化",
+    "description": "precision 控制小数位、thousands 展示千分位，以及受控值在失焦时被夹到 max。",
+    "keywords": "input number-format",
+    "href": "/components/input/number-format"
+  },
+  {
+    "type": "demo",
+    "title": "Input 输入框 · 步进与范围",
+    "description": "小数步进 0.1、十位步进 10、min / max 到界后按钮置灰，以及 createSignal 驱动的受控写法。",
+    "keywords": "input number-step",
+    "href": "/components/input/number-step"
+  },
+  {
+    "type": "demo",
+    "title": "Input 输入框 · 数字输入框",
+    "description": "默认 1 步进、三档尺寸、禁用态、单位前后缀与关闭步进按钮。",
+    "keywords": "input number",
+    "href": "/components/input/number"
   },
   {
     "type": "demo",
@@ -838,6 +859,83 @@
     "description": "搜索按钮：传 `true` 渲染默认搜索图标，传 JSX 则渲染自定义内容。仅 `type=\"search\"` 生效。 （`JSX.Element` 已包含 `boolean`，不再写 `boolean | JSX.Element`，避免冗余联合。）",
     "keywords": "input JSX.Element",
     "href": "/components/input#api-enterButton"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.value",
+    "description": "受控数值；`null` 表示空值。支持传值或 getter（`MaybeAccessor`）。",
+    "keywords": "input MaybeAccessor<number | null>",
+    "href": "/components/input#api-value"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.defaultValue",
+    "description": "非受控初始值；仅挂载时读取一次。",
+    "keywords": "input MaybeAccessor<number | null>",
+    "href": "/components/input#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.onChange",
+    "description": "数值变更回调；清空时第一参数为 `null`。",
+    "keywords": "input NumberChangeHandler<HTMLInputElement>",
+    "href": "/components/input#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.step",
+    "description": "步进值，决定上下按钮与 ↑/↓ 键的单次增量。 `precision` 未显式给出时，由它的小数位反推精度（`step={0.1}` ⇒ 1 位小数）。",
+    "keywords": "input number",
+    "href": "/components/input#api-step"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.precision",
+    "description": "小数位数；显式给出后，输入与步进的结果都会被裁到该位数。",
+    "keywords": "input number",
+    "href": "/components/input#api-precision"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.min",
+    "description": "下界；输入过程中不夹取（否则输 `10` 打到 `1` 就被拉到 `min`）， 在失焦、步进、清空后归一化时生效。",
+    "keywords": "input number",
+    "href": "/components/input#api-min"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.max",
+    "description": "上界；夹取时机同 `min`。",
+    "keywords": "input number",
+    "href": "/components/input#api-max"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.thousands",
+    "description": "展示千分位分隔符（仅影响展示，输入时可带 `,` 也可不带）。",
+    "keywords": "input boolean",
+    "href": "/components/input#api-thousands"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.controls",
+    "description": "展示上下步进按钮；关闭后仍可用 ↑/↓ 键步进。",
+    "keywords": "input boolean",
+    "href": "/components/input#api-controls"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.prefix",
+    "description": "前缀内容（单位或图标）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。",
+    "keywords": "input JSX.Element",
+    "href": "/components/input#api-prefix"
+  },
+  {
+    "type": "api",
+    "title": "InputNumberProps.suffix",
+    "description": "后缀内容（单位或图标）。",
+    "keywords": "input JSX.Element",
+    "href": "/components/input#api-suffix"
   },
   {
     "type": "api",

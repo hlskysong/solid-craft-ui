@@ -24,7 +24,7 @@
           "name": "basic",
           "path": "packages/core/src/components/overview/demos/basic.tsx",
           "title": "基础组件总览",
-          "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。"
+          "description": "首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input、InputNumber。"
         }
       ]
     },
@@ -156,7 +156,7 @@
       "slug": "input",
       "title": "Input 输入框",
       "category": "表单",
-      "description": "单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。",
+      "description": "单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。",
       "exportPath": "solid-craft/input",
       "hasApi": true,
       "demos": [
@@ -171,6 +171,24 @@
           "path": "packages/core/src/components/input/demos/basic.tsx",
           "title": "单行输入",
           "description": "三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。"
+        },
+        {
+          "name": "number-format",
+          "path": "packages/core/src/components/input/demos/number-format.tsx",
+          "title": "精度与格式化",
+          "description": "precision 控制小数位、thousands 展示千分位，以及受控值在失焦时被夹到 max。"
+        },
+        {
+          "name": "number-step",
+          "path": "packages/core/src/components/input/demos/number-step.tsx",
+          "title": "步进与范围",
+          "description": "小数步进 0.1、十位步进 10、min / max 到界后按钮置灰，以及 createSignal 驱动的受控写法。"
+        },
+        {
+          "name": "number",
+          "path": "packages/core/src/components/input/demos/number.tsx",
+          "title": "数字输入框",
+          "description": "默认 1 步进、三档尺寸、禁用态、单位前后缀与关闭步进按钮。"
         },
         {
           "name": "textarea",

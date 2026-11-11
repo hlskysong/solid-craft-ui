@@ -118,6 +118,96 @@ export interface InputProps
   enterButton?: JSX.Element;
 }
 
+/**
+ * 数值变更回调；`value` 为 `null` 表示「被清空」。
+ *
+ * 与 `InputChangeHandler` 的区别是**不给中间态**：`InputNumber` 在用户输入过程中
+ * 只提交能被 `Number()` 精确表达的数值，`'1.'` / `'-'` 这类半成品留在控件内部的
+ * 草稿里，不会以 `'1.'` 这种字符串形式漏给业务侧。
+ */
+export type NumberChangeHandler<T extends HTMLElement> = (
+  value: number | null,
+  event?: InputChangeEvent<T>,
+) => void;
+
+/** `InputNumber` 的入参。 */
+export interface InputNumberProps
+  extends
+    Omit<
+      JSX.InputHTMLAttributes<HTMLInputElement>,
+      // 原生这几个属性的语义与本组件不同：value 是 string、onChange 是 input 事件、
+      // min/max/step 只对 type="number" 生效（我们用 type="text" 接管格式化）。
+      | 'value'
+      | 'defaultValue'
+      | 'onChange'
+      | 'children'
+      | 'size'
+      | 'prefix'
+      | 'type'
+      | 'min'
+      | 'max'
+      | 'step'
+    >,
+    Pick<InputSharedProps, 'size' | 'status'> {
+  /**
+   * 受控数值；`null` 表示空值。支持传值或 getter（`MaybeAccessor`）。
+   * @default undefined
+   */
+  value?: MaybeAccessor<number | null>;
+  /**
+   * 非受控初始值；仅挂载时读取一次。
+   * @default undefined
+   */
+  defaultValue?: MaybeAccessor<number | null>;
+  /**
+   * 数值变更回调；清空时第一参数为 `null`。
+   * @default undefined
+   */
+  onChange?: NumberChangeHandler<HTMLInputElement>;
+  /**
+   * 步进值，决定上下按钮与 ↑/↓ 键的单次增量。
+   * `precision` 未显式给出时，由它的小数位反推精度（`step={0.1}` ⇒ 1 位小数）。
+   * @default 1
+   */
+  step?: number;
+  /**
+   * 小数位数；显式给出后，输入与步进的结果都会被裁到该位数。
+   * @default 由 `step` 推导
+   */
+  precision?: number;
+  /**
+   * 下界；输入过程中不夹取（否则输 `10` 打到 `1` 就被拉到 `min`），
+   * 在失焦、步进、清空后归一化时生效。
+   * @default undefined
+   */
+  min?: number;
+  /**
+   * 上界；夹取时机同 `min`。
+   * @default undefined
+   */
+  max?: number;
+  /**
+   * 展示千分位分隔符（仅影响展示，输入时可带 `,` 也可不带）。
+   * @default false
+   */
+  thousands?: boolean;
+  /**
+   * 展示上下步进按钮；关闭后仍可用 ↑/↓ 键步进。
+   * @default true
+   */
+  controls?: boolean;
+  /**
+   * 前缀内容（单位或图标）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。
+   * @default undefined
+   */
+  prefix?: JSX.Element;
+  /**
+   * 后缀内容（单位或图标）。
+   * @default undefined
+   */
+  suffix?: JSX.Element;
+}
+
 /** `Textarea` 的入参。 */
 export interface TextareaProps
   extends

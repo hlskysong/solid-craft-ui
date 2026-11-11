@@ -35,6 +35,7 @@
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `form` / `form-item` / `field-error` / `form-submit` | Form | 结构锚点 |
 | `input` / `input-clear` / `input-password-toggle` / `input-search` | Input | 结构锚点（T2-03） |
+| `input-number` / `input-number-up` / `input-number-down` | Input（InputNumber） | 结构锚点（T2-04） |
 | `textarea` / `textarea-clear` / `textarea-count` | Input（Textarea） | 结构锚点（T2-03） |
 
 ## 焦点与状态样式

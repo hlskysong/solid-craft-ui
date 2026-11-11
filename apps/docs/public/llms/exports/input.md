@@ -4,7 +4,7 @@
 
 ## 概要
 
-单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。
+单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。
 
 ## 条件导出
 
@@ -58,6 +58,24 @@ import { /* 导出符号 */ } from 'solid-craft/input';
 | `visibilityToggle` | `boolean` | `true` | 密码可见性切换按钮；仅 `type="password"` 生效。 | 否 |
 | `onSearch` | `(value: string) => void` | `undefined` | 回车搜索回调；仅 `type="search"` 生效，输入法组合态下的回车不触发。 | 否 |
 | `enterButton` | `JSX.Element` | `false` | 搜索按钮：传 `true` 渲染默认搜索图标，传 JSX 则渲染自定义内容。仅 `type="search"` 生效。 （`JSX.Element` 已包含 `boolean`，不再写 `boolean \| JSX.Element`，避免冗余联合。） | 否 |
+
+### InputNumberProps
+
+继承：`Omit<       JSX.InputHTMLAttributes<HTMLInputElement>,       // 原生这几个属性的语义与本组件不同：value 是 string、onChange 是 input 事件、       // min/max/step 只对 type="number" 生效（我们用 type="text" 接管格式化）。       \| 'value'       \| 'defaultValue'       \| 'onChange'       \| 'children'       \| 'size'       \| 'prefix'       \| 'type'       \| 'min'       \| 'max'       \| 'step'     >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `value` | `MaybeAccessor<number \| null>` | `undefined` | 受控数值；`null` 表示空值。支持传值或 getter（`MaybeAccessor`）。 | 否 |
+| `defaultValue` | `MaybeAccessor<number \| null>` | `undefined` | 非受控初始值；仅挂载时读取一次。 | 否 |
+| `onChange` | `NumberChangeHandler<HTMLInputElement>` | `undefined` | 数值变更回调；清空时第一参数为 `null`。 | 否 |
+| `step` | `number` | `1` | 步进值，决定上下按钮与 ↑/↓ 键的单次增量。 `precision` 未显式给出时，由它的小数位反推精度（`step={0.1}` ⇒ 1 位小数）。 | 否 |
+| `precision` | `number` | `由 `step` 推导` | 小数位数；显式给出后，输入与步进的结果都会被裁到该位数。 | 否 |
+| `min` | `number` | `undefined` | 下界；输入过程中不夹取（否则输 `10` 打到 `1` 就被拉到 `min`）， 在失焦、步进、清空后归一化时生效。 | 否 |
+| `max` | `number` | `undefined` | 上界；夹取时机同 `min`。 | 否 |
+| `thousands` | `boolean` | `false` | 展示千分位分隔符（仅影响展示，输入时可带 `,` 也可不带）。 | 否 |
+| `controls` | `boolean` | `true` | 展示上下步进按钮；关闭后仍可用 ↑/↓ 键步进。 | 否 |
+| `prefix` | `JSX.Element` | `undefined` | 前缀内容（单位或图标）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。 | 否 |
+| `suffix` | `JSX.Element` | `undefined` | 后缀内容（单位或图标）。 | 否 |
 
 ### TextareaProps
 
@@ -196,6 +214,96 @@ export interface InputProps
   enterButton?: JSX.Element;
 }
 
+/**
+ * 数值变更回调；`value` 为 `null` 表示「被清空」。
+ *
+ * 与 `InputChangeHandler` 的区别是**不给中间态**：`InputNumber` 在用户输入过程中
+ * 只提交能被 `Number()` 精确表达的数值，`'1.'` / `'-'` 这类半成品留在控件内部的
+ * 草稿里，不会以 `'1.'` 这种字符串形式漏给业务侧。
+ */
+export type NumberChangeHandler<T extends HTMLElement> = (
+  value: number | null,
+  event?: InputChangeEvent<T>,
+) => void;
+
+/** `InputNumber` 的入参。 */
+export interface InputNumberProps
+  extends
+    Omit<
+      JSX.InputHTMLAttributes<HTMLInputElement>,
+      // 原生这几个属性的语义与本组件不同：value 是 string、onChange 是 input 事件、
+      // min/max/step 只对 type="number" 生效（我们用 type="text" 接管格式化）。
+      | 'value'
+      | 'defaultValue'
+      | 'onChange'
+      | 'children'
+      | 'size'
+      | 'prefix'
+      | 'type'
+      | 'min'
+      | 'max'
+      | 'step'
+    >,
+    Pick<InputSharedProps, 'size' | 'status'> {
+  /**
+   * 受控数值；`null` 表示空值。支持传值或 getter（`MaybeAccessor`）。
+   * @default undefined
+   */
+  value?: MaybeAccessor<number | null>;
+  /**
+   * 非受控初始值；仅挂载时读取一次。
+   * @default undefined
+   */
+  defaultValue?: MaybeAccessor<number | null>;
+  /**
+   * 数值变更回调；清空时第一参数为 `null`。
+   * @default undefined
+   */
+  onChange?: NumberChangeHandler<HTMLInputElement>;
+  /**
+   * 步进值，决定上下按钮与 ↑/↓ 键的单次增量。
+   * `precision` 未显式给出时，由它的小数位反推精度（`step={0.1}` ⇒ 1 位小数）。
+   * @default 1
+   */
+  step?: number;
+  /**
+   * 小数位数；显式给出后，输入与步进的结果都会被裁到该位数。
+   * @default 由 `step` 推导
+   */
+  precision?: number;
+  /**
+   * 下界；输入过程中不夹取（否则输 `10` 打到 `1` 就被拉到 `min`），
+   * 在失焦、步进、清空后归一化时生效。
+   * @default undefined
+   */
+  min?: number;
+  /**
+   * 上界；夹取时机同 `min`。
+   * @default undefined
+   */
+  max?: number;
+  /**
+   * 展示千分位分隔符（仅影响展示，输入时可带 `,` 也可不带）。
+   * @default false
+   */
+  thousands?: boolean;
+  /**
+   * 展示上下步进按钮；关闭后仍可用 ↑/↓ 键步进。
+   * @default true
+   */
+  controls?: boolean;
+  /**
+   * 前缀内容（单位或图标）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。
+   * @default undefined
+   */
+  prefix?: JSX.Element;
+  /**
+   * 后缀内容（单位或图标）。
+   * @default undefined
+   */
+  suffix?: JSX.Element;
+}
+
 /** `Textarea` 的入参。 */
 export interface TextareaProps
   extends
@@ -231,6 +339,9 @@ export interface TextareaProps
 
 - [前缀与后缀](../demos/input-affix.md)：用前缀拼协议、用后缀挂单位与字数提示，并演示 createSignal 驱动的受控写法。（源文件 `packages/core/src/components/input/demos/affix.tsx`）
 - [单行输入](../demos/input-basic.md)：三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。（源文件 `packages/core/src/components/input/demos/basic.tsx`）
+- [精度与格式化](../demos/input-number-format.md)：precision 控制小数位、thousands 展示千分位，以及受控值在失焦时被夹到 max。（源文件 `packages/core/src/components/input/demos/number-format.tsx`）
+- [步进与范围](../demos/input-number-step.md)：小数步进 0.1、十位步进 10、min / max 到界后按钮置灰，以及 createSignal 驱动的受控写法。（源文件 `packages/core/src/components/input/demos/number-step.tsx`）
+- [数字输入框](../demos/input-number.md)：默认 1 步进、三档尺寸、禁用态、单位前后缀与关闭步进按钮。（源文件 `packages/core/src/components/input/demos/number.tsx`）
 - [多行输入](../demos/input-textarea.md)：自动高度（true 与 minRows / maxRows 两种口径）、字数统计、清除按钮与禁用态。（源文件 `packages/core/src/components/input/demos/textarea.tsx`）
 
 ## 相关规范

@@ -98,6 +98,23 @@ const cases = [
     // 「无错也输出 false」退化了，而 markers 会被其余组件兜住。
     counts: [['data-scui-invalid="false"', 4]],
   },
+  {
+    // T2-04：数值输入。服务端必须已经给出格式化后的值与到界的禁用态，
+    // 否则首帧与客户端 hydration 后的显示会不一致。
+    id: 'T2-04',
+    file: '/src/components/input/__tests__/ssr-number-entry.tsx',
+    markers: [
+      'data-scui-role="input-number"',
+      // 服务端按 JSX 属性名**原样**序列化（`inputMode`），浏览器解析后仍是
+      // 大小写不敏感的 `inputmode` —— 客户端断言用 DOM 规范名，这里用源码名。
+      'inputMode="decimal"',
+      'value="1,234,567"',
+      'value="12.5"',
+      'data-scui-role="input-number-up"',
+      'aria-label="减少"',
+    ],
+    counts: [['data-scui-role="input-number"', 4]],
+  },
 ];
 
 const errors = [];

@@ -73,3 +73,35 @@ export function SearchIcon(): JSX.Element {
     </svg>
   );
 }
+
+/** 步进上箭头（`InputNumber`）。 */
+export function StepUpIcon(): JSX.Element {
+  return (
+    <svg viewBox="0 0 16 16" width={SIZE} height={SIZE} aria-hidden="true">
+      <path
+        d="M4.5 9.5 8 6l3.5 3.5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** 步进下箭头（`InputNumber`）。 */
+export function StepDownIcon(): JSX.Element {
+  return (
+    <svg viewBox="0 0 16 16" width={SIZE} height={SIZE} aria-hidden="true">
+      <path
+        d="M4.5 6.5 8 10l3.5-3.5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}

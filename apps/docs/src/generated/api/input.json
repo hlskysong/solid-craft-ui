@@ -126,6 +126,89 @@
       ]
     },
     {
+      "name": "InputNumberProps",
+      "inherits": "Omit<\n      JSX.InputHTMLAttributes<HTMLInputElement>,\n      // 原生这几个属性的语义与本组件不同：value 是 string、onChange 是 input 事件、\n      // min/max/step 只对 type=\"number\" 生效（我们用 type=\"text\" 接管格式化）。\n      | 'value'\n      | 'defaultValue'\n      | 'onChange'\n      | 'children'\n      | 'size'\n      | 'prefix'\n      | 'type'\n      | 'min'\n      | 'max'\n      | 'step'\n    >",
+      "props": [
+        {
+          "name": "value",
+          "type": "MaybeAccessor<number | null>",
+          "optional": true,
+          "description": "受控数值；`null` 表示空值。支持传值或 getter（`MaybeAccessor`）。",
+          "default": "undefined"
+        },
+        {
+          "name": "defaultValue",
+          "type": "MaybeAccessor<number | null>",
+          "optional": true,
+          "description": "非受控初始值；仅挂载时读取一次。",
+          "default": "undefined"
+        },
+        {
+          "name": "onChange",
+          "type": "NumberChangeHandler<HTMLInputElement>",
+          "optional": true,
+          "description": "数值变更回调；清空时第一参数为 `null`。",
+          "default": "undefined"
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "optional": true,
+          "description": "步进值，决定上下按钮与 ↑/↓ 键的单次增量。 `precision` 未显式给出时，由它的小数位反推精度（`step={0.1}` ⇒ 1 位小数）。",
+          "default": "1"
+        },
+        {
+          "name": "precision",
+          "type": "number",
+          "optional": true,
+          "description": "小数位数；显式给出后，输入与步进的结果都会被裁到该位数。",
+          "default": "由 `step` 推导"
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "optional": true,
+          "description": "下界；输入过程中不夹取（否则输 `10` 打到 `1` 就被拉到 `min`）， 在失焦、步进、清空后归一化时生效。",
+          "default": "undefined"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "optional": true,
+          "description": "上界；夹取时机同 `min`。",
+          "default": "undefined"
+        },
+        {
+          "name": "thousands",
+          "type": "boolean",
+          "optional": true,
+          "description": "展示千分位分隔符（仅影响展示，输入时可带 `,` 也可不带）。",
+          "default": "false"
+        },
+        {
+          "name": "controls",
+          "type": "boolean",
+          "optional": true,
+          "description": "展示上下步进按钮；关闭后仍可用 ↑/↓ 键步进。",
+          "default": "true"
+        },
+        {
+          "name": "prefix",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "前缀内容（单位或图标）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。",
+          "default": "undefined"
+        },
+        {
+          "name": "suffix",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "后缀内容（单位或图标）。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
       "name": "TextareaProps",
       "inherits": "Omit<\n      JSX.TextareaHTMLAttributes<HTMLTextAreaElement>,\n      'value' | 'defaultValue' | 'onChange' | 'children' | 'size'\n    >",
       "props": [

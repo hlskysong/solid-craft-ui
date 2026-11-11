@@ -243,6 +243,53 @@
   }
 }
 
+/* ---- InputNumber（T2-04）：复用 .scui-input 的壳与变量，只补步进按钮 ---- */
+
+:where(.scui-input-number) {
+  /* 步进按钮贴右边缘：按钮组自己画左侧分隔线，壳不再留内边距，否则会出现双线。 */
+  padding-inline-end: 0;
+}
+
+:where(.scui-input-number) :where(.scui-input__control) {
+  /* 数字等宽，避免 `1` 与 `8` 宽度差异导致步进时内容左右抖动。 */
+  font-variant-numeric: tabular-nums;
+}
+
+:where(.scui-input-number__controls) {
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  align-self: stretch;
+  inline-size: 20px;
+  border-inline-start: 1px solid var(--scui-input-current-border);
+}
+
+:where(.scui-input-number__step) {
+  display: inline-flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--scui-color-text-tertiary);
+  cursor: pointer;
+
+  &:hover:not([data-scui-disabled]) {
+    color: var(--scui-input-current-accent);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  & + & {
+    border-block-start: 1px solid var(--scui-input-current-border);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   :where(.scui-input),
   :where(.scui-textarea) {

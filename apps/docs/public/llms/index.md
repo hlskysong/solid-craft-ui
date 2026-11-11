@@ -4,7 +4,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 13 个 exports 子路径、8 个组件页、13 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 13 个 exports 子路径、8 个组件页、16 个 Demo。
 
 ## 关键约定
 
@@ -45,7 +45,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Divider 分割线](exports/divider.md) | `solid-craft/divider` | 水平 / 垂直分割，支持虚线与带文字。 |
 | [Layout 布局](exports/layout.md) | `solid-craft/layout` | Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。 |
 | [Grid 栅格](exports/grid.md) | `solid-craft/grid` | 24 栅格 Row / Col、间距、偏移与响应式断点。 |
-| [Input 输入框](exports/input.md) | `solid-craft/input` | 单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。 |
+| [Input 输入框](exports/input.md) | `solid-craft/input` | 单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。 |
 
 - [ConfigProvider 全局配置](exports/config-provider.md) · [样式](exports/styles-css.md) · [按组件样式通配](exports/styles.md) · [package.json](exports/package-json.md)
 

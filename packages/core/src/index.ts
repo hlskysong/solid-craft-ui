@@ -20,13 +20,15 @@ export type {
 } from './components/layout';
 export { Row, Col } from './components/grid';
 export type { RowProps, ColProps } from './components/grid';
-export { Input, Textarea } from './components/input';
+export { Input, InputNumber, Textarea } from './components/input';
 export type {
   InputChangeEvent,
   InputChangeHandler,
+  InputNumberProps,
   InputProps,
   InputSize,
   InputStatus,
+  NumberChangeHandler,
   TextareaAutoSize,
   TextareaProps,
 } from './components/input';

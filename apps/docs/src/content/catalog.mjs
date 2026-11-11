@@ -73,7 +73,8 @@ export const COMPONENTS = [
     slug: 'input',
     title: 'Input 输入框',
     category: '表单',
-    description: '单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。',
+    description:
+      '单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。',
     exportPath: 'solid-craft/input',
     hasApi: true,
   },

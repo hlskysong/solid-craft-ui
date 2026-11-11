@@ -7,6 +7,7 @@ import {
   Header,
   Icon,
   Input,
+  InputNumber,
   Layout,
   Link,
   Paragraph,
@@ -20,7 +21,8 @@ import { DemoSection, DotIcon } from '../../demos/shared';
 
 export const demo = {
   title: '基础组件总览',
-  description: '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。',
+  description:
+    '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input、InputNumber。',
 };
 
 export default function Basic() {
@@ -63,9 +65,10 @@ export default function Basic() {
           <Col span={12}>span 12</Col>
         </Row>
       </DemoSection>
-      <DemoSection title="Input / Textarea">
+      <DemoSection title="Input / InputNumber / Textarea">
         <Input defaultValue="带清除" aria-label="总览：可清除输入" allowClear />
         <Input type="password" defaultValue="secret" aria-label="总览：密码" />
+        <InputNumber defaultValue={128} step={1} aria-label="总览：数量" />
         <Textarea
           autoSize={{ minRows: 2, maxRows: 4 }}
           showCount

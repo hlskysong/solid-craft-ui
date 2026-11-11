@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 38 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 41 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 13 个 exports 子路径、8 个组件页、13 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 13 个 exports 子路径、8 个组件页、16 个 Demo。
 
 ## 关键约定
 
@@ -53,7 +53,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Divider 分割线](llms/exports/divider.md) | `solid-craft/divider` | 水平 / 垂直分割，支持虚线与带文字。 |
 | [Layout 布局](llms/exports/layout.md) | `solid-craft/layout` | Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。 |
 | [Grid 栅格](llms/exports/grid.md) | `solid-craft/grid` | 24 栅格 Row / Col、间距、偏移与响应式断点。 |
-| [Input 输入框](llms/exports/input.md) | `solid-craft/input` | 单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。 |
+| [Input 输入框](llms/exports/input.md) | `solid-craft/input` | 单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。 |
 
 - [ConfigProvider 全局配置](llms/exports/config-provider.md) · [样式](llms/exports/styles-css.md) · [按组件样式通配](llms/exports/styles.md) · [package.json](llms/exports/package-json.md)
 
@@ -131,7 +131,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/divider` → Divider 分割线：水平 / 垂直分割，支持虚线与带文字。
 - `solid-craft/layout` → Layout 布局：Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。
 - `solid-craft/grid` → Grid 栅格：24 栅格 Row / Col、间距、偏移与响应式断点。
-- `solid-craft/input` → Input 输入框：单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。
+- `solid-craft/input` → Input 输入框：单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 
@@ -1279,7 +1279,7 @@ export interface ButtonProps
 
 ## 概要
 
-单行 / 多行输入，前后缀、清除、密码显隐、回车搜索、自动高度与字数统计。
+单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。
 
 ## 条件导出
 
@@ -1333,6 +1333,24 @@ import { /* 导出符号 */ } from 'solid-craft/input';
 | `visibilityToggle` | `boolean` | `true` | 密码可见性切换按钮；仅 `type="password"` 生效。 | 否 |
 | `onSearch` | `(value: string) => void` | `undefined` | 回车搜索回调；仅 `type="search"` 生效，输入法组合态下的回车不触发。 | 否 |
 | `enterButton` | `JSX.Element` | `false` | 搜索按钮：传 `true` 渲染默认搜索图标，传 JSX 则渲染自定义内容。仅 `type="search"` 生效。 （`JSX.Element` 已包含 `boolean`，不再写 `boolean \| JSX.Element`，避免冗余联合。） | 否 |
+
+### InputNumberProps
+
+继承：`Omit<       JSX.InputHTMLAttributes<HTMLInputElement>,       // 原生这几个属性的语义与本组件不同：value 是 string、onChange 是 input 事件、       // min/max/step 只对 type="number" 生效（我们用 type="text" 接管格式化）。       \| 'value'       \| 'defaultValue'       \| 'onChange'       \| 'children'       \| 'size'       \| 'prefix'       \| 'type'       \| 'min'       \| 'max'       \| 'step'     >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `value` | `MaybeAccessor<number \| null>` | `undefined` | 受控数值；`null` 表示空值。支持传值或 getter（`MaybeAccessor`）。 | 否 |
+| `defaultValue` | `MaybeAccessor<number \| null>` | `undefined` | 非受控初始值；仅挂载时读取一次。 | 否 |
+| `onChange` | `NumberChangeHandler<HTMLInputElement>` | `undefined` | 数值变更回调；清空时第一参数为 `null`。 | 否 |
+| `step` | `number` | `1` | 步进值，决定上下按钮与 ↑/↓ 键的单次增量。 `precision` 未显式给出时，由它的小数位反推精度（`step={0.1}` ⇒ 1 位小数）。 | 否 |
+| `precision` | `number` | `由 `step` 推导` | 小数位数；显式给出后，输入与步进的结果都会被裁到该位数。 | 否 |
+| `min` | `number` | `undefined` | 下界；输入过程中不夹取（否则输 `10` 打到 `1` 就被拉到 `min`）， 在失焦、步进、清空后归一化时生效。 | 否 |
+| `max` | `number` | `undefined` | 上界；夹取时机同 `min`。 | 否 |
+| `thousands` | `boolean` | `false` | 展示千分位分隔符（仅影响展示，输入时可带 `,` 也可不带）。 | 否 |
+| `controls` | `boolean` | `true` | 展示上下步进按钮；关闭后仍可用 ↑/↓ 键步进。 | 否 |
+| `prefix` | `JSX.Element` | `undefined` | 前缀内容（单位或图标）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。 | 否 |
+| `suffix` | `JSX.Element` | `undefined` | 后缀内容（单位或图标）。 | 否 |
 
 ### TextareaProps
 
@@ -1471,6 +1489,96 @@ export interface InputProps
   enterButton?: JSX.Element;
 }
 
+/**
+ * 数值变更回调；`value` 为 `null` 表示「被清空」。
+ *
+ * 与 `InputChangeHandler` 的区别是**不给中间态**：`InputNumber` 在用户输入过程中
+ * 只提交能被 `Number()` 精确表达的数值，`'1.'` / `'-'` 这类半成品留在控件内部的
+ * 草稿里，不会以 `'1.'` 这种字符串形式漏给业务侧。
+ */
+export type NumberChangeHandler<T extends HTMLElement> = (
+  value: number | null,
+  event?: InputChangeEvent<T>,
+) => void;
+
+/** `InputNumber` 的入参。 */
+export interface InputNumberProps
+  extends
+    Omit<
+      JSX.InputHTMLAttributes<HTMLInputElement>,
+      // 原生这几个属性的语义与本组件不同：value 是 string、onChange 是 input 事件、
+      // min/max/step 只对 type="number" 生效（我们用 type="text" 接管格式化）。
+      | 'value'
+      | 'defaultValue'
+      | 'onChange'
+      | 'children'
+      | 'size'
+      | 'prefix'
+      | 'type'
+      | 'min'
+      | 'max'
+      | 'step'
+    >,
+    Pick<InputSharedProps, 'size' | 'status'> {
+  /**
+   * 受控数值；`null` 表示空值。支持传值或 getter（`MaybeAccessor`）。
+   * @default undefined
+   */
+  value?: MaybeAccessor<number | null>;
+  /**
+   * 非受控初始值；仅挂载时读取一次。
+   * @default undefined
+   */
+  defaultValue?: MaybeAccessor<number | null>;
+  /**
+   * 数值变更回调；清空时第一参数为 `null`。
+   * @default undefined
+   */
+  onChange?: NumberChangeHandler<HTMLInputElement>;
+  /**
+   * 步进值，决定上下按钮与 ↑/↓ 键的单次增量。
+   * `precision` 未显式给出时，由它的小数位反推精度（`step={0.1}` ⇒ 1 位小数）。
+   * @default 1
+   */
+  step?: number;
+  /**
+   * 小数位数；显式给出后，输入与步进的结果都会被裁到该位数。
+   * @default 由 `step` 推导
+   */
+  precision?: number;
+  /**
+   * 下界；输入过程中不夹取（否则输 `10` 打到 `1` 就被拉到 `min`），
+   * 在失焦、步进、清空后归一化时生效。
+   * @default undefined
+   */
+  min?: number;
+  /**
+   * 上界；夹取时机同 `min`。
+   * @default undefined
+   */
+  max?: number;
+  /**
+   * 展示千分位分隔符（仅影响展示，输入时可带 `,` 也可不带）。
+   * @default false
+   */
+  thousands?: boolean;
+  /**
+   * 展示上下步进按钮；关闭后仍可用 ↑/↓ 键步进。
+   * @default true
+   */
+  controls?: boolean;
+  /**
+   * 前缀内容（单位或图标）。原生 `prefix` 是 RDFa 字符串属性，这里覆盖为 JSX。
+   * @default undefined
+   */
+  prefix?: JSX.Element;
+  /**
+   * 后缀内容（单位或图标）。
+   * @default undefined
+   */
+  suffix?: JSX.Element;
+}
+
 /** `Textarea` 的入参。 */
 export interface TextareaProps
   extends
@@ -1506,6 +1614,9 @@ export interface TextareaProps
 
 - [前缀与后缀](llms/demos/input-affix.md)：用前缀拼协议、用后缀挂单位与字数提示，并演示 createSignal 驱动的受控写法。（源文件 `packages/core/src/components/input/demos/affix.tsx`）
 - [单行输入](llms/demos/input-basic.md)：三档尺寸、禁用态、前后缀图标、允许清除、密码显隐与回车搜索。（源文件 `packages/core/src/components/input/demos/basic.tsx`）
+- [精度与格式化](llms/demos/input-number-format.md)：precision 控制小数位、thousands 展示千分位，以及受控值在失焦时被夹到 max。（源文件 `packages/core/src/components/input/demos/number-format.tsx`）
+- [步进与范围](llms/demos/input-number-step.md)：小数步进 0.1、十位步进 10、min / max 到界后按钮置灰，以及 createSignal 驱动的受控写法。（源文件 `packages/core/src/components/input/demos/number-step.tsx`）
+- [数字输入框](llms/demos/input-number.md)：默认 1 步进、三档尺寸、禁用态、单位前后缀与关闭步进按钮。（源文件 `packages/core/src/components/input/demos/number.tsx`）
 - [多行输入](llms/demos/input-textarea.md)：自动高度（true 与 minRows / maxRows 两种口径）、字数统计、清除按钮与禁用态。（源文件 `packages/core/src/components/input/demos/textarea.tsx`）
 
 ## 相关规范
@@ -2917,7 +3028,7 @@ render(
 
 ## 说明
 
-首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。
+首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input、InputNumber。
 
 ## 完整源码
 
@@ -2931,6 +3042,7 @@ import {
   Header,
   Icon,
   Input,
+  InputNumber,
   Layout,
   Link,
   Paragraph,
@@ -2944,7 +3056,8 @@ import { DemoSection, DotIcon } from '../../demos/shared';
 
 export const demo = {
   title: '基础组件总览',
-  description: '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input。',
+  description:
+    '首页聚合预览：Button、Typography、Icon、Space、Divider、Layout、Grid、Input、InputNumber。',
 };
 
 export default function Basic() {
@@ -2987,9 +3100,10 @@ export default function Basic() {
           <Col span={12}>span 12</Col>
         </Row>
       </DemoSection>
-      <DemoSection title="Input / Textarea">
+      <DemoSection title="Input / InputNumber / Textarea">
         <Input defaultValue="带清除" aria-label="总览：可清除输入" allowClear />
         <Input type="password" defaultValue="secret" aria-label="总览：密码" />
+        <InputNumber defaultValue={128} step={1} aria-label="总览：数量" />
         <Textarea
           autoSize={{ minRows: 2, maxRows: 4 }}
           showCount
@@ -3735,6 +3849,259 @@ export default function Basic() {
         <span>
           最近一次搜索：<output>{searched()}</output>
         </span>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Input 输入框 API](llms/exports/input.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/input-number-format.md -->
+
+# Input 输入框 · 精度与格式化（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/input/demos/number-format.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+precision 控制小数位、thousands 展示千分位，以及受控值在失焦时被夹到 max。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { InputNumber } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '精度与格式化',
+  description: 'precision 控制小数位、thousands 展示千分位，以及受控值在失焦时被夹到 max。',
+};
+
+export default function NumberFormatDemo() {
+  const [integer, setInteger] = createSignal<number | null>(42);
+  const [price, setPrice] = createSignal<number | null>(1234.5);
+  const [clamped, setClamped] = createSignal<number | null>(50);
+
+  return (
+    <>
+      <DemoSection title="precision 取整（0 位）">
+        <InputNumber
+          precision={0}
+          aria-label="取整数字"
+          value={integer()}
+          onChange={(value) => setInteger(value)}
+        />
+        <span>
+          当前值：
+          <output>{integer() ?? '空'}</output>
+        </span>
+      </DemoSection>
+
+      <DemoSection title="precision 两位小数">
+        <InputNumber precision={2} aria-label="两位小数" defaultValue={12.3456} />
+        <InputNumber precision={2} step={0.01} aria-label="两位小数步进" defaultValue={9.99} />
+        <span>输入与步进的结果都会被裁到 2 位小数。</span>
+      </DemoSection>
+
+      <DemoSection title="千分位">
+        <InputNumber
+          thousands
+          aria-label="千分位金额"
+          value={price()}
+          onChange={(value) => setPrice(value)}
+        />
+        <span>
+          当前值：
+          <output>{price() ?? '空'}</output>，输入时可带逗号也可不带。
+        </span>
+        <InputNumber thousands precision={0} aria-label="千分位整数" defaultValue={1234567} />
+      </DemoSection>
+
+      <DemoSection title="失焦归一化">
+        <InputNumber
+          min={0}
+          max={100}
+          aria-label="0 到 100 的数字"
+          value={clamped()}
+          onChange={(value) => setClamped(value)}
+        />
+        <span>
+          当前值：
+          <output>{clamped() ?? '空'}</output>，输入 123 后失焦会被夹到 100。
+        </span>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Input 输入框 API](llms/exports/input.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/input-number-step.md -->
+
+# Input 输入框 · 步进与范围（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/input/demos/number-step.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+小数步进 0.1、十位步进 10、min / max 到界后按钮置灰，以及 createSignal 驱动的受控写法。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { InputNumber } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '步进与范围',
+  description:
+    '小数步进 0.1、十位步进 10、min / max 到界后按钮置灰，以及 createSignal 驱动的受控写法。',
+};
+
+export default function NumberStepDemo() {
+  const [decimal, setDecimal] = createSignal<number | null>(0);
+  const [count, setCount] = createSignal<number | null>(5);
+
+  return (
+    <>
+      <DemoSection title="小数步进 0.1">
+        <InputNumber
+          step={0.1}
+          aria-label="小数步进"
+          value={decimal()}
+          onChange={(value) => setDecimal(value)}
+        />
+        <span>
+          当前值：
+          <output>{decimal() ?? '空'}</output>，连点 3 次上箭头得到 0.3。
+        </span>
+      </DemoSection>
+
+      <DemoSection title="十位步进 10">
+        <InputNumber step={10} aria-label="十位步进" defaultValue={100} />
+        <span>每次步进 10，适合以十为单位调整的数量。</span>
+      </DemoSection>
+
+      <DemoSection title="到达上下界后按钮禁用">
+        <InputNumber min={0} max={10} aria-label="已到上界的数字" defaultValue={10} />
+        <InputNumber min={0} max={10} aria-label="已到下界的数字" defaultValue={0} />
+        <span>到达 min / max 后对应按钮变灰禁用，避免「点了没反应」。</span>
+      </DemoSection>
+
+      <DemoSection title="受控用法">
+        <InputNumber
+          min={0}
+          max={20}
+          aria-label="受控数字"
+          value={count()}
+          onChange={(value) => setCount(value)}
+        />
+        <span>
+          当前值：
+          <output>{count() ?? '空'}</output>
+        </span>
+        <button type="button" onClick={() => setCount(20)}>
+          设为 20
+        </button>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Input 输入框 API](llms/exports/input.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/input-number.md -->
+
+# Input 输入框 · 数字输入框（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/input/demos/number.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+默认 1 步进、三档尺寸、禁用态、单位前后缀与关闭步进按钮。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { InputNumber } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '数字输入框',
+  description: '默认 1 步进、三档尺寸、禁用态、单位前后缀与关闭步进按钮。',
+};
+
+export default function NumberDemo() {
+  const [amount, setAmount] = createSignal<number | null>(128);
+  const [ratio, setRatio] = createSignal<number | null>(80);
+
+  return (
+    <>
+      <DemoSection title="基础用法">
+        <InputNumber aria-label="基础数字" defaultValue={1} />
+        <InputNumber aria-label="带初始值的数字" defaultValue={10} />
+        <InputNumber aria-label="空值数字" placeholder="请输入数字" />
+        <span>默认步进为 1，点右侧上下按钮或按 ↑ / ↓ 键即可增减。</span>
+      </DemoSection>
+
+      <DemoSection title="尺寸">
+        <InputNumber size="small" aria-label="small 尺寸数字" defaultValue={1} />
+        <InputNumber size="medium" aria-label="medium 尺寸数字" defaultValue={1} />
+        <InputNumber size="large" aria-label="large 尺寸数字" defaultValue={1} />
+      </DemoSection>
+
+      <DemoSection title="禁用">
+        <InputNumber disabled aria-label="禁用态数字" defaultValue={5} />
+        <InputNumber disabled aria-label="禁用且为空的数字" placeholder="禁用占位文案" />
+      </DemoSection>
+
+      <DemoSection title="前后缀单位">
+        <InputNumber
+          prefix="¥"
+          suffix="元"
+          aria-label="金额"
+          value={amount()}
+          onChange={(value) => setAmount(value)}
+        />
+        <InputNumber
+          suffix="%"
+          min={0}
+          max={100}
+          aria-label="百分比"
+          value={ratio()}
+          onChange={(value) => setRatio(value)}
+        />
+        <span>
+          当前金额：
+          <output>{amount() ?? '空'}</output> 元，当前百分比：
+          <output>{ratio() ?? '空'}</output>%
+        </span>
+      </DemoSection>
+
+      <DemoSection title="关闭步进按钮">
+        <InputNumber controls={false} aria-label="关闭步进按钮的数字" defaultValue={42} />
+        <span>关闭后不再渲染上下按钮，但仍可用 ↑ / ↓ 键步进。</span>
       </DemoSection>
     </>
   );
