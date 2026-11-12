@@ -151,6 +151,34 @@ for (const check of checks) {
   }
 }
 
+// 3.5 发布产物不带源码注释（T2-12，docs/08 §30.30）
+// 体积预算能不能达标，取决于 build 链里有没有跑 scripts/strip-dist-comments.mjs。
+// 这里把「结果」钉住：dist 里只允许指令类注释（/*#__PURE__*/ 之类、/*! legal */、
+// //# sourceMappingURL=），源码 JSDoc 一律不许进产物 —— 它们已经有一份在 dist/types 里。
+const distArtifacts = [
+  ...globSync('packages/core/dist/esm/**/*.js', { cwd: repoRoot }),
+  ...globSync('packages/core/dist/styles/**/*.css', { cwd: repoRoot }),
+];
+if (distArtifacts.length === 0) {
+  fail('未找到 dist 产物，无法校验「产物零源码注释」契约（需先 pnpm build）');
+} else {
+  const commentOffenders = [];
+  for (const rel of distArtifacts) {
+    const code = read(join(repoRoot, rel));
+    const blocks = code.match(/\/\*[\s\S]*?\*\//g) ?? [];
+    const strayBlocks = blocks.filter((block) => !/^\/\*[#!]|^\/\*\s*@__/.test(block));
+    const strayLines = code.match(/(?:^|\n)[ \t]*\/\/(?!#)[^\n]*/g) ?? [];
+    if (strayBlocks.length + strayLines.length > 0) {
+      commentOffenders.push(`${rel}（块 ${strayBlocks.length} / 行 ${strayLines.length}）`);
+    }
+  }
+  if (commentOffenders.length > 0) {
+    fail(
+      `发布产物含源码注释（build 链应跑 scripts/strip-dist-comments.mjs）：${commentOffenders.slice(0, 4).join('；')}`,
+    );
+  }
+}
+
 // 4. CI workflow 契约
 const workflow = read(workflowPath);
 // 用量红线的统计结果要在收尾汇总里打印，先在外层占位（判据本身在下面的 else 块里）
@@ -529,5 +557,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· size-limit@${sizeLimit} + file 插件`,
 );

@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 11 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23 / T2-08 Form §30.24 / T2-09 控件接入 Form §30.27 / T2-10 DatePicker §30.28 / T2-11 RangePicker §30.29），下一项 T2-12；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 12 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23 / T2-08 Form §30.24 / T2-09 控件接入 Form §30.27 / T2-10 DatePicker §30.28 / T2-11 RangePicker §30.29 / T2-12 体积预算 §30.30），下一项 T2-13；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T2-12**（M2 第十二项「体积预算落地」，见 §4.1；T2-01~T2-11 已完成，见 §30.16 / §30.18 / §30.19 / §30.20 / §30.21 / §30.22 / §30.23 / §30.24 / §30.27 / §30.28 / §30.29）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后各次提交（T2-01~T2-05 及 CI 用量收敛）**均未推送**，故无新 run；T2-05 / T2-06 / T2-07 / T2-08 与设计基线收口已分别提交为 `928b899` / `8d61a81` / `62b7d23` / `b97421e` / `d917f4f`（2026-11-12，均未推送）；T2-09 已提交为 `583cf23`（35 files / +1423 −34）；T2-10 已提交为 `3f694e0`（42 files / +3098 −26）；T2-11 改动仍在工作区待逐次授权提交；以上均未推送，`main` 领先 `origin/main` 14 |
-| 下一步 | **按 §4.1 执行 M2（13 项，已完成 11 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ ~~T2-03 Input（Textarea 并入）~~（§30.19）→ ~~T2-04 InputNumber~~（§30.20）→ ~~T2-05 Checkbox / Radio / Switch~~（§30.21）→ ~~T2-06 App~~（§30.22）→ ~~T2-07 Select~~（§30.23）→ ~~T2-08 Form~~（§30.24）→ ~~T2-09 控件接入 Form~~（§30.27）→ ~~T2-10 DatePicker~~（§30.28）→ ~~T2-11 RangePicker~~（§30.29）→ **T2-12 体积预算** → T2-13 M2 Exit（含「视觉基线 / axe 覆盖每组件全部 Demo」的扩面，见 §30.20 第四节）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T2-13**（M2 第十三项「M2 Exit 检查」，见 §4.1；T2-01~T2-12 已完成，见 §30.16 / §30.18 / §30.19 / §30.20 / §30.21 / §30.22 / §30.23 / §30.24 / §30.27 / §30.28 / §30.29 / §30.30）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后各次提交（T2-01~T2-05 及 CI 用量收敛）**均未推送**，故无新 run；T2-05 / T2-06 / T2-07 / T2-08 与设计基线收口已分别提交为 `928b899` / `8d61a81` / `62b7d23` / `b97421e` / `d917f4f`（2026-11-12，均未推送）；T2-09 已提交为 `583cf23`（35 files / +1423 −34）；T2-10 已提交为 `3f694e0`（42 files / +3098 −26）；T2-11 已提交为 `f76c472`（42 files / +3775 −26）；T2-12 改动仍在工作区待逐次授权提交；以上均未推送，`main` 领先 `origin/main` 15 |
+| 下一步 | **按 §4.1 执行 M2（13 项，已完成 12 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ ~~T2-03 Input（Textarea 并入）~~（§30.19）→ ~~T2-04 InputNumber~~（§30.20）→ ~~T2-05 Checkbox / Radio / Switch~~（§30.21）→ ~~T2-06 App~~（§30.22）→ ~~T2-07 Select~~（§30.23）→ ~~T2-08 Form~~（§30.24）→ ~~T2-09 控件接入 Form~~（§30.27）→ ~~T2-10 DatePicker~~（§30.28）→ ~~T2-11 RangePicker~~（§30.29）→ ~~T2-12 体积预算~~（§30.30）→ **T2-13 M2 Exit**（含「视觉基线 / axe 覆盖每组件全部 Demo」的扩面，见 §30.20 第四节）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
 
 ---
@@ -136,7 +136,7 @@
 | T2-09 | 控件接入 Form：Input / Textarea / InputNumber / Checkbox / Radio / Switch / Select 全部走 `useFormField` | T2-03 / T2-04 / T2-05 / T2-07 / T2-08 | 工程师 C | 一页真实表单 Demo（新增 + 编辑）端到端可跑；七类控件接入证据 + Group id 契约修复（**10 条单测 / SSR 13 入口 / E2E 端到端 + axe 0 violations / 负向实证 9/9 钉住**，见 §30.27） | [x] |
 | T2-10 | `DatePicker`（XL）：单选 / `min`·`max`·`disabledDate` / `format` / 中文 locale / 键盘 / `editing` 状态机 / SSR 不取当前时间 | T2-02 | 技术负责人 | 非法输入可恢复；`@internationalized/date` + `Intl`，不自造日期轮子（**18 条单测 + SSR 14 入口 + 负向实证 9/9 钉住**，见 §30.28） | [x] |
 | T2-11 | `RangePicker`（R5 已定 M2）：hover 预览、键盘、焦点管理 | T2-10 | 技术负责人 | 同日 / 跨月 / 跨年边界；`min`·`max` 约束生效（**26 条单测 + SSR 15 入口 + E2E 两段落点 / 悬停预览 / Tab 交接 + 负向实证 10/10 钉住**，见 §30.29） | [x] |
-| T2-12 | 体积预算落地：`size-limit` 补「Form + Input + Select ≤ 25 KB」与「DatePicker ≤ 30 KB」两条，`check:ci` 的未实现清单相应缩短 | T2-07 / T2-08 / T2-10 | 技术负责人 | `pnpm size` 两条新预算实跑；超预算先拆再合并 | [ ] |
+| T2-12 | 体积预算落地：`size-limit` 补「Form + Input + Select ≤ 25 KB」与「DatePicker ≤ 30 KB」两条，`check:ci` 的未实现清单相应缩短 | T2-07 / T2-08 / T2-10 | 技术负责人 | `pnpm size` 两条新预算实跑；超预算先拆再合并（**实测 29.44 KB 超 25 KB → 定位到 dist 把中文 JSDoc 全文发了出去，新增 `scripts/strip-dist-comments.mjs` 后 17.84 / 13.30 KB，四条预算全绿、`check:ci` 4/6；6 条负向实证 N143~N148 钉住，见 §30.30**） | [x] |
 | T2-13 | **M2 Exit 检查**：表单页 Demo 端到端 / axe / 每组件 ≥3 Demo / 视觉基线（@1280·@768）/ SSR 冒烟 / 文档生成物 | T2-09 / T2-11 / T2-12 | 技术负责人 | `pnpm verify` RC=0；六条预算中四条落地；表单页可独立开发。**另含一项前置修复**：`tests/e2e/demo-list.ts` 目前只截每个组件的 `basic` Demo（`demoPath()` 写死 `basic`），新增 Demo 既无视觉基线也不进 axe 扫描 —— 必须先扩成「slug × demo」再谈「每组件 ≥3 Demo」的验收（§30.20 第四节） | [ ] |
 
 **推进顺序**：T2-01 → T2-02 是全链前提（不做基座，后面每个控件都要返工）；T2-03 / T2-05 / T2-06 可并行；T2-07 与 T2-08 并行；T2-09 必须等控件与 Form 都在位；T2-10 / T2-11 是最长尾巴，越早启动越好。
@@ -3373,3 +3373,89 @@ Aming 授权「提交 T2-10 后开始 T2-11」后按 §4.1 收口：**双输入�
 3. **`DatePicker.RangePicker` 子组件形态未采用**：`docs/02 §6.3` 的示例是把它挂在 `DatePicker` 上，本轮以独立组件 + 独立子路径 `solid-craft/range-picker` 交付（等价能力、可 tree-shake、少一层命名空间）。若要与 AntD 写法完全对齐，需 Aming 裁决后加一层静态属性挂载。
 4. `T2-13` 的「每组件全部 Demo 进视觉基线 / axe」扩面缺口不变：本轮 `constraints` Demo 与 T2-06 / T2-07 / T2-08 的非首 Demo 仍未覆盖（`range-picker` 的 `basic` 已按清单自动纳入）。
 5. 未做 375px 窄屏专项：弹层定宽 248px、双输入最小宽度依赖文档站容器，未加 media query。
+
+### 30.30 T2-12 体积预算落地：两条新预算 + 剥离产物源码注释（2026-11-12 实测与验收）
+
+#### 一、结论先行
+
+Aming 授权「先提交再做 T2-12」后按 §4.1 收口：`size-limit` 补上 `Form + Input + Select ≤ 25 KB` 与 `DatePicker ≤ 30 KB` 两条预算（名称与 `docs/02 §4.6` 逐字一致），`check:ci` 的未实现清单从 4 条缩到 2 条（`Table + Virtual` / `单个图标`，均属 M3）。
+
+**第一次实跑就是红的**：`Form + Input + Select` 实测 **29.44 KB**，超预算 **4.44 KB**。查下去发现根因不是「代码写多了」，而是**构建产物把源码里的中文 JSDoc 全文一起发了出去**——`docs/02` 的 `build.minify: false`「库产物不压缩，交给消费方」被理解成了「连注释都不动」，于是 110 个产物里躺着 32.37 KB 的注释，其中中文 JSDoc 熵高、gzip 压不动，占了这组体积的 40%。
+
+修法：新增 `scripts/strip-dist-comments.mjs`，构建末尾**只去注释、不动代码**（不压空白、不混淆标识符、不改语法，仍然满足「不压缩」的架构决策），用「等量换行」替换保住行号，`*.js.map` 继续有效。结果四条预算全绿：
+
+| 预算 | 改前（gzip） | 改后（gzip） | 预算 | 余量 |
+| --- | --- | --- | --- | --- |
+| Button（JS + CSS） | 1.95 KB | **1.85 KB** | 6 KB | 4.15 KB |
+| Form + Input + Select | **29.44 KB（超 4.44）** | **17.84 KB** | 25 KB | 7.16 KB |
+| DatePicker（含 Range） | 20.68 KB | **13.30 KB** | 30 KB | 16.70 KB |
+| Core 全量（不含图标） | 108.86 KB | **71.46 KB** | 180 KB | 108.54 KB |
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `.size-limit.json` | **新增两条**：`Form + Input + Select`（form/ + input/ + select/ 三目录 + 三张 CSS，25 KB）、`DatePicker`（date-picker/ + range-picker/ + 两张 CSS，30 KB）。**没有**新增 `InputNumber` 之类的第四条——`docs/04` 里它是独立组件，但 `package.json` 只有 `./input` 一个子路径，它跟着 `input` 模块一起发；按组件名字砍口径等于自欺，所以纳入同一条预算一起达标 |
+| `scripts/strip-dist-comments.mjs` | **新增**：产物去注释。JS 用 `oxc-parser` 拿精确注释区间（正则会被字符串里的 `//`、`/*` 骗到），CSS 用块注释正则；注释按「原文换行数」等量替换成 `\n`，**行号零漂移** |
+| `packages/core/package.json` | build 链在 `build-css` 之后、`check-exports` 之前插入 `node ../../scripts/strip-dist-comments.mjs packages/core` |
+| `scripts/check-ci.mjs` | **新增判据 3.5「发布产物零源码注释」**：扫 `dist/esm/**/*.js` + `dist/styles/**/*.css`，只允许指令类注释（`/*#__PURE__*/`、`/* @__PURE__ */`、`/*! legal */`、`//# sourceMappingURL=`），出现任意源码 JSDoc/行注释即红灯；收尾汇总增加「产物零源码注释（110 个文件）」 |
+| `docs/08` 本文件 | 新增本节；§4.1 `T2-12` 勾 `[x]` 并补验收证据；锚点推进 **T2-13**、已完成 11 → 12 项 |
+| `scripts/todo-governance.json`、`scripts/goals.baseline.json` | 治理契约 `T2-12 → 30.30` + 基线重校（`AGENTS.md` 只同步标记行） |
+
+#### 三、为什么是「去注释」而不是「压缩」
+
+| 备选 | 为什么没选 |
+| --- | --- |
+| 打开 `build.minify` | 直接违背 `docs/02` 的 `build.minify: false`「库产物不压缩，交给消费方；保留 sourcemap」——那是**冻结文档**里的架构决策，不是随手可调的旋钮 |
+| 把 `limit` 调大 / 改 `docs/02` 的数字 | `docs/02` 冻结（SHA256 基线），且 `check:ci` 第 2 条会逐字比对预算表；私下放宽会被判「与 02 §4.6 不一致」（负向 N147 钉住） |
+| 把 `InputNumber` 从这条预算里摘出去 | 它和 `Input`/`Textarea` 共享 `./input` 子路径，消费方一次 `import` 就全拿到；摘出去只是让数字好看，不是真的省 |
+| 只压缩 CSS 空白 | 收益不到 1 KB，且会把 `check:styles` 基于行/选择器的扫描置于风险中 |
+
+真正该修的是「发行包里不该有的东西」：中文 JSDoc 在 `dist/types/*.d.ts` 里已经有一份（IDE 悬停读的是那份），再往 `.js` 里塞一份纯粹是重复付费。
+
+#### 四、去注释脚本的三条硬规矩
+
+| # | 规矩 | 为什么 |
+| --- | --- | --- |
+| 1 | **指令类注释一个不动**：`/*#__PURE__*/`（72 处）、`/* @__PURE__ */`（5 处）、`/*! legal */`、`//# sourceMappingURL=` | `__PURE__` 是消费方打包器做 tree-shaking 的唯一依据，删了会让整棵组件树被判定「有副作用」而摇不掉。这是**功能回归**，比体积超标严重得多。脚本内置不变式：剥离前后 `__PURE__` 出现次数必须相等，否则直接抛错（负向 N144） |
+| 2 | **行号零漂移**：注释替换成「与原注释等量的换行」 | `*.js.map` 的 `mappings` 按行/列记；行号一漂 map 就废，而 `docs/02` 要求「保留 sourcemap」。脚本内置不变式：剥离前后换行数必须相等，否则抛错（负向 N145） |
+| 3 | **只碰 `dist/esm` 与 `dist/styles`** | `dist/source`（`solid` 条件）本来就是源码、该可读；`dist/types` 的 JSDoc 是 IDE 悬停的资料来源，删了才是真损失 |
+
+实测「行内尾随注释」为 **0 处**（第一版埋点统计过，77 处「行内有代码」全部是保留的 `__PURE__`），因此不只是行号、连列级映射也是无损的。若将来有人写出 `foo(/* x */ bar)` 这种行内注释，脚本会打印警示而不是静默偏列。
+
+#### 五、门禁与实测抓到的问题
+
+| # | 现象 | 根因 | 修法 |
+| --- | --- | --- | --- |
+| 1 | 首次 `pnpm size` 报 `Form + Input + Select` 超 4.44 KB | 产物带全部中文 JSDoc（32.37 KB 原始字节） | 新增去注释步骤，四条预算全绿 |
+| 2 | 第一版脚本把 `/*#__PURE__*/` 一起删了 | `mustKeep` 只放行 `//#` 与 `/*!`，漏了 `#__PURE__` / `@__PURE__` | 放行 `#` 与 `@__` 前缀；并加「`__PURE__` 计数不变」不变式，把这条钉成机器判据 |
+| 3 | 第一版脚本把只含注释的 `types.js` 剥成 0 字节后自己抛「被清空」 | 守卫写成了「空文件即 bug」，但空模块是合法 ESM | 改为统计「纯注释模块变空模块」并在日志里点名 |
+| 4 | `check:ci` 新判据首轮误报 4 个文件「含行注释」 | 正则 `\/` 只吃了第一个斜杠，`//# sourceMappingURL` 被当成普通行注释 | 改成 `\/\/(?!#)`，只匹配非指令行注释 |
+| 5 | 第一版负向实证 N145 抓不到行数漂移 | 变异用的正则写在字面量里，`\n` 被当成换行符而不是「反斜杠 + n」 | 改用 `replaceAll('newlineCount(raw)', '0')` 做变异，N145 立刻红灯 |
+
+两处流程性尾巴：`.size-limit.json` 与 `scripts/*.mjs` 都在 `lint:format` 的覆盖范围里，改完要跑 Prettier；`scripts/todo-governance.json` 改完要跑 `pnpm check:goals --update-baseline`。
+
+#### 六、验收数字（最终态实测）
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm size` | **四条全绿**：Button 1.85 / 6、Form + Input + Select 17.84 / 25、DatePicker 13.30 / 30、Core 71.46 / 180（gzip） |
+| `check:ci` | 预算 **4/6 条**与 `docs/02 §4.6` 一致，未实现：`Table + Virtual` / `单个图标`（M3）；新增「产物零源码注释（**110 个文件**）」判据通过 |
+| 去注释收益 | **67/110** 个产物、**32.37 KB** 原始字节；gzip 端 Form 组 −11.60 KB、DatePicker 组 −7.38 KB、Core −37.40 KB、Button −0.10 KB |
+| 单测 | `packages/core` **271 tests / 27 files passed**（去注释不影响行为） |
+| 视觉基线 | **36 passed**，逐张字节不变（证明只删注释、没碰任何渲染） |
+| 负向实证 | **N143~N148 6/6 PASS + `DRIFT []`**：摘掉 strip → size 红灯 4.44 KB；`mustKeep` 丢 `#` → `__PURE__` 误删被拦；不补换行 → 行数漂移被拦；产物含注释 → `check:ci` 红灯；私下放宽到 30 KB → 判「与 02 §4.6 不一致」；path 空匹配 → 判「未匹配到任何产物文件」 |
+| `docs/01~07` / `pnpm-lock.yaml` | 零改动（**未新增任何依赖**：`oxc-parser` 早就在 devDependencies 里） |
+
+#### 七、治理回写
+
+`docs/08` 新增本节；§4.1 的 `T2-12` 勾 `[x]` 并追加上表证据；锚点推进到 **T2-13 M2 Exit**、已完成 11 → 12 项；`scripts/todo-governance.json` 新增 `"T2-12": "30.30"`；`pnpm check:goals --update-baseline` 重校。
+表格里的提交链同步为「T2-11 → `f76c472`（42 files / +3775 −26）、`main` 领先 `origin/main` 15」。
+
+#### 八、已知边界
+
+1. `@size-limit/file` 是**逐文件 gzip 求和**，没有跨文件字典共享，因此比真实 bundle（消费方打包后再压）偏高。口径保守是好事：预算卡得住，实际一定更小。
+2. `Table + Virtual ≤ 35 KB` 与 `单个图标 ≤ 1 KB` 两条预算仍未落地（组件/图标不在 M2 范围），`check:ci` 会持续把它们列在「未实现」里，不会被忘掉。
+3. 去注释不解决「绝对值大」的问题：`Form + Input + Select` 17.84 KB 里仍有 12 KB 是真实逻辑（校验引擎、数字刻度运算、三个组件的状态机）。若 M3 再加控件，需要重新校准而不是继续挤注释。
+4. `dist/source`（`solid` 条件）仍带注释——那是源码形态，消费方用自己的编译器处理；`dist/types` 带 JSDoc 是刻意保留（IDE 悬停资料来源）。
+5. 未引入 CSS 压缩（`sass` 的 `compressed` 或 esbuild CSS minify）：CSS 只占这组体积的 2.6 KB，收益不足以承担「`check:styles` 按行扫描被改写」的风险。

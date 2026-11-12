@@ -9,6 +9,30 @@
     "gzip": true
   },
   {
+    "name": "Form + Input + Select",
+    "path": [
+      "packages/core/dist/esm/components/form/*.js",
+      "packages/core/dist/esm/components/input/*.js",
+      "packages/core/dist/esm/components/select/*.js",
+      "packages/core/dist/styles/components/form.css",
+      "packages/core/dist/styles/components/input.css",
+      "packages/core/dist/styles/components/select.css"
+    ],
+    "limit": "25 KB",
+    "gzip": true
+  },
+  {
+    "name": "DatePicker",
+    "path": [
+      "packages/core/dist/esm/components/date-picker/*.js",
+      "packages/core/dist/esm/components/range-picker/*.js",
+      "packages/core/dist/styles/components/date-picker.css",
+      "packages/core/dist/styles/components/range-picker.css"
+    ],
+    "limit": "30 KB",
+    "gzip": true
+  },
+  {
     "name": "Core 全量（不含图标）",
     "path": ["packages/core/dist/esm/**/*.js", "packages/core/dist/styles/**/*.css"],
     "limit": "180 KB",

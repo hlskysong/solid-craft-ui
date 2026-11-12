@@ -139,7 +139,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "vite build && node ../../scripts/build-source.mjs packages/core && tsc -p tsconfig.build.json && node ../../scripts/fix-dts.mjs packages/core && node ../../scripts/build-css.mjs && node ../../scripts/check-exports.mjs",
+    "build": "vite build && node ../../scripts/build-source.mjs packages/core && tsc -p tsconfig.build.json && node ../../scripts/fix-dts.mjs packages/core && node ../../scripts/build-css.mjs && node ../../scripts/strip-dist-comments.mjs packages/core && node ../../scripts/check-exports.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run"
   },
