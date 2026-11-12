@@ -16,6 +16,8 @@
 | `data-scui-count` | `''`（存在即真） | 字数统计显示中（页脚留位） | Input（Textarea） |
 | `data-scui-role` | 见下表 | 结构定位（测试/样式锚点），**不表达状态** | 全部 |
 | `data-scui-field` | 字段名 | 字段定位 + 错误滚动目标 | Form |
+| `data-scui-layout` | `horizontal \| vertical \| inline` | 表单与字段的布局，Form 根与 Form.Item 同源输出 | Form |
+| `data-scui-required` | `''`（存在即真） | 字段声明了 required 规则且必填标记开启；与 `data-scui-invalid` 的「校验结果」语义分开 | Form |
 | `data-scui-selected` | `''` | 选中态（列表 / 日历格 / 表格行，存在即真） | Select / DatePicker / Table |
 | `data-scui-checked` | `'true' \| 'false' \| 'mixed'` | 选择类控件的选中三态；**恒输出**（含 SSR 的 `'false'`），`'mixed'` 只由 `Checkbox.indeterminate` 产生 | Checkbox / Radio / Switch |
 | `data-scui-kind` | `info \| success \| warning \| error \| loading` | **一条反馈自身的语义类型**，恒输出；不复用文本 `-tone` 或控件 `-variant`（一个属性名只表达一个语义） | App / Message / Notification |

@@ -1,5 +1,5 @@
 /**
- * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-07）。
+ * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-08）。
  *
  * 用 Vite 的 ssrLoadModule 把入口 TSX 按服务端条件编译，再调 renderToString，
  * 验证：① 不抛 Client-only API；② 双次 renderToString 逐字一致（无 today() / 随机漂移）；
@@ -207,6 +207,37 @@ const cases = [
       ['data-scui-invalid="true"', 1],
       ['data-scui-role="select-search"', 0],
       ['data-scui-role="select-empty"', 0],
+    ],
+  },
+  {
+    // T2-08：Form 静态骨架。校验只在提交时跑，因此服务端**不输出**错误文案节点；
+    // counts 锁 0 钉住这一点，同时锁住 3 个 form / 4 个 form-item 与恒两态的
+    // invalid 属性，避免有人把校验搬进渲染期造成 hydration 属性差。
+    id: 'T2-08',
+    file: '/src/components/form/__tests__/ssr-entry.tsx',
+    markers: [
+      'data-scui-role="form"',
+      'data-scui-role="form-item"',
+      'data-scui-layout="horizontal"',
+      'data-scui-layout="vertical"',
+      'data-scui-layout="inline"',
+      'data-scui-invalid="false"',
+      'data-scui-required=""',
+      'data-scui-disabled=""',
+      'aria-invalid="false"',
+      'aria-label="员工信息"',
+      'for="scui-field-',
+      'id="scui-field-',
+      '姓名',
+      '城市',
+    ],
+    counts: [
+      ['data-scui-role="form"', 3],
+      ['data-scui-role="form-item"', 4],
+      ['data-scui-invalid="false"', 4],
+      ['aria-invalid="false"', 4],
+      ['data-scui-required=""', 2],
+      ['data-scui-role="field-error"', 0],
     ],
   },
 ];

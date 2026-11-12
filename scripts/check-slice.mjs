@@ -39,6 +39,14 @@ const read = (abs) => (existsSync(abs) ? readFileSync(abs, 'utf8') : '');
 const isFile = (abs) => existsSync(abs) && statSync(abs).isFile();
 const pascal = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 
+/**
+ * 剥离块注释与行注释。判据读的是「真实代码」而不是「源码里出现过这个字符串」：
+ * 注释里写 data-x="..." 曾让 Checkbox 假通过（T2-05），注释里写 XxxProps 又让
+ * barrel 漏转出类型假通过（T2-08 的 N113）。两处同源，统一在此处理。
+ */
+const stripComments = (code) =>
+  code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+
 const sourceTemplate = [
   (dir, name, component) => [join(dir, `${component}.tsx`), `${name}: ${component}.tsx`],
   (dir) => [join(dir, 'types.ts'), 'types.ts'],
@@ -64,22 +72,28 @@ function checkTemplateFiles(dir, label, componentName) {
     // ② 两种合法写法都要认：JSX 属性 `data-x={...}` / `data-x="..."`，以及
     //    通过对象 spread 传给共享壳的 `'data-x': ...`（T2-05 三件套用后者）。
     //    不认第二种会逼组件为了过门禁复制一份 label 结构或塞冗余 DOM 属性。
-    const code = impl.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    const code = stripComments(impl);
     const hasDataOutput = /data-[\w-]+\s*=/.test(code) || /['"]data-[\w-]+['"]\s*:/.test(code);
     if (!hasDataOutput) fail(`${label}: ${component}.tsx 未用 data-* 表达变体/状态`);
   }
   const types = read(join(dir, 'types.ts'));
   // 复合组件（Grid = Row/Col，Layout = Header/Content/...）不叫 <Name>Props，
   // 因此只要求「至少一个 *Props 类型」，并由 index.ts 全部转出，不强求单一命名。
-  const propNames = [...types.matchAll(/export\s+(?:interface|type)\s+(\w*Props)\b/g)].map(
+  // 只在剥离注释后的真实代码里找导出声明，并用单词边界比对 barrel —— 否则注释里
+  // 残留的 `XxxProps` 会让「漏转出」判据假通过（T2-08 的 N113 抓到的盲区）。
+  const typesCode = stripComments(types);
+  const propNames = [...typesCode.matchAll(/export\s+(?:interface|type)\s+(\w*Props)\b/g)].map(
     (match) => match[1],
   );
   if (types && propNames.length === 0) fail(`${label}: types.ts 未导出任何 *Props 类型`);
   const barrel = read(join(dir, 'index.ts'));
-  if (barrel && !barrel.includes('export')) fail(`${label}: index.ts 未导出组件与 Props 类型`);
+  const barrelCode = stripComments(barrel);
+  if (barrel && !barrelCode.includes('export')) fail(`${label}: index.ts 未导出组件与 Props 类型`);
   if (barrel) {
     for (const prop of propNames) {
-      if (!barrel.includes(prop)) fail(`${label}: index.ts 未转出 ${prop}`);
+      if (!new RegExp(`\\b${prop}\\b`).test(barrelCode)) {
+        fail(`${label}: index.ts 未转出 ${prop}`);
+      }
     }
   }
   const styles = read(join(dir, `${name}.scss`));

@@ -1,0 +1,90 @@
+@use 'mixins' as m;
+
+/* Form（T2-08）
+   布局与状态全部由 [data-scui-*] 驱动，类名只有块与元素两级；
+   labelWidth 由 <Form> 写进 --scui-form-label-width，horizontal 直接消费。
+   错误滚动目标用 scroll-margin-block 留出视口上下余量，不用 JS 算偏移。 */
+
+:where(.scui-form) {
+  --scui-form-label-width: 100px;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--scui-space-4, 16px);
+  margin: 0;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+
+  &[data-scui-layout='horizontal'] .scui-form-item {
+    display: grid;
+    grid-template-columns: var(--scui-form-label-width) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--scui-space-2, 8px);
+  }
+
+  &[data-scui-layout='vertical'] .scui-form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--scui-space-1, 4px);
+  }
+
+  &[data-scui-layout='inline'] {
+    flex-flow: row wrap;
+    align-items: flex-start;
+  }
+
+  &[data-scui-layout='inline'] .scui-form-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--scui-space-2, 8px);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+  }
+}
+
+:where(.scui-form-item) {
+  min-inline-size: 0;
+  scroll-margin-block: 80px;
+
+  &[data-scui-invalid='true'] .scui-form-item__label {
+    color: var(--scui-color-danger);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+  }
+}
+
+:where(.scui-form-item__label) {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-block-size: var(--scui-space-6, 32px);
+  color: var(--scui-color-text-secondary);
+  font: inherit;
+  line-height: 1.5;
+}
+
+:where(.scui-form-item__required) {
+  color: var(--scui-color-danger);
+}
+
+:where(.scui-form-item__control) {
+  display: flex;
+  min-inline-size: 0;
+  flex-direction: column;
+  gap: var(--scui-space-1, 4px);
+}
+
+:where(.scui-form-item__error) {
+  color: var(--scui-color-danger);
+  font-size: 0.875em;
+  line-height: 1.5;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}

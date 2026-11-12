@@ -86,6 +86,18 @@ export type {
   SelectSize,
   SelectStatus,
 } from './components/select';
+export { Form, FormItem, useForm } from './components/form';
+export type {
+  FieldValidator,
+  FieldValueType,
+  FormInstance,
+  FormItemProps,
+  FormLayout,
+  FormProps,
+  FormRule,
+  FormValidateResult,
+  FormValues,
+} from './components/form';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';

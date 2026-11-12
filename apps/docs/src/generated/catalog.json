@@ -14,7 +14,8 @@
     "radio",
     "switch",
     "app",
-    "select"
+    "select",
+    "form"
   ],
   "components": [
     {
@@ -340,6 +341,34 @@
           "path": "packages/core/src/components/select/demos/states.tsx",
           "title": "状态与边界",
           "description": "空选项、加载中、校验失败与禁用四种边界状态。"
+        }
+      ]
+    },
+    {
+      "slug": "form",
+      "title": "Form 表单",
+      "category": "表单",
+      "description": "表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。",
+      "exportPath": "solid-craft/form",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/form/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "useForm 创建实例，Form.Item 接管控件取值，提交后回显全量快照。"
+        },
+        {
+          "name": "layout",
+          "path": "packages/core/src/components/form/demos/layout.tsx",
+          "title": "布局与状态",
+          "description": "水平、垂直、行内三种布局；标签宽度、冒号、必填标记与整表禁用。"
+        },
+        {
+          "name": "validation",
+          "path": "packages/core/src/components/form/demos/validation.tsx",
+          "title": "校验规则",
+          "description": "必填、长度、正则、类型与自定义规则按数组顺序执行，失败时展示错误并回显结果。"
         }
       ]
     }

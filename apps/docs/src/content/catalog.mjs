@@ -118,6 +118,14 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/select',
     hasApi: true,
   },
+  {
+    slug: 'form',
+    title: 'Form 表单',
+    category: '表单',
+    description: '表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。',
+    exportPath: 'solid-craft/form',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

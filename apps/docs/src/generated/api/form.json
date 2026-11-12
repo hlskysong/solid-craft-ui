@@ -1,0 +1,274 @@
+{
+  "slug": "form",
+  "source": "packages/core/src/components/form/types.ts",
+  "interfaces": [
+    {
+      "name": "FormRule",
+      "inherits": null,
+      "props": [
+        {
+          "name": "required",
+          "type": "boolean",
+          "optional": true,
+          "description": "必填；空串、null、undefined 与空数组都算未填。 @default false",
+          "default": null
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "optional": true,
+          "description": "数值下限，或字符串 / 数组的最小长度。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "optional": true,
+          "description": "数值上限，或字符串 / 数组的最大长度。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "pattern",
+          "type": "RegExp",
+          "optional": true,
+          "description": "正则校验；每次新建 RegExp，避免全局标志的 lastIndex 漂移。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "type",
+          "type": "FieldValueType",
+          "optional": true,
+          "description": "值类型校验。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "validator",
+          "type": "FieldValidator",
+          "optional": true,
+          "description": "自定义校验，支持同步与异步。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": true,
+          "description": "本条规则的失败文案；省略时用内置中文文案。 @default undefined",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "FormValidateResult",
+      "inherits": null,
+      "props": [
+        {
+          "name": "valid",
+          "type": "boolean",
+          "optional": false,
+          "description": "是否全部通过。",
+          "default": null
+        },
+        {
+          "name": "values",
+          "type": "V",
+          "optional": false,
+          "description": "校验开始时的全量值快照。",
+          "default": null
+        },
+        {
+          "name": "errors",
+          "type": "Record<string, string>",
+          "optional": false,
+          "description": "失败字段 → 文案。",
+          "default": null
+        },
+        {
+          "name": "firstErrorName",
+          "type": "string",
+          "optional": true,
+          "description": "第一个失败字段名，供错误滚动定位。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "FormInstance",
+      "inherits": null,
+      "props": [
+        {
+          "name": "getFieldsValue",
+          "type": "() => V",
+          "optional": false,
+          "description": "全量值快照。",
+          "default": null
+        },
+        {
+          "name": "getFieldValue",
+          "type": "(name: string) => unknown",
+          "optional": false,
+          "description": "单字段值。",
+          "default": null
+        },
+        {
+          "name": "getFieldError",
+          "type": "(name: string) => string | undefined",
+          "optional": false,
+          "description": "单字段当前错误文案。",
+          "default": null
+        },
+        {
+          "name": "setFieldsValue",
+          "type": "(patch: Partial<V>) => void",
+          "optional": false,
+          "description": "批量写值，不触发校验。",
+          "default": null
+        },
+        {
+          "name": "setFieldValue",
+          "type": "(name: string, value: unknown) => void",
+          "optional": false,
+          "description": "单字段写值，不触发校验。",
+          "default": null
+        },
+        {
+          "name": "validateFields",
+          "type": "(names?: readonly string[]) => Promise<FormValidateResult<V>>",
+          "optional": false,
+          "description": "校验全部或指定字段；异步规则会等待完成。",
+          "default": null
+        },
+        {
+          "name": "resetFields",
+          "type": "(names?: readonly string[]) => void",
+          "optional": false,
+          "description": "恢复初值并清空错误；不传 names 时重置全部。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "FormProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLFormElement>,\n  'onSubmit' | 'children' | 'style'\n>",
+      "props": [
+        {
+          "name": "form",
+          "type": "FormInstance",
+          "optional": true,
+          "description": "`useForm()` 返回的实例；不传时组件内部自建。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "initialValues",
+          "type": "FormValues",
+          "optional": true,
+          "description": "初值；键即字段名，仅在字段注册与重置时读取。 @default {}",
+          "default": null
+        },
+        {
+          "name": "layout",
+          "type": "FormLayout",
+          "optional": true,
+          "description": "布局。 @default 'horizontal'",
+          "default": null
+        },
+        {
+          "name": "labelWidth",
+          "type": "string",
+          "optional": true,
+          "description": "label 列宽，写进 CSS 自定义属性。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "colon",
+          "type": "boolean",
+          "optional": true,
+          "description": "label 后显示冒号。 @default true",
+          "default": null
+        },
+        {
+          "name": "requiredMark",
+          "type": "boolean",
+          "optional": true,
+          "description": "必填字段显示星号。 @default true",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "optional": true,
+          "description": "整表禁用，合并进每个字段的 disabled getter。 @default false",
+          "default": null
+        },
+        {
+          "name": "onFinish",
+          "type": "(values: FormValues) => void",
+          "optional": true,
+          "description": "校验通过回调。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "onFinishFailed",
+          "type": "(errors: Record<string, string>) => void",
+          "optional": true,
+          "description": "校验失败回调，参数是字段名 → 文案。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "style",
+          "type": "string",
+          "optional": true,
+          "description": "内联样式（字符串形态），会与 labelWidth 的 CSS 变量合并。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "字段与提交按钮。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "FormItemProps",
+      "inherits": "Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children'>",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "description": "字段名，同时是错误滚动的定位值。",
+          "default": null
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "optional": false,
+          "description": "标签文案；不要传空串，否则读屏拿不到可访问名称。",
+          "default": null
+        },
+        {
+          "name": "rules",
+          "type": "readonly FormRule[]",
+          "optional": true,
+          "description": "校验规则，按数组顺序执行。 @default []",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "optional": true,
+          "description": "单字段禁用，与 `<Form disabled>` 取或。 @default false",
+          "default": null
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "控件；经 `FieldProvider` 拿到值、状态与 aria 三件套。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

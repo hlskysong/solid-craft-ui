@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 7 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23），下一项 T2-08；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 8 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23 / T2-08 Form §30.24），下一项 T2-09；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T2-08**（M2 第八项「Form」，见 §4.1；T2-01~T2-07 已完成，见 §30.16 / §30.18 / §30.19 / §30.20 / §30.21 / §30.22 / §30.23；T2-08 Form 与 T2-07 原可并行，Select 已先行落地）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后各次提交（T2-01~T2-05 及 CI 用量收敛）**均未推送**，故无新 run；T2-05 / T2-06 已分别由 Aming 逐次授权提交为 `928b899` / `8d61a81`（2026-11-12），均未推送；T2-07 改动仍在工作区待提交 |
-| 下一步 | **按 §4.1 执行 M2（13 项，已完成 7 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ ~~T2-03 Input（Textarea 并入）~~（§30.19）→ ~~T2-04 InputNumber~~（§30.20）→ ~~T2-05 Checkbox / Radio / Switch~~（§30.21）→ ~~T2-06 App~~（§30.22）→ ~~T2-07 Select~~（§30.23）→ **T2-08 Form** → T2-09 控件接入 Form → T2-10 DatePicker / T2-11 RangePicker → T2-12 体积预算 → T2-13 M2 Exit（含「视觉基线 / axe 覆盖每组件全部 Demo」的扩面，见 §30.20 第四节）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T2-09**（M2 第九项「控件接入 Form」，见 §4.1；T2-01~T2-08 已完成，见 §30.16 / §30.18 / §30.19 / §30.20 / §30.21 / §30.22 / §30.23 / §30.24；T2-09 依赖的控件与 Form 引擎均已就位）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后各次提交（T2-01~T2-05 及 CI 用量收敛）**均未推送**，故无新 run；T2-05 / T2-06 / T2-07 已分别由 Aming 逐次授权提交为 `928b899` / `8d61a81` / `62b7d23`（2026-11-12），均未推送；`main` 领先 `origin/main` 10；T2-08 改动仍在工作区待提交 |
+| 下一步 | **按 §4.1 执行 M2（13 项，已完成 8 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ ~~T2-03 Input（Textarea 并入）~~（§30.19）→ ~~T2-04 InputNumber~~（§30.20）→ ~~T2-05 Checkbox / Radio / Switch~~（§30.21）→ ~~T2-06 App~~（§30.22）→ ~~T2-07 Select~~（§30.23）→ ~~T2-08 Form~~（§30.24）→ **T2-09 控件接入 Form** → T2-10 DatePicker / T2-11 RangePicker → T2-12 体积预算 → T2-13 M2 Exit（含「视觉基线 / axe 覆盖每组件全部 Demo」的扩面，见 §30.20 第四节）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
 
 ---
@@ -132,7 +132,7 @@
 | T2-05 | `Checkbox`（Group + indeterminate）/ `Radio`（Group）/ `Switch` | T2-02 | 工程师 C | `aria-checked` / `mixed` 正确；三件套共享 label 逻辑（**33 条单测 + SSR 9 入口 + 负向实证 6/6 钉住**，见 §30.21） | [x] |
 | T2-06 | `App`：Message / Notification 容器与 context（`docs/04 §3.1` P0 基础第 9 个，此前未落地） | T2-01 | 工程师 C | 脱离树亦可调用；SSR 不报错；错误提示可被 Form 复用（**13 条单测 + SSR 10 入口 + 负向实证 7/7 钉住**，见 §30.22） | [x] |
 | T2-07 | `Select`（L）：R2 = A 对外 `value` 为 string（封装层做 option 映射）、键盘 / typeahead / Floating UI 弹层 / client-only 边界 | T2-01 / T2-02 | 技术负责人 | 受控与非受控 / 搜索 / 清除 / 空态 / loading 全覆盖；SSR 输出静态骨架（**14 条单测 + SSR 11 入口 + 负向实证 9/9 钉住**，见 §30.23） | [x] |
-| T2-08 | `Form` 引擎：`useForm` / `Form.Item` / 校验（required·min·max·pattern·type·自定义 sync·async）/ 三种布局 / 错误滚动 | T2-02 | 技术负责人 | `validateFields` / `resetFields` / `setFieldsValue` / `getFieldsValue` 全通；`aria-invalid` 到位 | [ ] |
+| T2-08 | `Form` 引擎：`useForm` / `Form.Item` / 校验（required·min·max·pattern·type·自定义 sync·async）/ 三种布局 / 错误滚动 | T2-02 | 技术负责人 | `validateFields` / `resetFields` / `setFieldsValue` / `getFieldsValue` 全通；`aria-invalid` 到位（**16 条单测 + SSR 12 入口 + 负向实证 9/9 钉住**，见 §30.24） | [x] |
 | T2-09 | 控件接入 Form：Input / Textarea / InputNumber / Checkbox / Radio / Switch / Select 全部走 `useFormField` | T2-03 / T2-04 / T2-05 / T2-07 / T2-08 | 工程师 C | 一页真实表单 Demo（新增 + 编辑）端到端可跑 | [ ] |
 | T2-10 | `DatePicker`（XL）：单选 / `min`·`max`·`disabledDate` / `format` / 中文 locale / 键盘 / `editing` 状态机 / SSR 不取当前时间 | T2-02 | 技术负责人 | 非法输入可恢复；`@internationalized/date` + `Intl`，不自造日期轮子 | [ ] |
 | T2-11 | `RangePicker`（R5 已定 M2）：hover 预览、键盘、焦点管理 | T2-10 | 技术负责人 | 同日 / 跨月 / 跨年边界；`min`·`max` 约束生效 | [ ] |
@@ -2865,7 +2865,84 @@ T2-07 完成：`solid-craft/select` 交付单选下拉，**对外只有字符串
 
 **允许写入路径（L4，本轮派发边界）**：`packages/core/src/components/select/**`（新增，含 types / 实现 / SCSS / 单测 / 3 个 Demo / SSR 入口）、`packages/core/src/primitives/{select.tsx,types.ts}`（新增接缝 + `HiddenSelect` 处置）、`packages/core/src/index.ts`、`packages/core/package.json`（1 个 exports 子路径）、`packages/core/spikes/api-draft/data-attributes.md`、`packages/core/spikes/shared/ssr-smoke.mjs`、`apps/docs/src/content/catalog.mjs` 与其生成物（`apps/docs/src/generated/**`、`apps/docs/public/llms/**`、`packages/core/llms*.txt` / `llms-manifest.json`）、`apps/docs/public/fonts/{charset.txt,scui-visual.woff2}`、`tests/e2e/baselines/light-ltr-default-select-*.png`（2 张新增）、`scripts/check-ci.mjs`（仅换 `FONT_SHA256`）、`scripts/todo-governance.json`（新增 1 条 evidence）、`scripts/goals.baseline.json`（重校）、`docs/08` 本文件；`AGENTS.md` **仅由 `pnpm check:goals --update-baseline` 同步「目标基线 SHA256」标记行**，规则正文一个字节未动。**未改**：`docs/01~07` 冻结规范、`pnpm-lock.yaml`（零新增依赖）、根级 `package.json` / `turbo.json`、`.github/workflows/ci.yml`、`playwright.config.ts`、`tests/e2e/demo-list.ts`、旧 26 张基线 PNG、任何发布配置；未推送、未 publish，本轮提交仍待逐次授权。
 
-- **提交链**：Aming 于 2026-11-12 明确授权「提交T2-06后开始 T2-07」→ T2-06 提交为 `8d61a81`（47 files / +3181 −26，作者 Aming），**未 push**；`main` 领先 `origin/main` 9。T2-07 的改动仍在工作区。
+- **提交链（已由 §30.24 更新）**：Aming 于 2026-11-12 明确授权「提交T2-06后开始 T2-07」→ T2-06 提交为 `8d61a81`（47 files / +3181 −26，作者 Aming），**未 push**；随后授权「提交T2-07后开始 T2-08」→ T2-07 提交为 `62b7d23`（44 files / +2730 −38，作者 Aming），**未 push**；`main` 领先 `origin/main` 10。
 - 不做多选 / 远程搜索 / 分组 / 虚拟滚动 / `fieldNames` / `labelInValue`：`api-draft/Select.md §1` 明确不做或属 P1，本轮按 §4.1 验收列收口；`docs/04 §5.3` 的 P0 子项留待后续批次，不冒充已完成。
 - 不做单条 `placement`、动画栈与队列持久化；`<Form.Item>` 的壳与字段校验属 T2-08 / T2-09，但本轮已把值桥与 `triggerAttributes` 的 aria 三件套接通，T2-09 不需要再动 Select 的值链路。
 - **已知覆盖缺口（T2-13 前置）**：`tests/e2e/demo-list.ts` 的 `demoPath()` 写死 `/components/${slug}/basic?standalone=1`，视觉基线 + axe 只覆盖每组件第一个 Demo；本轮 `search` / `states` 两个 Demo 未被截图与 axe 覆盖。不在本轮扩面（会把截图面扩大到全部 Demo 并重生成基线，属门禁基础设施变更），已挂在 T2-13。
+
+### 30.24 T2-08 Form：表单引擎与字段壳落地（2026-11-12 实测与验收）
+
+#### 一、结论先行
+
+T2-08 完成：`solid-craft/form` 交付 `Form` / `Form.Item` / `useForm`，**六种规则**（`required` / `min` / `max` / `pattern` / `type` / 自定义同步与异步）、**三种布局**（horizontal / vertical / inline）、**错误滚动**与 label / aria 三件套。`docs/08 §4.1` 的验收列逐条可验：`validateFields` / `resetFields` / `setFieldsValue` / `getFieldsValue` 全通，`aria-invalid` 到位。字段状态仍由 T2-02 的 `FieldProvider` 下发，因此 **T2-03~T2-07 的控件一行未改**——T2-09 只需补「全部控件接入」的证据与真实表单页 Demo。零新增依赖。
+
+| 交付物 | 说明 |
+| --- | --- |
+| `components/form/` | 6 件套 `types.ts` / `Form.tsx` / `form.scss` / `index.ts` / `Form.test.tsx`（16 条）/ `demos/basic.tsx`，另加 5 个内聚模块：`validate.ts`（纯函数校验）/ `form-instance.ts`（字段级信号引擎 + `useForm`）/ `form-context.ts` / `scroll.ts` / `__tests__/ssr-entry.tsx`，以及 3 个 Demo |
+| 导出 | `src/index.ts` 公共导出 + `./form` exports 四条件；catalog「表单」类第 15 个组件 |
+| 契约 | `data-attributes.md` 新增 `data-scui-field` 的 Form 归属与 4 个 `data-scui-role` 结构锚点（`form` / `form-item` / `field-error` / `form-submit`） |
+| SSR | `spikes/shared/ssr-smoke.mjs` 第 12 个入口 `T2-08`（14 markers + 6 counts，其中 2 条锁「服务端 0 次错误文案」） |
+| 门禁修复 | `scripts/check-slice.mjs` 补「剥离注释 + 单词边界」判据（N113 抓到的 barrel 假通过盲区，详见第四节） |
+
+#### 二、五条设计取舍
+
+**(1) 一字段两信号，不做一个 store 对象信号。** 沿用 S-06 实证（`spikes/s06-form/validation.ts`）：每个字段一个 `createSignal` 存值、一个独立的 `createSignal` 存错误。`Form.Item` 只订阅自己那两个 signal，改 A 字段不会让 B 字段的 effect 重跑。单测里有「改一个字段不触发其它字段 effect」的计数用例，负向 N111 把注册退化成「所有字段共用第一个 entry」后该用例立刻红灯。`useForm()` 只用 `createSignal`（不需要 owner），因此组件内外都能创建，不会出现 `computations created outside a root` 警告。
+
+**(2) 空值只由 `required` 管。** 没有 `required` 时，空值直接跳过 `type` / `min` / `max` / `pattern`，否则「非必填输入框一提交就报格式错误」；静态规则按数组顺序短路，自定义规则 `Promise.all` 并发后仍按数组顺序取第一条失败，保证文案确定性。每次新建 `RegExp` 并剥掉 `g` / `y` 标志，避免复用同一个 `/g` 正则时 `lastIndex` 让两次提交结果漂移。N109 / N110 分别钉住「required 失效」与「空值被静态规则误判」。
+
+**(3) `<Form.Item>` 只是壳，控件不改一行。** label / 必填星号 / 冒号 / 错误文案 / 布局由 `Form.Item` 渲染，`id` 三件套（`control` / `label` / `message`）由宿主 `createUniqueId()` 同源产出后交给 `FieldProvider`：控件仍只读 `FieldContext`，`FieldProvider` 负责把 `id` / `aria-invalid` / `aria-describedby` 注入控件。这兑现了 §30.18 的承诺——T2-02 先落地内核，T2-08 只加壳。N107 把 `ids` 换成 `undefined` 后 label/aria 同源判据立刻红灯。
+
+**(4) SSR 只出静态骨架，校验不进服务端渲染。** 字段注册与 label 都在 setup 期完成，不碰 `window` / `document`；校验只在提交事件或显式 `validateFields()` 时跑，错误滚动由 `scroll.ts` 的 `isServer` 短路。`data-scui-invalid` 恒输出 `'true' | 'false'` 两态避免 hydration 属性差，服务端**不输出**错误文案节点（N106 / N114 双向钉住）。错误滚动用 `data-scui-field` 逐节点比对而非拼 CSS 选择器——字段名可能带特殊字符，插值进 `[data-scui-field="..."]` 会破坏选择器。
+
+**(5) 不做 `Form.List` / 嵌套路径 / `dependencies` / resolver。** `api-draft/Form.md §1` 明确这些属 P1；在没有真实表单页验证之前冻结一份协议，比先造再改代价更高。本轮范围严格按 §4.1 验收列收口，T2-09 用一页真实表单 Demo 验证后再议。
+
+#### 三、验收输出（`pnpm verify` RC=0 / 26 阶段）
+
+| 项 | 结果 |
+| --- | --- |
+| 单测 | `packages/core` **217 tests / 24 files passed**（T2-07 时 201 / 23，新增 16 条） |
+| SSR 冒烟 | **12 个入口**全绿；`T2-08` 2341 chars · 双渲一致 · 14/14 markers · 6/6 counts |
+| E2E | browser **8 passed**（`[axe] form: 0 violations`）/ visual **30 passed** / docs 8 / llms 4 |
+| 视觉基线 | 新增 2 张（`form` @1280 / @768），旧 28 张字节不变 |
+| `check:styles` | **14** 个样式表 / 75 个 `data-*` 取值 / **148** 个选择器全部带 `.scui-` 作用域 / 0 modifier class |
+| `check:accessors` / `check:exports` | 38 处（144 源文件）全部非函数型；**83** 个声明文件零第三方引用 |
+| `check:docs` / `check:llms` / `check:slice` | 51 个生成物一致；68 站点文件 + 3 包内副本 / 65 页 / 19 exports 子路径 / 66 链接 0 死链；**14** 个组件 × 6 源文件全齐 |
+| `check:goals` / `check:todo` | 15 哈希一致；51 个任务结构完整、**46** 个 `[x]` 全有证据、**80** 个验收区块、倒挂 0（治理回写后的最终态） |
+| size | Core **85.25 kB / 180 kB**、Button 1.95 kB / 6 kB（gzip；T2-07 时 Core 76.73 kB） |
+| 文档生成物 | catalog **15 组件 / 34 Demo / 15 API 表 / 272 条搜索索引** |
+| 负向实证 | **N106~N114 9/9 PASS + `DRIFT []`** |
+| 收口 | 最终态 `pnpm verify` RC=0 / 26 阶段全绿；`git diff --check` RC=0 |
+
+#### 四、门禁抓到的三个真问题（都修在判据/实现，不加豁免）
+
+1. **`typescript(no-base-to-string)`**：`validate.ts` 的 `String(value ?? '')` 会让对象值得到 `[object Object]`，使 email / url / pattern 误判。改成只对 `string` / `number` / `boolean` / `bigint` 取文本，对象 / 数组 / null 一律按空串处理。
+2. **`typescript(unbound-method)`**：滚动测试直接读 `HTMLElement.prototype.scrollIntoView` 存副本触发规则。改用 `Object.getOwnPropertyDescriptor` 保存、用 `Reflect.deleteProperty` 还原「原本不存在」的状态，不做 lint 豁免。
+3. **`check-slice.mjs` 的 barrel 假通过（N113）**：负向实证把 `index.ts` 里的 `FormItemProps` 改成注释后，`check:slice` 仍 `RC=0` —— 判据用 `barrel.includes(prop)`，注释里的字符串照样命中。这与 T2-05「注释里写 `data-x` 让 Checkbox 假通过」同源。修复方式是把块/行注释剥离抽成 `stripComments()` 供 `impl` / `types` / `barrel` 三处共用，并用 `new RegExp(\`\\b${prop}\\b\`)` 做单词边界比对。修完正常态 14 组件全绿，N113 由 FAIL 转 PASS。**没有通过改测试用例让它变绿**。
+
+#### 五、固定字体子集第六次扩容
+
+新增组件标题、API 表、3 个 Demo 与门禁文案带入新字：字集 710 → **726 个 CJK/符号** + 95 ASCII = **821 码位全部有字形**；woff2 235 008 → **239 396 bytes**；新 SHA256 `8d35564b…91af47d56` 同步进 `check-ci.mjs`。按固定顺序 `docs:generate → build-visual-font.py → 更新 FONT_SHA256 → pnpm build → test:visual:update → pnpm verify` 走完，`test:visual:update` 后 30 passed，`tests/e2e/baselines` 变更**只有 2 个新增文件**，28 张旧基线字节不变 —— 子集扩容第六次证明像素中性。
+
+#### 六、负向实证 N106~N114（9/9 PASS + `DRIFT []`）
+
+每例重新备份当前字节、替换锚点要求命中恰好 1 次、判据必须 `RC≠0` 且输出含失败标记、`finally` 字节级还原，结尾对全部改动文件做 SHA256 比对。
+
+| 编号 | 破坏 | 变红的判据 |
+| --- | --- | --- |
+| N106 | `data-scui-invalid` 退化成有错才输出 | `ssr-smoke` T2-08 的 `invalid="false"` 计数 |
+| N107 | `ids` 不再传给 `FieldProvider` | 单测 label[for] / 控件 id / aria 同源 |
+| N108 | 校验失败不再聚焦控件 | 单测错误滚动与聚焦 |
+| N109 | `required` 规则失效 | 单测必填校验 |
+| N110 | 空值被静态规则误判 | 单测非必填空值不报格式错误 |
+| N111 | 所有字段共用第一个字段的信号 | 单测字段级订阅 effect 计数 |
+| N112 | `useForm` 不再返回可注册字段的引擎 | 单测 `<Form form>` 外部实例 |
+| N113 | 公共 barrel 漏转出 `FormItemProps` | `check:slice`（修复后） |
+| N114 | 服务端渲染出错误文案节点 | `ssr-smoke` T2-08 的 counts 锁 0 |
+
+#### 七、允许写入路径（L4）与边界
+
+**允许写入路径（L4，本轮派发边界）**：`packages/core/src/components/form/**`（新增 13 个文件）、`packages/core/src/index.ts`、`packages/core/package.json`（1 个 exports 子路径）、`packages/core/spikes/api-draft/data-attributes.md`、`packages/core/spikes/shared/ssr-smoke.mjs`、`apps/docs/src/content/catalog.mjs` 与其生成物（`apps/docs/src/generated/**`、`apps/docs/public/llms/**`、`packages/core/llms*.txt` / `llms-manifest.json`）、`apps/docs/public/fonts/{charset.txt,scui-visual.woff2}`、`tests/e2e/baselines/light-ltr-default-form-*.png`（2 张新增）、`scripts/check-ci.mjs`（仅换 `FONT_SHA256`）、`scripts/check-slice.mjs`（N113 判据修复）、`scripts/todo-governance.json`（新增 1 条 evidence）、`scripts/goals.baseline.json`（重校）、`docs/08` 本文件；`AGENTS.md` **仅由 `pnpm check:goals --update-baseline` 同步「目标基线 SHA256」标记行**，规则正文一个字节未动。**未改**：`docs/01~07` 冻结规范、`pnpm-lock.yaml`（零新增依赖）、根级 `package.json` / `turbo.json`、`.github/workflows/ci.yml`、`playwright.config.ts`、`tests/e2e/demo-list.ts`、旧 28 张基线 PNG、任何发布配置；未 push、未 publish。
+
+- **提交链**：Aming 于 2026-11-12 授权「提交T2-07后开始 T2-08」→ T2-07 重跑 `pnpm verify` RC=0 后提交为 `62b7d23`（44 files / +2730 −38，作者 Aming），**未 push**；`main` 领先 `origin/main` 10。T2-08 改动仍在工作区待逐次授权提交。
+- **已知覆盖缺口（T2-13 前置）**：`tests/e2e/demo-list.ts` 的 `demoPath()` 写死 `/components/${slug}/basic?standalone=1`，视觉基线 + axe 只覆盖每组件第一个 Demo；本轮 `validation` / `layout` 两个 Demo 未进截图与 axe，加上 T2-06 的 `context` / `notification`、T2-07 的 `search` / `states`，缺口继续挂在 T2-13（扩面会把截图面扩大到全部 Demo 并重生成基线，属门禁基础设施变更）。
+- **T2-09 接 Form 时不需要改控件**：T2-03~T2-07 已全部读 `FieldContext`，`Form.Item` 本轮已把 `FieldProvider` 的 `ids` 与值 / 状态接齐；T2-09 的范围是「一页真实表单 Demo（新增 + 编辑）端到端可跑」与接入证据。

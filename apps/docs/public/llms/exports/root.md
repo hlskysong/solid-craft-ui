@@ -40,6 +40,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/switch` → Switch 开关：带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。
 - `solid-craft/app` → App 全局反馈：Message / Notification 的上下文宿主与静态 API，脱离组件树亦可调用，错误提示可被 Form 复用。
 - `solid-craft/select` → Select 选择器：单选下拉，支持本地搜索、清除、空态与加载态；键盘与弹层定位由原语承担，SSR 只输出触发器静态骨架。
+- `solid-craft/form` → Form 表单：表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 

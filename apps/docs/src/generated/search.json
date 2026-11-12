@@ -1624,6 +1624,272 @@
     "href": "/components/select#api-clearLabel"
   },
   {
+    "type": "component",
+    "title": "Form 表单",
+    "description": "表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。",
+    "keywords": "form solid-craft/form",
+    "href": "/components/form"
+  },
+  {
+    "type": "demo",
+    "title": "Form 表单 · 基础用法",
+    "description": "useForm 创建实例，Form.Item 接管控件取值，提交后回显全量快照。",
+    "keywords": "form basic",
+    "href": "/components/form/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Form 表单 · 布局与状态",
+    "description": "水平、垂直、行内三种布局；标签宽度、冒号、必填标记与整表禁用。",
+    "keywords": "form layout",
+    "href": "/components/form/layout"
+  },
+  {
+    "type": "demo",
+    "title": "Form 表单 · 校验规则",
+    "description": "必填、长度、正则、类型与自定义规则按数组顺序执行，失败时展示错误并回显结果。",
+    "keywords": "form validation",
+    "href": "/components/form/validation"
+  },
+  {
+    "type": "api",
+    "title": "FormRule.required",
+    "description": "必填；空串、null、undefined 与空数组都算未填。 @default false",
+    "keywords": "form boolean",
+    "href": "/components/form#api-required"
+  },
+  {
+    "type": "api",
+    "title": "FormRule.min",
+    "description": "数值下限，或字符串 / 数组的最小长度。 @default undefined",
+    "keywords": "form number",
+    "href": "/components/form#api-min"
+  },
+  {
+    "type": "api",
+    "title": "FormRule.max",
+    "description": "数值上限，或字符串 / 数组的最大长度。 @default undefined",
+    "keywords": "form number",
+    "href": "/components/form#api-max"
+  },
+  {
+    "type": "api",
+    "title": "FormRule.pattern",
+    "description": "正则校验；每次新建 RegExp，避免全局标志的 lastIndex 漂移。 @default undefined",
+    "keywords": "form RegExp",
+    "href": "/components/form#api-pattern"
+  },
+  {
+    "type": "api",
+    "title": "FormRule.type",
+    "description": "值类型校验。 @default undefined",
+    "keywords": "form FieldValueType",
+    "href": "/components/form#api-type"
+  },
+  {
+    "type": "api",
+    "title": "FormRule.validator",
+    "description": "自定义校验，支持同步与异步。 @default undefined",
+    "keywords": "form FieldValidator",
+    "href": "/components/form#api-validator"
+  },
+  {
+    "type": "api",
+    "title": "FormRule.message",
+    "description": "本条规则的失败文案；省略时用内置中文文案。 @default undefined",
+    "keywords": "form string",
+    "href": "/components/form#api-message"
+  },
+  {
+    "type": "api",
+    "title": "FormValidateResult.valid",
+    "description": "是否全部通过。",
+    "keywords": "form boolean",
+    "href": "/components/form#api-valid"
+  },
+  {
+    "type": "api",
+    "title": "FormValidateResult.values",
+    "description": "校验开始时的全量值快照。",
+    "keywords": "form V",
+    "href": "/components/form#api-values"
+  },
+  {
+    "type": "api",
+    "title": "FormValidateResult.errors",
+    "description": "失败字段 → 文案。",
+    "keywords": "form Record<string, string>",
+    "href": "/components/form#api-errors"
+  },
+  {
+    "type": "api",
+    "title": "FormValidateResult.firstErrorName",
+    "description": "第一个失败字段名，供错误滚动定位。",
+    "keywords": "form string",
+    "href": "/components/form#api-firstErrorName"
+  },
+  {
+    "type": "api",
+    "title": "FormInstance.getFieldsValue",
+    "description": "全量值快照。",
+    "keywords": "form () => V",
+    "href": "/components/form#api-getFieldsValue"
+  },
+  {
+    "type": "api",
+    "title": "FormInstance.getFieldValue",
+    "description": "单字段值。",
+    "keywords": "form (name: string) => unknown",
+    "href": "/components/form#api-getFieldValue"
+  },
+  {
+    "type": "api",
+    "title": "FormInstance.getFieldError",
+    "description": "单字段当前错误文案。",
+    "keywords": "form (name: string) => string | undefined",
+    "href": "/components/form#api-getFieldError"
+  },
+  {
+    "type": "api",
+    "title": "FormInstance.setFieldsValue",
+    "description": "批量写值，不触发校验。",
+    "keywords": "form (patch: Partial<V>) => void",
+    "href": "/components/form#api-setFieldsValue"
+  },
+  {
+    "type": "api",
+    "title": "FormInstance.setFieldValue",
+    "description": "单字段写值，不触发校验。",
+    "keywords": "form (name: string, value: unknown) => void",
+    "href": "/components/form#api-setFieldValue"
+  },
+  {
+    "type": "api",
+    "title": "FormInstance.validateFields",
+    "description": "校验全部或指定字段；异步规则会等待完成。",
+    "keywords": "form (names?: readonly string[]) => Promise<FormValidateResult<V>>",
+    "href": "/components/form#api-validateFields"
+  },
+  {
+    "type": "api",
+    "title": "FormInstance.resetFields",
+    "description": "恢复初值并清空错误；不传 names 时重置全部。",
+    "keywords": "form (names?: readonly string[]) => void",
+    "href": "/components/form#api-resetFields"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.form",
+    "description": "`useForm()` 返回的实例；不传时组件内部自建。 @default undefined",
+    "keywords": "form FormInstance",
+    "href": "/components/form#api-form"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.initialValues",
+    "description": "初值；键即字段名，仅在字段注册与重置时读取。 @default {}",
+    "keywords": "form FormValues",
+    "href": "/components/form#api-initialValues"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.layout",
+    "description": "布局。 @default 'horizontal'",
+    "keywords": "form FormLayout",
+    "href": "/components/form#api-layout"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.labelWidth",
+    "description": "label 列宽，写进 CSS 自定义属性。 @default undefined",
+    "keywords": "form string",
+    "href": "/components/form#api-labelWidth"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.colon",
+    "description": "label 后显示冒号。 @default true",
+    "keywords": "form boolean",
+    "href": "/components/form#api-colon"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.requiredMark",
+    "description": "必填字段显示星号。 @default true",
+    "keywords": "form boolean",
+    "href": "/components/form#api-requiredMark"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.disabled",
+    "description": "整表禁用，合并进每个字段的 disabled getter。 @default false",
+    "keywords": "form boolean",
+    "href": "/components/form#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.onFinish",
+    "description": "校验通过回调。 @default undefined",
+    "keywords": "form (values: FormValues) => void",
+    "href": "/components/form#api-onFinish"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.onFinishFailed",
+    "description": "校验失败回调，参数是字段名 → 文案。 @default undefined",
+    "keywords": "form (errors: Record<string, string>) => void",
+    "href": "/components/form#api-onFinishFailed"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.style",
+    "description": "内联样式（字符串形态），会与 labelWidth 的 CSS 变量合并。 @default undefined",
+    "keywords": "form string",
+    "href": "/components/form#api-style"
+  },
+  {
+    "type": "api",
+    "title": "FormProps.children",
+    "description": "字段与提交按钮。",
+    "keywords": "form JSX.Element",
+    "href": "/components/form#api-children"
+  },
+  {
+    "type": "api",
+    "title": "FormItemProps.name",
+    "description": "字段名，同时是错误滚动的定位值。",
+    "keywords": "form string",
+    "href": "/components/form#api-name"
+  },
+  {
+    "type": "api",
+    "title": "FormItemProps.label",
+    "description": "标签文案；不要传空串，否则读屏拿不到可访问名称。",
+    "keywords": "form string",
+    "href": "/components/form#api-label"
+  },
+  {
+    "type": "api",
+    "title": "FormItemProps.rules",
+    "description": "校验规则，按数组顺序执行。 @default []",
+    "keywords": "form readonly FormRule[]",
+    "href": "/components/form#api-rules"
+  },
+  {
+    "type": "api",
+    "title": "FormItemProps.disabled",
+    "description": "单字段禁用，与 `<Form disabled>` 取或。 @default false",
+    "keywords": "form boolean",
+    "href": "/components/form#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "FormItemProps.children",
+    "description": "控件；经 `FieldProvider` 拿到值、状态与 aria 三件套。",
+    "keywords": "form JSX.Element",
+    "href": "/components/form#api-children"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

@@ -50,6 +50,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./switch` → [solid-craft/switch](../exports/switch.md)
 - `./app` → [solid-craft/app](../exports/app.md)
 - `./select` → [solid-craft/select](../exports/select.md)
+- `./form` → [solid-craft/form](../exports/form.md)
 - `./config-provider` → [solid-craft/config-provider](../exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](../exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](../exports/styles.md)
