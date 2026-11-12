@@ -17,6 +17,8 @@
 | `data-scui-field` | 字段名 | 字段定位 + 错误滚动目标 | Form |
 | `data-scui-selected` | `''` | 选中态（列表 / 日历格 / 表格行，存在即真） | Select / DatePicker / Table |
 | `data-scui-checked` | `'true' \| 'false' \| 'mixed'` | 选择类控件的选中三态；**恒输出**（含 SSR 的 `'false'`），`'mixed'` 只由 `Checkbox.indeterminate` 产生 | Checkbox / Radio / Switch |
+| `data-scui-kind` | `info \| success \| warning \| error \| loading` | **一条反馈自身的语义类型**，恒输出；不复用文本 `-tone` 或控件 `-variant`（一个属性名只表达一个语义） | App / Message / Notification |
+| `data-scui-placement` | `top \| top-left \| top-right \| bottom \| bottom-left \| bottom-right` | 反馈容器的出现位置；`message` 恒为 `top`，`notification` 可在 `<App>` 上配置 | App / Message / Notification |
 | `data-scui-option` | 选项 value | 选项定位 | Select |
 | `data-scui-day` | ISO `YYYY-MM-DD` | 日期格定位 | DatePicker |
 | `data-scui-outside` | `''` | 上/下月补位格 | DatePicker |
@@ -41,6 +43,7 @@
 | `checkbox` / `checkbox-group` | Checkbox | 结构锚点（T2-05） |
 | `radio` / `radio-group` | Radio | 结构锚点（T2-05） |
 | `switch` | Switch | 结构锚点（T2-05） |
+| `app` / `app-host` / `message-viewport` / `notification-viewport` / `message` / `notification` | App | 结构锚点（T2-06）：`app` 是内联宿主，`app-host` 是脱离树时挂到 body 的全局宿主 |
 
 > **`data-scui-checked` 为何不复用 `data-scui-selected`**（T2-05）：前者表达控件自身状态、
 > 有三态且恒输出（SSR 也要出 `'false'`）；后者表达「列表项被选中」、存在即真。

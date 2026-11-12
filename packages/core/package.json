@@ -95,6 +95,12 @@
       "import": "./dist/esm/components/switch/index.js",
       "default": "./dist/esm/components/switch/index.js"
     },
+    "./app": {
+      "types": "./dist/types/components/app/index.d.ts",
+      "solid": "./dist/source/components/app/index.jsx",
+      "import": "./dist/esm/components/app/index.js",
+      "default": "./dist/esm/components/app/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

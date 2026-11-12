@@ -1,5 +1,5 @@
 /**
- * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-05）。
+ * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-06）。
  *
  * 用 Vite 的 ssrLoadModule 把入口 TSX 按服务端条件编译，再调 renderToString，
  * 验证：① 不抛 Client-only API；② 双次 renderToString 逐字一致（无 today() / 随机漂移）；
@@ -150,6 +150,32 @@ const cases = [
       ['data-scui-checked="true"', 5],
       ['data-scui-invalid="false"', 13],
       ['type="checkbox" role="switch"', 2],
+    ],
+  },
+  {
+    // T2-06：App 上下文宿主。服务端必须输出两个空反馈容器（aria-live / placement），
+    // 且静态 message / notification 与 useApp() 在服务端调用零副作用 —— 入口里
+    // 真的调了它们，一旦删掉 isServer 判定就会去 document.createElement 直接抛错。
+    // 这是「SSR 不报错」与「脱离树亦可调用」两条验收的同一个判据。
+    id: 'T2-06',
+    file: '/src/components/app/__tests__/ssr-entry.tsx',
+    markers: [
+      'data-scui-role="app"',
+      'data-scui-role="message-viewport"',
+      'data-scui-role="notification-viewport"',
+      'data-scui-placement="top"',
+      'data-scui-placement="top-right"',
+      'aria-live="polite"',
+      'aria-live="assertive"',
+      '服务端子树',
+    ],
+    // 两个 viewport 各输出一次 placement 与 aria-live；少一个都说明某个通道
+    // 被改成了「服务端不渲染」，hydration 首帧属性集会不一致。
+    counts: [
+      ['data-scui-role="app"', 1],
+      ['aria-live="polite"', 1],
+      ['aria-live="assertive"', 1],
+      ['data-scui-placement=', 2],
     ],
   },
 ];

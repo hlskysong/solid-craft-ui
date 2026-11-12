@@ -1,0 +1,163 @@
+{
+  "slug": "app",
+  "source": "packages/core/src/components/app/types.ts",
+  "interfaces": [
+    {
+      "name": "NoticeOptions",
+      "inherits": null,
+      "props": [
+        {
+          "name": "content",
+          "type": "JSX.Element",
+          "optional": false,
+          "description": "主文案；允许任意 JSX，便于 Form 把整段校验错误复用到这里。",
+          "default": null
+        },
+        {
+          "name": "description",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "副文案；仅 `notification` 展示。",
+          "default": null
+        },
+        {
+          "name": "kind",
+          "type": "NoticeKind",
+          "optional": true,
+          "description": "语义类型。",
+          "default": "'info'"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "optional": true,
+          "description": "自动关闭毫秒数；`0` 表示常驻，需手动 `close()`。",
+          "default": "3000（message）/ 4500（notification）"
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否显示关闭按钮。",
+          "default": "false（message）/ true（notification）"
+        },
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "optional": true,
+          "description": "关闭时回调（自动到期、手动关闭、被队列挤出都会触发一次）。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "NoticeHandle",
+      "inherits": "PromiseLike<void>",
+      "props": []
+    },
+    {
+      "name": "MessageApi",
+      "inherits": null,
+      "props": []
+    },
+    {
+      "name": "NotificationApi",
+      "inherits": null,
+      "props": []
+    },
+    {
+      "name": "AppContextValue",
+      "inherits": null,
+      "props": [
+        {
+          "name": "message",
+          "type": "MessageApi",
+          "optional": false,
+          "description": "",
+          "default": null
+        },
+        {
+          "name": "notification",
+          "type": "NotificationApi",
+          "optional": false,
+          "description": "",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "AppMessageConfig",
+      "inherits": null,
+      "props": [
+        {
+          "name": "duration",
+          "type": "number",
+          "optional": true,
+          "description": "默认自动关闭毫秒数；`0` 常驻。",
+          "default": "3000"
+        },
+        {
+          "name": "maxCount",
+          "type": "number",
+          "optional": true,
+          "description": "同屏最多保留条数，超出时挤掉最旧一条。",
+          "default": "3"
+        }
+      ]
+    },
+    {
+      "name": "AppNotificationConfig",
+      "inherits": "AppMessageConfig",
+      "props": [
+        {
+          "name": "placement",
+          "type": "NoticePlacement",
+          "optional": true,
+          "description": "默认出现位置。",
+          "default": "'top-right'"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "optional": true,
+          "description": "默认自动关闭毫秒数。",
+          "default": "4500"
+        },
+        {
+          "name": "maxCount",
+          "type": "number",
+          "optional": true,
+          "description": "同屏最多保留条数。",
+          "default": "5"
+        }
+      ]
+    },
+    {
+      "name": "AppProps",
+      "inherits": "Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children'>",
+      "props": [
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "子树。",
+          "default": null
+        },
+        {
+          "name": "message",
+          "type": "AppMessageConfig",
+          "optional": true,
+          "description": "message 通道默认配置。",
+          "default": null
+        },
+        {
+          "name": "notification",
+          "type": "AppNotificationConfig",
+          "optional": true,
+          "description": "notification 通道默认配置。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

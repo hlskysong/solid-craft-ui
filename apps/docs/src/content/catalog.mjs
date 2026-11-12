@@ -102,6 +102,14 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/switch',
     hasApi: true,
   },
+  {
+    slug: 'app',
+    title: 'App 全局反馈',
+    category: '反馈',
+    description: 'Message / Notification 的上下文宿主与静态 API，脱离组件树亦可调用，错误提示可被 Form 复用。',
+    exportPath: 'solid-craft/app',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

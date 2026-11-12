@@ -1,0 +1,128 @@
+@use 'mixins' as m;
+
+/* App / Message / Notification（T2-06）
+   App 根节点用 display: contents 保持子树布局不变；容器是 position: fixed 的
+   独立层，pointer-events 只放行通知本体，避免挡住页面点击。
+   状态一律 [data-scui-*]：位置看 placement，反馈类型看 kind，通道看 role。 */
+
+:where(.scui-app) {
+  display: contents;
+}
+
+:where(.scui-app-viewport) {
+  position: fixed;
+  z-index: calc(var(--scui-z-index-base, 0) + 1000);
+  display: flex;
+  flex-direction: column;
+  gap: var(--scui-space-2, 8px);
+  inline-size: min(360px, calc(100vw - 32px));
+  max-inline-size: calc(100vw - 32px);
+  pointer-events: none;
+}
+
+:where(.scui-app-viewport)[data-scui-placement='top'] {
+  top: 16px;
+  left: 50%;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+:where(.scui-app-viewport)[data-scui-placement='top-left'] {
+  top: 16px;
+  left: 16px;
+  align-items: flex-start;
+}
+
+:where(.scui-app-viewport)[data-scui-placement='top-right'] {
+  top: 16px;
+  right: 16px;
+  align-items: flex-end;
+}
+
+:where(.scui-app-viewport)[data-scui-placement='bottom'] {
+  bottom: 16px;
+  left: 50%;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+:where(.scui-app-viewport)[data-scui-placement='bottom-left'] {
+  bottom: 16px;
+  left: 16px;
+  align-items: flex-start;
+}
+
+:where(.scui-app-viewport)[data-scui-placement='bottom-right'] {
+  bottom: 16px;
+  right: 16px;
+  align-items: flex-end;
+}
+
+:where(.scui-app-notice) {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--scui-space-2, 8px);
+  box-sizing: border-box;
+  inline-size: 100%;
+  padding: var(--scui-space-3, 12px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-space-2, 8px);
+  background: var(--scui-color-bg-surface);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  color: var(--scui-color-text-primary);
+  pointer-events: auto;
+}
+
+:where(.scui-app-notice__icon) {
+  display: inline-flex;
+  flex: none;
+  color: var(--scui-color-text-tertiary);
+}
+
+:where(.scui-app-notice)[data-scui-kind='info'] .scui-app-notice__icon {
+  color: var(--scui-color-primary);
+}
+
+:where(.scui-app-notice)[data-scui-kind='success'] .scui-app-notice__icon {
+  color: var(--scui-color-success);
+}
+
+:where(.scui-app-notice)[data-scui-kind='warning'] .scui-app-notice__icon {
+  color: var(--scui-color-warning);
+}
+
+:where(.scui-app-notice)[data-scui-kind='error'] .scui-app-notice__icon {
+  color: var(--scui-color-danger);
+}
+
+:where(.scui-app-notice)[data-scui-kind='loading'] .scui-app-notice__icon {
+  color: var(--scui-color-primary);
+}
+
+:where(.scui-app-notice__body) {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+:where(.scui-app-notice__description) {
+  margin-block-start: var(--scui-space-1, 4px);
+  color: var(--scui-color-text-secondary);
+}
+
+:where(.scui-app-notice__close) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 20px;
+  block-size: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--scui-color-text-tertiary);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}

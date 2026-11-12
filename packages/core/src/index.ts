@@ -64,6 +64,20 @@ export type {
   SwitchSize,
   SwitchStatus,
 } from './components/switch';
+export { App, AppContext, useApp, message, notification } from './components/app';
+export type {
+  AppContextValue,
+  AppMessageConfig,
+  AppNotificationConfig,
+  AppProps,
+  MessageApi,
+  NoticeChannel,
+  NoticeHandle,
+  NoticeKind,
+  NoticeOptions,
+  NoticePlacement,
+  NotificationApi,
+} from './components/app';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';

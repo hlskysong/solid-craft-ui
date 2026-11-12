@@ -12,7 +12,8 @@
     "input",
     "checkbox",
     "radio",
-    "switch"
+    "switch",
+    "app"
   ],
   "components": [
     {
@@ -282,6 +283,34 @@
           "path": "packages/core/src/components/switch/demos/state.tsx",
           "title": "受控状态",
           "description": "用 createSignal 控制开关状态，onChange 回显，并演示校验态。"
+        }
+      ]
+    },
+    {
+      "slug": "app",
+      "title": "App 全局反馈",
+      "category": "反馈",
+      "description": "Message / Notification 的上下文宿主与静态 API，脱离组件树亦可调用，错误提示可被 Form 复用。",
+      "exportPath": "solid-craft/app",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/app/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "脱离组件树调用静态 message，五种语义各用一个按钮触发。"
+        },
+        {
+          "name": "context",
+          "path": "packages/core/src/components/app/demos/context.tsx",
+          "title": "上下文与配置",
+          "description": "在 App 内用 useApp 获取局部通道，并通过句柄就地更新提示。"
+        },
+        {
+          "name": "notification",
+          "path": "packages/core/src/components/app/demos/notification.tsx",
+          "title": "通知卡片",
+          "description": "带描述与关闭按钮的卡片，覆盖静态与上下文两条通道。"
         }
       ]
     }

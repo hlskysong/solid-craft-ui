@@ -38,6 +38,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/checkbox` → Checkbox 多选框：单选 / 半选 / 多选框组，支持选项数组、整组禁用、排列方向与全选联动。
 - `solid-craft/radio` → Radio 单选框：单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。
 - `solid-craft/switch` → Switch 开关：带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。
+- `solid-craft/app` → App 全局反馈：Message / Notification 的上下文宿主与静态 API，脱离组件树亦可调用，错误提示可被 Form 复用。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 
