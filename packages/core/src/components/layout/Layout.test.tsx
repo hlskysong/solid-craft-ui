@@ -20,7 +20,11 @@ describe('Layout', () => {
     expect(root).toHaveAttribute('data-scui-has-sider', 'false');
 
     expect(screen.getByRole('banner')).toHaveClass('scui-layout__header');
-    expect(screen.getByRole('main')).toHaveClass('scui-layout__content');
+    // Content 是普通容器而不是 <main>：main landmark 由页面提供，
+    // 组件里再渲染一个会让「Layout 嵌进已有 main 的页面」直接产生两个 main。
+    expect(screen.getByText('内容')).toHaveClass('scui-layout__content');
+    expect(screen.getByText('内容')).toHaveAttribute('data-scui-role', 'layout-content');
+    expect(screen.queryByRole('main')).toBeNull();
     expect(screen.getByRole('contentinfo')).toHaveClass('scui-layout__footer');
   });
 

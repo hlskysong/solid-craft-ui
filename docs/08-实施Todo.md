@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）** + **设计基线数值对标（§30.25）** + **字族与图标尺寸收口（§30.26）** + **T2-09 控件接入 Form（§30.27）** + **T2-10 DatePicker（§30.28）** + **T2-11 RangePicker（§30.29）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）** + **设计基线数值对标（§30.25）** + **字族与图标尺寸收口（§30.26）** + **T2-09 控件接入 Form（§30.27）** + **T2-10 DatePicker（§30.28）** + **T2-11 RangePicker（§30.29）** + **T2-12 体积预算 / 产物去注释（§30.30）** + **T2-13 M2 Exit：Demo 覆盖扩面与 M2 闭合（§30.31）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 12 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23 / T2-08 Form §30.24 / T2-09 控件接入 Form §30.27 / T2-10 DatePicker §30.28 / T2-11 RangePicker §30.29 / T2-12 体积预算 §30.30），下一项 T2-13；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），**已完成 13 项**（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23 / T2-08 Form §30.24 / T2-09 控件接入 Form §30.27 / T2-10 DatePicker §30.28 / T2-11 RangePicker §30.29 / T2-12 体积预算 §30.30 / T2-13 M2 Exit §30.31），下一阶段 **M3 任务拆解**；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T2-13**（M2 第十三项「M2 Exit 检查」，见 §4.1；T2-01~T2-12 已完成，见 §30.16 / §30.18 / §30.19 / §30.20 / §30.21 / §30.22 / §30.23 / §30.24 / §30.27 / §30.28 / §30.29 / §30.30）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后各次提交（T2-01~T2-05 及 CI 用量收敛）**均未推送**，故无新 run；T2-05 / T2-06 / T2-07 / T2-08 与设计基线收口已分别提交为 `928b899` / `8d61a81` / `62b7d23` / `b97421e` / `d917f4f`（2026-11-12，均未推送）；T2-09 已提交为 `583cf23`（35 files / +1423 −34）；T2-10 已提交为 `3f694e0`（42 files / +3098 −26）；T2-11 已提交为 `f76c472`（42 files / +3775 −26）；T2-12 改动仍在工作区待逐次授权提交；以上均未推送，`main` 领先 `origin/main` 15 |
-| 下一步 | **按 §4.1 执行 M2（13 项，已完成 12 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ ~~T2-03 Input（Textarea 并入）~~（§30.19）→ ~~T2-04 InputNumber~~（§30.20）→ ~~T2-05 Checkbox / Radio / Switch~~（§30.21）→ ~~T2-06 App~~（§30.22）→ ~~T2-07 Select~~（§30.23）→ ~~T2-08 Form~~（§30.24）→ ~~T2-09 控件接入 Form~~（§30.27）→ ~~T2-10 DatePicker~~（§30.28）→ ~~T2-11 RangePicker~~（§30.29）→ ~~T2-12 体积预算~~（§30.30）→ **T2-13 M2 Exit**（含「视觉基线 / axe 覆盖每组件全部 Demo」的扩面，见 §30.20 第四节）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T2-13**（M2 第十三项「M2 Exit 检查」**已完成并闭合**，见 §30.31；M2 十三项 T2-01~T2-13 全部收口，下一阶段 M3 待拆解为 T3-xx）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后各次提交**均未推送**，故无新 run；T2-05 / T2-06 / T2-07 / T2-08 与设计基线收口已分别提交为 `928b899` / `8d61a81` / `62b7d23` / `b97421e` / `d917f4f`（2026-11-12）；T2-09 `583cf23`（35 files / +1423 −34）、T2-10 `3f694e0`（42 files / +3098 −26）、T2-11 `f76c472`（42 files / +3775 −26）、T2-12 `b62e59a`（8 files / +304 −9）；T2-13 改动仍在工作区待逐次授权提交；以上均未推送，`main` 领先 `origin/main` 16 |
+| 下一步 | **M2 已闭合（13/13），下一步把 M3 拆成任务级**：按 §4.1 的颗粒度（任务 / 依赖 / 主责 / 验收 / 状态五要素）把 M3 的第 12 周末口径「CRUD 列表页可开发 + Table 基础稳定」拆成 T3-xx，候选顺序 Table（基础列 / 排序 / 筛选 / 选择 / 分页 / 空态加载）→ Pagination → Card / Tag / Tabs / Empty / Skeleton / Descriptions → Upload（M2 后移项）；拆解完成再逐项执行。M2 的 13 项已全部收口：~~T2-01~~（§30.16）→ ~~T2-02~~（§30.18）→ ~~T2-03~~（§30.19）→ ~~T2-04~~（§30.20）→ ~~T2-05~~（§30.21）→ ~~T2-06~~（§30.22）→ ~~T2-07~~（§30.23）→ ~~T2-08~~（§30.24）→ ~~T2-09~~（§30.27）→ ~~T2-10~~（§30.28）→ ~~T2-11~~（§30.29）→ ~~T2-12~~（§30.30）→ ~~T2-13 M2 Exit~~（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
 
 ---
@@ -137,7 +137,7 @@
 | T2-10 | `DatePicker`（XL）：单选 / `min`·`max`·`disabledDate` / `format` / 中文 locale / 键盘 / `editing` 状态机 / SSR 不取当前时间 | T2-02 | 技术负责人 | 非法输入可恢复；`@internationalized/date` + `Intl`，不自造日期轮子（**18 条单测 + SSR 14 入口 + 负向实证 9/9 钉住**，见 §30.28） | [x] |
 | T2-11 | `RangePicker`（R5 已定 M2）：hover 预览、键盘、焦点管理 | T2-10 | 技术负责人 | 同日 / 跨月 / 跨年边界；`min`·`max` 约束生效（**26 条单测 + SSR 15 入口 + E2E 两段落点 / 悬停预览 / Tab 交接 + 负向实证 10/10 钉住**，见 §30.29） | [x] |
 | T2-12 | 体积预算落地：`size-limit` 补「Form + Input + Select ≤ 25 KB」与「DatePicker ≤ 30 KB」两条，`check:ci` 的未实现清单相应缩短 | T2-07 / T2-08 / T2-10 | 技术负责人 | `pnpm size` 两条新预算实跑；超预算先拆再合并（**实测 29.44 KB 超 25 KB → 定位到 dist 把中文 JSDoc 全文发了出去，新增 `scripts/strip-dist-comments.mjs` 后 17.84 / 13.30 KB，四条预算全绿、`check:ci` 4/6；6 条负向实证 N143~N148 钉住，见 §30.30**） | [x] |
-| T2-13 | **M2 Exit 检查**：表单页 Demo 端到端 / axe / 每组件 ≥3 Demo / 视觉基线（@1280·@768）/ SSR 冒烟 / 文档生成物 | T2-09 / T2-11 / T2-12 | 技术负责人 | `pnpm verify` RC=0；六条预算中四条落地；表单页可独立开发。**另含一项前置修复**：`tests/e2e/demo-list.ts` 目前只截每个组件的 `basic` Demo（`demoPath()` 写死 `basic`），新增 Demo 既无视觉基线也不进 axe 扫描 —— 必须先扩成「slug × demo」再谈「每组件 ≥3 Demo」的验收（§30.20 第四节） | [ ] |
+| T2-13 | **M2 Exit 检查**：表单页 Demo 端到端 / axe / 每组件 ≥3 Demo / 视觉基线（@1280·@768）/ SSR 冒烟 / 文档生成物 | T2-09 / T2-11 / T2-12 | 技术负责人 | `pnpm verify` RC=0；六条预算中四条落地；表单页可独立开发。**另含一项前置修复**：`tests/e2e/demo-list.ts` 目前只截每个组件的 `basic` Demo（`demoPath()` 写死 `basic`），新增 Demo 既无视觉基线也不进 axe 扫描 —— 必须先扩成「slug × demo」再谈「每组件 ≥3 Demo」的验收（§30.20 第四节）（**扩面完成：清单改 `DEMO_CASES`（slug × demo），Demo 39→53 / 基线 36→106 / axe 55 次扫描全 0 violation；`check:ci` 新增「每组件 ≥3 Demo」与「基线一一对齐」两条判据；扩面抓到 3 个真缺陷（`Layout.Content` 的 `<main>` / `Form` 默认 `aria-label` / 宿主静默回落）；负向 N149~N155 7/7 + `DRIFT []`，见 §30.31**） | [x] |
 
 **推进顺序**：T2-01 → T2-02 是全链前提（不做基座，后面每个控件都要返工）；T2-03 / T2-05 / T2-06 可并行；T2-07 与 T2-08 并行；T2-09 必须等控件与 Form 都在位；T2-10 / T2-11 是最长尾巴，越早启动越好。
 
@@ -3459,3 +3459,119 @@ Aming 授权「先提交再做 T2-12」后按 §4.1 收口：`size-limit` 补上
 3. 去注释不解决「绝对值大」的问题：`Form + Input + Select` 17.84 KB 里仍有 12 KB 是真实逻辑（校验引擎、数字刻度运算、三个组件的状态机）。若 M3 再加控件，需要重新校准而不是继续挤注释。
 4. `dist/source`（`solid` 条件）仍带注释——那是源码形态，消费方用自己的编译器处理；`dist/types` 带 JSDoc 是刻意保留（IDE 悬停资料来源）。
 5. 未引入 CSS 压缩（`sass` 的 `compressed` 或 esbuild CSS minify）：CSS 只占这组体积的 2.6 KB，收益不足以承担「`check:styles` 按行扫描被改写」的风险。
+
+### 30.31 T2-13 M2 Exit：Demo 覆盖扩面与 M2 闭合（2026-11-12 实测与验收）
+
+#### 一、结论先行
+
+Aming 授权「先提交再继续」后按 §4.1 收口：**M2 13 项全部完成，M2 Exit 检查通过**。本轮的实质不是「跑一遍验收」，而是把三条验收（每组件 ≥3 Demo / 视觉基线 / axe）从「靠人记得加用例」改成「机制上不可能漏」：
+
+1. **前置修复落地**：`tests/e2e/demo-list.ts` 的清单粒度从「组件」细化到「**组件 × Demo**」（`DEMO_CASES`），截图 / axe / 375 窄屏冒烟三条用例全部按它循环；新增 Demo 自动进入覆盖，不再需要手工加用例。
+2. **Demo 从 39 补到 53**（每组件 ≥3）：icon / typography / space / divider / layout / grid 各 +2，date-picker / range-picker 各 +1。
+3. **两条新判据进 `check:ci`**：① 除 overview（聚合页）外每组件 ≥3 Demo；② 视觉基线文件集合与「(slug, demo) × viewport」**逐一对齐**，多一张少一张都红灯。
+
+扩面立刻抓到 **3 个真实缺陷**（都不是本轮引入的，是「只扫 basic」时被挡住的）：
+
+| # | 缺陷 | 影响 | 修法 |
+| --- | --- | --- | --- |
+| 1 | `Layout.Content` 渲染 `<main>` | 任何「页面已有 main」的场景（文档站宿主、业务壳布局）嵌 Layout 就变成两个 main → `landmark-no-duplicate-main` / `landmark-main-is-top-level` / `landmark-unique` | `Content` 改 `<div data-scui-role="layout-content">`；main landmark 归还给页面 |
+| 2 | `Form` 默认 `aria-label="表单"` | 同页多个表单时 landmark 同名 → `landmark-unique`（`form/layout` 页四个表单全部中招） | 去掉默认值（`<form>` 无名称时不构成 landmark），需要 landmark 的调用方显式传 |
+| 3 | 宿主 / 用例对「Demo 名写错」静默 | 宿主会回落到首 Demo，截图「成功但截错页」 | 宿主输出 `data-demo-name`，截图用例断言它；另加「清单覆盖守卫」用例防清单被截断 |
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `tests/e2e/demo-list.ts` | **重写**：`DEMO_CASES`（slug + demo + path）、`demoCaseId()`、`CATALOG_DEMO_TOTAL`；保留 `DEMO_IDS`（每组件一次的用例用）与 `demoPath(slug, demo = 'basic')` |
+| `tests/e2e/specs/visual.spec.ts` | 循环改 `DEMO_CASES`；基线名 `light-ltr-default-<slug>-<demo>-<width>.png`；断言 `data-demo-name`；新增「清单覆盖守卫」用例（条数 + id 唯一）；删掉 `form/real-form` 的专项用例（已被循环覆盖） |
+| `tests/e2e/specs/browser.spec.ts` | axe 静态扫描与 375 窄屏冒烟改按 `DEMO_CASES` 循环；删掉真实表单页的专项 axe 用例（同上）；`Button` / `Link` 两条键盘用例补「先等宿主挂载再按 Tab」 |
+| `apps/docs/src/standalone.tsx` | 输出 `data-demo-name`；根节点回到 `<main>`（页面唯一 main landmark） |
+| `packages/core/src/components/{icon,typography,space,divider,layout,grid}/demos/*` | **新增 12 个 Demo**：`icon/{tones,custom}`、`typography/{prose,ellipsis}`、`space/{sizes,cross-align}`、`divider/{with-text,vertical}`、`layout/{top,collapsed}`、`grid/{responsive,order}` |
+| `packages/core/src/components/{date-picker,range-picker}/demos/format.tsx` | **新增 2 个 Demo**：format token / 尺寸 / 分隔文案 / 清除 |
+| `packages/core/src/components/layout/Layout.tsx`、`Layout.test.tsx` | `Content` 从 `<main>` 改为 `<div data-scui-role="layout-content">`；单测改为断言「不再是 main 角色」 |
+| `packages/core/src/components/form/{Form.tsx,types.ts,Form.test.tsx}` | 去掉默认 `aria-label`；新增「显式传入时原样落到 form」的单测 |
+| `scripts/check-ci.mjs` | 新增判据 11（三条子判据，见第四节）+ 收尾汇总补「Demo 覆盖 / 视觉基线全覆盖」；`FONT_SHA256` 同步第 11 次字集 |
+| `packages/core/spikes/api-draft/data-attributes.md` | 新增 `data-scui-role="layout-content"`，并写明「Content 不再是 main」的理由 |
+| `tests/e2e/baselines/**` | 36 → **106 张**：既有 36 张按 `slug-demo` 改名（`form-real` → `form-real-form`），新增 70 张 |
+| `apps/docs/public/fonts/**` | **第十一次字集扩容**：258 676 bytes / 796 CJK + 95 ASCII = **891 码位** |
+| `docs/08` 本文件、`scripts/todo-governance.json`、`scripts/goals.baseline.json` | §4.1 T2-13 勾 `[x]`、M2 闭合写入本节与锚点（M1/M2 里程碑行沿用「散文记录、不勾」的既有口径，避免与 `check:todo` 的依赖倒挂判据冲突）、锚点推进 M3、治理契约 `T2-13 → 30.31`、基线重校 |
+
+#### 三、扩面机制：三条路径同一份清单
+
+| 层 | 之前 | 现在 |
+| --- | --- | --- |
+| 清单 | `DEMO_IDS`（组件 slug） | `DEMO_CASES`（slug × demo，从 catalog.json 展开） |
+| 截图 | 每组件 1 张 × 2 视口 = 34 张 | 每 Demo 1 张 × 2 视口 = **106 张** |
+| axe | 每组件 basic 页 + 2 处展开态 = 20 次 | 每 Demo 一页 + 2 处展开态 = **55 次** |
+| 窄屏冒烟 | 每组件 basic 页 | 每 Demo 一页（53 页） |
+
+**为什么必须「按清单循环」而不是「逐条手写用例」**：手写用例的覆盖面等于「上次有人记得加」，而新增 Demo 恰恰是最容易被忘的一步（T2-03~T2-11 累计漏了 22 个 Demo 的截图与扫描）。改成循环后，`docs/04 §3.3` 的「每个 P0 组件 ≥3 Demo」才第一次具备机器含义。
+
+**宿主的静默回落是新引入的风险，必须同时堵住**：`standalone.tsx` 在 Demo 名对不上时会 `?? component.demos[0]` 兜底（对用户友好），但截图用例如果只断言 `data-demo`（slug），就会「截图成功、截的是 basic」。所以宿主输出 `data-demo-name`，用例逐页断言 —— 这是负向 N155 钉住的那条。
+
+#### 四、两条新判据（`check:ci` 第 11 条）
+
+| 子判据 | 判据内容 | 失败信息 |
+| --- | --- | --- |
+| 11-a | 除 `overview` 外每个组件 `demos.length ≥ 3` | `以下组件 Demo 少于 3 个…：icon=2` |
+| 11-b | `tests/e2e/baselines` 里的 PNG 集合与「catalog 全部 Demo × {1280,768}」**双向**相等 | `视觉基线缺失 N 张…` / `视觉基线多出 N 张…`（后者对应「Demo 删了基线没清」） |
+| 11-c | `visual.spec.ts` / `browser.spec.ts` 必须出现 `DEMO_CASES`，且 `visual.spec.ts` 必须断言 `data-demo-name` | `未按 DEMO_CASES 循环…` / `未断言 data-demo-name…` |
+
+11-b 是本轮最值钱的一条：它把「截图基线」从「目录里有一堆 PNG」变成「**与 catalog 一一对应的 106 张**」。本轮它当场抓到一张缺失（见第八节第 4 条），否则那张会一直缺到下次有人翻目录。
+
+#### 五、扩面抓到的三个缺陷与两次回退
+
+**(1) `Layout.Content` 的 `<main>`。** 第一次把 axe 扫描面扩到 53 页，`overview` 与三个 `layout` Demo 立刻报 3 条 moderate（重复 main）。修法依次试了两版才对：
+
+| 试法 | 结果 |
+| --- | --- |
+| 宿主改 `<div>`（不补 main） | 重复 main 消失，但 53 页全中 `landmark-one-main` + `region`（内容不在任何 landmark 内） |
+| 宿主按「有没有嵌套 main」补 `role="main"` + 标题包 `<header>` | 混合页仍报 `region`；且 `<header>` 落在 main 内又被判 `landmark-banner-is-top-level` |
+| **`Content` 不再渲染 `<main>`，宿主恒为唯一 main** | 55 次扫描**全部 0 violation** |
+
+结论：组件里渲染 `main` 是越权的 —— `main` 表达「文档唯一主内容区」，只能由页面决定。这条已写进 `data-attributes.md` 与 `Content` 源码注释。
+
+**(2) `Form` 的默认 `aria-label="表单"`。** 四个表单同名 → `landmark-unique`。去掉默认值后，`<form>` 无名称时**不构成 landmark**（ARIA 规范），同页多表单不再互相冲突；需要 landmark 的调用方显式传 `aria-label`。单测从「断言默认值」改成「断言不主动命名 + 显式传入原样落地」。
+
+**(3) 106 张基线在三次语义变更后逐个字节不变。** 依次改了「`Content` 的 `main`→`div`」「宿主 `div`↔`main`」「Form 去掉默认 `aria-label`」，每改一次都先跑 `pnpm test:visual`（不带 `--update-snapshots`）：**106 张全部通过**。这证明三次改动只动语义与 ARIA，零像素影响 —— 如果只跑 `--update-snapshots` 全绿，就分不清「没变」和「变了但是我把新样子存成基线了」。
+
+**(4) 键盘用例的挂载竞态。** 最后一次 verify 里 `Button 键盘路径` 稳定红灯（`toBeFocused` 等到 5 s 超时，页面快照只有一个按钮）。根因不在组件：Demo 模块从 39 涨到 53 个后首帧变慢，`goto` 后立刻 `press('Tab')` 会打在**尚未挂载**的空文档上，焦点落在 `body`，此后再也不会自己跑到按钮上。修法是用例先 `await expect(getByTestId('demo-root')).toBeVisible()` 再按 Tab（`Link 键盘路径` 同型，一并补）。这类「测的是时序不是行为」的脆性用例，只有在页面真的变重时才会翻出来。
+
+#### 六、验收数字（最终态实测）
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **26 阶段 RC=0** |
+| 单测 | `packages/core` **272 tests / 27 files passed**（+1：Form 显式 aria-label） |
+| SSR 冒烟 | **15 个入口**全绿（T2-01~T2-11 + 四个 Spike），双渲确定性 + 0 warning |
+| 浏览器链 | browser **13 passed**（axe 一条用例扫 53 页 + 2 处展开态 = **55 次扫描，55/55 全 0 violation**，serious/critical/moderate 全 0） |
+| 视觉基线 | visual **107 passed** = 106 张截图 + 1 条覆盖守卫；`@1280` / `@768` 各 53 张 |
+| 文档 | `check:docs` **72 个生成物**一致；catalog **17 组件 / 53 Demo / 17 API 表 / 330 条搜索索引**；llms **89 个站点文件**（86 页）/ 21 个 exports 子路径 100% 覆盖 / 0 死链 / 0 孤儿页 |
+| 门禁 | `check:todo` **51 个 `[x]` / 85 个区块**；`check:styles` 16 样式表 / 165 个 `[data-*]` 选择器 / 75 个 data-* 取值；`check:slice` 16 组件；`check:exports` 92 个声明文件零第三方引用；`check:accessors` 50 处 / 178 源文件 |
+| size | Button **1.85 / 6**、Form + Input + Select **17.83 / 25**、DatePicker **13.30 / 30**、Core **71.45 / 180**（gzip） |
+| 字体 | 第十一次扩容 **258 676 bytes / 891 码位**，`FONT_SHA256` 同步 |
+| 负向实证 | **N149~N155 7/7 PASS + `DRIFT []`**（见下表） |
+
+| 编号 | 破坏 | 变红的判据 |
+| --- | --- | --- |
+| N149 | 删掉 `icon/tones`（icon 只剩 2 个 Demo） | `check:ci`：「Demo 少于 3 个」 |
+| N150 | 删掉一张基线 | `check:ci`：「视觉基线缺失」 |
+| N151 | 放一张无主基线（模拟 Demo 删了基线没清） | `check:ci`：「视觉基线多出」 |
+| N152 | 截图用例不再断言 `data-demo-name` | `check:ci`：「未断言 data-demo-name」 |
+| N153 | `visual.spec.ts` 回退成 `DEMO_IDS` 循环 | `check:ci`：「未按 DEMO_CASES 循环」 |
+| N154 | `DEMO_CASES` 截断成只取第一个组件 | 覆盖守卫用例：「清单覆盖守卫」红灯 |
+| N155 | 宿主不再输出 `data-demo-name` | 截图用例：`data-demo-name` 断言红灯 |
+
+#### 七、治理回写
+
+`docs/08` 新增本节；§4.1 的 `T2-13` 勾 `[x]` 并追加上表证据；**M2 闭合**（第 9 周末口径：表单页可开发 / 表单 9 件套 + Textarea + App 可用 / A11y 通过 / `renderToString` 无报错）—— 里程碑表 M1/M2 两行保持 `[ ]` 不勾，沿用本项目「里程碑只做散文记录、勾选只发生在 §4.1 任务行」的既有口径（避免 `check:todo` 把「M2 `[x]` 而 M1 `[ ]`」判成依赖倒挂）；锚点推进到 **M3 拆解**、M2 已完成 13/13；`scripts/todo-governance.json` 新增 `"T2-13": "30.31"`；`pnpm check:goals --update-baseline` 重校（`AGENTS.md` 只同步标记行）。
+表格里的提交链同步为「T2-12 → `b62e59a`（8 files / +304 −9）、`main` 领先 `origin/main` 16」。
+
+#### 八、已知边界
+
+1. **`overview` 豁免「≥3 Demo」判据**：它是首页聚合预览（把多个组件拼成一页），不是组件；但它仍参与截图与 axe（106 张里含 `overview-basic` 两张）。
+2. **视觉基线从 36 张涨到 106 张**：visual 阶段耗时 34 s（此前 34 张时 ~12 s），verify 总时长约 1 分半。仍只跑 light/ltr/default 单档 + 1280/768 两视口；dark / compact / rtl 属 v1.0（06 §5.3）。
+3. **axe 扫的是 `?standalone=1` 的无 chrome 宿主**，文档站带导航的整页不在扫描面内（`test:docs` 只做生成物一致性）。若要覆盖站点 chrome，需要另起一套「整页 axe」用例，属 v1.0 的视觉/无障碍全量矩阵。
+4. **`--update-snapshots` 只跑子集时基线目录会变**：本轮用 `-g "icon-custom 截图基线" --update-snapshots` 补一张时，`app-basic-1280.png` 从目录里消失（Playwright 会把本次未运行用例的截图按 obsolete 处理）。此后固定用**全量** `pnpm test:visual:update`；`check:ci` 的 11-b 判据当场抓到了这次缺失，否则会静默少一张。
+5. **375 px 冒烟只判横向溢出**，不判换行是否美观；`range-picker` 的弹层（固定 248 px）与 `form` 的窄屏排布仍未做专项 media query。
+6. **`Layout.Content` 不再是 `<main>`**：这是语义层的破坏性变更（消费方若用 `getByRole('main')` 定位内容区需改为 `[data-scui-role="layout-content"]`）。包尚未发布，无迁移成本；变更理由已写进源码注释与 `data-attributes.md`。

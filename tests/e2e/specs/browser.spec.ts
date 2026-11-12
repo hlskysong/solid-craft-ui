@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
-import { DEMO_IDS, demoPath } from '../demo-list';
+import { DEMO_CASES, DEMO_IDS, demoCaseId, demoPath } from '../demo-list';
 
 test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
   test('Demo 清单同源：应用暴露的路由列表与 E2E 清单一致', async ({ page }) => {
@@ -26,6 +26,10 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
 
   test('Button 键盘路径：Tab 进入 + 焦点环 + Enter / Space 触发', async ({ page }) => {
     await page.goto(demoPath('button'));
+    // T2-13：先等宿主挂载再按 Tab。Demo 模块从 39 涨到 53 个后首帧变慢，
+    // 「goto 后立刻 Tab」会打在空文档上（activeElement 落 body），
+    // 焦点就永远到不了第一个可聚焦元素 —— 这是用例的竞态，不是组件的键盘缺陷。
+    await expect(page.getByTestId('demo-root')).toBeVisible();
     await page.keyboard.press('Tab');
     const first = page.getByTestId('first-focusable');
     await expect(first).toBeFocused();
@@ -50,6 +54,7 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
 
   test('Link 键盘路径：Tab 进入 + Enter 激活锚点', async ({ page }) => {
     await page.goto(demoPath('typography'));
+    await expect(page.getByTestId('demo-root')).toBeVisible();
     const link = page.getByTestId('keyboard-link');
     await page.keyboard.press('Tab');
     await expect(link).toBeFocused();
@@ -85,13 +90,15 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
 
   test('375px 不溢出冒烟（仅冒烟，不作移动端适配验收）', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 800 });
-    for (const id of DEMO_IDS) {
-      await page.goto(demoPath(id));
+    // T2-13：按「组件 × Demo」逐页扫，窄屏溢出往往是某个 Demo 单独引入的
+    //（例如多列栅格 / 双输入控件），只扫 basic 会整片漏掉。
+    for (const item of DEMO_CASES) {
+      await page.goto(item.path);
       const metrics = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,
       }));
-      expect(metrics.scrollWidth, `${id} 出现横向溢出`).toBeLessThanOrEqual(
+      expect(metrics.scrollWidth, `${demoCaseId(item)} 出现横向溢出`).toBeLessThanOrEqual(
         metrics.clientWidth + 1,
       );
     }
@@ -216,10 +223,14 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
 });
 
 test.describe('A11y 链：axe 扫描', () => {
+  // T2-13：扫描面从「每组件 basic」扩到「组件 × Demo」。真实表单页
+  // （form/real-form）与各组件非首 Demo 现在都在这条循环里，不再单开用例 ——
+  // 单开意味着每新增一个 Demo 就要人肉记得加一条，迟早漏。
   test('全部 Demo 无 serious / critical 违规', async ({ page }) => {
     const blocking: string[] = [];
-    for (const id of DEMO_IDS) {
-      await page.goto(demoPath(id));
+    for (const item of DEMO_CASES) {
+      const id = demoCaseId(item);
+      await page.goto(item.path);
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
         .analyze();
@@ -245,26 +256,6 @@ test.describe('A11y 链：axe 扫描', () => {
       }
     }
     expect(blocking, `serious/critical 违规：\n${blocking.join('\n')}`).toEqual([]);
-  });
-
-  // T2-09：真实表单页不在 DEMO_IDS 的 basic 扫描面里，单独补一次 axe。
-  // Group 字段的 id 三件套由 Group 根承担，这条用例同时守住「无重复 id」。
-  test('真实表单页无 serious / critical 违规', async ({ page }) => {
-    await page.goto('/components/form/real-form?standalone=1');
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
-      .analyze();
-    const serious = results.violations.filter(
-      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
-    );
-    console.log(
-      `[axe] form/real-form: ${results.violations.length} violations ${results.violations
-        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
-        .join(', ')}`,
-    );
-    expect(
-      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
-    ).toEqual([]);
   });
 
   // T2-10：日历弹层同样只在展开时存在，必须在 open 之后单独扫一次

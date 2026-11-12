@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 72 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 86 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 21 个 exports 子路径、16 个组件页、39 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 21 个 exports 子路径、16 个组件页、53 个 Demo。
 
 ## 关键约定
 
@@ -400,6 +400,8 @@ export interface IconProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'co
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](llms/demos/icon-basic.md)：语义色图标、装饰图标与三档尺寸。（源文件 `packages/core/src/components/icon/demos/basic.tsx`）
+- [自定义图标与内联](llms/demos/icon-custom.md)：自带 SVG 直接嵌入、尺寸由 Icon 统一控制，以及按钮内的图标对齐。（源文件 `packages/core/src/components/icon/demos/custom.tsx`）
+- [语义色与旋转](llms/demos/icon-tones.md)：七档语义色一次对照，以及 spin 在加载态里的用法。（源文件 `packages/core/src/components/icon/demos/tones.tsx`）
 
 ## 相关规范
 
@@ -589,6 +591,8 @@ export interface LinkProps extends TypographyProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](llms/demos/typography-basic.md)：标题层级、文本修饰、字号语义色与段落 / 链接。（源文件 `packages/core/src/components/typography/demos/basic.tsx`）
+- [超长文本](llms/demos/typography-ellipsis.md)：窄容器下的单行省略与换行，以及 ellipsis 与普通文本的对比。（源文件 `packages/core/src/components/typography/demos/ellipsis.tsx`）
+- [文档排版](llms/demos/typography-prose.md)：标题、段落、行内修饰与链接组合成一段可读的说明文字。（源文件 `packages/core/src/components/typography/demos/prose.tsx`）
 
 ## 相关规范
 
@@ -713,6 +717,8 @@ export interface SpaceProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](llms/demos/space-basic.md)：水平 / 垂直排列、分隔线与换行对齐。（源文件 `packages/core/src/components/space/demos/basic.tsx`）
+- [交叉轴对齐](llms/demos/space-cross-align.md)：四种 align 在高度不一致的子项上如何对齐。（源文件 `packages/core/src/components/space/demos/cross-align.tsx`）
+- [间距档位](llms/demos/space-sizes.md)：三档间距在水平与垂直两个方向上的实际距离。（源文件 `packages/core/src/components/space/demos/sizes.tsx`）
 
 ## 相关规范
 
@@ -825,6 +831,8 @@ export interface DividerProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](llms/demos/divider-basic.md)：水平 / 垂直分割线、虚线与带文字分割。（源文件 `packages/core/src/components/divider/demos/basic.tsx`）
+- [垂直分割](llms/demos/divider-vertical.md)：在文本、链接与按钮组之间插入垂直分割线。（源文件 `packages/core/src/components/divider/demos/vertical.tsx`）
+- [带文字分割](llms/demos/divider-with-text.md)：plain 与默认字重的对比，以及虚线 + 文字的组合。（源文件 `packages/core/src/components/divider/demos/with-text.tsx`）
 
 ## 相关规范
 
@@ -1060,6 +1068,8 @@ export interface SiderProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](llms/demos/layout-basic.md)：带侧边栏的三段布局，含可折叠触发器。（源文件 `packages/core/src/components/layout/demos/basic.tsx`）
+- [受控折叠](llms/demos/layout-collapsed.md)：collapsed 由外部状态驱动，触发器在页头而不是侧边栏。（源文件 `packages/core/src/components/layout/demos/collapsed.tsx`）
+- [上下布局](llms/demos/layout-top.md)：不带侧边栏的页头 / 内容 / 页脚三段结构。（源文件 `packages/core/src/components/layout/demos/top.tsx`）
 
 ## 相关规范
 
@@ -1254,6 +1264,8 @@ export interface ColProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](llms/demos/grid-basic.md)：24 栅格、偏移与对齐换行。（源文件 `packages/core/src/components/grid/demos/basic.tsx`）
+- [排序与分布](llms/demos/grid-order.md)：order 改变视觉顺序而不动 DOM 顺序，justify 控制主轴分布。（源文件 `packages/core/src/components/grid/demos/order.tsx`）
+- [响应式断点](llms/demos/grid-responsive.md)：xs / sm / md / lg 四个断点在 1280 与 768 两个基线视口下的列数变化。（源文件 `packages/core/src/components/grid/demos/responsive.tsx`）
 
 ## 相关规范
 
@@ -2980,6 +2992,7 @@ export interface DatePickerProps extends Omit<
 
 - [基础用法](llms/demos/date-picker-basic.md)：非受控与受控两种取值方式、显示格式、清除与三档尺寸。（源文件 `packages/core/src/components/date-picker/demos/basic.tsx`）
 - [可选范围](llms/demos/date-picker-constraints.md)：min / max 闭区间、disabledDate 自定义禁用，以及错误与禁用态。（源文件 `packages/core/src/components/date-picker/demos/constraints.tsx`）
+- [格式与尺寸](llms/demos/date-picker-format.md)：format 的 token 子集、三档尺寸与清除按钮。（源文件 `packages/core/src/components/date-picker/demos/format.tsx`）
 
 ## 相关规范
 
@@ -3242,6 +3255,7 @@ export interface RangePickerProps extends Omit<
 
 - [基础用法](llms/demos/range-picker-basic.md)：非受控与受控两种取值方式、显示格式、三档尺寸。选完起点后悬停任意日期即可预览区间，移出日历回到单点。（源文件 `packages/core/src/components/range-picker/demos/basic.tsx`）
 - [可选范围](llms/demos/range-picker-constraints.md)：min / max 闭区间、disabledDate 自定义禁用（两端共用同一约束）、同日选择，以及错误与禁用态。（源文件 `packages/core/src/components/range-picker/demos/constraints.tsx`）
+- [格式与尺寸](llms/demos/range-picker-format.md)：格式与分隔文案两端共用，三档尺寸与清除按钮。（源文件 `packages/core/src/components/range-picker/demos/format.tsx`）
 
 ## 相关规范
 
@@ -3482,7 +3496,11 @@ export interface FormProps extends Omit<
   requiredMark?: boolean;
   /** 整表禁用，合并进每个字段的 disabled getter。 @default false */
   disabled?: boolean;
-  /** 表单无障碍名称。 @default '表单' */
+  /**
+   * 表单无障碍名称。不传时不设 `aria-label`：`<form>` 只有带可访问名称才暴露成
+   * landmark，同页多个表单若都叫「表单」会产生同名 landmark（axe `landmark-unique`）。
+   * @default undefined
+   */
   'aria-label'?: string;
   /** 校验通过回调。 @default undefined */
   onFinish?: (values: FormValues) => void;
@@ -5261,6 +5279,145 @@ export default function Basic() {
 
 ---
 
+<!-- source: llms/demos/icon-custom.md -->
+
+# Icon 图标 · 自定义图标与内联（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/icon/demos/custom.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+自带 SVG 直接嵌入、尺寸由 Icon 统一控制，以及按钮内的图标对齐。
+
+## 完整源码
+
+```tsx
+import { For } from 'solid-js';
+import { Button, Icon } from 'solid-craft';
+import { DemoSection, SIZES } from '../../demos/shared';
+
+export const demo = {
+  title: '自定义图标与内联',
+  description: '自带 SVG 直接嵌入、尺寸由 Icon 统一控制，以及按钮内的图标对齐。',
+};
+
+/** 自定义 SVG 只负责形状：宽高由 `Icon` 的 `size` 统一决定。 */
+function Triangle() {
+  return (
+    <svg viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M8 2 14 13H2Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+export default function Custom() {
+  return (
+    <>
+      <DemoSection title="自定义 SVG 与尺寸">
+        <For each={SIZES}>
+          {(size) => (
+            <Icon size={size} label={`${size} 三角图标`}>
+              <Triangle />
+            </Icon>
+          )}
+        </For>
+      </DemoSection>
+      <DemoSection title="按钮内对齐">
+        <Button>
+          <Icon size="small">
+            <Triangle />
+          </Icon>
+          导出
+        </Button>
+        <Button variant="outline">
+          <Icon size="small">
+            <Triangle />
+          </Icon>
+          复制
+        </Button>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Icon 图标 API](llms/exports/icon.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/icon-tones.md -->
+
+# Icon 图标 · 语义色与旋转（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/icon/demos/tones.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+七档语义色一次对照，以及 spin 在加载态里的用法。
+
+## 完整源码
+
+```tsx
+import { For } from 'solid-js';
+import { Icon } from 'solid-craft';
+import { DemoSection, DotIcon } from '../../demos/shared';
+
+export const demo = {
+  title: '语义色与旋转',
+  description: '七档语义色一次对照，以及 spin 在加载态里的用法。',
+};
+
+/** 顺序与 `IconProps['tone']` 的声明顺序一致；`as const` 让取值不接受拼错。 */
+const TONES = [
+  'primary',
+  'secondary',
+  'tertiary',
+  'disabled',
+  'success',
+  'warning',
+  'danger',
+] as const;
+
+export default function Tones() {
+  return (
+    <>
+      <DemoSection title="语义色">
+        <For each={TONES}>
+          {(tone) => (
+            <Icon tone={tone} label={`${tone} 图标`}>
+              <DotIcon />
+            </Icon>
+          )}
+        </For>
+      </DemoSection>
+      <DemoSection title="加载旋转">
+        <Icon spin label="正在加载">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+            <path
+              d="M8 1.5A6.5 6.5 0 1 1 1.5 8"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </Icon>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Icon 图标 API](llms/exports/icon.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
 <!-- source: llms/demos/typography-basic.md -->
 
 # Typography 排版 · 基础用法（源码）
@@ -5312,6 +5469,112 @@ export default function Basic() {
       </DemoSection>
       <p id="typography-anchor">锚点目标</p>
     </>
+  );
+}
+```
+
+## 相关页面
+
+- [Typography 排版 API](llms/exports/typography.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/typography-ellipsis.md -->
+
+# Typography 排版 · 超长文本（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/typography/demos/ellipsis.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+窄容器下的单行省略与换行，以及 ellipsis 与普通文本的对比。
+
+## 完整源码
+
+```tsx
+import { Text } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '超长文本',
+  description: '窄容器下的单行省略与换行，以及 ellipsis 与普通文本的对比。',
+};
+
+const LONG = '冀中能源集团设备维检计划管理平台设备名称与型号采购数量本次采购单价合计金额';
+
+export default function Ellipsis() {
+  return (
+    <>
+      <DemoSection title="单行省略（容器 240px）">
+        <div class="demo-stack" style={{ 'max-width': '240px' }}>
+          <Text ellipsis>{LONG}</Text>
+          <Text ellipsis tone="secondary">
+            {`${LONG}（含运费与安装调试费用）`}
+          </Text>
+        </div>
+      </DemoSection>
+      <DemoSection title="不省略会换行">
+        <div class="demo-stack" style={{ 'max-width': '240px' }}>
+          <Text>{LONG}</Text>
+        </div>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Typography 排版 API](llms/exports/typography.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/typography-prose.md -->
+
+# Typography 排版 · 文档排版（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/typography/demos/prose.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+标题、段落、行内修饰与链接组合成一段可读的说明文字。
+
+## 完整源码
+
+```tsx
+import { Link, Paragraph, Text, Title } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '文档排版',
+  description: '标题、段落、行内修饰与链接组合成一段可读的说明文字。',
+};
+
+export default function Prose() {
+  return (
+    <DemoSection title="一篇文章的排版">
+      <article>
+        <Title level={2}>维简设备采购计划</Title>
+        <Paragraph>
+          本计划用于汇总各矿上报的设备需求，按<Text bold>季度</Text>汇总后提交审批。 需求单位须在
+          <Text mark>每季度首月 10 日前</Text>完成填报，逾期计入下一季度。
+        </Paragraph>
+        <Title level={3}>填报要求</Title>
+        <Paragraph>
+          设备名称与型号须与台账一致，计量单位取字典值
+          <Text code>SCUI-UNIT</Text>
+          ，单价按<Text underline>本次采购单价</Text>填写，不得使用累计口径。
+        </Paragraph>
+        <Paragraph>
+          模板下载见
+          <Link href="#typography-prose-anchor">采购计划模板</Link>
+          ，历史数据可从<Text delete>旧版系统</Text>迁移。
+        </Paragraph>
+        <p id="typography-prose-anchor">锚点目标</p>
+      </article>
+    </DemoSection>
   );
 }
 ```
@@ -5383,6 +5646,133 @@ export default function Basic() {
 
 ---
 
+<!-- source: llms/demos/space-cross-align.md -->
+
+# Space 间距 · 交叉轴对齐（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/space/demos/cross-align.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+四种 align 在高度不一致的子项上如何对齐。
+
+## 完整源码
+
+```tsx
+import { For } from 'solid-js';
+import { Space, Text } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '交叉轴对齐',
+  description: '四种 align 在高度不一致的子项上如何对齐。',
+};
+
+const ALIGNS = ['start', 'center', 'end', 'baseline'] as const;
+
+/** 用不同字号撑出高度差，让 align 的差异肉眼可见。 */
+function Box(props: { size: 'small' | 'medium' | 'large'; label: string }) {
+  return (
+    <span
+      style={{
+        display: 'inline-flex',
+        'align-items': 'center',
+        padding: '4px 8px',
+        border: '1px solid #d9d9d9',
+        'background-color': '#fafafa',
+      }}
+    >
+      <Text size={props.size}>{props.label}</Text>
+    </span>
+  );
+}
+
+export default function CrossAlign() {
+  return (
+    <DemoSection title="align">
+      <div class="demo-stack">
+        <For each={ALIGNS}>
+          {(align) => (
+            <Space align={align} size="small">
+              <Box size="small" label={`${align} · small`} />
+              <Box size="large" label={`${align} · large`} />
+              <Box size="medium" label={`${align} · medium`} />
+            </Space>
+          )}
+        </For>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Space 间距 API](llms/exports/space.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/space-sizes.md -->
+
+# Space 间距 · 间距档位（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/space/demos/sizes.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+三档间距在水平与垂直两个方向上的实际距离。
+
+## 完整源码
+
+```tsx
+import { For } from 'solid-js';
+import { Button, Space } from 'solid-craft';
+import { DemoSection, SIZES } from '../../demos/shared';
+
+export const demo = {
+  title: '间距档位',
+  description: '三档间距在水平与垂直两个方向上的实际距离。',
+};
+
+export default function Sizes() {
+  return (
+    <>
+      <DemoSection title="水平间距">
+        <div class="demo-stack">
+          <For each={SIZES}>
+            {(size) => (
+              <Space size={size}>
+                <Button variant="outline">{`横向 ${size}`}</Button>
+                <Button variant="outline">B</Button>
+                <Button variant="outline">C</Button>
+              </Space>
+            )}
+          </For>
+        </div>
+      </DemoSection>
+      <DemoSection title="垂直间距">
+        <Space direction="vertical" size="small">
+          <Button variant="outline">small 垂直 1</Button>
+          <Button variant="outline">small 垂直 2</Button>
+        </Space>
+        <Space direction="vertical" size="large">
+          <Button variant="outline">large 垂直 1</Button>
+          <Button variant="outline">large 垂直 2</Button>
+        </Space>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Space 间距 API](llms/exports/space.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
 <!-- source: llms/demos/divider-basic.md -->
 
 # Divider 分割线 · 基础用法（源码）
@@ -5426,6 +5816,107 @@ export default function Basic() {
         </div>
       </DemoSection>
     </>
+  );
+}
+```
+
+## 相关页面
+
+- [Divider 分割线 API](llms/exports/divider.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/divider-vertical.md -->
+
+# Divider 分割线 · 垂直分割（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/divider/demos/vertical.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+在文本、链接与按钮组之间插入垂直分割线。
+
+## 完整源码
+
+```tsx
+import { Button, Divider, Link, Text } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '垂直分割',
+  description: '在文本、链接与按钮组之间插入垂直分割线。',
+};
+
+export default function Vertical() {
+  return (
+    <>
+      <DemoSection title="文本与链接">
+        <div class="demo-inline">
+          <Text>计划编号</Text>
+          <Divider orientation="vertical" />
+          <Text>设备清单</Text>
+          <Divider orientation="vertical" />
+          <Link href="#divider-vertical-anchor">审批记录</Link>
+        </div>
+      </DemoSection>
+      <DemoSection title="按钮组与虚线">
+        <div class="demo-inline">
+          <Button variant="text">新增</Button>
+          <Divider orientation="vertical" />
+          <Button variant="text">编辑</Button>
+          <Divider orientation="vertical" dashed />
+          <Button variant="text">删除</Button>
+        </div>
+        <p id="divider-vertical-anchor">锚点目标</p>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Divider 分割线 API](llms/exports/divider.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/divider-with-text.md -->
+
+# Divider 分割线 · 带文字分割（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/divider/demos/with-text.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+plain 与默认字重的对比，以及虚线 + 文字的组合。
+
+## 完整源码
+
+```tsx
+import { Divider, Text } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '带文字分割',
+  description: 'plain 与默认字重的对比，以及虚线 + 文字的组合。',
+};
+
+export default function WithText() {
+  return (
+    <DemoSection title="文字分割线">
+      <div class="demo-stack">
+        <Text>设备基本信息</Text>
+        <Divider>基本信息</Divider>
+        <Divider plain>普通字重（plain）</Divider>
+        <Divider dashed>虚线 + 文字</Divider>
+        <Divider dashed plain>
+          虚线 + 普通字重
+        </Divider>
+        <Text>维检记录</Text>
+      </div>
+    </DemoSection>
   );
 }
 ```
@@ -5483,6 +5974,107 @@ export default function Basic() {
 
 ---
 
+<!-- source: llms/demos/layout-collapsed.md -->
+
+# Layout 布局 · 受控折叠（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/layout/demos/collapsed.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+collapsed 由外部状态驱动，触发器在页头而不是侧边栏。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Content, Header, Layout, Sider } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '受控折叠',
+  description: 'collapsed 由外部状态驱动，触发器在页头而不是侧边栏。',
+};
+
+export default function Collapsed() {
+  const [collapsed, setCollapsed] = createSignal(false);
+
+  return (
+    <DemoSection title="外部按钮控制折叠">
+      <div class="demo-stack">
+        <div class="demo-inline">
+          <Button
+            variant="outline"
+            onClick={() => setCollapsed((value) => !value)}
+            data-testid="sider-toggle"
+          >
+            {collapsed() ? '展开侧边栏' : '折叠侧边栏'}
+          </Button>
+          <output data-testid="sider-state">{collapsed() ? 'collapsed' : 'expanded'}</output>
+        </div>
+        <Layout hasSider class="demo-layout">
+          <Sider collapsed={collapsed()} width={160} collapsedWidth={64}>
+            {collapsed() ? '菜单' : '计划菜单'}
+          </Sider>
+          <Layout>
+            <Header>设备维检计划</Header>
+            <Content>内容区随侧边栏宽度变化重新排布。</Content>
+          </Layout>
+        </Layout>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Layout 布局 API](llms/exports/layout.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/layout-top.md -->
+
+# Layout 布局 · 上下布局（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/layout/demos/top.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+不带侧边栏的页头 / 内容 / 页脚三段结构。
+
+## 完整源码
+
+```tsx
+import { Content, Footer, Header, Layout } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '上下布局',
+  description: '不带侧边栏的页头 / 内容 / 页脚三段结构。',
+};
+
+export default function Top() {
+  return (
+    <DemoSection title="页头 + 内容 + 页脚">
+      <Layout class="demo-layout">
+        <Header>设备维检计划</Header>
+        <Content>内容区：按季度汇总各矿上报的设备需求。</Content>
+        <Footer>页脚 · 冀中能源</Footer>
+      </Layout>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Layout 布局 API](llms/exports/layout.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
 <!-- source: llms/demos/grid-basic.md -->
 
 # Grid 栅格 · 基础用法（源码）
@@ -5525,6 +6117,128 @@ export default function Basic() {
         <Row align="middle" justify="space-between" class="demo-grid-row">
           <Col span={5}>left</Col>
           <Col span={5}>right</Col>
+        </Row>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Grid 栅格 API](llms/exports/grid.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/grid-order.md -->
+
+# Grid 栅格 · 排序与分布（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/grid/demos/order.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+order 改变视觉顺序而不动 DOM 顺序，justify 控制主轴分布。
+
+## 完整源码
+
+```tsx
+import { Col, Row } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '排序与分布',
+  description: 'order 改变视觉顺序而不动 DOM 顺序，justify 控制主轴分布。',
+};
+
+export default function Order() {
+  return (
+    <>
+      <DemoSection title="order 排序">
+        <Row gutter="small" class="demo-grid-row">
+          <Col span={6} order={3}>
+            DOM 第一 · order 3
+          </Col>
+          <Col span={6} order={1}>
+            DOM 第二 · order 1
+          </Col>
+          <Col span={6} order={2}>
+            DOM 第三 · order 2
+          </Col>
+        </Row>
+      </DemoSection>
+      <DemoSection title="主轴分布">
+        <Row justify="space-around" class="demo-grid-row">
+          <Col span={4}>space-around 1</Col>
+          <Col span={4}>space-around 2</Col>
+          <Col span={4}>space-around 3</Col>
+        </Row>
+        <Row justify="center" class="demo-grid-row">
+          <Col span={6}>center 1</Col>
+          <Col span={6}>center 2</Col>
+        </Row>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Grid 栅格 API](llms/exports/grid.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/grid-responsive.md -->
+
+# Grid 栅格 · 响应式断点（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/grid/demos/responsive.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+xs / sm / md / lg 四个断点在 1280 与 768 两个基线视口下的列数变化。
+
+## 完整源码
+
+```tsx
+import { Col, Row } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '响应式断点',
+  description: 'xs / sm / md / lg 四个断点在 1280 与 768 两个基线视口下的列数变化。',
+};
+
+export default function Responsive() {
+  return (
+    <>
+      <DemoSection title="断点列数">
+        <Row gutter="small" class="demo-grid-row">
+          <Col xs={24} sm={12} md={8} lg={6}>
+            xs 24 / sm 12 / md 8 / lg 6
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            xs 24 / sm 12 / md 8 / lg 6
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            xs 24 / sm 12 / md 8 / lg 6
+          </Col>
+          <Col xs={24} sm={12} md={8} lg={6}>
+            xs 24 / sm 12 / md 8 / lg 6
+          </Col>
+        </Row>
+      </DemoSection>
+      <DemoSection title="窄屏整行">
+        <Row gutter="small" class="demo-grid-row">
+          <Col xs={24} md={12}>
+            xs 24 / md 12
+          </Col>
+          <Col xs={24} md={12}>
+            xs 24 / md 12
+          </Col>
         </Row>
       </DemoSection>
     </>
@@ -7619,6 +8333,55 @@ export default function ConstraintsDemo() {
 
 ---
 
+<!-- source: llms/demos/date-picker-format.md -->
+
+# DatePicker 日期选择 · 格式与尺寸（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/date-picker/demos/format.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+format 的 token 子集、三档尺寸与清除按钮。
+
+## 完整源码
+
+```tsx
+import { DatePicker } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '格式与尺寸',
+  description: 'format 的 token 子集、三档尺寸与清除按钮。',
+};
+
+export default function Format() {
+  return (
+    <>
+      <DemoSection title="自定义格式">
+        <DatePicker format="YYYY年M月D日" defaultValue="2026-03-15" aria-label="中文格式" />
+        <DatePicker format="MM/DD" defaultValue="2026-03-15" aria-label="短格式" />
+      </DemoSection>
+      <DemoSection title="尺寸">
+        <DatePicker size="small" defaultValue="2026-03-15" aria-label="小尺寸" />
+        <DatePicker size="medium" defaultValue="2026-03-15" aria-label="中尺寸" />
+        <DatePicker size="large" defaultValue="2026-03-15" aria-label="大尺寸" />
+      </DemoSection>
+      <DemoSection title="可清除">
+        <DatePicker allowClear defaultValue="2026-03-15" aria-label="可清除" />
+        <DatePicker allowClear placeholder="请选择日期" aria-label="空值可清除" />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [DatePicker 日期选择 API](llms/exports/date-picker.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
 <!-- source: llms/demos/range-picker-basic.md -->
 
 # RangePicker 日期范围 · 基础用法（源码）
@@ -7773,6 +8536,70 @@ export default function ConstraintsDemo() {
           aria-label="校验失败"
         />
         <RangePicker disabled defaultValue={['2026-03-10', '2026-03-20']} aria-label="禁用" />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [RangePicker 日期范围 API](llms/exports/range-picker.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/range-picker-format.md -->
+
+# RangePicker 日期范围 · 格式与尺寸（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/range-picker/demos/format.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+格式与分隔文案两端共用，三档尺寸与清除按钮。
+
+## 完整源码
+
+```tsx
+import { RangePicker } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '格式与尺寸',
+  description: '格式与分隔文案两端共用，三档尺寸与清除按钮。',
+};
+
+export default function Format() {
+  return (
+    <>
+      <DemoSection title="自定义格式">
+        <RangePicker
+          format="MM/DD"
+          defaultValue={['2026-03-10', '2026-03-20']}
+          aria-label="短格式区间"
+        />
+        <RangePicker
+          format="YYYY年M月D日"
+          defaultValue={['2026-03-10', '2026-03-20']}
+          aria-label="中文格式区间"
+        />
+      </DemoSection>
+      <DemoSection title="自定义分隔与占位">
+        <RangePicker
+          separator="～"
+          startPlaceholder="入住"
+          endPlaceholder="离店"
+          aria-label="自定义分隔"
+        />
+        <RangePicker separator="→" defaultValue={['2026-03-10', '2026-03-14']} aria-label="箭头" />
+      </DemoSection>
+      <DemoSection title="尺寸">
+        <RangePicker size="small" defaultValue={['2026-03-10', '2026-03-20']} aria-label="小尺寸" />
+        <RangePicker size="large" defaultValue={['2026-03-10', '2026-03-20']} aria-label="大尺寸" />
+      </DemoSection>
+      <DemoSection title="可清除">
+        <RangePicker allowClear defaultValue={['2026-03-10', '2026-03-20']} aria-label="可清除" />
       </DemoSection>
     </>
   );

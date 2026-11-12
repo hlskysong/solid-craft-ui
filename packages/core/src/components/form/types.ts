@@ -103,7 +103,11 @@ export interface FormProps extends Omit<
   requiredMark?: boolean;
   /** 整表禁用，合并进每个字段的 disabled getter。 @default false */
   disabled?: boolean;
-  /** 表单无障碍名称。 @default '表单' */
+  /**
+   * 表单无障碍名称。不传时不设 `aria-label`：`<form>` 只有带可访问名称才暴露成
+   * landmark，同页多个表单若都叫「表单」会产生同名 landmark（axe `landmark-unique`）。
+   * @default undefined
+   */
   'aria-label'?: string;
   /** 校验通过回调。 @default undefined */
   onFinish?: (values: FormValues) => void;

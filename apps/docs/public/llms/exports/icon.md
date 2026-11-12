@@ -81,6 +81,8 @@ export interface IconProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'co
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](../demos/icon-basic.md)：语义色图标、装饰图标与三档尺寸。（源文件 `packages/core/src/components/icon/demos/basic.tsx`）
+- [自定义图标与内联](../demos/icon-custom.md)：自带 SVG 直接嵌入、尺寸由 Icon 统一控制，以及按钮内的图标对齐。（源文件 `packages/core/src/components/icon/demos/custom.tsx`）
+- [语义色与旋转](../demos/icon-tones.md)：七档语义色一次对照，以及 spin 在加载态里的用法。（源文件 `packages/core/src/components/icon/demos/tones.tsx`）
 
 ## 相关规范
 

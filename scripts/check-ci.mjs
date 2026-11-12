@@ -38,6 +38,12 @@
  *  10. R3 访问器契约门禁（2026-11-11 §30.14）：`check:accessors` 必须在 verify 里（判据
  *      本身在 scripts/check-accessors.mjs）。摘掉即让 `MaybeAccessor` 的函数型实参失去
  *      机器兜底 —— 那是运行时 `typeof === 'function'` 区分值与 getter 的唯一前提。
+ *  11. M2 Exit 覆盖契约（2026-11-12 §30.31）：① 除 overview（聚合页，不是组件）外，
+ *      每个组件至少 3 个 Demo（docs/04 §3.3 的 P0 验收原文）；② 视觉基线文件集合必须
+ *      与「(slug, demo) × viewport」逐一对齐 —— 少一张说明新增 Demo 没进截图，多一张
+ *      说明 Demo 删了基线没清，两种都会让「视觉回归」变成部分覆盖；③ 截图 / axe 用例
+ *      必须按 DEMO_CASES 循环并断言 data-demo-name，否则宿主回落到首 Demo 时
+ *      「截图成功但截错页面」不会被发现。
  */
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -356,7 +362,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = 'f4aa02f31d0817e9c69fd5c0abccbcfd89234e5f4d0a7b17abae5f40af3fcf0d';
+const FONT_SHA256 = '11acc34ad060a5d94139bfffc1e65aea8ac805ba64572c4892ecd75cf0ee6587';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -550,6 +556,96 @@ if (!existsSync(ssrSmoke)) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// 11. M2 Exit 覆盖契约（T2-13，docs/08 §30.31）
+// ---------------------------------------------------------------------------
+// 三条判据分工：组件"有没有 3 个 Demo"（产出面）、"每个 Demo 有没有截图"（覆盖面对齐）、
+// "用例是不是真的按 demo 跑"（判据自身不被写死回去）。缺任一条，「视觉回归全绿」
+// 都可能只是覆盖了一部分页面。
+const catalogPath = join(repoRoot, 'apps', 'docs', 'src', 'generated', 'catalog.json');
+const catalog = JSON.parse(read(catalogPath) || '{}');
+const catalogComponents = Array.isArray(catalog.components) ? catalog.components : [];
+const demoCoverage = { components: 0, demos: 0, baselines: 0 };
+const MIN_DEMOS = 3;
+// overview 是首页聚合预览（把多个组件拼在一页），不是组件本身，豁免 ≥3 判据；
+// 它仍参与截图 / axe，因此不豁免基线覆盖判据。
+const AGGREGATE_SLUGS = new Set(['overview']);
+// 与 tests/e2e/specs/visual.spec.ts 的 VIEWPORTS 同一份口径（06 §5.3：MVP 只跑 1280 / 768）
+const SCREENSHOT_WIDTHS = [1280, 768];
+
+if (catalogComponents.length === 0) {
+  fail('无法解析 catalog.json 的 components：Demo 覆盖判据会空转（先跑 pnpm docs:generate）');
+} else {
+  demoCoverage.components = catalogComponents.length;
+  demoCoverage.demos = catalogComponents.reduce(
+    (sum, component) => sum + (Array.isArray(component.demos) ? component.demos.length : 0),
+    0,
+  );
+  const thin = catalogComponents
+    .filter((component) => !AGGREGATE_SLUGS.has(component.slug))
+    .map((component) => ({
+      slug: component.slug,
+      count: Array.isArray(component.demos) ? component.demos.length : 0,
+    }))
+    .filter((item) => item.count < MIN_DEMOS);
+  if (thin.length > 0) {
+    fail(
+      `以下组件 Demo 少于 ${MIN_DEMOS} 个（docs/04 §3.3：P0 组件每个至少 3 个 Demo）：${thin
+        .map((item) => `${item.slug}=${item.count}`)
+        .join(', ')}`,
+    );
+  }
+
+  const expectedBaselines = new Set(
+    catalogComponents.flatMap((component) =>
+      (Array.isArray(component.demos) ? component.demos : []).flatMap((demo) =>
+        SCREENSHOT_WIDTHS.map(
+          (width) => `light-ltr-default-${component.slug}-${demo.name}-${width}.png`,
+        ),
+      ),
+    ),
+  );
+  const baselineDir = join(repoRoot, 'tests', 'e2e', 'baselines');
+  const actualBaselines = existsSync(baselineDir)
+    ? readdirSync(baselineDir).filter((file) => file.endsWith('.png'))
+    : [];
+  if (actualBaselines.length === 0) {
+    fail('tests/e2e/baselines 为空：视觉基线全量缺失');
+  }
+  demoCoverage.baselines = actualBaselines.length;
+  const missingBaselines = [...expectedBaselines].filter((file) => !actualBaselines.includes(file));
+  if (missingBaselines.length > 0) {
+    fail(
+      `视觉基线缺失 ${missingBaselines.length} 张（新增 Demo 必须跑 pnpm test:visual:update）：${missingBaselines
+        .slice(0, 4)
+        .join(', ')}`,
+    );
+  }
+  const staleBaselines = actualBaselines.filter((file) => !expectedBaselines.has(file));
+  if (staleBaselines.length > 0) {
+    fail(
+      `视觉基线多出 ${staleBaselines.length} 张（Demo 已删除 / 改名但基线没清）：${staleBaselines
+        .slice(0, 4)
+        .join(', ')}`,
+    );
+  }
+
+  // 用例必须按 DEMO_CASES 循环：写回 DEMO_IDS（只按组件）会让新增 Demo 的截图
+  // 与 axe 扫描悄悄消失，而上面两条判据仍然全绿。
+  for (const spec of ['visual.spec.ts', 'browser.spec.ts']) {
+    const code = read(join(repoRoot, 'tests', 'e2e', 'specs', spec));
+    if (!code.includes('DEMO_CASES')) {
+      fail(`${spec} 未按 DEMO_CASES 循环：新增 Demo 不会自动进入截图 / axe 扫描`);
+    }
+  }
+  const visualSpecCode = read(join(repoRoot, 'tests', 'e2e', 'specs', 'visual.spec.ts'));
+  if (!visualSpecCode.includes("toHaveAttribute('data-demo-name'")) {
+    fail(
+      'visual.spec.ts 未断言 data-demo-name：Demo 名写错时宿主会回落到首 Demo，截错页面也算通过',
+    );
+  }
+}
+
 if (errors.length > 0) {
   console.error(`[check:ci] ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
@@ -557,5 +653,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· size-limit@${sizeLimit} + file 插件`,
 );

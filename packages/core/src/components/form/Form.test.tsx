@@ -48,7 +48,7 @@ function ValueProbe(props: { onRead: () => void }) {
 }
 
 describe('Form：状态契约与布局', () => {
-  it('默认 horizontal / 无 disabled 标记 / aria-label 回落「表单」', () => {
+  it('默认 horizontal / 无 disabled 标记 / 不主动命名 landmark', () => {
     render(() => (
       <Form initialValues={{ name: '' }}>
         <Form.Item name="name" label="姓名">
@@ -59,10 +59,23 @@ describe('Form：状态契约与布局', () => {
 
     expect(formRoot()).toHaveAttribute('data-scui-role', 'form');
     expect(formRoot()).toHaveAttribute('data-scui-layout', 'horizontal');
-    expect(formRoot()).toHaveAttribute('aria-label', '表单');
+    // 不给默认 aria-label：同页多表单都叫「表单」时 axe 会判 landmark-unique。
+    expect(formRoot()).not.toHaveAttribute('aria-label');
     expect(formRoot()).not.toHaveAttribute('data-scui-disabled');
     expect(formItem()).toHaveAttribute('data-scui-invalid', 'false');
     expect(formItem()).toHaveAttribute('data-scui-field', 'name');
+  });
+
+  it('显式传入 aria-label 时原样落到 form 上（landmark 由调用方决定）', () => {
+    render(() => (
+      <Form aria-label="设备采购表单" initialValues={{ name: '' }}>
+        <Form.Item name="name" label="姓名">
+          <Input />
+        </Form.Item>
+      </Form>
+    ));
+
+    expect(formRoot()).toHaveAttribute('aria-label', '设备采购表单');
   });
 
   it('三种布局、labelWidth、colon 与 requiredMark 都落到 data 属性或 DOM 上', () => {

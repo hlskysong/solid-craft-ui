@@ -157,6 +157,8 @@ export interface ColProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](../demos/grid-basic.md)：24 栅格、偏移与对齐换行。（源文件 `packages/core/src/components/grid/demos/basic.tsx`）
+- [排序与分布](../demos/grid-order.md)：order 改变视觉顺序而不动 DOM 顺序，justify 控制主轴分布。（源文件 `packages/core/src/components/grid/demos/order.tsx`）
+- [响应式断点](../demos/grid-responsive.md)：xs / sm / md / lg 四个断点在 1280 与 768 两个基线视口下的列数变化。（源文件 `packages/core/src/components/grid/demos/responsive.tsx`）
 
 ## 相关规范
 

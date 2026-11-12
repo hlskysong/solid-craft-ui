@@ -77,6 +77,18 @@
           "path": "packages/core/src/components/icon/demos/basic.tsx",
           "title": "基础用法",
           "description": "语义色图标、装饰图标与三档尺寸。"
+        },
+        {
+          "name": "custom",
+          "path": "packages/core/src/components/icon/demos/custom.tsx",
+          "title": "自定义图标与内联",
+          "description": "自带 SVG 直接嵌入、尺寸由 Icon 统一控制，以及按钮内的图标对齐。"
+        },
+        {
+          "name": "tones",
+          "path": "packages/core/src/components/icon/demos/tones.tsx",
+          "title": "语义色与旋转",
+          "description": "七档语义色一次对照，以及 spin 在加载态里的用法。"
         }
       ]
     },
@@ -93,6 +105,18 @@
           "path": "packages/core/src/components/typography/demos/basic.tsx",
           "title": "基础用法",
           "description": "标题层级、文本修饰、字号语义色与段落 / 链接。"
+        },
+        {
+          "name": "ellipsis",
+          "path": "packages/core/src/components/typography/demos/ellipsis.tsx",
+          "title": "超长文本",
+          "description": "窄容器下的单行省略与换行，以及 ellipsis 与普通文本的对比。"
+        },
+        {
+          "name": "prose",
+          "path": "packages/core/src/components/typography/demos/prose.tsx",
+          "title": "文档排版",
+          "description": "标题、段落、行内修饰与链接组合成一段可读的说明文字。"
         }
       ]
     },
@@ -109,6 +133,18 @@
           "path": "packages/core/src/components/space/demos/basic.tsx",
           "title": "基础用法",
           "description": "水平 / 垂直排列、分隔线与换行对齐。"
+        },
+        {
+          "name": "cross-align",
+          "path": "packages/core/src/components/space/demos/cross-align.tsx",
+          "title": "交叉轴对齐",
+          "description": "四种 align 在高度不一致的子项上如何对齐。"
+        },
+        {
+          "name": "sizes",
+          "path": "packages/core/src/components/space/demos/sizes.tsx",
+          "title": "间距档位",
+          "description": "三档间距在水平与垂直两个方向上的实际距离。"
         }
       ]
     },
@@ -125,6 +161,18 @@
           "path": "packages/core/src/components/divider/demos/basic.tsx",
           "title": "基础用法",
           "description": "水平 / 垂直分割线、虚线与带文字分割。"
+        },
+        {
+          "name": "vertical",
+          "path": "packages/core/src/components/divider/demos/vertical.tsx",
+          "title": "垂直分割",
+          "description": "在文本、链接与按钮组之间插入垂直分割线。"
+        },
+        {
+          "name": "with-text",
+          "path": "packages/core/src/components/divider/demos/with-text.tsx",
+          "title": "带文字分割",
+          "description": "plain 与默认字重的对比，以及虚线 + 文字的组合。"
         }
       ]
     },
@@ -141,6 +189,18 @@
           "path": "packages/core/src/components/layout/demos/basic.tsx",
           "title": "基础用法",
           "description": "带侧边栏的三段布局，含可折叠触发器。"
+        },
+        {
+          "name": "collapsed",
+          "path": "packages/core/src/components/layout/demos/collapsed.tsx",
+          "title": "受控折叠",
+          "description": "collapsed 由外部状态驱动，触发器在页头而不是侧边栏。"
+        },
+        {
+          "name": "top",
+          "path": "packages/core/src/components/layout/demos/top.tsx",
+          "title": "上下布局",
+          "description": "不带侧边栏的页头 / 内容 / 页脚三段结构。"
         }
       ]
     },
@@ -157,6 +217,18 @@
           "path": "packages/core/src/components/grid/demos/basic.tsx",
           "title": "基础用法",
           "description": "24 栅格、偏移与对齐换行。"
+        },
+        {
+          "name": "order",
+          "path": "packages/core/src/components/grid/demos/order.tsx",
+          "title": "排序与分布",
+          "description": "order 改变视觉顺序而不动 DOM 顺序，justify 控制主轴分布。"
+        },
+        {
+          "name": "responsive",
+          "path": "packages/core/src/components/grid/demos/responsive.tsx",
+          "title": "响应式断点",
+          "description": "xs / sm / md / lg 四个断点在 1280 与 768 两个基线视口下的列数变化。"
         }
       ]
     },
@@ -399,6 +471,12 @@
           "path": "packages/core/src/components/date-picker/demos/constraints.tsx",
           "title": "可选范围",
           "description": "min / max 闭区间、disabledDate 自定义禁用，以及错误与禁用态。"
+        },
+        {
+          "name": "format",
+          "path": "packages/core/src/components/date-picker/demos/format.tsx",
+          "title": "格式与尺寸",
+          "description": "format 的 token 子集、三档尺寸与清除按钮。"
         }
       ]
     },
@@ -421,6 +499,12 @@
           "path": "packages/core/src/components/range-picker/demos/constraints.tsx",
           "title": "可选范围",
           "description": "min / max 闭区间、disabledDate 自定义禁用（两端共用同一约束）、同日选择，以及错误与禁用态。"
+        },
+        {
+          "name": "format",
+          "path": "packages/core/src/components/range-picker/demos/format.tsx",
+          "title": "格式与尺寸",
+          "description": "格式与分隔文案两端共用，三档尺寸与清除按钮。"
         }
       ]
     }

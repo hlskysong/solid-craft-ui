@@ -75,6 +75,8 @@ export interface DividerProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](../demos/divider-basic.md)：水平 / 垂直分割线、虚线与带文字分割。（源文件 `packages/core/src/components/divider/demos/basic.tsx`）
+- [垂直分割](../demos/divider-vertical.md)：在文本、链接与按钮组之间插入垂直分割线。（源文件 `packages/core/src/components/divider/demos/vertical.tsx`）
+- [带文字分割](../demos/divider-with-text.md)：plain 与默认字重的对比，以及虚线 + 文字的组合。（源文件 `packages/core/src/components/divider/demos/with-text.tsx`）
 
 ## 相关规范
 

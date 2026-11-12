@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 72,
+  "pageCount": 86,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -201,8 +201,28 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/icon-custom.md",
+      "title": "# Icon 图标 · 自定义图标与内联（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/icon-tones.md",
+      "title": "# Icon 图标 · 语义色与旋转（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/typography-basic.md",
       "title": "# Typography 排版 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/typography-ellipsis.md",
+      "title": "# Typography 排版 · 超长文本（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/typography-prose.md",
+      "title": "# Typography 排版 · 文档排版（源码）",
       "kind": "demos"
     },
     {
@@ -211,8 +231,28 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/space-cross-align.md",
+      "title": "# Space 间距 · 交叉轴对齐（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/space-sizes.md",
+      "title": "# Space 间距 · 间距档位（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/divider-basic.md",
       "title": "# Divider 分割线 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/divider-vertical.md",
+      "title": "# Divider 分割线 · 垂直分割（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/divider-with-text.md",
+      "title": "# Divider 分割线 · 带文字分割（源码）",
       "kind": "demos"
     },
     {
@@ -221,8 +261,28 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/layout-collapsed.md",
+      "title": "# Layout 布局 · 受控折叠（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/layout-top.md",
+      "title": "# Layout 布局 · 上下布局（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/grid-basic.md",
       "title": "# Grid 栅格 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/grid-order.md",
+      "title": "# Grid 栅格 · 排序与分布（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/grid-responsive.md",
+      "title": "# Grid 栅格 · 响应式断点（源码）",
       "kind": "demos"
     },
     {
@@ -361,6 +421,11 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/date-picker-format.md",
+      "title": "# DatePicker 日期选择 · 格式与尺寸（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/range-picker-basic.md",
       "title": "# RangePicker 日期范围 · 基础用法（源码）",
       "kind": "demos"
@@ -368,6 +433,11 @@
     {
       "path": "llms/demos/range-picker-constraints.md",
       "title": "# RangePicker 日期范围 · 可选范围（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/range-picker-format.md",
+      "title": "# RangePicker 日期范围 · 格式与尺寸（源码）",
       "kind": "demos"
     }
   ],
@@ -434,11 +504,23 @@
     "llms/demos/button-states.md",
     "llms/demos/button-variants.md",
     "llms/demos/icon-basic.md",
+    "llms/demos/icon-custom.md",
+    "llms/demos/icon-tones.md",
     "llms/demos/typography-basic.md",
+    "llms/demos/typography-ellipsis.md",
+    "llms/demos/typography-prose.md",
     "llms/demos/space-basic.md",
+    "llms/demos/space-cross-align.md",
+    "llms/demos/space-sizes.md",
     "llms/demos/divider-basic.md",
+    "llms/demos/divider-vertical.md",
+    "llms/demos/divider-with-text.md",
     "llms/demos/layout-basic.md",
+    "llms/demos/layout-collapsed.md",
+    "llms/demos/layout-top.md",
     "llms/demos/grid-basic.md",
+    "llms/demos/grid-order.md",
+    "llms/demos/grid-responsive.md",
     "llms/demos/input-affix.md",
     "llms/demos/input-basic.md",
     "llms/demos/input-number-format.md",
@@ -466,8 +548,10 @@
     "llms/demos/form-validation.md",
     "llms/demos/date-picker-basic.md",
     "llms/demos/date-picker-constraints.md",
+    "llms/demos/date-picker-format.md",
     "llms/demos/range-picker-basic.md",
-    "llms/demos/range-picker-constraints.md"
+    "llms/demos/range-picker-constraints.md",
+    "llms/demos/range-picker-format.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

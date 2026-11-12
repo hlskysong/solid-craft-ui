@@ -87,6 +87,8 @@ export interface SpaceProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](../demos/space-basic.md)：水平 / 垂直排列、分隔线与换行对齐。（源文件 `packages/core/src/components/space/demos/basic.tsx`）
+- [交叉轴对齐](../demos/space-cross-align.md)：四种 align 在高度不一致的子项上如何对齐。（源文件 `packages/core/src/components/space/demos/cross-align.tsx`）
+- [间距档位](../demos/space-sizes.md)：三档间距在水平与垂直两个方向上的实际距离。（源文件 `packages/core/src/components/space/demos/sizes.tsx`）
 
 ## 相关规范
 

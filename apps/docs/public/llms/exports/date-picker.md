@@ -194,6 +194,7 @@ export interface DatePickerProps extends Omit<
 
 - [基础用法](../demos/date-picker-basic.md)：非受控与受控两种取值方式、显示格式、清除与三档尺寸。（源文件 `packages/core/src/components/date-picker/demos/basic.tsx`）
 - [可选范围](../demos/date-picker-constraints.md)：min / max 闭区间、disabledDate 自定义禁用，以及错误与禁用态。（源文件 `packages/core/src/components/date-picker/demos/constraints.tsx`）
+- [格式与尺寸](../demos/date-picker-format.md)：format 的 token 子集、三档尺寸与清除按钮。（源文件 `packages/core/src/components/date-picker/demos/format.tsx`）
 
 ## 相关规范
 

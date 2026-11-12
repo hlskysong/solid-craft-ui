@@ -32,9 +32,19 @@ export function Content(props: ContentProps) {
   const [local, rest] = splitProps(props, ['class', 'children']);
 
   return (
-    <main {...rest} class={classNames(`${CSS_PREFIX}layout__content`, local.class)}>
+    // 不用 <main>：`main` 是「文档唯一主内容区」的 landmark，只能由**页面**提供。
+    // 组件级 Layout 一旦渲染 <main>，任何已经带 main 的页面（文档站的 Demo 宿主、
+    // 业务壳布局）嵌进来就变成 two mains —— axe 同时判
+    // landmark-no-duplicate-main / landmark-main-is-top-level / landmark-unique。
+    // T2-13 把 axe 扫描面扩到全部 Demo 时才暴露（此前只扫 basic 页，layout basic
+    // 恰好也在扫，但当时判据只看 serious/critical，moderate 被略过）。
+    <div
+      {...rest}
+      class={classNames(`${CSS_PREFIX}layout__content`, local.class)}
+      data-scui-role="layout-content"
+    >
       {local.children}
-    </main>
+    </div>
   );
 }
 

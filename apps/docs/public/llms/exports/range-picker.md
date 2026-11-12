@@ -225,6 +225,7 @@ export interface RangePickerProps extends Omit<
 
 - [基础用法](../demos/range-picker-basic.md)：非受控与受控两种取值方式、显示格式、三档尺寸。选完起点后悬停任意日期即可预览区间，移出日历回到单点。（源文件 `packages/core/src/components/range-picker/demos/basic.tsx`）
 - [可选范围](../demos/range-picker-constraints.md)：min / max 闭区间、disabledDate 自定义禁用（两端共用同一约束）、同日选择，以及错误与禁用态。（源文件 `packages/core/src/components/range-picker/demos/constraints.tsx`）
+- [格式与尺寸](../demos/range-picker-format.md)：格式与分隔文案两端共用，三档尺寸与清除按钮。（源文件 `packages/core/src/components/range-picker/demos/format.tsx`）
 
 ## 相关规范
 

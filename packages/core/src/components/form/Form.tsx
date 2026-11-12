@@ -86,7 +86,11 @@ function FormRoot(props: FormProps): JSX.Element {
       data-scui-role="form"
       data-scui-layout={layout()}
       data-scui-disabled={disabled() ? '' : undefined}
-      aria-label={local['aria-label'] ?? '表单'}
+      // 不给默认名称：`<form>` 只有在**有可访问名称**时才暴露成 landmark，而
+      // 「每个表单都叫『表单』」在同一页出现两个以上表单时会直接踩 axe 的
+      // `landmark-unique`（同名 landmark 无法区分）。T2-13 扩面把 form/layout 的
+      // 四个表单一起扫描时才暴露出来；需要 landmark 的调用方显式传 aria-label。
+      aria-label={local['aria-label']}
       onSubmit={onSubmit}
     >
       <FormContext.Provider

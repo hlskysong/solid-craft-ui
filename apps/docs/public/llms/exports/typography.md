@@ -152,6 +152,8 @@ export interface LinkProps extends TypographyProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](../demos/typography-basic.md)：标题层级、文本修饰、字号语义色与段落 / 链接。（源文件 `packages/core/src/components/typography/demos/basic.tsx`）
+- [超长文本](../demos/typography-ellipsis.md)：窄容器下的单行省略与换行，以及 ellipsis 与普通文本的对比。（源文件 `packages/core/src/components/typography/demos/ellipsis.tsx`）
+- [文档排版](../demos/typography-prose.md)：标题、段落、行内修饰与链接组合成一段可读的说明文字。（源文件 `packages/core/src/components/typography/demos/prose.tsx`）
 
 ## 相关规范
 

@@ -168,6 +168,20 @@
     "href": "/components/icon/basic"
   },
   {
+    "type": "demo",
+    "title": "Icon 图标 · 自定义图标与内联",
+    "description": "自带 SVG 直接嵌入、尺寸由 Icon 统一控制，以及按钮内的图标对齐。",
+    "keywords": "icon custom",
+    "href": "/components/icon/custom"
+  },
+  {
+    "type": "demo",
+    "title": "Icon 图标 · 语义色与旋转",
+    "description": "七档语义色一次对照，以及 spin 在加载态里的用法。",
+    "keywords": "icon tones",
+    "href": "/components/icon/tones"
+  },
+  {
     "type": "api",
     "title": "IconProps.size",
     "description": "图标尺寸。",
@@ -222,6 +236,20 @@
     "description": "标题层级、文本修饰、字号语义色与段落 / 链接。",
     "keywords": "typography basic",
     "href": "/components/typography/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Typography 排版 · 超长文本",
+    "description": "窄容器下的单行省略与换行，以及 ellipsis 与普通文本的对比。",
+    "keywords": "typography ellipsis",
+    "href": "/components/typography/ellipsis"
+  },
+  {
+    "type": "demo",
+    "title": "Typography 排版 · 文档排版",
+    "description": "标题、段落、行内修饰与链接组合成一段可读的说明文字。",
+    "keywords": "typography prose",
+    "href": "/components/typography/prose"
   },
   {
     "type": "api",
@@ -336,6 +364,20 @@
     "href": "/components/space/basic"
   },
   {
+    "type": "demo",
+    "title": "Space 间距 · 交叉轴对齐",
+    "description": "四种 align 在高度不一致的子项上如何对齐。",
+    "keywords": "space cross-align",
+    "href": "/components/space/cross-align"
+  },
+  {
+    "type": "demo",
+    "title": "Space 间距 · 间距档位",
+    "description": "三档间距在水平与垂直两个方向上的实际距离。",
+    "keywords": "space sizes",
+    "href": "/components/space/sizes"
+  },
+  {
     "type": "api",
     "title": "SpaceProps.direction",
     "description": "排列方向，写入 DOM 属性 `data-scui-orientation`。",
@@ -399,6 +441,20 @@
     "href": "/components/divider/basic"
   },
   {
+    "type": "demo",
+    "title": "Divider 分割线 · 垂直分割",
+    "description": "在文本、链接与按钮组之间插入垂直分割线。",
+    "keywords": "divider vertical",
+    "href": "/components/divider/vertical"
+  },
+  {
+    "type": "demo",
+    "title": "Divider 分割线 · 带文字分割",
+    "description": "plain 与默认字重的对比，以及虚线 + 文字的组合。",
+    "keywords": "divider with-text",
+    "href": "/components/divider/with-text"
+  },
+  {
     "type": "api",
     "title": "DividerProps.orientation",
     "description": "分割线方向。",
@@ -446,6 +502,20 @@
     "description": "带侧边栏的三段布局，含可折叠触发器。",
     "keywords": "layout basic",
     "href": "/components/layout/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Layout 布局 · 受控折叠",
+    "description": "collapsed 由外部状态驱动，触发器在页头而不是侧边栏。",
+    "keywords": "layout collapsed",
+    "href": "/components/layout/collapsed"
+  },
+  {
+    "type": "demo",
+    "title": "Layout 布局 · 上下布局",
+    "description": "不带侧边栏的页头 / 内容 / 页脚三段结构。",
+    "keywords": "layout top",
+    "href": "/components/layout/top"
   },
   {
     "type": "api",
@@ -586,6 +656,20 @@
     "description": "24 栅格、偏移与对齐换行。",
     "keywords": "grid basic",
     "href": "/components/grid/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Grid 栅格 · 排序与分布",
+    "description": "order 改变视觉顺序而不动 DOM 顺序，justify 控制主轴分布。",
+    "keywords": "grid order",
+    "href": "/components/grid/order"
+  },
+  {
+    "type": "demo",
+    "title": "Grid 栅格 · 响应式断点",
+    "description": "xs / sm / md / lg 四个断点在 1280 与 768 两个基线视口下的列数变化。",
+    "keywords": "grid responsive",
+    "href": "/components/grid/responsive"
   },
   {
     "type": "api",
@@ -1918,6 +2002,13 @@
     "href": "/components/date-picker/constraints"
   },
   {
+    "type": "demo",
+    "title": "DatePicker 日期选择 · 格式与尺寸",
+    "description": "format 的 token 子集、三档尺寸与清除按钮。",
+    "keywords": "date-picker format",
+    "href": "/components/date-picker/format"
+  },
+  {
     "type": "api",
     "title": "DatePickerProps.value",
     "description": "受控值（ISO `YYYY-MM-DD`）；支持传值或 getter。 与 `defaultValue` 二选一，传了即为受控。",
@@ -2056,6 +2147,13 @@
     "description": "min / max 闭区间、disabledDate 自定义禁用（两端共用同一约束）、同日选择，以及错误与禁用态。",
     "keywords": "range-picker constraints",
     "href": "/components/range-picker/constraints"
+  },
+  {
+    "type": "demo",
+    "title": "RangePicker 日期范围 · 格式与尺寸",
+    "description": "格式与分隔文案两端共用，三档尺寸与清除按钮。",
+    "keywords": "range-picker format",
+    "href": "/components/range-picker/format"
   },
   {
     "type": "api",

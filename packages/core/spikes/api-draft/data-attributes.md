@@ -46,6 +46,7 @@
 | `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |
 | `range-popup` / `range-calendar` / `range-summary` / `range-clear` / `range-popup-clear` | RangePicker | 结构锚点（T2-11）：后四者只在客户端弹层内出现，SSR 零输出；`range-clear` 是输入框右侧清除按钮、`range-popup-clear` 是弹层页脚清除。翻月与表头复用 DatePicker 的 `month-prev` / `month-next` / `month-label` / `weekdays` 角色值（同一语义不另起新名） |
 | `form` / `form-item` / `field-error` / `form-submit` | Form | 结构锚点 |
+| `layout-content` | Layout | 结构锚点（T2-13）：`Content` 渲染成 `<div data-scui-role="layout-content">` 而**不是 `<main>`** —— `main` landmark 只能由页面提供，组件里再渲染一个会让「Layout 嵌进已有 main 的页面」出现两个 main |
 | `input` / `input-clear` / `input-password-toggle` / `input-search` | Input | 结构锚点（T2-03） |
 | `input-number` / `input-number-up` / `input-number-down` | Input（InputNumber） | 结构锚点（T2-04） |
 | `textarea` / `textarea-clear` / `textarea-count` | Input（Textarea） | 结构锚点（T2-03） |

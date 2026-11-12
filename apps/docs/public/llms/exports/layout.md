@@ -198,6 +198,8 @@ export interface SiderProps {
 ## 相关 Demo（完整源码见链接页）
 
 - [基础用法](../demos/layout-basic.md)：带侧边栏的三段布局，含可折叠触发器。（源文件 `packages/core/src/components/layout/demos/basic.tsx`）
+- [受控折叠](../demos/layout-collapsed.md)：collapsed 由外部状态驱动，触发器在页头而不是侧边栏。（源文件 `packages/core/src/components/layout/demos/collapsed.tsx`）
+- [上下布局](../demos/layout-top.md)：不带侧边栏的页头 / 内容 / 页脚三段结构。（源文件 `packages/core/src/components/layout/demos/top.tsx`）
 
 ## 相关规范
 
