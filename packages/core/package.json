@@ -101,6 +101,12 @@
       "import": "./dist/esm/components/app/index.js",
       "default": "./dist/esm/components/app/index.js"
     },
+    "./select": {
+      "types": "./dist/types/components/select/index.d.ts",
+      "solid": "./dist/source/components/select/index.jsx",
+      "import": "./dist/esm/components/select/index.js",
+      "default": "./dist/esm/components/select/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

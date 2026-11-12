@@ -1,0 +1,144 @@
+@use 'mixins' as m;
+
+/* Select（T2-07）
+   触发器 / 清除按钮在组件根节点内，可直接继承 root 的 --scui-select-* 变量；
+   弹层由 Kobalte Portal 挂到 body（不在 root 子树里），所以 content / option /
+   search / status 的样式只用全局 token，不依赖 root 上的局部变量。
+   状态一律 [data-scui-*] 且带 .scui- 静态类作用域，类名只有块与元素两级。 */
+
+:where(.scui-select) {
+  --scui-select-height: 36px;
+
+  position: relative;
+  display: inline-flex;
+  inline-size: 100%;
+  max-inline-size: 320px;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+
+  &[data-scui-size='small'] {
+    --scui-select-height: 28px;
+  }
+
+  &[data-scui-size='large'] {
+    --scui-select-height: 44px;
+  }
+
+  &[data-scui-invalid='true'] .scui-select__trigger {
+    border-color: var(--scui-color-danger);
+  }
+
+  &[data-scui-open] .scui-select__trigger {
+    border-color: var(--scui-color-primary);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  &[data-scui-loading] .scui-select__trigger {
+    cursor: progress;
+  }
+}
+
+:where(.scui-select__control) {
+  display: contents;
+}
+
+:where(.scui-select__trigger) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scui-space-2, 8px);
+  inline-size: 100%;
+  block-size: var(--scui-select-height, 36px);
+  padding: 0 var(--scui-space-3, 12px);
+  border: 1px solid var(--scui-color-border-strong);
+  border-radius: var(--scui-space-1, 4px);
+  background: var(--scui-color-bg-surface);
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-select__clear) {
+  position: absolute;
+  inset-inline-end: 30px;
+  inset-block-start: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 18px;
+  block-size: 18px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+  color: var(--scui-color-text-secondary);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-select__content) {
+  box-sizing: border-box;
+  z-index: 1000;
+  min-inline-size: 200px;
+  max-block-size: 280px;
+  overflow-y: auto;
+  padding: var(--scui-space-1, 4px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-space-1, 4px);
+  background: var(--scui-color-bg-surface);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  color: var(--scui-color-text-primary);
+  font: inherit;
+}
+
+:where(.scui-select__search) {
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin-block-end: var(--scui-space-1, 4px);
+  padding: 6px 8px;
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: 3px;
+  background: var(--scui-color-bg-surface);
+  color: inherit;
+  font: inherit;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-select__option) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scui-space-2, 8px);
+  padding: 6px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* aria-* 是 A11y 契约，不是 R1 约束的 data-* 状态属性；原语输出的裸 data-* 一律不写进样式。 */
+:where(.scui-select__option[aria-disabled='true']) {
+  color: var(--scui-color-text-disabled);
+  cursor: not-allowed;
+}
+
+:where(.scui-select__status) {
+  padding: 10px 8px;
+  color: var(--scui-color-text-secondary);
+  text-align: center;
+}

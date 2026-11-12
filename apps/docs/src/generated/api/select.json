@@ -1,0 +1,151 @@
+{
+  "slug": "select",
+  "source": "packages/core/src/components/select/types.ts",
+  "interfaces": [
+    {
+      "name": "SelectOption",
+      "inherits": null,
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false,
+          "description": "选项值；受控状态、字段值与 `onChange` 的唯一标识。",
+          "default": null
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "optional": false,
+          "description": "选项展示文案，同时是搜索与 typeahead 的匹配文本。",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "optional": true,
+          "description": "单个选项禁用。 @default false",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "SelectProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'value' | 'defaultValue' | 'onChange' | 'children'\n>",
+      "props": [
+        {
+          "name": "options",
+          "type": "MaybeAccessor<readonly SelectOption[]>",
+          "optional": false,
+          "description": "选项列表；值 / getter 均可，getter 能保留细粒度追踪。",
+          "default": null
+        },
+        {
+          "name": "value",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "受控值；支持传值或 getter，空字符串表示「已清空」。 @default undefined（非受控）",
+          "default": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "非受控初始值；仅在挂载时读取一次。 @default ''",
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "SelectChangeHandler",
+          "optional": true,
+          "description": "选中或清空时触发；清空时值为空字符串。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "optional": true,
+          "description": "未选中时的占位文案，同时是无障碍名称的回落值。 @default '请选择'",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "禁用态；值 / getter 均可。 @default false",
+          "default": null
+        },
+        {
+          "name": "loading",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "加载态：弹层显示加载提示且不渲染选项；触发器置 `aria-busy`。 @default false",
+          "default": null
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "optional": true,
+          "description": "开启本地搜索：弹层顶部出现输入框，按 `label` 大小写不敏感过滤。 @default false",
+          "default": null
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "optional": true,
+          "description": "允许清空：有选中值且未禁用时，在触发器旁渲染清除按钮。 @default false",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "SelectSize",
+          "optional": true,
+          "description": "尺寸。 @default 'medium'",
+          "default": null
+        },
+        {
+          "name": "status",
+          "type": "SelectStatus",
+          "optional": true,
+          "description": "校验态；`error` 时输出 `data-scui-invalid=\"true\"`。 @default 'default'",
+          "default": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": true,
+          "description": "原生表单字段名，由原语写进隐藏字段；缺省时不参与表单提交。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "string",
+          "optional": true,
+          "description": "搜索框占位与无障碍名称。 @default '搜索'",
+          "default": null
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "optional": true,
+          "description": "无匹配选项时的提示文案。 @default '无匹配结果'",
+          "default": null
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "optional": true,
+          "description": "加载态提示文案。 @default '加载中'",
+          "default": null
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "optional": true,
+          "description": "清除按钮的无障碍名称。 @default '清除'",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

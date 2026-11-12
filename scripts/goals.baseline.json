@@ -17,6 +17,6 @@
     "scripts/check-todo.mjs": "ab15ab6670cb08de9bc28209436a4fc3bba877ffba4dcf081e6901cbe2fdd6d6",
     "scripts/naming-legacy.mjs": "f51a922a1e69577768dc5297b3c8d2e84468a1b74539a5e58cee1dd491a542d9",
     "scripts/scope.mjs": "49cb4a450039f3106632affc532890ddb715567a83ae661484104e691441bafc",
-    "scripts/todo-governance.json": "a11bbb3c8ce549b3e712e81ba5b91b05ad7d098474626ac83bbe29d23d1fb0d5"
+    "scripts/todo-governance.json": "1c470ebaaf910ef848f2d4fe67f83a27ecf48431e4c9b7ad1338657e7b986948"
   }
 }

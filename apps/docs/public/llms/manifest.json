@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 57,
+  "pageCount": 61,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -78,6 +78,11 @@
     {
       "path": "llms/exports/app.md",
       "title": "# App 全局反馈（`solid-craft/app`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/select.md",
+      "title": "# Select 选择器（`solid-craft/select`）",
       "kind": "exports"
     },
     {
@@ -294,6 +299,21 @@
       "path": "llms/demos/app-notification.md",
       "title": "# App 全局反馈 · 通知卡片（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/select-basic.md",
+      "title": "# Select 选择器 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/select-search.md",
+      "title": "# Select 选择器 · 搜索与清除（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/select-states.md",
+      "title": "# Select 选择器 · 状态与边界（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -310,6 +330,7 @@
     "./radio": "llms/exports/radio.md",
     "./switch": "llms/exports/switch.md",
     "./app": "llms/exports/app.md",
+    "./select": "llms/exports/select.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -330,6 +351,7 @@
     "llms/exports/radio.md",
     "llms/exports/switch.md",
     "llms/exports/app.md",
+    "llms/exports/select.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -373,7 +395,10 @@
     "llms/demos/switch-state.md",
     "llms/demos/app-basic.md",
     "llms/demos/app-context.md",
-    "llms/demos/app-notification.md"
+    "llms/demos/app-notification.md",
+    "llms/demos/select-basic.md",
+    "llms/demos/select-search.md",
+    "llms/demos/select-states.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

@@ -1463,6 +1463,167 @@
     "href": "/components/app#api-notification"
   },
   {
+    "type": "component",
+    "title": "Select 选择器",
+    "description": "单选下拉，支持本地搜索、清除、空态与加载态；键盘与弹层定位由原语承担，SSR 只输出触发器静态骨架。",
+    "keywords": "select solid-craft/select",
+    "href": "/components/select"
+  },
+  {
+    "type": "demo",
+    "title": "Select 选择器 · 基础用法",
+    "description": "非受控与受控两种取值方式，以及三档尺寸。",
+    "keywords": "select basic",
+    "href": "/components/select/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Select 选择器 · 搜索与清除",
+    "description": "开启本地搜索按选项文案过滤，开启清除后可一键清空已选值。",
+    "keywords": "select search",
+    "href": "/components/select/search"
+  },
+  {
+    "type": "demo",
+    "title": "Select 选择器 · 状态与边界",
+    "description": "空选项、加载中、校验失败与禁用四种边界状态。",
+    "keywords": "select states",
+    "href": "/components/select/states"
+  },
+  {
+    "type": "api",
+    "title": "SelectOption.value",
+    "description": "选项值；受控状态、字段值与 `onChange` 的唯一标识。",
+    "keywords": "select string",
+    "href": "/components/select#api-value"
+  },
+  {
+    "type": "api",
+    "title": "SelectOption.label",
+    "description": "选项展示文案，同时是搜索与 typeahead 的匹配文本。",
+    "keywords": "select string",
+    "href": "/components/select#api-label"
+  },
+  {
+    "type": "api",
+    "title": "SelectOption.disabled",
+    "description": "单个选项禁用。 @default false",
+    "keywords": "select boolean",
+    "href": "/components/select#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.options",
+    "description": "选项列表；值 / getter 均可，getter 能保留细粒度追踪。",
+    "keywords": "select MaybeAccessor<readonly SelectOption[]>",
+    "href": "/components/select#api-options"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.value",
+    "description": "受控值；支持传值或 getter，空字符串表示「已清空」。 @default undefined（非受控）",
+    "keywords": "select MaybeAccessor<string>",
+    "href": "/components/select#api-value"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.defaultValue",
+    "description": "非受控初始值；仅在挂载时读取一次。 @default ''",
+    "keywords": "select MaybeAccessor<string>",
+    "href": "/components/select#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.onChange",
+    "description": "选中或清空时触发；清空时值为空字符串。 @default undefined",
+    "keywords": "select SelectChangeHandler",
+    "href": "/components/select#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.placeholder",
+    "description": "未选中时的占位文案，同时是无障碍名称的回落值。 @default '请选择'",
+    "keywords": "select string",
+    "href": "/components/select#api-placeholder"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.disabled",
+    "description": "禁用态；值 / getter 均可。 @default false",
+    "keywords": "select MaybeAccessor<boolean>",
+    "href": "/components/select#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.loading",
+    "description": "加载态：弹层显示加载提示且不渲染选项；触发器置 `aria-busy`。 @default false",
+    "keywords": "select MaybeAccessor<boolean>",
+    "href": "/components/select#api-loading"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.searchable",
+    "description": "开启本地搜索：弹层顶部出现输入框，按 `label` 大小写不敏感过滤。 @default false",
+    "keywords": "select boolean",
+    "href": "/components/select#api-searchable"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.clearable",
+    "description": "允许清空：有选中值且未禁用时，在触发器旁渲染清除按钮。 @default false",
+    "keywords": "select boolean",
+    "href": "/components/select#api-clearable"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.size",
+    "description": "尺寸。 @default 'medium'",
+    "keywords": "select SelectSize",
+    "href": "/components/select#api-size"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.status",
+    "description": "校验态；`error` 时输出 `data-scui-invalid=\"true\"`。 @default 'default'",
+    "keywords": "select SelectStatus",
+    "href": "/components/select#api-status"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.name",
+    "description": "原生表单字段名，由原语写进隐藏字段；缺省时不参与表单提交。 @default undefined",
+    "keywords": "select string",
+    "href": "/components/select#api-name"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.searchPlaceholder",
+    "description": "搜索框占位与无障碍名称。 @default '搜索'",
+    "keywords": "select string",
+    "href": "/components/select#api-searchPlaceholder"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.emptyText",
+    "description": "无匹配选项时的提示文案。 @default '无匹配结果'",
+    "keywords": "select string",
+    "href": "/components/select#api-emptyText"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.loadingText",
+    "description": "加载态提示文案。 @default '加载中'",
+    "keywords": "select string",
+    "href": "/components/select#api-loadingText"
+  },
+  {
+    "type": "api",
+    "title": "SelectProps.clearLabel",
+    "description": "清除按钮的无障碍名称。 @default '清除'",
+    "keywords": "select string",
+    "href": "/components/select#api-clearLabel"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

@@ -110,6 +110,14 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/app',
     hasApi: true,
   },
+  {
+    slug: 'select',
+    title: 'Select 选择器',
+    category: '表单',
+    description: '单选下拉，支持本地搜索、清除、空态与加载态；键盘与弹层定位由原语承担，SSR 只输出触发器静态骨架。',
+    exportPath: 'solid-craft/select',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

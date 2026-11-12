@@ -20,6 +20,12 @@ import { resolveValue } from '../utils/resolve-value';
 import type { PrimitiveOption, PrimitiveSelectProps } from './types';
 import { useClientReady } from './use-client-ready';
 
+/** 按 label 做大小写不敏感的本地匹配；空关键词表示不过滤。 */
+function matchesQuery(label: string, keyword: string): boolean {
+  const needle = keyword.trim().toLocaleLowerCase();
+  return needle === '' || label.toLocaleLowerCase().includes(needle);
+}
+
 export function PrimitiveSelect(props: PrimitiveSelectProps): JSX.Element {
   const ready = useClientReady();
   const options = createMemo(() => resolveValue(props.options));
@@ -45,7 +51,10 @@ export function PrimitiveSelect(props: PrimitiveSelectProps): JSX.Element {
         options={[...options()]}
         value={selected()}
         open={open()}
-        onOpenChange={setOpen}
+        onOpenChange={(next) => {
+          setOpen(next);
+          props.onOpenChange?.(next);
+        }}
         onChange={(option) => {
           const next = option?.value ?? '';
           // 受控模式只通知、不写内部状态；非受控才落 draft
@@ -58,30 +67,49 @@ export function PrimitiveSelect(props: PrimitiveSelectProps): JSX.Element {
         optionTextValue="label"
         optionDisabled="disabled"
         aria-label={label()}
-        itemComponent={(itemProps) => (
-          <KobalteSelect.Item
-            item={itemProps.item}
-            data-scui-option={itemProps.item.rawValue.value}
-          >
-            <KobalteSelect.ItemLabel>{itemProps.item.rawValue.label}</KobalteSelect.ItemLabel>
-            <KobalteSelect.ItemIndicator aria-hidden="true">✓</KobalteSelect.ItemIndicator>
-          </KobalteSelect.Item>
-        )}
+        itemComponent={(itemProps) => {
+          const option = itemProps.item.rawValue;
+          // 过滤只作用于条目渲染，collection 恒定 —— 换 options 数组会让 Kobalte
+          // 重建状态并主动收起弹层（T2-07 实测）。hidden 让条目 DOM 仍在，
+          // 键盘导航不会因找不到节点而断；data-scui-option 只标可见项。
+          const shown = () => !props.hideOptions && matchesQuery(option.label, props.query ?? '');
+          return (
+            <KobalteSelect.Item
+              item={itemProps.item}
+              class={props.optionClass}
+              hidden={!shown()}
+              data-scui-option={shown() ? option.value : undefined}
+            >
+              <KobalteSelect.ItemLabel>{option.label}</KobalteSelect.ItemLabel>
+              <KobalteSelect.ItemIndicator aria-hidden="true">✓</KobalteSelect.ItemIndicator>
+            </KobalteSelect.Item>
+          );
+        }}
       >
-        <KobalteSelect.Trigger data-scui-primitive="select-trigger">
+        <KobalteSelect.Trigger
+          {...props.triggerAttributes}
+          class={props.triggerClass}
+          data-scui-primitive="select-trigger"
+        >
           {/* 展示文案以封装层的 selected() 为唯一真源，不依赖原语内部泛型推断 */}
           <KobalteSelect.Value>{chosenLabel}</KobalteSelect.Value>
           <KobalteSelect.Icon aria-hidden="true">▾</KobalteSelect.Icon>
         </KobalteSelect.Trigger>
+        {props.triggerSuffix}
         {/* 同 Dialog：服务端与客户端首帧都不挂弹层，onMount 后才装载 */}
         <Show when={ready()}>
           <KobalteSelect.Portal>
-            <KobalteSelect.Content data-scui-primitive="select-content">
+            <KobalteSelect.Content class={props.contentClass} data-scui-primitive="select-content">
+              {props.contentHeader}
               <KobalteSelect.Listbox />
+              {props.contentFooter}
             </KobalteSelect.Content>
           </KobalteSelect.Portal>
         </Show>
-        <KobalteSelect.HiddenSelect />
+        {/* 不挂 KobalteSelect.HiddenSelect：0.13.14 会在 aria-hidden="true" 容器里
+            渲染 tabindex=0 的 input（用于代理焦点），axe 判定 aria-hidden-focus(serious)。
+            这里用无焦点的原生隐藏字段承担表单提交，读屏语义仍由 Trigger / Listbox 提供。 */}
+        <input type="hidden" name={props.name} value={current()} />
       </KobalteSelect>
     </div>
   );

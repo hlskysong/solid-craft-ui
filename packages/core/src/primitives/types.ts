@@ -72,4 +72,45 @@ export interface PrimitiveSelectProps {
   class?: string;
   /** 无障碍标签，缺省时回落到占位文案。 @default undefined */
   'aria-label'?: string;
+  /** 原生表单字段名，写进隐藏字段；不传则不输出 name 属性。 @default undefined */
+  name?: string;
+  /**
+   * 触发器之后的兄弟级插槽（上层放清除按钮）。
+   * 原语只提供 DOM 接缝，不产出业务文案与样式。
+   * @default undefined
+   */
+  triggerSuffix?: JSX.Element;
+  /**
+   * 弹层内、列表之前的插槽（上层放本地搜索输入框）。
+   * 只在客户端 `useClientReady()` 为真时装载，SSR 不输出。
+   * @default undefined
+   */
+  contentHeader?: JSX.Element;
+  /** 弹层内、列表之后的插槽（上层放空态 / 加载提示）。 @default undefined */
+  contentFooter?: JSX.Element;
+  /**
+   * 透传到触发按钮的原生 / A11y 属性（如 `<Form.Item>` 的 aria 三件套）。
+   * 由上层组装后一次 spread，原语层不引用表单类型。
+   * @default undefined
+   */
+  triggerAttributes?: JSX.HTMLAttributes<HTMLButtonElement>;
+  /**
+   * 本地搜索词；只影响 `itemComponent` 的条目渲染，**不改传给 Kobalte 的 options 数组**。
+   * Kobalte 0.13 在 collection 被替换时会重建状态并主动关闭弹层，因此过滤不能靠换数组实现。
+   * @default ''
+   */
+  query?: string;
+  /**
+   * 隐藏全部条目（加载态 / 无匹配结果时由上层置真），collection 仍保持不变。
+   * @default false
+   */
+  hideOptions?: boolean;
+  /** 展开状态变化回调，供上层同步 `data-scui-open`。 @default undefined */
+  onOpenChange?: (open: boolean) => void;
+  /** 触发按钮类名钩子（视觉归上层组件）。 @default undefined */
+  triggerClass?: string;
+  /** 弹层容器类名钩子。 @default undefined */
+  contentClass?: string;
+  /** 选项类名钩子。 @default undefined */
+  optionClass?: string;
 }

@@ -13,7 +13,8 @@
     "checkbox",
     "radio",
     "switch",
-    "app"
+    "app",
+    "select"
   ],
   "components": [
     {
@@ -311,6 +312,34 @@
           "path": "packages/core/src/components/app/demos/notification.tsx",
           "title": "通知卡片",
           "description": "带描述与关闭按钮的卡片，覆盖静态与上下文两条通道。"
+        }
+      ]
+    },
+    {
+      "slug": "select",
+      "title": "Select 选择器",
+      "category": "表单",
+      "description": "单选下拉，支持本地搜索、清除、空态与加载态；键盘与弹层定位由原语承担，SSR 只输出触发器静态骨架。",
+      "exportPath": "solid-craft/select",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/select/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "非受控与受控两种取值方式，以及三档尺寸。"
+        },
+        {
+          "name": "search",
+          "path": "packages/core/src/components/select/demos/search.tsx",
+          "title": "搜索与清除",
+          "description": "开启本地搜索按选项文案过滤，开启清除后可一键清空已选值。"
+        },
+        {
+          "name": "states",
+          "path": "packages/core/src/components/select/demos/states.tsx",
+          "title": "状态与边界",
+          "description": "空选项、加载中、校验失败与禁用四种边界状态。"
         }
       ]
     }

@@ -4,7 +4,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 17 个 exports 子路径、12 个组件页、28 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 18 个 exports 子路径、13 个组件页、31 个 Demo。
 
 ## 关键约定
 
@@ -50,6 +50,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Radio 单选框](exports/radio.md) | `solid-craft/radio` | 单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。 |
 | [Switch 开关](exports/switch.md) | `solid-craft/switch` | 带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。 |
 | [App 全局反馈](exports/app.md) | `solid-craft/app` | Message / Notification 的上下文宿主与静态 API，脱离组件树亦可调用，错误提示可被 Form 复用。 |
+| [Select 选择器](exports/select.md) | `solid-craft/select` | 单选下拉，支持本地搜索、清除、空态与加载态；键盘与弹层定位由原语承担，SSR 只输出触发器静态骨架。 |
 
 - [ConfigProvider 全局配置](exports/config-provider.md) · [样式](exports/styles-css.md) · [按组件样式通配](exports/styles.md) · [package.json](exports/package-json.md)
 

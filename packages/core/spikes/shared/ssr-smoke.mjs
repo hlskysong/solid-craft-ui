@@ -1,5 +1,5 @@
 /**
- * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-06）。
+ * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-07）。
  *
  * 用 Vite 的 ssrLoadModule 把入口 TSX 按服务端条件编译，再调 renderToString，
  * 验证：① 不抛 Client-only API；② 双次 renderToString 逐字一致（无 today() / 随机漂移）；
@@ -176,6 +176,37 @@ const cases = [
       ['aria-live="polite"', 1],
       ['aria-live="assertive"', 1],
       ['data-scui-placement=', 2],
+    ],
+  },
+  {
+    // T2-07：Select 静态骨架。服务端不挂 Portal，因此搜索框 / 空态 / 加载提示
+    // 必须一次都不出现（counts 锁 0）；但 root 的 invalid 两态、size、disabled、
+    // loading、以及触发器与清除按钮仍要输出，保证 hydration 首帧属性集一致。
+    id: 'T2-07',
+    file: '/src/components/select/__tests__/ssr-entry.tsx',
+    markers: [
+      'data-scui-role="select"',
+      'data-scui-size="small"',
+      'data-scui-size="medium"',
+      'data-scui-size="large"',
+      'data-scui-invalid="false"',
+      'data-scui-invalid="true"',
+      'data-scui-disabled=""',
+      'data-scui-loading=""',
+      'aria-busy="true"',
+      'aria-invalid="false"',
+      'data-scui-role="select-clear"',
+      'data-scui-primitive="select-trigger"',
+      '请选择',
+      '邯郸',
+    ],
+    counts: [
+      ['data-scui-role="select"', 4],
+      ['data-scui-primitive="select-trigger"', 4],
+      ['data-scui-invalid="false"', 3],
+      ['data-scui-invalid="true"', 1],
+      ['data-scui-role="select-search"', 0],
+      ['data-scui-role="select-empty"', 0],
     ],
   },
 ];

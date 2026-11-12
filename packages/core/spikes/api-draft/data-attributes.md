@@ -11,6 +11,7 @@
 | `data-scui-disabled` | `''`（存在即真） | 禁用态，配合原生 `disabled` / `aria-disabled` | 全部 |
 | `data-scui-invalid` | `'true' \| 'false'` | 校验失败；SSR 也输出，避免 hydration 属性差 | Form |
 | `data-scui-open` | `''` | 弹层展开 | Select / DatePicker |
+| `data-scui-loading` | `''`（存在即真） | 加载态：弹层只显示加载提示、触发器置 `aria-busy="true"`；与 `data-scui-open` 同属「存在即真」口径 | Select |
 | `data-scui-auto-size` | `''`（存在即真） | 自动高度生效中（关闭拖拽手柄，高度由 JS 写内联值） | Input（Textarea） |
 | `data-scui-count` | `''`（存在即真） | 字数统计显示中（页脚留位） | Input（Textarea） |
 | `data-scui-role` | 见下表 | 结构定位（测试/样式锚点），**不表达状态** | 全部 |
@@ -44,6 +45,7 @@
 | `radio` / `radio-group` | Radio | 结构锚点（T2-05） |
 | `switch` | Switch | 结构锚点（T2-05） |
 | `app` / `app-host` / `message-viewport` / `notification-viewport` / `message` / `notification` | App | 结构锚点（T2-06）：`app` 是内联宿主，`app-host` 是脱离树时挂到 body 的全局宿主 |
+| `select` / `select-clear` / `select-search` / `select-empty` / `select-loading` | Select | 结构锚点（T2-07）：后三者只在客户端弹层内出现，SSR 不输出；`select` 是内联根节点 |
 
 > **`data-scui-checked` 为何不复用 `data-scui-selected`**（T2-05）：前者表达控件自身状态、
 > 有三态且恒输出（SSR 也要出 `'false'`）；后者表达「列表项被选中」、存在即真。

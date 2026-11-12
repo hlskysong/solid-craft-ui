@@ -78,6 +78,14 @@ export type {
   NoticePlacement,
   NotificationApi,
 } from './components/app';
+export { Select } from './components/select';
+export type {
+  SelectChangeHandler,
+  SelectOption,
+  SelectProps,
+  SelectSize,
+  SelectStatus,
+} from './components/select';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';
