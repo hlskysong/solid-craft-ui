@@ -1,13 +1,17 @@
 import { expect, test } from '@playwright/test';
-import { CATALOG_DEMO_TOTAL, DEMO_CASES, demoCaseId } from '../demo-list';
+import { CATALOG_DEMO_TOTAL, DEMO_CASES, E2E_FILTERED, demoCaseId } from '../demo-list';
 
 /**
  * 覆盖守卫（不截图，只查清单本身）：
  * 1. `DEMO_CASES` 的条数必须等于 catalog 里的 Demo 总数 —— 两条独立路径各自算一遍，
  *    防止有人把清单截断成「每组件只取首 Demo」后，截图仍全绿而覆盖面悄悄缩水；
  * 2. `slug-demo` 组合必须唯一 —— 它同时是截图文件名，重名会让两张基线互相覆盖。
+ *
+ * §30.33 增量模式下 `DEMO_CASES` 本来就只有受影响组件的子集，两条断言都不成立，
+ * 因此整条用例跳过；全量覆盖由 main 的夜间 / tag 全量 run 与本机 `pnpm verify` 保证。
  */
 test('清单覆盖守卫：DEMO_CASES 未被截断且 id 唯一', () => {
+  test.skip(E2E_FILTERED, '增量模式只跑受影响组件，全量比对留给全量 run（§30.33）');
   expect(DEMO_CASES.length).toBe(CATALOG_DEMO_TOTAL);
   const ids = DEMO_CASES.map(demoCaseId);
   expect(new Set(ids).size).toBe(ids.length);

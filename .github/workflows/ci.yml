@@ -20,13 +20,29 @@ name: CI
 #   - 不接 pull_request：本仓无 PR 流程（AGENTS.md 硬约束 13 直推 main），接上等于每个 PR 再跑一整套；
 #   - concurrency + cancel-in-progress：连续 push 时取消上一轮，不留并发堆积；
 #   - 每个 job 设 timeout-minutes：卡死的 runner 不会烧到默认 6 小时。
+#
+# 增量门禁（2026-11-12 §30.33，Aming 提出「发布全量、main 日常增量」）：
+#   - verify 的 26 阶段里只有 e2e 吃时间（CI 实测 350s / 433s = 81%），其中 browser 159s
+#     + visual 142s 是「组件 × Demo」逐页跑；只改一个组件却重跑 106 张截图是纯浪费。
+#   - main 的 push → scripts/affected.mjs 从 git diff 推断作用域 → pnpm verify:main。
+#   - tag v* / workflow_dispatch / 每晚 00:30 UTC → pnpm verify 全量，不看 diff。
+#   - 判定原则「默认全量、白名单才收缩」：共享面（styles / primitives / tokens / 宿主 /
+#     tests / scripts / lock / workflow）与任何未识别路径一律 all，宁可多跑不能漏跑。
+#   - 故意保持同一个 job 内分流（不新增 job）：用量红线仍是「每次 push 1 个 job」。
+#
 # 判据机器化：scripts/check-ci.mjs 第 4 条按「每次 push 运行的 job 数 ≤ 1」计数，
 # 新增 job 不显式 gate 就红灯 —— 省用量这件事靠脚本，不靠记性。
 
 on:
   push:
     branches: [main]
+    # 打 tag 走全量（§30.33）：发布前必须有一次完整 26 阶段，不看 diff
+    tags: ['v*']
   workflow_dispatch:
+  schedule:
+    # 夜间全量兜底：main 日常走增量，视觉 / axe 的长期漂移最迟次日早上被抓到
+    # （UTC 00:30 = 北京 08:30）
+    - cron: '30 0 * * *'
 
 permissions:
   contents: read
@@ -37,7 +53,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Full gate (pnpm verify)
+    name: Gate (pnpm verify / verify:main)
     # 16 张截图基线在 macOS + Playwright bundled chromium（版本由 lockfile 锁定）下生成，
     # 主门禁跑同一 runner 平台（macOS 字体集）+ 同一浏览器 build，消除跨环境渲染差异。
     # 2026-11-10 前用系统 Chrome，CI runner 版本与本机不同导致 5 次视觉基线失败（§30.8）。
@@ -45,6 +61,10 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+        with:
+          # 增量判定要 diff 到 push 前的提交，默认浅克隆（depth 1）拿不到基线 sha。
+          # 仓库 .git 仅 17 MB，全历史克隆的成本远低于「拿不到基线就只能全量跑」。
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -55,7 +75,18 @@ jobs:
       # 99 MiB headless-shell（本机代理下已证实卡住，CI 不必承担同一失败面）。
       - run: pnpm exec playwright install chromium --no-shell
       - run: pnpm exec tsc --version
-      - run: pnpm verify
+      # §30.33 双层门禁：main 的日常 push 按 git diff 只跑受影响组件的 Demo；
+      # tag（发布）/ 手动派发 / 夜间定时一律全量。判定逻辑在 scripts/affected.mjs，
+      # 原则是「默认全量、白名单才收缩」，未识别路径与共享面直接退回 all。
+      - name: 推断增量 e2e 作用域
+        if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/')
+        run: node scripts/affected.mjs --base "${{ github.event.before }}" --github-env
+      - name: Incremental gate (pnpm verify:main)
+        if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/')
+        run: pnpm verify:main
+      - name: Full gate (pnpm verify)
+        if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/')
+        run: pnpm verify
       # 视觉基线若仍出现跨环境差异，上传 actual / diff 截图供像素级定位，不必只靠日志猜。
       - name: Upload visual diff on failure
         if: failure()

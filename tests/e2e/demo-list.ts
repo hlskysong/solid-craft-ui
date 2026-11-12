@@ -76,14 +76,63 @@ export interface DemoCase {
   readonly path: string;
 }
 
+/**
+ * 增量 e2e 作用域（docs/08 §30.33）：CI 的 main 分支日常只跑「受影响组件」的 Demo。
+ *
+ * - `all`（缺省，等价于改造前的行为）：全量 53 个 Demo；
+ * - `none`：本轮只改了文档 / 生成物，浏览器与截图链不跑（docs / llms 两条仍跑）；
+ * - `slug,slug`：只跑这些组件的 Demo。
+ *
+ * 值由 `scripts/affected.mjs` 从 git diff 推断并写进 `SCUI_E2E_SCOPE`，判定原则是
+ * 「默认全量、白名单才收缩」—— 这里只负责按值过滤，不承担判定职责。
+ * 本机 `pnpm verify` 不设该变量 ⇒ 永远全量。
+ */
+const scopeRaw = (process.env.SCUI_E2E_SCOPE ?? 'all').trim().toLowerCase();
+
+/** `null` = 全量；`Set` = 只跑这些 slug（空 Set 表示全部跳过）。 */
+const scopedSlugs: ReadonlySet<string> | null =
+  scopeRaw === '' || scopeRaw === 'all'
+    ? null
+    : // `none` 是「只改了文档」的专用值，要显式落成空集合；
+      // 若直接按逗号切，会得到一个叫 "none" 的 slug，然后在下面撞「未匹配」报错。
+      scopeRaw === 'none'
+      ? new Set<string>()
+      : new Set(
+          scopeRaw
+            .split(',')
+            .map((slug) => slug.trim())
+            .filter(Boolean),
+        );
+
+/** 归一化后的作用域值：`all` / `none` / `slug,slug`。 */
+export const E2E_SCOPE: string = scopedSlugs === null ? 'all' : scopeRaw;
+
+/** 本次是否处于增量模式（用例侧据此跳过「全量覆盖」类断言）。 */
+export const E2E_FILTERED: boolean = scopedSlugs !== null;
+
+const visibleComponents =
+  scopedSlugs === null
+    ? raw.components
+    : raw.components.filter((component) => scopedSlugs.has(component.slug));
+
 /** 全量清单，顺序与 catalog 一致（组件按声明顺序，Demo 按文件名排序）。 */
-export const DEMO_CASES: readonly DemoCase[] = raw.components.flatMap((component) =>
+export const DEMO_CASES: readonly DemoCase[] = visibleComponents.flatMap((component) =>
   component.demos.map((demo) => ({
     slug: component.slug,
     demo: demo.name,
     path: pathFor(component.slug, demo.name),
   })),
 );
+
+// 作用域与 catalog 对不上时必须炸掉：增量模式跑 0 条用例会被 Playwright 判成
+// 「no tests found」，那条报错离真正原因（slug 拼错 / catalog 改名）太远。
+if (scopedSlugs !== null && scopedSlugs.size > 0 && DEMO_CASES.length === 0) {
+  throw new Error(
+    `[demo-list] SCUI_E2E_SCOPE=${scopeRaw} 未匹配到任何 catalog 组件（可用 slug：${raw.components
+      .map((component) => component.slug)
+      .join(', ')}）`,
+  );
+}
 
 /** 组件 slug 列表：只关心「每组件一次」的用例（如首页目录断言）用它。 */
 export const DEMO_IDS: readonly string[] = raw.slugs.filter(isString);
