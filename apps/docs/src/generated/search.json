@@ -2037,6 +2037,167 @@
     "href": "/components/date-picker#api-class"
   },
   {
+    "type": "component",
+    "title": "RangePicker 日期范围",
+    "description": "双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。",
+    "keywords": "range-picker solid-craft/range-picker",
+    "href": "/components/range-picker"
+  },
+  {
+    "type": "demo",
+    "title": "RangePicker 日期范围 · 基础用法",
+    "description": "非受控与受控两种取值方式、显示格式、三档尺寸。选完起点后悬停任意日期即可预览区间，移出日历回到单点。",
+    "keywords": "range-picker basic",
+    "href": "/components/range-picker/basic"
+  },
+  {
+    "type": "demo",
+    "title": "RangePicker 日期范围 · 可选范围",
+    "description": "min / max 闭区间、disabledDate 自定义禁用（两端共用同一约束）、同日选择，以及错误与禁用态。",
+    "keywords": "range-picker constraints",
+    "href": "/components/range-picker/constraints"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.value",
+    "description": "受控值（`[start, end]` ISO）；支持传值或 getter。传了即为受控。",
+    "keywords": "range-picker MaybeAccessor<RangePickerValue | null>",
+    "href": "/components/range-picker#api-value"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.defaultValue",
+    "description": "非受控初始值；仅在挂载时读取一次。",
+    "keywords": "range-picker MaybeAccessor<RangePickerValue | null>",
+    "href": "/components/range-picker#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.onChange",
+    "description": "选中回调；两端齐备或清除时触发，参数是 ISO 二元组。",
+    "keywords": "range-picker RangePickerChangeHandler",
+    "href": "/components/range-picker#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.min",
+    "description": "最小可选日期（含），ISO `YYYY-MM-DD`；两端共用同一约束。",
+    "keywords": "range-picker MaybeAccessor<string>",
+    "href": "/components/range-picker#api-min"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.max",
+    "description": "最大可选日期（含），ISO `YYYY-MM-DD`。",
+    "keywords": "range-picker MaybeAccessor<string>",
+    "href": "/components/range-picker#api-max"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.disabledDate",
+    "description": "自定义禁用判定；与 `min` / `max` 叠加生效，两端共用。",
+    "keywords": "range-picker (date: RangePickerDateValue) => boolean",
+    "href": "/components/range-picker#api-disabledDate"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.format",
+    "description": "显示格式，token 子集 `YYYY` / `MM` / `M` / `DD` / `D`；两端共用。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-format"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.weekStartsOn",
+    "description": "周首日。",
+    "keywords": "range-picker RangePickerWeekStart",
+    "href": "/components/range-picker#api-weekStartsOn"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.startPlaceholder",
+    "description": "起点输入框占位文案。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-startPlaceholder"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.endPlaceholder",
+    "description": "终点输入框占位文案。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-endPlaceholder"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.separator",
+    "description": "两个输入框之间的分隔文案（视觉分隔，读屏跳过）。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-separator"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.startLabel",
+    "description": "起点输入框的无障碍名称。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-startLabel"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.endLabel",
+    "description": "终点输入框的无障碍名称。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-endLabel"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.size",
+    "description": "尺寸。",
+    "keywords": "range-picker RangePickerSize",
+    "href": "/components/range-picker#api-size"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.status",
+    "description": "校验态；被 `<Form.Item>` 包裹时默认跟随字段状态。",
+    "keywords": "range-picker RangePickerStatus",
+    "href": "/components/range-picker#api-status"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.disabled",
+    "description": "禁用；与 `<Form disabled>` 取或。",
+    "keywords": "range-picker MaybeAccessor<boolean>",
+    "href": "/components/range-picker#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.allowClear",
+    "description": "是否显示清除按钮（有值时出现）。",
+    "keywords": "range-picker boolean",
+    "href": "/components/range-picker#api-allowClear"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.clearLabel",
+    "description": "清除按钮的无障碍文案。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-clearLabel"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.name",
+    "description": "表单字段名（透传到两个原生 `input` 的 `name`，起点为 `name`、终点为 `name-end`）。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-name"
+  },
+  {
+    "type": "api",
+    "title": "RangePickerProps.class",
+    "description": "附加类名。",
+    "keywords": "range-picker string",
+    "href": "/components/range-picker#api-class"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

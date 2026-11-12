@@ -135,6 +135,15 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/date-picker',
     hasApi: true,
   },
+  {
+    slug: 'range-picker',
+    title: 'RangePicker 日期范围',
+    category: '表单',
+    description:
+      '双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。',
+    exportPath: 'solid-craft/range-picker',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

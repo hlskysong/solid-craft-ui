@@ -1,5 +1,5 @@
 /**
- * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-10）。
+ * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-11）。
  *
  * 用 Vite 的 ssrLoadModule 把入口 TSX 按服务端条件编译，再调 renderToString，
  * 验证：① 不抛 Client-only API；② 双次 renderToString 逐字一致（无 today() / 随机漂移）；
@@ -316,6 +316,46 @@ const cases = [
       ['data-scui-invalid="true"', 1],
       ['aria-expanded="false"', 3],
       ['role="combobox"', 3],
+    ],
+  },
+  {
+    // T2-11：日期范围。服务端必须输出**两个**输入框骨架（起点 / 终点各一个 combobox），
+    // 且弹层与区间高亮标记全部缺席 —— 把 `Show when={open()}` 改成恒真，下面的 0 计数会立刻红灯。
+    id: 'T2-11',
+    file: '/src/components/range-picker/__tests__/ssr-entry.tsx',
+    markers: [
+      'data-scui-role="range-picker"',
+      'data-scui-role="range-start-input"',
+      'data-scui-role="range-end-input"',
+      'data-scui-picking="start"',
+      'data-scui-size="small"',
+      'data-scui-size="medium"',
+      'data-scui-invalid="false"',
+      'data-scui-invalid="true"',
+      'data-scui-disabled=""',
+      'data-scui-role="range-clear"',
+      '<fieldset',
+      'role="combobox"',
+      'aria-haspopup="dialog"',
+      'aria-expanded="false"',
+      'lang="zh-CN"',
+      'aria-label="合同期限"',
+      'placeholder="开始日期"',
+      '2026年3月15日',
+    ],
+    counts: [
+      ['data-scui-role="range-picker"', 3],
+      ['data-scui-role="range-start-input"', 3],
+      ['data-scui-role="range-end-input"', 3],
+      ['data-scui-role="range-calendar"', 0],
+      ['data-scui-role="range-popup"', 0],
+      ['data-scui-role="range-summary"', 0],
+      ['data-scui-day=', 0],
+      ['data-scui-role="range-clear"', 1],
+      ['data-scui-invalid="false"', 2],
+      ['data-scui-invalid="true"', 1],
+      ['role="combobox"', 6],
+      ['<fieldset', 3],
     ],
   },
 ];

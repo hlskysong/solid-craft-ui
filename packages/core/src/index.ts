@@ -107,6 +107,16 @@ export type {
   DatePickerStatus,
   DatePickerWeekStart,
 } from './components/date-picker';
+export { RangePicker } from './components/range-picker';
+export type {
+  RangePickerChangeHandler,
+  RangePickerDateValue,
+  RangePickerProps,
+  RangePickerSize,
+  RangePickerStatus,
+  RangePickerValue,
+  RangePickerWeekStart,
+} from './components/range-picker';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';

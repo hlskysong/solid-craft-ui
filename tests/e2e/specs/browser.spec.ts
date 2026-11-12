@@ -174,6 +174,45 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await page.keyboard.press('Escape');
     await expect(calendar).toHaveCount(0);
   });
+
+  // T2-11：区间控件的两段落点与 hover 预览只能在真实指针下验 —— jsdom 没有布局，
+  // `pointerenter` 只能手动派发，这里补一条真实浏览器链路。
+  test('RangePicker 区间：两段落点、悬停预览、Tab 交接焦点', async ({ page }) => {
+    await page.goto(demoPath('range-picker'));
+    const group = page.getByRole('group', { name: '出差日期范围' });
+    const start = group.getByRole('combobox', { name: '开始日期' });
+    const end = group.getByRole('combobox', { name: '结束日期' });
+    const calendar = group.locator('[data-scui-role="range-calendar"]');
+
+    await expect(start).toHaveValue('2026-03-10');
+    await expect(end).toHaveValue('2026-03-20');
+
+    await start.click();
+    await expect(calendar).toBeVisible();
+    await expect(calendar.locator('button[data-scui-day]')).toHaveCount(42);
+
+    // 起点 → 悬停预览 → 终点：中间格必须出现区间标记，终点落点后弹层关闭
+    await group.locator('button[data-scui-day="2026-03-12"]').click();
+    await group.locator('button[data-scui-day="2026-03-18"]').hover();
+    await expect(group.locator('button[data-scui-day="2026-03-15"]')).toHaveAttribute(
+      'data-scui-in-range',
+      '',
+    );
+
+    await group.locator('button[data-scui-day="2026-03-18"]').click();
+    await expect(start).toHaveValue('2026-03-12');
+    await expect(end).toHaveValue('2026-03-18');
+    await expect(calendar).toHaveCount(0);
+
+    // 焦点管理：弹层内 Tab 把焦点交给终点输入框，弹层保持展开；Esc 才关闭
+    await start.click();
+    await expect(calendar).toBeVisible();
+    await page.keyboard.press('Tab');
+    await expect(end).toBeFocused();
+    await expect(calendar).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(calendar).toHaveCount(0);
+  });
 });
 
 test.describe('A11y 链：axe 扫描', () => {
@@ -243,6 +282,38 @@ test.describe('A11y 链：axe 扫描', () => {
     );
     console.log(
       `[axe] date-picker/open: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
+  // T2-11：区间弹层里多了「两个 combobox 指向同一 dialog」与「区间三态格子」，
+  // 单独在展开态扫一次（静态扫描时弹层根本不存在）。
+  test('RangePicker 展开日历后无 serious / critical 违规', async ({ page }) => {
+    await page.goto(demoPath('range-picker'));
+    await page
+      .getByRole('group', { name: '出差日期范围' })
+      .getByRole('combobox', { name: '开始日期' })
+      .click();
+    await expect(page.locator('[data-scui-role="range-calendar"]')).toBeVisible();
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] range-picker/open: ${results.violations.length} violations ${results.violations
         .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
         .join(', ')}`,
     );

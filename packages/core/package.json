@@ -113,6 +113,12 @@
       "import": "./dist/esm/components/date-picker/index.js",
       "default": "./dist/esm/components/date-picker/index.js"
     },
+    "./range-picker": {
+      "types": "./dist/types/components/range-picker/index.d.ts",
+      "solid": "./dist/source/components/range-picker/index.jsx",
+      "import": "./dist/esm/components/range-picker/index.js",
+      "default": "./dist/esm/components/range-picker/index.js"
+    },
     "./form": {
       "types": "./dist/types/components/form/index.d.ts",
       "solid": "./dist/source/components/form/index.jsx",

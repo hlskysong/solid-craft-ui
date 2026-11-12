@@ -23,8 +23,11 @@
 | `data-scui-kind` | `info \| success \| warning \| error \| loading` | **一条反馈自身的语义类型**，恒输出；不复用文本 `-tone` 或控件 `-variant`（一个属性名只表达一个语义） | App / Message / Notification |
 | `data-scui-placement` | `top \| top-left \| top-right \| bottom \| bottom-left \| bottom-right` | 反馈容器的出现位置；`message` 恒为 `top`，`notification` 可在 `<App>` 上配置 | App / Message / Notification |
 | `data-scui-option` | 选项 value | 选项定位 | Select |
-| `data-scui-day` | ISO `YYYY-MM-DD` | 日期格定位 | DatePicker |
-| `data-scui-outside` | `''` | 上/下月补位格 | DatePicker |
+| `data-scui-day` | ISO `YYYY-MM-DD` | 日期格定位 | DatePicker / RangePicker |
+| `data-scui-outside` | `''` | 上/下月补位格 | DatePicker / RangePicker |
+| `data-scui-in-range` | `''`（存在即真） | 日历格落在已选或悬停预览的区间内（含两端） | RangePicker |
+| `data-scui-range-start` / `data-scui-range-end` | `''`（存在即真） | 区间端点；**同日选择时两者同时为真**（一个格子既是起点又是终点） | RangePicker |
+| `data-scui-picking` | `start \| end` | 下一次落点定义区间的哪一端，恒输出（SSR 也是 `start`），避免客户端首帧属性差 | RangePicker |
 | `data-scui-fixed` | `left \| right` | 固定列方向（sticky） | Table |
 | `data-scui-scrolled` | `''` | 横向滚动阴影开关 | Table |
 | `data-scui-row-count` | 数字字符串 | 全量行数（窗口化仍保留） | Table |
@@ -40,6 +43,8 @@
 | `table` / `table-scroll` | Table | 结构锚点 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
+| `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |
+| `range-popup` / `range-calendar` / `range-summary` / `range-clear` / `range-popup-clear` | RangePicker | 结构锚点（T2-11）：后四者只在客户端弹层内出现，SSR 零输出；`range-clear` 是输入框右侧清除按钮、`range-popup-clear` 是弹层页脚清除。翻月与表头复用 DatePicker 的 `month-prev` / `month-next` / `month-label` / `weekdays` 角色值（同一语义不另起新名） |
 | `form` / `form-item` / `field-error` / `form-submit` | Form | 结构锚点 |
 | `input` / `input-clear` / `input-password-toggle` / `input-search` | Input | 结构锚点（T2-03） |
 | `input-number` / `input-number-up` / `input-number-down` | Input（InputNumber） | 结构锚点（T2-04） |

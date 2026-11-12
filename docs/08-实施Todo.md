@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）** + **设计基线数值对标（§30.25）** + **字族与图标尺寸收口（§30.26）** + **T2-09 控件接入 Form（§30.27）** + **T2-10 DatePicker（§30.28）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）** + **设计基线数值对标（§30.25）** + **字族与图标尺寸收口（§30.26）** + **T2-09 控件接入 Form（§30.27）** + **T2-10 DatePicker（§30.28）** + **T2-11 RangePicker（§30.29）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 10 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23 / T2-08 Form §30.24 / T2-09 控件接入 Form §30.27），下一项 T2-10；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M2 表单闭环已开工**（M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），已完成 11 项（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23 / T2-08 Form §30.24 / T2-09 控件接入 Form §30.27 / T2-10 DatePicker §30.28 / T2-11 RangePicker §30.29），下一项 T2-12；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T2-11**（M2 第十一项「RangePicker」，见 §4.1；T2-01~T2-10 已完成，见 §30.16 / §30.18 / §30.19 / §30.20 / §30.21 / §30.22 / §30.23 / §30.24 / §30.27 / §30.28；T2-11 复用 T2-10 的日期内核 `calendar.ts`）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后各次提交（T2-01~T2-05 及 CI 用量收敛）**均未推送**，故无新 run；T2-05 / T2-06 / T2-07 / T2-08 与设计基线收口已分别提交为 `928b899` / `8d61a81` / `62b7d23` / `b97421e` / `d917f4f`（2026-11-12，均未推送）；T2-09 已提交为 `583cf23`（35 files / +1423 −34，2026-11-12，未推送）；此后 T2-10 改动仍在工作区待逐次授权提交；`main` 领先 `origin/main` 13 |
-| 下一步 | **按 §4.1 执行 M2（13 项，已完成 10 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ ~~T2-03 Input（Textarea 并入）~~（§30.19）→ ~~T2-04 InputNumber~~（§30.20）→ ~~T2-05 Checkbox / Radio / Switch~~（§30.21）→ ~~T2-06 App~~（§30.22）→ ~~T2-07 Select~~（§30.23）→ ~~T2-08 Form~~（§30.24）→ ~~T2-09 控件接入 Form~~（§30.27）→ ~~T2-10 DatePicker~~（§30.28）→ **T2-11 RangePicker** → T2-12 体积预算 → T2-13 M2 Exit（含「视觉基线 / axe 覆盖每组件全部 Demo」的扩面，见 §30.20 第四节）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T2-12**（M2 第十二项「体积预算落地」，见 §4.1；T2-01~T2-11 已完成，见 §30.16 / §30.18 / §30.19 / §30.20 / §30.21 / §30.22 / §30.23 / §30.24 / §30.27 / §30.28 / §30.29）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；此后各次提交（T2-01~T2-05 及 CI 用量收敛）**均未推送**，故无新 run；T2-05 / T2-06 / T2-07 / T2-08 与设计基线收口已分别提交为 `928b899` / `8d61a81` / `62b7d23` / `b97421e` / `d917f4f`（2026-11-12，均未推送）；T2-09 已提交为 `583cf23`（35 files / +1423 −34）；T2-10 已提交为 `3f694e0`（42 files / +3098 −26）；T2-11 改动仍在工作区待逐次授权提交；以上均未推送，`main` 领先 `origin/main` 14 |
+| 下一步 | **按 §4.1 执行 M2（13 项，已完成 11 项）**：~~T2-01 primitives 适配层~~（§30.16）→ ~~T2-02 表单控件基座~~（§30.18）→ ~~T2-03 Input（Textarea 并入）~~（§30.19）→ ~~T2-04 InputNumber~~（§30.20）→ ~~T2-05 Checkbox / Radio / Switch~~（§30.21）→ ~~T2-06 App~~（§30.22）→ ~~T2-07 Select~~（§30.23）→ ~~T2-08 Form~~（§30.24）→ ~~T2-09 控件接入 Form~~（§30.27）→ ~~T2-10 DatePicker~~（§30.28）→ ~~T2-11 RangePicker~~（§30.29）→ **T2-12 体积预算** → T2-13 M2 Exit（含「视觉基线 / axe 覆盖每组件全部 Demo」的扩面，见 §30.20 第四节）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
 
 ---
@@ -135,7 +135,7 @@
 | T2-08 | `Form` 引擎：`useForm` / `Form.Item` / 校验（required·min·max·pattern·type·自定义 sync·async）/ 三种布局 / 错误滚动 | T2-02 | 技术负责人 | `validateFields` / `resetFields` / `setFieldsValue` / `getFieldsValue` 全通；`aria-invalid` 到位（**16 条单测 + SSR 12 入口 + 负向实证 9/9 钉住**，见 §30.24） | [x] |
 | T2-09 | 控件接入 Form：Input / Textarea / InputNumber / Checkbox / Radio / Switch / Select 全部走 `useFormField` | T2-03 / T2-04 / T2-05 / T2-07 / T2-08 | 工程师 C | 一页真实表单 Demo（新增 + 编辑）端到端可跑；七类控件接入证据 + Group id 契约修复（**10 条单测 / SSR 13 入口 / E2E 端到端 + axe 0 violations / 负向实证 9/9 钉住**，见 §30.27） | [x] |
 | T2-10 | `DatePicker`（XL）：单选 / `min`·`max`·`disabledDate` / `format` / 中文 locale / 键盘 / `editing` 状态机 / SSR 不取当前时间 | T2-02 | 技术负责人 | 非法输入可恢复；`@internationalized/date` + `Intl`，不自造日期轮子（**18 条单测 + SSR 14 入口 + 负向实证 9/9 钉住**，见 §30.28） | [x] |
-| T2-11 | `RangePicker`（R5 已定 M2）：hover 预览、键盘、焦点管理 | T2-10 | 技术负责人 | 同日 / 跨月 / 跨年边界；`min`·`max` 约束生效 | [ ] |
+| T2-11 | `RangePicker`（R5 已定 M2）：hover 预览、键盘、焦点管理 | T2-10 | 技术负责人 | 同日 / 跨月 / 跨年边界；`min`·`max` 约束生效（**26 条单测 + SSR 15 入口 + E2E 两段落点 / 悬停预览 / Tab 交接 + 负向实证 10/10 钉住**，见 §30.29） | [x] |
 | T2-12 | 体积预算落地：`size-limit` 补「Form + Input + Select ≤ 25 KB」与「DatePicker ≤ 30 KB」两条，`check:ci` 的未实现清单相应缩短 | T2-07 / T2-08 / T2-10 | 技术负责人 | `pnpm size` 两条新预算实跑；超预算先拆再合并 | [ ] |
 | T2-13 | **M2 Exit 检查**：表单页 Demo 端到端 / axe / 每组件 ≥3 Demo / 视觉基线（@1280·@768）/ SSR 冒烟 / 文档生成物 | T2-09 / T2-11 / T2-12 | 技术负责人 | `pnpm verify` RC=0；六条预算中四条落地；表单页可独立开发。**另含一项前置修复**：`tests/e2e/demo-list.ts` 目前只截每个组件的 `basic` Demo（`demoPath()` 写死 `basic`），新增 Demo 既无视觉基线也不进 axe 扫描 —— 必须先扩成「slug × demo」再谈「每组件 ≥3 Demo」的验收（§30.20 第四节） | [ ] |
 
@@ -3273,3 +3273,103 @@ Aming 授权「提交 T2-09 后开始 T2-10」后按 §4.1 收口：**单选日�
 2. `showTime` / 时区 / 月年快选 / 快捷选项仍属 `docs/04 §5.4` 的 P1，未做。
 3. `T2-13` 的「每组件全部 Demo 进视觉基线 / axe」扩面缺口不变：本轮 `constraints` Demo 与 T2-06 `context`/`notification`、T2-07 `search`/`states`、T2-08 `validation`/`layout` 仍未覆盖（`date-picker` 的 `basic` 已按清单自动纳入）。
 4. 真实表单页与日历弹层均未做 375px 窄屏专项：`date-picker.scss` 的弹层定宽 248px，窄屏下依赖文档站容器，未加 media query。
+
+### 30.29 T2-11 RangePicker：区间选择与 picking 状态机落地（2026-11-12 实测与验收）
+
+#### 一、结论先行
+
+Aming 授权「提交 T2-10 后开始 T2-11」后按 §4.1 收口：**双输入框区间 + hover 预览 + 两段落点 `picking` 状态机 + 键盘 + 焦点管理 + 同日 / 跨月 / 跨年边界 + `min`·`max`·`disabledDate`**全部落地。**零新增依赖**（`pnpm-lock.yaml` 零改动），日期运算 100% 复用 T2-10 的 `date-picker/calendar.ts`，本轮只新增「两个 ISO 端点 → 一个区间」的语义层（`calendar-range.ts`），**没有第二套日期逻辑**。
+
+三个「只有真跑才会暴露」的点：
+1. **E2E 抓到 1 个真实浏览器才复现的 bug**：第一段落点后弹层立刻关闭。根因是 `grid` 依赖键盘游标 `focused`，同月内点格子也会让 `buildMonthGrid` 产出全新 `cell` 对象 → `For` 按引用比对**重造 42 个按钮** → 刚拿到焦点的格子被卸载 → 根节点 `focusout(relatedTarget = null)` → 关弹层。jsdom 单测全绿、`date-picker` 的同类路径因「点完就关」而侥幸不显形。修法见第五节，负向 N142 把这条钉死。
+2. **Biome 判 `div` 硬挂 `role="group"` 是 a11y 错误**（`useSemanticElements`）→ 根节点改 `<fieldset>`，连带 props 基类型、UA 样式重置与 SSR 标记一起改。
+3. **`TS2430`**：`FieldsetHTMLAttributes` 自带静态 `disabled?: boolean`，与响应式契约 `MaybeAccessor<boolean>` 冲突 → `Omit` 显式剔除。
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `packages/core/src/components/range-picker/calendar-range.ts` | **新增**：区间语义纯函数（`normalizePair` / `normalizeRange` / `inRange` / `rangeFlags` / `hasAnyEndpoint` / `sameRange`）。**端点比较用字符串字典序**（ISO 定宽零填充，字典序恒等于时间序），不做第二套日期算术 |
+| `packages/core/src/components/range-picker/RangePicker.tsx` | **新增**：组件层。双输入框 + 单面板日历、`picking` 两段落点状态机、hover 预览、`active`/`focused`/`viewDate` 三组焦点状态、`data-scui-*` 契约 |
+| `packages/core/src/components/range-picker/range-value.ts` | **新增**：值桥（字段 > `value` > `defaultValue`），`toRangeValue()` 把 `unknown` 收窄成 `[string, string]`，非二元组一律当空区间 |
+| `packages/core/src/components/range-picker/types.ts` | **新增**：公共类型。`value` 为 `readonly [string, string]`，`disabledDate` 收结构性 `RangePickerDateValue`；基类型是 `FieldsetHTMLAttributes`（`disabled` 已剔除） |
+| `packages/core/src/components/range-picker/range-picker.scss` | **新增**：视觉层。`[data-scui-*]` + `.scui-` 作用域；区间三态（起 / 中 / 终）用底色 + 实心端点表达；fieldset 的 UA 边框 / 内边距 / 最小宽度全部清零 |
+| `packages/core/src/components/range-picker/index.ts`、`packages/core/package.json`、`packages/core/src/index.ts` | exports 子路径 `./range-picker` 四条件 + 公共 barrel 导出（组件 + 7 个类型） |
+| `packages/core/src/components/range-picker/RangePicker.test.tsx` | **新增**：**26 条单测**（状态契约 / 点选三段 / hover 预览 / 边界与禁用 / 键盘与焦点 / 值桥与清除） |
+| `packages/core/src/components/range-picker/__tests__/ssr-entry.tsx` | **新增**：SSR 第 15 入口，3 个实例（默认 / 受控+清除+格式 / error+disabled） |
+| `packages/core/src/components/range-picker/demos/{basic,constraints}.tsx` | **新增**：2 个 Demo（基础 / 可选范围 + 同日区间） |
+| `packages/core/spikes/shared/ssr-smoke.mjs` | 注释改为 `T2-01~T2-11`；新增 `T2-11` case（2694 chars · 18 markers / 12 counts，锁住「弹层与 42 格在 SSR 必须为 0」「三个 `<fieldset>`」） |
+| `packages/core/spikes/api-draft/data-attributes.md` | 补 4 个 `data-scui-*`（`in-range` / `range-start` / `range-end` / `picking`）与 8 个 `data-scui-role` 锚点 |
+| `apps/docs/src/content/catalog.mjs` | catalog 第 17 个组件；`apps/docs/src/generated/**`、`apps/docs/public/llms/**`、`packages/core/llms*.txt` 由 `docs:generate` 重生成 |
+| `apps/docs/public/fonts/{charset.txt,scui-visual.woff2}` | **第九次字集扩容**：**251 012 bytes**，764 个 CJK/符号 + 95 个 ASCII = **859 码位** |
+| `scripts/check-ci.mjs` | 只换 `FONT_SHA256` → `f4aa02f31d0817e9c69fd5c0abccbcfd89234e5f4d0a7b17abae5f40af3fcf0d` |
+| `tests/e2e/specs/browser.spec.ts` | 新增 2 条：区间端到端（两段落点 / 悬停预览 / Tab 交接焦点）、展开态 axe 定向扫描 |
+| `tests/e2e/baselines/light-ltr-default-range-picker-{1280,768}.png` | **新增** 2 张视觉基线（34 → 36） |
+| `scripts/todo-governance.json`、`scripts/goals.baseline.json`、`docs/08` 本文件 | 治理契约 `T2-11 → 30.29` + 基线重校 + 锚点推进 **T2-12**；`AGENTS.md` 仅由 `check:goals --update-baseline` 同步标记行 |
+
+#### 三、区间语义与 `picking` 状态机
+
+| 决策点 | 做法 | 理由 |
+| --- | --- | --- |
+| 对外值 | `readonly [string, string]`（两端 ISO），空区间 `['','']` | 二元组每个元素仍是字符串，符合 R2 = A 的「对外值只用字符串」；不出现日期对象或第三方类型（`check:exports` 第 6 条） |
+| 半截值 | **不对外发**：只点了起点不触发 `onChange`，关闭即丢弃 | 业务侧永远收不到 `['2026-03-01','']` 这种脏数据；与 DatePicker「非法输入丢弃回滚」同一口径 |
+| 点选反向 | **自动交换**成有序区间 | 日历语义是「两点确定区间」；不交换会得到 `from > to` 的非法值与空高亮 |
+| 手输反向 | **丢弃回滚**（不偷偷把文本搬到另一个框） | 输入语义是单端录入；静默搬运会让用户看到的文本位置与自己刚敲的内容不一致 |
+| 单面板 vs 双月并排 | 单面板 + 翻月（`data-scui-day` 仍是全局唯一键） | 双面板会让 `data-scui-day` 出现两份、42 格变 84 格、体积翻倍；跨月预览仍正确，因为高亮判定是「ISO 是否落在区间内」，与格子属于哪个月无关 |
+| 命中判定 | `range.from <= iso && iso <= range.to` | ISO 定宽零填充 ⇒ 字典序 = 时间序；再解析成 `CalendarDate` 只会多一次分配与一个可能抛异常的分支 |
+| 同日区间 | `start` 与 `end` 同时为真（同一格两标记都在） | 一个格子既是起点又是终点，CSS 能同时画两端圆角，样式里不必再写 `from === to` 特例 |
+| 写值去重 | 与当前值逐字相同时不 `onChange` | 重复框选同一区间不该产生一次「值变更」事件（与 DatePicker 的 `commit()` 同一取舍） |
+
+#### 四、hover 预览与焦点管理
+
+**hover 预览**：`previewAnchor()` 只在 `picking === 'end'` 时返回锚点（待定起点 > 已确定起点）；`highlight` memo 把 `[锚点, 悬停日]` 归一化后交给 `rangeFlags`。因此「反向悬停」（悬停日早于起点）会自动排序，移出日历（`pointerleave`）即回到单点高亮。
+
+**焦点管理**（六条规则，全部有单测或 E2E 覆盖）：
+
+| # | 规则 | 证据 |
+| --- | --- | --- |
+| 1 | 键盘打开弹层时才移焦到日历格（`pendingGridFocus`），鼠标点开不抢焦点 | 与 DatePicker 同口径；`date-picker` / `range-picker` 共用同一套写法 |
+| 2 | 起点落点后**不移焦**：游标留在该格，下一次 `Enter` 就是终点 | 单测「方向键漫游 + Enter 两段落点」 |
+| 3 | 终点落点后关闭弹层并把焦点交给**终点输入框** | 同上（`document.activeElement` 断言） |
+| 4 | 弹层内 `Tab` 把焦点交给**同级输入框**（起点 ↔ 终点），弹层**不关** | 单测「弹层内 Tab 把焦点交给同级输入框」+ E2E `page.keyboard.press('Tab')` |
+| 5 | `Esc` 关闭并回焦「当前生效的输入框」（`active`） | 单测「Esc 关闭并把焦点交回起点输入框」 |
+| 6 | 焦点移出根节点才关闭（`focusout` + `relatedTarget` 包含判断） | 点外部关闭；点弹层内部不关 |
+
+#### 五、门禁与实测抓到的三个问题
+
+| # | 现象 | 根因 | 修法 |
+| --- | --- | --- | --- |
+| 1 | **E2E**：`locator.hover` 30s 超时，页面快照显示弹层已消失、值未变 | `grid` 依赖 `focused()`；同月内点格子也会重建 42 个 `cell` 对象 → `For` 重造节点 → 第一段落点刚拿到焦点的按钮被卸载 → 根节点 `focusout(relatedTarget=null)` → `close(false)`。jsdom 单测不做布局与焦点默认行为，全绿也发现不了 | `viewDate` 单独持有「视图月」，同月更新**返回旧对象**让 `===` 短路，格子不再重建；月份标题 / `aria-label` 随之读 `viewDate`。负向 **N142** 把 `viewDate` 改回 `focused` 后，E2E 立刻超时红灯 |
+| 2 | biome `lint/a11y/useSemanticElements`：`role="group"` 应换 `<fieldset>` | `div` 硬挂 `group` 角色是非交互元素挂交互角色；但去掉角色又会让 `aria-label` 落到 generic（ARIA 1.2 禁止） | 根节点改 `<fieldset>`（隐含 group 语义、`aria-label` 合法宿主），同步改 props 基类型为 `FieldsetHTMLAttributes`、SCSS 清零 UA 边框 / 内边距 / `min-inline-size`、SSR 标记改 `<fieldset` ×3。**视觉基线未重生成即 36/36 通过**，证明重置是完整的 |
+| 3 | `build` 阶段 `TS2430`：`RangePickerProps` 与 `Omit<FieldsetHTMLAttributes, 'onChange' \| 'onInput'>` 不兼容 | 原生 `fieldset` 的 `disabled?: boolean` 是静态值，与响应式契约 `MaybeAccessor<boolean>` 冲突 | `Omit` 里显式加 `'disabled'`，并在注释点名原因（否则下一个人会以为漏了） |
+
+两处流程性尾巴（不是代码缺陷，但都会让 `verify` 红灯）：改 `types.ts` 的 JSDoc / 新增 Prop 后必须重跑 `pnpm docs:generate`（`check:docs`）；改中文字集后必须重跑 `build-visual-font.py` 并同步 `FONT_SHA256`（`check:ci`）。本轮两处都各踩一次，已在第一节的时间线里如实记录。
+
+#### 六、验收数字（最终态实测）
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **26 阶段 RC=0** |
+| 单测 | `packages/core` **271 tests / 27 files passed**（T2-11 新增 26 条） |
+| SSR 冒烟 | **15 个入口**全绿；`T2-11` 2694 chars · 双渲一致 · **18/18 markers · 12/12 counts**（弹层 / 42 格 / 摘要 / 页脚清除全部 0） |
+| 浏览器链 | browser **14 passed**（新增区间端到端 1 条）；axe 共 **20 条扫描**，新增 `range-picker` 与 `range-picker/open` 均 **0 violations**，serious / critical 全 0 |
+| 视觉基线 | **36 passed**（新增 `range-picker` @1280 / @768；其余 34 张字节不变） |
+| size | Core **108.86 kB / 180 kB**、Button 1.95 kB / 6 kB（gzip；T2-10 时 Core 96.49 kB，+12.37 kB 为区间语义、双输入与 `range-picker.scss`） |
+| 文档生成物 | catalog **17 组件 / 39 Demo / 17 API 表 / 316 条搜索索引**；`check:docs` **58 个生成物**一致 |
+| llms | **75 站点文件 + 3 包内副本**，72 页 / **21 个 exports 子路径** 100% 覆盖 / 73 链接 / 0 死链 / 0 孤儿页 |
+| 其它门禁 | `check:styles` **16 组件样式表 / 165 个 `[data-*]` 选择器全带 `.scui-`**；`check:slice` **16 组件** × 6 源文件；`check:exports` 92 个声明文件零第三方引用；`check:accessors` 50 处 / 164 源文件；`check:todo` 48 → **49** 个 `[x]` 全有证据 |
+| 负向实证 | **N133~N142 10/10 PASS + `DRIFT []`**（弹层进 SSR / 不归一化 / hover 不写状态 / 半截值外发 / 关闭不回滚 / Tab 不交接 / min 退化 / SSR 双渲漂移 / 两输入框同 id / 日历格随焦点重建） |
+
+#### 七、治理回写
+
+`docs/08` 新增本节；§4.1 的 `T2-11` 勾 `[x]` 并追加上表验收证据；锚点推进到 **T2-12 体积预算**、已完成 10 → 11 项；
+`scripts/todo-governance.json` 新增 `"T2-11": "30.29"`；`pnpm check:goals --update-baseline` 重校（`AGENTS.md` 只同步标记行）。
+另把锚点里的提交链更新为「T2-10 → `3f694e0`（42 files / +3098 −26）、`main` 领先 `origin/main` 14」，与仓库实际一致。
+
+#### 八、已知边界
+
+1. **单面板而非双月并排**：跨月要翻页，无法同屏对比相邻两个月；这是为了保住 `data-scui-day` 唯一键与体积的主动取舍，要双面板属 v1.0 增强。
+2. `docs/04 §5.4` P1 的**快捷选项**（今天 / 近 7 天 / 本月 / 上月）未做；本轮只做 R5 点名的 hover 预览 / 键盘 / 焦点管理。
+3. **`DatePicker.RangePicker` 子组件形态未采用**：`docs/02 §6.3` 的示例是把它挂在 `DatePicker` 上，本轮以独立组件 + 独立子路径 `solid-craft/range-picker` 交付（等价能力、可 tree-shake、少一层命名空间）。若要与 AntD 写法完全对齐，需 Aming 裁决后加一层静态属性挂载。
+4. `T2-13` 的「每组件全部 Demo 进视觉基线 / axe」扩面缺口不变：本轮 `constraints` Demo 与 T2-06 / T2-07 / T2-08 的非首 Demo 仍未覆盖（`range-picker` 的 `basic` 已按清单自动纳入）。
+5. 未做 375px 窄屏专项：弹层定宽 248px、双输入最小宽度依赖文档站容器，未加 media query。

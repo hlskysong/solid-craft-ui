@@ -16,7 +16,8 @@
     "app",
     "select",
     "form",
-    "date-picker"
+    "date-picker",
+    "range-picker"
   ],
   "components": [
     {
@@ -398,6 +399,28 @@
           "path": "packages/core/src/components/date-picker/demos/constraints.tsx",
           "title": "可选范围",
           "description": "min / max 闭区间、disabledDate 自定义禁用，以及错误与禁用态。"
+        }
+      ]
+    },
+    {
+      "slug": "range-picker",
+      "title": "RangePicker 日期范围",
+      "category": "表单",
+      "description": "双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。",
+      "exportPath": "solid-craft/range-picker",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/range-picker/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "非受控与受控两种取值方式、显示格式、三档尺寸。选完起点后悬停任意日期即可预览区间，移出日历回到单点。"
+        },
+        {
+          "name": "constraints",
+          "path": "packages/core/src/components/range-picker/demos/constraints.tsx",
+          "title": "可选范围",
+          "description": "min / max 闭区间、disabledDate 自定义禁用（两端共用同一约束）、同日选择，以及错误与禁用态。"
         }
       ]
     }

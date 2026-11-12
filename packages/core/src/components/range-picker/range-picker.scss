@@ -1,0 +1,262 @@
+@use 'mixins' as m;
+
+/* RangePicker（T2-11）
+   状态一律 [data-scui-*] 且带 .scui- 静态类作用域，类名只有块与元素两级（无 modifier）。
+   根节点是 <fieldset>（group 语义 + aria-label 的合法宿主），与 DatePicker 的差异集中在三处：① 两个输入框 + 分隔符横向排布；② 区间三态高亮
+   （起 / 中 / 终）用 data-scui-in-range · data-scui-range-start · data-scui-range-end 表达；
+   ③ 弹层里多一行「已选区间 / 请选择终点」摘要。弹层同样内联在根节点内（position: absolute），
+   选择器不写裸 [data-*]，避免与第三方原语的同名属性互串（R1）。 */
+
+:where(.scui-range-picker) {
+  --scui-range-picker-height: 32px;
+  --scui-range-picker-padding: var(--scui-space-3, 12px);
+  --scui-range-picker-border: var(--scui-color-border-strong);
+  --scui-range-picker-accent: var(--scui-color-primary);
+  --scui-range-picker-danger: var(--scui-color-danger);
+  --scui-range-picker-radius: var(--scui-space-1, 4px);
+  --scui-range-picker-tint: color-mix(in srgb, var(--scui-range-picker-accent) 12%, transparent);
+
+  /* 根是 <fieldset>（隐含 group 语义，Biome 的 useSemanticElements 要求），
+     先清掉浏览器给的边框 / 内边距 / 最小宽度，否则视觉基线会被 UA 样式带偏。 */
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: var(--scui-space-1, 4px);
+  inline-size: 100%;
+  max-inline-size: 380px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+
+  &[data-scui-size='small'] {
+    --scui-range-picker-height: 24px;
+    --scui-range-picker-padding: var(--scui-space-2, 8px);
+  }
+
+  &[data-scui-size='large'] {
+    --scui-range-picker-height: 40px;
+    --scui-range-picker-padding: var(--scui-space-4, 16px);
+  }
+
+  &[data-scui-invalid='true'] .scui-range-picker__input {
+    border-color: var(--scui-range-picker-danger);
+  }
+
+  &[data-scui-open] .scui-range-picker__input {
+    border-color: var(--scui-range-picker-accent);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-range-picker__input) {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-inline-size: 0;
+  block-size: var(--scui-range-picker-height, 32px);
+  padding-inline: var(--scui-range-picker-padding, 12px);
+  border: 1px solid var(--scui-range-picker-border);
+  border-radius: var(--scui-range-picker-radius, 4px);
+  background: var(--scui-color-bg-surface);
+  color: inherit;
+  font: inherit;
+
+  &::placeholder {
+    color: var(--scui-color-text-tertiary);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--scui-range-picker-accent);
+  }
+
+  &:focus-visible {
+    border-color: var(--scui-range-picker-accent);
+
+    @include m.scui-focus-ring;
+  }
+
+  &:disabled {
+    background: var(--scui-color-bg-surface);
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-range-picker__separator) {
+  flex: 0 0 auto;
+  color: var(--scui-color-text-tertiary);
+}
+
+:where(.scui-range-picker__clear) {
+  position: absolute;
+  inset-inline-end: 8px;
+  inset-block-start: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 18px;
+  block-size: 18px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+  color: var(--scui-color-text-secondary);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-range-picker__popup) {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 1000;
+  inset-block-start: calc(100% + 4px);
+  inset-inline-start: 0;
+  inline-size: 248px;
+  padding: var(--scui-space-2, 8px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-range-picker-radius, 4px);
+  background: var(--scui-color-bg-surface);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  color: var(--scui-color-text-primary);
+  font: inherit;
+}
+
+:where(.scui-range-picker__header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scui-space-2, 8px);
+  margin-block-end: var(--scui-space-2, 8px);
+}
+
+:where(.scui-range-picker__month) {
+  flex: 1;
+  color: var(--scui-color-text-primary);
+  font-weight: var(--scui-font-weight-medium, 500);
+  text-align: center;
+}
+
+:where(.scui-range-picker__nav) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--scui-range-picker-radius, 4px);
+  background: transparent;
+  color: var(--scui-color-text-secondary);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-range-picker__calendar) {
+  inline-size: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  & th {
+    padding-block: 4px;
+    color: var(--scui-color-text-tertiary);
+    font-weight: var(--scui-font-weight-regular, 400);
+    text-align: center;
+  }
+}
+
+:where(.scui-range-picker__day) {
+  inline-size: 100%;
+  block-size: 30px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--scui-range-picker-radius, 4px);
+  background: transparent;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: var(--scui-range-picker-accent);
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+
+  &[data-scui-outside] {
+    color: var(--scui-color-text-tertiary);
+  }
+
+  /* 区间中段：只上底色不描边，让起 / 终两端的实心块成为视觉锚点 */
+  &[data-scui-in-range] {
+    border-radius: 0;
+    background: var(--scui-range-picker-tint);
+  }
+
+  &[data-scui-range-start],
+  &[data-scui-range-end] {
+    border-color: var(--scui-range-picker-accent);
+    border-radius: var(--scui-range-picker-radius, 4px);
+    background: var(--scui-range-picker-accent);
+    color: var(--scui-color-text-inverse, #fff);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+}
+
+:where(.scui-range-picker__footer) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scui-space-2, 8px);
+  margin-block-start: var(--scui-space-2, 8px);
+  padding-block-start: var(--scui-space-2, 8px);
+  border-block-start: 1px solid var(--scui-color-border-default);
+}
+
+:where(.scui-range-picker__summary) {
+  color: var(--scui-color-text-tertiary);
+  font-size: var(--scui-font-size-xs, 12px);
+}
+
+:where(.scui-range-picker__action) {
+  padding: 2px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--scui-range-picker-radius, 4px);
+  background: transparent;
+  color: var(--scui-range-picker-accent);
+  font: inherit;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--scui-range-picker-accent);
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}

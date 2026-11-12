@@ -328,7 +328,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = 'b7975d71d8435497e35c966269d4e7d2d967e291301e76d4413fef657a527114';
+const FONT_SHA256 = 'f4aa02f31d0817e9c69fd5c0abccbcfd89234e5f4d0a7b17abae5f40af3fcf0d';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
