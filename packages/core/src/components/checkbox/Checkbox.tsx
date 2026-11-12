@@ -65,7 +65,12 @@ export function Checkbox(props: CheckboxProps) {
   const invalid = () => status() === 'error';
   const checkedState = (): SelectionChecked =>
     indeterminate() ? 'mixed' : checked() ? 'true' : 'false';
-  const controlId = () => bridge.field?.aria().id ?? rest.id ?? `scui-checkbox-${uid}`;
+  // Group 内每个子控件都必须用自己的 id：字段的 `ids.control` 由 Group 根
+  // （fieldset）承担，否则同一字段的 N 个 input / label 会共用同一个 id（T2-09 实测）。
+  const controlId = () =>
+    inGroup()
+      ? (rest.id ?? `scui-checkbox-${uid}`)
+      : (bridge.field?.aria().id ?? rest.id ?? `scui-checkbox-${uid}`);
 
   // 原生 checkbox 的 indeterminate 只能通过 DOM property 设置；SSR 无 DOM，
   // createEffect 不执行，客户端挂载后随 props 变化持续同步。
@@ -129,7 +134,9 @@ export function Checkbox(props: CheckboxProps) {
         disabled: disabled(),
         'aria-checked': checkedState(),
         'aria-invalid': invalid() ? 'true' : 'false',
-        ...(bridge.field ? bridge.field.aria() : {}),
+        // Group 内不注入字段 aria：id / aria-labelledby 归 Group 根，
+        // 子控件靠自身 label 文案获得可访问名称，避免重复 id。
+        ...(bridge.field && !inGroup() ? bridge.field.aria() : {}),
         onChange: (event) => {
           const target = event.currentTarget;
           commit(target.checked, event);

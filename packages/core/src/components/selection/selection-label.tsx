@@ -7,10 +7,11 @@
  * 不各自复制一遍 label 结构 —— 这类复制最容易漏掉 `for`，最后变成「点文字不切换」。
  *
  * `aria-labelledby` 的接管规则：
- *  - 有文案时，文案 span 继承字段宿主给的 label id（没有宿主时用自建 uid），
- *    于是 `FieldProvider` 注入的 `aria-labelledby` **永远指向真实存在的节点**；
- *    T2-08 的 `<Form.Item>` 只需复用同一组 id，不必改本层。
- *  - 无文案时不输出该属性，可访问名称交给使用方的 `aria-label` 或外层 Form label。
+ *  - 文案 span 恒用自身 uid，绝不继承字段宿主的 label id —— 那个 id 同时挂在
+ *    `<Form.Item>` 的 `<label>` 上，多个控件复用会造成重复 id（T2-09 实测）。
+ *  - 有字段宿主时，input 继续指向宿主注入的 `aria-labelledby`（字段 label 是
+ *    可访问名称的权威来源）；独立使用时回落到自己的文案 span，保证目标真实存在。
+ *  - 无文案且无宿主时不输出该属性，交给使用方的 `aria-label` 或外层 Form label。
  */
 import { createUniqueId, Show, type JSX } from 'solid-js';
 
@@ -54,7 +55,8 @@ export interface SelectionLabelProps {
 export function SelectionLabel(props: SelectionLabelProps): JSX.Element {
   const uid = createUniqueId();
   const hasText = () => Boolean(props.children);
-  const labelId = () => props.input['aria-labelledby'] ?? `scui-selection-${uid}-label`;
+  const labelId = () => `scui-selection-${uid}-label`;
+  const labelledBy = () => props.input['aria-labelledby'] ?? (hasText() ? labelId() : undefined);
 
   return (
     <label {...props.shell} for={props.controlId}>
@@ -62,7 +64,7 @@ export function SelectionLabel(props: SelectionLabelProps): JSX.Element {
         {...props.input}
         id={props.controlId}
         class={`${props.block}__control`}
-        aria-labelledby={hasText() ? labelId() : props.input['aria-labelledby']}
+        aria-labelledby={labelledBy()}
         ref={(element) => props.onRef?.(element)}
       />
       <span class={`${props.block}__indicator`} aria-hidden="true">

@@ -3,7 +3,7 @@
 > SolidJS 企业级中后台组件库 `solid-craft-ui`（npm 包 `solid-craft` v0.1.0，MIT，CSS 前缀 `scui-`）。面向企业内部业务系统，状态由 `data-*` 驱动，样式需显式引入，语义色在构建期按 WCAG21 分档校验。
 > 同时提供编译后 ESM 与保留 JSX 的 `"solid"` 条件产物，SSR 可 renderToString + hydrate。本文件遵循 llmstxt.org；链接相对站点根，逐页为 LLM 友好的 Markdown，完整合并版见 llms-full.txt。
 > Package: `solid-craft@0.1.0` · 本文件随 NPM 包发布，版本与所安装版本一致；Agent 可用 `import.meta.resolve('solid-craft/package.json')` 定位同目录副本。
-> 包内仅发布索引 / 全量合并正文 / manifest 三个文件；`## Docs` 的逐页链接为文档站相对路径，离线请直接读同目录 `llms-full.txt`（含全部 65 页正文、API 表、Demo 源码、Token 与三端消费指南）。
+> 包内仅发布索引 / 全量合并正文 / manifest 三个文件；`## Docs` 的逐页链接为文档站相对路径，离线请直接读同目录 `llms-full.txt`（含全部 66 页正文、API 表、Demo 源码、Token 与三端消费指南）。
 
 ## Docs
 
@@ -75,4 +75,5 @@
 - [Select 选择器 · 状态与边界（源码）](llms/demos/select-states.md): 空选项、加载中、校验失败与禁用四种边界状态。
 - [Form 表单 · 基础用法（源码）](llms/demos/form-basic.md): useForm 创建实例，Form.Item 接管控件取值，提交后回显全量快照。
 - [Form 表单 · 布局与状态（源码）](llms/demos/form-layout.md): 水平、垂直、行内三种布局；标签宽度、冒号、必填标记与整表禁用。
+- [Form 表单 · 真实表单页（新增 / 编辑）（源码）](llms/demos/form-real-form.md): 八字段覆盖 Input / Textarea / InputNumber / Checkbox / Radio / Switch / Select 七类控件，共用一条 useForm 实例；可载入既有记录编辑、切回新增、提交校验并回显全量快照。
 - [Form 表单 · 校验规则（源码）](llms/demos/form-validation.md): 必填、长度、正则、类型与自定义规则按数组顺序执行，失败时展示错误并回显结果。

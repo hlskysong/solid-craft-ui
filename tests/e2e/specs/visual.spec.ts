@@ -27,3 +27,23 @@ for (const width of VIEWPORTS) {
     }
   });
 }
+
+// T2-09：真实表单页是 §4.1 的验收项，但 T2-13 扩面前 `demoPath()` 仍写死 basic，
+// 因此这里单独给 `form/real-form` 补两张截图基线（不与 `form` 的 basic 基线混名）。
+// T2-13 扩成 slug × demo 后可合并回统一循环，届时迁移文件名即可。
+for (const width of VIEWPORTS) {
+  test.describe(`真实表单页 light/ltr/default @${width}`, () => {
+    test.use({ viewport: { width, height: 800 } });
+
+    test('form/real-form 截图基线', async ({ page }) => {
+      await page.goto('/components/form/real-form?standalone=1');
+      await page.evaluate(() => document.fonts.ready.then(() => true));
+      const root = page.getByTestId('demo-root');
+      await expect(root).toBeVisible();
+      await expect(root).toHaveAttribute('data-demo', 'form');
+      await expect(page).toHaveScreenshot(`light-ltr-default-form-real-${width}.png`, {
+        fullPage: true,
+      });
+    });
+  });
+}

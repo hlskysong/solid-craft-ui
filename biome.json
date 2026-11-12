@@ -5,6 +5,7 @@
       "**",
       "!**/dist",
       "!**/.artifacts",
+      "!**/.cache",
       "!**/node_modules",
       "!**/coverage",
       "!**/.turbo",

@@ -234,6 +234,7 @@ export interface FormItemProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 
 
 - [基础用法](../demos/form-basic.md)：useForm 创建实例，Form.Item 接管控件取值，提交后回显全量快照。（源文件 `packages/core/src/components/form/demos/basic.tsx`）
 - [布局与状态](../demos/form-layout.md)：水平、垂直、行内三种布局；标签宽度、冒号、必填标记与整表禁用。（源文件 `packages/core/src/components/form/demos/layout.tsx`）
+- [真实表单页（新增 / 编辑）](../demos/form-real-form.md)：八字段覆盖 Input / Textarea / InputNumber / Checkbox / Radio / Switch / Select 七类控件，共用一条 useForm 实例；可载入既有记录编辑、切回新增、提交校验并回显全量快照。（源文件 `packages/core/src/components/form/demos/real-form.tsx`）
 - [校验规则](../demos/form-validation.md)：必填、长度、正则、类型与自定义规则按数组顺序执行，失败时展示错误并回显结果。（源文件 `packages/core/src/components/form/demos/validation.tsx`）
 
 ## 相关规范

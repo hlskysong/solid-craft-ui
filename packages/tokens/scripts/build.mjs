@@ -60,7 +60,14 @@ const palettePaths = new Set(flatten(paletteLight).keys());
 const darkOverridePaths = new Set([...palettePaths, ...flatten(semanticDark).keys()]);
 
 const tokenSets = {
-  light: merge(paletteLight, primitiveColor, primitiveScale, primitiveType, component, semanticLight),
+  light: merge(
+    paletteLight,
+    primitiveColor,
+    primitiveScale,
+    primitiveType,
+    component,
+    semanticLight,
+  ),
   dark: merge(paletteDark, primitiveColor, primitiveScale, primitiveType, component, semanticDark),
 };
 

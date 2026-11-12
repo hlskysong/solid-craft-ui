@@ -96,6 +96,57 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
       );
     }
   });
+
+  // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
+  // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
+  // 用真实浏览器把「载入编辑 → 改值 → 提交校验 → 切回新增」整链跑一遍。
+  test('真实表单页：新增 → 编辑 → 修改 → 提交 → 切回新增 端到端', async ({ page }) => {
+    await page.goto('/components/form/real-form?standalone=1');
+    const mode = page.getByTestId('real-form-mode');
+    const name = page.getByTestId('real-form-name');
+    const result = page.getByTestId('real-form-result');
+    const cityTrigger = page.locator(
+      '[data-scui-field="city"] [data-scui-primitive="select-trigger"]',
+    );
+
+    await expect(mode).toHaveText('新增');
+    await expect(name).toHaveValue('');
+    await expect(cityTrigger).toContainText('请选择城市');
+
+    // 空表单提交：必填校验挂出错误文案，结果回显失败原因。
+    await page.getByTestId('real-form-submit').click();
+    await expect(
+      page.locator('[data-scui-field="name"] [data-scui-role="field-error"]'),
+    ).toHaveText('请输入姓名');
+    await expect(result).toContainText('失败');
+
+    // 载入既有记录：七类控件都由同一条 useForm 实例驱动出编辑值。
+    await page.getByTestId('real-form-edit').click();
+    await expect(mode).toHaveText('编辑');
+    await expect(name).toHaveValue('张三');
+    await expect(cityTrigger).toContainText('邯郸');
+    await expect(page.locator('[data-scui-field="age"] input')).toHaveValue('32');
+    await expect(page.locator('[data-scui-field="bio"] textarea')).toHaveValue(
+      '负责设备维检计划的前端开发。',
+    );
+    await expect(page.locator('[data-scui-field="enabled"] input')).toBeChecked();
+    await expect(page.locator('[data-scui-field="agree"] input')).toBeChecked();
+
+    // 改名后提交：校验通过，快照回显新值。
+    await name.fill('李四');
+    await page.getByTestId('real-form-submit').click();
+    await expect(result).toContainText('通过');
+    await expect(result).toContainText('李四');
+    await expect(
+      page.locator('[data-scui-field="name"] [data-scui-role="field-error"]'),
+    ).toHaveCount(0);
+
+    // resetFields 回到底稿：控件与快照一起清空。
+    await page.getByTestId('real-form-create').click();
+    await expect(mode).toHaveText('新增');
+    await expect(name).toHaveValue('');
+    await expect(cityTrigger).toContainText('请选择城市');
+  });
 });
 
 test.describe('A11y 链：axe 扫描', () => {
@@ -128,5 +179,25 @@ test.describe('A11y 链：axe 扫描', () => {
       }
     }
     expect(blocking, `serious/critical 违规：\n${blocking.join('\n')}`).toEqual([]);
+  });
+
+  // T2-09：真实表单页不在 DEMO_IDS 的 basic 扫描面里，单独补一次 axe。
+  // Group 字段的 id 三件套由 Group 根承担，这条用例同时守住「无重复 id」。
+  test('真实表单页无 serious / critical 违规', async ({ page }) => {
+    await page.goto('/components/form/real-form?standalone=1');
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] form/real-form: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
   });
 });

@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 65,
+  "pageCount": 66,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -331,6 +331,11 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/form-real-form.md",
+      "title": "# Form 表单 · 真实表单页（新增 / 编辑）（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/form-validation.md",
       "title": "# Form 表单 · 校验规则（源码）",
       "kind": "demos"
@@ -423,6 +428,7 @@
     "llms/demos/select-states.md",
     "llms/demos/form-basic.md",
     "llms/demos/form-layout.md",
+    "llms/demos/form-real-form.md",
     "llms/demos/form-validation.md"
   ],
   "requiredSections": [

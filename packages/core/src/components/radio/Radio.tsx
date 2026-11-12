@@ -51,7 +51,12 @@ export function Radio(props: RadioProps) {
   const status = () => local.status ?? bridge.field?.status() ?? 'default';
   const invalid = () => status() === 'error';
   const checkedState = (): SelectionChecked => (checked() ? 'true' : 'false');
-  const controlId = () => bridge.field?.aria().id ?? rest.id ?? `scui-radio-${uid}`;
+  // 同 Checkbox：Group 内的 id 归自己，字段的 `ids.control` 由 Group 根承担，
+  // 否则同组多个 radio 会重复同一个 id（T2-09 实测）。
+  const controlId = () =>
+    inGroup()
+      ? (rest.id ?? `scui-radio-${uid}`)
+      : (bridge.field?.aria().id ?? rest.id ?? `scui-radio-${uid}`);
 
   const commit = (next: boolean, event?: Event & { currentTarget: HTMLInputElement }) => {
     if (inGroup()) {
@@ -88,7 +93,9 @@ export function Radio(props: RadioProps) {
         disabled: disabled(),
         'aria-checked': checkedState(),
         'aria-invalid': invalid() ? 'true' : 'false',
-        ...(bridge.field ? bridge.field.aria() : {}),
+        // Group 内不注入字段 aria：id / aria-labelledby 归 Group 根，
+        // 子控件靠自身 label 文案获得可访问名称，避免重复 id。
+        ...(bridge.field && !inGroup() ? bridge.field.aria() : {}),
         onChange: (event) => {
           const target = event.currentTarget;
           commit(target.checked, event);

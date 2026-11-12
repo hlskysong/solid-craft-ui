@@ -1646,6 +1646,13 @@
   },
   {
     "type": "demo",
+    "title": "Form 表单 · 真实表单页（新增 / 编辑）",
+    "description": "八字段覆盖 Input / Textarea / InputNumber / Checkbox / Radio / Switch / Select 七类控件，共用一条 useForm 实例；可载入既有记录编辑、切回新增、提交校验并回显全量快照。",
+    "keywords": "form real-form",
+    "href": "/components/form/real-form"
+  },
+  {
+    "type": "demo",
     "title": "Form 表单 · 校验规则",
     "description": "必填、长度、正则、类型与自定义规则按数组顺序执行，失败时展示错误并回显结果。",
     "keywords": "form validation",

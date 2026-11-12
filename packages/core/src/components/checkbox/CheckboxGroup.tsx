@@ -64,6 +64,9 @@ export function CheckboxGroup(props: CheckboxGroupProps) {
     <CheckboxGroupContext.Provider value={control}>
       <fieldset
         {...rest}
+        // 字段的 id 三件套由 Group 根承担：label[for] / aria-labelledby /
+        // aria-describedby 只有这一个目标，组内每个子控件用自己的唯一 id。
+        {...(bridge.field ? bridge.field.aria() : {})}
         class={classNames(`${CSS_PREFIX}checkbox-group`, local.class)}
         data-scui-role="checkbox-group"
         data-scui-orientation={local.orientation ?? 'horizontal'}

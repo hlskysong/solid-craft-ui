@@ -2,6 +2,7 @@
    Vendor prefixes are added by autoprefixer at build time, never authored here. */
 :where(body) {
   margin: 0;
+
   /* :where() 零特异性：消费方用 body / .app 一条普通规则即可覆盖，不必加 !important */
   font-family: var(--scui-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
   font-size: var(--scui-font-size-md, 14px);

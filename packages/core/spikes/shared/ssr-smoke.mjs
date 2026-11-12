@@ -1,5 +1,5 @@
 /**
- * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-08）。
+ * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-09）。
  *
  * 用 Vite 的 ssrLoadModule 把入口 TSX 按服务端条件编译，再调 renderToString，
  * 验证：① 不抛 Client-only API；② 双次 renderToString 逐字一致（无 today() / 随机漂移）；
@@ -238,6 +238,51 @@ const cases = [
       ['aria-invalid="false"', 4],
       ['data-scui-required=""', 2],
       ['data-scui-role="field-error"', 0],
+    ],
+  },
+  {
+    // T2-09：真实表单页（新增 + 编辑）静态骨架。两张表单共 16 个字段，七类控件的
+    // data-scui-role 都必须出现；编辑态的受控值在服务端就要输出，而 Portal 内的
+    // 搜索框 / 空态与只在提交期产生的错误文案必须一次都不出现（counts 锁 0）。
+    id: 'T2-09',
+    file: '/src/components/form/__tests__/ssr-real-form.tsx',
+    markers: [
+      'data-scui-role="form"',
+      'data-scui-role="form-item"',
+      'data-scui-role="input"',
+      'data-scui-role="textarea"',
+      'data-scui-role="input-number"',
+      'data-scui-role="checkbox"',
+      'data-scui-role="checkbox-group"',
+      'data-scui-role="radio-group"',
+      'data-scui-role="switch"',
+      'data-scui-role="select"',
+      'data-scui-primitive="select-trigger"',
+      'data-scui-field="agree"',
+      'data-scui-layout="horizontal"',
+      'data-scui-layout="vertical"',
+      'data-scui-invalid="false"',
+      'data-scui-checked="true"',
+      'data-scui-checked="false"',
+      'aria-labelledby="scui-field-',
+      'aria-label="员工档案（新增）"',
+      'aria-label="员工档案（编辑）"',
+      'for="scui-field-',
+      '张三',
+      '邯郸',
+      '请选择城市',
+    ],
+    counts: [
+      ['data-scui-role="form"', 2],
+      ['data-scui-role="form-item"', 16],
+      ['data-scui-role="select"', 2],
+      ['data-scui-primitive="select-trigger"', 2],
+      ['data-scui-field="name"', 2],
+      ['data-scui-role="field-error"', 0],
+      ['data-scui-role="select-search"', 0],
+      ['data-scui-role="select-empty"', 0],
+      ['张三', 1],
+      ['邯郸', 1],
     ],
   },
 ];
