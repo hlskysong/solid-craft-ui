@@ -1,0 +1,245 @@
+{
+  "version": "v1",
+  "updatedAt": "2026-11-12（第三轮：字族与图标尺寸收口）",
+  "upstream": {
+    "raw": "raw/upstream-values.json",
+    "pinned": {
+      "antd": "6.7.0",
+      "tdesign": "tdesign-vue-next 1.20.11 / tdesign-common main（2026-11-12 快照）",
+      "semi": "2.104.0"
+    },
+    "caveat": "上游值随版本漂移，任何一次对齐都必须重跑 refresh.mjs 并核对 raw/upstream-values.json；本表数值对应上表锁定的版本。"
+  },
+  "verdicts": [
+    {
+      "verdict": "deliberate",
+      "dimension": "主色",
+      "scui": "#2d66f5（palette.blue.6）",
+      "antd": "#1677ff",
+      "tdesign": "#366ef4（brand-6；历史主色 #0052d9 已降为 brand-7）",
+      "semi": "#0064fa",
+      "source": "packages/tokens/scripts/palette.mjs · BASES.light.blue",
+      "note": "三家主色互不相同，说明品牌色本就不该照抄；自持 seed 是正确做法。TDesign 把 #0052d9 从主色降为 brand-7 这件事，正好证明「不锁版本的对标等于没对标」。待办只有一件：在品牌说明里写死 seed 与推导方式，别让 #2f6bff 这类历史字面量继续漂在产物里。"
+    },
+    {
+      "verdict": "gap",
+      "dimension": "色相覆盖面",
+      "scui": "6 色相 × 10 级（blue/green/amber/red/cyan/neutral）",
+      "antd": "13 预设色相 × 10 级",
+      "tdesign": "brand 10 级 + gray 13 级 + font-gray 4 级",
+      "semi": "16 色相 × 10 级（0–9）",
+      "source": "packages/tokens/scripts/palette.mjs · HUES",
+      "note": "中后台高频缺 violet/purple（图表与标签区分），建议下一版补到 8 色相，而不是一次追平 13/16。"
+    },
+    {
+      "verdict": "undecided",
+      "dimension": "中性色双轨",
+      "scui": "palette.neutral-1…10 与 color-neutral-0/25/50/100/300/500/800/900/1000 两套并存",
+      "antd": "colorText/colorBg/colorFill/colorBorder 语义化派生",
+      "tdesign": "--td-gray-color-1…13 单一阶梯",
+      "semi": "--semi-grey-0…9 单一阶梯",
+      "source": "packages/tokens/dist/css/tokens.css",
+      "note": "同一套灰阶存在两套编号，组件引用哪套全靠人记；建议二选一（保留 10 级阶梯，把 0/25/50… 别名映射过去），否则后续接入主题工具必冲突。"
+    },
+    {
+      "verdict": "consistent",
+      "dimension": "主文本色",
+      "scui": "rgba(0,0,0,0.88)",
+      "antd": "rgba(0,0,0,0.88)",
+      "tdesign": "rgba(0,0,0,0.9)",
+      "semi": "grey-9 × 1.0",
+      "source": "packages/tokens/tokens/semantic/light.json",
+      "note": "与 AntD 完全一致。"
+    },
+    {
+      "verdict": "consistent",
+      "dimension": "次要文本色",
+      "scui": "rgba(0,0,0,0.65)",
+      "antd": "rgba(0,0,0,0.65)",
+      "tdesign": "rgba(0,0,0,0.6)",
+      "semi": "grey-9 × 0.8",
+      "source": "packages/tokens/tokens/semantic/light.json",
+      "note": "与 AntD 一致，落在 TDesign/Semi 之间。"
+    },
+    {
+      "verdict": "deliberate",
+      "dimension": "三级文本色",
+      "scui": "rgba(0,0,0,0.55)（实测 ≈4.74:1）",
+      "antd": "rgba(0,0,0,0.45)",
+      "tdesign": "rgba(0,0,0,0.4)",
+      "semi": "grey-9 × 0.62",
+      "source": "docs/03 §2 + semantic/light.json（v0.2 修正记录）",
+      "note": "刻意偏离：0.45/0.40 在 14px 正文下达不到 WCAG AA 4.5:1，0.55 是唯一能过的档位。理由要写进 03（当前仅在 token 的 usage 注释里）。"
+    },
+    {
+      "verdict": "consistent",
+      "dimension": "禁用文本色",
+      "scui": "rgba(0,0,0,0.25)",
+      "antd": "rgba(0,0,0,0.25)",
+      "tdesign": "rgba(0,0,0,0.26)",
+      "semi": "grey-9 × 0.35",
+      "source": "packages/tokens/tokens/semantic/light.json",
+      "note": "AntD 同值，且已按 03 §3.1 豁免对比度。"
+    },
+    {
+      "verdict": "deliberate",
+      "dimension": "危险色",
+      "scui": "#dc2626",
+      "antd": "#ff4d4f",
+      "tdesign": "品牌红阶（--td-error-color）",
+      "semi": "red-5（#f93920 系）",
+      "source": "packages/tokens/scripts/palette.mjs · BASES.light.red",
+      "note": "刻意偏离：AntD #ff4d4f 对白底仅 ≈3.3:1，做正文级错误提示不合规；#dc2626 更深但保住了 AA。"
+    },
+    {
+      "verdict": "consistent",
+      "dimension": "基准字号",
+      "scui": "14px（--scui-font-size-md；body 基线同步 14/22，2026-11-12 对齐）",
+      "antd": "14px",
+      "tdesign": "14px",
+      "semi": "14px",
+      "source": "packages/tokens/tokens/primitive/type.json · packages/core/src/styles/base.scss",
+      "note": "原为 16px（typography 借 --scui-space-4），与三家 14 相反且违反 03 §1「高效优先」。2026-11-12 已按 03 §4.2 建 fontSize/lineHeight token 并落到 body 基线，实测产物 --scui-font-size-md: 14px。"
+    },
+    {
+      "verdict": "deliberate",
+      "dimension": "字号阶",
+      "scui": "12 / 13 / 14 / 16 / 20 / 24 / 30 / 38（03 §4.2 八档，已全部落地）",
+      "antd": "12 / 14 / 16 / 20 / 24（genFontSizes 生成）",
+      "tdesign": "12 / 14 / 16 / 24 / 28 / 36",
+      "semi": "12 / 14 / 16 / 18 / 20 / 24 / 28 / 32",
+      "source": "packages/tokens/tokens/primitive/type.json",
+      "note": "与三家重叠 12/14/16/20/24 五档。13（紧凑表格）是 §4.2 独有；顶端 30/38 对应 TDesign 的 28/36、Semi 的 28/32，属规范已冻结的取值差异，不构成偏离依据缺失 —— 依据是 §4.2 正文。"
+    },
+    {
+      "verdict": "gap",
+      "dimension": "排版 token 是否存在",
+      "scui": "font-size / line-height（8 档各 8 个变量）+ font-family / font-family-code（按 03 §4.1 系统字体栈）均已建 token",
+      "antd": "fontSize* / lineHeight* 全套语义 token",
+      "tdesign": "--td-font-size-* / --td-text-line-height-* / --td-font-body-*",
+      "semi": "$font-size-* / 组件级行高变量",
+      "source": "packages/tokens/dist/css/tokens.css:89-109 · packages/core/src/styles/base.scss",
+      "note": "2026-11-12 两次补齐：先字号与行高（Typography / Divider / Textarea 计数器 / Form 错误文案从「借 space 当字号」与「写死 0.875em、1.5」改为引用 token），再补字族（body 用 :where() 零特异性声明，消费方一条普通规则即可覆盖）。同时清掉 `scui-monospace`：全仓 4 处引用、0 处 @font-face 定义，是永远不会解析的死名。"
+    },
+    {
+      "verdict": "deliberate",
+      "dimension": "图标尺寸",
+      "scui": "sm 12 / md 16 / lg 20（--scui-icon-size-*；改前为 8 / 12 / 16）",
+      "antd": "`.anticon` 继承 1em（基准 14）",
+      "tdesign": "--td-comp-size-xs 16 起（图标取 comp-size 档）",
+      "semi": "8 / 12 / 16 / 20 / 24 五档（extra-small…extra-large）",
+      "source": "packages/tokens/tokens/primitive/type.json · packages/core/src/components/icon/icon.scss",
+      "note": "改前 8/12/16 是「space-2/3/4 的副产物」：medium 12 比正文 14 还小，且直接违反 03 §10「默认 16px；导航/工具栏 20px」。对齐 Semi 的 small/default/large 三档后，medium=16 才等于主流默认。只取三档、不取 8 与 24，是因为 8px 图标在 14px 正文旁不可辨、24 交给空状态独立取值。"
+    },
+    {
+      "verdict": "consistent",
+      "dimension": "控件高度三档",
+      "scui": "24 / 32 / 40",
+      "antd": "24 / 32 / 40（controlHeight 32 × 0.75 / 1 / 1.25）",
+      "tdesign": "24 / 32 / 40（comp-size-xs/m/xl）",
+      "semi": "24 / 32 / 40",
+      "source": "packages/tokens/tokens/component/button.json",
+      "note": "四家完全一致，是本次对照里最干净的一项。"
+    },
+    {
+      "verdict": "deliberate",
+      "dimension": "按钮圆角",
+      "scui": "6px",
+      "antd": "6px（borderRadius 全局值）",
+      "tdesign": "3px",
+      "semi": "3px",
+      "source": "packages/tokens/tokens/component/button.json",
+      "note": "选了 AntD 一路。要写明这是路线选择而非疏漏，否则后续每接一个组件都会被问一次。"
+    },
+    {
+      "verdict": "gap",
+      "dimension": "圆角标尺",
+      "scui": "4 / 6 / 8",
+      "antd": "2 / 4 / 6 / 8（+ outer 4）",
+      "tdesign": "2 / 3 / 6 / 9",
+      "semi": "3 / 6 / 12",
+      "source": "packages/tokens/tokens/primitive/scale.json",
+      "note": "缺 2px（tag / badge / checkbox / 小标签）与 12px（modal / drawer 容器）。落地 Tag、Modal 时必然要新增，提前补比临时加更稳。"
+    },
+    {
+      "verdict": "gap",
+      "dimension": "间距标尺",
+      "scui": "4 / 8 / 12 / 16 / 24 / 32",
+      "antd": "4 / 8 / 12 / 16 / 20 / 24 / 32 / 48",
+      "tdesign": "2 / 4 / 6 / 8 / 12 / 16 / 20 / 24 / … / 72",
+      "semi": "2 / 4 / 8 / 12 / 16 / 20 / 24 / 32 / 40",
+      "source": "packages/tokens/tokens/primitive/scale.json",
+      "note": "缺 2（描边微调、icon 间隙）与 20（表单行内 gap）、40（页面级留白）。20 缺口已经在 layout/grid 里体现为写死数值，建议同期补。"
+    },
+    {
+      "verdict": "consistent",
+      "dimension": "按钮横向内距",
+      "scui": "12px（space-3）",
+      "antd": "15px（paddingContentHorizontal 16 - lineWidth 1）",
+      "tdesign": "12px（comp-paddingLR-m = size-5）",
+      "semi": "12px（spacing-base-tight）",
+      "source": "packages/core/src/components/button/button.scss:5",
+      "note": "三家两票 12，我们跟了多数派；AntD 的 15 属其历史包袱，不必跟。"
+    },
+    {
+      "verdict": "consistent",
+      "dimension": "边框宽度",
+      "scui": "1px",
+      "antd": "1px（lineWidth）",
+      "tdesign": "1px",
+      "semi": "1px（border-thickness-control）",
+      "source": "packages/core/src/components/button/button.scss:19",
+      "note": "一致。"
+    },
+    {
+      "verdict": "deliberate",
+      "dimension": "控件边框色",
+      "scui": "#949494（对白底 ≈3.0:1）",
+      "antd": "#d9d9d9（≈1.4:1）",
+      "tdesign": "#ddd（≈1.3:1）",
+      "semi": "grey 系浅描边",
+      "source": "packages/tokens/tokens/semantic/light.json · border.strong",
+      "note": "刻意偏离，依据 WCAG 1.4.11「非文本对比度 ≥3:1」。代价是与国内主流后台观感差异明显（我们更深），这是设计评审必须知情的取舍，不能只留在 token 注释里。"
+    },
+    {
+      "verdict": "gap",
+      "dimension": "阴影层级",
+      "scui": "无（08 文档提到 shadow，产物里没有）",
+      "antd": "3 层（Tertiary / Secondary / 主 boxShadow）",
+      "tdesign": "--td-shadow-1/2/3",
+      "semi": "elevated / floating / knob",
+      "source": "packages/tokens/dist/css/tokens.css（无 shadow 段）",
+      "note": "Dropdown / Select 弹层、Modal 现在都用裸 border 或浏览器默认阴影顶着。落地 Modal 前必须补 shadow-popup / shadow-modal 两档。"
+    },
+    {
+      "verdict": "gap",
+      "dimension": "层级阶梯",
+      "scui": "无 z-index token，app.scss 用 calc(var(--scui-z-index-base, 0) + 1000) 兜底",
+      "antd": "zIndexPopupBase 1000 + 各层级派生",
+      "tdesign": "--td-z-index-* 阶梯",
+      "semi": "z-index 常量表",
+      "source": "packages/core/src/components/app/app.scss:14",
+      "note": "fallback 说明「token 不存在」这件事代码里自己承认了。补 5 档（dropdown/sticky/modal/drawer/message）即可，不需要照抄 20 档。"
+    },
+    {
+      "verdict": "undecided",
+      "dimension": "动效档位",
+      "scui": "单档 120ms + cubic-bezier(0.2,0,0,1)",
+      "antd": "100 / 200 / 300ms + 5 条曲线",
+      "tdesign": "transition: all 0.2s linear（组件内联）",
+      "semi": "组件级 transition 变量",
+      "source": "packages/tokens/tokens/semantic/light.json · motion",
+      "note": "单档够用，但 Modal / Drawer 的进出场 120ms 偏快（AntD 用 200–300ms）。建议保留 fast 120ms，补 slow 240ms，而不是引 5 条曲线。"
+    },
+    {
+      "verdict": "pending",
+      "dimension": "表格密度（未实现）",
+      "scui": "04 §5.1 已锚定目标：默认 12/12，可选 16/16（舒适）、8/8（紧凑）；Table 未实现",
+      "antd": "cellPaddingBlock 16 / Inline 16；md 12 / 8；sm 8 / 8",
+      "tdesign": "comp-size 阶梯 + 行内 padding",
+      "semi": "表格行高变量",
+      "source": "antd/es/table/style/index.js:207-212",
+      "note": "表格是核心场景。2026-11-12 已把目标值写进 04 §5.1，明确不沿用 AntD 默认 16/16：我们坚持高密度就从 12/12 起。落地时直接按此实现，不再二次讨论。"
+    }
+  ]
+}

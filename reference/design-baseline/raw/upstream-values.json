@@ -1,0 +1,148 @@
+{
+  "generatedAt": "2026-11-12T03:34:49.263Z",
+  "note": "由 refresh.mjs 从 .cache/ 内上游包抽取，数值出处见各 source 字段；判定见 compare.json。",
+  "antd": {
+    "version": "6.7.0",
+    "source": "antd/es/theme/themes/seed.js + shared/genSizeMapToken.js|genRadius.js|genCommonMapToken.js",
+    "colorPrimary": "#1677ff",
+    "colorSuccess": "#52c41a",
+    "colorWarning": "#faad14",
+    "colorError": "#ff4d4f",
+    "fontSize": 14,
+    "borderRadius": 6,
+    "controlHeight": 32,
+    "lineWidth": 1,
+    "sizeStep": 4,
+    "sizeUnit": 4,
+    "controlHeightScale": {
+      "small": 24,
+      "medium": 32,
+      "large": 40
+    },
+    "sizeScale": {
+      "xxs": 4,
+      "xs": 8,
+      "sm": 12,
+      "base": 16,
+      "md": 20,
+      "lg": 24,
+      "xl": 32,
+      "xxl": 48
+    },
+    "radiusScale": {
+      "xs": 2,
+      "sm": 4,
+      "base": 6,
+      "lg": 8,
+      "outer": 4
+    },
+    "motionDuration": {
+      "fast": "100ms",
+      "mid": "200ms",
+      "slow": "300ms"
+    },
+    "textAlpha": {
+      "primary": 0.88,
+      "secondary": 0.65,
+      "tertiary": 0.45,
+      "disabled": 0.25
+    },
+    "border": {
+      "control": "#d9d9d9（colorBorder = 白底混 15% 黑）",
+      "split": "#f0f0f0（colorBorderSecondary = 3%）"
+    },
+    "shadowLayers": 3
+  },
+  "tdesign": {
+    "version": "tdesign-vue-next 1.20.11 / tdesign-common main",
+    "source": "tdesign-vue-next/es/style/index.css（--td-*）+ tdesign-common/style/web/_variables.less",
+    "brandColor6": "#366ef4",
+    "brandColor5": "#618dff",
+    "sizeScale": {
+      "1": "2px",
+      "2": "4px",
+      "3": "6px",
+      "4": "8px",
+      "5": "12px",
+      "6": "16px",
+      "7": "20px",
+      "8": "24px",
+      "9": "28px",
+      "10": "32px",
+      "11": "36px",
+      "12": "40px",
+      "13": "48px",
+      "14": "56px",
+      "15": "64px",
+      "16": "72px"
+    },
+    "controlHeight": {
+      "small": "24px",
+      "medium": "32px",
+      "large": "40px"
+    },
+    "radiusScale": {
+      "small": "2px",
+      "base": "3px",
+      "medium": "6px",
+      "large": "9px"
+    },
+    "fontSizes": {
+      "bodySmall": "12px",
+      "bodyMedium": "14px",
+      "bodyLarge": "16px"
+    },
+    "textColors": {
+      "primary": "rgba(0, 0, 0, 0.9)",
+      "secondary": "rgba(0, 0, 0, 0.6)",
+      "placeholder": "rgba(0, 0, 0, 0.4)",
+      "disabled": "rgba(0, 0, 0, 0.26)"
+    },
+    "borderColors": {
+      "level1": "#e8e8e8",
+      "level2": "#ddd"
+    },
+    "shadowLayers": 3
+  },
+  "semi": {
+    "version": "2.104.0",
+    "source": "@douyinfe/semi-theme-default/scss/{variables,global}.scss",
+    "colorPrimary": "rgba(0, 100, 250, 1)（--semi-blue-5 = 0,100,250）",
+    "controlHeight": {
+      "small": "24px",
+      "medium": "32px",
+      "large": "40px"
+    },
+    "spacingScale": [
+      "2px",
+      "4px",
+      "8px",
+      "12px",
+      "16px",
+      "20px",
+      "24px",
+      "32px",
+      "40px"
+    ],
+    "radiusScale": {
+      "small": "3px",
+      "medium": "6px",
+      "large": "12px"
+    },
+    "fontSizes": {
+      "small": "12px",
+      "regular": "14px",
+      "header6": "16px",
+      "header5": "18px",
+      "header4": "20px"
+    },
+    "textAlpha": {
+      "primary": 1,
+      "secondary": 0.8,
+      "tertiary": 0.62,
+      "disabled": 0.35
+    },
+    "borderThickness": "1px",
+    "shadowLayers": 3
+  }
+}

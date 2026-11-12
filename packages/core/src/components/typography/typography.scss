@@ -3,8 +3,8 @@
 :where(.scui-typography) {
   margin: 0;
   color: inherit;
-  font-size: var(--scui-space-4);
-  line-height: var(--scui-space-6);
+  font-size: var(--scui-font-size-md);
+  line-height: var(--scui-line-height-md);
 
   &[data-scui-tone='primary'] {
     color: var(--scui-color-text-primary);
@@ -35,18 +35,18 @@
   }
 
   &[data-scui-size='small'] {
-    font-size: var(--scui-space-3);
-    line-height: var(--scui-space-4);
+    font-size: var(--scui-font-size-xs);
+    line-height: var(--scui-line-height-xs);
   }
 
   &[data-scui-size='medium'] {
-    font-size: var(--scui-space-4);
-    line-height: var(--scui-space-6);
+    font-size: var(--scui-font-size-md);
+    line-height: var(--scui-line-height-md);
   }
 
   &[data-scui-size='large'] {
-    font-size: var(--scui-space-6);
-    line-height: var(--scui-space-8);
+    font-size: var(--scui-font-size-2xl);
+    line-height: var(--scui-line-height-2xl);
   }
 
   &[data-scui-bold='true'] {
@@ -65,7 +65,7 @@
     padding-inline: var(--scui-space-1);
     border-radius: var(--scui-radius-1);
     background: var(--scui-color-neutral-50);
-    font-family: scui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-family: var(--scui-font-family-code);
     font-size: 0.9em;
   }
 

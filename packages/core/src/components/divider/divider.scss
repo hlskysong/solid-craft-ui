@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   color: var(--scui-color-text-secondary);
-  font-size: var(--scui-space-4);
+  font-size: var(--scui-font-size-md);
 
   &[data-scui-orientation='horizontal'] {
     inline-size: 100%;

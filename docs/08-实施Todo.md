@@ -2946,3 +2946,132 @@ T2-08 完成：`solid-craft/form` 交付 `Form` / `Form.Item` / `useForm`，**�
 - **提交链**：Aming 于 2026-11-12 授权「提交T2-07后开始 T2-08」→ T2-07 重跑 `pnpm verify` RC=0 后提交为 `62b7d23`（44 files / +2730 −38，作者 Aming），**未 push**；`main` 领先 `origin/main` 10。T2-08 改动仍在工作区待逐次授权提交。
 - **已知覆盖缺口（T2-13 前置）**：`tests/e2e/demo-list.ts` 的 `demoPath()` 写死 `/components/${slug}/basic?standalone=1`，视觉基线 + axe 只覆盖每组件第一个 Demo；本轮 `validation` / `layout` 两个 Demo 未进截图与 axe，加上 T2-06 的 `context` / `notification`、T2-07 的 `search` / `states`，缺口继续挂在 T2-13（扩面会把截图面扩大到全部 Demo 并重生成基线，属门禁基础设施变更）。
 - **T2-09 接 Form 时不需要改控件**：T2-03~T2-07 已全部读 `FieldContext`，`Form.Item` 本轮已把 `FieldProvider` 的 `ids` 与值 / 状态接齐；T2-09 的范围是「一页真实表单 Demo（新增 + 编辑）端到端可跑」与接入证据。
+
+### 30.25 设计基线数值对标：把「参考三家」变成可核验台账 + 基准字号对齐 14px（2026-11-12）
+
+#### 一、结论先行
+
+Aming 指出「无 Figma」被误当成「无设计输入」。核对后确认：Ant Design / TDesign / Semi 三家均公开 Figma / MasterGo / Sketch 物料，且 npm 包内的变量源比 Figma 更精确。产出 `reference/design-baseline/`（判定真源 `compare.json` 22 项 + 渲染产物 `compare.md` + 可重跑脚本 4 个），锁定上游版本 AntD 6.7.0 / tdesign-vue-next 1.20.11 / Semi 2.104.0。
+
+一项关键更正：**基准字号 16px 不是规范定的，是代码写的**。`docs/03 §4.2` 早就写定 `md = 14px / 行高 22`，而 `typography.scss` 用 `var(--scui-space-4)`（16px）当字号 —— 属实现偏离规范。因此本轮改 14px 的性质是「代码回到规范」，不是「改规范迁就代码」。
+
+#### 二、判定分布与处理
+
+| 判定 | 项数 | 本轮处理 |
+| --- | --- | --- |
+| ✅ 一致 | 7 | 无需动作（控件高度 24/32/40、边框 1px、按钮内距 12、主/次/禁用文本色…） |
+| ⚠️ 刻意偏离 | 6 | 理由已由 §1 新表述与台账「理由」列承接；字号阶由「缺口」转为「规范已冻结的取值差异」 |
+| ❗ 待裁决 | 2 | 基准字号已收口（见第三节）；剩「中性色双轨」待 T2 后续批次 |
+| 🕳 能力缺口 | 6 | 排版一项收敛为**仅剩 font-family**；阴影 / 层级 / 圆角标尺 / 间距标尺 / 色相覆盖仍待组件排期 |
+| 📌 待落地锚定 | 1 | Table 密度目标已写进 `04 §5.1`（默认 12/12，可选 16/16、8/8） |
+
+#### 三、基准字号 14px：建 token 而不是改字面量
+
+直接原因：只改 `typography.scss` 会留下「拿 space token 当字号」的语义错位，且按钮 / 输入框 / 正文各自继承浏览器默认 16px，只改一处等于只修一半。
+
+| 动作 | 文件 | 结果 |
+| --- | --- | --- |
+| 新建排字 token 源（§4.2 八档字号 + 八档行高） | `packages/tokens/tokens/primitive/type.json` | 产物 `--scui-font-size-{xs…4xl}` / `--scui-line-height-{xs…4xl}` 共 16 个变量（`tokens.css:89-104`） |
+| 接入构建链（两套主题 + JSON 产物） | `packages/tokens/scripts/build.mjs` | `primitiveType` 并入 light / dark 与 `dist/json`；对比度门禁不受影响（114 tokens） |
+| body 基线改为 14 / 22 | `packages/core/src/styles/base.scss` | 消费方引入 `styles.css` 即得正确基准，不再依赖浏览器默认 |
+| `Typography` 三档改引用字号 token | `typography.scss` | small 12/20、medium 14/22、large 24/32（large 数值不变，仅语义归位） |
+| `Divider` 文字改 `--scui-font-size-md` | `divider.scss` | 与正文同档 |
+| Textarea 计数器、Form 错误文案 | `input.scss` / `form.scss` | `0.875em` 与写死 `1.5` 改为 `xs`（12/20），不再随基准字号浮动 |
+
+合计 5 个样式文件 8 处替换，`check:styles` 通过（148 个 `[data-*]` 选择器仍全被 `.scui-` 作用域覆盖）。
+
+#### 四、规范正文回写（Aming 全部采纳，`check:goals --update-baseline` 重校）
+
+| 位置 | 改动 |
+| --- | --- |
+| `03 §1` | 「没有 Figma / 设计稿源文件」拆为「无甲方设计稿」+「三家物料公开」；锁定参考版本；明示以包内变量源为真源 |
+| `03 §2.4`（新增） | 十类 token 落地状态：字号已补，阴影 / 层级 / 字族仍缺（缺口不隐瞒） |
+| `03 §12` | 标题改「无甲方设计稿」；流程图参考环节补「版本锁定 · 包内变量源 · 数值对标台账」；约定新增「改数值前先补台账行」 |
+| `07 Q2 / R4` | Q2 补参考版本与台账指针；R4 缓解措施补判定枚举（「以三家为参考」本身就是风险成因） |
+| `04 §5.1` | Table 密度目标显式化：默认 12/12，不沿用 AntD 默认 16/16 |
+| `04` 验收项 | 差异必须落到 `compare.json` 并给出判定，刻意偏离须附依据 |
+
+`reference/design-baseline/proposed-docs-changes.md` 已随采纳删除（内容全部进了正文与 README 的「本批次已回写」表）；台账四项判定同步更新，避免「数值改了、判定还停在旧结论」。
+
+#### 五、验收（本轮实测）
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm build` / `pnpm test` / `pnpm typecheck` | 4 / 6 / 10 tasks 全绿 |
+| `pnpm test:visual` | 30 tests；**变更基线 8 张**，恰好等于失败集合：overview / typography / space / divider × 2 视口，无扩散 |
+| 基线变更性质 | 逐张看 diff：只有文字重排与随之的 1–2px 位移；控件高度仍由 `--scui-{button,input}-height-*` 锁定 24/32/40，未被字号拖动 |
+| `pnpm test:browser` / `test:docs` / `test:llms` | 8 / 8 / 4 passed |
+| `pnpm size` | Button 1.95 kB（限 6）、Core 85.52 kB（限 180） |
+| 12 项门禁 | `goals / public / docs / llms / todo / decisions / accessors / exports / naming / ci / release / slice / styles` 全 OK |
+
+`check:naming` 本轮新增 `.cache` 到豁免段：`reference/design-baseline/.cache/` 解包的是上游包源码，Semi 自带 `ui-*` 字样，不豁免会得到永远修不完的假红灯（豁免仅限解包缓存，`.cache/` 本身已 gitignore）。
+
+#### 六、边界
+
+- **提交链**：Aming 授权「先提交 T2-08」→ T2-08 提交为 `b97421e`（47 files / +3473 −36，作者 Aming，**未 push**）；`main` 领先 `origin/main` 11。本批次（§30.25）改动仍在工作区，待逐次授权提交。
+- **允许写入路径**：`packages/tokens/tokens/primitive/type.json`（新增）、`packages/tokens/scripts/build.mjs`、`packages/core/src/styles/base.scss`、`packages/core/src/components/{typography,divider,input,form}/*.scss`、`docs/03` / `docs/04` / `docs/07`（经授权回写 + 基线重校）、`scripts/check-naming.mjs`（豁免 `.cache`）、`tests/e2e/baselines/light-ltr-default-{overview,typography,space,divider}-{1280,768}.png`（8 张）、`reference/**`（新增）、`docs/08` 本文件；`AGENTS.md` **仅由 `--update-baseline` 同步标记行**。
+- **未改**：`docs/01` / `02` / `05` / `06`（无对应结论，不动）、`pnpm-lock.yaml`（零新增依赖）、组件 TSX 逻辑（只动样式）、`playwright.config.ts`、CI workflow、任何发布配置；未 push、未 publish。
+- **`reference/` 不参与 `pnpm verify`**：参考资料不是产物，也不该让 CI 联网；`.cache/` 可随时用 `fetch-upstream.mjs` 重建，`raw/upstream-values.json` 才是锁定版本的取值快照，必须入库。
+
+#### 七、遗留（明确不掩盖）
+
+1. **font-family 仍无 token**：组件内写死字族栈，换字体需逐处改；等真实换字需求出现再收口，不提前设计。
+2. **Icon 尺寸仍借 `--scui-space-2/3/4`（8/12/16）**：icon 的 `font-size` 表达的是字形尺寸而非文本字号，属另一类语义（应为 `--scui-icon-size-*`），不在本节范围，已记入 `03 §2.4` 相邻缺口。
+3. **T2-13 覆盖缺口不变**：视觉基线与 axe 仍只覆盖每组件第一个 Demo，扩面会把截图面扩大到全部 Demo。
+
+### 30.26 字族收口与图标尺寸收口：两个「代码违反规范」的实例（2026-11-12）
+
+#### 一、结论先行
+
+Aming 追问「font-family 无 token 是设计考虑还是遗留」，核对后是**遗留**；顺着查图标又发现**同类问题的第二例**。两处都不是设计取舍，都是「规范写了、代码没照做」：
+
+| 项 | 规范怎么说 | 代码怎么做 | 性质 |
+| --- | --- | --- | --- |
+| 字族 | `03 §4.1` 定义 `--ui-font-family` / `--ui-font-family-code` 两条 | 产物里一条都没有；组件全靠继承浏览器默认；`typography` 还引用了一个**从未定义**的 `scui-monospace`（全仓 4 处引用、0 处 `@font-face`） | 遗留 + 死名 |
+| 图标尺寸 | `03 §10` 第一句：默认 16px、导航/工具栏 20px | `--scui-space-2/3/4` = 8 / 12 / 16，**medium 12 比正文 14 还小** | 代码违反规范 |
+
+#### 二、改了什么
+
+| 动作 | 文件 | 结果 |
+| --- | --- | --- |
+| 新增字族 token（§4.1 系统字体栈 + 等宽栈） | `tokens/primitive/type.json` | `--scui-font-family` / `--scui-font-family-code` |
+| body 声明字族 | `core/src/styles/base.scss` | 用 `:where(body)` 零特异性：消费方一条普通 `body` / `.app` 规则即可覆盖，无需 `!important` |
+| 代码字体改用 token | `typography.scss` | `var(--scui-font-family-code)`，同时删掉死名 `scui-monospace`（从未 `@font-face`，一直落到 SFMono-Regular） |
+| 新增图标尺寸 token（12 / 16 / 20） | `tokens/primitive/type.json` | `--scui-icon-size-{sm,md,lg}`，medium=16 即 §10 的「默认 16px」 |
+| 图标三档改引用 token | `icon.scss` | small/medium/large → 12/16/20 |
+| 规范正文回写 | `03 §10` / `03 §2.4` | §10 三档写进 token 名；§2.4 缺口从四类减到三类（字族已落地） |
+
+#### 三、顺带查出一个真缺陷：`size` 档位从未生效
+
+图标 Demo 标着「三档尺寸」，实际三个点一样大。原因不是 CSS，是 Demo 的 `DotIcon` 写死 `<svg width="16" height="16">`，而 `.scui-icon` 只设 `font-size` —— **作者的 `width/height` 属性把字号彻底顶掉了**。
+
+修法：库对子 `svg` 强制 `1em`（`.scui-icon svg { inline-size: 1em; block-size: 1em }`）。这样任何图标（含第三方写死尺寸的）都会跟随 `size` 档位，DX 与 AntD / Semi 一致。修完实测：`small 12×12 / medium 16×16 / large 20×20`。
+
+#### 四、视觉门禁的一个盲区（记入 T2-13）
+
+图标从 16 变成 12/20 后，`pnpm test:visual` **仍然全绿 30/30**。原因是 `playwright.config.ts` 的 `maxDiffPixelRatio: 0.002`：1280×~700 的整页截图允许约 1792 个差异像素，而两个小圆点的面积差只有 300 像素左右 —— 局部微调会被吞掉。
+
+本轮的处理是把 `icon` 两张基线**删掉重生成**（`-u` 不会重写「在容差内通过」的快照），基线现在是真实的 12/16/20。这类「小面积但语义明确」的视觉改动，T2-13 扩面时应考虑按组件收紧阈值或改用局部裁剪比对，不能只靠整页 ratio。
+
+#### 五、验收
+
+| 项 | 结果 |
+| --- | --- |
+| 图标三档实测（chromium channel，与测试同引擎） | `12×12 / 16×16 / 20×20` |
+| `pnpm build` / `test` / `typecheck` | 4 / 6 / 10 tasks 全绿 |
+| `test:visual` | 30 passed；基线变更 10 张（icon 2 张为删除重生成，其余 8 张为上一轮字号改动） |
+| `test:browser` / `docs` / `llms` | 8 / 8 / 4 passed |
+| `pnpm size` | Button 1.95 kB（限 6）、Core **86.55 kB**（限 180，+1.03 kB 来自新增 CSS 变量） |
+| 14 项门禁 | goals / public / docs / llms / todo / decisions / naming / slice / styles / exports / accessors / ci / release / platforms 全 OK |
+
+#### 六、边界
+
+- **允许写入路径**：`packages/tokens/tokens/primitive/type.json`、`packages/core/src/styles/base.scss`、`packages/core/src/components/{typography,icon}/*.scss`、`docs/03`（§10 与 §2.4 回写 + 基线重校）、`tests/e2e/baselines/light-ltr-default-icon-{1280,768}.png`、`reference/design-baseline/compare.{json,md}`、`docs/08` 本文件；`AGENTS.md` 仅由 `--update-baseline` 同步标记行。
+- **未改**：组件 TSX（`Icon.tsx` 的 size prop 契约不变，只补 CSS 兜底）、`pnpm-lock.yaml`（零新增依赖）、CI workflow、任何发布配置；未 push、未 publish。
+- **两处视觉值变化的可逆性**：图标 12/16/20 写在 `type.json` 一处，若要回退或再调，改一个文件重跑 `pnpm build && pnpm test:visual:update` 即可。
+
+#### 七、遗留
+
+1. **阴影 / 层级 token 仍缺**（§2.4 剩三类），Modal / Dropdown 落地前必须补。
+2. **`--scui-checkbox-current-size` / `--scui-radio-current-size` / switch 的 thumb 尺寸仍写死 16px**：那是控件盒尺寸，不是图标尺寸，属另一类语义，等 Checkbox / Radio 精修批次再收。
+3. T2-13 覆盖缺口不变；本节第四节新增一条「阈值会吞小改动」的具体证据。

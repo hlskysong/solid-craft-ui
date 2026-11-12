@@ -139,6 +139,7 @@ const EXEMPT_SEGMENTS = new Set([
   'dist',
   '.git',
   '.turbo',
+  '.cache',
   '.artifacts',
   'coverage',
   'playwright-report',

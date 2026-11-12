@@ -5,16 +5,23 @@
   color: currentcolor;
   line-height: 0;
 
+  /* 图标尺寸由 font-size 表达：强制子 svg 吃 1em，否则 size 档位对写死 width/height 的图标无效 */
+  & svg {
+    inline-size: 1em;
+    block-size: 1em;
+  }
+
+  /* font-size 在这里表达字形尺寸（图标随字号缩放），与文本字号是两条独立标尺。 */
   &[data-scui-size='small'] {
-    font-size: var(--scui-space-2);
+    font-size: var(--scui-icon-size-sm, 12px);
   }
 
   &[data-scui-size='medium'] {
-    font-size: var(--scui-space-3);
+    font-size: var(--scui-icon-size-md, 16px);
   }
 
   &[data-scui-size='large'] {
-    font-size: var(--scui-space-4);
+    font-size: var(--scui-icon-size-lg, 20px);
   }
 
   &[data-scui-tone='primary'] {

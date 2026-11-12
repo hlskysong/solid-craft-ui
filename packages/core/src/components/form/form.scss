@@ -81,8 +81,8 @@
 
 :where(.scui-form-item__error) {
   color: var(--scui-color-danger);
-  font-size: 0.875em;
-  line-height: 1.5;
+  font-size: var(--scui-font-size-xs, 12px);
+  line-height: var(--scui-line-height-xs, 20px);
 
   &:focus-visible {
     @include m.scui-focus-ring;

@@ -48,6 +48,7 @@ const merge = (...objects) => {
 
 const primitiveColor = readJson(join(tokensRoot, 'primitive', 'color.json'));
 const primitiveScale = readJson(join(tokensRoot, 'primitive', 'scale.json'));
+const primitiveType = readJson(join(tokensRoot, 'primitive', 'type.json'));
 const component = readJson(join(tokensRoot, 'component', 'button.json'));
 const semanticLight = readJson(join(tokensRoot, 'semantic', 'light.json'));
 const semanticDark = readJson(join(tokensRoot, 'semantic', 'dark.json'));
@@ -59,8 +60,8 @@ const palettePaths = new Set(flatten(paletteLight).keys());
 const darkOverridePaths = new Set([...palettePaths, ...flatten(semanticDark).keys()]);
 
 const tokenSets = {
-  light: merge(paletteLight, primitiveColor, primitiveScale, component, semanticLight),
-  dark: merge(paletteDark, primitiveColor, primitiveScale, component, semanticDark),
+  light: merge(paletteLight, primitiveColor, primitiveScale, primitiveType, component, semanticLight),
+  dark: merge(paletteDark, primitiveColor, primitiveScale, primitiveType, component, semanticDark),
 };
 
 const cssOptions = (selector) => ({
@@ -171,7 +172,7 @@ writeFileSync(
   join(outDir, 'json', 'tokens.json'),
   `${JSON.stringify(
     {
-      primitive: flatValues(merge(primitiveColor, primitiveScale), 'light'),
+      primitive: flatValues(merge(primitiveColor, primitiveScale, primitiveType), 'light'),
       component: flatValues(component, 'light'),
       light: flatValues(semanticLight, 'light'),
       dark: flatValues(semanticDark, 'dark'),
