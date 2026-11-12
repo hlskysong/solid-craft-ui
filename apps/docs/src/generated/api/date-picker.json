@@ -1,0 +1,131 @@
+{
+  "slug": "date-picker",
+  "source": "packages/core/src/components/date-picker/types.ts",
+  "interfaces": [
+    {
+      "name": "DatePickerProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'onChange' | 'onInput'\n>",
+      "props": [
+        {
+          "name": "value",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "受控值（ISO `YYYY-MM-DD`）；支持传值或 getter。 与 `defaultValue` 二选一，传了即为受控。",
+          "default": "undefined"
+        },
+        {
+          "name": "defaultValue",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "非受控初始值；仅在挂载时读取一次。",
+          "default": "undefined"
+        },
+        {
+          "name": "onChange",
+          "type": "DatePickerChangeHandler",
+          "optional": true,
+          "description": "选中回调；参数是 ISO 字符串，清空时为 `''`。",
+          "default": "undefined"
+        },
+        {
+          "name": "min",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "最小可选日期（含），ISO `YYYY-MM-DD`；越界日期在日历里禁用，手输也会被拒。",
+          "default": "undefined"
+        },
+        {
+          "name": "max",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "最大可选日期（含），ISO `YYYY-MM-DD`。",
+          "default": "undefined"
+        },
+        {
+          "name": "disabledDate",
+          "type": "(date: DatePickerDateValue) => boolean",
+          "optional": true,
+          "description": "自定义禁用判定；与 `min` / `max` 叠加生效。",
+          "default": "undefined"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "optional": true,
+          "description": "显示格式，token 子集 `YYYY` / `MM` / `M` / `DD` / `D`。",
+          "default": "'YYYY-MM-DD'"
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "DatePickerWeekStart",
+          "optional": true,
+          "description": "周首日。",
+          "default": "'mon'"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "optional": true,
+          "description": "输入框占位文案。",
+          "default": "'YYYY-MM-DD'"
+        },
+        {
+          "name": "size",
+          "type": "DatePickerSize",
+          "optional": true,
+          "description": "尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "status",
+          "type": "DatePickerStatus",
+          "optional": true,
+          "description": "校验态；被 `<Form.Item>` 包裹时默认跟随字段状态。",
+          "default": "'default'"
+        },
+        {
+          "name": "disabled",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "禁用；与 `<Form disabled>` 取或。",
+          "default": "false"
+        },
+        {
+          "name": "allowClear",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否显示清除按钮（有值时出现）。",
+          "default": "false"
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "optional": true,
+          "description": "清除按钮的无障碍文案。",
+          "default": "'清除'"
+        },
+        {
+          "name": "todayLabel",
+          "type": "string",
+          "optional": true,
+          "description": "「今天」按钮文案。",
+          "default": "'今天'"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": true,
+          "description": "表单字段名（原生 `input` 的 `name`）。",
+          "default": "undefined"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "附加类名。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

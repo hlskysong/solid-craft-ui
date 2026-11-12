@@ -15,7 +15,8 @@
     "switch",
     "app",
     "select",
-    "form"
+    "form",
+    "date-picker"
   ],
   "components": [
     {
@@ -375,6 +376,28 @@
           "path": "packages/core/src/components/form/demos/validation.tsx",
           "title": "校验规则",
           "description": "必填、长度、正则、类型与自定义规则按数组顺序执行，失败时展示错误并回显结果。"
+        }
+      ]
+    },
+    {
+      "slug": "date-picker",
+      "title": "DatePicker 日期选择",
+      "category": "表单",
+      "description": "单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。",
+      "exportPath": "solid-craft/date-picker",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/date-picker/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "非受控与受控两种取值方式、显示格式、清除与三档尺寸。"
+        },
+        {
+          "name": "constraints",
+          "path": "packages/core/src/components/date-picker/demos/constraints.tsx",
+          "title": "可选范围",
+          "description": "min / max 闭区间、disabledDate 自定义禁用，以及错误与禁用态。"
         }
       ]
     }

@@ -147,6 +147,33 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await expect(name).toHaveValue('');
     await expect(cityTrigger).toContainText('请选择城市');
   });
+
+  // T2-10：日历只在 open 时挂载，basic 静态扫描看不到它，交互路径单独钉住。
+  test('DatePicker 日历：点格取值、方向键移动、Esc 关闭', async ({ page }) => {
+    await page.goto(demoPath('date-picker'));
+    // input 的 role 是 combobox（可编辑 combobox + dialog 弹层），不是 textbox。
+    const input = page.getByRole('combobox', { name: '入职日期（非受控）' });
+    const calendar = page.locator('[data-scui-role="calendar"]');
+    await expect(input).toHaveValue('2026-03-15');
+
+    await input.click();
+    await expect(calendar).toBeVisible();
+    await expect(calendar.locator('button[data-scui-day]')).toHaveCount(42);
+
+    await page.locator('button[data-scui-day="2026-03-20"]').click();
+    await expect(input).toHaveValue('2026-03-20');
+    await expect(calendar).toHaveCount(0);
+
+    await input.click();
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('Enter');
+    await expect(input).toHaveValue('2026-03-21');
+
+    await input.click();
+    await expect(calendar).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(calendar).toHaveCount(0);
+  });
 });
 
 test.describe('A11y 链：axe 扫描', () => {
@@ -196,6 +223,35 @@ test.describe('A11y 链：axe 扫描', () => {
         .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
         .join(', ')}`,
     );
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
+  // T2-10：日历弹层同样只在展开时存在，必须在 open 之后单独扫一次
+  // （role=grid / gridcell / roving tabindex 的 ARIA 组合才第一次真正参与计算）。
+  test('DatePicker 展开日历后无 serious / critical 违规', async ({ page }) => {
+    await page.goto(demoPath('date-picker'));
+    await page.getByRole('combobox', { name: '入职日期（非受控）' }).click();
+    await expect(page.locator('[data-scui-role="calendar"]')).toBeVisible();
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] date-picker/open: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
     expect(
       serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
     ).toEqual([]);

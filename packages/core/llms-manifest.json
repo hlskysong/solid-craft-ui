@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 66,
+  "pageCount": 69,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -83,6 +83,11 @@
     {
       "path": "llms/exports/select.md",
       "title": "# Select 选择器（`solid-craft/select`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/date-picker.md",
+      "title": "# DatePicker 日期选择（`solid-craft/date-picker`）",
       "kind": "exports"
     },
     {
@@ -339,6 +344,16 @@
       "path": "llms/demos/form-validation.md",
       "title": "# Form 表单 · 校验规则（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/date-picker-basic.md",
+      "title": "# DatePicker 日期选择 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/date-picker-constraints.md",
+      "title": "# DatePicker 日期选择 · 可选范围（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -356,6 +371,7 @@
     "./switch": "llms/exports/switch.md",
     "./app": "llms/exports/app.md",
     "./select": "llms/exports/select.md",
+    "./date-picker": "llms/exports/date-picker.md",
     "./form": "llms/exports/form.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
@@ -378,6 +394,7 @@
     "llms/exports/switch.md",
     "llms/exports/app.md",
     "llms/exports/select.md",
+    "llms/exports/date-picker.md",
     "llms/exports/form.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
@@ -429,7 +446,9 @@
     "llms/demos/form-basic.md",
     "llms/demos/form-layout.md",
     "llms/demos/form-real-form.md",
-    "llms/demos/form-validation.md"
+    "llms/demos/form-validation.md",
+    "llms/demos/date-picker-basic.md",
+    "llms/demos/date-picker-constraints.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

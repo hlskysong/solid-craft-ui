@@ -39,6 +39,7 @@
 | `select-all` / `sort-trigger` | Table | 交互锚点 |
 | `table` / `table-scroll` | Table | 结构锚点 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
+| `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
 | `form` / `form-item` / `field-error` / `form-submit` | Form | 结构锚点 |
 | `input` / `input-clear` / `input-password-toggle` / `input-search` | Input | 结构锚点（T2-03） |
 | `input-number` / `input-number-up` / `input-number-down` | Input（InputNumber） | 结构锚点（T2-04） |

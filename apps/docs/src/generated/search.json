@@ -1897,6 +1897,146 @@
     "href": "/components/form#api-children"
   },
   {
+    "type": "component",
+    "title": "DatePicker 日期选择",
+    "description": "单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。",
+    "keywords": "date-picker solid-craft/date-picker",
+    "href": "/components/date-picker"
+  },
+  {
+    "type": "demo",
+    "title": "DatePicker 日期选择 · 基础用法",
+    "description": "非受控与受控两种取值方式、显示格式、清除与三档尺寸。",
+    "keywords": "date-picker basic",
+    "href": "/components/date-picker/basic"
+  },
+  {
+    "type": "demo",
+    "title": "DatePicker 日期选择 · 可选范围",
+    "description": "min / max 闭区间、disabledDate 自定义禁用，以及错误与禁用态。",
+    "keywords": "date-picker constraints",
+    "href": "/components/date-picker/constraints"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.value",
+    "description": "受控值（ISO `YYYY-MM-DD`）；支持传值或 getter。 与 `defaultValue` 二选一，传了即为受控。",
+    "keywords": "date-picker MaybeAccessor<string>",
+    "href": "/components/date-picker#api-value"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.defaultValue",
+    "description": "非受控初始值；仅在挂载时读取一次。",
+    "keywords": "date-picker MaybeAccessor<string>",
+    "href": "/components/date-picker#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.onChange",
+    "description": "选中回调；参数是 ISO 字符串，清空时为 `''`。",
+    "keywords": "date-picker DatePickerChangeHandler",
+    "href": "/components/date-picker#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.min",
+    "description": "最小可选日期（含），ISO `YYYY-MM-DD`；越界日期在日历里禁用，手输也会被拒。",
+    "keywords": "date-picker MaybeAccessor<string>",
+    "href": "/components/date-picker#api-min"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.max",
+    "description": "最大可选日期（含），ISO `YYYY-MM-DD`。",
+    "keywords": "date-picker MaybeAccessor<string>",
+    "href": "/components/date-picker#api-max"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.disabledDate",
+    "description": "自定义禁用判定；与 `min` / `max` 叠加生效。",
+    "keywords": "date-picker (date: DatePickerDateValue) => boolean",
+    "href": "/components/date-picker#api-disabledDate"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.format",
+    "description": "显示格式，token 子集 `YYYY` / `MM` / `M` / `DD` / `D`。",
+    "keywords": "date-picker string",
+    "href": "/components/date-picker#api-format"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.weekStartsOn",
+    "description": "周首日。",
+    "keywords": "date-picker DatePickerWeekStart",
+    "href": "/components/date-picker#api-weekStartsOn"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.placeholder",
+    "description": "输入框占位文案。",
+    "keywords": "date-picker string",
+    "href": "/components/date-picker#api-placeholder"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.size",
+    "description": "尺寸。",
+    "keywords": "date-picker DatePickerSize",
+    "href": "/components/date-picker#api-size"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.status",
+    "description": "校验态；被 `<Form.Item>` 包裹时默认跟随字段状态。",
+    "keywords": "date-picker DatePickerStatus",
+    "href": "/components/date-picker#api-status"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.disabled",
+    "description": "禁用；与 `<Form disabled>` 取或。",
+    "keywords": "date-picker MaybeAccessor<boolean>",
+    "href": "/components/date-picker#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.allowClear",
+    "description": "是否显示清除按钮（有值时出现）。",
+    "keywords": "date-picker boolean",
+    "href": "/components/date-picker#api-allowClear"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.clearLabel",
+    "description": "清除按钮的无障碍文案。",
+    "keywords": "date-picker string",
+    "href": "/components/date-picker#api-clearLabel"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.todayLabel",
+    "description": "「今天」按钮文案。",
+    "keywords": "date-picker string",
+    "href": "/components/date-picker#api-todayLabel"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.name",
+    "description": "表单字段名（原生 `input` 的 `name`）。",
+    "keywords": "date-picker string",
+    "href": "/components/date-picker#api-name"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.class",
+    "description": "附加类名。",
+    "keywords": "date-picker string",
+    "href": "/components/date-picker#api-class"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

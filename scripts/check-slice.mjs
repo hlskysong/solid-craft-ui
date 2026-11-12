@@ -37,7 +37,13 @@ let sliceCount = 0;
 const fail = (message) => errors.push(message);
 const read = (abs) => (existsSync(abs) ? readFileSync(abs, 'utf8') : '');
 const isFile = (abs) => existsSync(abs) && statSync(abs).isFile();
-const pascal = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+// 目录 kebab-case、组件文件 PascalCase（docs/06 §2 命名表：components/date-picker/ → DatePicker.tsx）。
+// 只取首字母大写会把 kebab 目录算成「Date-picker」，T2-10 首个多词组件就在这里假红。
+const pascal = (name) =>
+  name
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
 
 /**
  * 剥离块注释与行注释。判据读的是「真实代码」而不是「源码里出现过这个字符串」：

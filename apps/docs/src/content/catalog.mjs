@@ -126,6 +126,15 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/form',
     hasApi: true,
   },
+  {
+    slug: 'date-picker',
+    title: 'DatePicker 日期选择',
+    category: '表单',
+    description:
+      '单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。',
+    exportPath: 'solid-craft/date-picker',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

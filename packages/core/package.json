@@ -107,6 +107,12 @@
       "import": "./dist/esm/components/select/index.js",
       "default": "./dist/esm/components/select/index.js"
     },
+    "./date-picker": {
+      "types": "./dist/types/components/date-picker/index.d.ts",
+      "solid": "./dist/source/components/date-picker/index.jsx",
+      "import": "./dist/esm/components/date-picker/index.js",
+      "default": "./dist/esm/components/date-picker/index.js"
+    },
     "./form": {
       "types": "./dist/types/components/form/index.d.ts",
       "solid": "./dist/source/components/form/index.jsx",

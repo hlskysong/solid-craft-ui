@@ -1,5 +1,5 @@
 /**
- * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-09）。
+ * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-10）。
  *
  * 用 Vite 的 ssrLoadModule 把入口 TSX 按服务端条件编译，再调 renderToString，
  * 验证：① 不抛 Client-only API；② 双次 renderToString 逐字一致（无 today() / 随机漂移）；
@@ -283,6 +283,39 @@ const cases = [
       ['data-scui-role="select-empty"', 0],
       ['张三', 1],
       ['邯郸', 1],
+    ],
+  },
+  {
+    id: 'T2-10',
+    file: '/src/components/date-picker/__tests__/ssr-entry.tsx',
+    markers: [
+      'data-scui-role="date-picker"',
+      'data-scui-role="date-input"',
+      'data-scui-size="small"',
+      'data-scui-size="medium"',
+      'data-scui-invalid="false"',
+      'data-scui-invalid="true"',
+      'data-scui-disabled=""',
+      'data-scui-role="date-clear"',
+      'aria-haspopup="dialog"',
+      'role="combobox"',
+      'aria-expanded="false"',
+      'lang="zh-CN"',
+      'aria-label="签署日期"',
+      'placeholder="YYYY-MM-DD"',
+      '2026年3月15日',
+    ],
+    counts: [
+      ['data-scui-role="date-picker"', 3],
+      ['data-scui-role="date-input"', 3],
+      ['data-scui-role="calendar"', 0],
+      ['data-scui-day=', 0],
+      ['data-scui-role="date-today"', 0],
+      ['data-scui-role="date-clear"', 1],
+      ['data-scui-invalid="false"', 2],
+      ['data-scui-invalid="true"', 1],
+      ['aria-expanded="false"', 3],
+      ['role="combobox"', 3],
     ],
   },
 ];

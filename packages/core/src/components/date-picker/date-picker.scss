@@ -1,0 +1,232 @@
+@use 'mixins' as m;
+
+/* DatePicker（T2-10）
+   状态一律 [data-scui-*] 且带 .scui- 静态类作用域，类名只有块与元素两级（无 modifier）。
+   弹层内联在根节点内（position: absolute），可直接继承 root 的 --scui-date-picker-* 变量；
+   选择器不写裸 [data-*]，避免与 Kobalte 等第三方原语的同名属性互串（R1）。 */
+
+:where(.scui-date-picker) {
+  --scui-date-picker-height: 32px;
+  --scui-date-picker-padding: var(--scui-space-3, 12px);
+  --scui-date-picker-border: var(--scui-color-border-strong);
+  --scui-date-picker-accent: var(--scui-color-primary);
+  --scui-date-picker-danger: var(--scui-color-danger);
+  --scui-date-picker-radius: var(--scui-space-1, 4px);
+
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  inline-size: 100%;
+  max-inline-size: 260px;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+
+  &[data-scui-size='small'] {
+    --scui-date-picker-height: 24px;
+    --scui-date-picker-padding: var(--scui-space-2, 8px);
+  }
+
+  &[data-scui-size='large'] {
+    --scui-date-picker-height: 40px;
+    --scui-date-picker-padding: var(--scui-space-4, 16px);
+  }
+
+  &[data-scui-invalid='true'] .scui-date-picker__input {
+    border-color: var(--scui-date-picker-danger);
+  }
+
+  &[data-scui-open] .scui-date-picker__input {
+    border-color: var(--scui-date-picker-accent);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-date-picker__input) {
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: var(--scui-date-picker-height, 32px);
+  padding-inline: var(--scui-date-picker-padding, 12px);
+  border: 1px solid var(--scui-date-picker-border);
+  border-radius: var(--scui-date-picker-radius, 4px);
+  background: var(--scui-color-bg-surface);
+  color: inherit;
+  font: inherit;
+
+  &::placeholder {
+    color: var(--scui-color-text-tertiary);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--scui-date-picker-accent);
+  }
+
+  &:focus-visible {
+    border-color: var(--scui-date-picker-accent);
+
+    @include m.scui-focus-ring;
+  }
+
+  &:disabled {
+    background: var(--scui-color-bg-surface);
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-date-picker__clear) {
+  position: absolute;
+  inset-inline-end: 8px;
+  inset-block-start: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 18px;
+  block-size: 18px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+  color: var(--scui-color-text-secondary);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-date-picker__popup) {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 1000;
+  inset-block-start: calc(100% + 4px);
+  inset-inline-start: 0;
+  inline-size: 248px;
+  padding: var(--scui-space-2, 8px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-date-picker-radius, 4px);
+  background: var(--scui-color-bg-surface);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  color: var(--scui-color-text-primary);
+  font: inherit;
+}
+
+:where(.scui-date-picker__header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scui-space-2, 8px);
+  margin-block-end: var(--scui-space-2, 8px);
+}
+
+:where(.scui-date-picker__month) {
+  flex: 1;
+  color: var(--scui-color-text-primary);
+  font-weight: var(--scui-font-weight-medium, 500);
+  text-align: center;
+}
+
+:where(.scui-date-picker__nav) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--scui-date-picker-radius, 4px);
+  background: transparent;
+  color: var(--scui-color-text-secondary);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-date-picker__calendar) {
+  inline-size: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  & th {
+    padding-block: 4px;
+    color: var(--scui-color-text-tertiary);
+    font-weight: var(--scui-font-weight-regular, 400);
+    text-align: center;
+  }
+}
+
+:where(.scui-date-picker__day) {
+  inline-size: 100%;
+  block-size: 30px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--scui-date-picker-radius, 4px);
+  background: transparent;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: var(--scui-date-picker-accent);
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+
+  &[data-scui-outside] {
+    color: var(--scui-color-text-tertiary);
+  }
+
+  &[data-scui-selected] {
+    border-color: var(--scui-date-picker-accent);
+    background: var(--scui-date-picker-accent);
+    color: var(--scui-color-text-inverse, #fff);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+}
+
+:where(.scui-date-picker__footer) {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--scui-space-2, 8px);
+  margin-block-start: var(--scui-space-2, 8px);
+  padding-block-start: var(--scui-space-2, 8px);
+  border-block-start: 1px solid var(--scui-color-border-default);
+}
+
+:where(.scui-date-picker__action) {
+  padding: 2px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--scui-date-picker-radius, 4px);
+  background: transparent;
+  color: var(--scui-date-picker-accent);
+  font: inherit;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--scui-date-picker-accent);
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}

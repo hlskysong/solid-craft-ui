@@ -98,6 +98,15 @@ export type {
   FormValidateResult,
   FormValues,
 } from './components/form';
+export { DatePicker } from './components/date-picker';
+export type {
+  DatePickerChangeHandler,
+  DatePickerDateValue,
+  DatePickerProps,
+  DatePickerSize,
+  DatePickerStatus,
+  DatePickerWeekStart,
+} from './components/date-picker';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';
