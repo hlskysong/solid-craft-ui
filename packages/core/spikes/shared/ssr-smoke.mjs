@@ -1,5 +1,5 @@
 /**
- * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 起原语层的 T2-01）。
+ * SSR 冒烟 runner（Phase 0 的 S-02 / S-04 / S-05 / S-06 + M2 的 T2-01~T2-05）。
  *
  * 用 Vite 的 ssrLoadModule 把入口 TSX 按服务端条件编译，再调 renderToString，
  * 验证：① 不抛 Client-only API；② 双次 renderToString 逐字一致（无 today() / 随机漂移）；
@@ -114,6 +114,43 @@ const cases = [
       'aria-label="减少"',
     ],
     counts: [['data-scui-role="input-number"', 4]],
+  },
+  {
+    // T2-05：三件套混渲。服务端必须同时给出 checked 三态（含 mixed）、
+    // Group 的方向 / 结构锚点与 switch 的 role；半选的 indeterminate 是
+    // DOM property，服务端不序列化，只验 aria-checked="mixed"。
+    //
+    // 注意 marker 不能写 `role="switch"`：它是 `data-scui-role="switch"` 的
+    // 子串，即便真的删掉 ARIA role 也照样命中（假判据）。用带前缀的完整片段，
+    // 并用 counts 锁住「恰好 2 个 switch」。
+    id: 'T2-05',
+    file: '/src/components/selection/__tests__/ssr-selection-entry.tsx',
+    markers: [
+      'data-scui-role="checkbox"',
+      'data-scui-checked="mixed"',
+      'aria-checked="mixed"',
+      'data-scui-role="checkbox-group"',
+      'data-scui-orientation="vertical"',
+      'data-scui-role="radio"',
+      'data-scui-role="radio-group"',
+      'data-scui-role="switch"',
+      'type="checkbox" role="switch"',
+      'aria-labelledby="scui-field-',
+    ],
+    // 入口共 11 个 label 壳 + 2 个 Group 壳。逐项核对过来源：
+    //  - checked="false" 5 次：独立 Checkbox 2（未选中 / 禁用）+ Group 未选 1
+    //    + Radio 未选 1 + Switch 关闭 1；
+    //  - checked="true" 5 次：独立 1 + Group 选中 1 + Radio 选中 1
+    //    + Switch 开启 1 + 字段内 1；
+    //  - invalid="false" 13 次：11 个 label 壳 + 2 个 Group 壳，缺一个即
+    //    说明某个组件把「无错也输出 false」退化成 undefined；
+    //  - switch role 2 次：开 / 关各一个。
+    counts: [
+      ['data-scui-checked="false"', 5],
+      ['data-scui-checked="true"', 5],
+      ['data-scui-invalid="false"', 13],
+      ['type="checkbox" role="switch"', 2],
+    ],
   },
 ];
 

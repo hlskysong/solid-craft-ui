@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 41 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 53 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 13 个 exports 子路径、8 个组件页、16 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 16 个 exports 子路径、11 个组件页、25 个 Demo。
 
 ## 关键约定
 
@@ -54,6 +54,9 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Layout 布局](llms/exports/layout.md) | `solid-craft/layout` | Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。 |
 | [Grid 栅格](llms/exports/grid.md) | `solid-craft/grid` | 24 栅格 Row / Col、间距、偏移与响应式断点。 |
 | [Input 输入框](llms/exports/input.md) | `solid-craft/input` | 单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。 |
+| [Checkbox 多选框](llms/exports/checkbox.md) | `solid-craft/checkbox` | 单选 / 半选 / 多选框组，支持选项数组、整组禁用、排列方向与全选联动。 |
+| [Radio 单选框](llms/exports/radio.md) | `solid-craft/radio` | 单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。 |
+| [Switch 开关](llms/exports/switch.md) | `solid-craft/switch` | 带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。 |
 
 - [ConfigProvider 全局配置](llms/exports/config-provider.md) · [样式](llms/exports/styles-css.md) · [按组件样式通配](llms/exports/styles.md) · [package.json](llms/exports/package-json.md)
 
@@ -132,6 +135,9 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/layout` → Layout 布局：Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。
 - `solid-craft/grid` → Grid 栅格：24 栅格 Row / Col、间距、偏移与响应式断点。
 - `solid-craft/input` → Input 输入框：单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。
+- `solid-craft/checkbox` → Checkbox 多选框：单选 / 半选 / 多选框组，支持选项数组、整组禁用、排列方向与全选联动。
+- `solid-craft/radio` → Radio 单选框：单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。
+- `solid-craft/switch` → Switch 开关：带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 
@@ -1651,6 +1657,646 @@ export interface ButtonProps
 
 ---
 
+<!-- source: llms/exports/checkbox.md -->
+
+# Checkbox 多选框（`solid-craft/checkbox`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+单选 / 半选 / 多选框组，支持选项数组、整组禁用、排列方向与全选联动。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/checkbox/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/checkbox/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/checkbox/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/checkbox/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/checkbox';
+```
+
+## API
+
+### CheckboxProps
+
+继承：`Omit<   JSX.InputHTMLAttributes<HTMLInputElement>,   \| 'value'   \| 'checked'   \| 'defaultChecked'   \| 'onChange'   \| 'children'   \| 'size'   \| 'type'   \| 'indeterminate' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `checked` | `MaybeAccessor<boolean>` | `undefined（非受控）` | 受控选中态；支持传值或 getter（`MaybeAccessor`）。 | 否 |
+| `defaultChecked` | `MaybeAccessor<boolean>` | `false` | 非受控初始选中态；仅在挂载时读取一次。 | 否 |
+| `indeterminate` | `MaybeAccessor<boolean>` | `false` | 半选态。只影响展示与 `aria-checked="mixed"`，不改变 `checked` 的值； 原生 `indeterminate` 是 DOM property，由客户端 effect 写入，SSR 不输出属性。 | 否 |
+| `value` | `string` | `undefined` | 在 `CheckboxGroup` 内的选项值；独立使用时只作为原生 `value` 透传。 | 否 |
+| `onChange` | `CheckboxChangeHandler` | `undefined` | 选中态变更回调；第一参数是切换后的布尔值。 | 否 |
+| `size` | `CheckboxSize` | `'medium'` | 尺寸；在 Group 内未显式给出时继承 Group 的尺寸。 | 否 |
+| `status` | `CheckboxStatus` | `'default'` | 校验态；`error` 时输出 `data-scui-invalid="true"`。被 `<Form.Item>` 包裹时字段状态优先。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 文案；由 `<label>` 包裹输入控件，点击文字即可切换。无文案时须自行提供 `aria-label`。 | 否 |
+
+### CheckboxGroupProps
+
+继承：`Omit<   JSX.FieldsetHTMLAttributes<HTMLFieldSetElement>,   'onChange' \| 'children' \| 'defaultValue' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `value` | `MaybeAccessor<string[]>` | `undefined（非受控）` | 受控值（已选中的 `value` 数组）；支持传值或 getter。 | 否 |
+| `defaultValue` | `MaybeAccessor<string[]>` | `[]` | 非受控初始值；仅在挂载时读取一次。 | 否 |
+| `onChange` | `CheckboxGroupChangeHandler` | `undefined` | 整组值变更回调；第一参数是去重后的数组。 | 否 |
+| `options` | `CheckboxOption[]` | `undefined` | 选项写法；给出后忽略 `children`。 | 否 |
+| `disabled` | `boolean` | `false` | 整组禁用。 | 否 |
+| `size` | `CheckboxSize` | `'medium'` | 尺寸；子项未显式传 `size` 时继承本值。 | 否 |
+| `orientation` | `CheckboxOrientation` | `'horizontal'` | 排列方向，落成 `data-scui-orientation`。 | 否 |
+| `name` | `string` | `自动生成` | 原生 name；同组同源，缺省由 `createUniqueId()` 生成（SSR 稳定）。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 手写子项写法：直接放 `<Checkbox value="...">...</Checkbox>`。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/checkbox/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+import type { MaybeAccessor } from '../../utils/resolve-value';
+import type {
+  SelectionChangeEvent,
+  SelectionChangeHandler,
+  SelectionOption,
+  SelectionOrientation,
+  SelectionSize,
+  SelectionStatus,
+} from '../selection/selection-types';
+
+/** 尺寸口径与全局一致：只有 small / medium / large，不存在 md / sm。 */
+export type CheckboxSize = SelectionSize;
+
+/** 校验态。与 `FieldStatus` 同值域，避免控件与表单出现两套状态词。 */
+export type CheckboxStatus = SelectionStatus;
+
+/** `CheckboxGroup` 的排列方向。 */
+export type CheckboxOrientation = SelectionOrientation;
+
+/** `CheckboxGroup.options` 的选项。 */
+export type CheckboxOption = SelectionOption;
+
+/** `Checkbox` 的变更事件。 */
+export type CheckboxChangeEvent = SelectionChangeEvent<HTMLInputElement>;
+
+/** `Checkbox` 的值变更回调；第一参数是切换后的布尔值。 */
+export type CheckboxChangeHandler = SelectionChangeHandler<HTMLInputElement, boolean>;
+
+/** `CheckboxGroup` 的值变更回调；第一参数是去重后的整组值。 */
+export type CheckboxGroupChangeHandler = SelectionChangeHandler<HTMLInputElement, string[]>;
+
+/**
+ * `Checkbox` 的入参。原生属性照常透传，仅覆盖与前者语义冲突的项。
+ *
+ * 受控优先级：`<Form.Item>` 字段 > `checked` > `defaultChecked` / 内部状态；
+ * 在 `CheckboxGroup` 内时由 Group 接管 `checked`，自己的 `checked` 不生效。
+ */
+export interface CheckboxProps extends Omit<
+  JSX.InputHTMLAttributes<HTMLInputElement>,
+  | 'value'
+  | 'checked'
+  | 'defaultChecked'
+  | 'onChange'
+  | 'children'
+  | 'size'
+  | 'type'
+  | 'indeterminate'
+> {
+  /**
+   * 受控选中态；支持传值或 getter（`MaybeAccessor`）。
+   * @default undefined（非受控）
+   */
+  checked?: MaybeAccessor<boolean>;
+  /**
+   * 非受控初始选中态；仅在挂载时读取一次。
+   * @default false
+   */
+  defaultChecked?: MaybeAccessor<boolean>;
+  /**
+   * 半选态。只影响展示与 `aria-checked="mixed"`，不改变 `checked` 的值；
+   * 原生 `indeterminate` 是 DOM property，由客户端 effect 写入，SSR 不输出属性。
+   * @default false
+   */
+  indeterminate?: MaybeAccessor<boolean>;
+  /**
+   * 在 `CheckboxGroup` 内的选项值；独立使用时只作为原生 `value` 透传。
+   * @default undefined
+   */
+  value?: string;
+  /**
+   * 选中态变更回调；第一参数是切换后的布尔值。
+   * @default undefined
+   */
+  onChange?: CheckboxChangeHandler;
+  /**
+   * 尺寸；在 Group 内未显式给出时继承 Group 的尺寸。
+   * @default 'medium'
+   */
+  size?: CheckboxSize;
+  /**
+   * 校验态；`error` 时输出 `data-scui-invalid="true"`。被 `<Form.Item>` 包裹时字段状态优先。
+   * @default 'default'
+   */
+  status?: CheckboxStatus;
+  /**
+   * 文案；由 `<label>` 包裹输入控件，点击文字即可切换。无文案时须自行提供 `aria-label`。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+/** `CheckboxGroup` 的入参。`options` 与 `children` 二选一，`options` 优先。 */
+export interface CheckboxGroupProps extends Omit<
+  JSX.FieldsetHTMLAttributes<HTMLFieldSetElement>,
+  'onChange' | 'children' | 'defaultValue'
+> {
+  /**
+   * 受控值（已选中的 `value` 数组）；支持传值或 getter。
+   * @default undefined（非受控）
+   */
+  value?: MaybeAccessor<string[]>;
+  /**
+   * 非受控初始值；仅在挂载时读取一次。
+   * @default []
+   */
+  defaultValue?: MaybeAccessor<string[]>;
+  /**
+   * 整组值变更回调；第一参数是去重后的数组。
+   * @default undefined
+   */
+  onChange?: CheckboxGroupChangeHandler;
+  /**
+   * 选项写法；给出后忽略 `children`。
+   * @default undefined
+   */
+  options?: CheckboxOption[];
+  /**
+   * 整组禁用。
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * 尺寸；子项未显式传 `size` 时继承本值。
+   * @default 'medium'
+   */
+  size?: CheckboxSize;
+  /**
+   * 排列方向，落成 `data-scui-orientation`。
+   * @default 'horizontal'
+   */
+  orientation?: CheckboxOrientation;
+  /**
+   * 原生 name；同组同源，缺省由 `createUniqueId()` 生成（SSR 稳定）。
+   * @default 自动生成
+   */
+  name?: string;
+  /**
+   * 手写子项写法：直接放 `<Checkbox value="...">...</Checkbox>`。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/checkbox-basic.md)：默认、选中与半选三态，三档尺寸、禁用态与校验态。（源文件 `packages/core/src/components/checkbox/demos/basic.tsx`）
+- [多选框组](llms/demos/checkbox-group.md)：选项数组、手写子项与全选联动，整组值与勾选状态保持同步。（源文件 `packages/core/src/components/checkbox/demos/group.tsx`）
+- [受控状态](llms/demos/checkbox-state.md)：用 createSignal 持有选中值，onChange 回显当前状态，并支持垂直排列。（源文件 `packages/core/src/components/checkbox/demos/state.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/radio.md -->
+
+# Radio 单选框（`solid-craft/radio`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/radio/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/radio/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/radio/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/radio/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/radio';
+```
+
+## API
+
+### RadioProps
+
+继承：`Omit<   JSX.InputHTMLAttributes<HTMLInputElement>,   'value' \| 'checked' \| 'defaultChecked' \| 'onChange' \| 'children' \| 'size' \| 'type' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `checked` | `MaybeAccessor<boolean>` | `undefined（非受控）` | 受控选中态；支持传值或 getter（`MaybeAccessor`）。 | 否 |
+| `defaultChecked` | `MaybeAccessor<boolean>` | `false` | 非受控初始选中态；仅在挂载时读取一次。 | 否 |
+| `value` | `string` | `undefined` | 选项值；在 Group 内必填，独立使用时只作为原生 `value` 透传。 | 否 |
+| `onChange` | `RadioChangeHandler` | `undefined` | 选中态变更回调；第一参数是切换后的布尔值。 | 否 |
+| `size` | `RadioSize` | `'medium'` | 尺寸；在 Group 内未显式给出时继承 Group 的尺寸。 | 否 |
+| `status` | `RadioStatus` | `'default'` | 校验态；`error` 时输出 `data-scui-invalid="true"`。被 `<Form.Item>` 包裹时字段状态优先。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 文案；由 `<label>` 包裹输入控件，点击文字即可选中。无文案时须自行提供 `aria-label`。 | 否 |
+
+### RadioGroupProps
+
+继承：`Omit<   JSX.FieldsetHTMLAttributes<HTMLFieldSetElement>,   'onChange' \| 'children' \| 'defaultValue' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `value` | `MaybeAccessor<string>` | `undefined（非受控）` | 受控值（当前选中的 `value`）；支持传值或 getter。 | 否 |
+| `defaultValue` | `MaybeAccessor<string>` | `''` | 非受控初始值；仅在挂载时读取一次。 | 否 |
+| `onChange` | `RadioGroupChangeHandler` | `undefined` | 选中项变更回调；第一参数是选中项的 `value`。 | 否 |
+| `options` | `RadioOption[]` | `undefined` | 选项写法；给出后忽略 `children`。 | 否 |
+| `disabled` | `boolean` | `false` | 整组禁用。 | 否 |
+| `size` | `RadioSize` | `'medium'` | 尺寸；子项未显式传 `size` 时继承本值。 | 否 |
+| `orientation` | `RadioOrientation` | `'horizontal'` | 排列方向，落成 `data-scui-orientation`。 | 否 |
+| `name` | `string` | `自动生成` | 原生 name；同组同源，缺省由 `createUniqueId()` 生成（SSR 稳定）。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 手写子项写法：直接放 `<Radio value="...">...</Radio>`。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/radio/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+import type { MaybeAccessor } from '../../utils/resolve-value';
+import type {
+  SelectionChangeEvent,
+  SelectionChangeHandler,
+  SelectionOption,
+  SelectionOrientation,
+  SelectionSize,
+  SelectionStatus,
+} from '../selection/selection-types';
+
+/** 尺寸口径与全局一致：只有 small / medium / large，不存在 md / sm。 */
+export type RadioSize = SelectionSize;
+
+/** 校验态。与 `FieldStatus` 同值域，避免控件与表单出现两套状态词。 */
+export type RadioStatus = SelectionStatus;
+
+/** `RadioGroup` 的排列方向。 */
+export type RadioOrientation = SelectionOrientation;
+
+/** `RadioGroup.options` 的选项。 */
+export type RadioOption = SelectionOption;
+
+/** `Radio` 的变更事件。 */
+export type RadioChangeEvent = SelectionChangeEvent<HTMLInputElement>;
+
+/** `Radio` 的值变更回调；第一参数是切换后的布尔值。 */
+export type RadioChangeHandler = SelectionChangeHandler<HTMLInputElement, boolean>;
+
+/** `RadioGroup` 的值变更回调；第一参数是选中项的 `value`。 */
+export type RadioGroupChangeHandler = SelectionChangeHandler<HTMLInputElement, string>;
+
+/**
+ * `Radio` 的入参。原生属性照常透传，仅覆盖与前者语义冲突的项。
+ *
+ * 在 `RadioGroup` 内时由 Group 接管 `checked`；独立使用时走自己的
+ * `checked` / `defaultChecked`，并由 `createUniqueId()` 生成独立 name，
+ * 避免同页多个独立 radio 意外互相排斥。
+ */
+export interface RadioProps extends Omit<
+  JSX.InputHTMLAttributes<HTMLInputElement>,
+  'value' | 'checked' | 'defaultChecked' | 'onChange' | 'children' | 'size' | 'type'
+> {
+  /**
+   * 受控选中态；支持传值或 getter（`MaybeAccessor`）。
+   * @default undefined（非受控）
+   */
+  checked?: MaybeAccessor<boolean>;
+  /**
+   * 非受控初始选中态；仅在挂载时读取一次。
+   * @default false
+   */
+  defaultChecked?: MaybeAccessor<boolean>;
+  /**
+   * 选项值；在 Group 内必填，独立使用时只作为原生 `value` 透传。
+   * @default undefined
+   */
+  value?: string;
+  /**
+   * 选中态变更回调；第一参数是切换后的布尔值。
+   * @default undefined
+   */
+  onChange?: RadioChangeHandler;
+  /**
+   * 尺寸；在 Group 内未显式给出时继承 Group 的尺寸。
+   * @default 'medium'
+   */
+  size?: RadioSize;
+  /**
+   * 校验态；`error` 时输出 `data-scui-invalid="true"`。被 `<Form.Item>` 包裹时字段状态优先。
+   * @default 'default'
+   */
+  status?: RadioStatus;
+  /**
+   * 文案；由 `<label>` 包裹输入控件，点击文字即可选中。无文案时须自行提供 `aria-label`。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+
+/** `RadioGroup` 的入参。`options` 与 `children` 二选一，`options` 优先。 */
+export interface RadioGroupProps extends Omit<
+  JSX.FieldsetHTMLAttributes<HTMLFieldSetElement>,
+  'onChange' | 'children' | 'defaultValue'
+> {
+  /**
+   * 受控值（当前选中的 `value`）；支持传值或 getter。
+   * @default undefined（非受控）
+   */
+  value?: MaybeAccessor<string>;
+  /**
+   * 非受控初始值；仅在挂载时读取一次。
+   * @default ''
+   */
+  defaultValue?: MaybeAccessor<string>;
+  /**
+   * 选中项变更回调；第一参数是选中项的 `value`。
+   * @default undefined
+   */
+  onChange?: RadioGroupChangeHandler;
+  /**
+   * 选项写法；给出后忽略 `children`。
+   * @default undefined
+   */
+  options?: RadioOption[];
+  /**
+   * 整组禁用。
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * 尺寸；子项未显式传 `size` 时继承本值。
+   * @default 'medium'
+   */
+  size?: RadioSize;
+  /**
+   * 排列方向，落成 `data-scui-orientation`。
+   * @default 'horizontal'
+   */
+  orientation?: RadioOrientation;
+  /**
+   * 原生 name；同组同源，缺省由 `createUniqueId()` 生成（SSR 稳定）。
+   * @default 自动生成
+   */
+  name?: string;
+  /**
+   * 手写子项写法：直接放 `<Radio value="...">...</Radio>`。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/radio-basic.md)：独立单选框、三档尺寸、禁用态与校验态。（源文件 `packages/core/src/components/radio/demos/basic.tsx`）
+- [单选框组](llms/demos/radio-group.md)：选项数组与手写子项两种写法，并支持垂直排列。（源文件 `packages/core/src/components/radio/demos/group.tsx`）
+- [受控状态](llms/demos/radio-state.md)：受控 value 配合 onChange 回显，整组禁用时保持当前选中项。（源文件 `packages/core/src/components/radio/demos/state.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/switch.md -->
+
+# Switch 开关（`solid-craft/switch`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/switch/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/switch/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/switch/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/switch/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/switch';
+```
+
+## API
+
+### SwitchProps
+
+继承：`Omit<   JSX.InputHTMLAttributes<HTMLInputElement>,   \| 'value'   \| 'checked'   \| 'defaultChecked'   \| 'onChange'   \| 'children'   \| 'size'   \| 'type'   \| 'role'   \| 'indeterminate' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `checked` | `MaybeAccessor<boolean>` | `undefined（非受控）` | 受控选中态；支持传值或 getter（`MaybeAccessor`）。 | 否 |
+| `defaultChecked` | `MaybeAccessor<boolean>` | `false` | 非受控初始选中态；仅在挂载时读取一次。 | 否 |
+| `onChange` | `SwitchChangeHandler` | `undefined` | 选中态变更回调；第一参数是切换后的布尔值。 | 否 |
+| `size` | `SwitchSize` | `'medium'` | 尺寸。 | 否 |
+| `status` | `SwitchStatus` | `'default'` | 校验态；`error` 时输出 `data-scui-invalid="true"`。被 `<Form.Item>` 包裹时字段状态优先。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 文案；由 `<label>` 包裹输入控件，点击文字即可切换。无文案时须自行提供 `aria-label`。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/switch/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+import type { JSX } from 'solid-js';
+
+import type { MaybeAccessor } from '../../utils/resolve-value';
+import type {
+  SelectionChangeEvent,
+  SelectionChangeHandler,
+  SelectionSize,
+  SelectionStatus,
+} from '../selection/selection-types';
+
+/** 尺寸口径与全局一致：只有 small / medium / large，不存在 md / sm。 */
+export type SwitchSize = SelectionSize;
+
+/** 校验态。与 `FieldStatus` 同值域，避免控件与表单出现两套状态词。 */
+export type SwitchStatus = SelectionStatus;
+
+/** `Switch` 的变更事件。 */
+export type SwitchChangeEvent = SelectionChangeEvent<HTMLInputElement>;
+
+/** `Switch` 的值变更回调；第一参数是切换后的布尔值。 */
+export type SwitchChangeHandler = SelectionChangeHandler<HTMLInputElement, boolean>;
+
+/**
+ * `Switch` 的入参。原生属性照常透传，仅覆盖与前者语义冲突的项。
+ *
+ * 语义是 `role="switch"` 的原生 checkbox：读屏读作「开关」而不是「复选框」，
+ * `aria-checked` 恒输出两态；键盘 Space 由浏览器原生承担。
+ */
+export interface SwitchProps extends Omit<
+  JSX.InputHTMLAttributes<HTMLInputElement>,
+  | 'value'
+  | 'checked'
+  | 'defaultChecked'
+  | 'onChange'
+  | 'children'
+  | 'size'
+  | 'type'
+  | 'role'
+  | 'indeterminate'
+> {
+  /**
+   * 受控选中态；支持传值或 getter（`MaybeAccessor`）。
+   * @default undefined（非受控）
+   */
+  checked?: MaybeAccessor<boolean>;
+  /**
+   * 非受控初始选中态；仅在挂载时读取一次。
+   * @default false
+   */
+  defaultChecked?: MaybeAccessor<boolean>;
+  /**
+   * 选中态变更回调；第一参数是切换后的布尔值。
+   * @default undefined
+   */
+  onChange?: SwitchChangeHandler;
+  /**
+   * 尺寸。
+   * @default 'medium'
+   */
+  size?: SwitchSize;
+  /**
+   * 校验态；`error` 时输出 `data-scui-invalid="true"`。被 `<Form.Item>` 包裹时字段状态优先。
+   * @default 'default'
+   */
+  status?: SwitchStatus;
+  /**
+   * 文案；由 `<label>` 包裹输入控件，点击文字即可切换。无文案时须自行提供 `aria-label`。
+   * @default undefined
+   */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/switch-basic.md)：开与关两种状态，可带文案；无文案时必须提供 aria-label。（源文件 `packages/core/src/components/switch/demos/basic.tsx`）
+- [尺寸与禁用](llms/demos/switch-size.md)：small / medium / large 三档尺寸，以及禁用态下的开与关。（源文件 `packages/core/src/components/switch/demos/size.tsx`）
+- [受控状态](llms/demos/switch-state.md)：用 createSignal 控制开关状态，onChange 回显，并演示校验态。（源文件 `packages/core/src/components/switch/demos/state.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
 <!-- source: llms/exports/config-provider.md -->
 
 # ConfigProvider 全局配置（`solid-craft/config-provider`）
@@ -2020,6 +2666,9 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./layout` → [solid-craft/layout](llms/exports/layout.md)
 - `./grid` → [solid-craft/grid](llms/exports/grid.md)
 - `./input` → [solid-craft/input](llms/exports/input.md)
+- `./checkbox` → [solid-craft/checkbox](llms/exports/checkbox.md)
+- `./radio` → [solid-craft/radio](llms/exports/radio.md)
+- `./switch` → [solid-craft/switch](llms/exports/switch.md)
 - `./config-provider` → [solid-craft/config-provider](llms/exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](llms/exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](llms/exports/styles.md)
@@ -4226,6 +4875,567 @@ export default function TextareaDemo() {
 ## 相关页面
 
 - [Input 输入框 API](llms/exports/input.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/checkbox-basic.md -->
+
+# Checkbox 多选框 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/checkbox/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+默认、选中与半选三态，三档尺寸、禁用态与校验态。
+
+## 完整源码
+
+```tsx
+import { Checkbox } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '默认、选中与半选三态，三档尺寸、禁用态与校验态。',
+};
+
+export default function CheckboxBasicDemo() {
+  return (
+    <>
+      <DemoSection title="三态">
+        <Checkbox>默认未选中</Checkbox>
+        <Checkbox defaultChecked>选中</Checkbox>
+        <Checkbox indeterminate>半选</Checkbox>
+      </DemoSection>
+
+      <DemoSection title="尺寸">
+        <Checkbox size="small">small</Checkbox>
+        <Checkbox size="medium">medium</Checkbox>
+        <Checkbox size="large">large</Checkbox>
+      </DemoSection>
+
+      <DemoSection title="禁用">
+        <Checkbox disabled>禁用未选中</Checkbox>
+        <Checkbox disabled defaultChecked>
+          禁用已选中
+        </Checkbox>
+      </DemoSection>
+
+      <DemoSection title="校验态">
+        <Checkbox status="error">必须勾选才能继续</Checkbox>
+        <Checkbox status="error" defaultChecked>
+          已勾选但仍有错误
+        </Checkbox>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Checkbox 多选框 API](llms/exports/checkbox.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/checkbox-group.md -->
+
+# Checkbox 多选框 · 多选框组（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/checkbox/demos/group.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+选项数组、手写子项与全选联动，整组值与勾选状态保持同步。
+
+## 完整源码
+
+```tsx
+import { createMemo, createSignal } from 'solid-js';
+import { Checkbox, CheckboxGroup } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '多选框组',
+  description: '选项数组、手写子项与全选联动，整组值与勾选状态保持同步。',
+};
+
+const FRUIT_OPTIONS = [
+  { label: '苹果', value: 'apple' },
+  { label: '香蕉', value: 'banana' },
+  { label: '橙子', value: 'orange' },
+];
+
+export default function CheckboxGroupDemo() {
+  const [selected, setSelected] = createSignal<string[]>(['apple']);
+  const allSelected = createMemo(() => selected().length === FRUIT_OPTIONS.length);
+  const partial = createMemo(() => selected().length > 0 && !allSelected());
+
+  const toggleAll = (checked: boolean) => {
+    setSelected(checked ? FRUIT_OPTIONS.map((option) => option.value) : []);
+  };
+
+  return (
+    <>
+      <DemoSection title="options 写法">
+        <CheckboxGroup aria-label="喜欢的水果" options={FRUIT_OPTIONS} defaultValue={['banana']} />
+      </DemoSection>
+
+      <DemoSection title="手写子项">
+        <CheckboxGroup aria-label="去过的城市" defaultValue={['beijing']}>
+          <Checkbox value="beijing">北京</Checkbox>
+          <Checkbox value="shanghai">上海</Checkbox>
+          <Checkbox value="shenzhen">深圳</Checkbox>
+        </CheckboxGroup>
+      </DemoSection>
+
+      <DemoSection title="全选联动">
+        <Checkbox checked={allSelected()} indeterminate={partial()} onChange={toggleAll}>
+          全选
+        </Checkbox>
+        <CheckboxGroup
+          aria-label="喜欢的水果（全选联动）"
+          options={FRUIT_OPTIONS}
+          value={selected()}
+          onChange={(values) => setSelected(values)}
+        />
+        <span>
+          已选：<output>{selected().length > 0 ? selected().join('、') : '（无）'}</output>
+        </span>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Checkbox 多选框 API](llms/exports/checkbox.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/checkbox-state.md -->
+
+# Checkbox 多选框 · 受控状态（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/checkbox/demos/state.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+用 createSignal 持有选中值，onChange 回显当前状态，并支持垂直排列。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Checkbox, CheckboxGroup } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '受控状态',
+  description: '用 createSignal 持有选中值，onChange 回显当前状态，并支持垂直排列。',
+};
+
+const HOBBY_OPTIONS = [
+  { label: '阅读', value: 'reading' },
+  { label: '音乐', value: 'music' },
+  { label: '运动', value: 'sports' },
+];
+
+export default function CheckboxStateDemo() {
+  const [agreed, setAgreed] = createSignal(false);
+  const [hobbies, setHobbies] = createSignal<string[]>(['reading']);
+
+  return (
+    <>
+      <DemoSection title="受控值">
+        <Checkbox checked={agreed()} onChange={(checked) => setAgreed(checked)}>
+          我已阅读并同意用户协议
+        </Checkbox>
+        <span>
+          当前状态：<output>{agreed() ? '已同意' : '未同意'}</output>
+        </span>
+      </DemoSection>
+
+      <DemoSection title="垂直排列">
+        <CheckboxGroup
+          aria-label="兴趣爱好"
+          orientation="vertical"
+          options={HOBBY_OPTIONS}
+          value={hobbies()}
+          onChange={(values) => setHobbies(values)}
+        />
+        <span>
+          已选：<output>{hobbies().length > 0 ? hobbies().join('、') : '（无）'}</output>
+        </span>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Checkbox 多选框 API](llms/exports/checkbox.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/radio-basic.md -->
+
+# Radio 单选框 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/radio/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+独立单选框、三档尺寸、禁用态与校验态。
+
+## 完整源码
+
+```tsx
+import { Radio } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '独立单选框、三档尺寸、禁用态与校验态。',
+};
+
+export default function RadioBasicDemo() {
+  return (
+    <>
+      <DemoSection title="独立使用">
+        <Radio defaultChecked>默认选中</Radio>
+        <Radio>未选中</Radio>
+        <Radio aria-label="无文案的单选框" defaultChecked />
+      </DemoSection>
+
+      <DemoSection title="尺寸">
+        <Radio size="small" defaultChecked>
+          small
+        </Radio>
+        <Radio size="medium" defaultChecked>
+          medium
+        </Radio>
+        <Radio size="large" defaultChecked>
+          large
+        </Radio>
+      </DemoSection>
+
+      <DemoSection title="禁用">
+        <Radio disabled>禁用未选中</Radio>
+        <Radio disabled defaultChecked>
+          禁用已选中
+        </Radio>
+      </DemoSection>
+
+      <DemoSection title="校验态">
+        <Radio status="error">请选择一个选项</Radio>
+        <Radio status="error" defaultChecked>
+          已选中但仍有错误
+        </Radio>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Radio 单选框 API](llms/exports/radio.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/radio-group.md -->
+
+# Radio 单选框 · 单选框组（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/radio/demos/group.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+选项数组与手写子项两种写法，并支持垂直排列。
+
+## 完整源码
+
+```tsx
+import { Radio, RadioGroup } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '单选框组',
+  description: '选项数组与手写子项两种写法，并支持垂直排列。',
+};
+
+const PLAN_OPTIONS = [
+  { label: '基础版', value: 'basic' },
+  { label: '专业版', value: 'pro' },
+  { label: '旗舰版', value: 'ultimate', disabled: true },
+];
+
+export default function RadioGroupDemo() {
+  return (
+    <>
+      <DemoSection title="options 写法">
+        <RadioGroup aria-label="订阅方案" options={PLAN_OPTIONS} defaultValue="basic" />
+      </DemoSection>
+
+      <DemoSection title="手写子项">
+        <RadioGroup aria-label="付款方式" defaultValue="card">
+          <Radio value="card">银行卡</Radio>
+          <Radio value="alipay">支付宝</Radio>
+          <Radio value="wechat">微信支付</Radio>
+        </RadioGroup>
+      </DemoSection>
+
+      <DemoSection title="垂直排列">
+        <RadioGroup aria-label="配送时间" orientation="vertical" defaultValue="morning">
+          <Radio value="morning">上午 9:00 - 12:00</Radio>
+          <Radio value="afternoon">下午 14:00 - 18:00</Radio>
+          <Radio value="evening">晚上 19:00 - 21:00</Radio>
+        </RadioGroup>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Radio 单选框 API](llms/exports/radio.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/radio-state.md -->
+
+# Radio 单选框 · 受控状态（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/radio/demos/state.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+受控 value 配合 onChange 回显，整组禁用时保持当前选中项。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { RadioGroup } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '受控状态',
+  description: '受控 value 配合 onChange 回显，整组禁用时保持当前选中项。',
+};
+
+const SPEED_OPTIONS = [
+  { label: '慢速', value: 'slow' },
+  { label: '标准', value: 'standard' },
+  { label: '快速', value: 'fast' },
+];
+
+export default function RadioStateDemo() {
+  const [speed, setSpeed] = createSignal('standard');
+  const speedLabel = () =>
+    SPEED_OPTIONS.find((option) => option.value === speed())?.label ?? speed();
+
+  return (
+    <>
+      <DemoSection title="受控值">
+        <RadioGroup
+          aria-label="运行速度"
+          options={SPEED_OPTIONS}
+          value={speed()}
+          onChange={(value) => setSpeed(value)}
+        />
+        <span>
+          当前速度：<output>{speedLabel()}</output>
+        </span>
+      </DemoSection>
+
+      <DemoSection title="整组禁用">
+        <RadioGroup
+          aria-label="禁用的运行速度"
+          options={SPEED_OPTIONS}
+          defaultValue="fast"
+          disabled
+        />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Radio 单选框 API](llms/exports/radio.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/switch-basic.md -->
+
+# Switch 开关 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/switch/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+开与关两种状态，可带文案；无文案时必须提供 aria-label。
+
+## 完整源码
+
+```tsx
+import { Switch } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '开与关两种状态，可带文案；无文案时必须提供 aria-label。',
+};
+
+export default function SwitchBasicDemo() {
+  return (
+    <>
+      <DemoSection title="开关状态">
+        <Switch defaultChecked>已开启</Switch>
+        <Switch>已关闭</Switch>
+      </DemoSection>
+
+      <DemoSection title="带文案">
+        <Switch defaultChecked>接收系统通知</Switch>
+        <Switch>自动更新</Switch>
+      </DemoSection>
+
+      <DemoSection title="无文案">
+        <Switch aria-label="无文案开关（开）" defaultChecked />
+        <Switch aria-label="无文案开关（关）" />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Switch 开关 API](llms/exports/switch.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/switch-size.md -->
+
+# Switch 开关 · 尺寸与禁用（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/switch/demos/size.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+small / medium / large 三档尺寸，以及禁用态下的开与关。
+
+## 完整源码
+
+```tsx
+import { Switch } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '尺寸与禁用',
+  description: 'small / medium / large 三档尺寸，以及禁用态下的开与关。',
+};
+
+export default function SwitchSizeDemo() {
+  return (
+    <>
+      <DemoSection title="尺寸">
+        <Switch size="small" defaultChecked>
+          small
+        </Switch>
+        <Switch size="medium" defaultChecked>
+          medium
+        </Switch>
+        <Switch size="large" defaultChecked>
+          large
+        </Switch>
+      </DemoSection>
+
+      <DemoSection title="禁用">
+        <Switch disabled>禁用且关闭</Switch>
+        <Switch disabled defaultChecked>
+          禁用且开启
+        </Switch>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Switch 开关 API](llms/exports/switch.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/switch-state.md -->
+
+# Switch 开关 · 受控状态（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/switch/demos/state.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+用 createSignal 控制开关状态，onChange 回显，并演示校验态。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Switch } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '受控状态',
+  description: '用 createSignal 控制开关状态，onChange 回显，并演示校验态。',
+};
+
+export default function SwitchStateDemo() {
+  const [enabled, setEnabled] = createSignal(true);
+  const [strict, setStrict] = createSignal(false);
+
+  return (
+    <>
+      <DemoSection title="受控开关">
+        <Switch checked={enabled()} onChange={(checked) => setEnabled(checked)}>
+          启用通知
+        </Switch>
+        <span>
+          当前状态：<output>{enabled() ? '已开启' : '已关闭'}</output>
+        </span>
+      </DemoSection>
+
+      <DemoSection title="校验态">
+        <Switch checked={strict()} status="error" onChange={(checked) => setStrict(checked)}>
+          严格模式
+        </Switch>
+        <span>
+          当前状态：<output>{strict() ? '已开启' : '已关闭'}</output>
+        </span>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Switch 开关 API](llms/exports/switch.md)
 - [设计 Token](llms/design/tokens.md)
 
 ---

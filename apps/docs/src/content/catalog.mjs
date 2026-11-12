@@ -78,6 +78,30 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/input',
     hasApi: true,
   },
+  {
+    slug: 'checkbox',
+    title: 'Checkbox 多选框',
+    category: '表单',
+    description: '单选 / 半选 / 多选框组，支持选项数组、整组禁用、排列方向与全选联动。',
+    exportPath: 'solid-craft/checkbox',
+    hasApi: true,
+  },
+  {
+    slug: 'radio',
+    title: 'Radio 单选框',
+    category: '表单',
+    description: '单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。',
+    exportPath: 'solid-craft/radio',
+    hasApi: true,
+  },
+  {
+    slug: 'switch',
+    title: 'Switch 开关',
+    category: '表单',
+    description: '带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。',
+    exportPath: 'solid-craft/switch',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

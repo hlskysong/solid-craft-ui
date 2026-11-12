@@ -1,0 +1,92 @@
+@use 'mixins' as m;
+
+/* Switch（T2-05）
+   role="switch" 的原生 checkbox，指示器是「轨道 + 滑块」。
+   滑块位移只认 [data-scui-checked='true']，不给 input 挂 modifier class。 */
+
+:where(.scui-switch) {
+  --scui-switch-current-width: 36px;
+  --scui-switch-current-height: 20px;
+  --scui-switch-current-thumb: 16px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+  color: var(--scui-color-text-primary);
+  cursor: pointer;
+
+  &:focus-within {
+    @include m.scui-focus-ring;
+  }
+
+  &[data-scui-invalid='true'] .scui-switch__track {
+    border-color: var(--scui-color-danger);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-switch)[data-scui-size='small'] {
+  --scui-switch-current-width: 28px;
+  --scui-switch-current-height: 16px;
+  --scui-switch-current-thumb: 12px;
+}
+
+:where(.scui-switch)[data-scui-size='large'] {
+  --scui-switch-current-width: 44px;
+  --scui-switch-current-height: 24px;
+  --scui-switch-current-thumb: 20px;
+}
+
+:where(.scui-switch__control) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+:where(.scui-switch__track) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  box-sizing: border-box;
+  inline-size: var(--scui-switch-current-width);
+  block-size: var(--scui-switch-current-height);
+  padding-inline: 2px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--scui-color-border-strong);
+  transition: background-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+}
+
+:where(.scui-switch__thumb) {
+  inline-size: var(--scui-switch-current-thumb);
+  block-size: var(--scui-switch-current-thumb);
+  border-radius: 50%;
+  background: var(--scui-color-bg-surface);
+  transition: transform var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+}
+
+:where(.scui-switch)[data-scui-checked='true'] .scui-switch__track {
+  background: var(--scui-color-primary);
+}
+
+:where(.scui-switch)[data-scui-checked='true'] .scui-switch__thumb {
+  transform: translateX(
+    calc(var(--scui-switch-current-width) - var(--scui-switch-current-thumb) - 6px)
+  );
+}
+
+:where(.scui-switch)[data-scui-disabled] .scui-switch__track {
+  background: var(--scui-color-border-default);
+}
+
+:where(.scui-switch__label) {
+  line-height: 1.5;
+}

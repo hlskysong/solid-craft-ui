@@ -32,6 +32,38 @@ export type {
   TextareaAutoSize,
   TextareaProps,
 } from './components/input';
+export { Checkbox, CheckboxGroup } from './components/checkbox';
+export type {
+  CheckboxChangeEvent,
+  CheckboxChangeHandler,
+  CheckboxGroupChangeHandler,
+  CheckboxGroupProps,
+  CheckboxOption,
+  CheckboxOrientation,
+  CheckboxProps,
+  CheckboxSize,
+  CheckboxStatus,
+} from './components/checkbox';
+export { Radio, RadioGroup } from './components/radio';
+export type {
+  RadioChangeEvent,
+  RadioChangeHandler,
+  RadioGroupChangeHandler,
+  RadioGroupProps,
+  RadioOption,
+  RadioOrientation,
+  RadioProps,
+  RadioSize,
+  RadioStatus,
+} from './components/radio';
+export { Switch } from './components/switch';
+export type {
+  SwitchChangeEvent,
+  SwitchChangeHandler,
+  SwitchProps,
+  SwitchSize,
+  SwitchStatus,
+} from './components/switch';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';

@@ -59,7 +59,14 @@ function checkTemplateFiles(dir, label, componentName) {
   const impl = read(join(dir, `${component}.tsx`));
   if (impl) {
     if (!impl.includes('CSS_PREFIX')) fail(`${label}: ${component}.tsx 未走 CSS_PREFIX 单点定义`);
-    if (!/data-[\w-]+=/.test(impl)) fail(`${label}: ${component}.tsx 未用 data-* 表达变体/状态`);
+    // 先看「有没有真的输出 data-* 属性」，而不是「源码里有没有出现过这个字符串」：
+    // ① 剥离块注释与行注释 —— 注释里写 data-x="..." 曾让 Checkbox 假通过；
+    // ② 两种合法写法都要认：JSX 属性 `data-x={...}` / `data-x="..."`，以及
+    //    通过对象 spread 传给共享壳的 `'data-x': ...`（T2-05 三件套用后者）。
+    //    不认第二种会逼组件为了过门禁复制一份 label 结构或塞冗余 DOM 属性。
+    const code = impl.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    const hasDataOutput = /data-[\w-]+\s*=/.test(code) || /['"]data-[\w-]+['"]\s*:/.test(code);
+    if (!hasDataOutput) fail(`${label}: ${component}.tsx 未用 data-* 表达变体/状态`);
   }
   const types = read(join(dir, 'types.ts'));
   // 复合组件（Grid = Row/Col，Layout = Header/Content/...）不叫 <Name>Props，

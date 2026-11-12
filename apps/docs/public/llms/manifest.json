@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 41,
+  "pageCount": 53,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -58,6 +58,21 @@
     {
       "path": "llms/exports/input.md",
       "title": "# Input 输入框（`solid-craft/input`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/checkbox.md",
+      "title": "# Checkbox 多选框（`solid-craft/checkbox`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/radio.md",
+      "title": "# Radio 单选框（`solid-craft/radio`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/switch.md",
+      "title": "# Switch 开关（`solid-craft/switch`）",
       "kind": "exports"
     },
     {
@@ -214,6 +229,51 @@
       "path": "llms/demos/input-textarea.md",
       "title": "# Input 输入框 · 多行输入（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/checkbox-basic.md",
+      "title": "# Checkbox 多选框 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/checkbox-group.md",
+      "title": "# Checkbox 多选框 · 多选框组（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/checkbox-state.md",
+      "title": "# Checkbox 多选框 · 受控状态（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/radio-basic.md",
+      "title": "# Radio 单选框 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/radio-group.md",
+      "title": "# Radio 单选框 · 单选框组（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/radio-state.md",
+      "title": "# Radio 单选框 · 受控状态（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/switch-basic.md",
+      "title": "# Switch 开关 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/switch-size.md",
+      "title": "# Switch 开关 · 尺寸与禁用（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/switch-state.md",
+      "title": "# Switch 开关 · 受控状态（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -226,6 +286,9 @@
     "./layout": "llms/exports/layout.md",
     "./grid": "llms/exports/grid.md",
     "./input": "llms/exports/input.md",
+    "./checkbox": "llms/exports/checkbox.md",
+    "./radio": "llms/exports/radio.md",
+    "./switch": "llms/exports/switch.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -242,6 +305,9 @@
     "llms/exports/layout.md",
     "llms/exports/grid.md",
     "llms/exports/input.md",
+    "llms/exports/checkbox.md",
+    "llms/exports/radio.md",
+    "llms/exports/switch.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -273,7 +339,16 @@
     "llms/demos/input-number-format.md",
     "llms/demos/input-number-step.md",
     "llms/demos/input-number.md",
-    "llms/demos/input-textarea.md"
+    "llms/demos/input-textarea.md",
+    "llms/demos/checkbox-basic.md",
+    "llms/demos/checkbox-group.md",
+    "llms/demos/checkbox-state.md",
+    "llms/demos/radio-basic.md",
+    "llms/demos/radio-group.md",
+    "llms/demos/radio-state.md",
+    "llms/demos/switch-basic.md",
+    "llms/demos/switch-size.md",
+    "llms/demos/switch-state.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

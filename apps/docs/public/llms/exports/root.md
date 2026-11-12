@@ -35,6 +35,9 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/layout` → Layout 布局：Header / Sider / Content / Footer 页面骨架与可折叠侧边栏。
 - `solid-craft/grid` → Grid 栅格：24 栅格 Row / Col、间距、偏移与响应式断点。
 - `solid-craft/input` → Input 输入框：单行 / 多行 / 数字输入，前后缀、清除、密码显隐、回车搜索、自动高度、字数统计与步进精度。
+- `solid-craft/checkbox` → Checkbox 多选框：单选 / 半选 / 多选框组，支持选项数组、整组禁用、排列方向与全选联动。
+- `solid-craft/radio` → Radio 单选框：单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。
+- `solid-craft/switch` → Switch 开关：带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 

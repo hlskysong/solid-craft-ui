@@ -9,7 +9,10 @@
     "divider",
     "layout",
     "grid",
-    "input"
+    "input",
+    "checkbox",
+    "radio",
+    "switch"
   ],
   "components": [
     {
@@ -195,6 +198,90 @@
           "path": "packages/core/src/components/input/demos/textarea.tsx",
           "title": "多行输入",
           "description": "自动高度（true 与 minRows / maxRows 两种口径）、字数统计、清除按钮与禁用态。"
+        }
+      ]
+    },
+    {
+      "slug": "checkbox",
+      "title": "Checkbox 多选框",
+      "category": "表单",
+      "description": "单选 / 半选 / 多选框组，支持选项数组、整组禁用、排列方向与全选联动。",
+      "exportPath": "solid-craft/checkbox",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/checkbox/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "默认、选中与半选三态，三档尺寸、禁用态与校验态。"
+        },
+        {
+          "name": "group",
+          "path": "packages/core/src/components/checkbox/demos/group.tsx",
+          "title": "多选框组",
+          "description": "选项数组、手写子项与全选联动，整组值与勾选状态保持同步。"
+        },
+        {
+          "name": "state",
+          "path": "packages/core/src/components/checkbox/demos/state.tsx",
+          "title": "受控状态",
+          "description": "用 createSignal 持有选中值，onChange 回显当前状态，并支持垂直排列。"
+        }
+      ]
+    },
+    {
+      "slug": "radio",
+      "title": "Radio 单选框",
+      "category": "表单",
+      "description": "单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。",
+      "exportPath": "solid-craft/radio",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/radio/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "独立单选框、三档尺寸、禁用态与校验态。"
+        },
+        {
+          "name": "group",
+          "path": "packages/core/src/components/radio/demos/group.tsx",
+          "title": "单选框组",
+          "description": "选项数组与手写子项两种写法，并支持垂直排列。"
+        },
+        {
+          "name": "state",
+          "path": "packages/core/src/components/radio/demos/state.tsx",
+          "title": "受控状态",
+          "description": "受控 value 配合 onChange 回显，整组禁用时保持当前选中项。"
+        }
+      ]
+    },
+    {
+      "slug": "switch",
+      "title": "Switch 开关",
+      "category": "表单",
+      "description": "带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。",
+      "exportPath": "solid-craft/switch",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/switch/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "开与关两种状态，可带文案；无文案时必须提供 aria-label。"
+        },
+        {
+          "name": "size",
+          "path": "packages/core/src/components/switch/demos/size.tsx",
+          "title": "尺寸与禁用",
+          "description": "small / medium / large 三档尺寸，以及禁用态下的开与关。"
+        },
+        {
+          "name": "state",
+          "path": "packages/core/src/components/switch/demos/state.tsx",
+          "title": "受控状态",
+          "description": "用 createSignal 控制开关状态，onChange 回显，并演示校验态。"
         }
       ]
     }

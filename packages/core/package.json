@@ -77,6 +77,24 @@
       "import": "./dist/esm/components/input/index.js",
       "default": "./dist/esm/components/input/index.js"
     },
+    "./checkbox": {
+      "types": "./dist/types/components/checkbox/index.d.ts",
+      "solid": "./dist/source/components/checkbox/index.jsx",
+      "import": "./dist/esm/components/checkbox/index.js",
+      "default": "./dist/esm/components/checkbox/index.js"
+    },
+    "./radio": {
+      "types": "./dist/types/components/radio/index.d.ts",
+      "solid": "./dist/source/components/radio/index.jsx",
+      "import": "./dist/esm/components/radio/index.js",
+      "default": "./dist/esm/components/radio/index.js"
+    },
+    "./switch": {
+      "types": "./dist/types/components/switch/index.d.ts",
+      "solid": "./dist/source/components/switch/index.jsx",
+      "import": "./dist/esm/components/switch/index.js",
+      "default": "./dist/esm/components/switch/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

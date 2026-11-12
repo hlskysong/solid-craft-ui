@@ -1,0 +1,104 @@
+@use 'mixins' as m;
+
+/* Radio / RadioGroup（T2-05）
+   与 checkbox.scss 同构：原生 input 保留可聚焦，指示器是圆形边框 + 内点。
+   方向键互斥由浏览器原生承担，样式不参与状态判断。 */
+
+:where(.scui-radio) {
+  --scui-radio-current-size: 16px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+  color: var(--scui-color-text-primary);
+  cursor: pointer;
+
+  &:focus-within {
+    @include m.scui-focus-ring;
+  }
+
+  &[data-scui-invalid='true'] .scui-radio__indicator {
+    border-color: var(--scui-color-danger);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-radio)[data-scui-size='small'] {
+  --scui-radio-current-size: 14px;
+}
+
+:where(.scui-radio)[data-scui-size='large'] {
+  --scui-radio-current-size: 20px;
+}
+
+:where(.scui-radio__control) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+:where(.scui-radio__indicator) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: var(--scui-radio-current-size);
+  block-size: var(--scui-radio-current-size);
+  border: 1px solid var(--scui-color-border-strong);
+  border-radius: 50%;
+  background: var(--scui-color-bg-surface);
+  transition:
+    background-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease),
+    border-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+}
+
+:where(.scui-radio__dot) {
+  inline-size: 50%;
+  block-size: 50%;
+  border-radius: 50%;
+  background: transparent;
+}
+
+:where(.scui-radio)[data-scui-checked='true'] .scui-radio__indicator {
+  border-color: var(--scui-color-primary);
+  background: var(--scui-color-primary);
+}
+
+:where(.scui-radio)[data-scui-checked='true'] .scui-radio__dot {
+  background: var(--scui-color-bg-surface);
+}
+
+:where(.scui-radio)[data-scui-disabled] .scui-radio__indicator {
+  border-color: var(--scui-color-border-default);
+  background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+}
+
+:where(.scui-radio__label) {
+  line-height: 1.5;
+}
+
+/* 同 checkbox-group：fieldset 的 UA 样式先清干净，再叠 flex 布局。 */
+:where(.scui-radio-group) {
+  display: flex;
+  align-items: center;
+  gap: var(--scui-space-4, 16px);
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+:where(.scui-radio-group)[data-scui-orientation='vertical'] {
+  flex-direction: column;
+  align-items: flex-start;
+}

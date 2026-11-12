@@ -1,0 +1,54 @@
+{
+  "slug": "switch",
+  "source": "packages/core/src/components/switch/types.ts",
+  "interfaces": [
+    {
+      "name": "SwitchProps",
+      "inherits": "Omit<\n  JSX.InputHTMLAttributes<HTMLInputElement>,\n  | 'value'\n  | 'checked'\n  | 'defaultChecked'\n  | 'onChange'\n  | 'children'\n  | 'size'\n  | 'type'\n  | 'role'\n  | 'indeterminate'\n>",
+      "props": [
+        {
+          "name": "checked",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "受控选中态；支持传值或 getter（`MaybeAccessor`）。",
+          "default": "undefined（非受控）"
+        },
+        {
+          "name": "defaultChecked",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "非受控初始选中态；仅在挂载时读取一次。",
+          "default": "false"
+        },
+        {
+          "name": "onChange",
+          "type": "SwitchChangeHandler",
+          "optional": true,
+          "description": "选中态变更回调；第一参数是切换后的布尔值。",
+          "default": "undefined"
+        },
+        {
+          "name": "size",
+          "type": "SwitchSize",
+          "optional": true,
+          "description": "尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "status",
+          "type": "SwitchStatus",
+          "optional": true,
+          "description": "校验态；`error` 时输出 `data-scui-invalid=\"true\"`。被 `<Form.Item>` 包裹时字段状态优先。",
+          "default": "'default'"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "文案；由 `<label>` 包裹输入控件，点击文字即可切换。无文案时须自行提供 `aria-label`。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

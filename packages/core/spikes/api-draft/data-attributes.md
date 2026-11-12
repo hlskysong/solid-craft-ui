@@ -15,7 +15,8 @@
 | `data-scui-count` | `''`（存在即真） | 字数统计显示中（页脚留位） | Input（Textarea） |
 | `data-scui-role` | 见下表 | 结构定位（测试/样式锚点），**不表达状态** | 全部 |
 | `data-scui-field` | 字段名 | 字段定位 + 错误滚动目标 | Form |
-| `data-scui-selected` | `''` | 选中态 | Select / DatePicker / Table |
+| `data-scui-selected` | `''` | 选中态（列表 / 日历格 / 表格行，存在即真） | Select / DatePicker / Table |
+| `data-scui-checked` | `'true' \| 'false' \| 'mixed'` | 选择类控件的选中三态；**恒输出**（含 SSR 的 `'false'`），`'mixed'` 只由 `Checkbox.indeterminate` 产生 | Checkbox / Radio / Switch |
 | `data-scui-option` | 选项 value | 选项定位 | Select |
 | `data-scui-day` | ISO `YYYY-MM-DD` | 日期格定位 | DatePicker |
 | `data-scui-outside` | `''` | 上/下月补位格 | DatePicker |
@@ -37,6 +38,13 @@
 | `input` / `input-clear` / `input-password-toggle` / `input-search` | Input | 结构锚点（T2-03） |
 | `input-number` / `input-number-up` / `input-number-down` | Input（InputNumber） | 结构锚点（T2-04） |
 | `textarea` / `textarea-clear` / `textarea-count` | Input（Textarea） | 结构锚点（T2-03） |
+| `checkbox` / `checkbox-group` | Checkbox | 结构锚点（T2-05） |
+| `radio` / `radio-group` | Radio | 结构锚点（T2-05） |
+| `switch` | Switch | 结构锚点（T2-05） |
+
+> **`data-scui-checked` 为何不复用 `data-scui-selected`**（T2-05）：前者表达控件自身状态、
+> 有三态且恒输出（SSR 也要出 `'false'`）；后者表达「列表项被选中」、存在即真。
+> 合并会让两种 SSR 口径打架，也违反「一个属性名只表达一个语义」。
 
 ## 焦点与状态样式
 

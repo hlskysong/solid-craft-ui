@@ -966,6 +966,363 @@
     "href": "/components/input#api-onClear"
   },
   {
+    "type": "component",
+    "title": "Checkbox 多选框",
+    "description": "单选 / 半选 / 多选框组，支持选项数组、整组禁用、排列方向与全选联动。",
+    "keywords": "checkbox solid-craft/checkbox",
+    "href": "/components/checkbox"
+  },
+  {
+    "type": "demo",
+    "title": "Checkbox 多选框 · 基础用法",
+    "description": "默认、选中与半选三态，三档尺寸、禁用态与校验态。",
+    "keywords": "checkbox basic",
+    "href": "/components/checkbox/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Checkbox 多选框 · 多选框组",
+    "description": "选项数组、手写子项与全选联动，整组值与勾选状态保持同步。",
+    "keywords": "checkbox group",
+    "href": "/components/checkbox/group"
+  },
+  {
+    "type": "demo",
+    "title": "Checkbox 多选框 · 受控状态",
+    "description": "用 createSignal 持有选中值，onChange 回显当前状态，并支持垂直排列。",
+    "keywords": "checkbox state",
+    "href": "/components/checkbox/state"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxProps.checked",
+    "description": "受控选中态；支持传值或 getter（`MaybeAccessor`）。",
+    "keywords": "checkbox MaybeAccessor<boolean>",
+    "href": "/components/checkbox#api-checked"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxProps.defaultChecked",
+    "description": "非受控初始选中态；仅在挂载时读取一次。",
+    "keywords": "checkbox MaybeAccessor<boolean>",
+    "href": "/components/checkbox#api-defaultChecked"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxProps.indeterminate",
+    "description": "半选态。只影响展示与 `aria-checked=\"mixed\"`，不改变 `checked` 的值； 原生 `indeterminate` 是 DOM property，由客户端 effect 写入，SSR 不输出属性。",
+    "keywords": "checkbox MaybeAccessor<boolean>",
+    "href": "/components/checkbox#api-indeterminate"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxProps.value",
+    "description": "在 `CheckboxGroup` 内的选项值；独立使用时只作为原生 `value` 透传。",
+    "keywords": "checkbox string",
+    "href": "/components/checkbox#api-value"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxProps.onChange",
+    "description": "选中态变更回调；第一参数是切换后的布尔值。",
+    "keywords": "checkbox CheckboxChangeHandler",
+    "href": "/components/checkbox#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxProps.size",
+    "description": "尺寸；在 Group 内未显式给出时继承 Group 的尺寸。",
+    "keywords": "checkbox CheckboxSize",
+    "href": "/components/checkbox#api-size"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxProps.status",
+    "description": "校验态；`error` 时输出 `data-scui-invalid=\"true\"`。被 `<Form.Item>` 包裹时字段状态优先。",
+    "keywords": "checkbox CheckboxStatus",
+    "href": "/components/checkbox#api-status"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxProps.children",
+    "description": "文案；由 `<label>` 包裹输入控件，点击文字即可切换。无文案时须自行提供 `aria-label`。",
+    "keywords": "checkbox JSX.Element",
+    "href": "/components/checkbox#api-children"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.value",
+    "description": "受控值（已选中的 `value` 数组）；支持传值或 getter。",
+    "keywords": "checkbox MaybeAccessor<string[]>",
+    "href": "/components/checkbox#api-value"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.defaultValue",
+    "description": "非受控初始值；仅在挂载时读取一次。",
+    "keywords": "checkbox MaybeAccessor<string[]>",
+    "href": "/components/checkbox#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.onChange",
+    "description": "整组值变更回调；第一参数是去重后的数组。",
+    "keywords": "checkbox CheckboxGroupChangeHandler",
+    "href": "/components/checkbox#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.options",
+    "description": "选项写法；给出后忽略 `children`。",
+    "keywords": "checkbox CheckboxOption[]",
+    "href": "/components/checkbox#api-options"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.disabled",
+    "description": "整组禁用。",
+    "keywords": "checkbox boolean",
+    "href": "/components/checkbox#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.size",
+    "description": "尺寸；子项未显式传 `size` 时继承本值。",
+    "keywords": "checkbox CheckboxSize",
+    "href": "/components/checkbox#api-size"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.orientation",
+    "description": "排列方向，落成 `data-scui-orientation`。",
+    "keywords": "checkbox CheckboxOrientation",
+    "href": "/components/checkbox#api-orientation"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.name",
+    "description": "原生 name；同组同源，缺省由 `createUniqueId()` 生成（SSR 稳定）。",
+    "keywords": "checkbox string",
+    "href": "/components/checkbox#api-name"
+  },
+  {
+    "type": "api",
+    "title": "CheckboxGroupProps.children",
+    "description": "手写子项写法：直接放 `<Checkbox value=\"...\">...</Checkbox>`。",
+    "keywords": "checkbox JSX.Element",
+    "href": "/components/checkbox#api-children"
+  },
+  {
+    "type": "component",
+    "title": "Radio 单选框",
+    "description": "单选框组与独立单选，支持选项数组、整组尺寸、排列方向与字段值驱动。",
+    "keywords": "radio solid-craft/radio",
+    "href": "/components/radio"
+  },
+  {
+    "type": "demo",
+    "title": "Radio 单选框 · 基础用法",
+    "description": "独立单选框、三档尺寸、禁用态与校验态。",
+    "keywords": "radio basic",
+    "href": "/components/radio/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Radio 单选框 · 单选框组",
+    "description": "选项数组与手写子项两种写法，并支持垂直排列。",
+    "keywords": "radio group",
+    "href": "/components/radio/group"
+  },
+  {
+    "type": "demo",
+    "title": "Radio 单选框 · 受控状态",
+    "description": "受控 value 配合 onChange 回显，整组禁用时保持当前选中项。",
+    "keywords": "radio state",
+    "href": "/components/radio/state"
+  },
+  {
+    "type": "api",
+    "title": "RadioProps.checked",
+    "description": "受控选中态；支持传值或 getter（`MaybeAccessor`）。",
+    "keywords": "radio MaybeAccessor<boolean>",
+    "href": "/components/radio#api-checked"
+  },
+  {
+    "type": "api",
+    "title": "RadioProps.defaultChecked",
+    "description": "非受控初始选中态；仅在挂载时读取一次。",
+    "keywords": "radio MaybeAccessor<boolean>",
+    "href": "/components/radio#api-defaultChecked"
+  },
+  {
+    "type": "api",
+    "title": "RadioProps.value",
+    "description": "选项值；在 Group 内必填，独立使用时只作为原生 `value` 透传。",
+    "keywords": "radio string",
+    "href": "/components/radio#api-value"
+  },
+  {
+    "type": "api",
+    "title": "RadioProps.onChange",
+    "description": "选中态变更回调；第一参数是切换后的布尔值。",
+    "keywords": "radio RadioChangeHandler",
+    "href": "/components/radio#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "RadioProps.size",
+    "description": "尺寸；在 Group 内未显式给出时继承 Group 的尺寸。",
+    "keywords": "radio RadioSize",
+    "href": "/components/radio#api-size"
+  },
+  {
+    "type": "api",
+    "title": "RadioProps.status",
+    "description": "校验态；`error` 时输出 `data-scui-invalid=\"true\"`。被 `<Form.Item>` 包裹时字段状态优先。",
+    "keywords": "radio RadioStatus",
+    "href": "/components/radio#api-status"
+  },
+  {
+    "type": "api",
+    "title": "RadioProps.children",
+    "description": "文案；由 `<label>` 包裹输入控件，点击文字即可选中。无文案时须自行提供 `aria-label`。",
+    "keywords": "radio JSX.Element",
+    "href": "/components/radio#api-children"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.value",
+    "description": "受控值（当前选中的 `value`）；支持传值或 getter。",
+    "keywords": "radio MaybeAccessor<string>",
+    "href": "/components/radio#api-value"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.defaultValue",
+    "description": "非受控初始值；仅在挂载时读取一次。",
+    "keywords": "radio MaybeAccessor<string>",
+    "href": "/components/radio#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.onChange",
+    "description": "选中项变更回调；第一参数是选中项的 `value`。",
+    "keywords": "radio RadioGroupChangeHandler",
+    "href": "/components/radio#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.options",
+    "description": "选项写法；给出后忽略 `children`。",
+    "keywords": "radio RadioOption[]",
+    "href": "/components/radio#api-options"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.disabled",
+    "description": "整组禁用。",
+    "keywords": "radio boolean",
+    "href": "/components/radio#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.size",
+    "description": "尺寸；子项未显式传 `size` 时继承本值。",
+    "keywords": "radio RadioSize",
+    "href": "/components/radio#api-size"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.orientation",
+    "description": "排列方向，落成 `data-scui-orientation`。",
+    "keywords": "radio RadioOrientation",
+    "href": "/components/radio#api-orientation"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.name",
+    "description": "原生 name；同组同源，缺省由 `createUniqueId()` 生成（SSR 稳定）。",
+    "keywords": "radio string",
+    "href": "/components/radio#api-name"
+  },
+  {
+    "type": "api",
+    "title": "RadioGroupProps.children",
+    "description": "手写子项写法：直接放 `<Radio value=\"...\">...</Radio>`。",
+    "keywords": "radio JSX.Element",
+    "href": "/components/radio#api-children"
+  },
+  {
+    "type": "component",
+    "title": "Switch 开关",
+    "description": "带开关语义的二态控件，支持三档尺寸、受控值与原生键盘切换。",
+    "keywords": "switch solid-craft/switch",
+    "href": "/components/switch"
+  },
+  {
+    "type": "demo",
+    "title": "Switch 开关 · 基础用法",
+    "description": "开与关两种状态，可带文案；无文案时必须提供 aria-label。",
+    "keywords": "switch basic",
+    "href": "/components/switch/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Switch 开关 · 尺寸与禁用",
+    "description": "small / medium / large 三档尺寸，以及禁用态下的开与关。",
+    "keywords": "switch size",
+    "href": "/components/switch/size"
+  },
+  {
+    "type": "demo",
+    "title": "Switch 开关 · 受控状态",
+    "description": "用 createSignal 控制开关状态，onChange 回显，并演示校验态。",
+    "keywords": "switch state",
+    "href": "/components/switch/state"
+  },
+  {
+    "type": "api",
+    "title": "SwitchProps.checked",
+    "description": "受控选中态；支持传值或 getter（`MaybeAccessor`）。",
+    "keywords": "switch MaybeAccessor<boolean>",
+    "href": "/components/switch#api-checked"
+  },
+  {
+    "type": "api",
+    "title": "SwitchProps.defaultChecked",
+    "description": "非受控初始选中态；仅在挂载时读取一次。",
+    "keywords": "switch MaybeAccessor<boolean>",
+    "href": "/components/switch#api-defaultChecked"
+  },
+  {
+    "type": "api",
+    "title": "SwitchProps.onChange",
+    "description": "选中态变更回调；第一参数是切换后的布尔值。",
+    "keywords": "switch SwitchChangeHandler",
+    "href": "/components/switch#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "SwitchProps.size",
+    "description": "尺寸。",
+    "keywords": "switch SwitchSize",
+    "href": "/components/switch#api-size"
+  },
+  {
+    "type": "api",
+    "title": "SwitchProps.status",
+    "description": "校验态；`error` 时输出 `data-scui-invalid=\"true\"`。被 `<Form.Item>` 包裹时字段状态优先。",
+    "keywords": "switch SwitchStatus",
+    "href": "/components/switch#api-status"
+  },
+  {
+    "type": "api",
+    "title": "SwitchProps.children",
+    "description": "文案；由 `<label>` 包裹输入控件，点击文字即可切换。无文案时须自行提供 `aria-label`。",
+    "keywords": "switch JSX.Element",
+    "href": "/components/switch#api-children"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

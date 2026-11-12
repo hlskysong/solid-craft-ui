@@ -1,0 +1,130 @@
+{
+  "slug": "radio",
+  "source": "packages/core/src/components/radio/types.ts",
+  "interfaces": [
+    {
+      "name": "RadioProps",
+      "inherits": "Omit<\n  JSX.InputHTMLAttributes<HTMLInputElement>,\n  'value' | 'checked' | 'defaultChecked' | 'onChange' | 'children' | 'size' | 'type'\n>",
+      "props": [
+        {
+          "name": "checked",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "受控选中态；支持传值或 getter（`MaybeAccessor`）。",
+          "default": "undefined（非受控）"
+        },
+        {
+          "name": "defaultChecked",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "非受控初始选中态；仅在挂载时读取一次。",
+          "default": "false"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": true,
+          "description": "选项值；在 Group 内必填，独立使用时只作为原生 `value` 透传。",
+          "default": "undefined"
+        },
+        {
+          "name": "onChange",
+          "type": "RadioChangeHandler",
+          "optional": true,
+          "description": "选中态变更回调；第一参数是切换后的布尔值。",
+          "default": "undefined"
+        },
+        {
+          "name": "size",
+          "type": "RadioSize",
+          "optional": true,
+          "description": "尺寸；在 Group 内未显式给出时继承 Group 的尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "status",
+          "type": "RadioStatus",
+          "optional": true,
+          "description": "校验态；`error` 时输出 `data-scui-invalid=\"true\"`。被 `<Form.Item>` 包裹时字段状态优先。",
+          "default": "'default'"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "文案；由 `<label>` 包裹输入控件，点击文字即可选中。无文案时须自行提供 `aria-label`。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "RadioGroupProps",
+      "inherits": "Omit<\n  JSX.FieldsetHTMLAttributes<HTMLFieldSetElement>,\n  'onChange' | 'children' | 'defaultValue'\n>",
+      "props": [
+        {
+          "name": "value",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "受控值（当前选中的 `value`）；支持传值或 getter。",
+          "default": "undefined（非受控）"
+        },
+        {
+          "name": "defaultValue",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "非受控初始值；仅在挂载时读取一次。",
+          "default": "''"
+        },
+        {
+          "name": "onChange",
+          "type": "RadioGroupChangeHandler",
+          "optional": true,
+          "description": "选中项变更回调；第一参数是选中项的 `value`。",
+          "default": "undefined"
+        },
+        {
+          "name": "options",
+          "type": "RadioOption[]",
+          "optional": true,
+          "description": "选项写法；给出后忽略 `children`。",
+          "default": "undefined"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "optional": true,
+          "description": "整组禁用。",
+          "default": "false"
+        },
+        {
+          "name": "size",
+          "type": "RadioSize",
+          "optional": true,
+          "description": "尺寸；子项未显式传 `size` 时继承本值。",
+          "default": "'medium'"
+        },
+        {
+          "name": "orientation",
+          "type": "RadioOrientation",
+          "optional": true,
+          "description": "排列方向，落成 `data-scui-orientation`。",
+          "default": "'horizontal'"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": true,
+          "description": "原生 name；同组同源，缺省由 `createUniqueId()` 生成（SSR 稳定）。",
+          "default": "自动生成"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "手写子项写法：直接放 `<Radio value=\"...\">...</Radio>`。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

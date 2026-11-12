@@ -1,0 +1,99 @@
+@use 'mixins' as m;
+
+/* Checkbox / CheckboxGroup（T2-05）
+   原生 input 只留 1px 可聚焦区，视觉由 __indicator 承担；状态一律 [data-scui-*]，
+   类名只有块与元素两级（无 modifier）。三件套共用「壳 + 控件 + 指示器 + 文案」结构，
+   因此这里的尺寸 / 禁用 / 焦点 / 校验口径与 radio.scss / switch.scss 保持一致。 */
+
+:where(.scui-checkbox) {
+  --scui-checkbox-current-size: 16px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+  color: var(--scui-color-text-primary);
+  cursor: pointer;
+
+  &:focus-within {
+    @include m.scui-focus-ring;
+  }
+
+  &[data-scui-invalid='true'] .scui-checkbox__indicator {
+    border-color: var(--scui-color-danger);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-checkbox)[data-scui-size='small'] {
+  --scui-checkbox-current-size: 14px;
+}
+
+:where(.scui-checkbox)[data-scui-size='large'] {
+  --scui-checkbox-current-size: 20px;
+}
+
+:where(.scui-checkbox__control) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+:where(.scui-checkbox__indicator) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: var(--scui-checkbox-current-size);
+  block-size: var(--scui-checkbox-current-size);
+  border: 1px solid var(--scui-color-border-strong);
+  border-radius: var(--scui-space-1, 4px);
+  background: var(--scui-color-bg-surface);
+  color: transparent;
+  transition:
+    background-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease),
+    border-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+}
+
+:where(.scui-checkbox)[data-scui-checked='true'] .scui-checkbox__indicator,
+:where(.scui-checkbox)[data-scui-checked='mixed'] .scui-checkbox__indicator {
+  border-color: var(--scui-color-primary);
+  background: var(--scui-color-primary);
+  color: var(--scui-color-bg-surface);
+}
+
+:where(.scui-checkbox)[data-scui-disabled] .scui-checkbox__indicator {
+  border-color: var(--scui-color-border-default);
+  background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+  color: var(--scui-color-text-disabled);
+}
+
+:where(.scui-checkbox__label) {
+  line-height: 1.5;
+}
+
+/* 根是 <fieldset>（隐含 group 语义，Biome 的 useSemanticElements 要求），
+   先清掉浏览器给 fieldset 的边框 / 内边距 / 最小宽度，否则视觉基线会被 UA 样式带偏。 */
+:where(.scui-checkbox-group) {
+  display: flex;
+  align-items: center;
+  gap: var(--scui-space-4, 16px);
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+:where(.scui-checkbox-group)[data-scui-orientation='vertical'] {
+  flex-direction: column;
+  align-items: flex-start;
+}
