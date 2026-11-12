@@ -88,11 +88,16 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     expect(primary).toBe('#2d66f5');
   });
 
-  test('375px 不溢出冒烟（仅冒烟，不作移动端适配验收）', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 800 });
-    // T2-13：按「组件 × Demo」逐页扫，窄屏溢出往往是某个 Demo 单独引入的
-    //（例如多列栅格 / 双输入控件），只扫 basic 会整片漏掉。
-    for (const item of DEMO_CASES) {
+  // T2-13：按「组件 × Demo」逐页扫，窄屏溢出往往是某个 Demo 单独引入的
+  //（例如多列栅格 / 双输入控件），只扫 basic 会整片漏掉。
+  //
+  // 2026-11-12（CI 首次红灯）：**每个 Demo 单独一条用例**，不再「一条用例循环 N 页」。
+  // 单条用例的 30s 预算按「一页工作量」设计，53 次 goto 在 CI runner 上要 15.8s、
+  // axe 那条直接 31.1s 超时炸掉（本机 M4 只要 1/3 时间，本地永远复现不了）。
+  // 拆开后每条各自计 30s，组件数涨到 30+ 也不会再撞天花板，失败还直接指名是哪个 Demo。
+  for (const item of DEMO_CASES) {
+    test(`375px 不溢出：${demoCaseId(item)}`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 800 });
       await page.goto(item.path);
       const metrics = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
@@ -101,8 +106,8 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
       expect(metrics.scrollWidth, `${demoCaseId(item)} 出现横向溢出`).toBeLessThanOrEqual(
         metrics.clientWidth + 1,
       );
-    }
-  });
+    });
+  }
 
   // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
   // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
@@ -224,12 +229,17 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
 
 test.describe('A11y 链：axe 扫描', () => {
   // T2-13：扫描面从「每组件 basic」扩到「组件 × Demo」。真实表单页
-  // （form/real-form）与各组件非首 Demo 现在都在这条循环里，不再单开用例 ——
+  // （form/real-form）与各组件非首 Demo 都在这条循环里，不再单开用例 ——
   // 单开意味着每新增一个 Demo 就要人肉记得加一条，迟早漏。
-  test('全部 Demo 无 serious / critical 违规', async ({ page }) => {
-    const blocking: string[] = [];
-    for (const item of DEMO_CASES) {
-      const id = demoCaseId(item);
+  //
+  // 2026-11-12（CI 首次红灯）：循环体改为生成**每 Demo 一条用例**。原实现是
+  // 「一条用例内 for 循环 53 次 goto + axe」，CI 实测 31.1s > 30s 默认超时，
+  // 卡在最后一页 form/layout 上（前 50 页全是 0 violations，不是 a11y 回归，
+  // 纯粹是单条用例吃不下 53 页工作量）。生成式展开既保留「不需要人肉加用例」
+  // 的性质，又让每条用例独立计时、独立报告失败。
+  for (const item of DEMO_CASES) {
+    const id = demoCaseId(item);
+    test(`axe 扫描：${id} 无 serious / critical 违规`, async ({ page }) => {
       await page.goto(item.path);
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
@@ -241,22 +251,20 @@ test.describe('A11y 链：axe 扫描', () => {
         .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
         .join(', ');
       console.log(`[axe] ${id}: ${results.violations.length} violations ${summary}`);
-      if (serious.length > 0) {
-        for (const violation of serious) {
-          for (const node of violation.nodes.slice(0, 4)) {
-            const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
-            console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
-          }
+      for (const violation of serious) {
+        for (const node of violation.nodes.slice(0, 4)) {
+          const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+          console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
         }
-        blocking.push(
-          `${id}: ${serious
-            .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
-            .join(', ')}`,
-        );
       }
-    }
-    expect(blocking, `serious/critical 违规：\n${blocking.join('\n')}`).toEqual([]);
-  });
+      expect(
+        serious.map(
+          (violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`,
+        ),
+        `${id} serious/critical 违规`,
+      ).toEqual([]);
+    });
+  }
 
   // T2-10：日历弹层同样只在展开时存在，必须在 open 之后单独扫一次
   // （role=grid / gridcell / roving tabindex 的 ARIA 组合才第一次真正参与计算）。
