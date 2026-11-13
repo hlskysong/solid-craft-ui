@@ -1,10 +1,11 @@
-/** `solid-craft/table` 子路径入口（T3-01 基座 + T3-02 排序 / 筛选）。 */
+/** `solid-craft/table` 子路径入口（T3-01 基座 + T3-02 排序 / 筛选 + T3-03 行选择）。 */
 export { Table } from './Table';
 export {
   useTableEngine,
   resolveColumns,
   readCell,
   normalizeSorters,
+  normalizeSelectedKeys,
   applyFilters,
   applySorters,
 } from './table-engine';
@@ -22,6 +23,8 @@ export type {
   TablePaginationState,
   TableProps,
   TableRowKey,
+  TableRowSelection,
+  TableSelectionType,
   TableSize,
   TableSortDirection,
   TableSortState,

@@ -18,7 +18,7 @@
 | `data-scui-field` | 字段名 | 字段定位 + 错误滚动目标 | Form |
 | `data-scui-layout` | `horizontal \| vertical \| inline` | 表单与字段的布局，Form 根与 Form.Item 同源输出 | Form |
 | `data-scui-required` | `''`（存在即真） | 字段声明了 required 规则且必填标记开启；与 `data-scui-invalid` 的「校验结果」语义分开 | Form |
-| `data-scui-selected` | `''` | 选中态（列表 / 日历格 / 表格行，存在即真） | Select / DatePicker / Table |
+| `data-scui-selected` | `''` | 选中态（列表 / 日历格 / 表格行，存在即真）；Table 落在 `<tr>` 上（T3-03） | Select / DatePicker / Table |
 | `data-scui-checked` | `'true' \| 'false' \| 'mixed'` | 选择类控件的选中三态；**恒输出**（含 SSR 的 `'false'`），`'mixed'` 只由 `Checkbox.indeterminate` 产生 | Checkbox / Radio / Switch |
 | `data-scui-kind` | `info \| success \| warning \| error \| loading` | **一条反馈自身的语义类型**，恒输出；不复用文本 `-tone` 或控件 `-variant`（一个属性名只表达一个语义） | App / Message / Notification |
 | `data-scui-placement` | `top \| top-left \| top-right \| bottom \| bottom-left \| bottom-right` | 反馈容器的出现位置；`message` 恒为 `top`，`notification` 可在 `<App>` 上配置 | App / Message / Notification |
@@ -41,13 +41,15 @@
 | `data-scui-filtered` | `''`（存在即真） | 当前列有生效的筛选值，落在 `<th>` 上（T3-02） | Table |
 | `data-scui-filter-open` | `''`（存在即真） | 当前列的筛选面板处于展开态；SSR 首帧恒不输出（面板初态关闭） | Table |
 | `data-scui-server` | `''`（存在即真） | 服务端模式：只把排序 / 筛选参数交给 `onChange`，不本地改数据顺序与行数（T3-02） | Table |
+| `data-scui-row-disabled` | `''`（存在即真） | 行选择被禁用：该行控件原生 `disabled`、且不进全选集合；**不改整行文字颜色**（禁用不靠降对比度表达，避免 axe `color-contrast`） | Table（T3-03） |
 
 ## `data-scui-role` 取值清单
 
 | 取值 | 组件 | 说明 |
 | --- | --- | --- |
 | `dialog-trigger` / `dialog-content` / `dialog-body` / `dialog-close` | Dialog | Kobalte 原语封装层 |
-| `select-all` / `sort-trigger` / `filter-trigger` | Table | 交互锚点；后两者由 T3-02 落地，SSR 首帧即输出 |
+| `select-all` / `sort-trigger` / `filter-trigger` | Table | 交互锚点：`sort-trigger` / `filter-trigger` 由 T3-02、`select-all` 由 T3-03 落地，SSR 首帧即输出；radio 模式没有全选语义，零输出 |
+| `select-row` | Table | 行选择控件锚点（T3-03）：每行一个，SSR 首帧即输出 |
 | `table` / `table-scroll` | Table | 结构锚点 |
 | `filter-dropdown` / `filter-option` | Table | 筛选面板与内置选项锚点（T3-02）；面板初态关闭，SSR 零输出 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |

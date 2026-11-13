@@ -542,6 +542,18 @@
           "description": "内置下拉、自定义 filterDropdown 与服务端模式；服务端只带出参数，不改动本地数据。"
         },
         {
+          "name": "selection-radio",
+          "path": "packages/core/src/components/table/demos/selection-radio.tsx",
+          "title": "单选",
+          "description": "单选模式不渲染全选，选中集合恒为一行，表头保留可访问文案。"
+        },
+        {
+          "name": "selection",
+          "path": "packages/core/src/components/table/demos/selection.tsx",
+          "title": "选择",
+          "description": "多选行、全选与半选三态；禁用行不进全选集合，受控值由外部回写。"
+        },
+        {
           "name": "sorting",
           "path": "packages/core/src/components/table/demos/sorting.tsx",
           "title": "排序",

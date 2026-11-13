@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 92,
+  "pageCount": 94,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -466,6 +466,16 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/table-selection-radio.md",
+      "title": "# Table 表格 · 单选（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/table-selection.md",
+      "title": "# Table 表格 · 选择（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/table-sorting.md",
       "title": "# Table 表格 · 排序（源码）",
       "kind": "demos"
@@ -588,6 +598,8 @@
     "llms/demos/table-borders.md",
     "llms/demos/table-density.md",
     "llms/demos/table-filtering.md",
+    "llms/demos/table-selection-radio.md",
+    "llms/demos/table-selection.md",
     "llms/demos/table-sorting.md"
   ],
   "requiredSections": [

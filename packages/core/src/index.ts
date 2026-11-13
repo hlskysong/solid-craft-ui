@@ -132,6 +132,8 @@ export type {
   TablePaginationState,
   TableProps,
   TableRowKey,
+  TableRowSelection,
+  TableSelectionType,
   TableSize,
   TableSortDirection,
   TableSortState,

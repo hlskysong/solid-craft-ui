@@ -138,6 +138,47 @@
       ]
     },
     {
+      "name": "TableRowSelection",
+      "inherits": null,
+      "props": [
+        {
+          "name": "type",
+          "type": "TableSelectionType",
+          "optional": true,
+          "description": "选择模式。",
+          "default": "'checkbox'"
+        },
+        {
+          "name": "selectedRowKeys",
+          "type": "readonly string[]",
+          "optional": true,
+          "description": "受控选中行键；给了就不在组件内部保存选择，点击只发 `onChange`。",
+          "default": "undefined"
+        },
+        {
+          "name": "defaultSelectedRowKeys",
+          "type": "readonly string[]",
+          "optional": true,
+          "description": "非受控选中初值；只在 setup 期读一次。",
+          "default": "[]"
+        },
+        {
+          "name": "onChange",
+          "type": "(keys: readonly string[], rows: readonly T[]) => void",
+          "optional": true,
+          "description": "选中变化出口。`keys` 是归一后的完整选中集合；`rows` 是按当前 `data` 能解析到的行对象（受控值含视图外 key 时会短于 `keys`）。",
+          "default": "undefined"
+        },
+        {
+          "name": "isRowDisabled",
+          "type": "(row: T, index: number) => boolean",
+          "optional": true,
+          "description": "行选择禁用判定：返回 `true` 的行不渲染可交互控件、不进全选集合。 只影响选择列，不改行内容与文字颜色（禁用不靠降对比度表达，避免 axe `color-contrast`）。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
       "name": "TableColumn",
       "inherits": null,
       "props": [
@@ -293,6 +334,13 @@
           "optional": true,
           "description": "非受控筛选初值；只在 setup 期读一次。",
           "default": "{}"
+        },
+        {
+          "name": "rowSelection",
+          "type": "TableRowSelection<T>",
+          "optional": true,
+          "description": "行选择配置；不传则不渲染选择列。",
+          "default": "undefined"
         },
         {
           "name": "onChange",

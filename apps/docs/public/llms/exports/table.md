@@ -73,6 +73,18 @@ import { /* 导出符号 */ } from 'solid-craft/table';
 | `confirm` | `() => void` | — | 关闭面板。 | 是 |
 | `reset` | `() => void` | — | 清空当前列筛选。 | 是 |
 
+### TableRowSelection
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `type` | `TableSelectionType` | `'checkbox'` | 选择模式。 | 否 |
+| `selectedRowKeys` | `readonly string[]` | `undefined` | 受控选中行键；给了就不在组件内部保存选择，点击只发 `onChange`。 | 否 |
+| `defaultSelectedRowKeys` | `readonly string[]` | `[]` | 非受控选中初值；只在 setup 期读一次。 | 否 |
+| `onChange` | `(keys: readonly string[], rows: readonly T[]) => void` | `undefined` | 选中变化出口。`keys` 是归一后的完整选中集合；`rows` 是按当前 `data` 能解析到的行对象（受控值含视图外 key 时会短于 `keys`）。 | 否 |
+| `isRowDisabled` | `(row: T, index: number) => boolean` | `undefined` | 行选择禁用判定：返回 `true` 的行不渲染可交互控件、不进全选集合。 只影响选择列，不改行内容与文字颜色（禁用不靠降对比度表达，避免 axe `color-contrast`）。 | 否 |
+
 ### TableColumn
 
 继承：无
@@ -107,6 +119,7 @@ import { /* 导出符号 */ } from 'solid-craft/table';
 | `defaultSorter` | `TableSorter` | `[]` | 非受控排序初值；只在 setup 期读一次。 | 否 |
 | `filters` | `TableFilters` | `undefined` | 受控筛选状态；给了就不在组件内部保存筛选，变更只发 `onChange`。 | 否 |
 | `defaultFilters` | `TableFilters` | `{}` | 非受控筛选初值；只在 setup 期读一次。 | 否 |
+| `rowSelection` | `TableRowSelection<T>` | `undefined` | 行选择配置；不传则不渲染选择列。 | 否 |
 | `onChange` | `(change: TableChange) => void` | `undefined` | 统一变更出口；排序 / 筛选任一变化都带出完整三参快照。 | 否 |
 | `server` | `boolean` | `false` | 服务端模式：只把参数交给 `onChange`，**不本地改数据**（行数与原序都不变）。 | 否 |
 | `multipleSorters` | `boolean` | `false` | 允许多列同时排序；默认单列（点新列替换旧列）。 | 否 |
@@ -119,12 +132,13 @@ import { /* 导出符号 */ } from 'solid-craft/table';
 
 ```ts
 /**
- * `Table` 的公共类型（T3-01 基座 + T3-02 排序 / 筛选）。
+ * `Table` 的公共类型（T3-01 基座 + T3-02 排序 / 筛选 + T3-03 行选择）。
  *
- * 范围按 `docs/04 §5.1` 的 P0 基本能力与 `docs/08 §4.2` 的 T3-01 / T3-02 验收列：
- * 列配置、data / rowKey / loading、尺寸、边框、三档密度，以及单列 / 多列排序、
- * 受控 / 非受控、内置筛选下拉与自定义 `filterDropdown`。选择 / 分页分别属于
- * T3-03 / T3-06，本层不预置它们的行为（只在 `TableChange` 里把协议位定清）。
+ * 范围按 `docs/04 §5.1` 的 P0 基本能力与 `docs/08 §4.2` 的 T3-01~T3-03 验收列：
+ * 列配置、data / rowKey / loading、尺寸、边框、三档密度、单列 / 多列排序、
+ * 受控 / 非受控、内置筛选下拉与自定义 `filterDropdown`，以及 checkbox / radio
+ * 行选择、全选 / 半选、禁用行、受控 `selectedRowKeys`。分页属于 T3-06，
+ * 本层只在 `TableChange` 里把协议位定清。
  *
  * 响应式契约按 `docs/04 §6.4`：props 一律传值（调用方自己调用 accessor），
  * 不直接传 signal 函数；组件内部用 `useTableEngine` 把 props 收敛成单一状态
@@ -234,6 +248,48 @@ export interface TableFilterDropdownContext {
 export type TableFilterDropdown<T extends object> = (
   context: TableFilterDropdownContext,
 ) => JSX.Element;
+
+/** 行选择模式：复选框多选 / 单选框单选。 */
+export type TableSelectionType = 'checkbox' | 'radio';
+
+/**
+ * 行选择配置。整体挂在 `rowSelection` 一个 prop 上（对齐 AntD 使用习惯），
+ * 而不是散成 `selectedRowKeys` / `onSelectChange` 多个字段 —— 关掉行选择只需
+ * 不传这一个 prop，不必逐个清空。
+ *
+ * 受控优先级与其他状态一致：`selectedRowKeys > defaultSelectedRowKeys > 内部信号`。
+ * `radio` 模式不接受多选，选中集合恒收敛为 1 个 key（否则同一 `name` 下会出现
+ * 多个 checked 的 radio，DOM 本身非法）。
+ */
+export interface TableRowSelection<T extends object> {
+  /**
+   * 选择模式。
+   * @default 'checkbox'
+   */
+  type?: TableSelectionType;
+  /**
+   * 受控选中行键；给了就不在组件内部保存选择，点击只发 `onChange`。
+   * @default undefined
+   */
+  selectedRowKeys?: readonly string[];
+  /**
+   * 非受控选中初值；只在 setup 期读一次。
+   * @default []
+   */
+  defaultSelectedRowKeys?: readonly string[];
+  /**
+   * 选中变化出口。`keys` 是归一后的完整选中集合；`rows` 是按当前 `data`
+   * 能解析到的行对象（受控值含视图外 key 时会短于 `keys`）。
+   * @default undefined
+   */
+  onChange?: (keys: readonly string[], rows: readonly T[]) => void;
+  /**
+   * 行选择禁用判定：返回 `true` 的行不渲染可交互控件、不进全选集合。
+   * 只影响选择列，不改行内容与文字颜色（禁用不靠降对比度表达，避免 axe `color-contrast`）。
+   * @default undefined
+   */
+  isRowDisabled?: (row: T, index: number) => boolean;
+}
 
 /** 单列配置。`title` 必填，保证 `<th>` 恒有可访问名称（axe `empty-table-header`）。 */
 export interface TableColumn<T extends object> {
@@ -345,6 +401,11 @@ export interface TableProps<T extends object> extends Omit<
    */
   defaultFilters?: TableFilters;
   /**
+   * 行选择配置；不传则不渲染选择列。
+   * @default undefined
+   */
+  rowSelection?: TableRowSelection<T>;
+  /**
    * 统一变更出口；排序 / 筛选任一变化都带出完整三参快照。
    * @default undefined
    */
@@ -378,6 +439,8 @@ export interface TableProps<T extends object> extends Omit<
 - [边框与尺寸](../demos/table-borders.md)：bordered 开关与三档行高；表头和正文始终共用同一档字号。（源文件 `packages/core/src/components/table/demos/borders.tsx`）
 - [密度档位](../demos/table-density.md)：舒适、默认、紧凑三档单元格内距；密度只改内距，不改变行高与字号。（源文件 `packages/core/src/components/table/demos/density.tsx`）
 - [筛选](../demos/table-filtering.md)：内置下拉、自定义 filterDropdown 与服务端模式；服务端只带出参数，不改动本地数据。（源文件 `packages/core/src/components/table/demos/filtering.tsx`）
+- [单选](../demos/table-selection-radio.md)：单选模式不渲染全选，选中集合恒为一行，表头保留可访问文案。（源文件 `packages/core/src/components/table/demos/selection-radio.tsx`）
+- [选择](../demos/table-selection.md)：多选行、全选与半选三态；禁用行不进全选集合，受控值由外部回写。（源文件 `packages/core/src/components/table/demos/selection.tsx`）
 - [排序](../demos/table-sorting.md)：单列三态循环、多列累加与受控回写；每次变更都从同一个 onChange 出口带出完整状态。（源文件 `packages/core/src/components/table/demos/sorting.tsx`）
 
 ## 相关规范

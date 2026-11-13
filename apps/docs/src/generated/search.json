@@ -2332,6 +2332,20 @@
   },
   {
     "type": "demo",
+    "title": "Table 表格 · 单选",
+    "description": "单选模式不渲染全选，选中集合恒为一行，表头保留可访问文案。",
+    "keywords": "table selection-radio",
+    "href": "/components/table/selection-radio"
+  },
+  {
+    "type": "demo",
+    "title": "Table 表格 · 选择",
+    "description": "多选行、全选与半选三态；禁用行不进全选集合，受控值由外部回写。",
+    "keywords": "table selection",
+    "href": "/components/table/selection"
+  },
+  {
+    "type": "demo",
     "title": "Table 表格 · 排序",
     "description": "单列三态循环、多列累加与受控回写；每次变更都从同一个 onChange 出口带出完整状态。",
     "keywords": "table sorting",
@@ -2441,6 +2455,41 @@
     "description": "清空当前列筛选。",
     "keywords": "table () => void",
     "href": "/components/table#api-reset"
+  },
+  {
+    "type": "api",
+    "title": "TableRowSelection.type",
+    "description": "选择模式。",
+    "keywords": "table TableSelectionType",
+    "href": "/components/table#api-type"
+  },
+  {
+    "type": "api",
+    "title": "TableRowSelection.selectedRowKeys",
+    "description": "受控选中行键；给了就不在组件内部保存选择，点击只发 `onChange`。",
+    "keywords": "table readonly string[]",
+    "href": "/components/table#api-selectedRowKeys"
+  },
+  {
+    "type": "api",
+    "title": "TableRowSelection.defaultSelectedRowKeys",
+    "description": "非受控选中初值；只在 setup 期读一次。",
+    "keywords": "table readonly string[]",
+    "href": "/components/table#api-defaultSelectedRowKeys"
+  },
+  {
+    "type": "api",
+    "title": "TableRowSelection.onChange",
+    "description": "选中变化出口。`keys` 是归一后的完整选中集合；`rows` 是按当前 `data` 能解析到的行对象（受控值含视图外 key 时会短于 `keys`）。",
+    "keywords": "table (keys: readonly string[], rows: readonly T[]) => void",
+    "href": "/components/table#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "TableRowSelection.isRowDisabled",
+    "description": "行选择禁用判定：返回 `true` 的行不渲染可交互控件、不进全选集合。 只影响选择列，不改行内容与文字颜色（禁用不靠降对比度表达，避免 axe `color-contrast`）。",
+    "keywords": "table (row: T, index: number) => boolean",
+    "href": "/components/table#api-isRowDisabled"
   },
   {
     "type": "api",
@@ -2588,6 +2637,13 @@
     "description": "非受控筛选初值；只在 setup 期读一次。",
     "keywords": "table TableFilters",
     "href": "/components/table#api-defaultFilters"
+  },
+  {
+    "type": "api",
+    "title": "TableProps.rowSelection",
+    "description": "行选择配置；不传则不渲染选择列。",
+    "keywords": "table TableRowSelection<T>",
+    "href": "/components/table#api-rowSelection"
   },
   {
     "type": "api",

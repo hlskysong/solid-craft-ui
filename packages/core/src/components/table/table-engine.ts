@@ -1,16 +1,17 @@
 /**
- * `useTableEngine`（T3-01 基座 + T3-02 排序 / 筛选）：Table 的**单一状态真源**。
+ * `useTableEngine`（T3-01 基座 + T3-02 排序 / 筛选 + T3-03 行选择）：Table 的**单一状态真源**。
  *
  * `docs/04 §5.1` 把「受控状态与内部状态混用」列为 Table 的首要风险，要求统一用
  * `useTableEngine` 管理。本层把全部入参 + 非受控内部信号收敛成**一个** `createMemo`
  * 状态快照：视图只读 `state()`、只调引擎方法，不自己建 signal、不散读 props。
- * 排序 / 筛选 / 筛选面板开合都在这里，T3-03 选择与 T3-06 分页继续往 `TableState`
+ * 排序 / 筛选 / 行选择 / 筛选面板开合都在这里，T3-06 分页继续往 `TableState`
  * 加字段即可。
  *
  * 受控优先级与 Select 一致（`value > defaultValue > 内部信号`）：
- * `sorter` / `filters` 给了就完全受控，点击只发 `onChange` 不改内部状态；
- * 未给时用 `defaultSorter` / `defaultFilters` 作为内部信号初值。两者互不覆盖，
- * 任意一次变更都从当前 `state()` 快照算出「排序 + 筛选」的完整新值再发出。
+ * `sorter` / `filters` / `rowSelection.selectedRowKeys` 给了就完全受控，
+ * 点击只发回调不改内部状态；未给时用 `defaultSorter` / `defaultFilters` /
+ * `defaultSelectedRowKeys` 作为内部信号初值。三者互不覆盖，任意一次变更都从
+ * 当前 `state()` 快照算出完整新值再发出。
  *
  * `server` 模式只发参数、不本地改数据：`rows` 保持原始顺序与行数，由调用方
  * 按 `onChange` 的参数自行请求并回写 `data`（`docs/04 §5.1` 关键风险第 3 条）。
@@ -30,6 +31,7 @@ import type {
   TableFilterMode,
   TableFilters,
   TableProps,
+  TableSelectionType,
   TableSize,
   TableSortDirection,
   TableSorter,
@@ -49,6 +51,7 @@ export type TableEngineOptions<T extends object> = Pick<
   | 'defaultSorter'
   | 'filters'
   | 'defaultFilters'
+  | 'rowSelection'
   | 'onChange'
   | 'server'
   | 'multipleSorters'
@@ -85,9 +88,21 @@ export interface TableState<T extends object> {
   server: boolean;
   multipleSorters: boolean;
   openFilterKey: string | undefined;
+  /** 行选择模式；`undefined` 表示未启用（不渲染选择列）。 */
+  selectionType: TableSelectionType | undefined;
+  /** 当前选中行键（归一后）；radio 模式恒 ≤ 1 项。 */
+  selectedKeys: readonly string[];
+  /** 选中键集合，供视图 O(1) 判定行选中态。 */
+  selectedKeySet: ReadonlySet<string>;
+  /** 当前视图内可选中行的键（已排除禁用行）；全选 / 半选的分母。 */
+  selectableKeys: readonly string[];
+  /** 可选行是否全部选中；没有任何可选行时为 `false`。 */
+  allSelected: boolean;
+  /** 半选：有可选行已选中但未全选（对应 `aria-checked="mixed"`）。 */
+  someSelected: boolean;
 }
 
-/** 引擎句柄：状态快照 + 行键 / 单元格取值 / 排序筛选动作的唯一实现。 */
+/** 引擎句柄：状态快照 + 行键 / 单元格取值 / 排序筛选 / 行选择的唯一实现。 */
 export interface TableEngine<T extends object> {
   state: Accessor<TableState<T>>;
   rowKeyOf: (row: T, index: number) => string;
@@ -97,6 +112,10 @@ export interface TableEngine<T extends object> {
   setFilterValues: (columnKey: string, values: readonly string[]) => void;
   setOpenFilterKey: (key: string | undefined) => void;
   filterDropdownContext: (columnKey: string) => TableFilterDropdownContext;
+  isRowSelected: (row: T, index: number) => boolean;
+  isRowDisabled: (row: T, index: number) => boolean;
+  toggleRow: (row: T, index: number) => void;
+  toggleAll: () => void;
 }
 
 const widthText = (width: number | string | undefined): string | undefined => {
@@ -148,6 +167,19 @@ export function normalizeSorters(value: TableSorter | undefined): TableSorter {
     )
     .map((item) => ({ columnKey: item.columnKey, direction: item.direction }));
 }
+
+/**
+ * 选中键归一：复制一份。调用方常用 `[...keys, key]` 的写法，但也会直接持有数组
+ * 后 `push` / `splice` —— 复制后组件状态不会被外部悄悄改写。
+ */
+export function normalizeSelectedKeys(value: readonly string[] | undefined): readonly string[] {
+  if (value === undefined) return [];
+  return [...value];
+}
+
+/** 行键推导：`rowKey` 缺省、或取到的文本为空时按行序号兜底（与 `rowKeyOf` 同源）。 */
+const keyAt = <T extends object>(row: T, index: number, rowKey: string | undefined): string =>
+  rowKey === undefined ? String(index) : toText(readCell(row, rowKey)) || String(index);
 
 /**
  * 确定性比较：数字按数值、其余按文本码点。刻意不用 `localeCompare` —— 中文排序
@@ -224,6 +256,10 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
   });
   // 筛选面板开合是 UI 交互态，同样收进引擎，避免视图里再长出一个 signal。
   const [openFilterKey, setOpenFilterKey] = createSignal<string | undefined>(undefined);
+  // 非受控行选择：只在 setup 期读一次 defaultSelectedRowKeys。
+  const [internalSelectedKeys, setInternalSelectedKeys] = createSignal<readonly string[]>(
+    normalizeSelectedKeys(options.rowSelection?.defaultSelectedRowKeys),
+  );
 
   // 列归一化单独一层 memo：`<For each={state().columns}>` 按 item 引用做 keyed diff，
   // 若把它塞进 state 的每次重算里，一次筛选点击就会重建整张表头（连筛选面板里的
@@ -240,6 +276,30 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     const rows = server
       ? rawRows
       : applySorters(applyFilters(rawRows, filters, resolvedColumns), sorters, resolvedColumns);
+    const rowSelection = options.rowSelection;
+    const selectionType: TableSelectionType | undefined =
+      rowSelection === undefined ? undefined : (rowSelection.type ?? 'checkbox');
+    const declaredKeys =
+      rowSelection?.selectedRowKeys === undefined
+        ? internalSelectedKeys()
+        : normalizeSelectedKeys(rowSelection.selectedRowKeys);
+    // radio 同 name 下只能有一个 checked；受控值给了多个时只认首个，避免非法 DOM。
+    const selectedKeys: readonly string[] =
+      selectionType === 'radio' ? declaredKeys.slice(0, 1) : declaredKeys;
+    const selectedKeySet = new Set(selectedKeys);
+    // 全选 / 半选的分母只算「当前视图内且未禁用」的行：受控值里可能残留视图外 key，
+    // 拿它当分母会让半选态永远差一票。
+    const selectableKeys: string[] = [];
+    for (let index = 0; index < rows.length; index += 1) {
+      const row = rows[index];
+      if (row === undefined) continue;
+      if (rowSelection?.isRowDisabled?.(row, index) === true) continue;
+      selectableKeys.push(keyAt(row, index, options.rowKey));
+    }
+    const selectedSelectableCount = selectableKeys.filter((key) => selectedKeySet.has(key)).length;
+    const allSelected =
+      selectableKeys.length > 0 && selectedSelectableCount === selectableKeys.length;
+    const someSelected = selectedSelectableCount > 0 && !allSelected;
     return {
       columns: resolvedColumns,
       rows,
@@ -255,6 +315,12 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
       server,
       multipleSorters: options.multipleSorters === true,
       openFilterKey: openFilterKey(),
+      selectionType,
+      selectedKeys,
+      selectedKeySet,
+      selectableKeys,
+      allSelected,
+      someSelected,
     };
   });
 
@@ -297,17 +363,66 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     reset: () => setFilterValues(columnKey, []),
   });
 
-  const rowKeyOf = (row: T, index: number): string => {
-    const key = state().rowKey;
-    if (key === undefined) return String(index);
-    return toText(readCell(row, key)) || String(index);
+  /** 行级禁用判定：只读 `rowSelection.isRowDisabled`，不参与状态快照。 */
+  const rowDisabled = (row: T, index: number): boolean =>
+    options.rowSelection?.isRowDisabled?.(row, index) === true;
+
+  /**
+   * 选择变更统一出口：受控时不写内部信号，只回调；`rows` 按当前 `data` 解析，
+   * 受控值里含视图外 key 时长度会短于 `keys`（不伪造行对象）。
+   */
+  const commitSelection = (next: readonly string[]): void => {
+    const config = options.rowSelection;
+    if (config === undefined) return;
+    if (config.selectedRowKeys === undefined) setInternalSelectedKeys(next);
+    const keySet = new Set(next);
+    const data = options.data ?? [];
+    const matched: T[] = [];
+    for (let index = 0; index < data.length; index += 1) {
+      const row = data[index];
+      if (row === undefined) continue;
+      if (keySet.has(keyAt(row, index, options.rowKey))) matched.push(row);
+    }
+    config.onChange?.(next, matched);
   };
+
+  const toggleRow = (row: T, index: number): void => {
+    const current = state();
+    if (current.selectionType === undefined) return;
+    if (rowDisabled(row, index)) return;
+    const key = keyAt(row, index, options.rowKey);
+    const next: readonly string[] =
+      current.selectionType === 'radio'
+        ? [key]
+        : current.selectedKeys.includes(key)
+          ? current.selectedKeys.filter((item) => item !== key)
+          : [...current.selectedKeys, key];
+    commitSelection(next);
+  };
+
+  const toggleAll = (): void => {
+    const current = state();
+    // 全选只属于 checkbox；radio 语义上不存在「全选一行」。
+    if (current.selectionType !== 'checkbox') return;
+    const selectable = current.selectableKeys;
+    if (selectable.length === 0) return;
+    // 只动当前可选集合内的键：视图外残留键与禁用行的旧选中值原样保留，
+    // 否则服务端分页下点一次全选就会把别的页选中状态清掉。
+    const selectableSet = new Set(selectable);
+    const outside = current.selectedKeys.filter((key) => !selectableSet.has(key));
+    commitSelection(current.allSelected ? outside : [...outside, ...selectable]);
+  };
+
+  const rowKeyOf = (row: T, index: number): string => keyAt(row, index, state().rowKey);
 
   const cellValue = (row: T, column: ResolvedTableColumn<T>): unknown =>
     readCell(row, column.dataIndex);
 
   const cellText = (row: T, column: ResolvedTableColumn<T>): string =>
     toText(cellValue(row, column));
+
+  const isRowSelected = (row: T, index: number): boolean =>
+    state().selectedKeySet.has(keyAt(row, index, options.rowKey));
 
   return {
     state,
@@ -318,5 +433,9 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     setFilterValues,
     setOpenFilterKey,
     filterDropdownContext,
+    isRowSelected,
+    isRowDisabled: rowDisabled,
+    toggleRow,
+    toggleAll,
   };
 }

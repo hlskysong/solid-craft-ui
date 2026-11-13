@@ -1,26 +1,26 @@
 /**
- * 表格（T3-01 基座 + T3-02 排序 / 筛选）。
+ * 表格（T3-01 基座 + T3-02 排序 / 筛选 + T3-03 行选择）。
  *
  * 分层：`useTableEngine` 把 props 归一成单一状态快照，本文件只负责把它翻译成
- * 原生 `<table>` 语义与交互控件；排序 / 筛选 / 面板开合状态全在引擎里，
- * **视图不建 signal、不散读 props 状态字段**。T3-03 选择 / T3-06 分页继续
- * 从同一个 `TableState` 取，不在这里复制状态。
+ * 原生 `<table>` 语义与交互控件；排序 / 筛选 / 行选择 / 面板开合状态全在引擎里，
+ * **视图不建 signal、不散读 props 状态字段**。T3-06 分页继续从同一个
+ * `TableState` 取，不在这里复制状态。
  *
  * SSR（R4 裁决 + `Table.md §6`）：服务端输出**完整静态表格骨架**
- * —— colgroup / thead / tbody、排序与筛选触发器、全部 `data-scui-*` 都在
- * setup 期产出；筛选面板初态关闭（不渲染），因此首帧属性与客户端一致。
+ * —— colgroup / thead / tbody、排序与筛选触发器、选择列与全部 `data-scui-*`
+ * 都在 setup 期产出；筛选面板初态关闭（不渲染），因此首帧属性与客户端一致。
  * 不访问 `window` / `document` / 当前时间，窗口化与 DOM 测量属 client-only
  * 增强层。`data-scui-loading` / `aria-busy` / 存在即真的状态属性两态稳定。
  *
  * 表头与正文共用 `--scui-table-font-size`，层级只靠 `font-weight` / 背景表达，
  * **不靠缩字号**（`docs/04 §5.1` 密度与内距目标）。
  */
-import { For, Show, splitProps, type JSX } from 'solid-js';
+import { createEffect, createUniqueId, For, Show, splitProps, type JSX } from 'solid-js';
 
 import { CSS_PREFIX } from '../../scope';
 import { classNames } from '../../utils/class-names';
 import { useTableEngine } from './table-engine';
-import type { TableProps, TableSortState } from './types';
+import type { TableProps, TableSelectionType, TableSortState } from './types';
 
 const TABLE_PROPS = [
   'columns',
@@ -34,6 +34,7 @@ const TABLE_PROPS = [
   'defaultSorter',
   'filters',
   'defaultFilters',
+  'rowSelection',
   'onChange',
   'server',
   'multipleSorters',
@@ -42,10 +43,76 @@ const TABLE_PROPS = [
   'class',
 ] as const;
 
+interface SelectControlProps {
+  /** 控件类型：多选 checkbox / 单选 radio。 */
+  type: TableSelectionType;
+  /** radio 分组名；checkbox 不传。 */
+  name?: string;
+  /** 可访问名称。 */
+  label: string;
+  checked: boolean;
+  disabled: boolean;
+  /** 半选态；只对 checkbox 有意义。 */
+  indeterminate?: boolean;
+  /** 落成 `data-scui-role`（属性锚点），不是 ARIA role —— 名字刻意避开 `role`。 */
+  scuiRole: string;
+  onToggle: () => void;
+}
+
+/**
+ * 行选择控件（原生 `input`）。
+ *
+ * 刻意**不复用** `Checkbox` / `Radio`：`build-css.mjs` 按组件目录逐个编译
+ * `components/<name>.css`，没有依赖聚合 —— `table.css` 里没有 `.scui-checkbox`
+ * 的样式，复用会让「只引 table.css」的使用方拿到裸 `<input>`。这里自建 16px
+ * 方框，语义与 Checkbox 同口径（三态都输出 `aria-checked`）。
+ *
+ * `indeterminate` 是 DOM **property** 而非 attribute：SSR 不序列化它，靠客户端
+ * effect 写入；`aria-checked="mixed"` 是 attribute，SSR 首帧就与客户端一致，
+ * 不会造成 hydration 属性差。
+ */
+function SelectControl(props: SelectControlProps): JSX.Element {
+  let control: HTMLInputElement | undefined;
+
+  createEffect(() => {
+    if (control !== undefined) control.indeterminate = props.indeterminate === true;
+  });
+
+  return (
+    // biome-ignore lint/a11y/useAriaPropsSupportedByRole: `aria-checked="mixed"` 是 checkbox / radio 三态必需；静态检查不认 `<input type={...}>` 的隐式与动态角色（同 Icon.tsx 的口径）
+    <input
+      ref={(element) => {
+        control = element;
+      }}
+      type={props.type}
+      name={props.name}
+      // 显式声明隐式角色：`aria-checked="mixed"` 是三态必需，而静态检查不认
+      // `<input type="checkbox">` 的隐式 checkbox 角色，显式写出后语义不变。
+      role={props.type}
+      class={`${CSS_PREFIX}table__select-control`}
+      data-scui-role={props.scuiRole}
+      aria-label={props.label}
+      aria-checked={props.indeterminate === true ? 'mixed' : props.checked ? 'true' : 'false'}
+      checked={props.checked}
+      disabled={props.disabled}
+      onChange={(event) => {
+        props.onToggle();
+        // 浏览器已先把 DOM 切过；受控值没变时响应式绑定不会重算，不回弹就会
+        // 出现「点了没选中、界面却显示已选」。非受控时 props 已是新值，等于空操作。
+        const target = event.currentTarget;
+        target.checked = props.checked;
+        target.indeterminate = props.indeterminate === true;
+      }}
+    />
+  );
+}
+
 export function Table<T extends object>(props: TableProps<T>): JSX.Element {
   const [local, rest] = splitProps(props, TABLE_PROPS);
   const engine = useTableEngine<T>(local);
   const state = engine.state;
+  // radio 必须同组同 name：每张表一个稳定 id，避免同页多表互相排斥。
+  const selectionName = `scui-table-select-${createUniqueId()}`;
 
   const sorterOf = (columnKey: string): TableSortState | undefined =>
     state().sorters.find((item) => item.columnKey === columnKey);
@@ -71,12 +138,37 @@ export function Table<T extends object>(props: TableProps<T>): JSX.Element {
         aria-label={local['aria-label']}
       >
         <colgroup>
+          <Show when={state().selectionType !== undefined}>
+            <col class={`${CSS_PREFIX}table__select-col`} />
+          </Show>
           <For each={state().columns}>
             {(column) => <col style={column.width ? `width:${column.width}` : undefined} />}
           </For>
         </colgroup>
         <thead>
           <tr>
+            <Show when={state().selectionType !== undefined}>
+              <th
+                class={`${CSS_PREFIX}table__head-cell ${CSS_PREFIX}table__select-cell`}
+                scope="col"
+                data-scui-align="center"
+              >
+                {/* radio 模式没有全选控件，但 `<th>` 不能为空（axe `empty-table-header`）；
+                    两种模式都留一段视觉隐藏文案，checkbox 再叠一个全选控件。 */}
+                <span class={`${CSS_PREFIX}table__select-label`}>选择</span>
+                <Show when={state().selectionType === 'checkbox'}>
+                  <SelectControl
+                    type="checkbox"
+                    scuiRole="select-all"
+                    label="全选当前页"
+                    checked={state().allSelected}
+                    indeterminate={state().someSelected}
+                    disabled={state().selectableKeys.length === 0}
+                    onToggle={() => engine.toggleAll()}
+                  />
+                </Show>
+              </th>
+            </Show>
             <For each={state().columns}>
               {(column) => {
                 const direction = () => sorterOf(column.key)?.direction;
@@ -180,19 +272,43 @@ export function Table<T extends object>(props: TableProps<T>): JSX.Element {
         </thead>
         <tbody>
           <For each={state().rows}>
-            {(row, index) => (
-              <tr data-scui-row-key={engine.rowKeyOf(row, index())}>
-                <For each={state().columns}>
-                  {(column) => (
-                    <td class={`${CSS_PREFIX}table__cell`} data-scui-align={column.align}>
-                      {column.render
-                        ? column.render(engine.cellValue(row, column), row, index())
-                        : engine.cellText(row, column)}
+            {(row, index) => {
+              const selected = () => engine.isRowSelected(row, index());
+              const disabled = () => engine.isRowDisabled(row, index());
+              return (
+                <tr
+                  data-scui-row-key={engine.rowKeyOf(row, index())}
+                  data-scui-selected={selected() ? '' : undefined}
+                  data-scui-row-disabled={disabled() ? '' : undefined}
+                >
+                  <Show when={state().selectionType !== undefined}>
+                    <td
+                      class={`${CSS_PREFIX}table__cell ${CSS_PREFIX}table__select-cell`}
+                      data-scui-align="center"
+                    >
+                      <SelectControl
+                        type={state().selectionType === 'radio' ? 'radio' : 'checkbox'}
+                        name={state().selectionType === 'radio' ? selectionName : undefined}
+                        scuiRole="select-row"
+                        label={`选择第 ${index() + 1} 行`}
+                        checked={selected()}
+                        disabled={disabled()}
+                        onToggle={() => engine.toggleRow(row, index())}
+                      />
                     </td>
-                  )}
-                </For>
-              </tr>
-            )}
+                  </Show>
+                  <For each={state().columns}>
+                    {(column) => (
+                      <td class={`${CSS_PREFIX}table__cell`} data-scui-align={column.align}>
+                        {column.render
+                          ? column.render(engine.cellValue(row, column), row, index())
+                          : engine.cellText(row, column)}
+                      </td>
+                    )}
+                  </For>
+                </tr>
+              );
+            }}
           </For>
         </tbody>
       </table>

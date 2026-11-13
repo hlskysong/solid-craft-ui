@@ -16,6 +16,7 @@ import { Table } from './Table';
 import {
   applyFilters,
   applySorters,
+  normalizeSelectedKeys,
   normalizeSorters,
   readCell,
   resolveColumns,
@@ -435,5 +436,169 @@ describe('Table 引擎：排序 / 筛选纯函数', () => {
     );
     expect(byDepartment.map((row) => row.id)).toEqual(['A03', 'A01', 'A02', 'A04']);
     expect(rows.map((row) => row.id)).toEqual(['A01', 'A02', 'A03', 'A04']); // 不改原数组
+  });
+});
+
+describe('Table：T3-03 行选择', () => {
+  const selectAll = (): HTMLInputElement | null =>
+    document.querySelector<HTMLInputElement>('[data-scui-role="select-all"]');
+  const selectRows = (): NodeListOf<HTMLInputElement> =>
+    document.querySelectorAll<HTMLInputElement>('[data-scui-role="select-row"]');
+
+  const selectNode = (index: number): HTMLInputElement => {
+    const node = selectRows()[index];
+    if (node === undefined) throw new Error(`缺少第 ${index} 行选择控件`);
+    return node;
+  };
+
+  const lastSelection = (spy: ReturnType<typeof vi.fn>): readonly string[] => {
+    const call = spy.mock.calls.at(-1);
+    if (call === undefined) throw new Error('onChange 未被调用');
+    return call[0] as readonly string[];
+  };
+
+  it('不传 rowSelection 时不渲染选择列', () => {
+    render(() => <Table columns={columns} data={rows} rowKey="id" />);
+
+    expect(selectAll()).toBeNull();
+    expect(selectRows()).toHaveLength(0);
+    expect(headCells()).toHaveLength(4);
+  });
+
+  it('checkbox：全选 / 半选三态与 aria-checked 同步', async () => {
+    const onChange = vi.fn();
+    render(() => <Table columns={columns} data={rows} rowKey="id" rowSelection={{ onChange }} />);
+
+    expect(selectAll()).not.toBeNull();
+    expect(selectRows()).toHaveLength(4);
+    expect(selectAll()?.getAttribute('aria-checked')).toBe('false');
+
+    clickNode(selectNode(0), '第 1 行选择');
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastSelection(onChange)).toEqual(['A01']);
+    expect(selectAll()?.getAttribute('aria-checked')).toBe('mixed');
+    expect(selectAll()?.indeterminate).toBe(true);
+    expect(rowNodes()[0]).toHaveAttribute('data-scui-selected', '');
+
+    clickNode(selectAll(), '全选');
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(2));
+    expect(lastSelection(onChange)).toEqual(['A01', 'A02', 'A03', 'A04']);
+    expect(selectAll()?.getAttribute('aria-checked')).toBe('true');
+    expect(selectAll()?.indeterminate).toBe(false);
+  });
+
+  it('禁用行不进全选集合，且点击无效', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={columns}
+        data={rows}
+        rowKey="id"
+        rowSelection={{ onChange, isRowDisabled: (row) => row.id === 'A03' }}
+      />
+    ));
+
+    expect(selectNode(2).disabled).toBe(true);
+    expect(rowNodes()[2]).toHaveAttribute('data-scui-row-disabled', '');
+    expect(rowNodes()[0]).not.toHaveAttribute('data-scui-row-disabled');
+
+    clickNode(selectAll(), '全选');
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastSelection(onChange)).toEqual(['A01', 'A02', 'A04']);
+    expect(selectNode(2).checked).toBe(false);
+
+    clickNode(selectNode(2), '禁用行选择');
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(selectNode(2).checked).toBe(false);
+  });
+
+  it('受控：点击只发 onChange，不回写内部选中态', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={columns}
+        data={rows}
+        rowKey="id"
+        rowSelection={{ selectedRowKeys: ['A02'], onChange }}
+      />
+    ));
+
+    expect(selectNode(1).checked).toBe(true);
+
+    clickNode(selectNode(0), '第 1 行选择');
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastSelection(onChange)).toEqual(['A02', 'A01']);
+    // 受控值没变：DOM 必须回弹，不能停留在浏览器切换后的状态
+    expect(selectNode(1).checked).toBe(true);
+    expect(selectNode(0).checked).toBe(false);
+  });
+
+  it('非受控 defaultSelectedRowKeys 生效，并据此给出半选', () => {
+    render(() => (
+      <Table
+        columns={columns}
+        data={rows}
+        rowKey="id"
+        rowSelection={{ defaultSelectedRowKeys: ['A01', 'A04'] }}
+      />
+    ));
+
+    expect(selectNode(0).checked).toBe(true);
+    expect(selectNode(3).checked).toBe(true);
+    expect(selectAll()?.indeterminate).toBe(true);
+    expect(selectAll()?.getAttribute('aria-checked')).toBe('mixed');
+  });
+
+  it('radio：无全选控件，选中集合恒为 1 项，表头保留可访问文案', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={columns}
+        data={rows}
+        rowKey="id"
+        rowSelection={{ type: 'radio', defaultSelectedRowKeys: ['A01'], onChange }}
+      />
+    ));
+
+    expect(selectAll()).toBeNull();
+    expect(selectRows()).toHaveLength(4);
+    expect(headCells()[0]).toHaveTextContent('选择');
+    expect(selectNode(0).type).toBe('radio');
+    expect(selectNode(0).checked).toBe(true);
+    // 同组同 name，否则点击时浏览器不会互斥
+    expect(selectNode(1).name).toBe(selectNode(0).name);
+    expect(selectNode(0).name).not.toBe('');
+
+    clickNode(selectNode(2), '第 3 行选择');
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastSelection(onChange)).toEqual(['A03']);
+    expect(selectNode(2).checked).toBe(true);
+    expect(selectNode(0).checked).toBe(false);
+  });
+
+  it('选中集合含视图外 key 时，全选只动当前视图并保留外部残留', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={columns}
+        data={rows}
+        rowKey="id"
+        rowSelection={{ selectedRowKeys: ['Z99'], onChange }}
+      />
+    ));
+
+    clickNode(selectAll(), '全选');
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastSelection(onChange)).toEqual(['Z99', 'A01', 'A02', 'A03', 'A04']);
+  });
+});
+
+describe('Table 引擎：行选择纯函数', () => {
+  it('normalizeSelectedKeys 复制一份，避免外部改动穿透', () => {
+    const input = ['A01'];
+    const result = normalizeSelectedKeys(input);
+    expect(result).toEqual(['A01']);
+    expect(result).not.toBe(input);
+    expect(normalizeSelectedKeys(undefined)).toEqual([]);
   });
 });

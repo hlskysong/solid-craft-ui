@@ -75,7 +75,10 @@
 
 :where(.scui-table__head-cell) {
   border-block-end: 1px solid var(--scui-color-border-default);
-  background: var(--scui-color-bg-subtle);
+
+  /* 表头底色用 neutral-50（#f0f0f0）：`--scui-color-bg-subtle` 在 tokens 里
+     并未定义，T3-01 起这条声明一直是静默失效的死代码（表头其实全白）。 */
+  background: var(--scui-color-neutral-50);
   color: var(--scui-color-text-secondary);
   font-weight: var(--scui-font-weight-medium);
 }
@@ -149,4 +152,53 @@
   display: flex;
   gap: var(--scui-space-2);
   padding-block-start: var(--scui-space-2);
+}
+
+/* T3-03 行选择。选择列是独立一列（不进 `columns` 配置），固定窄宽 + 居中。
+   控件自建而不复用 Checkbox / Radio 组件：样式构建按组件目录逐个产出、没有依赖
+   聚合，table 的样式表里没有 checkbox 的类 —— 复用会让「只引 table 样式」的
+   使用方拿到裸 `<input>`。
+
+   禁用行只调用控件的原生 `disabled`，**不降整行文字对比度**：T3-01 曾用
+   `opacity: 0.6` 表达加载态，被 axe `color-contrast` 判 serious ×12。
+   选中行用 blue-1（#cde3ff）浅蓝底，文字仍是 text-primary，对比度远高于 4.5:1。 */
+
+:where(.scui-table__select-col) {
+  width: 48px;
+}
+
+:where(.scui-table__select-cell) {
+  inline-size: 48px;
+  padding-inline: var(--scui-space-2, 8px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* radio 模式表头没有全选控件，用这段视觉隐藏文案占位，避免 axe `empty-table-header`。 */
+:where(.scui-table__select-label) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:where(.scui-table__select-control) {
+  inline-size: 16px;
+  block-size: 16px;
+  margin: 0;
+  accent-color: var(--scui-color-primary, #2563eb);
+  cursor: pointer;
+  vertical-align: middle;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-table) tr[data-scui-selected] > .scui-table__cell {
+  background: var(--scui-color-palette-blue-1);
 }

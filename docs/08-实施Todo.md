@@ -11,7 +11,7 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-03**（M3 第三项「Table 选择」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」已完成并闭合**（§30.35 / §30.36，evidence `30.35` / `30.36`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 改动**尚未提交 / 推送**（Aming 本轮选 C：不提交直接继续） |
+| 当前任务 ID | **T3-04**（M3 第四项「`Pagination`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」已完成并闭合**（§30.35 / §30.36 / §30.37，evidence `30.35` / `30.36` / `30.37`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`（**未推送**）；T3-03 改动**尚未提交 / 推送**（Aming 本轮选「先 A 后 C」） |
 | 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-01 + T3-02 两轮改动，再开始 T3-03「Table 选择」**：M3 已按 `docs/05` Phase 3 拆成 14 项（§4.2）。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
@@ -155,7 +155,7 @@
 | --- | --- | --- | --- | --- | --- |
 | T3-01 | Table 引擎基座：`useTableEngine` 统一受控状态，列配置（`title` / `dataIndex` / `width` / `align` / `render`）、`data` / `rowKey` / `loading`、尺寸与边框、默认密度 12 / 12（可选 16 / 16、8 / 8） | T2-13 | 技术负责人 | 列配置全生效；表头与正文同字号档不靠缩字号表达层级；SSR 输出静态表格骨架、hydration 无 warning；单测 + SSR 入口 + `data-scui-*` 作用域齐全（**`useTableEngine` 单一状态真源 / 281 tests·28 files / SSR 16 入口 / 112 张基线 / 判据 4d + 负向 N162~N168 7/7 / `pnpm verify` RC=0**，见 §30.35） | [x] |
 | T3-02 | Table 排序与筛选：单列 / 多列、受控 / 非受控、内置筛选下拉与自定义 `filterDropdown` | T3-01 | 技术负责人 | 统一 `onChange({ pagination, filters, sorter })` 协议（对齐 AntD 使用习惯）；服务端模式只出参数不本地改数据；筛选与排序组合不互相覆盖（**291 tests·28 files / SSR 17 入口 / 116 张基线 / 判据 4e + 负向 N169~N178 10/10 / `pnpm verify` RC=0**，见 §30.36） | [x] |
-| T3-03 | Table 选择：checkbox / radio、全选 / 半选、禁用行、受控 `selectedRowKeys` | T3-01 | 工程师 B | 半选 `aria-checked="mixed"` 正确；禁用行不进全选集合；受控与非受控两条链路各有单测 | [ ] |
+| T3-03 | Table 选择：checkbox / radio、全选 / 半选、禁用行、受控 `selectedRowKeys` | T3-01 | 工程师 B | 半选 `aria-checked="mixed"` 正确；禁用行不进全选集合；受控与非受控两条链路各有单测（**`rowSelection` 单 prop / `aria-checked="mixed"` + `indeterminate` 双通道 / 禁用行不进全选且不降对比度 / 选择控件自建不复用 Checkbox·Radio / 299 tests·28 files / SSR 18 入口 / 120 张基线 / 判据 4f + 负向 N179~N189 11/11 / `pnpm verify` RC=0**，见 §30.37） | [x] |
 | T3-04 | `Pagination`（M）：页码、每页条数、快速跳转、受控 / 非受控 | T2-05 | 工程师 B | 总页数变化时当前页收敛不越界；键盘可达 + axe 0 violation；组件自身 `onChange` 与 Table 集成互不冲突 | [ ] |
 | T3-05 | `Empty` / `Skeleton` / `Spin`：空状态与加载三件套 | T2-13 | 工程师 C | 各 ≥3 Demo；骨架与真实内容同尺寸、切换不产生布局抖动；Spin 延迟显示可测 | [ ] |
 | T3-06 | Table 分页接入 + 空 / 加载态：客户端 / 服务端两套协议 | T3-01 / T3-04 / T3-05 | 技术负责人 | `onChange` 三参合流；分页 + 排序 + 筛选任意组合状态不丢；空态与加载态占位切换；服务端参数协议一次定清，业务侧不再自拼 | [ ] |
@@ -4087,3 +4087,129 @@ SSR 入口渲染三张表：非受控（`defaultSorter` 部门升序 + `defaultF
 4. **受控语义要靠「不发内部更新」而不是「不发回调」**：受控 `sorter` 下点击表头仍必须发 `onChange`，只是内部状态不动；单测专门钉了「外部不回写则视图不变、回调照常」。
 5. **Demo 的视觉说服力也要验**：年限降序恰好等于原行序，截图看着像没排序；改成部门升序后基线才真正证明功能生效。
 6. **负向实证要覆盖新判据的每一条分支**：N169~N178 逐条对应 4e-a~f / 4d-b / 4d-a / 字体 / 基线，避免「加了一堆判据但没人知道它们会不会亮」。
+
+### 30.37 T3-03 Table 行选择落地与验收（2026-11-13 实测）
+
+#### 一、结论先行
+
+Aming 选「先 A 后 C」：先把 T3-01 + T3-02 两轮改动提交为 `f782eee`（未推送），再继续 M3 第三项。**Table 行选择已完成并闭合**，工作区改动仍未提交 / 推送。
+
+本轮把 `docs/04 §5.1` 的选择能力一次做实：
+
+1. **checkbox 多选 / radio 单选、全选 / 半选三态**：半选同时输出 `aria-checked="mixed"`（attribute，SSR 首帧可输出）与原生 `indeterminate`（DOM property，客户端 effect 写入）。
+2. **禁用行不进全选集合**：`isRowDisabled` 返回 `true` 的行控件原生 `disabled`、不进 `selectableKeys`，且**不降整行文字对比度**（T3-01 的 `opacity: 0.6` 被 axe 判 serious ×12 的教训）。
+3. **受控 / 非受控双链路**：`rowSelection.selectedRowKeys > defaultSelectedRowKeys > 内部信号`，受控时点击只发 `onChange`、DOM 必须回弹。
+
+组件清单 18 组件 / 58 → **60 Demo**，视觉基线 116 → **120 张**（新增 2 个 Demo × 2 视口），字集 907 → **909 码位**。`pnpm verify` 26 阶段 **RC=0**，负向 **N179~N189 11/11 PASS**。
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `packages/core/src/components/table/types.ts` | 新增 `TableSelectionType`（`'checkbox' \| 'radio'`）与 `TableRowSelection<T>`（`type` / `selectedRowKeys` / `defaultSelectedRowKeys` / `onChange` / `isRowDisabled`）；`TableProps` 加 `rowSelection` |
+| `packages/core/src/components/table/table-engine.ts` | `TableState` 加 `selectionType` / `selectedKeys` / `selectedKeySet` / `selectableKeys` / `allSelected` / `someSelected`；新增 `normalizeSelectedKeys` 纯函数与 `isRowSelected` / `isRowDisabled` / `toggleRow` / `toggleAll` 四个动作；`rowKeyOf` 与内部 `keyAt` 同源 |
+| `packages/core/src/components/table/Table.tsx` | 选择列（`<col>` + 表头 `<th>` + 每行 `<td>`）、`SelectControl` 内部控件、`data-scui-selected` / `data-scui-row-disabled` 两个新属性 |
+| `packages/core/src/components/table/table.scss` | 选择列宽度 / 视觉隐藏文案 / 控件尺寸；**表头底色修正**与选中行浅蓝底（见第四节） |
+| `packages/core/src/components/table/index.ts`、`packages/core/src/index.ts` | barrel 导出 `normalizeSelectedKeys` 与两个新类型 |
+| `packages/core/src/components/table/Table.test.tsx` | 追加 8 个单测（27 tests）：不传不渲染 / 全选半选三态 / 禁用行 / 受控不回写 / `defaultSelectedRowKeys` / radio 单选与同 `name` / 视图外 key 保留 / 纯函数 |
+| `packages/core/src/components/table/demos/{selection,selection-radio}.tsx` | 2 个新 Demo：非受控 / 含禁用行 / 受控多选；受控单选 |
+| `packages/core/src/components/table/__tests__/ssr-selection.tsx` | 新增 SSR 入口：部分选中 checkbox + 受控 radio 含禁用行 + 未启用三张表 |
+| `packages/core/spikes/shared/ssr-smoke.mjs` | 新增 `id: 'T3-03'` case（14 markers / 14 counts），SSR 入口 17 → **18** |
+| `packages/core/spikes/api-draft/data-attributes.md` | 新增 `data-scui-row-disabled`；`data-scui-selected` 补注「Table 落在 `<tr>` 上」；role 表新增 `select-row`，`select-all` 标注 T3-03 落地、radio 模式零输出 |
+| `scripts/check-ci.mjs` | 判据 4d 正则补 `rowSelection`；新增判据 **4f**（六条子判据，见第六节）；`FONT_SHA256` 重校；汇总文案追加「Table 行选择契约」 |
+| `apps/docs/src/generated/**`、`apps/docs/public/llms/**`、`packages/core/llms*.txt` | `pnpm docs:generate` 产物：2 个新 Demo JSON / 2 个新 llms 页 / 搜索索引 376 → 384 |
+| `apps/docs/public/fonts/{charset.txt,scui-visual.woff2}` | 字集重建：**814 CJK/符号 + 95 ASCII = 909 码位**，SHA256 `fc5574db…` |
+| `tests/e2e/baselines/light-ltr-default-table-{selection,selection-radio}-*.png` | 新增 4 张；另有 14 张旧基线因表头底色修正而更新（见第四节） |
+| `docs/08` 本文件、`scripts/todo-governance.json`、`scripts/goals.baseline.json`、`AGENTS.md`（仅标记行） | §4.2 T3-03 勾 `[x]` + 证据、锚点推进 T3-04、治理契约 `T3-03 → 30.37`、基线重校 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| 行选择整体挂在 `rowSelection` 一个 prop 上 | 对齐 AntD 使用习惯（`docs/04 §5.1` 明文要求）；关掉行选择只需不传这一个 prop，不必逐个清空散字段。`onChange` 单独出口，**不进 `TableChange`** —— 行选择与分页 / 排序 / 筛选是两种语义，混在一起会让「只想拿排序参数」的调用方被迫处理选中集合 |
+| `isRowDisabled` 而不是 AntD 的 `getCheckboxProps` | 后者返回 props 对象，等于把内部控件的实现细节（哪些属性）暴露给调用方；`isRowDisabled` 只表达「这行能不能选」一个布尔，符合 R2=A（对外值只用字符串/布尔，不暴露对象形状） |
+| radio 模式的选中集合**恒收敛为 1 项**（受控值给了多个时只认首个） | 同一 `name` 下多个 `checked` 的 radio 是**非法 DOM**，浏览器行为未定义。收敛放在引擎的 `selectedKeys` 派生处，而不是视图里各判一次 |
+| 全选 / 半选的分母只算「当前视图内且未禁用」的行 | 受控值可能与当前 `data` 不同源（服务端分页、筛选后残留）。拿全量 `selectedRowKeys` 当分母会让半选态永远差一票 |
+| `toggleAll` 只增删「当前可选集合」内的键，保留视图外残留 | 服务端分页下点一次全选不能把别的页选中状态清掉；`onChange` 回传的是完整集合，语义可预测 |
+| `selectedRows` 按当前 `data` 解析，不伪造行对象 | 受控值含视图外 key 时，`rows` 长度会短于 `keys`。这是如实的：组件手里没有那些行，编一个出来才是隐藏 bug |
+| 行选择控件**不复用** `Checkbox` / `Radio` 组件 | `build-css.mjs` 按组件目录逐个编译 `components/<name>.css`、**没有依赖聚合**：`table.css` 里没有 `.scui-checkbox` 的样式。复用会让「只引 table 样式」的使用方拿到裸 `<input>`。自建 16px 方框，语义与 Checkbox 同口径（三态都输出 `aria-checked`），成本只是几十行 |
+
+#### 四、两个真实缺陷
+
+**其一：`--scui-color-bg-subtle` 在 tokens 里根本不存在。**
+
+T3-01 写的表头 `background: var(--scui-color-bg-subtle)` 从落地起就是**静默失效的死代码**（无 fallback 的未定义变量 → 声明无效 → 表头其实全白）。全仓库其它组件（checkbox / radio / select / date-picker / range-picker）都用 `var(--scui-color-bg-subtle, var(--scui-color-bg-surface))` 带 fallback，只有 Table 两处漏了。
+
+本轮修法：表头改用真实 token `--scui-color-neutral-50`（#f0f0f0），选中行用 `--scui-color-palette-blue-1`（#cde3ff，与主色同族）。**副作用要如实记录**：14 张既有 Table 基线因此变灰、被一并更新，属于「把本来就该有的视觉补上」，不是新增设计。
+
+**其二：视觉基线的 `update` 会「假通过」。**
+
+改完背景色后连跑三次 `pnpm test:visual:update` 都是 `121 passed` 且 git 零变更，但用 Playwright 实测页面 `getComputedStyle` 明明是 `rgb(240,240,240)`。根因是 `webServer.reuseExistingServer` 复用了上一次遗留的 dev server，它对 `packages/core/dist/styles/index.css` 的变更不重新加载 —— 于是 **update 用旧 CSS 截图，比对旧基线，判定「一致」，什么都不写**。
+
+判定手段：删掉一张基线再跑 update，新生成的图中 `#f0f0f0` 像素从 0 变成 8928 —— 证明渲染已变、只是未被重写。最终做法是把 120 张基线整体移出目录、跑一次全量 update 重建，再跑 `pnpm test:visual` 复验全绿。
+
+**教训**：`test:visual:update` 的绿灯不等于「基线已反映当前代码」，它也可能是「拿旧样式比旧基线」。改公共样式后必须确认 server 是新的（或直接全量重建）。
+
+#### 五、SSR、视觉与字体
+
+SSR 入口渲染三张表：checkbox 非受控（选中 2 / 4 → 全选必须半选）、radio 受控（选中 1 行 + 禁用 1 行）、不传 `rowSelection`。`T3-03` case 的 14 markers / 14 counts 钉住：`select-all` 恰好 **1 个**（radio 模式没有全选语义）、`select-row` **8 个**、`aria-checked` 的 `mixed` 1 / `true` 3 / `false` 5（共 9 = 1 + 8，一个不多一个不少）、`data-scui-selected` 3 个、`data-scui-row-disabled` 1 个、`scope="col"` 14 个（5 + 5 + 4 列）。18 个 SSR 入口全绿。
+
+**一个判据初稿错误**：原以为禁用控件会序列化成 `disabled=""`，实际 Solid SSR 对布尔 true 输出**裸属性名** `disabled`（与 `checked` 同）。`disabled=""` 计数恒为 0，改用 `' disabled'`（前导空格）精准区分 `data-scui-row-disabled`（`disabled` 前是连字符，不匹配）。这条通过抓真实 SSR 输出确认，而不是猜。
+
+**两个 lint 真实红灯**：① `SelectControl` 的 prop 名叫 `role`，被 Biome `useValidAriaRole` 当成 ARIA role，`role="select-all"` 直接报非法 —— 改名 `scuiRole`；② `<input type={...} aria-checked>` 被 `useAriaPropsSupportedByRole` 判不支持，因为静态检查不认隐式/动态角色 —— 按 `Icon.tsx` 既有口径加 `biome-ignore` 并写明原因（`aria-checked="mixed"` 是三态必需）。
+
+`check:styles` 还抓了一次：`table.scss` 注释里写 `` `components/<name>.css` `` 与 `` `table.css` ``，被「类名必须以 `scui-` 开头」规则判成类名 `.css`。改成中文表述后通过 —— 与 T3-02 「注释里的文件名进门禁扫描面」是同一类坑，第二次踩。
+
+#### 六、新增判据（`check:ci` 4f，收进既有阶段）
+
+| 子判据 | 内容 | 负向 |
+| --- | --- | --- |
+| 4f-a | `Table.tsx` 必须输出 `data-scui-selected` 与 `data-scui-row-disabled` | N179 / N186 |
+| 4f-b | 必须输出 `scuiRole="select-all"` 与 `scuiRole="select-row"` 两个锚点 | N180 |
+| 4f-c | 必须处理半选三态（出现 `'mixed'` 字面量） | N181 |
+| 4f-d | 引擎必须派生 `allSelected` / `someSelected`（视图不得自己数） | N182 |
+| 4f-e | 选择控件不得 import `../checkbox` / `../radio`，`table.scss` 不得出现 `scui-checkbox` / `scui-radio` | N183 |
+| 4f-f | SSR 入口必须登记 `id: 'T3-03'` | N184 |
+| 4d-b（扩展） | 视图不得读 `local.rowSelection`（原 14 个字段 → 15 个） | N185 |
+
+判据全部收在 `check:ci` 内部，**不新开 workflow / job / 阶段**，26 阶段不变。4f-e 特意把「CSS 逐组件独立产出、禁止跨组件类名」钉成结构契约 —— 否则后来者「为了复用」把 Checkbox 引进来，样式会静默裸奔，而所有单测与 SSR 仍然全绿。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0**（26 阶段，全量、不设 `SCUI_E2E_SCOPE`；日志 `/tmp/verify37b.log`） |
+| core 单测 | **299 tests / 28 files**（Table.test.tsx 27 tests，本轮 +8） |
+| browser / visual / docs / llms | **131 / 121 / 8 / 4** 全 passed（120 张截图 + 1 覆盖守卫） |
+| SSR 冒烟 | **18 个入口**全绿，T3-03 14 markers / 14 counts |
+| `check:docs` / `check:llms` | 80 生成物一致 / 97 站点 + 3 包内副本（94 页 / 22 exports / 95 条链接 / 0 死链 / 0 孤儿页） |
+| `check:ci` | RC=0，判据 4d + 4e + **4f** + 11（18 组件 / 60 Demo / 120 张基线一一对齐）+ 12 全绿；固定字体 814 字集 |
+| `check:todo` | RC=0，65 任务 / **54 个 `[x]`** / 90 验收区块 / 倒挂 0 |
+| `check:goals` | RC=0，15 个受保护文件基线重新校准 |
+| 负向实证 | **N179~N189 11/11 PASS + RESTORE_OK**：逐项改坏选中属性 / 全选锚点 / 半选三态 / 引擎派生 / 复用 checkbox 类名 / SSR 未登记 / 直读 `local.rowSelection` / 禁用行属性 / 删一张基线 / 篡改字体哈希 / 样式引用未输出的 data 属性；脚本每例重新备份、锚点唯一命中、`RC≠0` 且命中指定诊断，结尾 SHA256 比对 |
+| 冻结面 | `docs/01~07` 与 `pnpm-lock.yaml` **0 改动**；`git diff --check` RC=0；零新增依赖 |
+
+#### 八、允许写入路径（L4）与边界
+
+**允许写入路径（L4，本轮派发边界）**：`packages/core/src/components/table/**`（types / engine / 视图 / 样式 / barrel / 单测 / 2 个新 Demo / SSR 入口）、`packages/core/src/index.ts`、`packages/core/spikes/{api-draft/data-attributes.md,shared/ssr-smoke.mjs}`、`packages/core/llms*.txt`、`apps/docs/src/generated/**`、`apps/docs/public/{llms/**,llms.txt,llms-full.txt}`、`apps/docs/public/fonts/{charset.txt,scui-visual.woff2}`、`tests/e2e/baselines/**`（4 张新增 + 14 张表头底色修正）、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（由 `--update-baseline` 生成）、`AGENTS.md`（仅标记行）、`docs/08-实施Todo.md`（§4.2 / §30.37 / 锚点 / 状态行）、`.workbuddy/memory/2026-11-13.md`。
+
+**未写入**：`docs/01~07`（冻结）、`pnpm-lock.yaml`、`package.json`（根与 `packages/core`，26 阶段 / `verify:main` / `./table` exports 原样）、`turbo.json`、`.github/workflows/ci.yml`、`scripts/affected.mjs` / `scripts/e2e-affected.mjs`、`tests/e2e/specs/**` 与 `tests/e2e/demo-list.ts`（`DEMO_CASES` 自动展开，新增 2 个 Demo 无需改用例）、`.size-limit.json`（4/6 条原样）、`README.md`、`apps/docs/src/content/catalog.mjs`（组件未新增）、`packages/tokens/**`（**没有**补 `--scui-color-bg-subtle`，见第九节第 2 条）。
+
+#### 九、已知边界与风险
+
+1. **禁用行没有整行视觉标记**：只禁用控件，行文字与背景与普通行一致。这是刻意的 —— 降透明度或变灰文字会踩 axe `color-contrast`（T3-01 已有 `opacity: 0.6` 判 serious ×12 的先例）。若设计上需要整行可辨，应在 M4 与设计确认后用「背景条纹」这类不影响文字对比度的方案。
+2. **`--scui-color-bg-subtle` 仍是未定义 token**：本轮只把 Table 两处换成真实 token，**没有**在 tokens 里新增该变量 —— 一新增会同时改变 checkbox / radio / select / date-picker / range-picker 的背景（它们用它做 fallback 目标），波及面超出本任务。留 M4 设计系统统一评估。
+3. **`pagination` 仍是协议占位**：`TableChange.pagination` 恒发 `undefined`，由 T3-06 接入。
+4. **`Table + Virtual ≤ 35 KB` 仍 pending**：`.size-limit.json` 4/6 条未变，等 T3-14 校准。
+5. **无「跨页全选」语义**：`toggleAll` 只作用当前视图可选行。服务端分页场景若需要「选全部 N 条」，属业务侧按 `onChange` 参数自行实现，组件不提供。
+6. **单选行的键盘交互依赖原生 radio**：同 `name` 分组让浏览器处理方向键切换；组件不做 roving tabindex。axe 无违规，但「用方向键在行间移动选中」需等到有明确的表格键盘导航契约（P1）再评估。
+7. **T3-03 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求 commit / push 逐次授权；本轮只提交到 `f782eee`（T3-01 + T3-02），T3-03 留在工作区。
+
+#### 十、教训
+
+1. **`var(--undefined-token)` 不会报错，只会静默失效**：T3-01 的表头底色从落地起就是死代码，却因为「写的时候看起来对」而没被发现，直到本轮改色才发现基线根本没灰过。全仓库统一口径是带 fallback（`var(--x, var(--y))`），Table 两处漏了 —— 检查既有 token 用法时，`grep` 一次引用名比读代码更快。
+2. **`test:visual:update` 的绿灯可能是「旧样式比旧基线」**：`reuseExistingServer` 复用旧 dev server 时，`dist` 里的 CSS 更新不会被重新加载，update 会截图、比对、判定一致、什么都不写。**必须用「删一张再生成」或全量重建来验证 update 真的写入了。**
+3. **布尔属性的 SSR 序列化要实测，不要按 HTML 习惯猜**：`disabled` / `checked` 在 Solid SSR 输出裸属性名而非 `disabled=""`，初版判据因此恒为 0。
+4. **prop 名会撞 ARIA 规则**：`role` 作 prop 名会被 Biome 当作真正的 ARIA role 校验。非 ARIA 语义的锚点用 `data-scui-role`，prop 名也要避开 `role`。
+5. **「复用基础组件」在 CSS 独立产出的架构下不是免费午餐**：`Checkbox` 的语义（三态 / 受控优先级 / 字段上下文）都很好，但它的样式在另一个文件里。跨组件复用前先看构建产物是否聚合 —— 这次不改架构，只在判据里把「禁止跨组件类名」钉住。
+6. **负向用例的替换串不能包含被断言的原串**：N182 最初把 `someSelected` 换成 `someSelectedX`，正则 `/someSelected/` 仍能命中，红是红了但诊断对不上。判据用子串匹配时，负向必须换成**完全不含该串**的标识符。
