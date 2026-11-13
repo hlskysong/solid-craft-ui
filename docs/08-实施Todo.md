@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）** + **设计基线数值对标（§30.25）** + **字族与图标尺寸收口（§30.26）** + **T2-09 控件接入 Form（§30.27）** + **T2-10 DatePicker（§30.28）** + **T2-11 RangePicker（§30.29）** + **T2-12 体积预算 / 产物去注释（§30.30）** + **T2-13 M2 Exit：Demo 覆盖扩面与 M2 闭合（§30.31）** + **CI 首次红灯修复：axe / 375px 用例粒度拆到 Demo（§30.32）** + **CI 门禁分流：发布全量 / main 日常增量（§30.33）** + **dev 分支策略 / Biome 环境变量诊断收口 / M3 任务级拆解（§30.34）** + **dev 已设为 GitHub 默认分支（§30.34 第九节）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）** + **设计基线数值对标（§30.25）** + **字族与图标尺寸收口（§30.26）** + **T2-09 控件接入 Form（§30.27）** + **T2-10 DatePicker（§30.28）** + **T2-11 RangePicker（§30.29）** + **T2-12 体积预算 / 产物去注释（§30.30）** + **T2-13 M2 Exit：Demo 覆盖扩面与 M2 闭合（§30.31）** + **CI 首次红灯修复：axe / 375px 用例粒度拆到 Demo（§30.32）** + **CI 门禁分流：发布全量 / main 日常增量（§30.33）** + **dev 分支策略 / Biome 环境变量诊断收口 / M3 任务级拆解（§30.34）** + **dev 已设为 GitHub 默认分支（§30.34 第九节）** + **T3-01 Table 引擎基座落地（§30.35）** + **T3-02 排序与筛选落地（§30.36）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2，全部 [ ]，尚未执行）；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-01**（M3 第一项「Table 引擎基座」，§4.2，**待执行**）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43209356655`（`ca9a5b6`）**success**；本轮已切出本地 `dev` 分支（§30.34），**dev 尚未推送** |
-| 下一步 | **先推送 `dev` 分支（首次 push 按 fail-safe 判 `all` 跑全量），再开始 T3-01「Table 引擎基座」**：M3 已按 `docs/05` Phase 3 拆成 14 项（§4.2）。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-03**（M3 第三项「Table 选择」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」已完成并闭合**（§30.35 / §30.36，evidence `30.35` / `30.36`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 改动**尚未提交 / 推送**（Aming 本轮选 C：不提交直接继续） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-01 + T3-02 两轮改动，再开始 T3-03「Table 选择」**：M3 已按 `docs/05` Phase 3 拆成 14 项（§4.2）。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -153,8 +153,8 @@
 
 | ID | 任务 | 依赖 | 主责 | 验收 | 状态 |
 | --- | --- | --- | --- | --- | --- |
-| T3-01 | Table 引擎基座：`useTableEngine` 统一受控状态，列配置（`title` / `dataIndex` / `width` / `align` / `render`）、`data` / `rowKey` / `loading`、尺寸与边框、默认密度 12 / 12（可选 16 / 16、8 / 8） | T2-13 | 技术负责人 | 列配置全生效；表头与正文同字号档不靠缩字号表达层级；SSR 输出静态表格骨架、hydration 无 warning；单测 + SSR 入口 + `data-scui-*` 作用域齐全 | [ ] |
-| T3-02 | Table 排序与筛选：单列 / 多列、受控 / 非受控、内置筛选下拉与自定义 `filterDropdown` | T3-01 | 技术负责人 | 统一 `onChange({ pagination, filters, sorter })` 协议（对齐 AntD 使用习惯）；服务端模式只出参数不本地改数据；筛选与排序组合不互相覆盖 | [ ] |
+| T3-01 | Table 引擎基座：`useTableEngine` 统一受控状态，列配置（`title` / `dataIndex` / `width` / `align` / `render`）、`data` / `rowKey` / `loading`、尺寸与边框、默认密度 12 / 12（可选 16 / 16、8 / 8） | T2-13 | 技术负责人 | 列配置全生效；表头与正文同字号档不靠缩字号表达层级；SSR 输出静态表格骨架、hydration 无 warning；单测 + SSR 入口 + `data-scui-*` 作用域齐全（**`useTableEngine` 单一状态真源 / 281 tests·28 files / SSR 16 入口 / 112 张基线 / 判据 4d + 负向 N162~N168 7/7 / `pnpm verify` RC=0**，见 §30.35） | [x] |
+| T3-02 | Table 排序与筛选：单列 / 多列、受控 / 非受控、内置筛选下拉与自定义 `filterDropdown` | T3-01 | 技术负责人 | 统一 `onChange({ pagination, filters, sorter })` 协议（对齐 AntD 使用习惯）；服务端模式只出参数不本地改数据；筛选与排序组合不互相覆盖（**291 tests·28 files / SSR 17 入口 / 116 张基线 / 判据 4e + 负向 N169~N178 10/10 / `pnpm verify` RC=0**，见 §30.36） | [x] |
 | T3-03 | Table 选择：checkbox / radio、全选 / 半选、禁用行、受控 `selectedRowKeys` | T3-01 | 工程师 B | 半选 `aria-checked="mixed"` 正确；禁用行不进全选集合；受控与非受控两条链路各有单测 | [ ] |
 | T3-04 | `Pagination`（M）：页码、每页条数、快速跳转、受控 / 非受控 | T2-05 | 工程师 B | 总页数变化时当前页收敛不越界；键盘可达 + axe 0 violation；组件自身 `onChange` 与 Table 集成互不冲突 | [ ] |
 | T3-05 | `Empty` / `Skeleton` / `Spin`：空状态与加载三件套 | T2-13 | 工程师 C | 各 ≥3 Demo；骨架与真实内容同尺寸、切换不产生布局抖动；Spin 延迟显示可测 | [ ] |
@@ -3848,3 +3848,242 @@ AGENTS.md 硬约束 13 同步补记：`dev` 是唯一日常开发分支、禁止
 **验收口径**：`GET /repos/{owner}/{repo}` 回读 `default_branch = dev`；`git branch -r` 含 `origin/dev`；`git symbolic-ref refs/remotes/origin/HEAD` = `refs/remotes/origin/dev`；`pnpm verify` RC=0；`check:public` / `check:ci` 判据 12 双分支契约均 RC=0。
 
 **未做的动作（刻意）**：没有给 `dev` 或 `main` 加分支保护规则，没有改 `release.yml`，没有把 `main` 删除或改名。发版合并与首包发布时机仍在「未答决策」里，须 Aming 逐次授权。
+
+### 30.35 T3-01 Table 引擎基座落地与验收（2026-11-13 实测）
+
+#### 一、结论先行
+
+Aming「不拆，开始 T3-01」后按 §4.2 落地 M3 第一项：**Table 引擎基座已完成并闭合**。本轮的实质不是「多一个表格组件」，而是把 `docs/04 §5.1` 点名的 XL 高风险项钉在**单一状态真源**上：视图只消费 `useTableEngine` 归一后的 `TableState`，T3-02~T3-06 的排序 / 筛选 / 选择 / 分页必须往同一个 `TableState` 加字段，不允许在视图里另建 signal 或散读 `props`。
+
+四条硬约束一次到位：
+
+| 约束 | 落地 |
+| --- | --- |
+| R1 作用域 | 只有 `.scui-table` / `.scui-table__head-cell` / `.scui-table__cell` 等静态类 + `[data-scui-*]` 状态，无 modifier class；新增属性登记进 `data-attributes.md` |
+| R2 = A | 对外值只用字符串（`size` / `density` / `align` / `rowKey` 全是字符串字面量联合） |
+| R3 | `TableColumn.render` 是函数类型，因此**不套 `MaybeAccessor`**（套了就踩函数型禁用条款）；其余 props 一律传值 |
+| R4 / SSR | 服务端输出完整静态表格骨架（`colgroup` / `thead` / `tbody` + 全部 `data-scui-*`），client-only 只留给后续窗口化增强层 |
+
+组件清单 17 → **18 组件 / 56 Demo**，视觉基线 106 → **112 张**（新增 3 个 Demo × 2 视口）。`pnpm verify` 26 阶段 **RC=0**。
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `packages/core/src/components/table/types.ts` | 公共类型：`TableSize` / `TableDensity` / `TableAlign` / `TableRowKey` / `TableCellRender` / `TableColumn` / `TableProps`；`TableProps` 继承 `JSX.HTMLAttributes<HTMLDivElement>` 并 `Omit` 掉 `children` / `style`（style 收成 string） |
+| `packages/core/src/components/table/table-engine.ts` | `useTableEngine` 单一状态真源：`TableState` / `TableEngine` / `TableEngineOptions`，`resolveColumns` / `readCell` / `toText` / `rowKeyOf` / `cellValue` / `cellText` |
+| `packages/core/src/components/table/Table.tsx` | 视图层：`splitProps` 后只把 `local` 交给引擎，原生 `<table>` 语义 + `<colgroup>` 定宽 + `scope="col"` + `aria-busy` |
+| `packages/core/src/components/table/table.scss` | `.scui-` 作用域样式，`--scui-table-font-size` / 三档密度内距 / 三档尺寸行高 / 边框 / 对齐；表头与正文**共用同一档字号** |
+| `packages/core/src/components/table/index.ts` | 子路径 barrel（含引擎纯函数与类型） |
+| `packages/core/src/components/table/demos/{basic,borders,density}.tsx` | 3 个 Demo：列配置 + 加载态 / 边框 + 尺寸 / 三档密度 |
+| `packages/core/src/components/table/Table.test.tsx` | 9 个单测：默认态、列配置、边框 / 加载 / 尺寸 / 密度、`rowKey` 兜底、signal 更新、空数据、引擎纯函数 |
+| `packages/core/src/components/table/__tests__/ssr-entry.tsx` | SSR 入口：默认档 + loading/bordered/compact/small + 空数据，共 3 张表 |
+| `packages/core/package.json` | 新增 `./table` exports 四条件（types / solid / import / default） |
+| `packages/core/src/index.ts` | barrel 追加 `Table` / `useTableEngine` 与 7 个类型 |
+| `apps/docs/src/content/catalog.mjs` | 登记 `table` 条目（`hasApi: true`，否则不生成 API 表、`check:slice` 红灯） |
+| `packages/core/spikes/api-draft/data-attributes.md` | `data-scui-loading` 适用组件补 `Table`；新增 `density` / `bordered` / `align` / `row-key` 四个属性 |
+| `packages/core/spikes/shared/ssr-smoke.mjs` | 新增 `id: 'T3-01'` case（19 markers / 15 counts），SSR 冒烟 15 → **16 入口** |
+| `scripts/check-ci.mjs` | 新增判据 **4d**（四条子判据，见第五节）；`FONT_SHA256` 两次重校 |
+| `apps/docs/src/generated/**`、`apps/docs/public/llms/**`、`packages/core/llms*.txt` | `pnpm docs:generate` 产物：新增 `api/table.json`、3 个 Demo JSON、4 个 llms 页面 |
+| `apps/docs/public/fonts/{charset.txt,scui-visual.woff2}` | 字集重建两次，最终 **807 CJK/符号 + 95 ASCII = 902 码位**，SHA256 `f9f78e86…` |
+| `tests/e2e/baselines/light-ltr-default-table-*.png` | 新增 6 张基线，既有 106 张逐字节未变 |
+| `docs/08` 本文件、`scripts/todo-governance.json`、`scripts/goals.baseline.json` | §4.2 T3-01 勾 `[x]` + 证据、锚点推进 T3-02、治理契约 `T3-01 → 30.35`、基线重校 |
+
+#### 三、引擎设计：为什么必须只有一份状态
+
+| 之前（若按直觉写） | 现在 |
+| --- | --- |
+| 视图里 `createMemo(() => props.columns)`、`props.data` 直接 `<For>` | `useTableEngine(local)` 归一成 `TableState`，视图只读 `state()` |
+| 每加一个能力就地新建一个 signal | 后续能力在 `TableState` 上加字段，仍是同一份快照 |
+| `rowKey` 缺省时各处自行 `index` 兜底 | `rowKeyOf(row, index)` 单点兜底，`data-scui-row-key` 稳定 |
+| 单元格取值散在 render / 文本分支里 | `cellValue` / `cellText` 两个纯函数，`toText` 只放行 string / number / boolean / bigint |
+
+`readCell` 用 `Reflect.get(row, dataIndex)` 而非 `String(value)` 强转：oxlint `no-base-to-string` 会拦住对未知对象的隐式字符串化；`toText` 对 `undefined` / `null` / 对象返回空串，避免 SSR 里冒出 `[object Object]`。`rowKeyOf` 用 `toText(readCell(...)) || String(index)`，空值退回行号且保持确定性（SSR / hydration 一致）。
+
+`table.scss` 只改 CSS 变量不改结构：密度是内距（12/12 → 16/16 / 8/8），尺寸是行高（20 / 22 / 24px），两条正交档位。表头与正文都写 `font-size: var(--scui-table-font-size)`，层级只靠 `font-weight` / 背景 / 分隔线 —— 这是 `docs/04 §5.1` 明文，判据 4d 会逐行守。
+
+#### 四、SSR、视觉与字体
+
+SSR 入口把 3 张表（默认档 / 全档位 / 空数据）渲染成静态 HTML，`ssr-smoke.mjs` 的 `T3-01` case 断言 `colgroup` / `thead` / `tbody` 各 3 组、`scope="col"` 12 处、`data-scui-row-count="4"` 2 处、`data-scui-row-count="0"` 1 处等 **19 markers / 15 counts**，16 个入口全绿。`data-scui-loading` / `aria-busy` 用「存在即真」两态，服务端与客户端首帧属性集一致，不产生 hydration 差。
+
+**加载态刻意不做视觉降级**：初版 `&[data-scui-loading] .scui-table { opacity: 0.6 }` 被 axe `color-contrast` 判 **serious ×12**（两张表叠在 Demo 页时对比度不足）。改为只落 `data-scui-loading` / `aria-busy` 两个属性，真正的空 / 加载骨架归 T3-05 / T3-06 —— 基座不塞半成品 UI。
+
+字体字集重建两次：第一次新 Demo 引入新字（903 码位 / `902d92f7…`）；删掉 `table-basic` 描述里「视觉降级」四字后字集缩小到 **902 码位 / `f9f78e86…`**，`FONT_SHA256` 必须跟着改，否则 `check:ci` 的固定字体判据当场红灯。**新增/删除中文都要重建字集**这条又被实证一次。
+
+6 张新基线由全量 `pnpm test:visual:update` 生成（禁止 `-g` 子集，子集会把其它基线当 obsolete 删掉）；既有 106 张逐字节未变。
+
+#### 五、新增判据 4d（`check:ci`，收进既有阶段）
+
+| 子判据 | 内容 | 负向 |
+| --- | --- | --- |
+| 4d-a | `Table.tsx` 必须调用 `useTableEngine`（正则放行泛型实参 `useTableEngine<T>(…)`） | N162 |
+| 4d-b | `Table.tsx` 不得出现 `props.{columns,data,rowKey,loading,bordered,size,density}` | N163 |
+| 4d-c | `table.scss` 至少 2 处 `font-size: var(--scui-table-font-size)`，且不得出现 `font-size` 字面量 | N164 |
+| 4d-d | Table 的 SSR 入口文件存在**且** `ssr-smoke.mjs` 里登记了 `id: 'T3-01'` | N165 |
+
+判据收在 `check:ci` 内部，**不新开 workflow / job / 阶段**（26 阶段不变）。4d-d 的「登记」半条尤其关键：建了 SSR 入口却没进冒烟链，等于没跑。
+
+#### 六、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0**（26 阶段，全量、不设 `SCUI_E2E_SCOPE`；日志 `/tmp/verify35.log`） |
+| core 单测 | **281 tests / 28 files**（新增 Table 9 例） |
+| browser / visual / docs / llms | **123 / 113 / 8 / 4** 全 passed（112 张截图 + 1 覆盖守卫） |
+| SSR 冒烟 | 16 个入口全绿，T3-01 19 markers / 15 counts |
+| `check:docs` / `check:llms` | 76 生成物一致 / 93 站点 + 3 包内副本（18 组件 · 56 Demo · 18 API 表 · 348 搜索索引 · 90 页 · 22 exports · 0 死链 · 0 孤儿页） |
+| `check:ci` | RC=0，判据 4d + 判据 11（18 组件 / 56 Demo / 112 张基线一一对齐）+ 判据 12 双分支全绿；汇总新增「Table 引擎契约」 |
+| `check:todo` | RC=0，65 任务 / **52 个 `[x]`** / 88 验收区块 / 倒挂 0 |
+| `check:goals` | RC=0，15 个受保护文件基线重新校准（`todo-governance.json` 改动触发 `--update-baseline`） |
+| `check:public` | RC=0（`dev` 在白名单内） |
+| 固定字体 | 902 码位 / SHA256 `f9f78e86…` / 无系统回退 / OFL-1.1 |
+| 负向实证 | **N162~N168 7/7 PASS**：逐项改坏视图绕开引擎 / 直读 props / 字号字面量 / SSR 未登记 / 引擎清空 / 字体哈希回退 / 删一张基线，`check:ci` 逐条精确红灯；脚本每例重新备份、锚点唯一命中、`RC≠0` 且命中指定诊断，结尾 SHA256 `RESTORE_OK` |
+| 冻结面 | `docs/01~07` 与 `pnpm-lock.yaml` **0 改动**；零新增依赖 |
+
+#### 七、允许写入路径（L4）与边界
+
+**允许写入路径（L4，本轮派发边界）**：`packages/core/src/components/table/**`、`packages/core/src/index.ts`、`packages/core/package.json`、`packages/core/spikes/{api-draft/data-attributes.md,shared/ssr-smoke.mjs}`、`packages/core/llms*.txt`、`apps/docs/src/content/catalog.mjs`、`apps/docs/src/generated/**`、`apps/docs/public/{llms/**,llms.txt,llms-full.txt}`、`apps/docs/public/fonts/{charset.txt,scui-visual.woff2}`、`tests/e2e/baselines/light-ltr-default-table-*.png`、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（由 `--update-baseline` 生成）、`AGENTS.md`（仅标记行）、`docs/08-实施Todo.md`（§4.2 / §30.35 / 锚点 / 状态行）、`.workbuddy/memory/2026-11-13.md`。
+
+**未写入**：`docs/01~07`（冻结）、`pnpm-lock.yaml`、`package.json`（根，26 阶段与 `verify:main` 原样）、`turbo.json`、`.github/workflows/ci.yml`、`scripts/affected.mjs` / `scripts/e2e-affected.mjs`、`tests/e2e/specs/**` 与 `tests/e2e/demo-list.ts`（`DEMO_CASES` 从 catalog 自动展开，新增组件无需改一行用例）、`.size-limit.json`（4/6 条原样）、`README.md`。
+
+#### 八、已知边界与风险
+
+1. **`Table + Virtual ≤ 35 KB` 仍 pending**：虚拟滚动不在 T3-01（也不在 M3，属 `docs/05` Phase 5），`.size-limit.json` 仍是 4/6 条。Table 已自动计入 Core 全量预算，等 T3-14 实跑校准。
+2. **加载态只有状态属性**：`data-scui-loading` / `aria-busy` 已落地，空态与骨架 UI 归 T3-05 / T3-06；本轮刻意不做半成品视觉。
+3. **后续状态必须接同一个 `TableState`**：T3-02 排序 / T3-03 选择 / T3-06 分页若绕开引擎另建 signal，判据 4d-a/b 会红灯，但判据只能守住「不绕开」，守不住「状态组合是否互相覆盖」，那部分靠各自单测。
+4. **`check:todo` 的倒挂正则不覆盖 `T2` / `T3` 前缀**：T3-01 依赖 T2-13 已 `[x]`，本轮无倒挂；但这是既有门禁的历史盲区，不属本轮范围（未在 §4.3 拆新阶段，Aming 明确「不拆」）。
+5. **`README.md` 仍有 M2 时期数字**（「8 个组件子路径」「25 阶段」「8 组」「34 页」），无门禁校验，本轮按「不扩大改动面」不改，留到 M4 集中精修（§30.34 关于组件精修治理的四层结论）。
+6. **T3-01 改动尚未提交 / 推送**：AGENTS.md 硬约束 13 要求 commit / push 逐次明确授权；本轮只做本地治理闭合，等待 Aming 授权。
+7. **CI 真实 run `43360663611`（`fa72233`，dev push）已回读为 `completed / success`**；本轮 T3-01 尚未推送，因此 dev 上的下一个 run 才会覆盖它。
+
+#### 九、教训
+
+1. **新增组件最容易漏的不是源码，是「登记面」**：exports / catalog / `hasApi` / `src/index.ts` / `data-attributes.md` / `ssr-smoke.mjs` / 生成物 / 字体字集 / 基线，漏一个就在 `check:slice` / `check:docs` / `check:ci` 靠后阶段红灯。本轮按「源码 → 登记 → 生成 → 字集 → 基线」固定顺序推进，避免反复回炉。
+2. **判据正则要放行泛型实参**：`useTableEngine<T>(local)` 里的 `<T>` 让朴素 `useTableEngine\(` 假红灯，写判据时就得把 `?:<[^>]*>` 带上。
+3. **axe 的 serious 不是「视觉偏好」**：`opacity: 0.6` 在单张表看着无事，叠两张就触发 12 处对比度违规。加载态宁可只落属性，也不要塞过渡态 UI。
+4. **字集是「文案的哈希」**：删一句描述里的中文也得重建 `charset.txt` 并同步 `FONT_SHA256`，本轮两次重校正说明这条链路不能凭记忆判断。
+5. **增量链不用为新组件改一行用例**：`DEMO_CASES` 从 `catalog.json` 展开，18 组件 / 56 Demo / 112 张基线自动对齐 —— §30.31 打下的机制在本轮第一次吃到复利。
+6. **负向实证必须覆盖「登记了但没跑」**：4d-d 的 SSR 入口登记判据是专门为「建了入口却没进冒烟链」设计的，N165 验证了它确实会亮。
+
+### 30.36 T3-02 Table 排序与筛选落地与验收（2026-11-13 实测）
+
+#### 一、结论先行
+
+Aming 选 C（不提交、直接继续）后按 §4.2 落地 M3 第二项：**Table 排序与筛选已完成并闭合**，工作区改动仍未提交 / 推送。本轮把 `docs/04 §5.1 / §6.4` 的两条明文要求一次做实：
+
+1. **统一 `onChange({ pagination, filters, sorter })` 单一出口**：协议形状在 `TableChange` 里一次定清，`pagination` 位本批次恒发 `undefined`（分页属 T3-06），避免每个业务自己拼参数；排序与筛选任意顺序变更都从当前 `state()` 快照算出完整新值再发出，**不互相覆盖**。
+2. **状态仍收在 `useTableEngine` 一处**：受控 `sorter` / `filters`、非受控 `defaultSorter` / `defaultFilters`、筛选面板开合全部在引擎里，视图零 `createSignal`、零散读 props 状态字段。`server` 模式只出参数、不本地改数据顺序与行数。
+
+组件清单 18 组件 / 56 → **58 Demo**，视觉基线 112 → **116 张**（新增 2 个 Demo × 2 视口），字集 902 → **907 码位**。`pnpm verify` 26 阶段 **RC=0**，负向 **N169~N178 10/10 PASS**。
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `packages/core/src/components/table/types.ts` | 新增 `TableSortDirection` / `TableFilterMode` / `TableSortState` / `TableSorter` / `TableFilters` / `TablePaginationState` / `TableChange` / `TableFilterOption` / `TableFilterDropdownContext` / `TableFilterDropdown` / `TableSorterFn`；`TableColumn` 扩展 `sorter` / `filters` / `filterMode` / `filterDropdown`；`TableProps` 扩展 6 个入参并 `Omit` 掉原生 `onChange`（业务协议占用） |
+| `packages/core/src/components/table/table-engine.ts` | `TableState` 加 `sorters` / `filters` / `server` / `multipleSorters` / `openFilterKey` / `totalRowCount` / `viewRowCount`；新增 `normalizeSorters` / `applyFilters` / `applySorters` 纯函数与 `toggleSort` / `setFilterValues` / `setOpenFilterKey` / `filterDropdownContext` 四个动作；**列归一化单独一层 `createMemo`**（见第四节） |
+| `packages/core/src/components/table/Table.tsx` | 表头排序 / 筛选触发器、内置下拉与自定义 `filterDropdown` 面板；`data-scui-sort` / `sort-key` / `filtered` / `filter-open` / `server` / `filtered-row-count` 六个新状态属性 |
+| `packages/core/src/components/table/table.scss` | 触发器 / 下拉面板 / 选项 / 操作区样式；静态类只到元素级，状态全由 `[data-scui-*]` 驱动，无 modifier class、无 `font-size` 字面量 |
+| `packages/core/src/components/table/index.ts`、`packages/core/src/index.ts` | 两个 barrel 同步导出新类型与纯函数 |
+| `packages/core/src/components/table/Table.test.tsx` | 追加 10 个单测（19 tests）：三态循环 / `defaultSorter` / 受控不回写 / 多列累加与单列替换 / 内置下拉复选与重置 / 自定义面板 / `server` 只出参数 / 组合不覆盖 / 三个纯函数 |
+| `packages/core/src/components/table/demos/{filtering,sorting}.tsx` | 新增 2 个 Demo：单列 / 多列 / 受控排序；内置下拉 / 自定义面板 / 服务端模式 |
+| `packages/core/src/components/table/__tests__/ssr-sort-filter.tsx` | 新增 SSR 入口：非受控 + 受控 server + 空数据三张表 |
+| `packages/core/spikes/shared/ssr-smoke.mjs` | 新增 `id: 'T3-02'` case（20 markers / 22 counts，含 `filter-dropdown` 出现 **0 次** 的 SSR 首帧断言），SSR 入口 16 → **17** |
+| `packages/core/spikes/api-draft/data-attributes.md` | 登记 4 个新属性（`filtered-row-count` / `filtered` / `filter-open` / `server`）与 3 个新 role（`filter-trigger` / `filter-dropdown` / `filter-option`）；`row-count` 语义补注「筛选后仍为全量」 |
+| `scripts/check-ci.mjs` | 扩展判据 4d-b（禁视图读 `local.*` 状态字段）、新增判据 **4e**（五条子判据，见第六节）、`FONT_SHA256` 重校、汇总文案追加「Table 排序筛选契约」 |
+| `apps/docs/src/generated/**`、`apps/docs/public/llms/**`、`packages/core/llms*.txt` | `pnpm docs:generate` 产物：2 个新 Demo JSON / 4 个新 llms 页 / `api/table.json` 补全新接口 / 搜索索引 348 → 376 |
+| `apps/docs/public/fonts/{charset.txt,scui-visual.woff2}` | 字集重建：**812 CJK/符号 + 95 ASCII = 907 码位**，SHA256 `4fd47ac0…` |
+| `tests/e2e/baselines/light-ltr-default-table-{filtering,sorting}-*.png` | 新增 4 张基线，既有 112 张逐字节未变 |
+| `docs/08` 本文件、`scripts/todo-governance.json`、`scripts/goals.baseline.json` | §4.2 T3-02 勾 `[x]` + 证据、锚点推进 T3-03、治理契约 `T3-02 → 30.36`、基线重校 |
+
+#### 三、协议设计：为什么这样定，而不是照抄 AntD
+
+| 决策 | 理由 |
+| --- | --- |
+| `sorter` 用**有序数组** `readonly TableSortState[]`，不用「单列对象 / 多列数组」联合 | `docs/04 §6.4` 只规定 `onChange` 单一出口，未规定形状；Solid 下 props 一律传值，联合类型会让每个调用方在回调里做一次无意义的类型收窄。数组形状在 SSR 首帧也确定。单列即长度 1、无排序即空数组 |
+| `TableChange.pagination` 定型为 `TablePaginationState \| undefined`，本批次恒发 `undefined` | `docs/04 §5.1` 关键风险第 3 条要求「服务端分页 / 排序 / 筛选的参数协议要定清楚，避免每个业务自己拼」。形状一次给全，T3-06 只需把值填进去，不改调用方代码；运行时没有无调用方的死代码 |
+| 受控 / 非受控按 `sorter > defaultSorter > 内部信号` | 与 T2-07 `Select` 的 `value > defaultValue > 内部信号` 同一套优先级；受控时点击**只发 `onChange` 不改内部状态**，调用方不回写就保持原值 |
+| `server` 模式 `rows = rawRows`，但 `data-scui-filtered` 仍输出 | 参数已经发出、行数据由调用方请求后回写；属性表达「有筛选条件生效」，不表达「本地已过滤」。`data-scui-row-count` 恒为全量，`data-scui-filtered-row-count` 才随筛选变化 |
+| 默认比较器用**数值 / 码点**，不用 `localeCompare` | 中文排序规则依赖 ICU 版本，Node 与浏览器可能给出不同顺序 → SSR 与客户端首帧行序不一致。需要按拼音 / 业务规则排的列传 `sorter: (a, b) => number` |
+
+#### 四、真实缺陷：列引用不稳会让筛选面板整体重建
+
+第一次跑单测时 18/19 通过，失败点是「连续勾选第二个筛选项」：第一次点击后 `state()` 重算，`resolveColumns` 每次都 `map` 出一**批新的列对象**；Solid 的 `<For each={state().columns}>` 按 item 引用做 keyed diff，于是整张表头（连同已打开的筛选面板里的 `<input>`）被重建，测试手持的旧节点脱管，第二次点击落空。
+
+修法是把列归一化提成**单独一层 `createMemo`**：
+
+```ts
+const columns = createMemo(() => resolveColumns(options.columns ?? []));
+const state = createMemo<TableState<T>>(() => {
+  const resolvedColumns = columns();
+  ...
+});
+```
+
+只有调用方真的换了 `columns` 才重算列对象；一次排序 / 筛选点击只改 `rows` / `sorters` / `filters`，表头引用稳定、面板保持挂载、焦点不丢。这条已进 `check:ci` 判据 4e-e（N173 验证会红灯）—— **它不是性能优化，是交互正确性问题**。
+
+#### 五、SSR、视觉与字体
+
+SSR 入口渲染三张表：非受控（`defaultSorter` 部门升序 + `defaultFilters` 研发 → 1 行）、受控 `server`（年限降序 + 设计筛选，但 `server` 不改数据 → 4 行）、空数据。`T3-02` case 的 20 markers / 22 counts 钉住：6 个 `sort-trigger`、3 个 `filter-trigger`、12 个 `scope="col"`、3 个 `aria-expanded="false"`、2 个 `aria-pressed="true"`、`data-scui-filtered-row-count` 的 1 / 4 / 0 三种取值，以及 **`filter-dropdown` 出现 0 次**（面板初态关闭，SSR 与客户端首帧一致）。17 个 SSR 入口全绿。
+
+筛选面板用 `<button aria-expanded>` + `<Show>`，不用 client-only 的 Portal：触发器在服务端就是真实 DOM，面板只在交互后出现。表头按钮文案用中文字「序 / 升 / 降 / 筛」，避免箭头字形缺字。
+
+**一次真实红灯**：`check:styles` 的 R1 规则把引擎 JSDoc 里的文件名 `` `data-attributes.md` `` 判成「src 内裸 `data-*`」，全链 `verify` 在第 15 阶段停住。改成「属性契约登记表」措辞后复跑 RC=0 —— 注释里的字面量也算源码扫描面，这条比 T3-01 的字集坑更隐蔽。
+
+字集因 2 个新 Demo 的中文重建一次（812 CJK/符号 + 95 ASCII，`4fd47ac0…`），`FONT_SHA256` 同步；4 张新基线由**全量** `pnpm test:visual:update` 生成（禁止 `-g` 子集）。两张新截图已逐张目视：无缺字 / 豆腐块 / 横向溢出 / 重叠；排序 Demo 第二张表的 `defaultSorter` 特意从「年限降序」（恰好等于原行序、看不出效果）改成「部门升序」，让基线能直观反映排序生效。
+
+#### 六、新增判据（`check:ci` 4e，收进既有阶段）
+
+| 子判据 | 内容 | 负向 |
+| --- | --- | --- |
+| 4e-a | `TableChange` 必须含 `pagination` / `filters` / `sorter` 三参，且 `pagination` 类型为 `TablePaginationState \| undefined` | N169 |
+| 4e-b | 状态必须收在引擎（引擎有 `createSignal`、视图无 `createSignal`） | N170 |
+| 4e-c | `server` 分支必须走 `server ? rawRows : applySorters(applyFilters(…))` | N171 |
+| 4e-d | 排序变更发 `emit(next, current.filters)`、筛选变更发 `emit(current.sorters, next)`，两者都带完整快照 | N172 |
+| 4e-e | 列归一化必须单独一层 `createMemo`（防表头重建） | N173 |
+| 4e-f | SSR 入口必须登记 `id: 'T3-02'` | N174 |
+| 4d-b（扩展） | 视图不得出现 `props.` / `local.` 读取 14 个状态字段（原判据只挡 `props.` 7 个） | N175 |
+
+判据全部收在 `check:ci` 内部，**不新开 workflow / job / 阶段**，26 阶段不变。语义正确性（三态循环、受控不回写、组合不覆盖）由单测覆盖，静态判据只钉「后续批次最容易悄悄退化的结构」。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0**（26 阶段，全量、不设 `SCUI_E2E_SCOPE`；日志 `/tmp/verify36b.log`） |
+| core 单测 | **291 tests / 28 files**（Table.test.tsx 19 tests，本轮 +10） |
+| browser / visual / docs / llms | **127 / 117 / 8 / 4** 全 passed（116 张截图 + 1 覆盖守卫） |
+| SSR 冒烟 | **17 个入口**全绿，T3-02 20 markers / 22 counts |
+| `check:docs` / `check:llms` | 78 生成物一致 / 95 站点 + 3 包内副本（92 页 / 22 exports / 93 条链接 / 0 死链 / 0 孤儿页） |
+| `check:styles` | 17 个组件样式表 / 175 个 `[data-*]` 选择器全部被 `.scui-` 作用域覆盖 / 0 裸属性 / 0 modifier class |
+| `check:ci` | RC=0，判据 4d + **4e** + 11（18 组件 / 58 Demo / 116 张基线一一对齐）+ 12 全绿；固定字体 812 字集 |
+| `check:todo` | RC=0，65 任务 / **53 个 `[x]`** / 89 验收区块 / 倒挂 0 |
+| `check:goals` | RC=0，15 个受保护文件基线重新校准（`todo-governance.json` 改动触发 `--update-baseline`） |
+| `check:public` | RC=0（`dev` 白名单，654 个 tracked 文件零敏感命中） |
+| 负向实证 | **N169~N178 10/10 PASS + RESTORE_OK**：逐项改坏三参协议 / 视图自建 signal / 删 server 分支 / 丢筛选快照 / 列未缓存 / SSR 未登记 / 直读 `local.sorter` / 绕开引擎 / 字体哈希回退 / 删一张基线，`check:ci` 逐条精确红灯；脚本每例重新备份、锚点唯一命中、`RC≠0` 且命中指定诊断，结尾 SHA256 比对 |
+| 冻结面 | `docs/01~07` 与 `pnpm-lock.yaml` **0 改动**；`git diff --check` RC=0；零新增依赖 |
+
+#### 八、允许写入路径（L4）与边界
+
+**允许写入路径（L4，本轮派发边界）**：`packages/core/src/components/table/**`（types / engine / 视图 / 样式 / barrel / 单测 / 2 个新 Demo / SSR 入口）、`packages/core/src/index.ts`、`packages/core/spikes/{api-draft/data-attributes.md,shared/ssr-smoke.mjs}`、`packages/core/llms*.txt`、`apps/docs/src/generated/**`、`apps/docs/public/{llms/**,llms.txt,llms-full.txt}`、`apps/docs/public/fonts/{charset.txt,scui-visual.woff2}`、`tests/e2e/baselines/light-ltr-default-table-{filtering,sorting}-*.png`、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（由 `--update-baseline` 生成）、`AGENTS.md`（仅标记行）、`docs/08-实施Todo.md`（§4.2 / §30.36 / 锚点 / 状态行）、`.workbuddy/memory/2026-11-13.md`。
+
+**未写入**：`docs/01~07`（冻结）、`pnpm-lock.yaml`、`package.json`（根与 `packages/core`，26 阶段 / `verify:main` / `./table` exports 原样）、`turbo.json`、`.github/workflows/ci.yml`、`scripts/affected.mjs` / `scripts/e2e-affected.mjs`、`tests/e2e/specs/**` 与 `tests/e2e/demo-list.ts`（`DEMO_CASES` 从 catalog 自动展开，新增 2 个 Demo 仍无需改一行用例）、`.size-limit.json`（4/6 条原样）、`README.md`、`apps/docs/src/content/catalog.mjs`（组件未新增，条目无需改）。
+
+#### 九、已知边界与风险
+
+1. **`pagination` 仍是协议占位**：`onChange` 恒发 `undefined`，真正参数由 T3-06 接入；本轮不建 `Pagination` 组件、不加分页类型调用方。
+2. **`Table + Virtual ≤ 35 KB` 仍 pending**：`.size-limit.json` 4/6 条未变，等 T3-14 实跑校准。
+3. **筛选面板是表头内绝对定位**：`.scui-table-scroll` 有 `overflow-x: auto`，极窄视口下靠右列的面板可能被裁剪。SSR 静态骨架与 axe 不受影响，真正修复要引入 Portal（client-only 增强层），留到 M4 精修窗口评估。
+4. **默认比较器按码点**：中文不按拼音排序，这是为 SSR 确定性做的取舍；需要业务排序规则的列必须传自定义 `sorter` 函数。
+5. **`check:todo` 倒挂正则不覆盖 `T2` / `T3` 前缀**：T3-02 依赖 T3-01 已 `[x]`，本轮无倒挂；属既有门禁历史盲区，不在本轮扩大改动面。
+6. **`README.md` 仍是 M2 时期数字**，无门禁校验，留 M4 集中精修（§30.34 四层结论）。
+7. **T3-01 + T3-02 改动全部未提交 / 未推送**：AGENTS.md 硬约束 13 要求 commit / push 逐次明确授权；Aming 本轮选 C，git 一律未动。
+
+#### 十、教训
+
+1. **「状态归一」不只是不建 signal，还要保证引用稳定**：`createMemo` 里每次 `map` 出新列对象，会让 `<For>` 把整张表头判成新项 —— 一次筛选点击就重建面板、丢焦点。判据 4e-e 把这条钉成结构契约。
+2. **注释里的字面量也会进门禁扫描面**：`` `data-attributes.md` `` 被 R1 判成裸 `data-*`，第 15 阶段才暴露。改组件时「只改了注释」不等于「不影响门禁」。
+3. **协议一次定清 ≠ 预置功能**：`pagination` 只给类型位、恒发 `undefined`，既满足 `docs/04` 的「避免业务自己拼参数」，又没有无调用方的运行时死代码。
+4. **受控语义要靠「不发内部更新」而不是「不发回调」**：受控 `sorter` 下点击表头仍必须发 `onChange`，只是内部状态不动；单测专门钉了「外部不回写则视图不变、回调照常」。
+5. **Demo 的视觉说服力也要验**：年限降序恰好等于原行序，截图看着像没排序；改成部门升序后基线才真正证明功能生效。
+6. **负向实证要覆盖新判据的每一条分支**：N169~N178 逐条对应 4e-a~f / 4d-b / 4d-a / 字体 / 基线，避免「加了一堆判据但没人知道它们会不会亮」。

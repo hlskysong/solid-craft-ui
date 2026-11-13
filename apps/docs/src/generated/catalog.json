@@ -17,7 +17,8 @@
     "select",
     "form",
     "date-picker",
-    "range-picker"
+    "range-picker",
+    "table"
   ],
   "components": [
     {
@@ -505,6 +506,46 @@
           "path": "packages/core/src/components/range-picker/demos/format.tsx",
           "title": "格式与尺寸",
           "description": "格式与分隔文案两端共用，三档尺寸与清除按钮。"
+        }
+      ]
+    },
+    {
+      "slug": "table",
+      "title": "Table 表格",
+      "category": "数据",
+      "description": "数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。",
+      "exportPath": "solid-craft/table",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/table/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "列配置、数据、行键与自定义渲染；第二张表开启加载态，只落状态属性。"
+        },
+        {
+          "name": "borders",
+          "path": "packages/core/src/components/table/demos/borders.tsx",
+          "title": "边框与尺寸",
+          "description": "bordered 开关与三档行高；表头和正文始终共用同一档字号。"
+        },
+        {
+          "name": "density",
+          "path": "packages/core/src/components/table/demos/density.tsx",
+          "title": "密度档位",
+          "description": "舒适、默认、紧凑三档单元格内距；密度只改内距，不改变行高与字号。"
+        },
+        {
+          "name": "filtering",
+          "path": "packages/core/src/components/table/demos/filtering.tsx",
+          "title": "筛选",
+          "description": "内置下拉、自定义 filterDropdown 与服务端模式；服务端只带出参数，不改动本地数据。"
+        },
+        {
+          "name": "sorting",
+          "path": "packages/core/src/components/table/demos/sorting.tsx",
+          "title": "排序",
+          "description": "单列三态循环、多列累加与受控回写；每次变更都从同一个 onChange 出口带出完整状态。"
         }
       ]
     }

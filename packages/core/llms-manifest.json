@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 86,
+  "pageCount": 92,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -98,6 +98,11 @@
     {
       "path": "llms/exports/form.md",
       "title": "# Form 表单（`solid-craft/form`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/table.md",
+      "title": "# Table 表格（`solid-craft/table`）",
       "kind": "exports"
     },
     {
@@ -439,6 +444,31 @@
       "path": "llms/demos/range-picker-format.md",
       "title": "# RangePicker 日期范围 · 格式与尺寸（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/table-basic.md",
+      "title": "# Table 表格 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/table-borders.md",
+      "title": "# Table 表格 · 边框与尺寸（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/table-density.md",
+      "title": "# Table 表格 · 密度档位（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/table-filtering.md",
+      "title": "# Table 表格 · 筛选（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/table-sorting.md",
+      "title": "# Table 表格 · 排序（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -459,6 +489,7 @@
     "./date-picker": "llms/exports/date-picker.md",
     "./range-picker": "llms/exports/range-picker.md",
     "./form": "llms/exports/form.md",
+    "./table": "llms/exports/table.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -483,6 +514,7 @@
     "llms/exports/date-picker.md",
     "llms/exports/range-picker.md",
     "llms/exports/form.md",
+    "llms/exports/table.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -551,7 +583,12 @@
     "llms/demos/date-picker-format.md",
     "llms/demos/range-picker-basic.md",
     "llms/demos/range-picker-constraints.md",
-    "llms/demos/range-picker-format.md"
+    "llms/demos/range-picker-format.md",
+    "llms/demos/table-basic.md",
+    "llms/demos/table-borders.md",
+    "llms/demos/table-density.md",
+    "llms/demos/table-filtering.md",
+    "llms/demos/table-sorting.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

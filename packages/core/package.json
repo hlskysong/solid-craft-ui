@@ -125,6 +125,12 @@
       "import": "./dist/esm/components/form/index.js",
       "default": "./dist/esm/components/form/index.js"
     },
+    "./table": {
+      "types": "./dist/types/components/table/index.d.ts",
+      "solid": "./dist/source/components/table/index.jsx",
+      "import": "./dist/esm/components/table/index.js",
+      "default": "./dist/esm/components/table/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

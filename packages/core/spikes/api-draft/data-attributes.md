@@ -11,7 +11,7 @@
 | `data-scui-disabled` | `''`（存在即真） | 禁用态，配合原生 `disabled` / `aria-disabled` | 全部 |
 | `data-scui-invalid` | `'true' \| 'false'` | 校验失败；SSR 也输出，避免 hydration 属性差 | Form |
 | `data-scui-open` | `''` | 弹层展开 | Select / DatePicker |
-| `data-scui-loading` | `''`（存在即真） | 加载态：弹层只显示加载提示、触发器置 `aria-busy="true"`；与 `data-scui-open` 同属「存在即真」口径 | Select |
+| `data-scui-loading` | `''`（存在即真） | 加载态：弹层只显示加载提示、触发器置 `aria-busy="true"`；与 `data-scui-open` 同属「存在即真」口径。Table 复用同一口径，落在滚动容器上 | Select / Table |
 | `data-scui-auto-size` | `''`（存在即真） | 自动高度生效中（关闭拖拽手柄，高度由 JS 写内联值） | Input（Textarea） |
 | `data-scui-count` | `''`（存在即真） | 字数统计显示中（页脚留位） | Input（Textarea） |
 | `data-scui-role` | 见下表 | 结构定位（测试/样式锚点），**不表达状态** | 全部 |
@@ -30,17 +30,26 @@
 | `data-scui-picking` | `start \| end` | 下一次落点定义区间的哪一端，恒输出（SSR 也是 `start`），避免客户端首帧属性差 | RangePicker |
 | `data-scui-fixed` | `left \| right` | 固定列方向（sticky） | Table |
 | `data-scui-scrolled` | `''` | 横向滚动阴影开关 | Table |
-| `data-scui-row-count` | 数字字符串 | 全量行数（窗口化仍保留） | Table |
-| `data-scui-sort` | `asc \| desc` | 当前列排序方向 | Table |
+| `data-scui-row-count` | 数字字符串 | 全量行数（窗口化与筛选后仍保留，T3-01 起恒为原始 `data.length`） | Table |
+| `data-scui-filtered-row-count` | 数字字符串 | 当前视图行数（筛选后）；与 `data-scui-row-count` 成对，未筛选时相等 | Table |
+| `data-scui-sort` | `asc \| desc` | 当前列排序方向；落在参与排序的 `<th>` 上（T3-02） | Table |
 | `data-scui-sort-key` | 列 key | 排序列标识 | Table |
+| `data-scui-density` | `comfortable \| default \| compact` | 单元格内距档：16 / 16、12 / 12（默认）、8 / 8；与 `data-scui-size`（行高档）正交 | Table |
+| `data-scui-bordered` | `''`（存在即真） | 外边框与列分隔线开关 | Table |
+| `data-scui-align` | `left \| center \| right` | 列水平对齐；表头与正文同源输出，恒有值 | Table |
+| `data-scui-row-key` | 行键字符串 | 行定位锚点；`rowKey` 缺省时按行序号兜底，供后续选择 / 展开使用 | Table |
+| `data-scui-filtered` | `''`（存在即真） | 当前列有生效的筛选值，落在 `<th>` 上（T3-02） | Table |
+| `data-scui-filter-open` | `''`（存在即真） | 当前列的筛选面板处于展开态；SSR 首帧恒不输出（面板初态关闭） | Table |
+| `data-scui-server` | `''`（存在即真） | 服务端模式：只把排序 / 筛选参数交给 `onChange`，不本地改数据顺序与行数（T3-02） | Table |
 
 ## `data-scui-role` 取值清单
 
 | 取值 | 组件 | 说明 |
 | --- | --- | --- |
 | `dialog-trigger` / `dialog-content` / `dialog-body` / `dialog-close` | Dialog | Kobalte 原语封装层 |
-| `select-all` / `sort-trigger` | Table | 交互锚点 |
+| `select-all` / `sort-trigger` / `filter-trigger` | Table | 交互锚点；后两者由 T3-02 落地，SSR 首帧即输出 |
 | `table` / `table-scroll` | Table | 结构锚点 |
+| `filter-dropdown` / `filter-option` | Table | 筛选面板与内置选项锚点（T3-02）；面板初态关闭，SSR 零输出 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
 | `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |

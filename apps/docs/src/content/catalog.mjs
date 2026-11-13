@@ -144,6 +144,15 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/range-picker',
     hasApi: true,
   },
+  {
+    slug: 'table',
+    title: 'Table 表格',
+    category: '数据',
+    description:
+      '数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。',
+    exportPath: 'solid-craft/table',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

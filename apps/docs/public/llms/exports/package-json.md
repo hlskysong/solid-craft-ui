@@ -53,6 +53,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./date-picker` → [solid-craft/date-picker](../exports/date-picker.md)
 - `./range-picker` → [solid-craft/range-picker](../exports/range-picker.md)
 - `./form` → [solid-craft/form](../exports/form.md)
+- `./table` → [solid-craft/table](../exports/table.md)
 - `./config-provider` → [solid-craft/config-provider](../exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](../exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](../exports/styles.md)

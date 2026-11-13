@@ -43,6 +43,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/form` → Form 表单：表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。
 - `solid-craft/date-picker` → DatePicker 日期选择：单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。
 - `solid-craft/range-picker` → RangePicker 日期范围：双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。
+- `solid-craft/table` → Table 表格：数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 

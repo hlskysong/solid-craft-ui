@@ -1,0 +1,328 @@
+{
+  "slug": "table",
+  "source": "packages/core/src/components/table/types.ts",
+  "interfaces": [
+    {
+      "name": "TableSortState",
+      "inherits": null,
+      "props": [
+        {
+          "name": "columnKey",
+          "type": "string",
+          "optional": false,
+          "description": "排序列标识。",
+          "default": null
+        },
+        {
+          "name": "direction",
+          "type": "TableSortDirection",
+          "optional": false,
+          "description": "当前方向。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TablePaginationState",
+      "inherits": null,
+      "props": [
+        {
+          "name": "current",
+          "type": "number",
+          "optional": false,
+          "description": "",
+          "default": null
+        },
+        {
+          "name": "pageSize",
+          "type": "number",
+          "optional": false,
+          "description": "",
+          "default": null
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "optional": false,
+          "description": "",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TableChange",
+      "inherits": null,
+      "props": [
+        {
+          "name": "filters",
+          "type": "TableFilters",
+          "optional": false,
+          "description": "当前生效的筛选状态。",
+          "default": null
+        },
+        {
+          "name": "sorter",
+          "type": "TableSorter",
+          "optional": false,
+          "description": "当前生效的有序排序状态。",
+          "default": null
+        },
+        {
+          "name": "pagination",
+          "type": "TablePaginationState | undefined",
+          "optional": false,
+          "description": "分页参数；T3-02 恒为 `undefined`，T3-06 接入后才有值。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TableFilterOption",
+      "inherits": null,
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "optional": false,
+          "description": "展示文案。",
+          "default": null
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false,
+          "description": "参与匹配的字符串值（与 `dataIndex` 取值的文本化结果比较）。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TableFilterDropdownContext",
+      "inherits": null,
+      "props": [
+        {
+          "name": "columnKey",
+          "type": "string",
+          "optional": false,
+          "description": "当前列 key。",
+          "default": null
+        },
+        {
+          "name": "selectedValues",
+          "type": "readonly string[]",
+          "optional": false,
+          "description": "当前列已选中的值。",
+          "default": null
+        },
+        {
+          "name": "setSelectedValues",
+          "type": "(values: readonly string[]) => void",
+          "optional": false,
+          "description": "写入选中值；会触发 `onChange`。",
+          "default": null
+        },
+        {
+          "name": "confirm",
+          "type": "() => void",
+          "optional": false,
+          "description": "关闭面板。",
+          "default": null
+        },
+        {
+          "name": "reset",
+          "type": "() => void",
+          "optional": false,
+          "description": "清空当前列筛选。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TableColumn",
+      "inherits": null,
+      "props": [
+        {
+          "name": "key",
+          "type": "string",
+          "optional": true,
+          "description": "列标识；未传时取 `dataIndex`，再未传时由引擎按列序号生成。",
+          "default": "undefined"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "optional": false,
+          "description": "表头文案；同时是 `<th scope=\"col\">` 的可访问名称。",
+          "default": null
+        },
+        {
+          "name": "dataIndex",
+          "type": "TableRowKey<T>",
+          "optional": true,
+          "description": "取值字段名。不传时 `render` 收到 `undefined`，由调用方自行从 `row` 取值。",
+          "default": "undefined"
+        },
+        {
+          "name": "width",
+          "type": "number | string",
+          "optional": true,
+          "description": "列宽，写进 `<col>` 的 `style`。数字按 px，字符串原样落地（可用 `20%`）。",
+          "default": "undefined"
+        },
+        {
+          "name": "align",
+          "type": "TableAlign",
+          "optional": true,
+          "description": "水平对齐，同时落到 `<th>` / `<td>` 的 `data-scui-align`。",
+          "default": "'left'"
+        },
+        {
+          "name": "render",
+          "type": "TableCellRender<T>",
+          "optional": true,
+          "description": "自定义单元格渲染；给了就不走 `dataIndex` 的默认文本化。",
+          "default": "undefined"
+        },
+        {
+          "name": "sorter",
+          "type": "boolean | TableSorterFn<T>",
+          "optional": true,
+          "description": "可排序：`true` 用内置确定性比较器，函数则用自定义比较器。 表头点击循环「无 → 升序 → 降序 → 无」。",
+          "default": "undefined"
+        },
+        {
+          "name": "filters",
+          "type": "readonly TableFilterOption[]",
+          "optional": true,
+          "description": "内置筛选下拉的选项；与 `filterDropdown` 二选一（同时给时自定义优先）。",
+          "default": "undefined"
+        },
+        {
+          "name": "filterMode",
+          "type": "TableFilterMode",
+          "optional": true,
+          "description": "筛选模式：单选（radio）或复选（checkbox）。",
+          "default": "'multiple'"
+        },
+        {
+          "name": "filterDropdown",
+          "type": "TableFilterDropdown<T>",
+          "optional": true,
+          "description": "自定义筛选面板；通过 context 读写引擎的筛选状态。",
+          "default": "undefined"
+        }
+      ]
+    },
+    {
+      "name": "TableProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'children' | 'style' | 'onChange'\n>",
+      "props": [
+        {
+          "name": "columns",
+          "type": "readonly TableColumn<T>[]",
+          "optional": false,
+          "description": "列配置；顺序即渲染顺序。",
+          "default": null
+        },
+        {
+          "name": "data",
+          "type": "readonly T[]",
+          "optional": true,
+          "description": "全量数据。",
+          "default": "[]"
+        },
+        {
+          "name": "rowKey",
+          "type": "TableRowKey<T>",
+          "optional": true,
+          "description": "行键字段名；不传时按行序号兜底。",
+          "default": "undefined"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "optional": true,
+          "description": "加载态；落到 `data-scui-loading` 与 `aria-busy=\"true\"`。",
+          "default": "false"
+        },
+        {
+          "name": "bordered",
+          "type": "boolean",
+          "optional": true,
+          "description": "显示外边框与列分隔线。",
+          "default": "false"
+        },
+        {
+          "name": "size",
+          "type": "TableSize",
+          "optional": true,
+          "description": "尺寸（行高档）。",
+          "default": "'medium'"
+        },
+        {
+          "name": "density",
+          "type": "TableDensity",
+          "optional": true,
+          "description": "密度（单元格内距档）。",
+          "default": "'default'"
+        },
+        {
+          "name": "sorter",
+          "type": "TableSorter",
+          "optional": true,
+          "description": "受控排序状态；给了就不在组件内部保存排序，点击只发 `onChange`。",
+          "default": "undefined"
+        },
+        {
+          "name": "defaultSorter",
+          "type": "TableSorter",
+          "optional": true,
+          "description": "非受控排序初值；只在 setup 期读一次。",
+          "default": "[]"
+        },
+        {
+          "name": "filters",
+          "type": "TableFilters",
+          "optional": true,
+          "description": "受控筛选状态；给了就不在组件内部保存筛选，变更只发 `onChange`。",
+          "default": "undefined"
+        },
+        {
+          "name": "defaultFilters",
+          "type": "TableFilters",
+          "optional": true,
+          "description": "非受控筛选初值；只在 setup 期读一次。",
+          "default": "{}"
+        },
+        {
+          "name": "onChange",
+          "type": "(change: TableChange) => void",
+          "optional": true,
+          "description": "统一变更出口；排序 / 筛选任一变化都带出完整三参快照。",
+          "default": "undefined"
+        },
+        {
+          "name": "server",
+          "type": "boolean",
+          "optional": true,
+          "description": "服务端模式：只把参数交给 `onChange`，**不本地改数据**（行数与原序都不变）。",
+          "default": "false"
+        },
+        {
+          "name": "multipleSorters",
+          "type": "boolean",
+          "optional": true,
+          "description": "允许多列同时排序；默认单列（点新列替换旧列）。",
+          "default": "false"
+        },
+        {
+          "name": "style",
+          "type": "string",
+          "optional": true,
+          "description": "内联样式（字符串形态），落在滚动容器上。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

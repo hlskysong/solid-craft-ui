@@ -2,7 +2,7 @@
 
 > 供 AI 编码代理（opencode / WorkBuddy）读取。**规范全文见 `docs/01~07`（v0.3）**，本文件只列执行时必须遵守的硬约束与落盘清单；冲突时以 `docs/01~07` 为准。
 > 本文件对应实施清单 `docs/08-实施Todo.md` 的 T0-01 / T0-02。
-> 目标基线 SHA256: b7efc2265e491bb208270ecd55e8b3a284ccbc85fcec47f0bf530e82356b2890
+> 目标基线 SHA256: ed88bf33581ccb2a6baa6e4824b4857f80355f4c83a5f4239e36eebb67fa42e5
 
 ## 1. 运行环境
 

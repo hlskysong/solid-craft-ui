@@ -117,6 +117,27 @@ export type {
   RangePickerValue,
   RangePickerWeekStart,
 } from './components/range-picker';
+export { Table, useTableEngine } from './components/table';
+export type {
+  TableAlign,
+  TableCellRender,
+  TableChange,
+  TableColumn,
+  TableDensity,
+  TableFilterDropdown,
+  TableFilterDropdownContext,
+  TableFilterMode,
+  TableFilterOption,
+  TableFilters,
+  TablePaginationState,
+  TableProps,
+  TableRowKey,
+  TableSize,
+  TableSortDirection,
+  TableSortState,
+  TableSorter,
+  TableSorterFn,
+} from './components/table';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';

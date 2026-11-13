@@ -356,6 +356,78 @@ if (workflow.length === 0) {
   }
 }
 
+// 4d. Table 引擎基座契约（§30.35，T3-01）。这三条都是「后续批次最容易悄悄退化」的点：
+// T3-02~T3-06 要在同一个 TableState 上加排序 / 筛选 / 选择 / 分页，一旦有人图省事
+// 在视图里直接读 props 或另建 signal，docs/04 §5.1 点名的「受控状态混用」风险就回来了。
+const tableDir = join(repoRoot, 'packages', 'core', 'src', 'components', 'table');
+const tableImpl = read(join(tableDir, 'Table.tsx'));
+const tableStyles = read(join(tableDir, 'table.scss'));
+const tableEngine = read(join(tableDir, 'table-engine.ts'));
+if (tableImpl.length === 0 || tableStyles.length === 0 || tableEngine.length === 0) {
+  fail('Table 引擎基座缺少 Table.tsx / table.scss / table-engine.ts（T3-01 纵向切片）');
+} else {
+  // 泛型调用写作 useTableEngine<T>(local)，中间带类型实参，正则要放行这一段
+  if (!/useTableEngine(?:<[^>]*>)?\s*\(/.test(tableImpl)) {
+    fail('Table.tsx 未调用 useTableEngine：视图不得绕开单一状态真源');
+  }
+  // T3-02 起状态字段变多，且视图改用 splitProps 后的 local；两条一起钉住，
+  // 避免有人把排序 / 筛选状态绕开引擎直接读 props（4d-a 只挡得住「完全不调引擎」）。
+  if (
+    /(?:props|local)\.(columns|data|rowKey|loading|bordered|size|density|sorter|defaultSorter|filters|defaultFilters|onChange|server|multipleSorters)\b/.test(
+      tableImpl,
+    )
+  ) {
+    fail('Table.tsx 直接读取 props / local 的状态字段：状态必须由 useTableEngine 归一后消费');
+  }
+  if (
+    !/--scui-table-font-size/.test(tableStyles) ||
+    (tableStyles.match(/font-size:\s*var\(--scui-table-font-size\)/g) ?? []).length < 2
+  ) {
+    fail('table.scss 未让表头与正文共用 --scui-table-font-size（不靠缩字号表达层级）');
+  }
+  if (/font-size:\s*\d/.test(tableStyles)) {
+    fail('table.scss 出现 font-size 字面量：表头与正文必须共用同一档变量');
+  }
+}
+const tableSsrEntry = join(tableDir, '__tests__', 'ssr-entry.tsx');
+const ssrSmokeRunner = read(
+  join(repoRoot, 'packages', 'core', 'spikes', 'shared', 'ssr-smoke.mjs'),
+);
+if (!existsSync(tableSsrEntry) || !ssrSmokeRunner.includes("id: 'T3-01'")) {
+  fail('Table 的 SSR 入口未登记进 ssr-smoke.mjs（建了入口却没跑等于没有）');
+}
+
+// 4e. Table 排序 / 筛选契约（§30.36，T3-02）。T3-03 / T3-06 要继续往同一个
+// TableState 加选择与分页，这里钉的是「协议形状 + 状态归属 + server 语义 + SSR 在册」，
+// 都是后续批次最容易悄悄退化的点；语义正确性另由 Table.test.tsx 覆盖。
+const tableTypes = read(join(tableDir, 'types.ts'));
+if (
+  !/interface TableChange\b/.test(tableTypes) ||
+  !/pagination:\s*TablePaginationState \| undefined/.test(tableTypes) ||
+  !/filters:\s*TableFilters;/.test(tableTypes) ||
+  !/sorter:\s*TableSorter;/.test(tableTypes)
+) {
+  fail('TableChange 未一次定清 onChange 的 pagination / filters / sorter 三参协议');
+}
+if (!/createSignal/.test(tableEngine) || /createSignal/.test(tableImpl)) {
+  fail('排序 / 筛选状态必须收在 useTableEngine 内：视图不得自建 signal');
+}
+if (!/server\s*\?\s*rawRows\s*:\s*applySorters\(applyFilters\(/.test(tableEngine)) {
+  fail('服务端模式未走「只出参数、不本地改数据」分支');
+}
+if (
+  !/emit\(next, current\.filters\)/.test(tableEngine) ||
+  !/emit\(current\.sorters, next\)/.test(tableEngine)
+) {
+  fail('排序 / 筛选变更未各自带出完整快照（两者会互相覆盖）');
+}
+if (!/const columns = createMemo\(\(\) => resolveColumns/.test(tableEngine)) {
+  fail('列归一化未单独缓存：表头会被每次筛选点击整体重建（筛选面板 input 脱管）');
+}
+if (!ssrSmokeRunner.includes("id: 'T3-02'")) {
+  fail('Table 排序 / 筛选的 SSR 入口未登记进 ssr-smoke.mjs');
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -441,7 +513,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '11acc34ad060a5d94139bfffc1e65aea8ac805ba64572c4892ecd75cf0ee6587';
+const FONT_SHA256 = '4fd47ac052a28ed903fb28f620f84fec15fa5d53a3ff794f307d3f36c5b86ee0';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -732,5 +804,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
 );

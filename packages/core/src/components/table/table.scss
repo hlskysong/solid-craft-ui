@@ -1,0 +1,152 @@
+/* Table（T3-01）
+   状态与档位全部由 [data-scui-*] 驱动，类名只有块与元素两级，无 modifier class。
+   表头与正文共用 --scui-table-font-size（= --scui-font-size-md），层级只靠
+   font-weight / 背景 / 分隔线表达，不靠缩字号（docs/04 §5.1）。
+   密度（内距）与尺寸（行高）是两条正交的档位，都只改 CSS 变量不改结构。 */
+
+:where(.scui-table-scroll) {
+  /* flex 子项的默认 min-inline-size:auto 会让定宽列把 375px 页面撑出横向溢出 */
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow-x: auto;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+}
+
+/* 加载态只落 data-scui-loading / aria-busy 两个属性，不改文字颜色。
+   曾在基座里用 opacity: 0.6 做「视觉降级」，被 axe color-contrast 判 serious
+   ×12（table-basic 两张表叠在一起时对比度不足）。真正的空 / 加载骨架属于
+   T3-05 / T3-06，基座不塞半成品 UI。 */
+
+:where(.scui-table) {
+  --scui-table-font-size: var(--scui-font-size-md, 14px);
+  --scui-table-line-height: var(--scui-line-height-md, 22px);
+  --scui-table-cell-padding-block: var(--scui-space-3, 12px);
+  --scui-table-cell-padding-inline: var(--scui-space-3, 12px);
+
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--scui-table-font-size);
+  line-height: var(--scui-table-line-height);
+
+  &[data-scui-density='comfortable'] {
+    --scui-table-cell-padding-block: var(--scui-space-4, 16px);
+    --scui-table-cell-padding-inline: var(--scui-space-4, 16px);
+  }
+
+  &[data-scui-density='compact'] {
+    --scui-table-cell-padding-block: var(--scui-space-2, 8px);
+    --scui-table-cell-padding-inline: var(--scui-space-2, 8px);
+  }
+
+  &[data-scui-size='small'] {
+    --scui-table-line-height: var(--scui-line-height-xs, 20px);
+  }
+
+  &[data-scui-size='large'] {
+    --scui-table-line-height: var(--scui-line-height-lg, 24px);
+  }
+
+  &[data-scui-bordered] {
+    border: 1px solid var(--scui-color-border-default);
+  }
+
+  &[data-scui-bordered] .scui-table__head-cell,
+  &[data-scui-bordered] .scui-table__cell {
+    border-inline-end: 1px solid var(--scui-color-border-default);
+  }
+}
+
+:where(.scui-table__head-cell),
+:where(.scui-table__cell) {
+  padding-block: var(--scui-table-cell-padding-block);
+  padding-inline: var(--scui-table-cell-padding-inline);
+  font-size: var(--scui-table-font-size);
+  text-align: start;
+
+  &[data-scui-align='center'] {
+    text-align: center;
+  }
+
+  &[data-scui-align='right'] {
+    text-align: right;
+  }
+}
+
+:where(.scui-table__head-cell) {
+  border-block-end: 1px solid var(--scui-color-border-default);
+  background: var(--scui-color-bg-subtle);
+  color: var(--scui-color-text-secondary);
+  font-weight: var(--scui-font-weight-medium);
+}
+
+:where(.scui-table__cell) {
+  border-block-end: 1px solid var(--scui-color-neutral-100);
+  color: var(--scui-color-text-primary);
+  font-weight: var(--scui-font-weight-regular);
+}
+
+/* T3-02 排序 / 筛选控件。状态只由 [data-scui-*] 驱动，类名仍是块 / 元素两级。
+   触发器继承表头字号（font: inherit），不另起字号档，避免破坏 04 §5.1 的同档要求。 */
+
+:where(.scui-table__head-cell) {
+  position: relative;
+
+  &[data-scui-sort='asc'] .scui-table__sort-trigger,
+  &[data-scui-sort='desc'] .scui-table__sort-trigger {
+    background: var(--scui-color-bg-surface);
+    font-weight: var(--scui-font-weight-medium);
+  }
+
+  &[data-scui-filtered] .scui-table__filter-trigger {
+    background: var(--scui-color-bg-surface);
+    font-weight: var(--scui-font-weight-medium);
+  }
+}
+
+:where(.scui-table__sort-trigger),
+:where(.scui-table__filter-trigger) {
+  appearance: none;
+  margin-inline-start: var(--scui-space-1);
+  padding-inline: var(--scui-space-1);
+  border: 0;
+  border-radius: var(--scui-radius-1);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  line-height: inherit;
+
+  &:focus-visible {
+    outline: 2px solid var(--scui-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+:where(.scui-table__filter-dropdown) {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  min-inline-size: 140px;
+  padding: var(--scui-space-2);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-radius-1);
+  background: var(--scui-color-bg-surface);
+  color: var(--scui-color-text-primary);
+  text-align: start;
+}
+
+:where(.scui-table__filter-option) {
+  display: flex;
+  align-items: center;
+  gap: var(--scui-space-1);
+  padding-block: var(--scui-space-1);
+  cursor: pointer;
+}
+
+:where(.scui-table__filter-actions) {
+  display: flex;
+  gap: var(--scui-space-2);
+  padding-block-start: var(--scui-space-2);
+}
