@@ -18,7 +18,8 @@
     "form",
     "date-picker",
     "range-picker",
-    "table"
+    "table",
+    "pagination"
   ],
   "components": [
     {
@@ -558,6 +559,34 @@
           "path": "packages/core/src/components/table/demos/sorting.tsx",
           "title": "排序",
           "description": "单列三态循环、多列累加与受控回写；每次变更都从同一个 onChange 出口带出完整状态。"
+        }
+      ]
+    },
+    {
+      "slug": "pagination",
+      "title": "Pagination 分页",
+      "category": "数据",
+      "description": "页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。",
+      "exportPath": "solid-craft/pagination",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/pagination/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "页码、边界禁用与总数文案；受控示例把 onChange 的 current 回写后再传回去，形成正常翻页闭环。"
+        },
+        {
+          "name": "quick-jumper",
+          "path": "packages/core/src/components/pagination/demos/quick-jumper.tsx",
+          "title": "快速跳转",
+          "description": "输入页码后按 Enter 提交，越界输入收敛到首末页、非法输入只清空不跳页；末尾一张展示整体禁用。"
+        },
+        {
+          "name": "size-changer",
+          "path": "packages/core/src/components/pagination/demos/size-changer.tsx",
+          "title": "每页条数",
+          "description": "切换每页条数会让总页数变化，当前页按新总页数自动收敛；候选值可自定义，当前值不在候选里时会补进选项。"
         }
       ]
     }

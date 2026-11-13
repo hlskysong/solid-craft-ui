@@ -4,7 +4,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 22 个 exports 子路径、17 个组件页、60 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 23 个 exports 子路径、18 个组件页、63 个 Demo。
 
 ## 关键约定
 
@@ -55,6 +55,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [DatePicker 日期选择](exports/date-picker.md) | `solid-craft/date-picker` | 单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。 |
 | [RangePicker 日期范围](exports/range-picker.md) | `solid-craft/range-picker` | 双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。 |
 | [Table 表格](exports/table.md) | `solid-craft/table` | 数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。 |
+| [Pagination 分页](exports/pagination.md) | `solid-craft/pagination` | 页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。 |
 
 - [ConfigProvider 全局配置](exports/config-provider.md) · [样式](exports/styles-css.md) · [按组件样式通配](exports/styles.md) · [package.json](exports/package-json.md)
 

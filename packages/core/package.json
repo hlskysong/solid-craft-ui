@@ -131,6 +131,12 @@
       "import": "./dist/esm/components/table/index.js",
       "default": "./dist/esm/components/table/index.js"
     },
+    "./pagination": {
+      "types": "./dist/types/components/pagination/index.d.ts",
+      "solid": "./dist/source/components/pagination/index.jsx",
+      "import": "./dist/esm/components/pagination/index.js",
+      "default": "./dist/esm/components/pagination/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

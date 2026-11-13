@@ -153,6 +153,15 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/table',
     hasApi: true,
   },
+  {
+    slug: 'pagination',
+    title: 'Pagination 分页',
+    category: '数据',
+    description:
+      '页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。',
+    exportPath: 'solid-craft/pagination',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

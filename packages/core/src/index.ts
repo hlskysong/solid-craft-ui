@@ -140,6 +140,24 @@ export type {
   TableSorter,
   TableSorterFn,
 } from './components/table';
+export {
+  Pagination,
+  buildPageItems,
+  clampPage,
+  getPageCount,
+  getPageRange,
+  usePaginationEngine,
+} from './components/pagination';
+export type {
+  PaginationChange,
+  PaginationChangeHandler,
+  PaginationEngine,
+  PaginationItem,
+  PaginationPageSizeOptions,
+  PaginationProps,
+  PaginationSize,
+  PaginationState,
+} from './components/pagination';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';

@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-04**（M3 第四项「`Pagination`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」已完成并闭合**（§30.35 / §30.36 / §30.37，evidence `30.35` / `30.36` / `30.37`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`（**未推送**）；T3-03 改动**尚未提交 / 推送**（Aming 本轮选「先 A 后 C」） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-01 + T3-02 两轮改动，再开始 T3-03「Table 选择」**：M3 已按 `docs/05` Phase 3 拆成 14 项（§4.2）。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-05**（M3 第五项「`Empty` / `Skeleton` / `Spin`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38，evidence `30.35` / `30.36` / `30.37` / `30.38`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 已提交 `1f67c23`（均**未推送**）；T3-04 改动**尚未提交 / 推送**（Aming 本轮选「先 A 后 C」） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-04「`Pagination`」改动，再开始 T3-05「空 / 加载三件套」**：M3 已按 `docs/05` Phase 3 拆成 14 项（§4.2）。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -156,7 +156,7 @@
 | T3-01 | Table 引擎基座：`useTableEngine` 统一受控状态，列配置（`title` / `dataIndex` / `width` / `align` / `render`）、`data` / `rowKey` / `loading`、尺寸与边框、默认密度 12 / 12（可选 16 / 16、8 / 8） | T2-13 | 技术负责人 | 列配置全生效；表头与正文同字号档不靠缩字号表达层级；SSR 输出静态表格骨架、hydration 无 warning；单测 + SSR 入口 + `data-scui-*` 作用域齐全（**`useTableEngine` 单一状态真源 / 281 tests·28 files / SSR 16 入口 / 112 张基线 / 判据 4d + 负向 N162~N168 7/7 / `pnpm verify` RC=0**，见 §30.35） | [x] |
 | T3-02 | Table 排序与筛选：单列 / 多列、受控 / 非受控、内置筛选下拉与自定义 `filterDropdown` | T3-01 | 技术负责人 | 统一 `onChange({ pagination, filters, sorter })` 协议（对齐 AntD 使用习惯）；服务端模式只出参数不本地改数据；筛选与排序组合不互相覆盖（**291 tests·28 files / SSR 17 入口 / 116 张基线 / 判据 4e + 负向 N169~N178 10/10 / `pnpm verify` RC=0**，见 §30.36） | [x] |
 | T3-03 | Table 选择：checkbox / radio、全选 / 半选、禁用行、受控 `selectedRowKeys` | T3-01 | 工程师 B | 半选 `aria-checked="mixed"` 正确；禁用行不进全选集合；受控与非受控两条链路各有单测（**`rowSelection` 单 prop / `aria-checked="mixed"` + `indeterminate` 双通道 / 禁用行不进全选且不降对比度 / 选择控件自建不复用 Checkbox·Radio / 299 tests·28 files / SSR 18 入口 / 120 张基线 / 判据 4f + 负向 N179~N189 11/11 / `pnpm verify` RC=0**，见 §30.37） | [x] |
-| T3-04 | `Pagination`（M）：页码、每页条数、快速跳转、受控 / 非受控 | T2-05 | 工程师 B | 总页数变化时当前页收敛不越界；键盘可达 + axe 0 violation；组件自身 `onChange` 与 Table 集成互不冲突 | [ ] |
+| T3-04 | `Pagination`（M）：页码、每页条数、快速跳转、受控 / 非受控 | T2-05 | 工程师 B | 总页数变化时当前页收敛不越界；键盘可达 + axe 0 violation；组件自身 `onChange` 与 Table 集成互不冲突（**7 槽省略号窗口 + 渲染期 clamp 与 effect 双层收敛 / `onChange` 单对象与 `TablePaginationState` 同形 / `aria-current` + `data-scui-current` 双通道 / option `selected` 而非 select `value` / 窄屏 `flex-wrap` / 324 tests·29 files / SSR 19 入口 / 126 张基线 / 判据 4g + 负向 N190~N203 14/14 / `pnpm verify` RC=0**，见 §30.38） | [x] |
 | T3-05 | `Empty` / `Skeleton` / `Spin`：空状态与加载三件套 | T2-13 | 工程师 C | 各 ≥3 Demo；骨架与真实内容同尺寸、切换不产生布局抖动；Spin 延迟显示可测 | [ ] |
 | T3-06 | Table 分页接入 + 空 / 加载态：客户端 / 服务端两套协议 | T3-01 / T3-04 / T3-05 | 技术负责人 | `onChange` 三参合流；分页 + 排序 + 筛选任意组合状态不丢；空态与加载态占位切换；服务端参数协议一次定清，业务侧不再自拼 | [ ] |
 | T3-07 | `Modal`（L）：确认、异步关闭、焦点陷阱、尺寸 | T2-01 / T2-06 | 技术负责人 | 焦点陷阱 + ESC 关闭后焦点归还触发元素；SSR 不渲染弹层；异步关闭期间防重复提交；axe 0 violation | [ ] |
@@ -4213,3 +4213,148 @@ SSR 入口渲染三张表：checkbox 非受控（选中 2 / 4 → 全选必须�
 4. **prop 名会撞 ARIA 规则**：`role` 作 prop 名会被 Biome 当作真正的 ARIA role 校验。非 ARIA 语义的锚点用 `data-scui-role`，prop 名也要避开 `role`。
 5. **「复用基础组件」在 CSS 独立产出的架构下不是免费午餐**：`Checkbox` 的语义（三态 / 受控优先级 / 字段上下文）都很好，但它的样式在另一个文件里。跨组件复用前先看构建产物是否聚合 —— 这次不改架构，只在判据里把「禁止跨组件类名」钉住。
 6. **负向用例的替换串不能包含被断言的原串**：N182 最初把 `someSelected` 换成 `someSelectedX`，正则 `/someSelected/` 仍能命中，红是红了但诊断对不上。判据用子串匹配时，负向必须换成**完全不含该串**的标识符。
+
+### 30.38 T3-04 Pagination 落地与验收（2026-11-13 实测）
+
+#### 一、结论先行
+
+Aming 选「先 A 后 C」：先把 T3-03 行选择提交为 `1f67c23`（未推送），再继续 M3 第四项。**`Pagination` 已完成并闭合**，工作区改动仍未提交 / 推送。
+
+本轮把 `docs/04 §4` 的 P0 能力一次做实（`Pagination` 是表格之外的**独立组件**，不属于 Table 内部实现）：
+
+1. **页码**：7 槽窗口（首页 + 末页 + 3 个数字页 + 最多 2 个省略号），贴边时向内补齐而不是把窗口压扁，避免「第 1 页时只显示 `1 2 …`」的忽长忽短。
+2. **每页条数**：原生 `<select>`，候选值可自定义；当前 `pageSize` 不在候选里时**补进选项**，否则 `<select>` 会显示第一项，看上去像「切了却没生效」。
+3. **快速跳转**：`Enter` 提交，越界收敛到首末页，非法输入（`12abc` / 空串）只清空不跳页 —— 不替用户猜。
+4. **受控 / 非受控**：`current > defaultCurrent > 内部信号`，`pageSize` 同理；受控时点击只发 `onChange`，内部状态一动不动。
+
+组件清单 18 → **19 组件**、60 → **63 Demo**，视觉基线 120 → **126 张**（3 个新 Demo × 2 视口），字集 909 → **914 码位**。`pnpm verify` 26 阶段 **RC=0**，负向 **N190~N203 14/14 PASS**。
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `packages/core/src/components/pagination/types.ts` | `PaginationSize` / `PaginationChange`（`current` / `pageSize` / `total` 三参，与 `TableChange.pagination` **同形**）/ `PaginationChangeHandler` / `PaginationItem` / `PaginationProps` |
+| `packages/core/src/components/pagination/pagination-engine.ts` | `usePaginationEngine` 单一状态真源；纯函数 `normalizeTotal` / `normalizePositive` / `getPageCount` / `clampPage` / `buildPageItems` / `getPageRange`；`PAGE_ITEM_SLOTS = 7`、`DEFAULT_PAGE_SIZE_OPTIONS` |
+| `packages/core/src/components/pagination/Pagination.tsx` | `<nav aria-label>` + `<ul>` 页码 + 原生 `select` / `input`；视图零 signal、不直读 `current` / `pageSize` / `total` |
+| `packages/core/src/components/pagination/pagination.scss` | 三档尺寸、当前页实心底、禁用态、`flex-wrap` 窄屏换行；字重写 `var(--scui-font-weight-medium, 500)` 带 fallback |
+| `packages/core/src/components/pagination/index.ts`、`packages/core/src/index.ts` | barrel 导出组件、引擎、6 个纯函数与 8 个类型 |
+| `packages/core/src/components/pagination/Pagination.test.tsx` | 新增 **25 个单测**：结构 / 页码与边界 / 收敛与受控 / 每页条数 / 快速跳转 / 禁用 / 总数文案 / 6 个纯函数 |
+| `packages/core/src/components/pagination/demos/{basic,size-changer,quick-jumper}.tsx` | 3 个 Demo：基础 + 总数文案 + 受控；三档每页条数；跳转 + 完整组合 + 禁用 |
+| `packages/core/src/components/pagination/__tests__/ssr-entry.tsx` | 新增 SSR 入口：基础 / 受控越界 / 完整组合 / 禁用 / `total=0` 五个实例 |
+| `packages/core/spikes/shared/ssr-smoke.mjs` | 新增 `id: 'T3-04'` case（15 markers / 16 counts），SSR 入口 18 → **19** |
+| `packages/core/spikes/api-draft/data-attributes.md` | 新增 `data-scui-page` / `data-scui-current`；`data-scui-size` 适用组件补 Pagination；role 表新增 8 个锚点 |
+| `packages/core/package.json` | 新增 `./pagination` 子路径（types / solid / import / default 四条件） |
+| `apps/docs/src/content/catalog.mjs` | 新增 `pagination` 条目（`category: '数据'`、`hasApi: true`） |
+| `scripts/check-ci.mjs` | 新增判据 **4g**（九条子判据，见第六节）；`FONT_SHA256` 重校两次；汇总文案追加「Pagination 契约」 |
+| `apps/docs/src/generated/**`、`apps/docs/public/llms/**`、`packages/core/llms*.txt` | `pnpm docs:generate` 产物：3 个 Demo JSON + 3 个 llms 页 + 1 个 API 表；搜索索引 384 → 407 |
+| `apps/docs/public/fonts/{charset.txt,scui-visual.woff2}` | 字集重建：**819 CJK/符号 + 95 ASCII = 914 码位**，SHA256 `9c8c6a9e…` |
+| `tests/e2e/baselines/light-ltr-default-pagination-{basic,size-changer,quick-jumper}-*.png` | 新增 6 张；既有 120 张**零改动** |
+| `docs/08` 本文件、`scripts/todo-governance.json`、`scripts/goals.baseline.json`、`AGENTS.md`（仅标记行） | §4.2 T3-04 勾 `[x]` + 证据、锚点推进 T3-05、治理契约 `T3-04 → 30.38`、基线重校 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| `onChange` 出参是**单对象** `{ current, pageSize, total }`，不是 AntD 的双位置参数 `(page, pageSize)` | 位置参数一改顺序就是静默 bug；单对象与 `TableChange` 的 `{ pagination, filters, sorter }` 同风格。更关键的是**形状与 `TablePaginationState` 一致** —— T3-06 把一次分页变更直接塞进 `TableChange.pagination` 就成立，业务侧不需要二次翻译（`docs/04 §5.1` 明文要求「`Pagination` 组件自身仍提供 `onChange`」，两者互不覆盖的前提是形状能对齐） |
+| 收敛做**两层**：渲染期 `clampPage` + 非受控 `createEffect` 写回 | 只有 effect 会让 SSR / 首帧短暂吐出越界页码；只有 clamp 会让内部信号一直是脏的（数据恢复后页码又跳回越界值）。两条都要，且**受控时不回写** —— 受控值归调用方所有 |
+| 省略号固定 7 槽、贴边向内补齐 | 动态槽位会让分页条宽度在翻页时抖动（视觉回归每次都变），也让「点第几页」的空间记忆失效。贴边补位保证「第 1 页」与「第 5 页」的项数一致 |
+| 每页条数用**原生 `<select>`**，不套 `Select` 组件 | 一处 dropdown 不值得引入 Kobalte 弹层 + Portal + 定位。原生 select 在移动端还是系统选择器，键盘与读屏天然可用。`Select` 组件的价值在搜索 / 多选 / 自定义渲染，分页用不上 |
+| 每页条数落在 `<option selected>`，而不是 `<select value>` | `value` 不是 `<select>` 的标准 HTML 属性：SSR 会把它输出成无意义属性、浏览器仍选第一项，客户端 hydration 后才纠正 → 首帧闪一下且出现属性差。`selected` 是标准属性，SSR 与客户端同源 |
+| 当前页**双通道**：`aria-current="page"` + `data-scui-current` | 前者是读屏语义（`docs/06 §6` 清单），后者是样式与测试锚点。只给 `aria-current` 会逼样式写 `[aria-current='page']`（可行但与全库「状态一律 `data-*`」不一致），只给 `data-*` 则读屏不知道当前页 |
+| 窄屏靠 `flex-wrap` 换行，不做横向滚动 | `docs/06 §5.2` 的 375px 冒烟按 `clientWidth + 1` 抓溢出。分页在窄屏天然是多段（页码 / 条数 / 跳转），换行比缩字号或截断更可读 |
+| 快速跳转只认十进制整数（`/^\d+$/`），不用 `parseInt` | `parseInt('12abc')` = 12，等于「猜用户想跳第 12 页」；越界与非法输入都静默丢弃，避免「跳转失败」被演成「跳到了别处」 |
+| 跳转草稿是**独立 signal**，不塞进 `state` 快照 | 草稿每敲一个字符都变；放进快照会让页码列表跟着重算、`<For>` 整列重建（与 T3-02 列引用不稳导致筛选面板重建是同一类坑） |
+
+#### 四、三个真实坑
+
+**其一：视觉阈值 0.002 会让「小面积文字变化」不写基线。**
+
+`size-changer` Demo 第一版三张表都是 `10 条/页`，静态截图看不出差异。改成 `10 / 20 / 50` 三档后重跑 `test:visual:update`，结果 **0 张重写、`127 passed`**，基线 mtime 仍是上一轮。用 Playwright 实测页面，`selectedOptions` 明确是 `10 / 20 / 50`、页码是 `20 / 10 / 4` —— 渲染已变，但差异像素（三处 select 文案 + 两处末页数字）低于 `toHaveScreenshot` 的 `0.002` 阈值（1280×720 ≈ 92 万像素 × 0.2% ≈ 1800 像素），于是被判「一致」。
+
+处理：删掉这 2 张基线强制重生成，再目视确认三档文案与末页数字都不同。
+
+**这不是缺陷，是阈值的固有语义**，但它意味着「`update` 报 0 重写」不能当作「渲染未变」的证据。T3-03 是「旧 dev server + 大块底色变化」（差异远超阈值，因此显形），本轮是「新 server + 小面积文字变化」（差异低于阈值，因此隐没）—— 两种表现指向同一件事：**基线的正确性只能靠「删一张再生成」或全量重建来证明**。
+
+**其二：`check:ci` 判据被注释冒充，也有反向误报。**
+
+4g 初版直接对 `Pagination.tsx` 全文测 `/aria-current/` 与 `/tabindex=["']?-1/`：
+
+- `aria-current` 在视图头注释里也出现（「当前页同时给 `aria-current="page"`」），**删掉真实输出后判据仍然绿** —— 假绿；
+- `tabindex="-1"` 在注释里出现（「没有 `tabindex="-1"`」），**合规代码被判红灯** —— 假红。
+
+同一条判据两个方向都错。修法：把注释剥离提到判据开头，`aria-current` / `data-scui-current` / `tabindex` / `selected` 全部只认真实代码，引擎侧的 `clampPage` / `getPageCount` / `controlledCurrent` 也同理（引擎 JSDoc 里提到过 `clampPage`）。负向 N193 专门验证「注释里仍有同名串时删掉真实输出必须红灯」。
+
+**其三：`<select[\s\S]{0,200}value=` 这类跨节点正则会误命中兄弟节点。**
+
+4g 初版用「从 `<select` 起 200 字符内出现 `value={`」判定「在 select 上用了 value」。实际紧跟 select 的快速跳转 `<input value={engine.jumpDraft()}>` 就在 200 字符内 → 合规代码被判红灯。改成只取 `<select\b[^>]*>` 开标签比对。
+
+#### 五、SSR、视觉与字体
+
+SSR 入口渲染五个实例：基础（`total=85` → 9 页、1 个省略号）、**受控越界**（`total=95` + `current=99` → 必须收敛到第 10 页）、完整组合（`showSizeChanger` / `showQuickJumper` / `showTotal`）、整体禁用、`total=0`。`T3-04` case 的 15 markers / 16 counts 钉住：
+
+- `data-scui-role="pagination"` **5** 个、`pagination-page` **21** 个、`pagination-gap` **5** 个；
+- `aria-current="page"` **5** 个（每个实例恰好一个当前页，不多不少）；
+- `data-scui-page="10"` **1** 个（受控越界收敛后的末页），`data-scui-page="99"` **0** 个 —— **期望值写 0 是最强的收敛断言**：越界页码在服务端输出里一次都不许出现；
+- `<option` **8** 个（2 个 select × 4 项）、`value="10" selected` **2** 个；
+- `data-scui-disabled=""` **1** 个（只有禁用实例的 nav 根）。
+
+19 个 SSR 入口全绿。**Solid SSR 对 `<option selected>` 输出裸属性名 `selected`**（同 T3-03 的 `disabled`），所以判据写 `value="10" selected` 而不是 `selected=""` —— 再次按实测抓取，不按 HTML 习惯猜。
+
+**字体字集变了两次**：首次建站（3 个 Demo 落地）从 909 → **914 码位**，SHA256 `3ab8f82b…`；改 Demo 文案（三档每页条数）后码位数不变但字符集内容变化，SHA256 变为 `9c8c6a9e…`。两次都同步更新 `FONT_SHA256` 并重跑基线。**码位数相同不等于字集相同** —— 哈希必须每轮重新取。
+
+#### 六、新增判据（`check:ci` 4g，收进既有阶段）
+
+| 子判据 | 内容 | 负向 |
+| --- | --- | --- |
+| 4g-a | `Pagination.tsx` 必须调用 `usePaginationEngine` | — |
+| 4g-b | 视图不得直读 `local.current` / `local.pageSize` / `local.total` | N190 |
+| 4g-c | 引擎必须使用 `clampPage` 与 `getPageCount`（收敛不能只在视图做） | N191 |
+| 4g-d | 引擎必须区分 `controlledCurrent` / `controlledPageSize` | N192 |
+| 4g-e | 必须同时输出 `aria-current` 与 `data-scui-current` | N193 / N194 |
+| 4g-f | `<select>` 开标签不得带 `value=` | N195 |
+| 4g-g | 必须在 `<option>` 上输出 `selected=` | N196 |
+| 4g-h | 不得出现 `tabindex="-1"` | N197 |
+| 4g-i | `pagination.scss` 必须有 `flex-wrap: wrap` | N198 |
+| 4g-j | SSR 入口文件存在且登记 `id: 'T3-04'` | N199 / N200 |
+
+判据全部收在 `check:ci` 内部，**不新开 workflow / job / 阶段**，26 阶段不变。4g-b / 4g-c 是「收敛归属」的结构契约：一旦有人图省事在视图里直接渲染 `props.current`，越界值就会漏到 DOM 与 SSR，而单测若只测常规值仍然全绿。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0**（26 阶段、全量、不设 `SCUI_E2E_SCOPE`；日志 `/tmp/verify38.log`） |
+| core 单测 | **324 tests / 29 files**（`Pagination.test.tsx` 25 tests，本轮新增 1 文件） |
+| browser / visual / docs / llms | **137 / 127 / 8 / 4** 全 passed（126 张截图 + 1 覆盖守卫） |
+| SSR 冒烟 | **19 个入口**全绿，T3-04 15 markers / 16 counts |
+| `check:docs` / `check:llms` | 84 生成物一致 / 101 站点 + 3 包内副本（98 页 / 23 exports / 99 条链接 / 0 死链 / 0 孤儿页） |
+| `check:ci` | RC=0，判据 4d + 4e + 4f + **4g** + 11（19 组件 / 63 Demo / 126 张基线一一对齐）+ 12 全绿；固定字体 819 字集 |
+| `check:todo` | RC=0，65 任务 / **55 个 `[x]`** / 91 验收区块 / 倒挂 0 |
+| `check:goals` | RC=0，受保护文件基线重新校准 |
+| 负向实证 | **N190~N203 14/14 PASS + RESTORE_OK**：逐项改坏「视图直读 / 收敛函数移除 / 受控判定抹平 / `aria-current` / `data-scui-current` / select value / option selected / tabindex / flex-wrap / SSR 未登记 / SSR 入口删除 / 字体哈希 / 基线缺失 / SSR 计数篡改」；脚本每例重新备份、锚点唯一命中、`RC≠0` 且命中指定诊断，结尾 SHA256 比对 |
+| 冻结面 | `docs/01~07` 与 `pnpm-lock.yaml` **0 改动**；`git diff --check` RC=0；零新增依赖 |
+
+#### 八、允许写入路径（L4）与边界
+
+**允许写入路径（L4，本轮派发边界）**：`packages/core/src/components/pagination/**`（新建整片纵向切片：types / engine / 视图 / 样式 / barrel / 单测 / 3 个 Demo / SSR 入口）、`packages/core/src/index.ts`、`packages/core/package.json`（仅 `./pagination` 一条 exports）、`packages/core/spikes/{api-draft/data-attributes.md,shared/ssr-smoke.mjs}`、`packages/core/llms*.txt`、`apps/docs/src/content/catalog.mjs`、`apps/docs/src/generated/**`、`apps/docs/public/{llms/**,llms.txt,llms-full.txt}`、`apps/docs/public/fonts/{charset.txt,scui-visual.woff2}`、`tests/e2e/baselines/**`（仅 6 张新增）、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（由 `--update-baseline` 生成）、`AGENTS.md`（仅标记行）、`docs/08-实施Todo.md`（§4.2 / §30.38 / 锚点 / 状态行）、`.workbuddy/memory/2026-11-13.md`。
+
+**未写入**：`docs/01~07`（冻结）、`pnpm-lock.yaml`、根 `package.json`（26 阶段 / `verify:main` 脚本原样）、`turbo.json`、`.github/workflows/ci.yml`、`scripts/affected.mjs` / `scripts/e2e-affected.mjs`、`tests/e2e/specs/**` 与 `tests/e2e/demo-list.ts`（`DEMO_CASES` 自动展开，新增 3 个 Demo 无需改用例）、`.size-limit.json`（4/6 条原样）、`README.md`、`packages/tokens/**`、`packages/core/src/components/table/**`（T3-04 未触碰 Table）。
+
+#### 九、已知边界与风险
+
+1. **`--scui-font-weight-*` token 在 tokens 里并不存在**：仓库里 Table 有两处 `var(--scui-font-weight-regular)` / `var(--scui-font-weight-medium)` **无 fallback**，与 §30.37 的 `--scui-color-bg-subtle` 是同一类死代码（字重回落到浏览器默认 400，表头其实没加粗）。本轮 Pagination 全部写 `var(--scui-font-weight-medium, 500)` 带 fallback，**没有**顺手修 Table：补 token 属于设计系统变更（会波及所有组件的字重表现与基线），留 M4 统一评估。
+2. **没有「每页条数变化时回到第 1 页」的开关**：本轮语义是「`current` 按新总页数收敛」（`current = min(current, newPageCount)`），与 AntD 默认一致。若业务需要「改条数后回第 1 页」，得在 `onChange` 里自己 `goTo`，组件不提供 `showSizeChanger.resetOnChange` 之类的开关 —— 等真实诉求再评估。
+3. **总数文案是纯函数式插槽**：`showTotal(total, range)` 只给数据不给默认文案，语言与排版由调用方决定（中文项目里写死「共 N 条」反而不便）。代价是每个使用方都要写一遍格式化。
+4. **快速跳转不支持「输入即跳」**：只认 `Enter`。`onInput` 直接跳会在输入「1」「2」时先跳第 1 页再跳第 12 页，产生无谓请求。
+5. **`Table` 的分页仍未接通**：`TableChange.pagination` 恒为 `undefined`，由 T3-06 把本组件的 `onChange` 接进 Table 的引擎。
+6. **`Table + Virtual ≤ 35 KB` 仍 pending**：`.size-limit.json` 4/6 条未变，等 T3-14 校准。Pagination 体积已自动计入 Core 全量预算并通过。
+7. **T3-04 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求 commit / push 逐次授权；本轮只把 T3-03 提交到 `1f67c23`，T3-04 留在工作区。
+
+#### 十、教训
+
+1. **「`update` 报 0 重写」≠「渲染没变」**：`toHaveScreenshot` 的 `0.002` 阈值会吞掉小面积文字变化。改 Demo 文案 / 局部数值后，必须「删一张基线再生成」或全量重建来验证。T3-03 的旧 server 缓存与本轮的阈值吞差异，表现不同、结论相同。
+2. **判据里的「字符串出现过」是最脆弱的写法**：注释能同时制造假绿（删掉真实输出仍命中）与假红（注释里的反例被当违规）。凡是「属性是否输出」的判据，一律先剥注释；跨节点正则（`<select[\s\S]{0,200}value=`）要退化成「只取开标签」。
+3. **码位数相同不代表字集相同**：改 Demo 文案后 914 码位不变，但 SHA256 变了。每轮都要重新取哈希，不能因为「字符数没变」就跳过。
+4. **受控组件的「收敛」不能只做一层**：渲染期 clamp 保证 SSR / 首帧不越界，effect 写回保证内部状态不脏。少任何一层都会在「数据缩小再放大」或「首帧」时露馅。
+5. **独立组件不要为了复用而引入弹层**：分页的每页条数用原生 `<select>` 就够了，套 `Select` 会带来 Portal / 定位 / 客户端专用 API，还多一条 SSR 分支。复用的前提是「能力真的用得上」，不是「看起来更统一」。
+6. **窄屏要先想好「换行还是滚动」**：`flex-wrap` 一行代码解决了 375px 溢出，比缩字号（可读性）、截断（信息丢失）、横向滚动（可发现性）都划算。

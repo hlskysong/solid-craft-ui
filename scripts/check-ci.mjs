@@ -453,6 +453,66 @@ if (!existsSync(tableSsrSelection) || !ssrSmokeRunner.includes("id: 'T3-03'")) {
   fail('Table 行选择的 SSR 入口未登记进 ssr-smoke.mjs');
 }
 
+// 4g. Pagination 契约（§30.38，T3-04）。验收三条里最容易「看着对、其实漏」的部分：
+// ① 收敛如果在视图做（直接渲染 props.current），越界值会漏到 DOM 与 SSR；
+// ② 当前页只给 aria-current 会导致样式只能靠文本抓节点，必须有 data-scui-current；
+// ③ 每页条数写 <select value> 在 SSR 不是标准属性，首帧会选错项。
+const paginationDir = join(repoRoot, 'packages', 'core', 'src', 'components', 'pagination');
+const paginationImpl = read(join(paginationDir, 'Pagination.tsx'));
+const paginationEngine = read(join(paginationDir, 'pagination-engine.ts'));
+const paginationStyles = read(join(paginationDir, 'pagination.scss'));
+if (paginationImpl.length === 0 || paginationEngine.length === 0 || paginationStyles.length === 0) {
+  fail('Pagination 缺少 Pagination.tsx / pagination-engine.ts / pagination.scss（T3-04 纵向切片）');
+} else {
+  // 判据只认真实代码。本批次实测踩到两次注释冒充判据：
+  // ① 视图头注释写了 `aria-current="page"`，删掉真实输出后正则仍命中 → 假绿；
+  //    `tabindex="-1"` 写进注释则相反，会把合规代码判成红灯。
+  // ② `<select[\s\S]{0,200}value=` 这种跨节点正则会误命中后面的 `<input value>`。
+  // 所以统一先剥注释，select 只看开标签。
+  const stripPaginationComments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const paginationCode = stripPaginationComments(paginationImpl);
+  const paginationEngineCode = stripPaginationComments(paginationEngine);
+
+  if (!/usePaginationEngine\s*\(/.test(paginationCode)) {
+    fail('Pagination.tsx 未调用 usePaginationEngine：页码收敛与受控优先级必须在引擎里');
+  }
+  if (/(?:props|local)\.(current|pageSize|total)\b/.test(paginationCode)) {
+    fail(
+      'Pagination.tsx 直接读取 current / pageSize / total：必须先经引擎收敛，否则越界值会漏到 DOM',
+    );
+  }
+  if (!/clampPage/.test(paginationEngineCode) || !/getPageCount/.test(paginationEngineCode)) {
+    fail('分页引擎未用 clampPage / getPageCount：总页数变化时当前页无法收敛');
+  }
+  if (
+    !/controlledCurrent/.test(paginationEngineCode) ||
+    !/controlledPageSize/.test(paginationEngineCode)
+  ) {
+    fail('分页引擎未区分受控 / 非受控：受控时点击不得回写内部状态');
+  }
+  if (!/aria-current/.test(paginationCode) || !/data-scui-current/.test(paginationCode)) {
+    fail('Pagination.tsx 未同时输出 aria-current 与 data-scui-current（当前页双通道）');
+  }
+  const paginationSelectTag = paginationCode.match(/<select\b[^>]*>/)?.[0] ?? '';
+  if (/value=/.test(paginationSelectTag)) {
+    fail('Pagination.tsx 在 <select> 上用 value：SSR 不是标准属性，首帧会选错项');
+  }
+  if (!/selected=\{/.test(paginationCode)) {
+    fail('Pagination.tsx 未在 <option> 上输出 selected：SSR 首帧与客户端不一致');
+  }
+  if (/tabindex=["']?-1/i.test(paginationCode)) {
+    fail('Pagination.tsx 给控件加了 tabindex="-1"：键盘 Tab 可达性失守');
+  }
+  if (!/flex-wrap:\s*wrap/.test(paginationStyles)) {
+    fail('pagination.scss 未设置 flex-wrap：375px 下会横向溢出');
+  }
+  const paginationSsrEntry = join(paginationDir, '__tests__', 'ssr-entry.tsx');
+  if (!existsSync(paginationSsrEntry) || !ssrSmokeRunner.includes("id: 'T3-04'")) {
+    fail('Pagination 的 SSR 入口未登记进 ssr-smoke.mjs');
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -538,7 +598,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = 'fc5574db758ac81476b0b5e7b932b275dd53073898a65f8074cf5838548f3a13';
+const FONT_SHA256 = '9c8c6a9e77cf08751a82a6bac81905a53bfc9b9a2c9d9df98a195b295cea741d';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -829,5 +889,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
 );

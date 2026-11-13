@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 94,
+  "pageCount": 98,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -103,6 +103,11 @@
     {
       "path": "llms/exports/table.md",
       "title": "# Table 表格（`solid-craft/table`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/pagination.md",
+      "title": "# Pagination 分页（`solid-craft/pagination`）",
       "kind": "exports"
     },
     {
@@ -479,6 +484,21 @@
       "path": "llms/demos/table-sorting.md",
       "title": "# Table 表格 · 排序（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/pagination-basic.md",
+      "title": "# Pagination 分页 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/pagination-quick-jumper.md",
+      "title": "# Pagination 分页 · 快速跳转（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/pagination-size-changer.md",
+      "title": "# Pagination 分页 · 每页条数（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -500,6 +520,7 @@
     "./range-picker": "llms/exports/range-picker.md",
     "./form": "llms/exports/form.md",
     "./table": "llms/exports/table.md",
+    "./pagination": "llms/exports/pagination.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -525,6 +546,7 @@
     "llms/exports/range-picker.md",
     "llms/exports/form.md",
     "llms/exports/table.md",
+    "llms/exports/pagination.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -600,7 +622,10 @@
     "llms/demos/table-filtering.md",
     "llms/demos/table-selection-radio.md",
     "llms/demos/table-selection.md",
-    "llms/demos/table-sorting.md"
+    "llms/demos/table-sorting.md",
+    "llms/demos/pagination-basic.md",
+    "llms/demos/pagination-quick-jumper.md",
+    "llms/demos/pagination-size-changer.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

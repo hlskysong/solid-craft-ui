@@ -7,7 +7,7 @@
 
 | 属性 | 取值 | 语义 | 适用组件 |
 | --- | --- | --- | --- |
-| `data-scui-size` | `small \| medium \| large` | 尺寸，默认 `medium`；禁止 `sm` / `md` | Select / DatePicker / Form / Table |
+| `data-scui-size` | `small \| medium \| large` | 尺寸，默认 `medium`；禁止 `sm` / `md` | Select / DatePicker / Form / Table / Pagination |
 | `data-scui-disabled` | `''`（存在即真） | 禁用态，配合原生 `disabled` / `aria-disabled` | 全部 |
 | `data-scui-invalid` | `'true' \| 'false'` | 校验失败；SSR 也输出，避免 hydration 属性差 | Form |
 | `data-scui-open` | `''` | 弹层展开 | Select / DatePicker |
@@ -42,6 +42,8 @@
 | `data-scui-filter-open` | `''`（存在即真） | 当前列的筛选面板处于展开态；SSR 首帧恒不输出（面板初态关闭） | Table |
 | `data-scui-server` | `''`（存在即真） | 服务端模式：只把排序 / 筛选参数交给 `onChange`，不本地改数据顺序与行数（T3-02） | Table |
 | `data-scui-row-disabled` | `''`（存在即真） | 行选择被禁用：该行控件原生 `disabled`、且不进全选集合；**不改整行文字颜色**（禁用不靠降对比度表达，避免 axe `color-contrast`） | Table（T3-03） |
+| `data-scui-page` | 页码字符串 | 页码按钮定位；值与 `aria-current` 同源，测试与样式只认它，避免按文本抓节点（T3-04） | Pagination |
+| `data-scui-current` | `''`（存在即真） | 当前页；落在页码按钮上，与 `aria-current="page"` **双通道**（后者给读屏、前者给样式与测试）。不复用 `data-scui-selected`：那表达「被选中」而非「当前位于」，一个属性名只表达一个语义（T3-04） | Pagination |
 
 ## `data-scui-role` 取值清单
 
@@ -51,6 +53,8 @@
 | `select-all` / `sort-trigger` / `filter-trigger` | Table | 交互锚点：`sort-trigger` / `filter-trigger` 由 T3-02、`select-all` 由 T3-03 落地，SSR 首帧即输出；radio 模式没有全选语义，零输出 |
 | `select-row` | Table | 行选择控件锚点（T3-03）：每行一个，SSR 首帧即输出 |
 | `table` / `table-scroll` | Table | 结构锚点 |
+| `pagination` / `pagination-page` / `pagination-gap` / `pagination-prev` / `pagination-next` | Pagination | 结构锚点（T3-04）：`pagination` 是 `<nav>` 根，`pagination-gap` 是省略号占位（非按钮、`aria-hidden`），其余都是原生 `<button>` |
+| `pagination-size` / `pagination-jump` / `pagination-total` | Pagination | 结构锚点（T3-04）：原生 `<select>` / `<input>` / `<span>`，由 `showSizeChanger` / `showQuickJumper` / `showTotal` 控制是否出现；SSR 按同一条件输出 |
 | `filter-dropdown` / `filter-option` | Table | 筛选面板与内置选项锚点（T3-02）；面板初态关闭，SSR 零输出 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |

@@ -1,0 +1,157 @@
+{
+  "slug": "pagination",
+  "source": "packages/core/src/components/pagination/types.ts",
+  "interfaces": [
+    {
+      "name": "PaginationChange",
+      "inherits": null,
+      "props": [
+        {
+          "name": "current",
+          "type": "number",
+          "optional": false,
+          "description": "变更后的当前页，恒为 `1 ≤ current ≤ pageCount`。",
+          "default": null
+        },
+        {
+          "name": "pageSize",
+          "type": "number",
+          "optional": false,
+          "description": "变更后的每页条数。",
+          "default": null
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "optional": false,
+          "description": "总条数（原样回传，便于服务端请求直接拼参数）。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "PaginationItem",
+      "inherits": null,
+      "props": [
+        {
+          "name": "key",
+          "type": "string",
+          "optional": false,
+          "description": "稳定标识：`page-3` / `gap-left` / `gap-right`。",
+          "default": null
+        },
+        {
+          "name": "type",
+          "type": "'page' | 'gap'",
+          "optional": false,
+          "description": "`page` 是可点击页码，`gap` 是省略号占位。",
+          "default": null
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "optional": false,
+          "description": "`type === 'page'` 时的页码；`gap` 时无意义。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "PaginationProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLElement>,\n  'children' | 'onChange' | 'style'\n>",
+      "props": [
+        {
+          "name": "total",
+          "type": "MaybeAccessor<number>",
+          "optional": true,
+          "description": "总条数；`0` 时页码列表只剩第 1 页且上一页 / 下一页全部禁用。",
+          "default": "0"
+        },
+        {
+          "name": "current",
+          "type": "MaybeAccessor<number>",
+          "optional": true,
+          "description": "受控当前页；给了就完全受控，点击只发 `onChange` 不改内部状态。 越界值在渲染时收敛到 `[1, pageCount]`，不会输出越界页码。",
+          "default": "undefined（非受控）"
+        },
+        {
+          "name": "defaultCurrent",
+          "type": "MaybeAccessor<number>",
+          "optional": true,
+          "description": "非受控初始页码；仅在挂载时读取一次。",
+          "default": "1"
+        },
+        {
+          "name": "pageSize",
+          "type": "MaybeAccessor<number>",
+          "optional": true,
+          "description": "受控每页条数。",
+          "default": "undefined（非受控）"
+        },
+        {
+          "name": "defaultPageSize",
+          "type": "MaybeAccessor<number>",
+          "optional": true,
+          "description": "非受控初始每页条数；仅在挂载时读取一次。",
+          "default": "10"
+        },
+        {
+          "name": "pageSizeOptions",
+          "type": "MaybeAccessor<PaginationPageSizeOptions>",
+          "optional": true,
+          "description": "每页条数候选值；`showSizeChanger` 开启时渲染成原生下拉。",
+          "default": "[10, 20, 50, 100]"
+        },
+        {
+          "name": "showSizeChanger",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "是否显示每页条数切换器。",
+          "default": "false"
+        },
+        {
+          "name": "showQuickJumper",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "是否显示快速跳转输入框（Enter 提交，越界收敛）。",
+          "default": "false"
+        },
+        {
+          "name": "showTotal",
+          "type": "(total: number, range: readonly [number, number]) => JSX.Element",
+          "optional": true,
+          "description": "总数文案渲染函数；返回 `JSX.Element`，由调用方决定语言与排版。 拿到的是区间而不是单个数字，避免调用方自己算 `(current - 1) * pageSize`。",
+          "default": "undefined（不渲染）"
+        },
+        {
+          "name": "disabled",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "禁用整个分页：全部控件原生 `disabled`，点击不触发 `onChange`。",
+          "default": "false"
+        },
+        {
+          "name": "size",
+          "type": "PaginationSize",
+          "optional": true,
+          "description": "尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "onChange",
+          "type": "PaginationChangeHandler",
+          "optional": true,
+          "description": "分页变更回调；页码与每页条数共用这一个出口。",
+          "default": "undefined"
+        },
+        {
+          "name": "style",
+          "type": "string",
+          "optional": true,
+          "description": "根节点样式；与 `class` 一样合并而非覆盖。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}
