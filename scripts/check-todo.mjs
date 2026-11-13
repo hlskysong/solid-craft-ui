@@ -29,7 +29,8 @@ const governance = JSON.parse(
 const lines = todoText.split('\n');
 const errors = [];
 const fail = (message) => errors.push(message);
-const taskIdRe = /^(?:T0|T1|T2|S|X)-\d+$/;
+// §4.2 起 M3 拆出 T3-xx；漏加前缀会让新增任务整片绕过结构 / 倒挂 / 证据校验。
+const taskIdRe = /^(?:T0|T1|T2|T3|S|X)-\d+$/;
 // 显式比较器：oxlint type-aware 要求 sort 类调用带 compare，且避免 locale 差异
 const compare = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 

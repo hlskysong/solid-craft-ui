@@ -276,7 +276,8 @@ if (workflow.length === 0) {
     );
   }
 
-  // 4c. 全量 / 增量分流契约（§30.33）：发布全量、main 日常增量
+  // 4c. 全量 / 增量分流契约（§30.33 落地、§30.34 改为 dev/main 双分支）：
+  // dev 日常增量；push main（发版合并）/ tag / 手动 / 夜间一律全量。
   const verifyMain = rootPkg.scripts?.['verify:main'] ?? '';
   if (verifyMain.length === 0) {
     fail('package.json 缺少 verify:main（§30.33 的增量门禁入口）');
@@ -301,19 +302,57 @@ if (workflow.length === 0) {
   if (!existsSync(join(repoRoot, 'scripts/affected.mjs'))) {
     fail('缺少 scripts/affected.mjs（§30.33 的作用域判定，含「默认全量」fail-safe）');
   }
-  // ci.yml 侧：四条缺一条都会让增量变成「静默全量」或「静默跳过」
+
+  // ci.yml 侧的触发面：两条分支都必须监听，漏掉 main 等于发版合并完全不受门禁约束。
   for (const [pattern, message] of [
-    [/^ {2}schedule:/m, 'ci.yml 缺少 schedule 触发：main 只剩增量就失去全量兜底'],
+    [
+      /^ {4}branches:\s*\[dev,\s*main\]/m,
+      'ci.yml 的 push.branches 未同时监听 dev 与 main（§30.34 双分支策略）',
+    ],
+    [/^ {2}schedule:/m, 'ci.yml 缺少 schedule 触发：dev 只剩增量就失去全量兜底'],
     [/^ {4}tags:\s*\[/m, 'ci.yml 的 push 未挂 tags 触发：打 tag 发布时不会跑全量'],
     [/node scripts\/affected\.mjs --base/, 'ci.yml 未调用 scripts/affected.mjs 推断作用域'],
-    [/pnpm verify:main/, 'ci.yml 未接增量门禁 pnpm verify:main'],
-    [/github\.event_name != 'push'/, 'ci.yml 的全量门未排除 push：会导致每次 push 都跑全量'],
-    [
-      /startsWith\(github\.ref, 'refs\/tags\/'\)/,
-      'ci.yml 的全量门未包含 tag 条件：发布时拿不到全量',
-    ],
   ]) {
     if (!pattern.test(workflow)) fail(message);
+  }
+
+  // 两个门必须严格互补：只按 step 名取各自的 if 行，避免注释里的示例文字冒充判据。
+  const stepChunk = (name) => {
+    const marker = `      - name: ${name}`;
+    const start = workflow.indexOf(marker);
+    if (start < 0) return '';
+    const end = workflow.indexOf('      - ', start + marker.length);
+    return workflow.slice(start, end < 0 ? workflow.length : end);
+  };
+  // step 内的 if 与 `- name:` 的内容列对齐（8 空格）；job 级 if 才是 4 空格。
+  const stepIf = (name) => stepChunk(name).match(/^ {8}if: (.+)$/m)?.[1] ?? '';
+  const scopeIf = stepIf('推断增量 e2e 作用域');
+  const incIf = stepIf('Incremental gate (pnpm verify:main)');
+  const fullIf = stepIf('Full gate (pnpm verify)');
+  if (incIf.length === 0 || fullIf.length === 0) {
+    fail('ci.yml 缺少增量门 / 全量门的 if 条件（两个门必须显式写明）');
+  } else {
+    if (
+      !incIf.includes("github.event_name == 'push'") ||
+      !incIf.includes("github.ref == 'refs/heads/dev'")
+    ) {
+      fail('ci.yml 的增量门不是「push && refs/heads/dev」：不能把 main 合并也判成增量');
+    }
+    if (
+      !fullIf.includes("github.event_name != 'push'") ||
+      !fullIf.includes("github.ref != 'refs/heads/dev'")
+    ) {
+      fail('ci.yml 的全量门不是增量门的补集：会留下「两个门都不跑」的静默空窗');
+    }
+    if (scopeIf.length === 0 || scopeIf !== incIf) {
+      fail('ci.yml 的作用域推断 step 与增量门条件不一致（算了不用 / 用了没算）');
+    }
+  }
+  if (!stepChunk('Incremental gate (pnpm verify:main)').includes('run: pnpm verify:main')) {
+    fail('ci.yml 的增量门未接 pnpm verify:main');
+  }
+  if (!stepChunk('Full gate (pnpm verify)').includes('run: pnpm verify')) {
+    fail('ci.yml 的全量门未接 pnpm verify');
   }
 }
 
@@ -693,5 +732,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（main 增量 verify:main / tag·手动·夜间全量 verify，作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· size-limit@${sizeLimit} + file 插件`,
 );

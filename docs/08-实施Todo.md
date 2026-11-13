@@ -1,6 +1,6 @@
 # 08 实施 Todo
 
-> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）** + **设计基线数值对标（§30.25）** + **字族与图标尺寸收口（§30.26）** + **T2-09 控件接入 Form（§30.27）** + **T2-10 DatePicker（§30.28）** + **T2-11 RangePicker（§30.29）** + **T2-12 体积预算 / 产物去注释（§30.30）** + **T2-13 M2 Exit：Demo 覆盖扩面与 M2 闭合（§30.31）** + **CI 首次红灯修复：axe / 375px 用例粒度拆到 Demo（§30.32）** + **CI 门禁分流：发布全量 / main 日常增量（§30.33）**
+> 状态：v0.3 同步 · 2026-11-05；实施记录更新至 **2026-11-10**（脚手架 + 7 个基础组件 + SSR 冒烟 + S-01 三端 / 真实 SolidStart + T1-05 三条测试链 + T1-01 正式 Token 管线 + T1-06 文档站 + **T1-14 完备 llms.txt** + **T1-15 Q1-L1 llms.txt 随包发布 / T1-02 样式基础门禁** + **T1-07 CI/CD 门禁链** + **D-09 发布渠道 / 发布闸门** + **T1-16 无人干预防漂移治理** + **D-01 正式命名 solid-craft-ui 全仓迁移** + **D-10 ① GitHub 仓库地址登记** + **D-10 ② npm 账号登记与包名占用体检** + **D-10 ① 首次推送与 public 仓库安全门禁（§22）** + **发布包 author 登记与本轮改动提交推送（§23）** + **README 对外化重写（§24）** + **public 历史重写与强推（§25）** + **D-10 ③ 登录态闭环与文案同步（§26）** + **D-10 ④ 本地预演固化与主行勾选（§27）** + **T1-11 受控发布通道重定义与勾选（§28）** + **T1-12 Button 纵向切片闭环（§29）** + **T0-04 Phase 0 决策检查点裁决与 4 条例外收口（§30，主行仍未勾）** + **方案 A 确认 / S-03 · S-09 口径重定义 / 例外清零（§30.7，T0-04 与 T1-13 仍 `[ ]`）** + **CI 真实 run 实证更正（§30.8，其「根因已修复」结论已由 §30.9 更正）** + **视觉基线方案 B：仓库内固定 Web 字体（§30.9）** + **CI 真实 run 首次全绿复验（§30.9.6）**已落地，见 §8 / §9 / §10 / §11 / §12 / §13 / §14 / §15 / §16 / §17 / §18 / §19 / §20 / §21 / §22 / §23 / §24 / §25 / §26 / §27 / §28 / §29 / §30 / §30.7 / §30.8 / §30.9 / §30.9.6 / §30.12） + **方案 C 四个 Phase 0 Spike 实证补齐（§30.10）** + **T0-03 API 草案评审签字 / R1~R5 裁决 / M1 Exit 闭合（§30.11）** + **R1 全量切 `data-scui-*` 与 `.scui-` 作用域门禁落地（§30.12）** + **M2 开工：T2-01 原语层（§30.16）** + **CI 用量收敛：每次 push 只跑 1 个 job（§30.17）** + **T2-02 表单控件基座（§30.18）** + **T2-03 Input / Textarea（§30.19）** + **T2-04 InputNumber（§30.20）** + **T2-05 Checkbox / Radio / Switch（§30.21）** + **T2-06 App / Message / Notification（§30.22）** + **T2-07 Select（§30.23）** + **T2-08 Form（§30.24）** + **设计基线数值对标（§30.25）** + **字族与图标尺寸收口（§30.26）** + **T2-09 控件接入 Form（§30.27）** + **T2-10 DatePicker（§30.28）** + **T2-11 RangePicker（§30.29）** + **T2-12 体积预算 / 产物去注释（§30.30）** + **T2-13 M2 Exit：Demo 覆盖扩面与 M2 闭合（§30.31）** + **CI 首次红灯修复：axe / 375px 用例粒度拆到 Demo（§30.32）** + **CI 门禁分流：发布全量 / main 日常增量（§30.33）** + **dev 分支策略 / Biome 环境变量诊断收口 / M3 任务级拆解（§30.34）** + **dev 已设为 GitHub 默认分支（§30.34 第九节）**
 > 依据：`docs/01~07`（v0.3 冻结规范）。本文是**可执行清单**，不新增决策；与规范冲突时以 01~07 为准。`README.md` 自 2026-11-09 起为**对外使用者文档**（安装 / Quick Start / 组件子路径 / 文档入口 / 贡献），不再承载规划与治理台账；规划期 README 全文已另存为仓库外的本地历史存档（不入库）；git 历史已于 2026-11-09 重写为单一干净 root commit（§25），此前快照不再可解析。
 > 范围：**Phase 0（第 1–2 周）+ Phase 1（第 3–5 周）** 拆到可动手颗粒；M1–M7 只给里程碑检查点。
 > 用法：`[ ]` → `[x]`；标注「依赖」的必须先完成；「验收」列的命令可直接复制（见 §6）。
@@ -9,11 +9,11 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围已由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆解为 **T2-01~T2-13 共 13 项**（§4.1），**已完成 13 项**（T2-01 原语层 §30.16 / T2-02 表单基座 §30.18 / T2-03 Input·Textarea §30.19 / T2-04 InputNumber §30.20 / T2-05 三件套 §30.21 / T2-06 App §30.22 / T2-07 Select §30.23 / T2-08 Form §30.24 / T2-09 控件接入 Form §30.27 / T2-10 DatePicker §30.28 / T2-11 RangePicker §30.29 / T2-12 体积预算 §30.30 / T2-13 M2 Exit §30.31），下一阶段 **M3 任务拆解**；组件库保持 SSR 可用 + 双构建 + **正式命名 `solid-craft-ui` 全仓零残留** + 公开可发布 |
+| 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2，全部 [ ]，尚未执行）；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T2-13**（M2 第十三项「M2 Exit 检查」**已完成并闭合**，见 §30.31；M2 十三项 T2-01~T2-13 全部收口，下一阶段 M3 待拆解为 T3-xx）；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论已由 Aming 签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43007953713`（`0b08a25`，attempt 2）4/4 全绿；T2-09 之后的提交在 2026-11-12 晚间**已推送**（`main` 与 `origin/main` 同步），最新真实 run 为 `43193817842`（`7767c86`）**失败**：axe 单条用例 53 页循环、31.1s 撞 30s 超时（非无障碍回归，见 §30.32），用例粒度已拆到 Demo 待复跑；T2-05 / T2-06 / T2-07 / T2-08 与设计基线收口已分别提交为 `928b899` / `8d61a81` / `62b7d23` / `b97421e` / `d917f4f`（2026-11-12）；T2-09 `583cf23`（35 files / +1423 −34）、T2-10 `3f694e0`（42 files / +3098 −26）、T2-11 `f76c472`（42 files / +3775 −26）、T2-12 `b62e59a`（8 files / +304 −9）、T2-13 `7767c86`（183 files / +3785 −92，已推送）；CI 修复 `cc23185`（2 files / +96 −29，已推送，run `43203012284` 全绿）；CI 门禁分流改造（§30.33）改动在工作区待授权提交 |
-| 下一步 | **先复跑 CI 确认 §30.32 / §30.33 生效，再进 M3 拆解**：门禁已是「tag / 手动 / 夜间全量 + main 日常增量」双层（增量按 git diff 只跑受影响组件的 Demo，全量 8 分 21 秒 → 增量预计 2-3 分钟）；M2 已闭合（13/13），下一步把 M3 的第 12 周末口径「CRUD 列表页可开发 + Table 基础稳定」拆成 T3-xx —— 按 §4.1 的颗粒度（任务 / 依赖 / 主责 / 验收 / 状态五要素），候选顺序 Table（基础列 / 排序 / 筛选 / 选择 / 分页 / 空态加载）→ Pagination → Card / Tag / Tabs / Empty / Skeleton / Descriptions → Upload（M2 后移项）；拆解完成再逐项执行。M2 的 13 项已全部收口：~~T2-01~~（§30.16）→ ~~T2-02~~（§30.18）→ ~~T2-03~~（§30.19）→ ~~T2-04~~（§30.20）→ ~~T2-05~~（§30.21）→ ~~T2-06~~（§30.22）→ ~~T2-07~~（§30.23）→ ~~T2-08~~（§30.24）→ ~~T2-09~~（§30.27）→ ~~T2-10~~（§30.28）→ ~~T2-11~~（§30.29）→ ~~T2-12~~（§30.30）→ ~~T2-13 M2 Exit~~（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
-| 未答决策 | D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：**T0-03 API 草案评审（Aming 2026-11-11 主持签字，R1~R5 逐项裁决，§30.11）**、M1 范围收窄（方案 A 曾确认，方案 C 接替后不再以「移出 M1」跳过 Phase 0 检查点）、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、**CI Full gate 首次全绿复验（run `42822339834`）**、**C03 倒改 `pass`（Aming 2026-11-10 裁决）**、**T0-04 依赖列口径（Aming 选方案 C）**；**2026-11-11 已关闭**：M2 范围口径（Aming 裁定 = 表单 9 件套 + Textarea 并入 Input + App 随 M2，Upload 后移 M3，见 §4.1） |
+| 当前任务 ID | **T3-01**（M3 第一项「Table 引擎基座」，§4.2，**待执行**）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43209356655`（`ca9a5b6`）**success**；本轮已切出本地 `dev` 分支（§30.34），**dev 尚未推送** |
+| 下一步 | **先推送 `dev` 分支（首次 push 按 fail-safe 判 `all` 跑全量），再开始 T3-01「Table 引擎基座」**：M3 已按 `docs/05` Phase 3 拆成 14 项（§4.2）。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
 
@@ -140,6 +140,35 @@
 | T2-13 | **M2 Exit 检查**：表单页 Demo 端到端 / axe / 每组件 ≥3 Demo / 视觉基线（@1280·@768）/ SSR 冒烟 / 文档生成物 | T2-09 / T2-11 / T2-12 | 技术负责人 | `pnpm verify` RC=0；六条预算中四条落地；表单页可独立开发。**另含一项前置修复**：`tests/e2e/demo-list.ts` 目前只截每个组件的 `basic` Demo（`demoPath()` 写死 `basic`），新增 Demo 既无视觉基线也不进 axe 扫描 —— 必须先扩成「slug × demo」再谈「每组件 ≥3 Demo」的验收（§30.20 第四节）（**扩面完成：清单改 `DEMO_CASES`（slug × demo），Demo 39→53 / 基线 36→106 / axe 55 次扫描全 0 violation；`check:ci` 新增「每组件 ≥3 Demo」与「基线一一对齐」两条判据；扩面抓到 3 个真缺陷（`Layout.Content` 的 `<main>` / `Form` 默认 `aria-label` / 宿主静默回落）；负向 N149~N155 7/7 + `DRIFT []`，见 §30.31**） | [x] |
 
 **推进顺序**：T2-01 → T2-02 是全链前提（不做基座，后面每个控件都要返工）；T2-03 / T2-05 / T2-06 可并行；T2-07 与 T2-08 并行；T2-09 必须等控件与 Form 都在位；T2-10 / T2-11 是最长尾巴，越早启动越好。
+
+### 4.2 M3 CRUD 列表页任务拆解（2026-11-13 展开，14 项）
+
+**范围依据（单一来源 `docs/05` Phase 3 第 10–12 周，冻结正文零改动）**：第 10 周 Table 基础（列 / 排序 / 筛选 / 选择 / 分页 / 空·加载）+ Pagination；第 11 周 Modal / Drawer / Message / Tooltip / Popconfirm / Alert / Spin + App 上下文宿主；第 12 周 Card / Tag / Tabs / Empty / Skeleton / Descriptions + Table 与 Form 组合示例。**Exit 原文**：列表页 + 查询 + 新增/编辑弹窗 + 删除确认 + 反馈完整跑通，Table 分页 / 排序 / 筛选稳定；**1 万行虚拟滚动属 Phase 5，不作为本阶段 Exit**。复杂度与优先级取自 `docs/04 §2.3 / §2.4`（Table XL、Modal L、Pagination·Drawer·Tabs·Descriptions M，其余 S），Table 契约取自 `docs/04 §5.1`（统一 `useTableEngine`、`onChange({ pagination, filters, sorter })`、默认密度 12 / 12）。
+
+**两处范围校正，写在这里避免下次又漏**：
+1. 上一阶段末尾给的候选顺序是「Table → Pagination → Card/Tag/Tabs/Empty/Skeleton/Descriptions → Upload」，**漏了 `docs/05` 第 11 周整周的反馈与弹层**（Modal / Drawer / Tooltip / Popconfirm / Alert / Spin），而 M3 Exit 明确要求「新增/编辑弹窗 + 删除确认 + 反馈」。本表按冻结规范补齐，不按候选顺序打折。
+2. `Message` 与 `App` 上下文宿主已由 **T2-06 落地**，本阶段不重复建组件，只在 T3-09 / T3-12 做接入；`Upload` 是 M2 范围裁决的后移项（§30 已记），落 T3-13。`Modal` / `Drawer` 此前未落地，是 M3 Exit 的真实缺口。
+
+**不进 M3**（`docs/04 §5.1` P1 与 `docs/05` Phase 5 明文）：虚拟滚动 / 固定列 / 分组表头 / 树形 / 可编辑单元格 / 列设置 / ProTable；`Badge` / `Avatar` / `Collapse` 等 P1 组件也不进。
+
+| ID | 任务 | 依赖 | 主责 | 验收 | 状态 |
+| --- | --- | --- | --- | --- | --- |
+| T3-01 | Table 引擎基座：`useTableEngine` 统一受控状态，列配置（`title` / `dataIndex` / `width` / `align` / `render`）、`data` / `rowKey` / `loading`、尺寸与边框、默认密度 12 / 12（可选 16 / 16、8 / 8） | T2-13 | 技术负责人 | 列配置全生效；表头与正文同字号档不靠缩字号表达层级；SSR 输出静态表格骨架、hydration 无 warning；单测 + SSR 入口 + `data-scui-*` 作用域齐全 | [ ] |
+| T3-02 | Table 排序与筛选：单列 / 多列、受控 / 非受控、内置筛选下拉与自定义 `filterDropdown` | T3-01 | 技术负责人 | 统一 `onChange({ pagination, filters, sorter })` 协议（对齐 AntD 使用习惯）；服务端模式只出参数不本地改数据；筛选与排序组合不互相覆盖 | [ ] |
+| T3-03 | Table 选择：checkbox / radio、全选 / 半选、禁用行、受控 `selectedRowKeys` | T3-01 | 工程师 B | 半选 `aria-checked="mixed"` 正确；禁用行不进全选集合；受控与非受控两条链路各有单测 | [ ] |
+| T3-04 | `Pagination`（M）：页码、每页条数、快速跳转、受控 / 非受控 | T2-05 | 工程师 B | 总页数变化时当前页收敛不越界；键盘可达 + axe 0 violation；组件自身 `onChange` 与 Table 集成互不冲突 | [ ] |
+| T3-05 | `Empty` / `Skeleton` / `Spin`：空状态与加载三件套 | T2-13 | 工程师 C | 各 ≥3 Demo；骨架与真实内容同尺寸、切换不产生布局抖动；Spin 延迟显示可测 | [ ] |
+| T3-06 | Table 分页接入 + 空 / 加载态：客户端 / 服务端两套协议 | T3-01 / T3-04 / T3-05 | 技术负责人 | `onChange` 三参合流；分页 + 排序 + 筛选任意组合状态不丢；空态与加载态占位切换；服务端参数协议一次定清，业务侧不再自拼 | [ ] |
+| T3-07 | `Modal`（L）：确认、异步关闭、焦点陷阱、尺寸 | T2-01 / T2-06 | 技术负责人 | 焦点陷阱 + ESC 关闭后焦点归还触发元素；SSR 不渲染弹层；异步关闭期间防重复提交；axe 0 violation | [ ] |
+| T3-08 | `Drawer`（M）：方向、尺寸、焦点陷阱 | T3-07 | 工程师 C | 与 Modal **共用**焦点管理与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过 | [ ] |
+| T3-09 | `Alert` / `Tooltip` / `Popconfirm` + 接入 T2-06 的 `Message` / `App` 宿主 | T2-01 / T2-06 | 工程师 C | Tooltip 定位 / 延迟 / 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR 不报错 | [ ] |
+| T3-10 | `Card` / `Tag`（S） | T2-13 | 工程师 C | Card 标题 / 操作 / 封面 / 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线 | [ ] |
+| T3-11 | `Tabs` / `Descriptions`（M） | T2-13 | 工程师 B | Tabs 线型 / 卡片 / 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0 | [ ] |
+| T3-12 | **CRUD 列表页组合 Demo**：Table + Form 查询 + Modal 新增 / 编辑 + 删除确认 + 操作反馈端到端 | T3-06 / T3-07 / T3-09 / T3-11 | 技术负责人 | 一页真实列表页可独立开发；新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐 | [ ] |
+| T3-13 | `Upload`（M2 后移项）：`customRequest`、进度、文件列表、删除 / 重试 | T2-08 / T2-09 | 工程师 C | 上传 / 删除 / 重试受控链路；SSR 静态骨架；零新增依赖；与 `Form.Item` 接入可用 | [ ] |
+| T3-14 | **体积预算 + M3 Exit 检查**：Table 预算实跑、每组件 ≥3 Demo、视觉基线全对齐、文档与 llms 生成物、里程碑散文记录 | T3-01 / T3-06 / T3-12 / T3-13 | 技术负责人 | `pnpm verify` RC=0；`check:ci` 判据 11 的 Demo 覆盖与基线对齐在扩面后仍成立；M3 里程碑只做散文记录、勾选只发生在 §4.2 | [ ] |
+
+**推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
 ---
 
@@ -3709,3 +3738,113 @@ Aming 2026-11-12 提出：「发布版本是全量，main 分支日常增量」�
 1. **先量再改**：81% 的时间集中在一条链上，若不做这个拆解就很容易去「优化 lint / 砍 check 阶段」，那是把 5% 的地方优化到 4%。
 2. **fail-safe 的方向要选对**：判定器宁可返回 `all`。增量门禁的危险不是慢，而是「以为跑了其实没跑」—— 一个未识别路径落进 `none` 桶，就等于给未来的自己埋一次静默漏检。
 3. **分流放在同一 job 内**：拆成两个 job 会让「每次 push 1 个 job」的用量红线当场失效（`check:ci` 第 4 条会红灯），也会多付一份 runner 启动成本。
+
+### 30.34 dev 分支策略、Biome 环境变量诊断收口与 M3 任务级拆解（2026-11-13）
+
+#### 一、本轮指令与起点
+
+Aming 2026-11-13 一次给了三条：① **另开 `dev` 作为开发分支，后续只有发版才合并到 `main`**；② `turbo.json` 的 `globalPassThroughEnv` 追加 `"SCUI_E2E_SCOPE"`；③ 继续推进。起点是 `main` = `ca9a5b6`（已推送、CI run `43209356655` success、工作区 0 改动）。三条都属于「治理与边界」而非组件功能，因此本轮不碰任何 `packages/**` 组件源码。
+
+#### 二、分支策略：`dev` 日常增量 / `main` 发版全量
+
+从 `ca9a5b6` 切出本地 `dev`，此后本轮改动全部落在 `dev`。`ci.yml` 的双层门改成**严格互补**（德摩根律），把「发版全量」从「只靠 tag」升级为「合并动作自身即全量复验」：
+
+| 事件 | `event_name` | `github.ref` | 增量门 | 全量门 |
+| --- | --- | --- | --- | --- |
+| push `dev`（日常） | `push` | `refs/heads/dev` | ✅ `verify:main` | — |
+| push `main`（发版合并） | `push` | `refs/heads/main` | — | ✅ `verify` |
+| push tag `v*` | `push` | `refs/tags/v…` | — | ✅ `verify` |
+| 手动派发 / 夜间定时 | 非 `push` | 任意 | — | ✅ `verify` |
+| 其它未被监听的分支 | — | — | 不触发 workflow | 不触发 workflow |
+
+两个 step 的条件分别是 `push && ref == refs/heads/dev` 与 `event_name != 'push' || ref != 'refs/heads/dev'`，**不存在「两个门都不跑」的静默空窗**。`on.push.branches` 必须同时写 `dev` 与 `main` —— 漏掉 `main` 等于「只有发版才合并 main」这一最关键的動作完全不受门禁约束。
+
+`scripts/check-ci.mjs` 判据 12 相应重写：除原有的 `verify:main` 阶段对齐、`test:e2e:affected` 走 wrapper、`affected.mjs` 在位外，新增 `branches: [dev, main]` 在位、`schedule` 与 `tags` 在位、**按 step 名取各自 `if` 行**校验增量门含 `== 'refs/heads/dev'`、全量门含 `!= 'refs/heads/dev'` 与 `!= 'push'`、作用域推断 step 与增量门条件逐字相等。只按 step 名取块而不用全文正则，是为了避免注释里的示例文字冒充判据（N15 同型盲区）。
+
+AGENTS.md 硬约束 13 同步补记：`dev` 是唯一日常开发分支、禁止向 `main` 直接提交功能改动、合并动作本身须逐次授权；原先「直推 master」的措辞改为「禁止向 main 直接提交功能改动」（合并本身是允许的，旧措辞会误伤）。`check:goals` 基线因此重新校准一次。
+
+**连带修复一处隐藏判据**：`scripts/check-public-repo.mjs` 判据 3 原写「当前分支非 detached 时必须等于 `main`」，那是 2026-11-09 防误推 `master` 的历史写法。切到 `dev` 后本轮第一次全量 `verify` 在第 12 阶段 `check:public` 直接红灯（`当前分支 dev 不是 main`），说明**分支策略不能只改 workflow** —— 凡是读 `symbolic-ref` 的门禁都得跟着改。现改为白名单 `Set(['dev', 'main'])`：防 master 的初衷保留，同时把「自开分支直接推」一并挡住；detached（CI checkout）仍只报告不拦截。因该脚本在受保护文件清单里，`check:goals` 基线又校准了一次。
+
+**同日补记（Aming 追加裁决）**：本轮收口后 Aming 明确「把 dev 设为默认分支」，已在仓库设置侧执行，详见第九节。此前顾虑是改默认分支会影响 `schedule` / `workflow_dispatch` 读取哪份 workflow、`release.yml` 的 environment 规则与分支保护；执行前逐项只读核查：`main` 无分支保护规则（API 404）、仓库未启用 GitHub Pages（404）、`release.yml` 仅 `workflow_dispatch` + `environment: release`、两个 workflow 均未引用 `default_branch`、`check:public` 分支白名单已含 `dev` ⇒ 影响面只剩「定时 / 手动派发改为读 dev 上的新版 workflow」，正是本轮期望的结果。
+
+#### 三、M3 拆解：14 项，含两处范围校正
+
+`§4.2` 新增 M3 任务表（ID / 任务 / 依赖 / 主责 / 验收 / 状态六列，14 项全部 `[ ]`）。范围唯一依据是 **`docs/05` Phase 3 第 10–12 周**（冻结正文零改动），复杂度与 API 契约取自 `docs/04 §2.3 / §2.4 / §5.1`。
+
+两处必须在拆解时校正、否则下轮必然返工的问题：
+
+1. **上一阶段末尾给的候选顺序漏了整整一周**：此前是「Table → Pagination → Card/Tag/Tabs/Empty/Skeleton/Descriptions → Upload」，缺 `docs/05` 第 11 周的 Modal / Drawer / Tooltip / Popconfirm / Alert / Spin，而 **M3 Exit 原文明确要求「新增/编辑弹窗 + 删除确认 + 反馈」**。本轮按冻结规范补齐，不按候选顺序打折。
+2. **`docs/05` 里程碑表与周计划本身有差异**（里程碑表写 Table/Pagination/Modal/Drawer/Message，周计划第 12 周写 Card/Tag/Tabs/…）。处置口径沿用 M2 的范围裁决：以周计划为准做任务展开、差异写进本文档，`docs/05` 一个字节不改。`Message` / `App` 宿主已由 T2-06 落地，不重复建组件；`Upload` 是 M2 后移项，落 T3-13。
+
+治理链同步：`scripts/check-todo.mjs` 的 `taskIdRe` 放行 `T3` 前缀（否则 14 项会整片绕过结构 / 倒挂 / 证据校验）；`scripts/todo-governance.json` 的 `taskIds` 追加 14 项并在 `note` 写明理由；`check:todo` 因此从 51 个任务变 **65 个任务 / 51 个 `[x]` / 87 个验收区块 / 倒挂 0 处**。新任务全是 `[ ]`，不需要 `evidence`，也不会触发依赖倒挂。
+
+#### 四、上轮结论纠正：那不是 turbo 运行时告警
+
+上一轮我把 CI 日志里的 `The environment variable SCUI_E2E_SCOPE is not listed as a dependency in turbo.json` 说成「turbo 提示」。回查日志上下文后确认：它是 **Biome `lint/suspicious/noUndeclaredEnvVars` 规则**（`scripts/e2e-affected.mjs:20`、`tests/e2e/demo-list.ts:90` 两处 warning 级诊断），Biome 读 `turbo.json` 判定某个 `process.env.X` 是否已声明。因此把 `SCUI_E2E_SCOPE` 加进 `globalPassThroughEnv` **正是对症修法**，而不是「顺手消掉一条无关噪音」：
+
+- 单文件复验：`biome lint scripts/e2e-affected.mjs tests/e2e/demo-list.ts` → `SCUI_E2E_SCOPE` 诊断 **2 → 0**，RC=0；
+- 全仓 `lint:biome` 里该变量诊断 **0 条**，剩余 `NODE_OPTIONS` / `SOLID_CRAFT_PREVIEW_DIR` / `SOLID_CRAFT_STAGE_DIR` 属既有 warning，与本轮无关；
+- `pnpm build` 的 turbo 缓存行为不受影响（`globalPassThroughEnv` 只放行、不参与哈希，正是 e2e 作用域该有的语义）。
+
+#### 五、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0**（26 阶段，全量、不设 `SCUI_E2E_SCOPE`） |
+| core 单测 | 272 tests / 27 files |
+| browser / visual / docs / llms | 117 / 107 / 8 / 4 全 passed |
+| `check:ci` | RC=0，判据 12 双分支契约全绿（含 `dev 增量 / main·tag·手动·夜间全量` 汇总） |
+| `check:todo` | RC=0，**65 任务 / 51 `[x]` / 87 区块 / 倒挂 0** |
+| `check:decisions` | RC=0 |
+| `check:goals` | RC=0，15 个受保护文件基线已重新校准（AGENTS.md 标记行咬合一致） |
+| `check:public` | RC=0（分支白名单 `dev` / `main` 生效，654 个 tracked 文件零敏感命中） |
+| Biome `SCUI_E2E_SCOPE` 诊断 | **0 条**（原 2 条） |
+| 负向实证 | **N156~N161 6/6 PASS**：把 `ci.yml` 的 `branches` / 增量门 / 全量门 / 作用域推断 / `schedule` / `tags` 逐项改坏，`check:ci` 判据 12 逐条红灯；脚本末尾按 SHA256 校验 `ci.yml` 已恢复原样（`RESTORE_OK`） |
+
+#### 六、允许写入路径（L4）与边界
+
+**允许写入路径（L4，本轮派发边界）**：`.github/workflows/ci.yml`、`scripts/check-ci.mjs`、`scripts/check-todo.mjs`、`scripts/todo-governance.json`、`scripts/check-public-repo.mjs`（判据 3 白名单）、`scripts/goals.baseline.json`（由 `--update-baseline` 自动生成）、`AGENTS.md`（硬约束 13 与标记行）、`turbo.json`、`docs/08-实施Todo.md`（§4.2 / §30.34 / 锚点三行 / 状态行）、`.workbuddy/memory/2026-11-13.md`。**未写入**：`docs/01~07`（冻结，0 改动）、`pnpm-lock.yaml`（0 改动）、`packages/**` 组件源码、`apps/**` 生成物、`tests/**`、`scripts/affected.mjs` 与 `scripts/e2e-affected.mjs`（沿用 §30.33 实现，本轮零改动）、`package.json`（`verify` / `verify:main` 两入口原样保留）。
+
+#### 七、已知边界与风险
+
+1. **过渡期两分支 workflow 不同**：push 事件的 workflow 定义取自**被推送分支自己的文件**，`schedule` / `workflow_dispatch` 只读**默认分支**的文件。**默认分支改到 dev 后**，夜跑与手动派发立即读 dev 上的新版（互补双层门，二者也都判全量，语义不退化）；main 上仍是 §30.33 旧版，直到首次发版合并把新 `ci.yml` 一起带过去。因此「合并前单独 push main」（本就违反分支策略）会按旧版跑增量而非全量；唯一合规的 push main —— dev → main 合并 —— 会把新 workflow 一并带入，那次 push 取的正是合并后的文件，仍是全量。
+2. **`dev` 首次推送会跑全量**：新分支的 `github.event.before` 全 0，`affected.mjs` 读不出基线即退回 `all`（§30.33 的 fail-safe）。第一个真正的增量 run 要等 dev 上第二次 push。
+3. **最长 24h 漏检窗口不变**，缓解仍是「本机提交前跑全量 `pnpm verify`」+「发版合并 / tag / 夜间一律全量」。
+4. **M3 拆解是计划不是完成**：14 项全 `[ ]`，勾选仍须逐项跑验收 + 在落地记录点名 + 写 `evidence`（治理链不变）。
+5. **默认分支已改为 `dev`**（2026-11-13，见第九节），本条原为「未答决策」，现已关闭。它只影响定时 / 手动派发读哪份 workflow 与新 clone 的默认 checkout，**不改变 push 事件取被推送分支文件的语义**。
+6. **新增 `[ ]` 任务会让 `check:todo` 的任务总数变 65**：任何后续「批量新增任务」都必须同步 `taskIds` 契约，否则会被判「禁止批量新增」红灯。
+7. **`check:public` 现在只放行 `dev` / `main`**：从 `feat/*` 等自开分支跑 `pnpm verify` 会红灯。这是刻意的（把「自开分支直接推」挡在门外），但临时验证分支需要开发者自行把改动带回 `dev` 再跑全链。
+
+#### 八、教训
+
+1. **补分支策略时先问「哪些事件会漏」**：把 `main` 加进 `branches` 比改 `if` 更关键 —— 条件写得再漂亮，事件根本没触发就等于没有门禁。
+2. **互补式条件优于枚举式**：`push && dev` / `!(push && dev)` 的写法让新增事件自动落到全量；枚举「main / tag / dispatch / schedule」迟早漏掉一种。
+3. **归因要看诊断头，不要看文案**：「…is not listed as a dependency in turbo.json」读起来像 turbo 输出，实际是 Biome lint 规则。上一轮按「turbo 运行时告警」描述是错的，本轮已在第四节纠正。
+4. **拆解要回到冻结规范，不要沿用上次的候选清单**：候选顺序漏了一整周，而 Exit 明文要求弹窗与反馈；若照抄就会做出一个过不了 Exit 的 M3。
+5. **改「分支」这种横切约定要全仓扫一遍读分支的判据**：本轮第一次 `verify` 在 `check:public`（第 12 阶段）才暴露旧判据，前面 build / test / e2e / lint 全绿会给人「已经改完」的错觉。判据越靠后越要靠全量链去撞，不能只跑改过的那一条。
+
+
+#### 九、同日补记：`dev` 设为 GitHub 默认分支（2026-11-13）
+
+**指令**：Aming 2026-11-13「把 dev 设为默认分支」。第二节原把这件事列为「仓库设置侧动作，须人工确认」，本补记记录裁决落地；不改 `docs/01~07`、`AGENTS.md` 硬约束正文，也不改任何 workflow 逻辑。
+
+**执行链三步，缺一不可**：① 远端原本只有 `main`（`GET /branches` 实测），而 GitHub 的 `PATCH /repos/{owner}/{repo}` 要求目标分支已存在 ⇒ 必须先把本轮 9 个改动 commit 并推到 `origin/dev`；② 确认远端 `dev` 就位后，再把 `default_branch` 改为 `dev`；③ 本地 `git remote set-head origin -a` 同步符号引用。推送前置仍按硬约束 13 跑 `pnpm check:public` RC=0（已含在全量 `verify` 第 12 阶段）。
+
+**影响面逐项核查**（改设置前只读探测）：
+
+| 项 | 实测 | 判定 |
+| --- | --- | --- |
+| `main` 分支保护规则 | API 404（无规则） | 无需迁移 |
+| GitHub Pages | API 404（未启用） | 无站点源需切换 |
+| `release.yml` | 仅 `workflow_dispatch` + `environment: release` | 不读默认分支，受控发布通道不变 |
+| 两个 workflow 引用 `default_branch` | 0 处 | 无隐式依赖 |
+| `check:public` 判据 3 | 白名单 `dev` / `main` | 两分支均可推送 |
+| `check:goals` 15 个受保护文件 | 与 Git 分支无关 | 无需重校基线 |
+
+**生效结果**：`schedule` / `workflow_dispatch` 从 main 上的 §30.33 旧版切到 dev 上的 §30.34 新版；新 clone 默认检出 `dev`；PR 默认目标分支变为 `dev`（本仓无 PR 流程，AGENTS.md 硬约束 13）。**push 事件仍取被推送分支自己的 workflow**，过渡期口径见第七节边界 1。
+
+**D-10 历史记录不回改**：§2 的 D-10 行里「2026-11-09 默认分支 `main`」是当时的历史事实，本节不修改该行；当前状态以本补记为准。这与「里程碑只做散文记录、勾选只发生在 §4.x」是同一套口径 —— 事实变了就追加记录，不回改已签字的历史。
+
+**验收口径**：`GET /repos/{owner}/{repo}` 回读 `default_branch = dev`；`git branch -r` 含 `origin/dev`；`git symbolic-ref refs/remotes/origin/HEAD` = `refs/remotes/origin/dev`；`pnpm verify` RC=0；`check:public` / `check:ci` 判据 12 双分支契约均 RC=0。
+
+**未做的动作（刻意）**：没有给 `dev` 或 `main` 加分支保护规则，没有改 `release.yml`，没有把 `main` 删除或改名。发版合并与首包发布时机仍在「未答决策」里，须 Aming 逐次授权。

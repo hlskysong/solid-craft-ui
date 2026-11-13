@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-12",
+  "generatedAt": "2026-11-13",
   "note": "由 pnpm check:goals --update-baseline 生成；受保护文件的任何改动都会让 pnpm verify 失败，改动须人工确认并重跑该命令。",
   "files": {
-    "AGENTS.md": "190bae4d6a1eff9024c08063a0c842f84d157b9f7cdc2551895931adc60de816",
+    "AGENTS.md": "d5659e9afceb3dba57a1f0e35501b74b18c70fccdb6d75d2ef456d19add84185",
     "docs/01-技术选型.md": "d9e376e2444b576310884017f247ac302a4c24bb1a129cc8ba202e839f71afce",
     "docs/02-架构设计.md": "6b45b90ca458bc4aa8d64583fecd35495ce641cbbf379110a820f56fdae5fc70",
     "docs/03-设计系统.md": "208a436221fbeceb51c32af8a14d93dfb97dfdffc0a8607e468cd22e7405b37d",
@@ -13,10 +13,10 @@
     "docs/07-决策与风险.md": "cf9b5847dac6dbf6804e63b8c3892e8be634e3555e067696160d597e1d1f4daa",
     "scripts/check-goals.mjs": "d34a86bcd4cce6713e6a5b6b6cbaaa88abc18f831ac3c8447527fa5cf57dc9e8",
     "scripts/check-naming.mjs": "ee600a6c6c033bb377e0ce197fb125e7e384c2afa9980a5a8e56090230990c16",
-    "scripts/check-public-repo.mjs": "10728f795ab8e221961b5d2ec4eb14b86789ef40c0a759702886787c710dfbb4",
-    "scripts/check-todo.mjs": "ab15ab6670cb08de9bc28209436a4fc3bba877ffba4dcf081e6901cbe2fdd6d6",
+    "scripts/check-public-repo.mjs": "a3829db15ad75615a936196a555a1e9cf934a220070449f7cd1088d7894a614a",
+    "scripts/check-todo.mjs": "fd0a31303057ff70773e649b776c0e8280a29eb056efc8a4e2c3d52bf07199e6",
     "scripts/naming-legacy.mjs": "f51a922a1e69577768dc5297b3c8d2e84468a1b74539a5e58cee1dd491a542d9",
     "scripts/scope.mjs": "49cb4a450039f3106632affc532890ddb715567a83ae661484104e691441bafc",
-    "scripts/todo-governance.json": "dced189024b0aa899c2cbe20d76728e2f32070523d9aff9c92ca4cb9ba257602"
+    "scripts/todo-governance.json": "a4a15409d9de2c5a1dce0592f0d44aab2532b5c58418eb9c6c5949bb8f23caa8"
   }
 }

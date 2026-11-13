@@ -8,7 +8,10 @@
  * 判据：
  *   1. 本地必须是 git 仓库，且顶层目录就是本仓库；
  *   2. origin URL 归一化后与 REPO_GIT_URL 一致（兼容 CI checkout 的 URL 形态）；
- *   3. 当前分支（非 detached 时）必须是 main；detached 只报告不拦截；
+ *   3. 当前分支（非 detached 时）只允许 `dev` / `main`（§30.34 分支策略）：
+ *      日常开发只进 dev、发版才合并 main；detached 只报告不拦截。
+ *      原判据是「必须等于 main」，那是防误推 master 的历史写法，改用 dev 后会假红灯，
+ *      故改成白名单 —— 防 master 的初衷保留，且把「自开分支直接推」一并挡住；
  *   4. git ls-files 关掉 core.quotepath（否则中文路径会被八进制转义而漏扫）后
  *      必须 ≥200 项，逐文件做危险文件名 + 敏感内容扫描，二进制跳过；
  *   5. .npmrc 允许入库但不得含发布凭据、不得声明仓库级 registry、
@@ -64,10 +67,13 @@ else if (normalizeRemote(origin) !== normalizeRemote(REPO_GIT_URL)) {
   fail(`origin 与 scope.mjs 单点定义分叉：${origin} != ${String(REPO_GIT_URL)}`);
 }
 
-// 3. 分支：detached HEAD（CI 的 PR checkout）不拦截。
+// 3. 分支：detached HEAD（CI checkout）不拦截；其余只允许 dev / main（§30.34）。
 const branch = git('symbolic-ref', '--quiet', '--short', 'HEAD');
-if (branch.length > 0 && branch !== 'main') {
-  fail(`当前分支 ${branch} 不是 main（首次推送分支为 main，禁止推 master）`);
+const ALLOWED_BRANCHES = new Set(['dev', 'main']);
+if (branch.length > 0 && !ALLOWED_BRANCHES.has(branch)) {
+  fail(
+    `当前分支 ${branch} 不在允许集合（dev / main）内：日常开发只进 dev、发版才合并 main，禁止推 master 或自开分支（§30.34）`,
+  );
 }
 const head = git('rev-parse', 'HEAD');
 const remoteMain = git('rev-parse', '--verify', 'origin/main');
