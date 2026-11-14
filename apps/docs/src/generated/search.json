@@ -3430,6 +3430,335 @@
     "href": "/components/drawer#api-class"
   },
   {
+    "type": "component",
+    "title": "Alert 警告提示",
+    "description": "页内常驻反馈条：四种语义类型、标题与描述、可关闭、右侧操作区；操作区可直接调用 T2-06 的全局 message 通道，SSR 只输出静态骨架。",
+    "keywords": "alert solid-craft/alert",
+    "href": "/components/alert"
+  },
+  {
+    "type": "demo",
+    "title": "Alert 警告提示 · 操作区与全局反馈接入",
+    "description": "Alert 的操作区放常规按钮；点击后通过 T2-06 的静态 message 通道给出全局提示——不新建 Message 组件，也不依赖组件树。",
+    "keywords": "alert action",
+    "href": "/components/alert/action"
+  },
+  {
+    "type": "demo",
+    "title": "Alert 警告提示 · 四种反馈类型",
+    "description": "info / success / warning / error 共用同一个 data-scui-kind 属性；标题、描述与类型图标都是同一套结构。",
+    "keywords": "alert basic",
+    "href": "/components/alert/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Alert 警告提示 · 可关闭与关闭回调",
+    "description": "右上角关闭按钮点击后移除整条反馈并触发 onClose；closable=false 与 icon=null 可分别去掉关闭按钮和图标。",
+    "keywords": "alert closable",
+    "href": "/components/alert/closable"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.kind",
+    "description": "反馈语义类型，恒输出为 `data-scui-kind`。 @default 'info'",
+    "keywords": "alert AlertKind",
+    "href": "/components/alert#api-kind"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.title",
+    "description": "标题；省略时只显示描述。",
+    "keywords": "alert JSX.Element",
+    "href": "/components/alert#api-title"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.description",
+    "description": "描述正文。",
+    "keywords": "alert JSX.Element",
+    "href": "/components/alert#api-description"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.closable",
+    "description": "是否显示右上角关闭按钮。 @default true",
+    "keywords": "alert boolean",
+    "href": "/components/alert#api-closable"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.closeLabel",
+    "description": "关闭按钮的无障碍文案。 @default '关闭'",
+    "keywords": "alert string",
+    "href": "/components/alert#api-closeLabel"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.onClose",
+    "description": "点击关闭后触发；组件内部同时移除自身 DOM。",
+    "keywords": "alert () => void",
+    "href": "/components/alert#api-onClose"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.action",
+    "description": "右侧操作区；不传时整块不渲染，不留空盒子。",
+    "keywords": "alert JSX.Element",
+    "href": "/components/alert#api-action"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.children",
+    "description": "补充正文（与 description 并列，供需要富内容的场景使用）。",
+    "keywords": "alert JSX.Element",
+    "href": "/components/alert#api-children"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.icon",
+    "description": "自定义图标；传 `null` 表示整块不渲染。 @default undefined",
+    "keywords": "alert JSX.Element | null",
+    "href": "/components/alert#api-icon"
+  },
+  {
+    "type": "api",
+    "title": "AlertProps.class",
+    "description": "根节点自定义类名。 @default undefined",
+    "keywords": "alert string",
+    "href": "/components/alert#api-class"
+  },
+  {
+    "type": "component",
+    "title": "Tooltip 文字提示",
+    "description": "锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。",
+    "keywords": "tooltip solid-craft/tooltip",
+    "href": "/components/tooltip"
+  },
+  {
+    "type": "demo",
+    "title": "Tooltip 文字提示 · 基础用法与定位",
+    "description": "十二向 placement 由 Floating UI 负责翻转；切换方向只改 data-scui-anchor，浮层行为与焦点契约保持同一套。",
+    "keywords": "tooltip basic",
+    "href": "/components/tooltip/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Tooltip 文字提示 · 打开与关闭延迟",
+    "description": "openDelay / closeDelay 直接透传给锚定原语，由 Kobalte 的 hover 时序统一执行；onOpenChange 是唯一状态出口。",
+    "keywords": "tooltip delay",
+    "href": "/components/tooltip/delay"
+  },
+  {
+    "type": "demo",
+    "title": "Tooltip 文字提示 · 打开态与箭头",
+    "description": "首屏受控打开，让浮层态进入视觉基线与 axe 扫描；箭头由锚定原语渲染，关闭箭头后整块不渲染。",
+    "keywords": "tooltip open-state",
+    "href": "/components/tooltip/open-state"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.content",
+    "description": "提示内容，渲染进 `role=\"tooltip\"` 的浮层。",
+    "keywords": "tooltip JSX.Element",
+    "href": "/components/tooltip#api-content"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.children",
+    "description": "触发元素内容；原语负责包成按钮并接管 hover / focus 时序与键盘。",
+    "keywords": "tooltip JSX.Element",
+    "href": "/components/tooltip#api-children"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.placement",
+    "description": "锚定方向，恒输出为 `data-scui-anchor`。 @default 'top'",
+    "keywords": "tooltip TooltipPlacement",
+    "href": "/components/tooltip#api-placement"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.openDelay",
+    "description": "指针进入触发元素到打开的时间（ms）。 @default 200",
+    "keywords": "tooltip number",
+    "href": "/components/tooltip#api-openDelay"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.closeDelay",
+    "description": "指针离开到关闭的时间（ms）。 @default 100",
+    "keywords": "tooltip number",
+    "href": "/components/tooltip#api-closeDelay"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.arrow",
+    "description": "是否渲染箭头。 @default true",
+    "keywords": "tooltip boolean",
+    "href": "/components/tooltip#api-arrow"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.disabled",
+    "description": "是否禁用触发（禁用后不响应 hover / focus）。 @default false",
+    "keywords": "tooltip boolean",
+    "href": "/components/tooltip#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.open",
+    "description": "受控打开状态；给了就完全由调用方驱动。 @default undefined",
+    "keywords": "tooltip boolean",
+    "href": "/components/tooltip#api-open"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.defaultOpen",
+    "description": "非受控初始状态。 @default false",
+    "keywords": "tooltip boolean",
+    "href": "/components/tooltip#api-defaultOpen"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.onOpenChange",
+    "description": "打开状态变化出口；hover / focus / ESC 都汇到这一条。",
+    "keywords": "tooltip (open: boolean) => void",
+    "href": "/components/tooltip#api-onOpenChange"
+  },
+  {
+    "type": "api",
+    "title": "TooltipProps.class",
+    "description": "触发按钮自定义类名。 @default undefined",
+    "keywords": "tooltip string",
+    "href": "/components/tooltip#api-class"
+  },
+  {
+    "type": "component",
+    "title": "Popconfirm 气泡确认",
+    "description": "锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。",
+    "keywords": "popconfirm solid-craft/popconfirm",
+    "href": "/components/popconfirm"
+  },
+  {
+    "type": "demo",
+    "title": "Popconfirm 气泡确认 · 异步确认与全局反馈接入",
+    "description": "onOk 返回 Promise 期间进入 pending：确认按钮 loading、取消禁用、ESC 与外部点击被拦；resolve 后关闭并调用 T2-06 的静态 message。",
+    "keywords": "popconfirm basic",
+    "href": "/components/popconfirm/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Popconfirm 气泡确认 · 打开态视觉基线",
+    "description": "首屏受控打开，让确认气泡进入视觉基线与 axe 扫描；底部按钮组复用 Button 样式，随 popconfirm.css 一并聚合。",
+    "keywords": "popconfirm open-state",
+    "href": "/components/popconfirm/open-state"
+  },
+  {
+    "type": "demo",
+    "title": "Popconfirm 气泡确认 · 定位与文案覆盖",
+    "description": "四向 placement 由 Floating UI 负责翻转；okText / cancelText 与 arrow 开关都只影响展示，不改变异步确认协议。",
+    "keywords": "popconfirm placement",
+    "href": "/components/popconfirm/placement"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.title",
+    "description": "确认标题，渲染进 `Popover.Title`，是 `aria-labelledby` 的来源。",
+    "keywords": "popconfirm JSX.Element",
+    "href": "/components/popconfirm#api-title"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.description",
+    "description": "补充说明，渲染进 `Popover.Description`。",
+    "keywords": "popconfirm JSX.Element",
+    "href": "/components/popconfirm#api-description"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.children",
+    "description": "触发按钮内容。 @default '删除'",
+    "keywords": "popconfirm JSX.Element",
+    "href": "/components/popconfirm#api-children"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.okText",
+    "description": "确认按钮文案。 @default '确定'",
+    "keywords": "popconfirm string",
+    "href": "/components/popconfirm#api-okText"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.cancelText",
+    "description": "取消按钮文案。 @default '取消'",
+    "keywords": "popconfirm string",
+    "href": "/components/popconfirm#api-cancelText"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.onOk",
+    "description": "确认回调；返回 Promise 时进入 pending，resolve 才关闭，reject 保持打开。",
+    "keywords": "popconfirm () => void | Promise<void>",
+    "href": "/components/popconfirm#api-onOk"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.onCancel",
+    "description": "取消 / ESC / 点击外部时触发。",
+    "keywords": "popconfirm () => void",
+    "href": "/components/popconfirm#api-onCancel"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.placement",
+    "description": "锚定方向，恒输出为 `data-scui-anchor`。 @default 'top'",
+    "keywords": "popconfirm PopconfirmPlacement",
+    "href": "/components/popconfirm#api-placement"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.arrow",
+    "description": "是否渲染箭头。 @default true",
+    "keywords": "popconfirm boolean",
+    "href": "/components/popconfirm#api-arrow"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.disabled",
+    "description": "是否禁用触发按钮。 @default false",
+    "keywords": "popconfirm boolean",
+    "href": "/components/popconfirm#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.open",
+    "description": "受控打开状态；给了就完全由调用方驱动。 @default undefined",
+    "keywords": "popconfirm boolean",
+    "href": "/components/popconfirm#api-open"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.defaultOpen",
+    "description": "非受控初始状态。 @default false",
+    "keywords": "popconfirm boolean",
+    "href": "/components/popconfirm#api-defaultOpen"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.onOpenChange",
+    "description": "打开状态变化出口；点击触发 / 确认 / 取消 / ESC 都汇到这一条。",
+    "keywords": "popconfirm (open: boolean) => void",
+    "href": "/components/popconfirm#api-onOpenChange"
+  },
+  {
+    "type": "api",
+    "title": "PopconfirmProps.class",
+    "description": "触发按钮自定义类名。 @default undefined",
+    "keywords": "popconfirm string",
+    "href": "/components/popconfirm#api-class"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

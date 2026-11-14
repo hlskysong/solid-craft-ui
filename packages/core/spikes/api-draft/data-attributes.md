@@ -20,7 +20,7 @@
 | `data-scui-required` | `''`（存在即真） | 字段声明了 required 规则且必填标记开启；与 `data-scui-invalid` 的「校验结果」语义分开 | Form |
 | `data-scui-selected` | `''` | 选中态（列表 / 日历格 / 表格行，存在即真）；Table 落在 `<tr>` 上（T3-03） | Select / DatePicker / Table |
 | `data-scui-checked` | `'true' \| 'false' \| 'mixed'` | 选择类控件的选中三态；**恒输出**（含 SSR 的 `'false'`），`'mixed'` 只由 `Checkbox.indeterminate` 产生 | Checkbox / Radio / Switch |
-| `data-scui-kind` | `info \| success \| warning \| error \| loading` | **一条反馈自身的语义类型**，恒输出；不复用文本 `-tone` 或控件 `-variant`（一个属性名只表达一个语义） | App / Message / Notification |
+| `data-scui-kind` | `info \| success \| warning \| error \| loading` | **一条反馈自身的语义类型**，恒输出；不复用文本 `-tone` 或控件 `-variant`（一个属性名只表达一个语义）。`Alert` 复用同一属性（取值少 `loading`：它是静态页内提示，没有进行中态），而不是另起 `-type` —— 同一语义不另起新名 | App / Message / Notification / Alert |
 | `data-scui-placement` | `top \| top-left \| top-right \| bottom \| bottom-left \| bottom-right` | 反馈容器的出现位置；`message` 恒为 `top`，`notification` 可在 `<App>` 上配置 | App / Message / Notification |
 | `data-scui-option` | 选项 value | 选项定位 | Select |
 | `data-scui-day` | ISO `YYYY-MM-DD` | 日期格定位 | DatePicker / RangePicker |
@@ -48,8 +48,9 @@
 | `data-scui-active` | `''`（存在即真） | 骨架微光动画开启；`prefers-reduced-motion: reduce` 时动画由 CSS 静止，属性本身仍输出（T3-05） | Skeleton |
 | `data-scui-last` | `''`（存在即真） | 骨架段落 / 卡片正文的**末行**，用于收窄到 60%。不用 `:last-child`：Solid 复用节点时位置语义不可靠（T3-05） | Skeleton |
 | `data-scui-spinning` | `''`（存在即真） | 包裹模式当前处于加载中，与容器 `aria-busy="true"` 同时出现；延迟未到时两者都不输出（T3-05） | Spin |
-| `data-scui-pending` | `''`（存在即真） | 异步确认进行中（`onOk` 返回的 Promise 未 settle，或 `confirmLoading` 受控为真）：确认按钮 loading、取消与关闭按钮 disabled、ESC / 遮罩 / 外部交互全部被原语拦截。不复用 `data-scui-loading`：后者表达「内容还在取」，pending 表达「请求已发出、不能重复发」（T3-07） | Modal |
+| `data-scui-pending` | `''`（存在即真） | 异步确认进行中（`onOk` 返回的 Promise 未 settle，或 `confirmLoading` 受控为真）：确认按钮 loading、取消与关闭按钮 disabled、ESC / 遮罩 / 外部交互全部被原语拦截。不复用 `data-scui-loading`：后者表达「内容还在取」，pending 表达「请求已发出、不能重复发」（T3-07）。`Popconfirm` 复用同一属性与同一套异步协议（T3-09） | Modal / Popconfirm |
 | `data-scui-side` | `left \| right \| top \| bottom` | 抽屉贴边方向，**恒输出**（默认 `right`）；左右方向用 `width`、上下方向用 `height`，两者归一到同一个 `--scui-drawer-size`。刻意新增属性而不复用：`data-scui-placement` 已被 App / Message 的反馈容器位置占用（六向值）、`data-scui-fixed` 是 Table 固定列方向、`data-scui-direction` 表示书写方向 ltr/rtl、`data-scui-orientation` 表示水平 / 垂直（T3-08） | Drawer |
+| `data-scui-anchor` | `top \| top-start \| top-end \| right \| right-start \| right-end \| bottom \| bottom-start \| bottom-end \| left \| left-start \| left-end` | **锚定浮层挂在触发元素哪一侧**，恒输出（默认 `top`）；与 Floating UI 的 `Placement` 同形，定位 / 翻转由原语负责，CSS 只用它决定 `transform-origin`。刻意新增而不复用：`data-scui-placement` 是反馈容器在屏幕哪个角（六向）、`data-scui-side` 是抽屉贴视口哪条边（四向），三者语义不同（T3-09） | Tooltip / Popconfirm |
 
 ## `data-scui-role` 取值清单
 
@@ -71,6 +72,10 @@
 | `modal-page` / `modal-trigger` | Modal（SSR 入口专用） | T3-07 的 `ssr-entry.tsx` 静态骨架锚点，不是组件输出：用来验「两个打开态 Modal 在服务端不抛错、页面容器与触发按钮照常输出」。不写「弹层缺席」的 forbid 判据，那是恒真的假判据（N62） |
 | `drawer` / `drawer-overlay` / `drawer-title` / `drawer-body` / `drawer-footer` / `drawer-close` | Drawer | 结构锚点（T3-08）：与 Modal 同构，全部由 `primitives/overlay` 的 Portal 在客户端挂载，**SSR 零输出**；`drawer` 是 `role="dialog"` 的内容根节点（承载 `data-scui-side` / `data-scui-size`），`drawer-footer` 在 `footer` 缺省时为 `null` 时整块缺席（Drawer 没有默认确认按钮），`drawer-close` 在 `closable={false}` 时零输出 |
 | `drawer-page` / `drawer-trigger` | Drawer（SSR 入口专用） | T3-08 的 `ssr-entry.tsx` 静态骨架锚点，不是组件输出：验四个方向（含显式 `height`）的打开态 Drawer 在服务端不抛错、页面容器与触发按钮照常输出。同样不写 forbid 假判据 |
+| `alert` / `alert-icon` / `alert-body` / `alert-title` / `alert-description` / `alert-action` / `alert-close` | Alert | 结构锚点（T3-09）：内联渲染、SSR 全量输出；`alert-icon` 在 `icon={null}` 时整块缺席，`alert-action` 不传时不渲染，`alert-close` 在 `closable={false}` 时零输出。根节点恒输出 `data-scui-kind` |
+| `tooltip` / `tooltip-trigger` / `tooltip-arrow` | Tooltip | 结构锚点（T3-09）：`tooltip` 是 `role="tooltip"` 的内容根节点，与 `tooltip-arrow` 都由 `primitives/anchored` 的 Portal 在客户端挂载、**SSR 零输出**；`tooltip-trigger` 是 SSR 也输出的静态触发按钮，承载 `data-scui-anchor` 的同源方向真源 |
+| `popconfirm` / `popconfirm-trigger` / `popconfirm-title` / `popconfirm-description` / `popconfirm-footer` / `popconfirm-arrow` | Popconfirm | 结构锚点（T3-09）：`popconfirm` 是 `role="dialog"` 的内容根节点（承载 `data-scui-anchor` / `data-scui-pending`），与标题 / 描述 / 操作区 / 箭头同由 `primitives/anchored` 的 Portal 在客户端挂载、**SSR 零输出**；`popconfirm-trigger` 是 SSR 静态触发按钮 |
+| `alert-page` / `tooltip-page` / `popconfirm-page` | Alert / Tooltip / Popconfirm（SSR 入口专用） | T3-09 三个 `ssr-entry.tsx` 的页面容器锚点，不是组件输出；触发按钮沿用上一行的 `*-trigger` 角色。验打开态 / 四方向 / 异步回调在服务端渲染期不访问 DOM、不抛错。同样不写 forbid 假判据 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
 | `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |

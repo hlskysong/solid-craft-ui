@@ -167,6 +167,24 @@
       "import": "./dist/esm/components/drawer/index.js",
       "default": "./dist/esm/components/drawer/index.js"
     },
+    "./alert": {
+      "types": "./dist/types/components/alert/index.d.ts",
+      "solid": "./dist/source/components/alert/index.jsx",
+      "import": "./dist/esm/components/alert/index.js",
+      "default": "./dist/esm/components/alert/index.js"
+    },
+    "./tooltip": {
+      "types": "./dist/types/components/tooltip/index.d.ts",
+      "solid": "./dist/source/components/tooltip/index.jsx",
+      "import": "./dist/esm/components/tooltip/index.js",
+      "default": "./dist/esm/components/tooltip/index.js"
+    },
+    "./popconfirm": {
+      "types": "./dist/types/components/popconfirm/index.d.ts",
+      "solid": "./dist/source/components/popconfirm/index.jsx",
+      "import": "./dist/esm/components/popconfirm/index.js",
+      "default": "./dist/esm/components/popconfirm/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

@@ -1,0 +1,62 @@
+@use 'mixins' as m;
+
+/* Tooltip（T3-09）
+   定位 / 翻转 / 箭头旋转由 Kobalte + Floating UI 负责，这里只负责视觉。
+   data-scui-anchor 的真实用途是 transform-origin：四种方向各自从「靠近触发
+   元素的那条边」展开，与 Floating UI 的 placement 真源一致，不另写贴边定位。
+   375px 巡检要求 max-inline-size 收窄，长文案不能把页面撑出横向溢出。 */
+
+:where(.scui-tooltip__trigger) {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: help;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+
+  &:disabled {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-tooltip) {
+  z-index: calc(var(--scui-z-index-base, 0) + 1100);
+  box-sizing: border-box;
+  max-inline-size: min(320px, calc(100vw - var(--scui-space-4, 16px) * 2));
+  padding: var(--scui-space-2, 8px) var(--scui-space-3, 12px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-radius-1);
+  background: var(--scui-color-bg-surface);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  color: var(--scui-color-text-primary);
+  font-size: var(--scui-font-size-sm, 12px);
+  line-height: var(--scui-line-height-sm, 20px);
+  text-wrap: pretty;
+
+  &[data-scui-anchor^='top'] {
+    transform-origin: bottom center;
+  }
+
+  &[data-scui-anchor^='bottom'] {
+    transform-origin: top center;
+  }
+
+  &[data-scui-anchor^='left'] {
+    transform-origin: center right;
+  }
+
+  &[data-scui-anchor^='right'] {
+    transform-origin: center left;
+  }
+}
+
+:where(.scui-tooltip__arrow) {
+  color: var(--scui-color-bg-surface);
+}

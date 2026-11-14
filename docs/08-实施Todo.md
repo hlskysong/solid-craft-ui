@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-09**（M3 第九项「`Alert` / `Tooltip` / `Popconfirm` + `Message` / `App` 接入」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`（均**未推送**）；T3-08 改动**尚未提交 / 推送**（Aming 本轮授权「提交并开始 T3-08」，默认只 commit 不 push） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-08「`Drawer`」改动，再开始 T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」**：T3-07 / T3-08 已把「模态浮层」收进 `primitives/overlay`；T3-09 的 Tooltip / Popconfirm 属于**锚定浮层**，不复用 Dialog 原语，但不得重复实现焦点归还与 ESC 契约。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 已闭合；**T3-09 是弹层链剩余部分，越早启动越好**；T3-10 / T3-11 / T3-13 可全程并行；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-10**（M3 第十项「`Card` / `Tag`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`（均**未推送**）；T3-09 改动**尚未提交 / 推送**（Aming 本轮授权「先提交再继续」，默认只 commit 不 push） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」改动，再开始 T3-10「`Card` / `Tag`」**：两条浮层链接缝已定死 —— 模态走 `primitives/overlay`（自建焦点归还）、锚定走 `primitives/anchored`（有 Trigger，交给 Kobalte），组件层零浮层实现且由判据 4j / 4k / 4l 机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 已闭合；**T3-10 / T3-11 / T3-13 可全程并行**；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -161,7 +161,7 @@
 | T3-06 | Table 分页接入 + 空 / 加载态：客户端 / 服务端两套协议 | T3-01 / T3-04 / T3-05 | 技术负责人 | `onChange` 三参合流；分页 + 排序 + 筛选任意组合状态不丢；空态与加载态占位切换；服务端参数协议一次定清，业务侧不再自拼 | [x] |
 | T3-07 | `Modal`（L）：确认、异步关闭、焦点陷阱、尺寸 | T2-01 / T2-06 | 技术负责人 | 焦点陷阱 + ESC 关闭后焦点归还触发元素；SSR 不渲染弹层；异步关闭期间防重复提交；axe 0 violation（**共享浮层原语 `primitives/overlay` / 焦点归还自己接管 / 遮罩关闭单一出口 / 396 tests·33 files / SSR 24 入口 / 158 张基线 / 判据 4j + 负向 N245~N275 31/31 / `pnpm verify` RC=0**，见 §30.41） | [x] |
 | T3-08 | `Drawer`（M）：方向、尺寸、焦点陷阱 | T3-07 | 工程师 C | 与 Modal **共用**焦点管理与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过（**组件层零浮层实现 / 新增 `data-scui-side` 四方向 + 三档 `data-scui-size` / width·height 按方向归一 / 414 tests·34 files / SSR 25 入口 / 166 张基线 / 判据 4k + 负向 N276~N312 37/37 / `pnpm verify` RC=0**，见 §30.42） | [x] |
-| T3-09 | `Alert` / `Tooltip` / `Popconfirm` + 接入 T2-06 的 `Message` / `App` 宿主 | T2-01 / T2-06 | 工程师 C | Tooltip 定位 / 延迟 / 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR 不报错 | [ ] |
+| T3-09 | `Alert` / `Tooltip` / `Popconfirm` + 接入 T2-06 的 `Message` / `App` 宿主 | T2-01 / T2-06 | 工程师 C | Tooltip 定位 / 延迟 / 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR 不报错（**锚定浮层走新建 `primitives/anchored`、组件层零浮层实现 / 新增 `data-scui-anchor` 十二向 / 复用 `data-scui-kind`·`data-scui-pending` / 444 tests·37 files / SSR 28 入口 / 184 张基线 / 判据 4l + 负向 N313~N386 74/74 / `pnpm verify` RC=0**，见 §30.43） | [x] |
 | T3-10 | `Card` / `Tag`（S） | T2-13 | 工程师 C | Card 标题 / 操作 / 封面 / 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线 | [ ] |
 | T3-11 | `Tabs` / `Descriptions`（M） | T2-13 | 工程师 B | Tabs 线型 / 卡片 / 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0 | [ ] |
 | T3-12 | **CRUD 列表页组合 Demo**：Table + Form 查询 + Modal 新增 / 编辑 + 删除确认 + 操作反馈端到端 | T3-06 / T3-07 / T3-09 / T3-11 | 技术负责人 | 一页真实列表页可独立开发；新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐 | [ ] |
@@ -4797,3 +4797,102 @@ T3-08 `Drawer` 的前置也一并铺好：新增 `primitives/overlay.tsx` 作为
 3. **方向 / 尺寸这类枚举要同时落三层**：类型声明、运行时 DOM 属性、样式规则。只做两层，第三层就是永不命中的死代码，而且 `check:styles` 未必能发现（它只验属性名，不验取值覆盖）。
 4. **断言要区分「属性为空」和「我们没有写」**：第三方无头库会往同一个 DOM 属性 / 节点里写自己的东西（`pointer-events: auto`），单测里写 `toBeNull()` 会把库行为误当成组件契约。
 5. **布局从「居中」改「贴边」要先确认节点关系**：Portal 下兄弟节点没有 flex 父容器，`margin: auto` 与 `inset-*: auto` 是两套完全不同的定位手段；上一节的落地记录里点名的「需重看这段」，本轮确实靠它避开了返工。
+
+### 30.43 T3-09 Alert / Tooltip / Popconfirm + 全局反馈接入落地与验收（2026-11-14 实测）
+
+#### 一、结论先行
+
+T3-09 按 §4.2 验收列四条全部闭合：**Tooltip 定位 / 延迟 / 箭头**、**Popconfirm 异步确认**、**Alert 可关闭与操作区**、**全局反馈脱离树调用且 SSR 不报错**。冻结面 `docs/01~07` 与 `spikes/api-draft/` 对这三个组件**没有任何 API 草案或 data 属性登记**，本轮按 R1「一个属性名只表达一个语义」补齐 `data-scui-anchor`，并复用已登记的 `data-scui-kind` / `data-scui-pending`。
+
+锚点要求的「开工前先定接缝」已落地为可机器验证的分工：**模态浮层走 `primitives/overlay`（自建焦点归还，因为受控打开没有 Trigger）；锚定浮层走新建的 `primitives/anchored`（有 Trigger，ESC / outside dismiss / 关闭后焦点归还全部由 Kobalte DismissableLayer 与 ButtonRoot 单一实现）**。两条链的语义一致、实现零重复；组件层 `Tooltip.tsx` / `Popconfirm.tsx` 出现任何浮层关键字即被判据 4l 拦下。
+
+#### 二、交付清单
+
+| 交付物 | 说明 |
+| --- | --- |
+| `primitives/anchored.tsx` + `types.ts` / `index.ts` | 新增 `PrimitiveTooltip` / `PrimitivePopover`、`PrimitiveAnchorPlacement`（12 向）、`PrimitiveAnchoredAttributes`；两份原语共用同一套属性包与方向类型 |
+| `components/alert/` | `types.ts` / `Alert.tsx` / `alert.scss` / `index.ts` / `Alert.test.tsx`（9 条）/ 3 个 Demo / SSR 入口 |
+| `components/tooltip/` | 同上，`Tooltip.test.tsx`（9 条）/ 3 个 Demo / SSR 入口 |
+| `components/popconfirm/` | 同上，`Popconfirm.test.tsx`（12 条）/ 3 个 Demo / SSR 入口 |
+| 接线 | `src/index.ts` 三组导出、`package.json` 三个四条件 exports、catalog 三条「反馈」、data-attributes 新增 `data-scui-anchor` 与 8 个 role、ssr-smoke 三个入口、docs:generate / llms 全量产物 |
+| 门禁 | `check-ci.mjs` 判据 **4l**（收进既有阶段）、汇总文案、`FONT_SHA256`、`tests/e2e/specs/browser.spec.ts` 9 条新用例 |
+| 基线 | 9 个 Demo × 2 视口 = **18 张**新基线（166 → 184），逐张图片回读确认 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| 新建 `primitives/anchored`，不改 `primitives/overlay` | `overlay` 是模态专用：受控打开没有 `Dialog.Trigger`，必须自己记录 `document.activeElement` 并在 `onCloseAutoFocus` 归还。Tooltip / Popconfirm 一定有 Trigger，Kobalte 默认就归还焦点；若在 `anchored` 里再写一遍，就是锚点禁止的「第二套语义」 |
+| 原语层零 `onOpenAutoFocus` / `onCloseAutoFocus` / `document.activeElement` | 只让 Kobalte 做焦点归还，判据 4l 用黑名单钉死；`dismissible={false}` 只是给已有 dismiss 请求加一道 `preventDefault` 闸门，不是新出口 |
+| 新增 `data-scui-anchor`（12 向） | `data-scui-placement` 是 App / Message「反馈容器在屏幕哪个角」（六向）、`data-scui-side` 是 Drawer「贴视口哪条边」（四向）、`data-scui-fixed` 是 Table 固定列、`data-scui-direction` 是 ltr/rtl、`data-scui-orientation` 是水平/垂直；这里的语义是「浮层挂在触发元素哪一侧」，顺手复用会让选择器串味 |
+| Alert 复用 `data-scui-kind` | 语义完全同义（一条反馈自身的语义类型），只是少 `loading`：Alert 是静态页内提示、没有进行中态。另起 `-type` 会制造两套选择器 |
+| Popconfirm 复用 `data-scui-pending` 与 Modal 的异步协议 | 「请求已发出、不能重复发」同义：`onOk` Promise 期间按钮 loading / 取消禁用 / ESC·outside 被拦，resolve 关闭、reject 保持打开可重试。不引入 `confirmLoading` 受控态，避免两个真源 |
+| Alert 不加 `role="alert"` / `aria-live` | 它是首屏静态内容，加 live region 会让读屏在每次路由切换重复播报；动态反馈的播报由 T2-06 的 viewport 负责。状态不只靠颜色，四种图形符号不同且都有标题文案 |
+| Alert 关闭是非受控的 | 组件自己移除 DOM 并发一次 `onClose`；「是否渲染」的真源应在调用方，再加一层 `visible` 受控只会让已关掉的 Alert 继续占着组件树 |
+| 定位 / 翻转 / 箭头交给 Floating UI | `data-scui-anchor` 在 CSS 里只决定 `transform-origin` 与窄屏收窄；不写第二套贴边定位。browser 用 `boundingBox` 实测不越界，避免「只改属性、样式没生效」的假绿 |
+
+#### 四、本轮真实缺陷与假信号
+
+1. ⚠️ **Kobalte Tooltip 的 `disabled` 只禁逻辑、不落到触发按钮原生属性**：Root 上传 `disabled` 后 jsdom 断言 `hasAttribute('disabled')` 为假。补到 `KobalteTooltip.Trigger disabled={props.disabled}`，单测转绿；`Popover.Trigger` 同步加同一处理。
+2. ⚠️ **SSR marker 写成了浮层里的文案**：`T3-09-popconfirm` 的 marker 最初用「确认删除」，但 `Popover.Title` 在 Portal 内、服务端零输出，`check:ci` 报「HTML 缺少标记」。改成由原语真实输出的 `data-scui-role="popconfirm-trigger"` 与静态文案。
+3. ⚠️ **browser 用例数错 Alert 条数**：`closable` Demo 第二个示例区还有一条 `<Show>` 控制的 Alert，初始共 4 条，关掉首条应剩 3 条而非 2 条。断言按页面真实结构修正。
+4. ⚠️ **避免假绿**：延迟不只做静态透传断言，browser 用两段计时分别验 600ms 确实等待、0ms 立即出现；pending 不只验属性，还验 ESC 拦不住、重复点击不增次数、resolve 后全局 message 出现在 body 宿主。
+5. ✅ 严格按「改源码 → `pnpm build` → browser / visual」顺序执行，未复发 T3-07 的 `dist/source` 旧产物坑。
+
+#### 五、SSR、视觉与字体
+
+- **28 个 SSR 入口**全绿：新增 `T3-09-alert`（4 markers / 6 counts，四种 `data-scui-kind` 逐一计数）、`T3-09-tooltip`（4/2）、`T3-09-popconfirm`（4/2）。三个入口都只验正面静态骨架，不写「浮层缺席」的 forbid 假判据（N62）。
+- `T3-09-alert` 的 `FeedbackProbe` 在渲染期**真的调用** `message.success()` 与 `useApp().message.info()`：T2-06 的 `isServer` 边界一旦被改成顶层访问 `document`，本入口当场抛错（与 N90 同款实证）。这就是「全局反馈脱离树调用且 SSR 不报错」的接入实证。
+- 视觉基线 18 张，图片回读确认：Alert 四条色条 / 图标 / 标题 / 描述 / 关闭按钮；Tooltip 与 Popconfirm 浮层面板、触发按钮、底部按钮组均可见且不被裁剪。
+- 字集重建到 **974 码位**（879 CJK/符号 + 95 ASCII），字体 282004 bytes，`FONT_SHA256` 同步为 `243e5b40…`。
+
+#### 六、新增判据（`check:ci` 4l，收进既有阶段）
+
+| 子判据 | 钉住什么 | 负向实证 |
+| --- | --- | --- |
+| 4l-a | Tooltip / Popconfirm 组件层零浮层实现，全部走 `primitives/anchored`；浮层关键字黑名单 | N313~N318 |
+| 4l-b | 锚定原语不写第二套焦点归还；ESC / outside 收敛到同一道 `preventDefault` 闸门；barrel / types 登记齐全 | N319~N327 |
+| 4l-c | 12 向枚举 + `data-scui-anchor` 恒输出 + 默认值 + 四向方向样式 + 登记表 | N328~N355 |
+| 4l-d | `openDelay` / `closeDelay` 在类型、组件、原语三层同时透传 | N356~N361 |
+| 4l-e | Popconfirm pending 协议与 Modal 同形、防重复提交、resolve / reject 分支、Button 样式聚合 | N362~N368 |
+| 4l-f | Alert 四种 kind / 可关闭 / 操作区 / 图标开关 / 配色 / Button 聚合 | N369~N377 |
+| 4l-g | 三个 SSR 入口文件与登记齐全，且真实调用静态 `message` / `useApp` | N378~N386 |
+
+判据一律先剥注释再匹配（T3-04 / T3-05 的注释冒充坑），范围收进对应文件；**未新增 workflow / job / verify 阶段**（26 阶段不变）。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | ✅ RC=0（26 阶段全量，最终态） |
+| core 单测 | ✅ 444 tests / 37 files（新增 30） |
+| browser / visual / docs / llms | ✅ 218 / 185 / 8 / 4 全 passed（手写新增 9 条 browser 用例，叠加 9 个新 Demo 带来的 18 条 axe 巡检后 191 → 218；新增 18 张基线，167 → 185） |
+| SSR 冒烟 | ✅ 28 入口，T3-09 三入口 4/4 markers + counts 全中 |
+| 规模 | ✅ 27 组件 / 92 Demo / 184 张基线 / 字集 974 码位 |
+| `check:ci` | ✅ 判据 4l 收进既有阶段，汇总文案带「T3-09 反馈与锚定浮层契约」 |
+| 负向实证 | ✅ N313~N386 **74/74 PASS + RESTORE_OK**（SHA256 逐字节还原） |
+| `check:todo` | ✅ 65 任务 / 60 `[x]` 全有证据 / 96 验收区块 / 倒挂 0 |
+| 冻结面 | ✅ `docs/01~07` + `pnpm-lock.yaml` 零改动，零新增依赖，`git diff --check` RC=0 |
+| 治理 | §30.43 落地、T3-09 勾 `[x]`、锚点推进 **T3-10**、evidence `30.43`、goals 基线重校 |
+
+#### 八、允许写入路径（L4）与边界
+
+本轮改动全部落在允许的 L4 路径：`primitives/` 的 `anchored.tsx` / `types.ts` / `index.ts`、三个组件目录（源码 / Demo / 单测 / SSR 入口 / SCSS）、`src/index.ts`、`packages/core/package.json`、`apps/docs/src/content/catalog.mjs` 与其生成物、`packages/core/spikes/api-draft/data-attributes.md`、`packages/core/spikes/shared/ssr-smoke.mjs`、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`、`tests/e2e/specs/browser.spec.ts`、视觉基线、`docs/08-实施Todo.md`、`AGENTS.md`（仅 `check:goals` 自动更新的基线哈希）、`.workbuddy/memory/`。`docs/01~07` 与 `pnpm-lock.yaml` 零改动；未新增 workflow / job / verify 阶段；未新增依赖；未发布；未推送。
+
+#### 九、已知边界与风险
+
+1. **Popconfirm 的 `onOk` reject 静默保持打开**（与 Modal 同口径），业务侧须在回调里自行给反馈；T3-12 组合 Demo 会用到。
+2. **锚定浮层不做焦点陷阱**：非 modal 的 Popconfirm 允许焦点移出气泡（Kobalte 默认 `modal=false`），只在关闭时归还触发元素。若后续需要「打开期间锁焦点」，应通过原语层加 `modal` 开关，而不是组件层自建 focus scope。
+3. **`data-scui-anchor` 在 CSS 里只驱动 `transform-origin`**：定位与翻转真源是 Floating UI，箭头颜色由 Kobalte `PopperArrow` 读 content 的 computed `background-color`。若未来要自定义箭头形状，须同时改原语与样式。
+4. **Alert 无 `loading` 类型**：进度型反馈请走 `message.loading` / `Spin`，不要在 Alert 里扩展第五种 kind。
+5. **Token 缺口仍在**：`--scui-font-weight-*` 等三个变量属设计系统变更，留 M4 统一评估（本轮用字面量或已有变量 fallback）。
+6. **T3-09 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求逐次授权；本轮只把 T3-08 提交到 `6f67d45`，`origin/dev` 仍停 `fa72233`。
+
+#### 十、教训
+
+1. **「不重复实现第二套语义」的正确解法是分清谁该实现**：两条浮层链都需要「关闭后焦点归还」，但一条没有 Trigger、一条有，所以不是抽公共 hook，而是让有 Trigger 的那条直接复用无头库默认行为，并用黑名单判据禁止抄写。语义统一 ≠ 代码共用。
+2. **冻结面留白时先查「哪些近似属性已占用」**：本轮四个近似名全部有主，新增 `data-scui-anchor` 才不串味；同时 `data-scui-kind` / `data-scui-pending` 因为语义完全同义而**复用**，说明「查占用」的结论既可能是新增也可能是复用。
+3. **第三方无头库的选项不必然落到 DOM**：`Tooltip Root.disabled` 只影响逻辑，原生 `disabled` 要显式透传到 Trigger。单测断言 DOM 而不是断言「我们传了 prop」，才能抓到这类半接线。
+4. **SSR marker 必须是服务端真的输出的东西**：浮层标题在 Portal 里，服务端零输出；「验浮层文案」这类 marker 天生恒假。入口只断言触发按钮与页面骨架，浮层态交给 browser 与视觉基线。
+5. **浏览器用例里的数量断言要数整页，不是数当前 DemoSection**：组合 Demo 常有多个示例区，写死数字前先回读页面结构，否则一次通过只是巧合。
+6. **接入既有宿主不等于新建组件**：T2-06 的 `message` / `useApp` 已经能脱离树调用，本轮只在 Demo 与 SSR 入口里真实调用它，没有再建一份 `Message` 组件或第二份队列。

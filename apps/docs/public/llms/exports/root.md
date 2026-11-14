@@ -50,6 +50,9 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/spin` → Spin 加载中：独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。
 - `solid-craft/modal` → Modal 对话框：受控打开与外部按钮驱动；异步确认期间防重复提交并拦截 ESC / 遮罩关闭；焦点陷阱与关闭后焦点归还触发元素，SSR 只输出静态骨架。
 - `solid-craft/drawer` → Drawer 抽屉：与 Modal 共用同一份浮层原语；left / right / top / bottom 四方向贴边，三档尺寸与显式宽高按方向归一，焦点陷阱与键盘行为不重复实现，SSR 只输出静态骨架。
+- `solid-craft/alert` → Alert 警告提示：页内常驻反馈条：四种语义类型、标题与描述、可关闭、右侧操作区；操作区可直接调用 T2-06 的全局 message 通道，SSR 只输出静态骨架。
+- `solid-craft/tooltip` → Tooltip 文字提示：锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。
+- `solid-craft/popconfirm` → Popconfirm 气泡确认：锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 

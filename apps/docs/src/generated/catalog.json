@@ -24,7 +24,10 @@
     "skeleton",
     "spin",
     "modal",
-    "drawer"
+    "drawer",
+    "alert",
+    "tooltip",
+    "popconfirm"
   ],
   "components": [
     {
@@ -762,6 +765,90 @@
           "path": "packages/core/src/components/drawer/demos/size.tsx",
           "title": "尺寸与显式宽高",
           "description": "三档尺寸共用同一套贴边规则；左右方向用 width、上下方向用 height 显式覆盖，数字按 px 处理。"
+        }
+      ]
+    },
+    {
+      "slug": "alert",
+      "title": "Alert 警告提示",
+      "category": "反馈",
+      "description": "页内常驻反馈条：四种语义类型、标题与描述、可关闭、右侧操作区；操作区可直接调用 T2-06 的全局 message 通道，SSR 只输出静态骨架。",
+      "exportPath": "solid-craft/alert",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "action",
+          "path": "packages/core/src/components/alert/demos/action.tsx",
+          "title": "操作区与全局反馈接入",
+          "description": "Alert 的操作区放常规按钮；点击后通过 T2-06 的静态 message 通道给出全局提示——不新建 Message 组件，也不依赖组件树。"
+        },
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/alert/demos/basic.tsx",
+          "title": "四种反馈类型",
+          "description": "info / success / warning / error 共用同一个 data-scui-kind 属性；标题、描述与类型图标都是同一套结构。"
+        },
+        {
+          "name": "closable",
+          "path": "packages/core/src/components/alert/demos/closable.tsx",
+          "title": "可关闭与关闭回调",
+          "description": "右上角关闭按钮点击后移除整条反馈并触发 onClose；closable=false 与 icon=null 可分别去掉关闭按钮和图标。"
+        }
+      ]
+    },
+    {
+      "slug": "tooltip",
+      "title": "Tooltip 文字提示",
+      "category": "反馈",
+      "description": "锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。",
+      "exportPath": "solid-craft/tooltip",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/tooltip/demos/basic.tsx",
+          "title": "基础用法与定位",
+          "description": "十二向 placement 由 Floating UI 负责翻转；切换方向只改 data-scui-anchor，浮层行为与焦点契约保持同一套。"
+        },
+        {
+          "name": "delay",
+          "path": "packages/core/src/components/tooltip/demos/delay.tsx",
+          "title": "打开与关闭延迟",
+          "description": "openDelay / closeDelay 直接透传给锚定原语，由 Kobalte 的 hover 时序统一执行；onOpenChange 是唯一状态出口。"
+        },
+        {
+          "name": "open-state",
+          "path": "packages/core/src/components/tooltip/demos/open-state.tsx",
+          "title": "打开态与箭头",
+          "description": "首屏受控打开，让浮层态进入视觉基线与 axe 扫描；箭头由锚定原语渲染，关闭箭头后整块不渲染。"
+        }
+      ]
+    },
+    {
+      "slug": "popconfirm",
+      "title": "Popconfirm 气泡确认",
+      "category": "反馈",
+      "description": "锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。",
+      "exportPath": "solid-craft/popconfirm",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/popconfirm/demos/basic.tsx",
+          "title": "异步确认与全局反馈接入",
+          "description": "onOk 返回 Promise 期间进入 pending：确认按钮 loading、取消禁用、ESC 与外部点击被拦；resolve 后关闭并调用 T2-06 的静态 message。"
+        },
+        {
+          "name": "open-state",
+          "path": "packages/core/src/components/popconfirm/demos/open-state.tsx",
+          "title": "打开态视觉基线",
+          "description": "首屏受控打开，让确认气泡进入视觉基线与 axe 扫描；底部按钮组复用 Button 样式，随 popconfirm.css 一并聚合。"
+        },
+        {
+          "name": "placement",
+          "path": "packages/core/src/components/popconfirm/demos/placement.tsx",
+          "title": "定位与文案覆盖",
+          "description": "四向 placement 由 Floating UI 负责翻转；okText / cancelText 与 arrow 开关都只影响展示，不改变异步确认协议。"
         }
       ]
     }

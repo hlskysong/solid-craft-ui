@@ -1,0 +1,89 @@
+{
+  "slug": "tooltip",
+  "source": "packages/core/src/components/tooltip/types.ts",
+  "interfaces": [
+    {
+      "name": "TooltipProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "content",
+          "type": "JSX.Element",
+          "optional": false,
+          "description": "提示内容，渲染进 `role=\"tooltip\"` 的浮层。",
+          "default": null
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": false,
+          "description": "触发元素内容；原语负责包成按钮并接管 hover / focus 时序与键盘。",
+          "default": null
+        },
+        {
+          "name": "placement",
+          "type": "TooltipPlacement",
+          "optional": true,
+          "description": "锚定方向，恒输出为 `data-scui-anchor`。 @default 'top'",
+          "default": null
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "optional": true,
+          "description": "指针进入触发元素到打开的时间（ms）。 @default 200",
+          "default": null
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "optional": true,
+          "description": "指针离开到关闭的时间（ms）。 @default 100",
+          "default": null
+        },
+        {
+          "name": "arrow",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否渲染箭头。 @default true",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否禁用触发（禁用后不响应 hover / focus）。 @default false",
+          "default": null
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "optional": true,
+          "description": "受控打开状态；给了就完全由调用方驱动。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "optional": true,
+          "description": "非受控初始状态。 @default false",
+          "default": null
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "打开状态变化出口；hover / focus / ESC 都汇到这一条。",
+          "default": null
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "触发按钮自定义类名。 @default undefined",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

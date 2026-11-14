@@ -1,0 +1,86 @@
+@use 'mixins' as m;
+@use '../button/button';
+
+/* Alert（T3-09）
+   静态页内反馈条：一条横排容器 + 类型图标 + 标题/描述 + 可选操作区 + 关闭按钮。
+   四种类型只改 --scui-alert-accent 一个变量，边框、背景、图标色全部派生自它，
+   避免四份重复规则漂移。背景刻意保持 bg-surface：用浅色语义色铺满整条会让
+   text-secondary 的对比度掉到 axe 的 color-contrast 阈值以下（T3-06 踩过）。 */
+
+:where(.scui-alert) {
+  --scui-alert-accent: var(--scui-color-primary);
+
+  display: flex;
+  box-sizing: border-box;
+  align-items: flex-start;
+  gap: var(--scui-space-3, 12px);
+  inline-size: 100%;
+  padding: var(--scui-space-3, 12px) var(--scui-space-4, 16px);
+  border: 1px solid var(--scui-color-border-default);
+  border-inline-start: 3px solid var(--scui-alert-accent);
+  border-radius: var(--scui-radius-1);
+  background: var(--scui-color-bg-surface);
+  color: var(--scui-color-text-primary);
+  font-size: var(--scui-font-size-md, 14px);
+  line-height: var(--scui-line-height-md, 22px);
+
+  &[data-scui-kind='success'] {
+    --scui-alert-accent: var(--scui-color-success);
+  }
+
+  &[data-scui-kind='warning'] {
+    --scui-alert-accent: var(--scui-color-warning);
+  }
+
+  &[data-scui-kind='error'] {
+    --scui-alert-accent: var(--scui-color-danger);
+  }
+}
+
+:where(.scui-alert__icon) {
+  display: inline-flex;
+  flex: none;
+  color: var(--scui-alert-accent);
+}
+
+:where(.scui-alert__body) {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+:where(.scui-alert__title) {
+  color: var(--scui-color-text-primary);
+  font-weight: var(--scui-font-weight-medium, 600);
+}
+
+:where(.scui-alert__description) {
+  margin-block-start: var(--scui-space-1, 4px);
+  color: var(--scui-color-text-secondary);
+}
+
+:where(.scui-alert__action) {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+}
+
+:where(.scui-alert__close) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--scui-radius-1);
+  background: transparent;
+  color: var(--scui-color-text-secondary);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}

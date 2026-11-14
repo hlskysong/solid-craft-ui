@@ -173,3 +173,93 @@ export interface PrimitiveSelectProps {
   /** 选项类名钩子。 @default undefined */
   optionClass?: string;
 }
+
+/**
+ * 锚定浮层相对触发元素的方向（T3-09）。
+ *
+ * 刻意不复用 `data-scui-placement`：那是 App / Message 的「反馈容器出现在屏幕
+ * 哪个角」（六向），也不复用 `data-scui-side`：那是 Drawer「贴视口哪条边」
+ * （四向）。这里是「浮层挂在触发元素哪一侧」，与 Floating UI 的 Placement 同形，
+ * 一个属性名只表达一个语义（R1）。
+ */
+export type PrimitiveAnchorPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end';
+
+/** 上层传给锚定浮层原语的 DOM 属性包；同样**不承载事件**，避免叠两套 dismiss。 */
+export type PrimitiveAnchoredAttributes = {
+  class?: string;
+  style?: string;
+} & Record<`data-${string}`, string | undefined>;
+
+/** `PrimitiveTooltip` / `PrimitivePopover` 共有的锚定契约。 */
+export interface PrimitiveAnchoredProps {
+  /** 受控打开状态；给了就完全由调用方驱动。 @default undefined */
+  open?: boolean;
+  /** 非受控初始状态。 @default false */
+  defaultOpen?: boolean;
+  /** 打开状态变化出口；hover / 点击 / ESC / 外部交互都汇到这一条。 */
+  onOpenChange?: (open: boolean) => void;
+  /** 触发元素内容；原语负责把它包进 Kobalte 的 Trigger（按钮语义由原语保证）。 */
+  trigger: JSX.Element;
+  /** 浮层正文。 */
+  children?: JSX.Element;
+  /** 锚定方向。 @default 'top' */
+  placement?: PrimitiveAnchorPlacement;
+  /** 浮层与触发元素的间距（px）。 @default 8 */
+  gutter?: number;
+  /** 是否渲染箭头。 @default true */
+  arrow?: boolean;
+  /** 是否禁用触发。 @default false */
+  disabled?: boolean;
+  /** 触发按钮属性包（视觉归上层）。 */
+  triggerAttributes?: PrimitiveAnchoredAttributes;
+  /** 内容容器属性包，含 `data-scui-anchor`（视觉归上层）。 */
+  contentAttributes?: PrimitiveAnchoredAttributes;
+  /** 箭头属性包（视觉归上层）。 */
+  arrowAttributes?: PrimitiveAnchoredAttributes;
+}
+
+/**
+ * Tooltip 原语（T3-09）：只在共有契约上加「延迟」。
+ *
+ * hover / focus 时序、ESC 关闭、安全区、翻转定位全部由 Kobalte 的 Tooltip
+ * 与 DismissableLayer 实现；本层不写任何 `document.activeElement`、
+ * `onCloseAutoFocus` 或 ESC 钩子 —— 焦点归还与 ESC 只有一套语义。
+ */
+export interface PrimitiveTooltipProps extends PrimitiveAnchoredProps {
+  /** 指针进入触发元素到打开的时间（ms）。 @default 200 */
+  openDelay?: number;
+  /** 指针离开到关闭的时间（ms）。 @default 100 */
+  closeDelay?: number;
+}
+
+/**
+ * Popconfirm 原语（T3-09）：只在共有契约上加「运行时关闭闸门」与语义标题。
+ *
+ * 与 `PrimitiveOverlayProps.dismissible` 同口径：这是**拦截**已有 dismiss 出口，
+ * 不是另起一套关闭逻辑。`false` 时把所有 ESC / outside / focus-outside 请求
+ * `preventDefault()`，Kobalte 仍是唯一的 dismiss 实现者。
+ */
+export interface PrimitivePopoverProps extends PrimitiveAnchoredProps {
+  /** 是否允许非业务路径关闭；异步确认期间由上层置 `false`。 @default true */
+  dismissible?: boolean;
+  /** 标题，渲染进 `Popover.Title`，是 `aria-labelledby` 的来源。 */
+  title: JSX.Element;
+  /** 描述，渲染进 `Popover.Description`，是 `aria-describedby` 的来源。 */
+  description?: JSX.Element;
+  /** 标题属性包（视觉归上层）。 */
+  titleAttributes?: PrimitiveAnchoredAttributes;
+  /** 描述属性包（视觉归上层）。 */
+  descriptionAttributes?: PrimitiveAnchoredAttributes;
+}

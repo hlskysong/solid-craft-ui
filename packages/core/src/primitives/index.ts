@@ -6,13 +6,19 @@
  * 上层组件（Select / Form / App 等）从 `../../primitives` 引用即可。
  */
 export { useClientReady } from './use-client-ready';
+export { PrimitivePopover, PrimitiveTooltip } from './anchored';
 export { PrimitiveDialog } from './dialog';
 export { PrimitiveOverlay } from './overlay';
 export { PrimitiveSelect } from './select';
 export type {
+  PrimitiveAnchorPlacement,
+  PrimitiveAnchoredAttributes,
+  PrimitiveAnchoredProps,
   PrimitiveDialogProps,
   PrimitiveOption,
   PrimitiveOverlayAttributes,
   PrimitiveOverlayProps,
+  PrimitivePopoverProps,
   PrimitiveSelectProps,
+  PrimitiveTooltipProps,
 } from './types';

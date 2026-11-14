@@ -1,0 +1,91 @@
+@use 'mixins' as m;
+@use '../button/button';
+
+/* Popconfirm（T3-09）
+   确认气泡：标题 + 描述 + 底部按钮组 + 箭头。定位 / 翻转 / ESC / 焦点归还
+   全在 primitives/anchored，这里只做视觉。footer 复用了 Button 组件，而
+   build-css.mjs 逐目录编译不做依赖聚合，因此必须 @use 把 button 样式带进来。
+   data-scui-anchor 与 Tooltip 同义：只决定 transform-origin，不另写贴边定位。 */
+
+:where(.scui-popconfirm__trigger) {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--scui-button-height-medium);
+  padding-inline: var(--scui-space-3, 12px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-button-radius-default);
+  background: var(--scui-color-bg-surface);
+  color: var(--scui-color-text-primary);
+  font: inherit;
+  font-size: var(--scui-font-size-md, 14px);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+
+  &:disabled {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-popconfirm) {
+  z-index: calc(var(--scui-z-index-base, 0) + 1100);
+  box-sizing: border-box;
+  inline-size: max-content;
+  max-inline-size: min(320px, calc(100vw - var(--scui-space-4, 16px) * 2));
+  padding: var(--scui-space-4, 16px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-radius-2);
+  background: var(--scui-color-bg-surface);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  color: var(--scui-color-text-primary);
+  font-size: var(--scui-font-size-md, 14px);
+  line-height: var(--scui-line-height-md, 22px);
+
+  &[data-scui-anchor^='top'] {
+    transform-origin: bottom center;
+  }
+
+  &[data-scui-anchor^='bottom'] {
+    transform-origin: top center;
+  }
+
+  &[data-scui-anchor^='left'] {
+    transform-origin: center right;
+  }
+
+  &[data-scui-anchor^='right'] {
+    transform-origin: center left;
+  }
+
+  /* 与 Modal 同口径：异步提交中整块给等待光标，键盘用户也能感知。 */
+  &[data-scui-pending] {
+    cursor: progress;
+  }
+}
+
+:where(.scui-popconfirm__title) {
+  color: var(--scui-color-text-primary);
+  font-weight: var(--scui-font-weight-medium, 600);
+}
+
+:where(.scui-popconfirm__description) {
+  margin-block-start: var(--scui-space-1, 4px);
+  color: var(--scui-color-text-secondary);
+}
+
+:where(.scui-popconfirm__footer) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--scui-space-2, 8px);
+  margin-block-start: var(--scui-space-4, 16px);
+}
+
+:where(.scui-popconfirm__arrow) {
+  color: var(--scui-color-bg-surface);
+}

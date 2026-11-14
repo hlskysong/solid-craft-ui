@@ -427,6 +427,132 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await expect(trigger).toBeFocused();
   });
 
+  // T3-09：Alert 是内联反馈，四种 kind 必须真的输出（不是注释里的枚举）；
+  // 关闭按钮要移除自身，操作区要能驱动 T2-06 挂在 body 上的全局宿主。
+  test('Alert 四种类型、关闭回调与操作区的全局反馈接入', async ({ page }) => {
+    await page.goto('/components/alert/basic?standalone=1');
+    const kinds = page.locator('[data-scui-role="alert"]');
+    await expect(kinds).toHaveCount(4);
+    for (const kind of ['info', 'success', 'warning', 'error']) {
+      await expect(page.locator(`[data-scui-role="alert"][data-scui-kind="${kind}"]`)).toHaveCount(
+        1,
+      );
+    }
+
+    await page.goto('/components/alert/closable?standalone=1');
+    await page.locator('[data-scui-role="alert-close"]').first().click();
+    await expect(page.getByTestId('alert-close-count')).toHaveText('累计关闭 1 次');
+    // 页面共 4 条：三个示例 + 第二个示例区里由 Show 控制的一条；关掉首条后剩 3 条。
+    await expect(page.locator('[data-scui-role="alert"]')).toHaveCount(3);
+
+    await page.goto('/components/alert/action?standalone=1');
+    await page.getByRole('button', { name: '提交复核' }).click();
+    await expect(
+      page.locator('[data-scui-role="message"]').filter({ hasText: '已提交复核' }),
+    ).toHaveCount(1);
+    await expect(page.locator('[data-scui-role="app-host"]')).toHaveCount(1);
+  });
+
+  // T3-09：定位由 Floating UI 负责，只断言属性会漏掉「浮层被视口裁剪」；
+  // 用 boundingBox 实测打开态面板完全落在视口内，同时验箭头开关真的生效。
+  test('Tooltip 打开态不被视口裁剪，箭头可关闭', async ({ page }) => {
+    await page.goto('/components/tooltip/open-state?standalone=1');
+    const tip = page.getByRole('tooltip');
+    await expect(tip).toBeVisible();
+    await expect(tip).toHaveAttribute('data-scui-anchor', 'bottom');
+
+    const box = await tip.boundingBox();
+    const viewport = page.viewportSize();
+    expect(box).not.toBeNull();
+    expect(box?.x ?? -1).toBeGreaterThanOrEqual(-1);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual((viewport?.width ?? 1280) + 2);
+
+    await expect(page.locator('[data-scui-role="tooltip-arrow"]')).toHaveCount(1);
+    await page.getByRole('button', { name: '隐藏箭头' }).click();
+    await expect(page.locator('[data-scui-role="tooltip-arrow"]')).toHaveCount(0);
+  });
+
+  // T3-09：「延迟」必须有时序实证。600ms 的那条在 450ms 前不得出现，
+  // 0ms 的那条必须立刻出现；二者共用同一个锚定原语，只是参数不同。
+  test('Tooltip openDelay 快慢两条路径都生效', async ({ page }) => {
+    await page.goto('/components/tooltip/delay?standalone=1');
+    const slowStart = Date.now();
+    await page.getByText('延迟 600ms').hover();
+    await expect(page.getByRole('tooltip')).toBeVisible({ timeout: 3000 });
+    expect(Date.now() - slowStart, '600ms 的 openDelay 未生效').toBeGreaterThanOrEqual(450);
+    await expect(page.getByTestId('tooltip-delay-log')).toHaveText('延迟提示打开');
+
+    await page.goto('/components/tooltip/delay?standalone=1');
+    const fastStart = Date.now();
+    await page.getByText('立即显示').hover();
+    await expect(page.getByRole('tooltip')).toBeVisible({ timeout: 1500 });
+    expect(Date.now() - fastStart, '0ms 的 openDelay 不应等待').toBeLessThan(450);
+  });
+
+  // T3-09：Popconfirm 的异步协议与 Modal 同形。pending 期间确定按钮禁用、
+  // ESC 被原语闸门拦住、重复点击不增加提交次数；resolve 后关闭并调用
+  // 静态 message（全局宿主挂在 body，证明「脱离树亦可调用」）。
+  test('Popconfirm 异步确认 pending 防重复提交，resolve 后触发全局反馈', async ({ page }) => {
+    await page.goto('/components/popconfirm/basic?standalone=1');
+    await page.getByRole('button', { name: '删除明细' }).click();
+    const bubble = page.locator('[data-scui-role="popconfirm"]');
+    await expect(bubble).toBeVisible();
+
+    await page.getByRole('button', { name: '确定' }).click();
+    await expect(bubble).toHaveAttribute('data-scui-pending', '');
+    await expect(page.getByRole('button', { name: '确定' })).toBeDisabled();
+    await expect(page.getByRole('button', { name: '取消' })).toBeDisabled();
+    await page.keyboard.press('Escape');
+    await expect(bubble).toBeVisible();
+    await expect(page.getByTestId('popconfirm-submit-count')).toHaveText('累计提交 0 次');
+
+    await expect(page.getByTestId('popconfirm-submit-log')).toHaveText('当前状态：提交完成', {
+      timeout: 4000,
+    });
+    await expect(bubble).toHaveCount(0);
+    await expect(page.getByTestId('popconfirm-submit-count')).toHaveText('累计提交 1 次');
+    await expect(
+      page.locator('[data-scui-role="message"]').filter({ hasText: '已删除采购明细' }),
+    ).toHaveCount(1);
+  });
+
+  // T3-09：锚定浮层有 Trigger，焦点归还由 Kobalte 的 ButtonRoot 默认行为负责；
+  // 这里不自建第二套 focus 逻辑，所以用「ESC 关闭 -> 焦点回到触发按钮」反证。
+  test('Popconfirm ESC 关闭后焦点归还触发元素', async ({ page }) => {
+    await page.goto('/components/popconfirm/placement?standalone=1');
+    const trigger = page.getByRole('button', { name: '归档计划' });
+    const bubble = page.locator('[data-scui-role="popconfirm"]');
+    await trigger.click();
+    await expect(bubble).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expect(bubble).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  });
+
+  // T3-09：十二向里的四向切换必须同时改属性与真实位置；只改属性而样式 /
+  // 定位引擎没接上会让 flip 失效，面板被裁到视口外。
+  test('Popconfirm 四向切换与 flip 不越界', async ({ page }) => {
+    await page.goto('/components/popconfirm/placement?standalone=1');
+    const trigger = page.getByRole('button', { name: '归档计划' });
+    const bubble = page.locator('[data-scui-role="popconfirm"]');
+
+    for (const side of ['top', 'bottom', 'left', 'right']) {
+      await page.getByRole('button', { name: side, exact: true }).click();
+      await trigger.click();
+      await expect(bubble).toBeVisible();
+      await expect(bubble).toHaveAttribute('data-scui-anchor', side);
+      const box = await bubble.boundingBox();
+      const viewport = page.viewportSize();
+      expect(box).not.toBeNull();
+      expect(box?.x ?? -1, `${side} 不应越出左边缘`).toBeGreaterThanOrEqual(-1);
+      expect(box?.y ?? -1, `${side} 不应越出上边缘`).toBeGreaterThanOrEqual(-1);
+      expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual((viewport?.width ?? 1280) + 2);
+      await page.keyboard.press('Escape');
+      await expect(bubble).toHaveCount(0);
+    }
+  });
+
   // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
   // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
   // 用真实浏览器把「载入编辑 → 改值 → 提交校验 → 切回新增」整链跑一遍。
@@ -689,6 +815,89 @@ test.describe('A11y 链：axe 扫描', () => {
     );
     console.log(
       `[axe] range-picker/open: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
+  // T3-09：Alert 是内联反馈，四色边框 + 图标 + 关闭按钮同处一页，
+  // 单独点名「静态页内反馈 axe 0 serious / critical」。
+  test('Alert 四种类型无 serious / critical 违规', async ({ page }) => {
+    await page.goto('/components/alert/basic?standalone=1');
+    await expect(page.locator('[data-scui-role="alert"]')).toHaveCount(4);
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] alert/basic: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
+  // T3-09：Tooltip 打开态是 Portal 到 body 的 role="tooltip"，关闭态扫不到它。
+  test('Tooltip 打开态无 serious / critical 违规', async ({ page }) => {
+    await page.goto('/components/tooltip/open-state?standalone=1');
+    await expect(page.getByRole('tooltip')).toBeVisible();
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] tooltip/open: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
+  // T3-09：Popconfirm 打开态是 role="dialog" 的气泡，标题 / 描述 / 操作区
+  // 都要满足 aria-labelledby / describedby 与按钮对比度。
+  test('Popconfirm 打开态无 serious / critical 违规', async ({ page }) => {
+    await page.goto('/components/popconfirm/open-state?standalone=1');
+    await expect(page.locator('[data-scui-role="popconfirm"]')).toBeVisible();
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] popconfirm/open: ${results.violations.length} violations ${results.violations
         .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
         .join(', ')}`,
     );

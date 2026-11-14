@@ -694,6 +694,53 @@ const cases = [
       ['打开抽屉', 1],
     ],
   },
+  {
+    // T3-09-a：Alert 是内联反馈，SSR 全量输出；四种 data-scui-kind 与静态
+    // message / useApp 调用都在同一入口里，删掉 isServer 边界会当场抛错（N90）。
+    id: 'T3-09-alert',
+    file: '/src/components/alert/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="alert-page"',
+      'data-scui-role="alert-trigger"',
+      'data-scui-kind="warning"',
+    ],
+    counts: [
+      ['data-scui-role="alert-page"', 1],
+      ['data-scui-role="alert-trigger"', 1],
+      ['data-scui-kind="info"', 1],
+      ['data-scui-kind="success"', 1],
+      ['data-scui-kind="warning"', 1],
+      ['data-scui-kind="error"', 1],
+    ],
+  },
+  {
+    // T3-09-b：Tooltip 的浮层由 Portal 在客户端挂载，服务端只出触发按钮；
+    // 四个触发按钮都由锚定原语输出，count 钉住「原语真的渲染了」。
+    id: 'T3-09-tooltip',
+    file: '/src/components/tooltip/__tests__/ssr-entry.tsx',
+    markers: ['lang="zh-CN"', 'data-scui-role="tooltip-page"', '受控打开', '静态骨架'],
+    counts: [
+      ['data-scui-role="tooltip-page"', 1],
+      ['data-scui-role="tooltip-trigger"', 4],
+    ],
+  },
+  {
+    // T3-09-c：Popconfirm 同上；额外验异步 onOk 回调在渲染期不执行、
+    // 自定义文案与四向 placement 都不触碰 DOM。
+    id: 'T3-09-popconfirm',
+    file: '/src/components/popconfirm/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="popconfirm-page"',
+      'data-scui-role="popconfirm-trigger"',
+      '静态骨架',
+    ],
+    counts: [
+      ['data-scui-role="popconfirm-page"', 1],
+      ['data-scui-role="popconfirm-trigger"', 4],
+    ],
+  },
 ];
 
 const errors = [];

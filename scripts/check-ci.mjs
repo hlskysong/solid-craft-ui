@@ -926,6 +926,212 @@ if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
   }
 }
 
+// 4l. T3-09 反馈与锚定浮层契约（§30.43）。§4.2 验收原话「Tooltip 定位 / 延迟 /
+// 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR
+// 不报错」+ 锚点「锚定浮层不复用 Dialog 原语，但不得重复实现焦点归还与 ESC 契约」。
+// 钉的都是「看着接上了、其实没接对」的点：① 组件层零浮层实现，全部走
+// primitives/anchored；② 锚定原语自身也不写第二套焦点归还；③ 十二向在类型 /
+// 运行时属性 / 方向样式三层齐全；④ 延迟真正透传原语；⑤ pending 协议与 Modal
+// 同形且 reject 保持打开；⑥ Alert 四种 kind / 可关闭 / 操作区；⑦ 三个 SSR 入口
+// 在册且真的调用了静态 message / useApp。判据一律先剥注释，避免注释冒充代码。
+{
+  const stripT309Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const componentsDir = join(repoRoot, 'packages', 'core', 'src', 'components');
+  const primitivesDir = join(repoRoot, 'packages', 'core', 'src', 'primitives');
+  const t309Impl = {};
+  const t309Styles = {};
+  const t309Types = {};
+  for (const name of ['alert', 'tooltip', 'popconfirm']) {
+    t309Impl[name] = stripT309Comments(
+      read(
+        join(
+          componentsDir,
+          name,
+          name === 'popconfirm' ? 'Popconfirm.tsx' : `${name[0].toUpperCase()}${name.slice(1)}.tsx`,
+        ),
+      ),
+    );
+    t309Styles[name] = stripT309Comments(read(join(componentsDir, name, `${name}.scss`)));
+    t309Types[name] = stripT309Comments(read(join(componentsDir, name, 'types.ts')));
+  }
+  const t309Anchored = stripT309Comments(read(join(primitivesDir, 'anchored.tsx')));
+  const t309Primitives = stripT309Comments(read(join(primitivesDir, 'index.ts')));
+  const t309PrimitiveTypes = stripT309Comments(read(join(primitivesDir, 'types.ts')));
+  const t309AlertSsr = stripT309Comments(
+    read(join(componentsDir, 'alert', '__tests__', 'ssr-entry.tsx')),
+  );
+  const t309AlertDemo = stripT309Comments(
+    read(join(componentsDir, 'alert', 'demos', 'action.tsx')),
+  );
+  const t309DataAttrs = read(
+    join(repoRoot, 'packages', 'core', 'spikes', 'api-draft', 'data-attributes.md'),
+  );
+
+  // ① 组件层零浮层实现：Tooltip / Popconfirm 只能认原语，不许直接碰 Kobalte。
+  for (const name of ['tooltip', 'popconfirm']) {
+    if (
+      !t309Impl[name].includes("from '../../primitives'") ||
+      !new RegExp(`<Primitive${name === 'tooltip' ? 'Tooltip' : 'Popover'}\\b`).test(t309Impl[name])
+    ) {
+      fail(`${name} 未复用 primitives/anchored：会与模态浮层重复实现 Portal / 焦点 / ESC`);
+    }
+    const leaked = [
+      'document.activeElement',
+      'useClientReady',
+      'onEscapeKeyDown',
+      'onPointerDownOutside',
+      'onInteractOutside',
+      'onOpenAutoFocus',
+      'onCloseAutoFocus',
+      'onFocusOutside',
+      'KobalteDialog',
+      'KobalteTooltip',
+      'KobaltePopover',
+      '<Portal',
+      'createPortal',
+      '@kobalte/',
+    ].filter((token) => t309Impl[name].includes(token));
+    if (leaked.length > 0) {
+      fail(
+        `${name} 组件层重复实现了浮层行为（${leaked.join(', ')}）：必须只由 primitives/anchored 实现一次`,
+      );
+    }
+  }
+
+  // ② 锚定原语有 Trigger，焦点归还由 Kobalte 的 ButtonRoot 默认行为负责；
+  // 这里再写一套 activeElement / onCloseAutoFocus 就是锚点明令禁止的第二套语义。
+  if (
+    !t309Anchored.includes('@kobalte/core/tooltip') ||
+    !t309Anchored.includes('@kobalte/core/popover') ||
+    !/onEscapeKeyDown=\{blockDismiss\}/.test(t309Anchored) ||
+    !/props\.dismissible !== false/.test(t309Anchored)
+  ) {
+    fail('锚定原语未把 ESC / outside dismiss 收敛到同一道 preventDefault 闸门');
+  }
+  if (/onOpenAutoFocus|onCloseAutoFocus|document\.activeElement/.test(t309Anchored)) {
+    fail('锚定原语重复实现了焦点归还：有 Trigger 时应交给 Kobalte，不能复制模态浮层那套');
+  }
+  if (
+    !t309Primitives.includes("export { PrimitivePopover, PrimitiveTooltip } from './anchored';") ||
+    !/export interface PrimitiveTooltipProps/.test(t309PrimitiveTypes) ||
+    !/export interface PrimitivePopoverProps/.test(t309PrimitiveTypes) ||
+    !/export type PrimitiveAnchoredAttributes/.test(t309PrimitiveTypes)
+  ) {
+    fail('primitives barrel / types 未登记锚定原语：上层组件与消费方会拿到不完整的契约');
+  }
+
+  // ③ 十二向枚举 + 恒输出的 data-scui-anchor + 四向方向样式，缺一层即死代码。
+  const placementBody =
+    t309PrimitiveTypes.match(/export type PrimitiveAnchorPlacement =([\s\S]*?);/)?.[1] ?? '';
+  for (const side of [
+    'top',
+    'top-start',
+    'top-end',
+    'right',
+    'right-start',
+    'right-end',
+    'bottom',
+    'bottom-start',
+    'bottom-end',
+    'left',
+    'left-start',
+    'left-end',
+  ]) {
+    if (!placementBody.includes(`'${side}'`)) {
+      fail(`PrimitiveAnchorPlacement 缺少 ${side}：该方向的浮层无法被表达`);
+    }
+  }
+  for (const name of ['tooltip', 'popconfirm']) {
+    if (
+      !/'data-scui-anchor': placement\(\)/.test(t309Impl[name]) ||
+      !/local\.placement \?\? 'top'/.test(t309Impl[name]) ||
+      !t309Impl[name].includes('local.open ?? internalOpen()') ||
+      !/if \(local\.open === undefined\) setInternalOpen\(/.test(t309Impl[name])
+    ) {
+      fail(`${name} 的方向未恒输出或受控优先级缺失：SSR / 客户端属性会对不上`);
+    }
+    for (const prefix of ['top', 'bottom', 'left', 'right']) {
+      if (!t309Styles[name].includes(`[data-scui-anchor^='${prefix}']`)) {
+        fail(`${name}.scss 缺少 ${prefix} 方向规则：data-scui-anchor 会变成纯装饰属性`);
+      }
+    }
+  }
+  if (!/\| `data-scui-anchor` \|/.test(t309DataAttrs)) {
+    fail('data-attributes.md 未登记 data-scui-anchor：新增属性必须落表且与既有语义区分');
+  }
+
+  // ④ 延迟必须真正透传到 Kobalte，组件层写个默认值再丢掉会让「延迟」变成死代码。
+  if (
+    !/openDelay=\{local\.openDelay \?\? 200\}/.test(t309Impl.tooltip) ||
+    !/closeDelay=\{local\.closeDelay \?\? 100\}/.test(t309Impl.tooltip) ||
+    !/openDelay=\{props\.openDelay \?\? 200\}/.test(t309Anchored) ||
+    !/closeDelay=\{props\.closeDelay \?\? 100\}/.test(t309Anchored) ||
+    !/openDelay\?: number/.test(t309Types.tooltip) ||
+    !/closeDelay\?: number/.test(t309Types.tooltip)
+  ) {
+    fail('Tooltip 的 openDelay / closeDelay 未在类型与两层实现中同时透传');
+  }
+
+  // ⑤ pending 协议与 Modal 同形：属性恒在有值时输出、防重复提交早退、
+  // resolve 才关闭、reject 保持打开，并且关闭拦截交给原语闸门而非新出口。
+  if (
+    !/'data-scui-pending': isPending\(\) \? '' : undefined/.test(t309Impl.popconfirm) ||
+    !/dismissible=\{!isPending\(\)\}/.test(t309Impl.popconfirm) ||
+    !/onOk\?: \(\) => void \| Promise<void>/.test(t309Types.popconfirm)
+  ) {
+    fail('Popconfirm 未复用 data-scui-pending / dismissible 闸门：异步期间会出现重复提交');
+  }
+  const okBody = t309Impl.popconfirm.match(/const handleOk = \([\s\S]*?\n  \};/)?.[0] ?? '';
+  if (
+    !/if \(isPending\(\)\) return;/.test(okBody) ||
+    !/setAsyncPending\(false\);\s*applyClose\(\);/.test(okBody) ||
+    !/\(\) => \{\s*setAsyncPending\(false\);\s*\},/.test(okBody)
+  ) {
+    fail('Popconfirm 的 Promise 分支不完整：resolve 未关闭或 reject 没有保持打开可重试');
+  }
+  if (!/@use\s+['"]\.\.\/button\/button['"]/.test(t309Styles.popconfirm)) {
+    fail('popconfirm.scss 未聚合 Button 样式：只引 popconfirm.css 会拿到两个裸按钮');
+  }
+
+  // ⑥ Alert：kind 恒输出 / 可关闭 / 操作区都是真实条件渲染，不是注释里的占位。
+  if (
+    !/data-scui-kind=\{kind\(\)\}/.test(t309Impl.alert) ||
+    !/local\.kind \?\? 'info'/.test(t309Impl.alert) ||
+    !/when=\{local\.closable !== false\}/.test(t309Impl.alert) ||
+    !/when=\{local\.action !== undefined\}/.test(t309Impl.alert) ||
+    !/when=\{local\.icon !== null\}/.test(t309Impl.alert)
+  ) {
+    fail('Alert 的类型 / 可关闭 / 操作区 / 图标开关未全部落到真实渲染条件');
+  }
+  for (const kind of ['success', 'warning', 'error']) {
+    if (!t309Styles.alert.includes(`[data-scui-kind='${kind}']`)) {
+      fail(`alert.scss 缺少 ${kind} 配色规则：状态会只靠文案传达`);
+    }
+  }
+  if (!/@use\s+['"]\.\.\/button\/button['"]/.test(t309Styles.alert)) {
+    fail('alert.scss 未聚合 Button 样式：操作区放按钮时会拿到裸按钮');
+  }
+
+  // ⑦ 三个 SSR 入口在册，且 Alert 入口真的调用 T2-06 的静态通道。
+  for (const id of ['T3-09-alert', 'T3-09-tooltip', 'T3-09-popconfirm']) {
+    if (!ssrSmokeRunner.includes(`id: '${id}'`)) {
+      fail(`T3-09 的 SSR 入口 ${id} 未登记进 ssr-smoke.mjs`);
+    }
+  }
+  for (const dir of ['alert', 'tooltip', 'popconfirm']) {
+    if (!existsSync(join(componentsDir, dir, '__tests__', 'ssr-entry.tsx'))) {
+      fail(`${dir} 缺少 SSR 入口文件`);
+    }
+  }
+  if (!/message\.success\(/.test(t309AlertSsr) || !/useApp\(\)/.test(t309AlertSsr)) {
+    fail('T3-09 未在 SSR 入口真实调用静态 message / useApp：全局反馈接入只是文案');
+  }
+  if (!/message\.success\(/.test(t309AlertDemo)) {
+    fail('Alert 操作区 Demo 未接入 T2-06 的静态 message 通道');
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -1011,7 +1217,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = 'bf4f629216409a441dd6bd692ed1d662e60e2a37e10985d7538c854f85aedc7b';
+const FONT_SHA256 = '243e5b40c27332429c297e35025592ae6a4c2b995dfb052e5be3e7d72fb8d8ef';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -1302,5 +1508,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· size-limit@${sizeLimit} + file 插件`,
 );

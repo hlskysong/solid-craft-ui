@@ -1,0 +1,82 @@
+{
+  "slug": "alert",
+  "source": "packages/core/src/components/alert/types.ts",
+  "interfaces": [
+    {
+      "name": "AlertProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "kind",
+          "type": "AlertKind",
+          "optional": true,
+          "description": "反馈语义类型，恒输出为 `data-scui-kind`。 @default 'info'",
+          "default": null
+        },
+        {
+          "name": "title",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "标题；省略时只显示描述。",
+          "default": null
+        },
+        {
+          "name": "description",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "描述正文。",
+          "default": null
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否显示右上角关闭按钮。 @default true",
+          "default": null
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "optional": true,
+          "description": "关闭按钮的无障碍文案。 @default '关闭'",
+          "default": null
+        },
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "optional": true,
+          "description": "点击关闭后触发；组件内部同时移除自身 DOM。",
+          "default": null
+        },
+        {
+          "name": "action",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "右侧操作区；不传时整块不渲染，不留空盒子。",
+          "default": null
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "补充正文（与 description 并列，供需要富内容的场景使用）。",
+          "default": null
+        },
+        {
+          "name": "icon",
+          "type": "JSX.Element | null",
+          "optional": true,
+          "description": "自定义图标；传 `null` 表示整块不渲染。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "根节点自定义类名。 @default undefined",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

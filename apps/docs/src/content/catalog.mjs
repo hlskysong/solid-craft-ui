@@ -207,6 +207,33 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/drawer',
     hasApi: true,
   },
+  {
+    slug: 'alert',
+    title: 'Alert 警告提示',
+    category: '反馈',
+    description:
+      '页内常驻反馈条：四种语义类型、标题与描述、可关闭、右侧操作区；操作区可直接调用 T2-06 的全局 message 通道，SSR 只输出静态骨架。',
+    exportPath: 'solid-craft/alert',
+    hasApi: true,
+  },
+  {
+    slug: 'tooltip',
+    title: 'Tooltip 文字提示',
+    category: '反馈',
+    description:
+      '锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。',
+    exportPath: 'solid-craft/tooltip',
+    hasApi: true,
+  },
+  {
+    slug: 'popconfirm',
+    title: 'Popconfirm 气泡确认',
+    category: '反馈',
+    description:
+      '锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。',
+    exportPath: 'solid-craft/popconfirm',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

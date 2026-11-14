@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 123,
+  "pageCount": 135,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -133,6 +133,21 @@
     {
       "path": "llms/exports/drawer.md",
       "title": "# Drawer 抽屉（`solid-craft/drawer`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/alert.md",
+      "title": "# Alert 警告提示（`solid-craft/alert`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/tooltip.md",
+      "title": "# Tooltip 文字提示（`solid-craft/tooltip`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/popconfirm.md",
+      "title": "# Popconfirm 气泡确认（`solid-craft/popconfirm`）",
       "kind": "exports"
     },
     {
@@ -624,6 +639,51 @@
       "path": "llms/demos/drawer-size.md",
       "title": "# Drawer 抽屉 · 尺寸与显式宽高（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/alert-action.md",
+      "title": "# Alert 警告提示 · 操作区与全局反馈接入（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/alert-basic.md",
+      "title": "# Alert 警告提示 · 四种反馈类型（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/alert-closable.md",
+      "title": "# Alert 警告提示 · 可关闭与关闭回调（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tooltip-basic.md",
+      "title": "# Tooltip 文字提示 · 基础用法与定位（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tooltip-delay.md",
+      "title": "# Tooltip 文字提示 · 打开与关闭延迟（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tooltip-open-state.md",
+      "title": "# Tooltip 文字提示 · 打开态与箭头（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/popconfirm-basic.md",
+      "title": "# Popconfirm 气泡确认 · 异步确认与全局反馈接入（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/popconfirm-open-state.md",
+      "title": "# Popconfirm 气泡确认 · 打开态视觉基线（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/popconfirm-placement.md",
+      "title": "# Popconfirm 气泡确认 · 定位与文案覆盖（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -651,6 +711,9 @@
     "./spin": "llms/exports/spin.md",
     "./modal": "llms/exports/modal.md",
     "./drawer": "llms/exports/drawer.md",
+    "./alert": "llms/exports/alert.md",
+    "./tooltip": "llms/exports/tooltip.md",
+    "./popconfirm": "llms/exports/popconfirm.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -682,6 +745,9 @@
     "llms/exports/spin.md",
     "llms/exports/modal.md",
     "llms/exports/drawer.md",
+    "llms/exports/alert.md",
+    "llms/exports/tooltip.md",
+    "llms/exports/popconfirm.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -780,7 +846,16 @@
     "llms/demos/drawer-basic.md",
     "llms/demos/drawer-focus.md",
     "llms/demos/drawer-open-state.md",
-    "llms/demos/drawer-size.md"
+    "llms/demos/drawer-size.md",
+    "llms/demos/alert-action.md",
+    "llms/demos/alert-basic.md",
+    "llms/demos/alert-closable.md",
+    "llms/demos/tooltip-basic.md",
+    "llms/demos/tooltip-delay.md",
+    "llms/demos/tooltip-open-state.md",
+    "llms/demos/popconfirm-basic.md",
+    "llms/demos/popconfirm-open-state.md",
+    "llms/demos/popconfirm-placement.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

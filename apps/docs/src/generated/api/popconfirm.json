@@ -1,0 +1,110 @@
+{
+  "slug": "popconfirm",
+  "source": "packages/core/src/components/popconfirm/types.ts",
+  "interfaces": [
+    {
+      "name": "PopconfirmProps",
+      "inherits": null,
+      "props": [
+        {
+          "name": "title",
+          "type": "JSX.Element",
+          "optional": false,
+          "description": "确认标题，渲染进 `Popover.Title`，是 `aria-labelledby` 的来源。",
+          "default": null
+        },
+        {
+          "name": "description",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "补充说明，渲染进 `Popover.Description`。",
+          "default": null
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "触发按钮内容。 @default '删除'",
+          "default": null
+        },
+        {
+          "name": "okText",
+          "type": "string",
+          "optional": true,
+          "description": "确认按钮文案。 @default '确定'",
+          "default": null
+        },
+        {
+          "name": "cancelText",
+          "type": "string",
+          "optional": true,
+          "description": "取消按钮文案。 @default '取消'",
+          "default": null
+        },
+        {
+          "name": "onOk",
+          "type": "() => void | Promise<void>",
+          "optional": true,
+          "description": "确认回调；返回 Promise 时进入 pending，resolve 才关闭，reject 保持打开。",
+          "default": null
+        },
+        {
+          "name": "onCancel",
+          "type": "() => void",
+          "optional": true,
+          "description": "取消 / ESC / 点击外部时触发。",
+          "default": null
+        },
+        {
+          "name": "placement",
+          "type": "PopconfirmPlacement",
+          "optional": true,
+          "description": "锚定方向，恒输出为 `data-scui-anchor`。 @default 'top'",
+          "default": null
+        },
+        {
+          "name": "arrow",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否渲染箭头。 @default true",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否禁用触发按钮。 @default false",
+          "default": null
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "optional": true,
+          "description": "受控打开状态；给了就完全由调用方驱动。 @default undefined",
+          "default": null
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "optional": true,
+          "description": "非受控初始状态。 @default false",
+          "default": null
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "optional": true,
+          "description": "打开状态变化出口；点击触发 / 确认 / 取消 / ESC 都汇到这一条。",
+          "default": null
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "触发按钮自定义类名。 @default undefined",
+          "default": null
+        }
+      ]
+    }
+  ]
+}
