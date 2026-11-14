@@ -198,6 +198,15 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/modal',
     hasApi: true,
   },
+  {
+    slug: 'drawer',
+    title: 'Drawer 抽屉',
+    category: '反馈',
+    description:
+      '与 Modal 共用同一份浮层原语；left / right / top / bottom 四方向贴边，三档尺寸与显式宽高按方向归一，焦点陷阱与键盘行为不重复实现，SSR 只输出静态骨架。',
+    exportPath: 'solid-craft/drawer',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

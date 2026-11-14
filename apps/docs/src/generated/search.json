@@ -3290,6 +3290,146 @@
     "href": "/components/modal#api-class"
   },
   {
+    "type": "component",
+    "title": "Drawer 抽屉",
+    "description": "与 Modal 共用同一份浮层原语；left / right / top / bottom 四方向贴边，三档尺寸与显式宽高按方向归一，焦点陷阱与键盘行为不重复实现，SSR 只输出静态骨架。",
+    "keywords": "drawer solid-craft/drawer",
+    "href": "/components/drawer"
+  },
+  {
+    "type": "demo",
+    "title": "Drawer 抽屉 · 基础用法与四方向",
+    "description": "外部按钮受控打开；left / right / top / bottom 四个方向共用同一套浮层行为，切换方向只改贴边定位与尺寸轴。",
+    "keywords": "drawer basic",
+    "href": "/components/drawer/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Drawer 抽屉 · 焦点陷阱与归还",
+    "description": "与 Modal 共用 primitives/overlay 的焦点管理：打开后焦点限制在抽屉内循环，ESC 关闭后回到触发按钮。",
+    "keywords": "drawer focus",
+    "href": "/components/drawer/focus"
+  },
+  {
+    "type": "demo",
+    "title": "Drawer 抽屉 · 打开态与方向切换",
+    "description": "首屏即打开，用于视觉基线与弹层态 axe 扫描；弹层内可切换四个贴边方向，关闭后可用背景按钮重新打开。",
+    "keywords": "drawer open-state",
+    "href": "/components/drawer/open-state"
+  },
+  {
+    "type": "demo",
+    "title": "Drawer 抽屉 · 尺寸与显式宽高",
+    "description": "三档尺寸共用同一套贴边规则；左右方向用 width、上下方向用 height 显式覆盖，数字按 px 处理。",
+    "keywords": "drawer size",
+    "href": "/components/drawer/size"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.open",
+    "description": "受控打开状态；给了就完全由调用方驱动，组件内部不回写。",
+    "keywords": "drawer boolean",
+    "href": "/components/drawer#api-open"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.defaultOpen",
+    "description": "非受控初始状态。 @default false",
+    "keywords": "drawer boolean",
+    "href": "/components/drawer#api-defaultOpen"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.onOpenChange",
+    "description": "打开状态变化出口；ESC / 遮罩 / 关闭按钮都走这一条，请求打开不会（无内置触发按钮）。",
+    "keywords": "drawer (open: boolean) => void",
+    "href": "/components/drawer#api-onOpenChange"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.title",
+    "description": "标题；渲染进 `Dialog.Title`，是 `aria-labelledby` 的来源。",
+    "keywords": "drawer JSX.Element",
+    "href": "/components/drawer#api-title"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.children",
+    "description": "正文。",
+    "keywords": "drawer JSX.Element",
+    "href": "/components/drawer#api-children"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.footer",
+    "description": "底部操作区。不传或传 `null` 时整块不渲染（不留空盒子）； 与 Modal 不同，Drawer 没有默认确认 / 取消按钮，异步确认属于 Modal 的职责。",
+    "keywords": "drawer JSX.Element | null",
+    "href": "/components/drawer#api-footer"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.placement",
+    "description": "贴边方向。 @default 'right'",
+    "keywords": "drawer DrawerPlacement",
+    "href": "/components/drawer#api-placement"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.size",
+    "description": "三档尺寸；左右方向控制宽度，上下方向控制高度。 @default 'medium'",
+    "keywords": "drawer DrawerSize",
+    "href": "/components/drawer#api-size"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.width",
+    "description": "显式宽度，覆盖 `size`；数字按 px 处理。**只在 left / right 生效**。 @default undefined",
+    "keywords": "drawer number | string",
+    "href": "/components/drawer#api-width"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.height",
+    "description": "显式高度，覆盖 `size`；数字按 px 处理。**只在 top / bottom 生效**。 @default undefined",
+    "keywords": "drawer number | string",
+    "href": "/components/drawer#api-height"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.closable",
+    "description": "是否显示右上角关闭按钮。 @default true",
+    "keywords": "drawer boolean",
+    "href": "/components/drawer#api-closable"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.keyboard",
+    "description": "是否允许 ESC 关闭。 @default true",
+    "keywords": "drawer boolean",
+    "href": "/components/drawer#api-keyboard"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.maskClosable",
+    "description": "是否允许点击遮罩关闭。 @default true",
+    "keywords": "drawer boolean",
+    "href": "/components/drawer#api-maskClosable"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.closeLabel",
+    "description": "右上角关闭按钮的无障碍文案。 @default '关闭'",
+    "keywords": "drawer string",
+    "href": "/components/drawer#api-closeLabel"
+  },
+  {
+    "type": "api",
+    "title": "DrawerProps.class",
+    "description": "内容容器自定义类名。 @default undefined",
+    "keywords": "drawer string",
+    "href": "/components/drawer#api-class"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

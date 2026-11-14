@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-08**（M3 第八项「`Drawer`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 已提交 `1f67c23`、T3-04 已提交 `830c9bb`、T3-05 已提交 `61b9200`、T3-06 已提交 `7ac1d6f`（均**未推送**）；T3-07 改动**尚未提交 / 推送**（Aming 本轮选「提交后继续」） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-07「`Modal`」改动，再开始 T3-08「`Drawer`」**：T3-07 已把浮层行为收进 `primitives/overlay`，T3-08 必须直接复用该原语（四方向 + 尺寸 + 键盘与 axe），不重复实现焦点管理。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 已闭合；**T3-08 → T3-09 是弹层链剩余部分，越早启动越好**；T3-10 / T3-11 / T3-13 可全程并行；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-09**（M3 第九项「`Alert` / `Tooltip` / `Popconfirm` + `Message` / `App` 接入」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`（均**未推送**）；T3-08 改动**尚未提交 / 推送**（Aming 本轮授权「提交并开始 T3-08」，默认只 commit 不 push） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-08「`Drawer`」改动，再开始 T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」**：T3-07 / T3-08 已把「模态浮层」收进 `primitives/overlay`；T3-09 的 Tooltip / Popconfirm 属于**锚定浮层**，不复用 Dialog 原语，但不得重复实现焦点归还与 ESC 契约。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 已闭合；**T3-09 是弹层链剩余部分，越早启动越好**；T3-10 / T3-11 / T3-13 可全程并行；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -160,7 +160,7 @@
 | T3-05 | `Empty` / `Skeleton` / `Spin`：空状态与加载三件套 | T2-13 | 工程师 C | 各 ≥3 Demo；骨架与真实内容同尺寸、切换不产生布局抖动；Spin 延迟显示可测（**9 Demo（各 3）/ 骨架行块高引用 `--scui-line-height-md`、bar 用 calc 扣减 → 间隙靠 flex 居中画出 / browser 实测三行骨架与三行正文差 ≤ 1px / `delay` 三条时序单测 + 真实计时双覆盖 / 364 tests·32 files / SSR 22 入口 / 144 张基线 / 判据 4h + 负向 N204~N219 16/16 / `pnpm verify` RC=0**，见 §30.39） | [x] |
 | T3-06 | Table 分页接入 + 空 / 加载态：客户端 / 服务端两套协议 | T3-01 / T3-04 / T3-05 | 技术负责人 | `onChange` 三参合流；分页 + 排序 + 筛选任意组合状态不丢；空态与加载态占位切换；服务端参数协议一次定清，业务侧不再自拼 | [x] |
 | T3-07 | `Modal`（L）：确认、异步关闭、焦点陷阱、尺寸 | T2-01 / T2-06 | 技术负责人 | 焦点陷阱 + ESC 关闭后焦点归还触发元素；SSR 不渲染弹层；异步关闭期间防重复提交；axe 0 violation（**共享浮层原语 `primitives/overlay` / 焦点归还自己接管 / 遮罩关闭单一出口 / 396 tests·33 files / SSR 24 入口 / 158 张基线 / 判据 4j + 负向 N245~N275 31/31 / `pnpm verify` RC=0**，见 §30.41） | [x] |
-| T3-08 | `Drawer`（M）：方向、尺寸、焦点陷阱 | T3-07 | 工程师 C | 与 Modal **共用**焦点管理与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过 | [ ] |
+| T3-08 | `Drawer`（M）：方向、尺寸、焦点陷阱 | T3-07 | 工程师 C | 与 Modal **共用**焦点管理与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过（**组件层零浮层实现 / 新增 `data-scui-side` 四方向 + 三档 `data-scui-size` / width·height 按方向归一 / 414 tests·34 files / SSR 25 入口 / 166 张基线 / 判据 4k + 负向 N276~N312 37/37 / `pnpm verify` RC=0**，见 §30.42） | [x] |
 | T3-09 | `Alert` / `Tooltip` / `Popconfirm` + 接入 T2-06 的 `Message` / `App` 宿主 | T2-01 / T2-06 | 工程师 C | Tooltip 定位 / 延迟 / 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR 不报错 | [ ] |
 | T3-10 | `Card` / `Tag`（S） | T2-13 | 工程师 C | Card 标题 / 操作 / 封面 / 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线 | [ ] |
 | T3-11 | `Tabs` / `Descriptions`（M） | T2-13 | 工程师 B | Tabs 线型 / 卡片 / 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0 | [ ] |
@@ -4701,3 +4701,99 @@ T3-08 `Drawer` 的前置也一并铺好：新增 `primitives/overlay.tsx` 作为
 3. **断言要能区分「被拦住」和「本来就不会发生」**：pending 期间点遮罩不关闭，在遮罩默认不关闭的实现下是恒真的假绿。任何「拦截生效」的证据都必须先有「不拦截时会发生」的正向对照。
 4. **`toBeVisible` 不是「交互就绪」**：焦点、动画、Portal 挂载都在它之后。全量连跑放大时序差，显式 `waitForFunction` 比即时断言可靠。
 5. **笔误会被逐层复制**：顶部状态行的 `Dialog` 与冻结名单不一致，若不核对 `docs/04 §2.4` / §4.2 / 依赖列三处，很容易一路把组件目录、导出、catalog 全写成错名。命名以冻结文档为准，且要交叉验证多处而非只看当前锚点。
+
+### 30.42 T3-08 Drawer 落地与验收（2026-11-14 实测）
+
+#### 一、结论先行
+
+`Drawer` 按 §4.2 T3-08 验收原话落地并闭合：**与 Modal 共用焦点管理与浮层原语、不重复实现；四方向 + 尺寸；键盘与 axe 通过**，四条全部有单测、真实浏览器、静态判据与负向实证证据。
+
+本轮先把 T3-07 的 46 个改动按 Aming 逐次授权提交为 **`73b4814`**（只 commit 不 push），再开始 T3-08；`origin/dev` 仍停 `fa72233`。
+
+#### 二、交付清单
+
+| 层 | 文件 |
+| --- | --- |
+| 组件切片 | `components/drawer/`：`types.ts` / `Drawer.tsx` / `drawer.scss` / `index.ts` / `Drawer.test.tsx` |
+| Demo（4 个） | `basic.tsx` / `size.tsx` / `focus.tsx` / `open-state.tsx` |
+| SSR | `__tests__/ssr-entry.tsx` + `spikes/shared/ssr-smoke.mjs` 新增 `id: 'T3-08'` |
+| 登记 | `src/index.ts` barrel、`package.json` 的 `./drawer` 四条件 exports、`catalog.mjs`（分类「反馈」、`hasApi: true`）、`data-attributes.md`（新增 `data-scui-side`） |
+| 门禁 | `check-ci.mjs` 判据 **4k** + 汇总文案；`browser.spec.ts` 新增 3 条交互 + 1 条 axe 用例 |
+| 生成物 | `docs:generate` 产物、字体 / 字集、`build` 产物、**8 张**新视觉基线 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| **组件层零浮层实现** | `Drawer.tsx` 只有受控状态机、方向归一、视觉属性包；Portal / 遮罩 / 焦点陷阱 / ESC / 焦点归还全部走 `primitives/overlay`。判据 4k 用「浮层关键字黑名单」把 §4.2 的「不重复实现」变成机器闸门，负向 N279~N282 逐例验证 |
+| **新增 `data-scui-side`，不复用近似属性** | 冻结面 `docs/01~07` 与 `spikes/api-draft/` 全目录**没有任何 Drawer 方向枚举 / 尺寸 / API 草案**，`data-attributes.md` 也零 drawer 登记（留白）。四个近似属性都已被占用：`data-scui-placement` 是 App / Message 反馈容器位置（六向值）、`data-scui-fixed` 是 Table 固定列、`data-scui-direction` 是书写方向 ltr/rtl、`data-scui-orientation` 是水平 / 垂直。R1「一个属性名只表达一个语义」要求另起新名 |
+| **方向同时落在三层** | `DrawerPlacement` 类型枚举 → 运行时 `data-scui-side` 恒输出（默认 `right`）→ SCSS 四条 `[data-scui-side='…']` 贴边规则。少任一层都会产生死代码，判据 4k 分别钉住 |
+| **`width` / `height` 归一到一个 `--scui-drawer-size`** | 左右读 `width`、上下读 `height`，由组件按方向选一个写进同一个 CSS 自定义属性；内联自定义属性优先级高于三档 `size` 的类规则。避免「top 方向传 width 撑开高度」的错配，CSS 也只需一套规则 |
+| **贴边定位用逻辑属性、放开一条边** | Overlay 与 Content 是 Portal 下**兄弟节点**，没有 flex 父容器。Modal 用 `inset: 0 + margin: auto` 居中；Drawer 改为四边逻辑属性 + 按方向把一条边置 `auto`，让 `inline-size` / `block-size` 生效。`max-inline-size: 100vw` / `max-block-size: 100vh` 收窄窄屏（4 个 Demo 的 375px 用例全绿） |
+| **Drawer 没有默认 footer 按钮** | 异步确认 / pending 状态机是 Modal 的职责，抽屉常规用法是表单 + 业务自定义 footer。默认 `footer` 为 `undefined` → 原语的 `<Show>` 整块不渲染，不留空盒子；但 `drawer.scss` 仍 `@use` 聚合 `button.scss`，因为 footer 插槽常规放 Button，`build-css.mjs` 逐目录编译不做依赖聚合（与 T3-06 / T3-07 同源） |
+
+#### 四、本轮真实缺陷与假信号
+
+1. **「无 style 属性」是假断言**：单测里断言没传显式尺寸时 `content().getAttribute('style')` 为 `null`，实测拿到 `"pointer-events: auto;"` —— Kobalte 的 modal 模式自己会往 Content 写这个内联样式。改为断言「不含 `--scui-drawer-size`」，区分「属性为空」与「我们没有写」。这是单测抓出的真实实现细节，不是逻辑 bug。
+2. **沿用 Modal 的居中写法会退化成居中而非贴边**：§30.41 第九节已预告「T3-08 换成贴边定位时需重看这段」。Overlay 与 Content 是兄弟节点，`margin: auto` 是 Modal 自己居中的手段；贴边必须按方向放开一条边。browser 用例用 `boundingBox` 量四个方向到视口边缘的距离（±2px），而不是只断言 `data-scui-side` 属性，避免「属性改了、样式没生效」的假绿。
+3. **`bottom` 方向错读 `width` 的错配风险**：`size.tsx` 故意同时传 `width={999}` 与 `height="42vh"`，browser 断言抽屉铺满视口宽度而不是被限死 999px；判据 4k 与负向 N292~N294 静态钉住归一逻辑。
+4. **视觉基线仍做人工回读**：`test:visual:update` 167 passed 不等于截图内容对。用 `ViewImage` 回读 `light-ltr-default-drawer-open-state-1280.png`，确认右侧贴边面板、半透明遮罩、标题、正文、四方向切换按钮、底部「收起抽屉」与右上关闭按钮全部可见，无溢出 / 错位。
+5. **严格按「改源码 → build → browser / visual」顺序**：T3-07 的 `dist/source` 旧产物坑本轮没有复发 —— Demo 从 `solid-craft` 解析到 `"solid"` 条件的编译产物，本轮先 `pnpm build` 并确认 `dist/source/components/drawer/Drawer.jsx` 与 `dist/styles/components/drawer.css` 落地后，才跑视觉基线与浏览器用例。
+
+#### 五、SSR、视觉与字体
+
+- SSR 冒烟 **25 入口**全绿；T3-08 新入口 4/4 markers + 3/3 counts，覆盖受控 `open`、`defaultOpen + placement="top"`、`open + placement="bottom" + height={320}` 三种打开态在服务端不抛错、不访问 `document`、双渲逐字一致。
+- 与 T3-07 同口径：**不写「弹层必须缺席」的 forbid 判据**（Kobalte Portal 服务端恒空操作，N62 已证为恒真假判据）。
+- `open-state.tsx` 首屏即打开，让贴边弹层态进入视觉基线与 axe 巡检；**8 张**新基线（4 Demo × 2 视口），既有基线零变化。
+- 字集重建到 **962 码位**（867 CJK/符号 + 95 ASCII），`FONT_SHA256` 同步为 `bf4f6292…`。
+
+#### 六、新增判据（`check:ci` 4k，收进既有阶段）
+
+判据一律先剥注释再匹配，只认真实代码；范围收进对应文件，避免注释冒充与局部变量冒充。子判据：
+
+1. Drawer 必须 `from '../../primitives'` 且用 `<PrimitiveOverlay>`，组件层不得出现 `@kobalte/`；
+2. 组件层出现 `document.activeElement` / `useClientReady` / ESC·outside 钩子 / `onCloseAutoFocus` / `Portal` 等任一浮层关键字即判「重复实现」；
+3. `DrawerPlacement` 四方向枚举完整，SCSS 四个 `[data-scui-side='…']` 规则齐全；
+4. `data-scui-side` / `data-scui-size` 恒输出且默认值 `right` / `medium` 在位；
+5. `width` / `height` 按方向归一、数字转 px；
+6. 受控优先级、`footer` 插槽原样透传；
+7. 四条 `inset-*: auto` 贴边规则 + `100vw` / `100vh` 窄屏收窄 + 三档统一 `--scui-drawer-size`；
+8. `drawer.scss` 聚合 Button、类型声明含 `footer=null` / 显式宽高、SSR 入口在册。
+
+**负向实证 N276~N312：37/37 PASS + RESTORE_OK**（每例独立备份、锚点唯一命中断言、`RC≠0` 且命中指定诊断、结尾 SHA256 逐字节校验还原）。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | RC=0（26 阶段全量，最终态） |
+| core 单测 | **414 tests / 34 files**（新增 18） |
+| browser / visual / docs / llms | 191 / 167 / 8 / 4 全 passed |
+| SSR 冒烟 | 25 入口全绿 |
+| 规模 | 24 组件 / 83 Demo / **166 张基线** / 字集 962 码位 |
+| `check:ci` | 4d+4e+4f+4g+4h+4i+4j+**4k**+11+12 全绿 |
+| 负向实证 | N276~N312 **37/37 PASS + RESTORE_OK** |
+| 治理 | §30.42 落地、T3-08 勾 `[x]`、锚点推进 **T3-09**、evidence `30.42`、goals 基线重校 |
+| 冻结面 | `docs/01~07` 与 `pnpm-lock.yaml` 零改动，零新增依赖，`git diff --check` RC=0 |
+
+#### 八、允许写入路径（L4）与边界
+
+本轮改动全部落在允许的 L4 路径：组件源码 / Demo / 单测 / SSR 入口 / 生成物 / 视觉基线 / `scripts/check-ci.mjs` / `scripts/todo-governance.json` / `tests/e2e/specs/browser.spec.ts` / `apps/docs/src/content/catalog.mjs` / `packages/core/package.json` / `packages/core/src/index.ts` / `packages/core/spikes/api-draft/data-attributes.md` / `packages/core/spikes/shared/ssr-smoke.mjs` / `docs/08-实施Todo.md` / `AGENTS.md`（仅 `check:goals` 自动更新的基线哈希）/ `.workbuddy/memory/`。`docs/01~07` 与 `pnpm-lock.yaml` 零改动；未新增 workflow / job / verify 阶段；未新增依赖；未发布；未推送。
+
+#### 九、已知边界与风险
+
+1. **RTL 只靠逻辑属性自动镜像，未验**：`left` / `right` 在 `direction: rtl` 下会互换，但 MVP 只跑 light/ltr/default 单档，RTL 全矩阵属 v1.0（§30.11 / docs/04 §8）。
+2. **`width` / `height` 未在类型层做互斥**：传错方向的属性静默不生效（`size.tsx` 特意演示），调用方需按方向选属性。
+3. **不支持多层 Drawer / Modal 堆叠的焦点归还链**：与 T3-07 同源，`restoreTarget` 是单值，嵌套关闭时可能归还到内层触发元素；MVP 无此用例。
+4. **Drawer 自身没有异步 pending 状态机**：表单提交期间业务侧须自行 `keyboard={false} maskClosable={false} closable={false}`，或改用 Modal 的 `onOk` Promise 链。
+5. **Token 缺口仍在**：`--scui-font-weight-*` / `--scui-color-bg-subtle` / `--scui-motion-duration-slow` 未定义，属设计系统变更，留 **M4** 统一评估；本轮全部改用已存在的 token 或字面量。
+6. **T3-09 的 Tooltip / Popconfirm 是锚定浮层**：不复用 Dialog 原语（`primitives/overlay` 是模态专用），但焦点归还与 ESC 契约不能重复实现第二套语义，开工前需先定接缝。
+7. **T3-08 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求逐次授权；本轮只把 T3-07 提交到 `73b4814`，`origin/dev` 仍停 `fa72233`。
+
+#### 十、教训
+
+1. **「共用原语 / 不重复实现」必须能被机器验证**：只靠 code review 会退化成口头约定。用「浮层关键字黑名单 + 负向实证」把架构约束写进 `check:ci`，新增组件时自动生效。
+2. **冻结面留白时先查已占用语义，再新增属性**：四个近似 `data-scui-*` 属性都有各自语义，顺手复用会让消费端选择器串味。R1 的「一个属性名只表达一个语义」在新增组件时同样适用。
+3. **方向 / 尺寸这类枚举要同时落三层**：类型声明、运行时 DOM 属性、样式规则。只做两层，第三层就是永不命中的死代码，而且 `check:styles` 未必能发现（它只验属性名，不验取值覆盖）。
+4. **断言要区分「属性为空」和「我们没有写」**：第三方无头库会往同一个 DOM 属性 / 节点里写自己的东西（`pointer-events: auto`），单测里写 `toBeNull()` 会把库行为误当成组件契约。
+5. **布局从「居中」改「贴边」要先确认节点关系**：Portal 下兄弟节点没有 flex 父容器，`margin: auto` 与 `inset-*: auto` 是两套完全不同的定位手段；上一节的落地记录里点名的「需重看这段」，本轮确实靠它避开了返工。

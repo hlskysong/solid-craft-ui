@@ -3,7 +3,7 @@
 > SolidJS 企业级中后台组件库 `solid-craft-ui`（npm 包 `solid-craft` v0.1.0，MIT，CSS 前缀 `scui-`）。面向企业内部业务系统，状态由 `data-*` 驱动，样式需显式引入，语义色在构建期按 WCAG21 分档校验。
 > 同时提供编译后 ESM 与保留 JSX 的 `"solid"` 条件产物，SSR 可 renderToString + hydrate。本文件遵循 llmstxt.org；链接相对站点根，逐页为 LLM 友好的 Markdown，完整合并版见 llms-full.txt。
 > Package: `solid-craft@0.1.0` · 本文件随 NPM 包发布，版本与所安装版本一致；Agent 可用 `import.meta.resolve('solid-craft/package.json')` 定位同目录副本。
-> 包内仅发布索引 / 全量合并正文 / manifest 三个文件；`## Docs` 的逐页链接为文档站相对路径，离线请直接读同目录 `llms-full.txt`（含全部 118 页正文、API 表、Demo 源码、Token 与三端消费指南）。
+> 包内仅发布索引 / 全量合并正文 / manifest 三个文件；`## Docs` 的逐页链接为文档站相对路径，离线请直接读同目录 `llms-full.txt`（含全部 123 页正文、API 表、Demo 源码、Token 与三端消费指南）。
 
 ## Docs
 
@@ -31,6 +31,7 @@
 - [Skeleton 骨架屏（solid-craft/skeleton）](llms/exports/skeleton.md): text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。
 - [Spin 加载中（solid-craft/spin）](llms/exports/spin.md): 独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。
 - [Modal 对话框（solid-craft/modal）](llms/exports/modal.md): 受控打开与外部按钮驱动；异步确认期间防重复提交并拦截 ESC / 遮罩关闭；焦点陷阱与关闭后焦点归还触发元素，SSR 只输出静态骨架。
+- [Drawer 抽屉（solid-craft/drawer）](llms/exports/drawer.md): 与 Modal 共用同一份浮层原语；left / right / top / bottom 四方向贴边，三档尺寸与显式宽高按方向归一，焦点陷阱与键盘行为不重复实现，SSR 只输出静态骨架。
 - [ConfigProvider 全局配置（solid-craft/config-provider）](llms/exports/config-provider.md): 全局配置上下文：主题 / 密度 / 方向 / 语言 / z-index 的注入与完整 Props。
 - [子路径 solid-craft/styles.css](llms/exports/styles-css.md): `solid-craft/styles.css` 的条件导出、产物路径与引入方式。
 - [子路径 solid-craft/styles/*](llms/exports/styles.md): `solid-craft/styles/*` 的条件导出、产物路径与引入方式。
@@ -129,3 +130,7 @@
 - [Modal 对话框 · 基础用法（源码）](llms/demos/modal-basic.md): 外部按钮受控打开；默认底部是「取消 / 确定」。三档尺寸共用同一套交互，显式 width 可覆盖尺寸档位。
 - [Modal 对话框 · 焦点陷阱与归还（源码）](llms/demos/modal-focus.md): 打开后焦点被限制在弹层内循环；按 ESC 关闭时焦点会回到当初的触发按钮，而不是丢在 body 上。
 - [Modal 对话框 · 打开态与尺寸（源码）](llms/demos/modal-open-state.md): 首屏即打开，用于视觉基线与弹层态 axe 扫描；点底部按钮切换三档尺寸，关闭后可用背景按钮重新打开。
+- [Drawer 抽屉 · 基础用法与四方向（源码）](llms/demos/drawer-basic.md): 外部按钮受控打开；left / right / top / bottom 四个方向共用同一套浮层行为，切换方向只改贴边定位与尺寸轴。
+- [Drawer 抽屉 · 焦点陷阱与归还（源码）](llms/demos/drawer-focus.md): 与 Modal 共用 primitives/overlay 的焦点管理：打开后焦点限制在抽屉内循环，ESC 关闭后回到触发按钮。
+- [Drawer 抽屉 · 打开态与方向切换（源码）](llms/demos/drawer-open-state.md): 首屏即打开，用于视觉基线与弹层态 axe 扫描；弹层内可切换四个贴边方向，关闭后可用背景按钮重新打开。
+- [Drawer 抽屉 · 尺寸与显式宽高（源码）](llms/demos/drawer-size.md): 三档尺寸共用同一套贴边规则；左右方向用 width、上下方向用 height 显式覆盖，数字按 px 处理。

@@ -676,6 +676,24 @@ const cases = [
       ['打开对话框', 1],
     ],
   },
+  {
+    // T3-08：与 T3-07 同口径，不写「弹层必须缺席」的 forbid 假判据（N62）。
+    // 验的是四个方向（含 explicit height 的 bottom）在服务端渲染期不访问
+    // document、不抛错，正面静态骨架照常输出。
+    id: 'T3-08',
+    file: '/src/components/drawer/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="drawer-page"',
+      'data-scui-role="drawer-trigger"',
+      '打开抽屉',
+    ],
+    counts: [
+      ['data-scui-role="drawer-page"', 1],
+      ['data-scui-role="drawer-trigger"', 1],
+      ['打开抽屉', 1],
+    ],
+  },
 ];
 
 const errors = [];

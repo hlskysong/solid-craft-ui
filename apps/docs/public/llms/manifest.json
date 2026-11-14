@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 118,
+  "pageCount": 123,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -128,6 +128,11 @@
     {
       "path": "llms/exports/modal.md",
       "title": "# Modal 对话框（`solid-craft/modal`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/drawer.md",
+      "title": "# Drawer 抽屉（`solid-craft/drawer`）",
       "kind": "exports"
     },
     {
@@ -599,6 +604,26 @@
       "path": "llms/demos/modal-open-state.md",
       "title": "# Modal 对话框 · 打开态与尺寸（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/drawer-basic.md",
+      "title": "# Drawer 抽屉 · 基础用法与四方向（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/drawer-focus.md",
+      "title": "# Drawer 抽屉 · 焦点陷阱与归还（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/drawer-open-state.md",
+      "title": "# Drawer 抽屉 · 打开态与方向切换（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/drawer-size.md",
+      "title": "# Drawer 抽屉 · 尺寸与显式宽高（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -625,6 +650,7 @@
     "./skeleton": "llms/exports/skeleton.md",
     "./spin": "llms/exports/spin.md",
     "./modal": "llms/exports/modal.md",
+    "./drawer": "llms/exports/drawer.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -655,6 +681,7 @@
     "llms/exports/skeleton.md",
     "llms/exports/spin.md",
     "llms/exports/modal.md",
+    "llms/exports/drawer.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -749,7 +776,11 @@
     "llms/demos/modal-async-close.md",
     "llms/demos/modal-basic.md",
     "llms/demos/modal-focus.md",
-    "llms/demos/modal-open-state.md"
+    "llms/demos/modal-open-state.md",
+    "llms/demos/drawer-basic.md",
+    "llms/demos/drawer-focus.md",
+    "llms/demos/drawer-open-state.md",
+    "llms/demos/drawer-size.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

@@ -816,6 +816,116 @@ if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
   }
 }
 
+// 4k. Drawer 契约（§30.42，T3-08）。§4.2 T3-08 验收原话「与 Modal 共用焦点管理
+// 与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过」的机器闸门。
+// 钉的都是「看着接上了、其实没接对」的点：① 组件层必须零浮层实现，全部走
+// primitives/overlay；② 四方向在类型 / 运行时属性 / 贴边样式三层同时齐全；
+// ③ width / height 必须按方向归一，不能把 width 用到 top / bottom；
+// ④ 受控优先级；⑤ 贴边用逻辑属性且窄屏有收窄；⑥ footer 插槽样式随
+// drawer.css 聚合；⑦ SSR 入口在册。判据一律先剥注释，避免注释冒充真实代码。
+{
+  const stripT308Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const drawerDir = join(repoRoot, 'packages', 'core', 'src', 'components', 'drawer');
+  const t308Impl = stripT308Comments(read(join(drawerDir, 'Drawer.tsx')));
+  const t308Styles = stripT308Comments(read(join(drawerDir, 'drawer.scss')));
+  const t308Types = stripT308Comments(read(join(drawerDir, 'types.ts')));
+
+  if (
+    !t308Impl.includes("from '../../primitives'") ||
+    !/<PrimitiveOverlay\b/.test(t308Impl) ||
+    /@kobalte\//.test(t308Impl)
+  ) {
+    fail('Drawer 未复用 primitives/overlay（或直接依赖了第三方无头库）：会与 Modal 重复实现浮层');
+  }
+  // 组件层出现任何浮层行为关键字都算重复实现：Portal / focus scope / ESC /
+  // outside dismiss / 焦点归还全部只属于 primitives/overlay。
+  const leaked = [
+    'document.activeElement',
+    'useClientReady',
+    'onEscapeKeyDown',
+    'onPointerDownOutside',
+    'onInteractOutside',
+    'onOpenAutoFocus',
+    'onCloseAutoFocus',
+    'KobalteDialog',
+    '<Portal',
+    'createPortal',
+  ].filter((token) => t308Impl.includes(token));
+  if (leaked.length > 0) {
+    fail(
+      `Drawer 组件层重复实现了浮层行为（${leaked.join(', ')}）：必须只由 primitives/overlay 实现一次`,
+    );
+  }
+  if (!/DrawerPlacement = 'left' \| 'right' \| 'top' \| 'bottom'/.test(t308Types)) {
+    fail('DrawerPlacement 四方向枚举不完整：漏一个方向会让 SCSS 贴边规则成为死代码');
+  }
+  for (const side of ['left', 'right', 'top', 'bottom']) {
+    if (!t308Styles.includes(`[data-scui-side='${side}']`)) {
+      fail(`drawer.scss 缺少 ${side} 方向的贴边规则：四方向验收会只跑通一半`);
+    }
+  }
+  if (
+    !/'data-scui-side': side\(\)/.test(t308Impl) ||
+    !/'data-scui-size': size\(\)/.test(t308Impl) ||
+    !/const side = \(\) => local\.placement \?\? 'right'/.test(t308Impl) ||
+    !/const size = \(\) => local\.size \?\? 'medium'/.test(t308Impl)
+  ) {
+    fail(
+      'Drawer 的 data-scui-side / data-scui-size 未恒输出或默认值缺失：SSR 与客户端属性会对不上',
+    );
+  }
+  if (
+    !/isVerticalSide\(side\(\)\) \? local\.height : local\.width/.test(t308Impl) ||
+    !/side === 'top' \|\| side === 'bottom'/.test(t308Impl) ||
+    !/toCssSize\(explicit\)/.test(t308Impl)
+  ) {
+    fail('显式尺寸未按方向归一：top / bottom 会错误地读取 width，或数字没有被转成 px');
+  }
+  if (
+    !t308Impl.includes('local.open ?? internalOpen()') ||
+    !/if \(local\.open === undefined\) setInternalOpen\(false\)/.test(t308Impl) ||
+    !/footer=\{local\.footer\}/.test(t308Impl)
+  ) {
+    fail('Drawer 受控优先级或 footer 插槽透传缺失：受控时会自己改状态，或底部操作区被吞掉');
+  }
+  for (const rule of [
+    'inset-inline-end: auto',
+    'inset-inline-start: auto',
+    'inset-block-end: auto',
+    'inset-block-start: auto',
+    'max-inline-size: 100vw',
+    'max-block-size: 100vh',
+  ]) {
+    if (!t308Styles.includes(rule)) {
+      fail(`drawer.scss 缺少 ${rule}：贴边定位或 375px 窄屏收窄会失效`);
+    }
+  }
+  if (
+    !/--scui-drawer-size: 378px/.test(t308Styles) ||
+    !/\[data-scui-size='small'\]/.test(t308Styles) ||
+    !/\[data-scui-size='large'\]/.test(t308Styles)
+  ) {
+    fail('三档尺寸没有统一落到 --scui-drawer-size：内联显式尺寸无法覆盖档位');
+  }
+  if (!/@use\s+['"]\.\.\/button\/button['"]/.test(t308Styles)) {
+    fail('drawer.scss 未聚合 Button 样式：footer 插槽放按钮时只引 drawer.css 会拿到裸按钮');
+  }
+  if (
+    !/footer\?: JSX\.Element \| null/.test(t308Types) ||
+    !/width\?: number \| string/.test(t308Types) ||
+    !/height\?: number \| string/.test(t308Types)
+  ) {
+    fail('DrawerProps 缺少 footer=null / 显式宽高的契约声明');
+  }
+  if (
+    !existsSync(join(drawerDir, '__tests__', 'ssr-entry.tsx')) ||
+    !ssrSmokeRunner.includes("id: 'T3-08'")
+  ) {
+    fail('Drawer 的 SSR 入口未登记进 ssr-smoke.mjs');
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -901,7 +1011,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '85b4005ed4a460f897fd852136cf847474f8decd2ebfa8737afdc51e6a0f4ca5';
+const FONT_SHA256 = 'bf4f629216409a441dd6bd692ed1d662e60e2a37e10985d7538c854f85aedc7b';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -1192,5 +1302,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
 );

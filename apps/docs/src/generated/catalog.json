@@ -23,7 +23,8 @@
     "empty",
     "skeleton",
     "spin",
-    "modal"
+    "modal",
+    "drawer"
   ],
   "components": [
     {
@@ -727,6 +728,40 @@
           "path": "packages/core/src/components/modal/demos/open-state.tsx",
           "title": "打开态与尺寸",
           "description": "首屏即打开，用于视觉基线与弹层态 axe 扫描；点底部按钮切换三档尺寸，关闭后可用背景按钮重新打开。"
+        }
+      ]
+    },
+    {
+      "slug": "drawer",
+      "title": "Drawer 抽屉",
+      "category": "反馈",
+      "description": "与 Modal 共用同一份浮层原语；left / right / top / bottom 四方向贴边，三档尺寸与显式宽高按方向归一，焦点陷阱与键盘行为不重复实现，SSR 只输出静态骨架。",
+      "exportPath": "solid-craft/drawer",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/drawer/demos/basic.tsx",
+          "title": "基础用法与四方向",
+          "description": "外部按钮受控打开；left / right / top / bottom 四个方向共用同一套浮层行为，切换方向只改贴边定位与尺寸轴。"
+        },
+        {
+          "name": "focus",
+          "path": "packages/core/src/components/drawer/demos/focus.tsx",
+          "title": "焦点陷阱与归还",
+          "description": "与 Modal 共用 primitives/overlay 的焦点管理：打开后焦点限制在抽屉内循环，ESC 关闭后回到触发按钮。"
+        },
+        {
+          "name": "open-state",
+          "path": "packages/core/src/components/drawer/demos/open-state.tsx",
+          "title": "打开态与方向切换",
+          "description": "首屏即打开，用于视觉基线与弹层态 axe 扫描；弹层内可切换四个贴边方向，关闭后可用背景按钮重新打开。"
+        },
+        {
+          "name": "size",
+          "path": "packages/core/src/components/drawer/demos/size.tsx",
+          "title": "尺寸与显式宽高",
+          "description": "三档尺寸共用同一套贴边规则；左右方向用 width、上下方向用 height 显式覆盖，数字按 px 处理。"
         }
       ]
     }

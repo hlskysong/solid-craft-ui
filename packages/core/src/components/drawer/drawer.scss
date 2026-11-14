@@ -1,0 +1,133 @@
+@use 'mixins' as m;
+@use '../button/button';
+
+/* Drawer（T3-08）
+   浮层行为（Portal / 焦点陷阱 / ESC / 焦点归还）全在 primitives/overlay，
+   与 Modal 共用同一份实现，这里只负责贴边视觉。变体一律走 [data-scui-*]，
+   不生成 modifier class。
+
+   布局：Overlay 与 Content 是 Portal 下的**兄弟节点**，没有可依赖的 flex 父容器。
+   Modal 用 `inset: 0 + margin: auto` 自己居中；Drawer 改成按 data-scui-side
+   放开一条边，让 `inline-size` / `block-size` 生效，从而贴到视口边缘。
+   四个方向都用 CSS 逻辑属性，375px 巡检靠 max-inline-size / max-block-size
+   收窄，避免固定尺寸把页面撑出横向溢出。
+
+   footer 插槽常规用法是放 Button，而 build-css.mjs 按目录逐个编译、
+   不做依赖聚合，所以 @use 把 button 样式一起带进 drawer.css —— 否则
+   「只引 drawer.css」的使用方会拿到裸按钮（与 T3-06 Table / T3-07 Modal 同源）。 */
+
+:where(.scui-drawer__overlay) {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--scui-z-index-base, 0) + 1000);
+
+  /* 遮罩恒为半透明黑：深浅主题都要把背景压暗，不随主题反转成灰白。 */
+  background-color: rgb(0 0 0 / 45%);
+}
+
+:where(.scui-drawer) {
+  --scui-drawer-size: 378px;
+
+  position: fixed;
+  inset-block: 0;
+  inset-inline: 0;
+  z-index: calc(var(--scui-z-index-base, 0) + 1001);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--scui-space-4);
+  padding: var(--scui-space-6);
+  overflow-y: auto;
+  background-color: var(--scui-color-bg-surface);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 18%);
+  color: var(--scui-color-text-primary);
+  font: inherit;
+  font-size: var(--scui-font-size-md);
+  line-height: var(--scui-line-height-md);
+
+  &[data-scui-side='left'] {
+    inset-inline-end: auto;
+    inline-size: var(--scui-drawer-size);
+    max-inline-size: 100vw;
+    border-inline-end: 1px solid var(--scui-color-border-default);
+  }
+
+  &[data-scui-side='right'] {
+    inset-inline-start: auto;
+    inline-size: var(--scui-drawer-size);
+    max-inline-size: 100vw;
+    border-inline-start: 1px solid var(--scui-color-border-default);
+  }
+
+  &[data-scui-side='top'] {
+    inset-block-end: auto;
+    block-size: var(--scui-drawer-size);
+    max-block-size: 100vh;
+    border-block-end: 1px solid var(--scui-color-border-default);
+  }
+
+  &[data-scui-side='bottom'] {
+    inset-block-start: auto;
+    block-size: var(--scui-drawer-size);
+    max-block-size: 100vh;
+    border-block-start: 1px solid var(--scui-color-border-default);
+  }
+
+  &[data-scui-size='small'] {
+    --scui-drawer-size: 280px;
+  }
+
+  &[data-scui-size='large'] {
+    --scui-drawer-size: 520px;
+  }
+}
+
+:where(.scui-drawer__title) {
+  margin: 0;
+  padding-inline-end: var(--scui-space-6);
+  font-size: var(--scui-font-size-lg);
+  line-height: var(--scui-line-height-lg);
+  color: var(--scui-color-text-primary);
+}
+
+:where(.scui-drawer__body) {
+  min-block-size: 0;
+  color: var(--scui-color-text-secondary);
+}
+
+:where(.scui-drawer__footer) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--scui-space-2);
+  padding-block-start: var(--scui-space-2);
+  border-block-start: 1px solid var(--scui-color-border-default);
+}
+
+:where(.scui-drawer__close) {
+  position: absolute;
+  inset-block-start: var(--scui-space-4);
+  inset-inline-end: var(--scui-space-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 28px;
+  block-size: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--scui-radius-1);
+  background: transparent;
+  color: var(--scui-color-text-secondary);
+  font-size: var(--scui-font-size-xl);
+  line-height: 1;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+
+  &:disabled {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}

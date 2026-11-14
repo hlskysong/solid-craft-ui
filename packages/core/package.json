@@ -161,6 +161,12 @@
       "import": "./dist/esm/components/modal/index.js",
       "default": "./dist/esm/components/modal/index.js"
     },
+    "./drawer": {
+      "types": "./dist/types/components/drawer/index.d.ts",
+      "solid": "./dist/source/components/drawer/index.jsx",
+      "import": "./dist/esm/components/drawer/index.js",
+      "default": "./dist/esm/components/drawer/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

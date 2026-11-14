@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 118 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 123 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 27 个 exports 子路径、22 个组件页、79 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 28 个 exports 子路径、23 个组件页、83 个 Demo。
 
 ## 关键约定
 
@@ -68,6 +68,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Skeleton 骨架屏](llms/exports/skeleton.md) | `solid-craft/skeleton` | text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。 |
 | [Spin 加载中](llms/exports/spin.md) | `solid-craft/spin` | 独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。 |
 | [Modal 对话框](llms/exports/modal.md) | `solid-craft/modal` | 受控打开与外部按钮驱动；异步确认期间防重复提交并拦截 ESC / 遮罩关闭；焦点陷阱与关闭后焦点归还触发元素，SSR 只输出静态骨架。 |
+| [Drawer 抽屉](llms/exports/drawer.md) | `solid-craft/drawer` | 与 Modal 共用同一份浮层原语；left / right / top / bottom 四方向贴边，三档尺寸与显式宽高按方向归一，焦点陷阱与键盘行为不重复实现，SSR 只输出静态骨架。 |
 
 - [ConfigProvider 全局配置](llms/exports/config-provider.md) · [样式](llms/exports/styles-css.md) · [按组件样式通配](llms/exports/styles.md) · [package.json](llms/exports/package-json.md)
 
@@ -160,6 +161,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/skeleton` → Skeleton 骨架屏：text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。
 - `solid-craft/spin` → Spin 加载中：独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。
 - `solid-craft/modal` → Modal 对话框：受控打开与外部按钮驱动；异步确认期间防重复提交并拦截 ESC / 遮罩关闭；焦点陷阱与关闭后焦点归还触发元素，SSR 只输出静态骨架。
+- `solid-craft/drawer` → Drawer 抽屉：与 Modal 共用同一份浮层原语；left / right / top / bottom 四方向贴边，三档尺寸与显式宽高按方向归一，焦点陷阱与键盘行为不重复实现，SSR 只输出静态骨架。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 
@@ -4953,6 +4955,160 @@ export interface ButtonProps
 
 ---
 
+<!-- source: llms/exports/drawer.md -->
+
+# Drawer 抽屉（`solid-craft/drawer`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+与 Modal 共用同一份浮层原语；left / right / top / bottom 四方向贴边，三档尺寸与显式宽高按方向归一，焦点陷阱与键盘行为不重复实现，SSR 只输出静态骨架。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/drawer/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/drawer/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/drawer/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/drawer/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/drawer';
+```
+
+## API
+
+### DrawerProps
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `open` | `boolean` | — | 受控打开状态；给了就完全由调用方驱动，组件内部不回写。 | 否 |
+| `defaultOpen` | `boolean` | — | 非受控初始状态。 @default false | 否 |
+| `onOpenChange` | `(open: boolean) => void` | — | 打开状态变化出口；ESC / 遮罩 / 关闭按钮都走这一条，请求打开不会（无内置触发按钮）。 | 否 |
+| `title` | `JSX.Element` | — | 标题；渲染进 `Dialog.Title`，是 `aria-labelledby` 的来源。 | 是 |
+| `children` | `JSX.Element` | — | 正文。 | 否 |
+| `footer` | `JSX.Element \| null` | `undefined` | 底部操作区。不传或传 `null` 时整块不渲染（不留空盒子）； 与 Modal 不同，Drawer 没有默认确认 / 取消按钮，异步确认属于 Modal 的职责。 | 否 |
+| `placement` | `DrawerPlacement` | — | 贴边方向。 @default 'right' | 否 |
+| `size` | `DrawerSize` | — | 三档尺寸；左右方向控制宽度，上下方向控制高度。 @default 'medium' | 否 |
+| `width` | `number \| string` | — | 显式宽度，覆盖 `size`；数字按 px 处理。**只在 left / right 生效**。 @default undefined | 否 |
+| `height` | `number \| string` | — | 显式高度，覆盖 `size`；数字按 px 处理。**只在 top / bottom 生效**。 @default undefined | 否 |
+| `closable` | `boolean` | — | 是否显示右上角关闭按钮。 @default true | 否 |
+| `keyboard` | `boolean` | — | 是否允许 ESC 关闭。 @default true | 否 |
+| `maskClosable` | `boolean` | — | 是否允许点击遮罩关闭。 @default true | 否 |
+| `closeLabel` | `string` | — | 右上角关闭按钮的无障碍文案。 @default '关闭' | 否 |
+| `class` | `string` | — | 内容容器自定义类名。 @default undefined | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/drawer/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `Drawer` 的公共类型（T3-08，§4.2 与 `docs/04 §2.4`）。
+ *
+ * 与 `Modal` 同口径：组件层只表达业务语义（受控打开 / 方向 / 尺寸 / 文案），
+ * Portal / 遮罩 / 焦点陷阱 / ESC / 焦点归还全部交给 `primitives/overlay`，
+ * 第三方无头库的类型与 props 形态不越过原语层。
+ *
+ * 方向刻意新增 `data-scui-side`，不复用既有属性：`data-scui-placement` 已被
+ * App / Message 的「反馈容器出现位置」占用（六向值）、`data-scui-fixed` 是
+ * Table 的固定列方向、`data-scui-direction` 表示书写方向 ltr/rtl、
+ * `data-scui-orientation` 表示水平 / 垂直。一个属性名只表达一个语义（R1）。
+ *
+ * R3：函数型 prop（`onOpenChange`）直接声明为函数，不用 `MaybeAccessor` 包裹。
+ */
+import type { JSX } from 'solid-js';
+
+/** 抽屉贴边方向，默认 `right`。 */
+export type DrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
+
+/** 三档尺寸，与 Button / Pagination / Modal 的 `Size` 口径一致。 */
+export type DrawerSize = 'small' | 'medium' | 'large';
+
+export interface DrawerProps {
+  /** 受控打开状态；给了就完全由调用方驱动，组件内部不回写。 */
+  open?: boolean;
+  /** 非受控初始状态。 @default false */
+  defaultOpen?: boolean;
+  /** 打开状态变化出口；ESC / 遮罩 / 关闭按钮都走这一条，请求打开不会（无内置触发按钮）。 */
+  onOpenChange?: (open: boolean) => void;
+  /** 标题；渲染进 `Dialog.Title`，是 `aria-labelledby` 的来源。 */
+  title: JSX.Element;
+  /** 正文。 */
+  children?: JSX.Element;
+  /**
+   * 底部操作区。不传或传 `null` 时整块不渲染（不留空盒子）；
+   * 与 Modal 不同，Drawer 没有默认确认 / 取消按钮，异步确认属于 Modal 的职责。
+   * @default undefined
+   */
+  footer?: JSX.Element | null;
+  /** 贴边方向。 @default 'right' */
+  placement?: DrawerPlacement;
+  /** 三档尺寸；左右方向控制宽度，上下方向控制高度。 @default 'medium' */
+  size?: DrawerSize;
+  /** 显式宽度，覆盖 `size`；数字按 px 处理。**只在 left / right 生效**。 @default undefined */
+  width?: number | string;
+  /** 显式高度，覆盖 `size`；数字按 px 处理。**只在 top / bottom 生效**。 @default undefined */
+  height?: number | string;
+  /** 是否显示右上角关闭按钮。 @default true */
+  closable?: boolean;
+  /** 是否允许 ESC 关闭。 @default true */
+  keyboard?: boolean;
+  /** 是否允许点击遮罩关闭。 @default true */
+  maskClosable?: boolean;
+  /** 右上角关闭按钮的无障碍文案。 @default '关闭' */
+  closeLabel?: string;
+  /** 内容容器自定义类名。 @default undefined */
+  class?: string;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法与四方向](llms/demos/drawer-basic.md)：外部按钮受控打开；left / right / top / bottom 四个方向共用同一套浮层行为，切换方向只改贴边定位与尺寸轴。（源文件 `packages/core/src/components/drawer/demos/basic.tsx`）
+- [焦点陷阱与归还](llms/demos/drawer-focus.md)：与 Modal 共用 primitives/overlay 的焦点管理：打开后焦点限制在抽屉内循环，ESC 关闭后回到触发按钮。（源文件 `packages/core/src/components/drawer/demos/focus.tsx`）
+- [打开态与方向切换](llms/demos/drawer-open-state.md)：首屏即打开，用于视觉基线与弹层态 axe 扫描；弹层内可切换四个贴边方向，关闭后可用背景按钮重新打开。（源文件 `packages/core/src/components/drawer/demos/open-state.tsx`）
+- [尺寸与显式宽高](llms/demos/drawer-size.md)：三档尺寸共用同一套贴边规则；左右方向用 width、上下方向用 height 显式覆盖，数字按 px 处理。（源文件 `packages/core/src/components/drawer/demos/size.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
 <!-- source: llms/exports/config-provider.md -->
 
 # ConfigProvider 全局配置（`solid-craft/config-provider`）
@@ -5336,6 +5492,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./skeleton` → [solid-craft/skeleton](llms/exports/skeleton.md)
 - `./spin` → [solid-craft/spin](llms/exports/spin.md)
 - `./modal` → [solid-craft/modal](llms/exports/modal.md)
+- `./drawer` → [solid-craft/drawer](llms/exports/drawer.md)
 - `./config-provider` → [solid-craft/config-provider](llms/exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](llms/exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](llms/exports/styles.md)
@@ -11824,6 +11981,287 @@ export default function ModalOpenStateDemo() {
 ## 相关页面
 
 - [Modal 对话框 API](llms/exports/modal.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/drawer-basic.md -->
+
+# Drawer 抽屉 · 基础用法与四方向（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/drawer/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+外部按钮受控打开；left / right / top / bottom 四个方向共用同一套浮层行为，切换方向只改贴边定位与尺寸轴。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Drawer, type DrawerPlacement } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法与四方向',
+  description:
+    '外部按钮受控打开；left / right / top / bottom 四个方向共用同一套浮层行为，切换方向只改贴边定位与尺寸轴。',
+};
+
+const SIDES: readonly DrawerPlacement[] = ['left', 'right', 'top', 'bottom'];
+
+export default function DrawerBasicDemo() {
+  const [open, setOpen] = createSignal(false);
+  const [side, setSide] = createSignal<DrawerPlacement>('right');
+
+  const openWith = (next: DrawerPlacement) => {
+    setSide(next);
+    setOpen(true);
+  };
+
+  return (
+    <>
+      <DemoSection title="四方向">
+        <div class="demo-row">
+          {SIDES.map((item) => (
+            <Button variant="outline" onClick={() => openWith(item)}>
+              打开 {item}
+            </Button>
+          ))}
+        </div>
+        <Drawer
+          title="设备采购计划明细"
+          open={open()}
+          placement={side()}
+          onOpenChange={setOpen}
+          footer={
+            <Button variant="outline" color="neutral" onClick={() => setOpen(false)}>
+              关闭抽屉
+            </Button>
+          }
+        >
+          <p>按年度维简计划填写本次采购数量与本次采购单价，提交后进入审批流。</p>
+          <p>当前方向：{side()}</p>
+        </Drawer>
+      </DemoSection>
+
+      <DemoSection title="关闭路径">
+        <p>右上角关闭按钮、ESC、点击遮罩三条路径都走同一个 onOpenChange 出口。</p>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Drawer 抽屉 API](llms/exports/drawer.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/drawer-focus.md -->
+
+# Drawer 抽屉 · 焦点陷阱与归还（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/drawer/demos/focus.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+与 Modal 共用 primitives/overlay 的焦点管理：打开后焦点限制在抽屉内循环，ESC 关闭后回到触发按钮。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Drawer } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '焦点陷阱与归还',
+  description:
+    '与 Modal 共用 primitives/overlay 的焦点管理：打开后焦点限制在抽屉内循环，ESC 关闭后回到触发按钮。',
+};
+
+export default function DrawerFocusDemo() {
+  const [open, setOpen] = createSignal(false);
+
+  return (
+    <>
+      <DemoSection title="键盘链路">
+        <Button data-testid="drawer-focus-trigger" onClick={() => setOpen(true)}>
+          打开并检查焦点
+        </Button>
+        <Drawer title="设备信息登记" open={open()} onOpenChange={setOpen}>
+          <label style="display: block; margin-block-end: 8px">
+            计划名称
+            <input data-testid="drawer-focus-input" style="display: block" />
+          </label>
+          <label style="display: block">
+            备注
+            <input data-testid="drawer-focus-note" style="display: block" />
+          </label>
+        </Drawer>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Drawer 抽屉 API](llms/exports/drawer.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/drawer-open-state.md -->
+
+# Drawer 抽屉 · 打开态与方向切换（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/drawer/demos/open-state.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+首屏即打开，用于视觉基线与弹层态 axe 扫描；弹层内可切换四个贴边方向，关闭后可用背景按钮重新打开。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Drawer, type DrawerPlacement } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '打开态与方向切换',
+  description:
+    '首屏即打开，用于视觉基线与弹层态 axe 扫描；弹层内可切换四个贴边方向，关闭后可用背景按钮重新打开。',
+};
+
+const SIDES: readonly DrawerPlacement[] = ['left', 'right', 'top', 'bottom'];
+
+export default function DrawerOpenStateDemo() {
+  const [open, setOpen] = createSignal(true);
+  const [side, setSide] = createSignal<DrawerPlacement>('right');
+
+  return (
+    <>
+      <DemoSection title="首屏打开">
+        <Button variant="outline" onClick={() => setOpen(true)}>
+          重新打开
+        </Button>
+        <Drawer
+          title="打开态视觉基线"
+          open={open()}
+          placement={side()}
+          onOpenChange={setOpen}
+          footer={
+            <Button variant="outline" color="neutral" onClick={() => setOpen(false)}>
+              收起抽屉
+            </Button>
+          }
+        >
+          <p>遮罩、贴边容器、标题、正文与底部操作区在这一页同时参与基线截图。</p>
+          <div class="demo-row">
+            {SIDES.map((item) => (
+              <Button variant="outline" color="neutral" onClick={() => setSide(item)}>
+                {item}
+              </Button>
+            ))}
+          </div>
+          <p>当前方向：{side()}</p>
+        </Drawer>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Drawer 抽屉 API](llms/exports/drawer.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/drawer-size.md -->
+
+# Drawer 抽屉 · 尺寸与显式宽高（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/drawer/demos/size.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+三档尺寸共用同一套贴边规则；左右方向用 width、上下方向用 height 显式覆盖，数字按 px 处理。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Drawer, type DrawerSize } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '尺寸与显式宽高',
+  description:
+    '三档尺寸共用同一套贴边规则；左右方向用 width、上下方向用 height 显式覆盖，数字按 px 处理。',
+};
+
+const SIZES: readonly DrawerSize[] = ['small', 'medium', 'large'];
+
+export default function DrawerSizeDemo() {
+  const [open, setOpen] = createSignal(false);
+  const [customOpen, setCustomOpen] = createSignal(false);
+  const [size, setSize] = createSignal<DrawerSize>('medium');
+
+  const openWith = (next: DrawerSize) => {
+    setSize(next);
+    setOpen(true);
+  };
+
+  return (
+    <>
+      <DemoSection title="三档尺寸">
+        <div class="demo-row">
+          {SIZES.map((item) => (
+            <Button variant="outline" onClick={() => openWith(item)}>
+              打开 {item}
+            </Button>
+          ))}
+        </div>
+        <Drawer title="尺寸档位" open={open()} size={size()} onOpenChange={setOpen}>
+          <p>左右方向的抽屉按 inline-size 铺开，三档分别是 280 / 378 / 520 像素。</p>
+          <p>当前尺寸：{size()}</p>
+        </Drawer>
+      </DemoSection>
+
+      <DemoSection title="显式尺寸">
+        <Button variant="outline" onClick={() => setCustomOpen(true)}>
+          打开自定义尺寸
+        </Button>
+        <Drawer
+          title="自定义高度"
+          open={customOpen()}
+          placement="bottom"
+          height="42vh"
+          width={999}
+          onOpenChange={setCustomOpen}
+        >
+          <p>bottom 方向只认 height：这里传的 width 不会把抽屉撑宽。</p>
+        </Drawer>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Drawer 抽屉 API](llms/exports/drawer.md)
 - [设计 Token](llms/design/tokens.md)
 
 ---

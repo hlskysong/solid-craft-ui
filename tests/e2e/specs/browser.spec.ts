@@ -323,6 +323,110 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await expect(dialog).toBeVisible();
   });
 
+  // T3-08：四方向不是靠 modifier class 而是靠 data-scui-side 驱动的贴边规则。
+  // 只断言属性会漏掉「样式没生效」的假绿，所以直接用 boundingBox 量贴边位置；
+  // 收尾再验遮罩关闭后能再次打开，避免受控状态第一次关闭就卡死。
+  test('Drawer 四方向贴边定位，遮罩关闭后可再次打开', async ({ page }) => {
+    await page.goto('/components/drawer/open-state?standalone=1');
+    const dialog = page.getByRole('dialog', { name: '打开态视觉基线' });
+    await expect(dialog).toBeVisible();
+
+    const viewport = page.viewportSize();
+    const width = viewport?.width ?? 1280;
+    const height = viewport?.height ?? 720;
+    const near = (actual: number, expected: number, label: string) => {
+      expect(Math.abs(actual - expected), label).toBeLessThanOrEqual(2);
+    };
+    const measure = async () => {
+      const box = await dialog.boundingBox();
+      if (!box) throw new Error('Drawer boundingBox 为空');
+      return box;
+    };
+
+    await expect(dialog).toHaveAttribute('data-scui-side', 'right');
+    const right = await measure();
+    near(right.x + right.width, width, 'right 应贴视口右边缘');
+
+    await dialog.getByRole('button', { name: 'left', exact: true }).click();
+    await expect(dialog).toHaveAttribute('data-scui-side', 'left');
+    const left = await measure();
+    near(left.x, 0, 'left 应贴视口左边缘');
+
+    await dialog.getByRole('button', { name: 'top', exact: true }).click();
+    await expect(dialog).toHaveAttribute('data-scui-side', 'top');
+    const top = await measure();
+    near(top.y, 0, 'top 应贴视口上边缘');
+    near(top.width, width, 'top 应铺满视口宽度');
+
+    await dialog.getByRole('button', { name: 'bottom', exact: true }).click();
+    await expect(dialog).toHaveAttribute('data-scui-side', 'bottom');
+    const bottom = await measure();
+    near(bottom.y + bottom.height, height, 'bottom 应贴视口下边缘');
+    near(bottom.width, width, 'bottom 应铺满视口宽度');
+
+    await page.locator('[data-scui-role="drawer-overlay"]').click({
+      position: { x: 6, y: 6 },
+      force: true,
+    });
+    await expect(dialog).toHaveCount(0);
+    await page.getByRole('button', { name: '重新打开' }).click();
+    await expect(dialog).toBeVisible();
+  });
+
+  // T3-08：左右方向读 width、上下方向读 height，两者归一到同一个
+  // --scui-drawer-size。这里故意在 bottom 方向同时传 width=999 与 height='42vh'，
+  // 若归一写反，抽屉会被撑成 999px 而不是铺满视口。
+  test('Drawer bottom 方向只认 height，不认 width', async ({ page }) => {
+    await page.goto('/components/drawer/size?standalone=1');
+    await page.getByRole('button', { name: '打开自定义尺寸' }).click();
+    const dialog = page.getByRole('dialog', { name: '自定义高度' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAttribute('data-scui-side', 'bottom');
+    await expect(dialog).toHaveAttribute('style', /--scui-drawer-size: 42vh/);
+
+    const box = await dialog.boundingBox();
+    const viewportWidth = page.viewportSize()?.width ?? 1280;
+    expect(box).not.toBeNull();
+    expect(box?.width ?? 0, 'bottom 应铺满视口宽度，而不是被 width=999 限死').toBeGreaterThan(
+      viewportWidth - 4,
+    );
+  });
+
+  // T3-08：焦点陷阱与归还由 primitives/overlay 统一实现，Drawer 不得自己再写
+  // 一份。与 Modal 同型回归，确认复用后行为没有退化。
+  test('Drawer 焦点陷阱与 ESC 后焦点归还触发元素', async ({ page }) => {
+    await page.goto('/components/drawer/focus?standalone=1');
+    const trigger = page.getByTestId('drawer-focus-trigger');
+    const dialog = page.getByRole('dialog', { name: '设备信息登记' });
+
+    await trigger.click();
+    await expect(dialog).toBeVisible();
+    const focusInside = (): Promise<boolean> =>
+      page.evaluate(() => {
+        const content = document.querySelector('[role="dialog"]');
+        return content?.contains(document.activeElement) ?? false;
+      });
+    // toBeVisible() 不等于 focus scope 已把焦点移入；全量连跑会放大时序差。
+    await page.waitForFunction(
+      () => {
+        const content = document.querySelector('[role="dialog"]');
+        return content?.contains(document.activeElement) ?? false;
+      },
+      null,
+      { timeout: 3000 },
+    );
+    expect(await focusInside(), '打开后焦点应落在抽屉内').toBe(true);
+
+    for (let index = 0; index < 8; index += 1) {
+      await page.keyboard.press('Tab');
+      expect(await focusInside(), `第 ${index + 1} 次 Tab 后焦点跑出了抽屉`).toBe(true);
+    }
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  });
+
   // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
   // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
   // 用真实浏览器把「载入编辑 → 改值 → 提交校验 → 切回新增」整链跑一遍。
@@ -457,6 +561,35 @@ test.describe('A11y 链：axe 扫描', () => {
     );
     console.log(
       `[axe] modal/open: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
+  // T3-08：Drawer 弹层同样 Portal 到 body，关闭态的 Demo 扫不到它。
+  // open-state Demo 首屏即打开，这条单独点名「贴边弹层态 axe 0」验收项，
+  // 同时覆盖 aria-modal / aria-labelledby / 焦点陷阱里的控件组合。
+  test('Drawer 打开态无 serious / critical 违规', async ({ page }) => {
+    await page.goto('/components/drawer/open-state?standalone=1');
+    await expect(page.getByRole('dialog', { name: '打开态视觉基线' })).toBeVisible();
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] drawer/open: ${results.violations.length} violations ${results.violations
         .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
         .join(', ')}`,
     );
