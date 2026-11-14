@@ -517,7 +517,7 @@
       "slug": "table",
       "title": "Table 表格",
       "category": "数据",
-      "description": "数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。",
+      "description": "数据表格：列配置、排序筛选、行选择、客户端 / 服务端分页与空 / 加载态；直接组合 Pagination / Empty / Spin，onChange 一次给出三参完整快照，SSR 输出完整静态骨架。",
       "exportPath": "solid-craft/table",
       "hasApi": true,
       "demos": [
@@ -540,10 +540,28 @@
           "description": "舒适、默认、紧凑三档单元格内距；密度只改内距，不改变行高与字号。"
         },
         {
+          "name": "empty-loading",
+          "path": "packages/core/src/components/table/demos/empty-loading.tsx",
+          "title": "空态与加载态",
+          "description": "空数据复用 Empty 占位，加载中复用 Spin 遮罩且分页禁用；两者互斥，切换时表头与列宽不变，不产生布局抖动。"
+        },
+        {
           "name": "filtering",
           "path": "packages/core/src/components/table/demos/filtering.tsx",
           "title": "筛选",
           "description": "内置下拉、自定义 filterDropdown 与服务端模式；服务端只带出参数，不改动本地数据。"
+        },
+        {
+          "name": "pagination-client",
+          "path": "packages/core/src/components/table/demos/pagination-client.tsx",
+          "title": "客户端分页",
+          "description": "数据全在前端时，Table 自己按筛选与排序后的结果切页，total 恒等于结果行数；翻页、排序、筛选共用 onChange 一个三参出口。"
+        },
+        {
+          "name": "pagination-server",
+          "path": "packages/core/src/components/table/demos/pagination-server.tsx",
+          "title": "服务端分页",
+          "description": "server 模式表内一行都不切，业务侧拿 onChange.pagination 直接拼请求、回写当前页数据；total 由调用方给出。"
         },
         {
           "name": "selection-radio",

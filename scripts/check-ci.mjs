@@ -373,11 +373,13 @@ if (tableImpl.length === 0 || tableStyles.length === 0 || tableEngine.length ===
   // T3-02 起状态字段变多，且视图改用 splitProps 后的 local；两条一起钉住，
   // 避免有人把排序 / 筛选状态绕开引擎直接读 props（4d-a 只挡得住「完全不调引擎」）。
   if (
-    /(?:props|local)\.(columns|data|rowKey|loading|bordered|size|density|sorter|defaultSorter|filters|defaultFilters|rowSelection|onChange|server|multipleSorters)\b/.test(
+    /(?:props|local)\.(columns|data|rowKey|loading|bordered|size|density|sorter|defaultSorter|filters|defaultFilters|rowSelection|pagination|onChange|server|multipleSorters)\b/.test(
       tableImpl,
     )
   ) {
-    fail('Table.tsx 直接读取 props / local 的状态字段：状态必须由 useTableEngine 归一后消费');
+    fail(
+      'Table.tsx 直接读取 props / local 的状态字段（含分页配置）：状态必须由 useTableEngine 归一后消费',
+    );
   }
   if (
     !/--scui-table-font-size/.test(tableStyles) ||
@@ -415,11 +417,14 @@ if (!/createSignal/.test(tableEngine) || /createSignal/.test(tableImpl)) {
 if (!/server\s*\?\s*rawRows\s*:\s*applySorters\(applyFilters\(/.test(tableEngine)) {
   fail('服务端模式未走「只出参数、不本地改数据」分支');
 }
+// T3-06 起 emit 是三参：分页变更也走同一个出口，排序 / 筛选变更必须带出
+// 完整分页快照；筛选还要取**筛选后**的快照，否则客户端模式的 total 会发旧值。
 if (
-  !/emit\(next, current\.filters\)/.test(tableEngine) ||
-  !/emit\(current\.sorters, next\)/.test(tableEngine)
+  !/emit\(next, current\.filters, current\.pagination\)/.test(tableEngine) ||
+  !/emit\(after\.sorters, next, resetPageAfterFilter\(after\.pagination\)\)/.test(tableEngine) ||
+  !/const after = state\(\)/.test(tableEngine)
 ) {
-  fail('排序 / 筛选变更未各自带出完整快照（两者会互相覆盖）');
+  fail('排序 / 筛选变更未各自带出完整三参快照（或筛选沿用了变化前的分页 total）');
 }
 if (!/const columns = createMemo\(\(\) => resolveColumns/.test(tableEngine)) {
   fail('列归一化未单独缓存：表头会被每次筛选点击整体重建（筛选面板 input 脱管）');
@@ -605,6 +610,110 @@ if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
   }
 }
 
+// 4i. Table 分页接入 + 空 / 加载态契约（§30.40，T3-06）。钉的都是「看着接上了、
+// 其实没接对」的点：① 三个组件必须组合而非复制，且样式要一起带进 Table 的样式表；
+// ② footer 必须在 overflow-x 滚动容器之外；③ 分页状态仍归引擎、server 不切数据；
+// ④ TableChange.pagination 不能继续硬编码 undefined；⑤ 空 / 加载态互斥且占位
+// 跨列数按列配置算；⑥ SSR 入口在册。
+{
+  const stripT306Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const t306Impl = stripT306Comments(tableImpl);
+  const t306Engine = stripT306Comments(tableEngine);
+  const t306Styles = stripT306Comments(tableStyles);
+  const t306Types = stripT306Comments(tableTypes);
+
+  for (const [name, specifier] of [
+    ['Pagination', '../pagination'],
+    ['Empty', '../empty'],
+    ['Spin', '../spin'],
+  ]) {
+    if (!t306Impl.includes(`from '${specifier}'`)) {
+      fail(`Table.tsx 未组合 ${name} 组件：T3-06 要求直接复用，不在 Table 里复制一套`);
+    }
+  }
+  // build-css.mjs 按组件目录逐个编译、不做依赖聚合，不引用就会让「只引 Table
+  // 单组件样式」的使用方拿到裸按钮 / 裸转圈（与 4f 不复用 Checkbox 同源）。
+  for (const name of ['empty', 'pagination', 'spin']) {
+    if (!new RegExp(`@use\\s+['"]\\.\\./${name}/${name}['"]`).test(t306Styles)) {
+      fail(`table.scss 未引用 ${name} 的样式：只引 Table 样式时会渲染出裸控件`);
+    }
+  }
+
+  const tableClose = t306Impl.lastIndexOf('</table>');
+  const scrollClose = t306Impl.indexOf('</div>', tableClose);
+  const footerAt = t306Impl.indexOf('data-scui-role="table-footer"');
+  if (
+    !t306Impl.includes('data-scui-role="table-root"') ||
+    !t306Impl.includes('data-scui-role="table-scroll"') ||
+    !(tableClose >= 0 && scrollClose > tableClose && footerAt > scrollClose)
+  ) {
+    fail('Table 的分页 footer 未放在滚动容器之外（或缺少 root / scroll 分层）');
+  }
+
+  // 只在 TableState 接口体内判定：引擎里还有一处局部变量
+  // `const pagination: TablePaginationState | undefined`，全文搜这个串会假绿。
+  const tableStateBody =
+    t306Engine.match(/export interface TableState<[^>]*>\s*\{([\s\S]*?)\n\}/)?.[1] ?? '';
+  if (!/pagination:\s*TablePaginationState \| undefined/.test(tableStateBody)) {
+    fail('分页状态未收进 TableState：视图不得另建 signal 或散读 props 配置');
+  }
+  if (/pagination:\s*undefined\s*\}/.test(t306Engine)) {
+    fail('TableChange.pagination 仍被硬编码成 undefined：T3-06 必须填真实分页快照');
+  }
+  if (
+    !/from '\.\.\/pagination\/pagination-engine'/.test(t306Engine) ||
+    !/clampPage\(/.test(t306Engine) ||
+    !/getPageCount\(/.test(t306Engine)
+  ) {
+    fail('Table 分页未复用 Pagination 引擎的收敛纯函数：会维护出两套不一致的页码算法');
+  }
+  if (!/pagination === undefined \|\| server \? rows : rows\.slice\(/.test(t306Engine)) {
+    fail('服务端模式被本地切页了：server 只出参数，数据由调用方请求后回写');
+  }
+  if (!/server\s*\?\s*normalizeTotal\(config\.total/.test(t306Engine)) {
+    fail('服务端模式的 total 未取自调用方配置：业务侧无法拿到完整请求参数');
+  }
+  if (
+    !/config\.current === undefined/.test(t306Engine) ||
+    !/config\.pageSize === undefined/.test(t306Engine) ||
+    !/setInternalPage\(change\.current\)/.test(t306Engine)
+  ) {
+    fail('分页受控优先级缺失：受控时点击不得回写 Table 的内部状态');
+  }
+  if (!/setInternalPage\(1\)/.test(t306Engine)) {
+    fail('筛选归一页码只发了事件、没写回非受控内部信号：下次翻页会从旧基准算起');
+  }
+
+  if (!/when=\{state\(\)\.empty\}/.test(t306Impl) || !/<Empty\b/.test(t306Impl)) {
+    fail('Table 空态未复用 Empty（或占位条件没走引擎的 empty 快照）');
+  }
+  if (!/when=\{state\(\)\.loading\}/.test(t306Impl) || !/<Spin\b/.test(t306Impl)) {
+    fail('Table 加载态未复用 Spin');
+  }
+  if (!/disabled=\{state\(\)\.loading\}/.test(t306Impl)) {
+    fail('加载中未禁用分页：遮罩只挡鼠标，键盘仍可翻页');
+  }
+  if (!/empty:\s*viewRows\.length === 0 && !loading/.test(t306Engine)) {
+    fail('空态与加载态没有互斥：两者会同时渲染');
+  }
+  if (!/Math\.max\(\s*1,\s*state\(\)\.columns\.length/.test(t306Impl)) {
+    fail('空态占位行的 colspan 写死了列数：启用行选择或改列数时会串列');
+  }
+  if (!/pagination\?: TablePaginationConfig \| false/.test(t306Types)) {
+    fail('TableProps 缺少 pagination 配置或 false 开关：无法保持既有表格 DOM 不变');
+  }
+  if (!/interface TablePaginationConfig/.test(t306Types)) {
+    fail('缺少 TablePaginationConfig：Table 不应直接复用 MaybeAccessor 形态的 PaginationProps');
+  }
+  if (
+    !existsSync(join(tableDir, '__tests__', 'ssr-pagination.tsx')) ||
+    !ssrSmokeRunner.includes("id: 'T3-06'")
+  ) {
+    fail('Table 分页 / 空 / 加载态的 SSR 入口未登记进 ssr-smoke.mjs');
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -690,7 +799,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '74a5a339b9368507129af89279b72cf01db282f3ca6388257b79051d1bb83063';
+const FONT_SHA256 = '212c4ad85a0b19a44b5cace1cf3f357b7acce42c137962bc0d669e2d2dd8eab4';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -981,5 +1090,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
 );

@@ -1,8 +1,50 @@
-/* Table（T3-01）
+/* T3-06：Table 组合了 Pagination / Empty / Spin 三个既有组件，而样式构建按组件
+   目录逐个产出、不做依赖聚合。这里用 Sass 引用把三份样式带进 Table 的单组件
+   样式表，「只引 Table 样式」的使用方才不会拿到裸按钮与裸转圈。引用不是复制：
+   三个源文件仍各自只有一份，index.css 里出现重复规则但选择器互不重叠。 */
+@use '../empty/empty';
+@use '../pagination/pagination';
+@use '../spin/spin';
+
+/* Table（T3-01 + T3-06）
    状态与档位全部由 [data-scui-*] 驱动，类名只有块与元素两级，无 modifier class。
    表头与正文共用 --scui-table-font-size（= --scui-font-size-md），层级只靠
    font-weight / 背景 / 分隔线表达，不靠缩字号（docs/04 §5.1）。
    密度（内距）与尺寸（行高）是两条正交的档位，都只改 CSS 变量不改结构。 */
+
+/* T3-06 的三层 DOM：root 只负责定位与宽度约束，不改滚动容器的既有归属。
+   分页 footer 必须在 .scui-table-scroll 之外 —— 那个节点带 overflow-x: auto，
+   放进去会跟着定宽列一起横向移动，宽度也被表格撑开。 */
+:where(.scui-table-root) {
+  position: relative;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+:where(.scui-table__footer) {
+  display: flex;
+  justify-content: flex-end;
+  padding-block-start: var(--scui-space-3, 12px);
+}
+
+:where(.scui-table__empty-cell) {
+  padding-block: var(--scui-space-4, 16px);
+  padding-inline: var(--scui-space-3, 12px);
+  text-align: center;
+}
+
+/* 加载态只在 loading 时条件渲染，不常驻 DOM；遮罩覆盖整块（含分页区），
+   分页控件同时收到 disabled，键盘 Tab 也不会在加载中翻页。
+   背景用 color-mix 而不是固定白色，避免深色主题下糊成一片灰。 */
+:where(.scui-table__loading) {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, var(--scui-color-bg-surface) 60%, transparent);
+}
 
 :where(.scui-table-scroll) {
   /* flex 子项的默认 min-inline-size:auto 会让定宽列把 375px 页面撑出横向溢出 */

@@ -50,6 +50,75 @@
       ]
     },
     {
+      "name": "TablePaginationConfig",
+      "inherits": null,
+      "props": [
+        {
+          "name": "total",
+          "type": "number",
+          "optional": true,
+          "description": "服务端总条数；`server` 模式必给，客户端模式忽略。",
+          "default": null
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "optional": true,
+          "description": "受控当前页；给了点击只发 `onChange`，组件内不保存页码。",
+          "default": null
+        },
+        {
+          "name": "defaultCurrent",
+          "type": "number",
+          "optional": true,
+          "description": "非受控初始页码；只在 setup 期读一次。 @default 1",
+          "default": null
+        },
+        {
+          "name": "pageSize",
+          "type": "number",
+          "optional": true,
+          "description": "受控每页条数。",
+          "default": null
+        },
+        {
+          "name": "defaultPageSize",
+          "type": "number",
+          "optional": true,
+          "description": "非受控初始每页条数。 @default 10",
+          "default": null
+        },
+        {
+          "name": "pageSizeOptions",
+          "type": "readonly number[]",
+          "optional": true,
+          "description": "每页条数候选值；`showSizeChanger` 开启时渲染成原生下拉。",
+          "default": null
+        },
+        {
+          "name": "showSizeChanger",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否显示每页条数切换器。 @default false",
+          "default": null
+        },
+        {
+          "name": "showQuickJumper",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否显示快速跳转。 @default false",
+          "default": null
+        },
+        {
+          "name": "showTotal",
+          "type": "(total: number, range: readonly [number, number]) => JSX.Element",
+          "optional": true,
+          "description": "总数文案渲染；拿到的是区间，调用方不必自己算 `(current - 1) * pageSize`。",
+          "default": null
+        }
+      ]
+    },
+    {
       "name": "TableChange",
       "inherits": null,
       "props": [
@@ -71,7 +140,7 @@
           "name": "pagination",
           "type": "TablePaginationState | undefined",
           "optional": false,
-          "description": "分页参数；T3-02 恒为 `undefined`，T3-06 接入后才有值。",
+          "description": "完整分页快照；未启用分页（未传 `pagination` 或传 `false`）时为 `undefined`。",
           "default": null
         }
       ]
@@ -343,10 +412,17 @@
           "default": "undefined"
         },
         {
+          "name": "pagination",
+          "type": "TablePaginationConfig | false",
+          "optional": true,
+          "description": "分页配置；不传或传 `false` 时完全不渲染分页（保持 T3-01~T3-03 的既有 DOM）。 默认关闭是刻意的：Table 的根节点在 T3-06 多了一层 wrapper，但只在启用分页 / 空态 / 加载态时才出现 footer 与占位节点，既有 Demo 与视觉基线因此零改动。",
+          "default": "false"
+        },
+        {
           "name": "onChange",
           "type": "(change: TableChange) => void",
           "optional": true,
-          "description": "统一变更出口；排序 / 筛选任一变化都带出完整三参快照。",
+          "description": "统一变更出口；排序 / 筛选 / 分页任一变化都带出完整三参快照。 服务端模式下业务侧可直接拿 `pagination` 拼请求参数，不必自己维护页码。",
           "default": "undefined"
         },
         {

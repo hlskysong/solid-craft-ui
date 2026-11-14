@@ -56,7 +56,8 @@
 | `dialog-trigger` / `dialog-content` / `dialog-body` / `dialog-close` | Dialog | Kobalte 原语封装层 |
 | `select-all` / `sort-trigger` / `filter-trigger` | Table | 交互锚点：`sort-trigger` / `filter-trigger` 由 T3-02、`select-all` 由 T3-03 落地，SSR 首帧即输出；radio 模式没有全选语义，零输出 |
 | `select-row` | Table | 行选择控件锚点（T3-03）：每行一个，SSR 首帧即输出 |
-| `table` / `table-scroll` | Table | 结构锚点 |
+| `table` / `table-scroll` | Table | 结构锚点；T3-06 起 `table-scroll` 仍是带 `overflow-x: auto` 的横向滚动容器，调用方属性 / `data-scui-*` 全归它，外层另加 `table-root` 承担定位 |
+| `table-root` / `table-footer` / `table-empty-row` / `table-loading` | Table | 结构锚点（T3-06）：`table-root` 是最外层定位容器；`table-footer` 包住复用的 `Pagination`，**必须在滚动容器之外**，只在启用分页时输出；`table-empty-row` 是空数据时的跨列占位行（内含 `Empty`），`table-loading` 是加载遮罩（内含 `Spin`），两者互斥且 SSR 按同一条件输出。不启用分页时 footer 零输出，既有表格 DOM 不变 |
 | `pagination` / `pagination-page` / `pagination-gap` / `pagination-prev` / `pagination-next` | Pagination | 结构锚点（T3-04）：`pagination` 是 `<nav>` 根，`pagination-gap` 是省略号占位（非按钮、`aria-hidden`），其余都是原生 `<button>` |
 | `pagination-size` / `pagination-jump` / `pagination-total` | Pagination | 结构锚点（T3-04）：原生 `<select>` / `<input>` / `<span>`，由 `showSizeChanger` / `showQuickJumper` / `showTotal` 控制是否出现；SSR 按同一条件输出 |
 | `filter-dropdown` / `filter-option` | Table | 筛选面板与内置选项锚点（T3-02）；面板初态关闭，SSR 零输出 |

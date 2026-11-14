@@ -4,7 +4,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 26 个 exports 子路径、21 个组件页、72 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 26 个 exports 子路径、21 个组件页、75 个 Demo。
 
 ## 关键约定
 
@@ -54,7 +54,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Form 表单](exports/form.md) | `solid-craft/form` | 表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。 |
 | [DatePicker 日期选择](exports/date-picker.md) | `solid-craft/date-picker` | 单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。 |
 | [RangePicker 日期范围](exports/range-picker.md) | `solid-craft/range-picker` | 双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。 |
-| [Table 表格](exports/table.md) | `solid-craft/table` | 数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。 |
+| [Table 表格](exports/table.md) | `solid-craft/table` | 数据表格：列配置、排序筛选、行选择、客户端 / 服务端分页与空 / 加载态；直接组合 Pagination / Empty / Spin，onChange 一次给出三参完整快照，SSR 输出完整静态骨架。 |
 | [Pagination 分页](exports/pagination.md) | `solid-craft/pagination` | 页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。 |
 | [Empty 空状态](exports/empty.md) | `solid-craft/empty` | 插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。 |
 | [Skeleton 骨架屏](exports/skeleton.md) | `solid-craft/skeleton` | text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。 |

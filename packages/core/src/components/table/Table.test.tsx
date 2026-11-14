@@ -144,11 +144,17 @@ describe('Table：状态契约与列配置', () => {
     });
   });
 
-  it('空数据只输出表头，行数为 0 且不崩', () => {
+  it('空数据保留表头、渲染空态占位（T3-06），行数属性仍为 0', () => {
     render(() => <Table columns={columns} data={[]} />);
     expect(scroll()).toHaveAttribute('data-scui-row-count', '0');
     expect(headCells()).toHaveLength(4);
-    expect(bodyCells()).toHaveLength(0);
+    // T3-06 起 tbody 里有一行跨列的空态占位，不再是「空 tbody」；
+    // 数据行仍为 0，行数属性口径不变。
+    expect(rowNodes()).toHaveLength(0);
+    expect(bodyCells()).toHaveLength(1);
+    const emptyCell = document.querySelector('[data-scui-role="table-empty-row"] td');
+    expect(emptyCell?.getAttribute('colspan')).toBe('4');
+    expect(document.querySelector('[data-scui-role="empty"]')).not.toBeNull();
   });
 });
 
@@ -600,5 +606,271 @@ describe('Table 引擎：行选择纯函数', () => {
     expect(result).toEqual(['A01']);
     expect(result).not.toBe(input);
     expect(normalizeSelectedKeys(undefined)).toEqual([]);
+  });
+});
+
+describe('Table：T3-06 分页 / 空态 / 加载态', () => {
+  const manyRows: Row[] = Array.from({ length: 12 }, (_, index) => ({
+    id: `A${String(index + 1).padStart(2, '0')}`,
+    name: `员工${index + 1}`,
+    department: index % 2 === 0 ? '研发' : '设计',
+    years: index + 1,
+  }));
+  const pagingColumns: TableColumn<Row>[] = [
+    { title: '工号', dataIndex: 'id' },
+    {
+      title: '部门',
+      dataIndex: 'department',
+      sorter: true,
+      filters: [
+        { text: '研发', value: '研发' },
+        { text: '设计', value: '设计' },
+      ],
+    },
+  ];
+  const visibleIds = (): (string | null)[] =>
+    [...document.querySelectorAll('[data-scui-row-key]')].map((node) =>
+      node.getAttribute('data-scui-row-key'),
+    );
+  const pageButton = (page: number): HTMLButtonElement => {
+    const node = document.querySelector<HTMLButtonElement>(`[data-scui-page="${page}"]`);
+    if (node === null) throw new Error(`缺少第 ${page} 页按钮`);
+    return node;
+  };
+  const footer = (): Element | null => document.querySelector('[data-scui-role="table-footer"]');
+  const lastChange = (spy: ReturnType<typeof vi.fn>): TableChange => {
+    const call = spy.mock.calls.at(-1);
+    if (call === undefined) throw new Error('onChange 未被调用');
+    return call[0] as TableChange;
+  };
+  const oneOf = (role: string): Element => {
+    const node = document.querySelector(`[data-scui-role="${role}"]`);
+    if (node === null) throw new Error(`缺少 ${role} 节点`);
+    return node;
+  };
+
+  it('不启用分页时零 footer，onChange.pagination 仍为 undefined', async () => {
+    const onChange = vi.fn();
+    render(() => <Table columns={pagingColumns} data={manyRows} rowKey="id" onChange={onChange} />);
+    expect(footer()).toBeNull();
+    expect(oneOf('table-root')).not.toBeNull();
+    fireEvent.click(oneOf('sort-trigger'));
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastChange(onChange).pagination).toBeUndefined();
+  });
+
+  it('pagination={false} 与不传等价；启用后 footer 在滚动容器之外', () => {
+    const { unmount } = render(() => (
+      <Table columns={pagingColumns} data={manyRows} rowKey="id" pagination={false} />
+    ));
+    expect(footer()).toBeNull();
+    unmount();
+
+    render(() => (
+      <Table columns={pagingColumns} data={manyRows} rowKey="id" pagination={{ pageSize: 5 }} />
+    ));
+    const root = oneOf('table-root');
+    const scrollNode = oneOf('table-scroll');
+    expect(footer()).not.toBeNull();
+    expect(scrollNode.contains(footer())).toBe(false);
+    expect(root.contains(footer())).toBe(true);
+    expect(oneOf('pagination')).not.toBeNull();
+    expect(pageButton(1)).toHaveAttribute('aria-current', 'page');
+    expect(visibleIds()).toEqual(['A01', 'A02', 'A03', 'A04', 'A05']);
+  });
+
+  it('客户端分页翻页：行切片变化，onChange 带出完整三参', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={pagingColumns}
+        data={manyRows}
+        rowKey="id"
+        pagination={{ pageSize: 5 }}
+        onChange={onChange}
+      />
+    ));
+    fireEvent.click(pageButton(2));
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(visibleIds()).toEqual(['A06', 'A07', 'A08', 'A09', 'A10']);
+    expect(pageButton(2)).toHaveAttribute('aria-current', 'page');
+    expect(lastChange(onChange)).toEqual({
+      filters: {},
+      sorter: [],
+      pagination: { current: 2, pageSize: 5, total: 12 },
+    });
+  });
+
+  it('排序 + 筛选 + 翻页任意组合状态不丢；只有筛选把页码归一到 1', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={pagingColumns}
+        data={manyRows}
+        rowKey="id"
+        pagination={{ pageSize: 5 }}
+        onChange={onChange}
+      />
+    ));
+
+    fireEvent.click(pageButton(2));
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastChange(onChange).pagination?.current).toBe(2);
+
+    // 排序不改结果集，保留当前页；sorter 必须进快照。
+    fireEvent.click(oneOf('sort-trigger'));
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(2));
+    expect(lastChange(onChange).sorter).toEqual([{ columnKey: 'department', direction: 'asc' }]);
+    expect(lastChange(onChange).pagination?.current).toBe(2);
+
+    // 筛选把结果集从 12 条缩到 6 条：服务端模式下业务侧拿参数直接请求，
+    // 若仍带 current=2 之前的旧页码会落空页，因此归一到 1。
+    fireEvent.click(oneOf('filter-trigger'));
+    const option = oneOf('filter-option').querySelector('input');
+    if (option === null) throw new Error('缺少筛选选项');
+    fireEvent.click(option);
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(3));
+    expect(lastChange(onChange).filters).toEqual({ department: ['研发'] });
+    expect(lastChange(onChange).sorter).toEqual([{ columnKey: 'department', direction: 'asc' }]);
+    expect(lastChange(onChange).pagination).toEqual({ current: 1, pageSize: 5, total: 6 });
+    expect(pageButton(1)).toHaveAttribute('aria-current', 'page');
+
+    // 再翻页，筛选与排序都还在。
+    fireEvent.click(pageButton(2));
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(4));
+    expect(lastChange(onChange).filters).toEqual({ department: ['研发'] });
+    expect(lastChange(onChange).sorter).toEqual([{ columnKey: 'department', direction: 'asc' }]);
+    expect(lastChange(onChange).pagination?.current).toBe(2);
+  });
+
+  it('受控 current：点击只发 onChange，视图按调用方的值回弹', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={pagingColumns}
+        data={manyRows}
+        rowKey="id"
+        pagination={{ current: 1, pageSize: 5 }}
+        onChange={onChange}
+      />
+    ));
+    fireEvent.click(pageButton(2));
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastChange(onChange).pagination?.current).toBe(2);
+    // 受控值没回写：DOM 仍停在第 1 页，且行切片不变。
+    expect(pageButton(1)).toHaveAttribute('aria-current', 'page');
+    expect(visibleIds()).toEqual(['A01', 'A02', 'A03', 'A04', 'A05']);
+  });
+
+  it('server 模式不切数据、total 由调用方给，onChange 参数可直接拼请求', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={pagingColumns}
+        data={manyRows.slice(0, 5)}
+        rowKey="id"
+        server
+        pagination={{ current: 2, pageSize: 5, total: 12 }}
+        onChange={onChange}
+      />
+    ));
+    expect(visibleIds()).toHaveLength(5);
+    expect(pageButton(2)).toHaveAttribute('aria-current', 'page');
+    fireEvent.click(pageButton(3));
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    expect(lastChange(onChange)).toEqual({
+      filters: {},
+      sorter: [],
+      pagination: { current: 3, pageSize: 5, total: 12 },
+    });
+    // 调用方没回写 data 前，Table 一行都不动。
+    expect(visibleIds()).toEqual(['A01', 'A02', 'A03', 'A04', 'A05']);
+  });
+
+  it('越界页码双层收敛：渲染期 clamp，非受控内部信号也写回', async () => {
+    const [data, setData] = createSignal(manyRows);
+    render(() => (
+      <Table
+        columns={pagingColumns}
+        data={data()}
+        rowKey="id"
+        pagination={{ defaultCurrent: 99, pageSize: 5 }}
+      />
+    ));
+    expect(pageButton(3)).toHaveAttribute('aria-current', 'page');
+
+    setData(manyRows.slice(0, 6));
+    await waitFor(() => expect(pageButton(2)).toHaveAttribute('aria-current', 'page'));
+
+    // 数据恢复后页码停在 2 而不是弹回越界的 99 —— 内部信号确实被写回了。
+    setData(manyRows);
+    await waitFor(() => expect(pageButton(2)).toHaveAttribute('aria-current', 'page'));
+  });
+
+  it('pageSize 档位与 showTotal 透传；区间文案由 Pagination 计算', () => {
+    render(() => (
+      <Table
+        columns={pagingColumns}
+        data={manyRows}
+        rowKey="id"
+        pagination={{
+          pageSize: 4,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (total, range) => (
+            <span data-scui-role="total-text">
+              共 {total} 条 / {range[0]}-{range[1]}
+            </span>
+          ),
+        }}
+      />
+    ));
+    expect(visibleIds()).toHaveLength(4);
+    expect(oneOf('pagination-total').textContent).toContain('共 12 条 / 1-4');
+    expect(oneOf('pagination-size')).not.toBeNull();
+    expect(oneOf('pagination-jump')).not.toBeNull();
+  });
+
+  it('空态用 Empty、加载态用 Spin，两者互斥；加载时分页禁用', async () => {
+    const [loading, setLoading] = createSignal(false);
+    render(() => (
+      <Table
+        columns={pagingColumns}
+        data={[]}
+        rowKey="id"
+        loading={loading()}
+        pagination={{ pageSize: 5 }}
+      />
+    ));
+    expect(oneOf('table-empty-row')).not.toBeNull();
+    expect(oneOf('empty')).not.toBeNull();
+    expect(document.querySelector('[data-scui-role="table-loading"]')).toBeNull();
+
+    setLoading(true);
+    await waitFor(() =>
+      expect(document.querySelector('[data-scui-role="table-loading"]')).not.toBeNull(),
+    );
+    expect(oneOf('spin')).not.toBeNull();
+    expect(document.querySelector('[data-scui-role="table-empty-row"]')).toBeNull();
+    expect(oneOf('pagination')).toHaveAttribute('data-scui-disabled', '');
+  });
+
+  it('分页后全选只作用于当前页，不把别页行拉进选中集合', async () => {
+    const onChange = vi.fn();
+    render(() => (
+      <Table
+        columns={pagingColumns}
+        data={manyRows}
+        rowKey="id"
+        pagination={{ pageSize: 5 }}
+        rowSelection={{ onChange }}
+      />
+    ));
+    const selectAll = document.querySelector<HTMLInputElement>('[data-scui-role="select-all"]');
+    if (selectAll === null) throw new Error('缺少全选控件');
+    fireEvent.click(selectAll);
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    const call = onChange.mock.calls.at(-1);
+    expect(call?.[0]).toEqual(['A01', 'A02', 'A03', 'A04', 'A05']);
   });
 });

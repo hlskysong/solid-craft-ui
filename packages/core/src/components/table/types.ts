@@ -1,11 +1,11 @@
 /**
- * `Table` 的公共类型（T3-01 基座 + T3-02 排序 / 筛选 + T3-03 行选择）。
+ * `Table` 的公共类型（T3-01 基座 + T3-02 排序 / 筛选 + T3-03 行选择 + T3-06 分页）。
  *
- * 范围按 `docs/04 §5.1` 的 P0 基本能力与 `docs/08 §4.2` 的 T3-01~T3-03 验收列：
+ * 范围按 `docs/04 §5.1` 的 P0 基本能力与 `docs/08 §4.2` 的 T3-01~T3-06 验收列：
  * 列配置、data / rowKey / loading、尺寸、边框、三档密度、单列 / 多列排序、
- * 受控 / 非受控、内置筛选下拉与自定义 `filterDropdown`，以及 checkbox / radio
- * 行选择、全选 / 半选、禁用行、受控 `selectedRowKeys`。分页属于 T3-06，
- * 本层只在 `TableChange` 里把协议位定清。
+ * 受控 / 非受控、内置筛选下拉与自定义 `filterDropdown`、checkbox / radio
+ * 行选择、全选 / 半选、禁用行、受控 `selectedRowKeys`，以及客户端 / 服务端
+ * 两套分页协议与空 / 加载态占位。
  *
  * 响应式契约按 `docs/04 §6.4`：props 一律传值（调用方自己调用 accessor），
  * 不直接传 signal 函数；组件内部用 `useTableEngine` 把 props 收敛成单一状态
@@ -70,13 +70,47 @@ export type TableFilters = Record<string, readonly string[]>;
 
 /**
  * 分页协议位（`docs/04 §6.4` 的 `pagination={{ current, pageSize, total }}`）。
- * T3-02 把 `onChange` 的三参形状一次定清，但本批次恒发 `undefined`；
- * 真实分页参数由 T3-06 接入，避免业务侧各自拼协议。
+ * 与 `PaginationChange` **同形**：T3-06 把 `Pagination` 的一次变更原样放进
+ * `TableChange.pagination`，业务侧无需二次翻译。
  */
 export interface TablePaginationState {
   current: number;
   pageSize: number;
   total: number;
+}
+
+/**
+ * `<Table pagination>` 的配置。
+ *
+ * 刻意不复用 `PaginationProps`：那边的值型字段全部是 `MaybeAccessor<T>`
+ * （独立组件要兼容传值 / getter），而 Table 按 `docs/04 §6.4` **一律传值**，
+ * 直接 Pick 会把 accessor 形态漏进 Table 的 API。这里只保留值型字段，
+ * 且 `onChange` 不在这里 —— Table 的唯一出口是 `TableProps.onChange`。
+ *
+ * `total` 只在 `server` 模式有意义：客户端模式数据就在组件手里，恒以
+ * 「筛选 + 排序后」的行数为准，传了也忽略，避免出现「页码说有 50 条、
+ * 表里只有 12 行」的不一致。服务端模式必须给 `total`，否则兜底用
+ * 当前页 `data.length`（页数会算成 1）。
+ */
+export interface TablePaginationConfig {
+  /** 服务端总条数；`server` 模式必给，客户端模式忽略。 */
+  total?: number;
+  /** 受控当前页；给了点击只发 `onChange`，组件内不保存页码。 */
+  current?: number;
+  /** 非受控初始页码；只在 setup 期读一次。 @default 1 */
+  defaultCurrent?: number;
+  /** 受控每页条数。 */
+  pageSize?: number;
+  /** 非受控初始每页条数。 @default 10 */
+  defaultPageSize?: number;
+  /** 每页条数候选值；`showSizeChanger` 开启时渲染成原生下拉。 */
+  pageSizeOptions?: readonly number[];
+  /** 是否显示每页条数切换器。 @default false */
+  showSizeChanger?: boolean;
+  /** 是否显示快速跳转。 @default false */
+  showQuickJumper?: boolean;
+  /** 总数文案渲染；拿到的是区间，调用方不必自己算 `(current - 1) * pageSize`。 */
+  showTotal?: (total: number, range: readonly [number, number]) => JSX.Element;
 }
 
 /** `onChange` 的统一出参；排序 / 筛选 / 分页三者互不覆盖。 */
@@ -85,7 +119,7 @@ export interface TableChange {
   filters: TableFilters;
   /** 当前生效的有序排序状态。 */
   sorter: TableSorter;
-  /** 分页参数；T3-02 恒为 `undefined`，T3-06 接入后才有值。 */
+  /** 完整分页快照；未启用分页（未传 `pagination` 或传 `false`）时为 `undefined`。 */
   pagination: TablePaginationState | undefined;
 }
 
@@ -273,7 +307,16 @@ export interface TableProps<T extends object> extends Omit<
    */
   rowSelection?: TableRowSelection<T>;
   /**
-   * 统一变更出口；排序 / 筛选任一变化都带出完整三参快照。
+   * 分页配置；不传或传 `false` 时完全不渲染分页（保持 T3-01~T3-03 的既有 DOM）。
+   *
+   * 默认关闭是刻意的：Table 的根节点在 T3-06 多了一层 wrapper，但只在启用分页 /
+   * 空态 / 加载态时才出现 footer 与占位节点，既有 Demo 与视觉基线因此零改动。
+   * @default false
+   */
+  pagination?: TablePaginationConfig | false;
+  /**
+   * 统一变更出口；排序 / 筛选 / 分页任一变化都带出完整三参快照。
+   * 服务端模式下业务侧可直接拿 `pagination` 拼请求参数，不必自己维护页码。
    * @default undefined
    */
   onChange?: (change: TableChange) => void;

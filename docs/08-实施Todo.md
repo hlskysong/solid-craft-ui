@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-06**（M3 第六项「Table 分页接入 + 空 / 加载态」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 已提交 `1f67c23`、T3-04 已提交 `830c9bb`（均**未推送**）；T3-05 改动**尚未提交 / 推送**（Aming 本轮选「A 方案」） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-05「空 / 加载三件套」改动，再开始 T3-06「Table 分页接入 + 空 / 加载态」**：T3-06 的三个前置（T3-01 引擎 / T3-04 `Pagination` / T3-05 三件套）已全部就位，`TableChange.pagination` 可以从 `undefined` 填上真实值，Table 的空态可直接复用 `Empty`、加载态可复用 `Spin`。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ **T3-06 收口 Table 状态机**；T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-07**（M3 第七项「`Dialog`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 已提交 `1f67c23`、T3-04 已提交 `830c9bb`、T3-05 已提交 `61b9200`（均**未推送**）；T3-06 改动**尚未提交 / 推送**（Aming 本轮选「提交后继续」） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-06「Table 分页接入 + 空 / 加载态」改动，再开始 T3-07「`Dialog`」**：T3-06 已把三个前置接成一条链，`TableChange.pagination` 不再是 `undefined`，Table 状态机（排序 / 筛选 / 选择 / 分页）到此收口。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 已闭合；**T3-07 → T3-08 → T3-09 是弹层链，越早启动越好**；T3-10 / T3-11 / T3-13 可全程并行；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -158,7 +158,7 @@
 | T3-03 | Table 选择：checkbox / radio、全选 / 半选、禁用行、受控 `selectedRowKeys` | T3-01 | 工程师 B | 半选 `aria-checked="mixed"` 正确；禁用行不进全选集合；受控与非受控两条链路各有单测（**`rowSelection` 单 prop / `aria-checked="mixed"` + `indeterminate` 双通道 / 禁用行不进全选且不降对比度 / 选择控件自建不复用 Checkbox·Radio / 299 tests·28 files / SSR 18 入口 / 120 张基线 / 判据 4f + 负向 N179~N189 11/11 / `pnpm verify` RC=0**，见 §30.37） | [x] |
 | T3-04 | `Pagination`（M）：页码、每页条数、快速跳转、受控 / 非受控 | T2-05 | 工程师 B | 总页数变化时当前页收敛不越界；键盘可达 + axe 0 violation；组件自身 `onChange` 与 Table 集成互不冲突（**7 槽省略号窗口 + 渲染期 clamp 与 effect 双层收敛 / `onChange` 单对象与 `TablePaginationState` 同形 / `aria-current` + `data-scui-current` 双通道 / option `selected` 而非 select `value` / 窄屏 `flex-wrap` / 324 tests·29 files / SSR 19 入口 / 126 张基线 / 判据 4g + 负向 N190~N203 14/14 / `pnpm verify` RC=0**，见 §30.38） | [x] |
 | T3-05 | `Empty` / `Skeleton` / `Spin`：空状态与加载三件套 | T2-13 | 工程师 C | 各 ≥3 Demo；骨架与真实内容同尺寸、切换不产生布局抖动；Spin 延迟显示可测（**9 Demo（各 3）/ 骨架行块高引用 `--scui-line-height-md`、bar 用 calc 扣减 → 间隙靠 flex 居中画出 / browser 实测三行骨架与三行正文差 ≤ 1px / `delay` 三条时序单测 + 真实计时双覆盖 / 364 tests·32 files / SSR 22 入口 / 144 张基线 / 判据 4h + 负向 N204~N219 16/16 / `pnpm verify` RC=0**，见 §30.39） | [x] |
-| T3-06 | Table 分页接入 + 空 / 加载态：客户端 / 服务端两套协议 | T3-01 / T3-04 / T3-05 | 技术负责人 | `onChange` 三参合流；分页 + 排序 + 筛选任意组合状态不丢；空态与加载态占位切换；服务端参数协议一次定清，业务侧不再自拼 | [ ] |
+| T3-06 | Table 分页接入 + 空 / 加载态：客户端 / 服务端两套协议 | T3-01 / T3-04 / T3-05 | 技术负责人 | `onChange` 三参合流；分页 + 排序 + 筛选任意组合状态不丢；空态与加载态占位切换；服务端参数协议一次定清，业务侧不再自拼 | [x] |
 | T3-07 | `Modal`（L）：确认、异步关闭、焦点陷阱、尺寸 | T2-01 / T2-06 | 技术负责人 | 焦点陷阱 + ESC 关闭后焦点归还触发元素；SSR 不渲染弹层；异步关闭期间防重复提交；axe 0 violation | [ ] |
 | T3-08 | `Drawer`（M）：方向、尺寸、焦点陷阱 | T3-07 | 工程师 C | 与 Modal **共用**焦点管理与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过 | [ ] |
 | T3-09 | `Alert` / `Tooltip` / `Popconfirm` + 接入 T2-06 的 `Message` / `App` 宿主 | T2-01 / T2-06 | 工程师 C | Tooltip 定位 / 延迟 / 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR 不报错 | [ ] |
@@ -4484,3 +4484,122 @@ Spin 的 `delay=400` 入口有一条隐性断言：服务端首帧**没有**遮�
 3. **验收要求里的「不抖动」必须落到可执行的测量上**：单测在 jsdom 里量不出高度（全部读 0），所以这条只能进 browser 用例，而且对照区必须 `align-items: flex-start` —— 用 `stretch` 的话 flex 会把两列强行拉平，测出来的「一致」是布局凑的，不是骨架真的同高。
 4. **删属性比绕类型更省事**：`focusable="false"` 用 spread 或 `attr:` 都能过编译，但它对 `chrome >= 128` 没有任何作用。遇到「类型不让写」的遗留属性，先问它还有没有必要存在。
 5. **判据的「距离窗口」是脆弱写法**：4h-c 初版用 `Show[\s\S]{0,240}empty__footer`，靠两个字符串之间的字符距离判断「footer 被条件包裹」，而上方的插画 `<Show>` 很可能落在这个窗口里，造成假绿。改成直接约束 `when={local.children}` 这个条件表达式本身。**判据里凡是「A 到 B 不超过 N 字符」的写法，都要怀疑它会跨节点误命中。**
+
+### 30.40 T3-06 Table 分页接入 + 空 / 加载态落地与验收（2026-11-14 实测）
+
+#### 一、结论先行
+
+Aming 本轮「提交后继续」：先把 T3-05 提交为 `61b9200`（69 文件，**未推送**），再按 A 方案顺序收口 **T3-06**。
+
+本轮的实质不是「Table 多了几个控件」，而是把三个前置真正接成一条链：T3-04 的独立 `Pagination`、T3-05 的 `Empty` / `Spin`、T3-01 的 `useTableEngine`，在 `TableChange.pagination` 这个**自 T3-02 起恒为 `undefined` 的协议位**上合流。业务侧现在拿 `onChange({ pagination, filters, sorter })` 一个出口就能直接拼服务端请求，不再自维护页码。
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0**，26 阶段全量 |
+| core 单测 | **374 tests / 32 files**（新增 10 条） |
+| browser / visual / docs / llms | **167 / 151 / 8 / 4** 全 passed |
+| SSR 冒烟 | **23 入口**，新增 T3-06 入口 17/17 markers + 16/16 counts |
+| 规模 | 22 组件 / **75 Demo** / **150 张基线** / 字集 **948 码位** |
+| 负向实证 | **N220~N244 25/25 PASS + RESTORE_OK** |
+| 冻结面 | `docs/01~07` 与 `pnpm-lock.yaml` 零改动，零新增依赖 |
+
+#### 二、交付清单
+
+| 文件 | 改动 |
+| --- | --- |
+| `table/types.ts` | 新增 `TablePaginationConfig`；`TableProps.pagination?: TablePaginationConfig \| false`；`TableChange.pagination` 注释从「恒 undefined」改为「未启用时 undefined」 |
+| `table/table-engine.ts` | `TableState` 加 `pagination` / `paginationView` / `empty`；`emit` 改三参；复用 `clampPage` / `getPageCount` / `normalizePositive` / `normalizeTotal`；`changePagination`；`resetPageAfterFilter`；双层收敛 effect；全选分母改为当前页 |
+| `table/Table.tsx` | 新增 `table-root` 外层、footer 里的 `Pagination`、tbody 跨列空态 `Empty`、加载遮罩 `Spin`；三个组件全部 import 复用 |
+| `table/table.scss` | Sass `@use` 聚合 `empty` / `pagination` / `spin` 三份样式；新增 root / footer / empty-cell / loading 布局 |
+| `table/Table.test.tsx` | 空数据既有用例随行为更新；新增 10 条分页 / 占位用例 |
+| `table/demos/` | 新增 `pagination-client` / `pagination-server` / `empty-loading` 三个 Demo |
+| `table/__tests__/ssr-pagination.tsx` | 5 张表覆盖「不启用 / 客户端 / 服务端 / 空 / 加载」 |
+| `spikes/shared/ssr-smoke.mjs` | 新增 `id: 'T3-06'`；T3-01 的 size counts 改成精确锚点 |
+| `scripts/check-ci.mjs` | 4d 正则加 `pagination`、4e 改三参判据、新增 **4i**、汇总文案、`FONT_SHA256` 更新 |
+| `spikes/api-draft/data-attributes.md` | 登记 `table-root` / `table-footer` / `table-empty-row` / `table-loading` |
+| `apps/docs/src/content/catalog.mjs` | Table 描述更新为完整能力 |
+| `tests/e2e/specs/browser.spec.ts` | 4 条真实浏览器用例 |
+| 生成物 | catalog.json / search.json / API 表 / llms 全量、字体字集、6 张新基线 + 2 张强制重建 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| **保留 `table-scroll` 及其全部 `data-*` 与 `rest` / `class` / `style` 归属，只在外面加一层 `table-root`** | 分页不能放进 `overflow-x: auto` 的滚动节点（会跟着定宽列横向移动、宽度被撑开），但换根节点会破坏 T3-01~T3-03 的 SSR counts、单测和既有基线。新增纯布局 wrapper 是唯一两者兼顾的做法 |
+| **默认 `pagination={false}`，不启用时零 footer / 零占位常驻节点** | 既有 22 个组件的 Demo 与大部分基线因此零改动；空态 / 加载态也只在条件命中时才出现 |
+| **直接组合三个组件，`table.scss` 用 Sass `@use` 把三份样式带进 `table.css`** | `build-css.mjs` 按组件目录逐个编译、不做依赖聚合（T3-03 不复用 Checkbox 就是同一个原因）。不引用就会让「只引 Table 单组件样式」的使用方拿到裸按钮与裸转圈。`@use` 是引用不是复制，三个源文件仍各只有一份 |
+| **分页状态全进 `useTableEngine`，视图只读 `state().pagination` / `state().paginationView`** | 4d 点名的「受控状态与内部状态混用」是 Table 首要风险；把展示配置也归一进快照，视图连 `local.pagination` 都不读 |
+| **复用 `Pagination` 引擎的四个纯函数，不复制页码算法** | `clampPage` / `getPageCount` / `normalizePositive` / `normalizeTotal` 已在 T3-04 验过；两套收敛逻辑迟早会在越界边界上分叉 |
+| **client 模式 `total` 恒等于筛选 + 排序后行数，忽略 `config.total`；server 模式必须给 `total`** | 客户端数据就在组件手里，允许调用方传 total 必然出现「页码说有 50 条、表里只有 12 行」。server 模式不给 total 时兜底用当前页 `data.length`（页数会算成 1），文档明确要求调用方给 |
+| **筛选变化把页码归一到 1，排序不重置** | server 模式下 `onChange` 是业务侧唯一请求参数：筛选把 50 条缩到 3 条时仍带旧页码 5 会请求到空页，而 Table 不知道新 total、越界收敛帮不上忙。排序不改变结果集，保留当前页 |
+| **受控 `current` 时点击只发 `onChange`、视图回弹** | 与 `Pagination` / `Select` 同口径；`emit` 显式接收 `pagination` 参数而不是从 `state()` 捞，否则受控点击第 3 页会把旧页码发给业务侧 |
+| **空态用 `Empty`、加载态用 `Spin` 遮罩，不用 `Skeleton`** | 表格列宽由内容决定，骨架行无法保证与真实列同宽；AntD 风格的遮罩是标准做法。`Skeleton` 仍作为 T3-05 的独立组件存在 |
+| **加载时给 Pagination 传 `disabled`** | 遮罩只挡鼠标，键盘 Tab 仍可翻页；两者必须一起处理 |
+
+#### 四、本轮真实缺陷与假信号
+
+1. **筛选事件发了旧的 `total`（真缺陷）**：`setFilterValues` 初版把 `current.pagination`（筛选前快照）交给 `emit`，客户端模式下 12 条筛成 6 条却仍报 12 条。单测「组合状态不丢」直接抓出；改成 `setInternalFilters(next)` 后取 `const after = state()`，并同步把 4e 判据钉在 `emit(after.sorters, next, resetPageAfterFilter(after.pagination))` 与 `const after = state()` 两处。
+2. **视觉基线「假通过」（历史坑复发）**：`basic` Demo 第二张表是 `loading`，新遮罩只多一个 48px 转圈 + 一行文字，半透明背景叠在白底上像素几乎不变，差异率低于 `maxDiffPixelRatio: 0.002`，`test:visual:update` 判定一致、不写盘。先用 browser 用例断言 DOM 里遮罩存在且 `display:flex` / `height>0` 定位，再把两张旧基线移出、`--update-snapshots` 强制重建，SHA256 前后不同，新图肉眼可见转圈与「加载中」。
+3. **SSR 旧 counts 被子组件属性污染**：T3-01 的 `data-scui-size="medium"` 从 2 变 3，多出来的是空态 `Empty` 默认尺寸。把两条 count 改成 `data-scui-role="table" data-scui-size="..."` 连续属性锚点，只数 `<table>` 自己的档位。
+4. **判据 4i 自身假绿（负向 N227 抓出）**：初版用全文搜 `pagination: TablePaginationState | undefined`，而引擎里局部变量声明也带同一串，把 `TableState` 字段删掉照样绿。改成只在 `export interface TableState { ... }` 接口体内判定后，25/25 全 PASS。
+
+#### 五、SSR、视觉与字体
+
+- **SSR**：新增 `T3-06` 单入口（5 张表），17/17 markers / 16/16 counts 全绿；分页 `<nav>`、`aria-current`、`data-scui-current`、`<option selected>`、跨列空态、Spin 遮罩全在首帧输出；不启用分页的那张表 footer 计数 0，钉住「既有 DOM 不变」。全库 **23 入口** PASS。
+- **视觉**：新增 6 张（3 Demo × 2 视口）；`table-basic` 两张强制重建；其余既有基线零变化 —— 新字集只命中新文案。150 张全覆盖。
+- **字体**：`853 个 CJK/符号 + 95 个 ASCII = 948 码位`，SHA256 `212c4ad85a0b19a44b5cace1cf3f357b7acce42c137962bc0d669e2d2dd8eab4`，已同步 `check-ci.mjs` 的 `FONT_SHA256`。
+- **CSS 聚合实证**：`packages/core/dist/styles/components/table.css` 命中 70 处 `scui-pagination` / `scui-empty` / `scui-spin` 选择器；`check:styles` 21 个组件样式表 / 196 个 `[data-*]` 选择器全部被 `.scui-` 类作用域覆盖。
+
+#### 六、新增判据（`check:ci` 4i，收进既有阶段）
+
+不新增 workflow / job，判据 4i 收在既有 `check:ci` 阶段，并同步加固 4d / 4e：
+
+| 判据 | 钉住什么 |
+| --- | --- |
+| 4d | 正则加 `pagination`，视图不得直读 `local.pagination` |
+| 4e | `emit` 三参、筛选取 `after = state()`（钉住旧 total 缺陷） |
+| 4i-a | `Pagination` / `Empty` / `Spin` 三个 import 齐全 |
+| 4i-b | `table.scss` 三份 `@use`（钉住「只引 Table 样式不裸控件」） |
+| 4i-c | `table-root` / `table-scroll` 分层，且 footer 在 `</table>` 后滚动容器闭合 `</div>` **之后** |
+| 4i-d | `TableState` 接口体内有分页字段；`TableChange.pagination` 不得再硬编码 `undefined` |
+| 4i-e | 复用 Pagination 引擎纯函数；`server` 不切数据且 total 取自调用方；受控优先级 |
+| 4i-f | 筛选归一页码写回非受控内部信号 |
+| 4i-g | 空 / 加载态复用组件、互斥、加载禁用分页、colspan 按列数算 |
+| 4i-h | `TablePaginationConfig` 与 `false` 开关；T3-06 SSR 入口在册 |
+
+#### 七、验收
+
+| 命令 | 结果 |
+| --- | --- |
+| `pnpm --filter solid-craft typecheck` | RC=0 |
+| `pnpm --filter solid-craft test` | 374 tests / 32 files |
+| `node spikes/shared/ssr-smoke.mjs` | 23 入口 PASS |
+| `node scripts/check-ci.mjs` | RC=0（4d / 4e / 4f / 4g / 4h / **4i** / 11 / 12） |
+| `pnpm check:todo` | RC=0，65 任务 / **57 个 `[x]`** / 93 个验收区块 / 倒挂 0 |
+| `pnpm test:browser` / `test:visual` / `test:docs` / `test:llms` | 167 / 151 / 8 / 4 |
+| `pnpm verify` | **RC=0**，26 阶段 |
+| 负向实证 | **N220~N244 25/25 PASS + RESTORE_OK**（逐例备份 → 单点改坏 → 断言 RC≠0 且命中指定诊断 → SHA256 逐字节还原） |
+| `git diff --check` | RC=0 |
+
+#### 八、允许写入路径（L4）与边界
+
+只改 Table 纵向切片、`check-ci.mjs`、`ssr-smoke.mjs`、`data-attributes.md`、`catalog.mjs`、`browser.spec.ts`、生成物、字体与基线、`docs/08` 本文件与治理文件。`docs/01~07`、`pnpm-lock.yaml`、`AGENTS.md` 硬约束文本零改动；无新增依赖、无新增 workflow / job、无新增判据阶段。T3-06 改动**留在工作区未提交 / 未推送**。
+
+#### 九、已知边界与风险
+
+1. **CSS 聚合会让 `index.css` 出现重复规则**：`table.css` 含三份依赖样式，全量拼接时它们会各出现两次；选择器互不重叠、层叠无冲突，但体积会增加。`.size-limit.json` 的「Table + Virtual ≤ 35 KB」仍未实跑（4/6 条），**T3-14** 必须连同这份增量一起复核。
+2. **筛选重置页码的受控语义**：受控 `current` 时 `onChange.pagination.current` 带 1 作为**建议值**，视图仍按调用方给的值显示；调用方若不回写，就是它自己选择保留旧页。与 `Pagination` 受控语义一致，但文档里必须写清，否则容易被当成 bug。
+3. **`total` 只在 server 模式生效**：客户端模式传了会被忽略。若未来要支持「客户端全量数据但只展示前 N 条」，得重新设计协议，不能直接放开。
+4. **空态文案与加载文案写死**（「暂无数据」/「加载中」）：未提供 `emptyText` / `loadingTip` 自定义。T3-12 组合 Demo 若确实需要再评估，本轮不做防御性 API。
+5. **加载遮罩用 `color-mix(... 60% transparent)`**：实测 axe **0 violation**（T3-01 的 `opacity: 0.6` 曾判 serious ×12）；改深色主题时仍需复看对比度。
+6. **全选分母改为当前页**：表头 label 自 T3-03 起就是「全选当前页」，T3-06 才真正与语义对齐；跨页选中集合仍由 `commitSelection` 从全量 `data` 解析，不会被清掉。
+7. **Token 缺口仍在**：`--scui-font-weight-*` / `--scui-color-bg-subtle` / `--scui-motion-duration-slow` 未定义，属设计系统变更，留 **M4** 统一评估。
+8. **T3-06 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求逐次授权；本轮只把 T3-05 提交到 `61b9200`。
+
+#### 十、教训
+
+1. **「同形」的价值在接线那天才兑现**：T3-04 刻意让 `PaginationChange` 与 `TablePaginationState` 字段逐个相同，本轮 `changePagination` 直接把三字段放进 `TableChange.pagination`，一行翻译代码都没写。协议位提前定清、哪怕暂时恒 `undefined`，比后面改类型便宜得多。
+2. **事件里的快照必须取「变更后」而不是「变更前」**：`current = state()` 是变更前快照，排序用它没毛病（total 不变），筛选用它就发了旧 total。凡是「这次操作会改变结果集」的分支，都要重新读一次 state。
+3. **视觉门禁的像素阈值是「更新脚本」的盲区，不只是「比对脚本」的**：`--update-snapshots` 也会因为差异率低于 0.002 而不写盘，既有基线静默过期。结构变更（新增遮罩 / 图标 / 一行字）之后，要么用 DOM 断言 + 删图强制重建，要么逐张哈希比对，不能只看 `RC=0`。
+4. **判据不能只搜「字符串出现过」**：4i 初版全文搜类型串、局部变量冒充接口字段 → 假绿；N227 把它抓了出来。凡是钉「某个结构里必须有 X」的判据，都要把匹配范围收进那个结构（接口体、函数体、开标签）。
+5. **子组件的默认属性会污染父组件的 SSR counts**：属性名空间是全局的，`data-scui-size` 在 Table / Empty / Spin 上都会出现。counts 要带角色前缀形成复合锚点，否则加一个子组件就会把旧断言顶红。

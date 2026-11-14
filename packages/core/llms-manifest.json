@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 110,
+  "pageCount": 113,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -481,8 +481,23 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/table-empty-loading.md",
+      "title": "# Table 表格 · 空态与加载态（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/table-filtering.md",
       "title": "# Table 表格 · 筛选（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/table-pagination-client.md",
+      "title": "# Table 表格 · 客户端分页（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/table-pagination-server.md",
+      "title": "# Table 表格 · 服务端分页（源码）",
       "kind": "demos"
     },
     {
@@ -685,7 +700,10 @@
     "llms/demos/table-basic.md",
     "llms/demos/table-borders.md",
     "llms/demos/table-density.md",
+    "llms/demos/table-empty-loading.md",
     "llms/demos/table-filtering.md",
+    "llms/demos/table-pagination-client.md",
+    "llms/demos/table-pagination-server.md",
     "llms/demos/table-selection-radio.md",
     "llms/demos/table-selection.md",
     "llms/demos/table-sorting.md",

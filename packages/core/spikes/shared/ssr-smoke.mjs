@@ -398,8 +398,10 @@ const cases = [
       ['data-scui-loading=""', 1],
       ['aria-busy="true"', 1],
       ['data-scui-bordered=""', 1],
-      ['data-scui-size="small"', 1],
-      ['data-scui-size="medium"', 2],
+      // T3-06 起空态会渲染 Empty（自带 data-scui-size），用「table 角色 + 尺寸」
+      // 连续属性做锚点，避免把子组件的尺寸算进 Table 自己的档位口径。
+      ['data-scui-role="table" data-scui-size="small"', 1],
+      ['data-scui-role="table" data-scui-size="medium"', 2],
       ['data-scui-density="compact"', 1],
       ['data-scui-density="default"', 2],
     ],
@@ -607,6 +609,52 @@ const cases = [
       ['data-scui-spinning=""', 1],
       // 无 tip 的转圈补隐藏文案：small / large / 包裹内 共 3 处
       ['加载中', 3],
+    ],
+  },
+  {
+    /* T3-06：分页 / 空态 / 加载态全部在服务端首帧就位。
+       五张表分别覆盖「不启用分页（零 footer）/ 客户端分页 / 服务端分页
+       （受控第 2 页）/ 空态 / 加载态」，counts 钉住各自的结构数量，
+       避免有人把分页或占位搬进 client-only 增强层造成 hydration 差。 */
+    id: 'T3-06',
+    file: '/src/components/table/__tests__/ssr-pagination.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="table-root"',
+      'data-scui-role="table-scroll"',
+      'data-scui-role="table-footer"',
+      'data-scui-role="pagination"',
+      'aria-current="page"',
+      'data-scui-current=""',
+      'data-scui-role="table-empty-row"',
+      'data-scui-role="table-loading"',
+      'data-scui-role="empty"',
+      'data-scui-role="spin"',
+      'data-scui-disabled=""',
+      'value="5" selected',
+      'colspan="3"',
+      '<colgroup',
+      '<thead',
+      '<tbody',
+    ],
+    counts: [
+      ['data-scui-role="table-root"', 5],
+      ['data-scui-role="table-scroll"', 5],
+      ['<colgroup', 5],
+      ['<thead', 5],
+      ['<tbody', 5],
+      // 第 1 张表不启用分页，其余 4 张各一个 footer
+      ['data-scui-role="table-footer"', 4],
+      ['data-scui-role="pagination"', 4],
+      ['aria-current="page"', 4],
+      ['data-scui-current=""', 4],
+      ['data-scui-role="table-empty-row"', 1],
+      ['data-scui-role="empty"', 1],
+      ['data-scui-role="table-loading"', 1],
+      ['data-scui-role="spin"', 1],
+      ['data-scui-disabled=""', 1],
+      ['colspan="3"', 1],
+      ['value="5" selected', 1],
     ],
   },
 ];

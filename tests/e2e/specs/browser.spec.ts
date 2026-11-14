@@ -144,6 +144,83 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await expect(overlay).toHaveCount(0);
   });
 
+  // T3-06：basic Demo 里第二张表是 `loading`。SSR 入口已验过遮罩首帧存在，
+  // 这条专门确认真实浏览器（CSR / hydration 之后）也渲染出 Spin 且遮罩可见，
+  // 避免「服务端有、客户端没有」的半截实现。
+  test('Table 加载态在真实浏览器渲染 Spin 遮罩', async ({ page }) => {
+    await page.goto('/components/table/basic?standalone=1');
+    const overlay = page.locator('[data-scui-role="table-loading"]');
+    await expect(overlay).toHaveCount(1);
+    await expect(page.locator('[data-scui-role="spin"]')).toHaveCount(1);
+    const metrics = await overlay.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { display: style.display, height: element.getBoundingClientRect().height };
+    });
+    expect(metrics.display).toBe('flex');
+    expect(metrics.height).toBeGreaterThan(0);
+  });
+
+  // T3-06：jsdom 能验状态合流，但「footer 真的在 overflow-x 容器外」是布局事实，
+  // 必须在真实浏览器里量。客户端分页还要确认翻页后 DOM 行集合与 onChange 文案同源。
+  test('Table 客户端分页：翻页切行、三参文案同步、footer 不在滚动容器内', async ({ page }) => {
+    await page.goto('/components/table/pagination-client?standalone=1');
+    const rows = page.locator('[data-scui-row-key]');
+    await expect(rows).toHaveCount(5);
+    await expect(rows.first()).toHaveAttribute('data-scui-row-key', 'A01');
+
+    await page.locator('[data-scui-page="2"]').click();
+    await expect(rows.first()).toHaveAttribute('data-scui-row-key', 'A06');
+    await expect(page.locator('output')).toContainText('第 2 页 / 每页 5 条 / 共 12 条');
+
+    const layout = await page.evaluate(() => {
+      const scroll = document.querySelector('[data-scui-role="table-scroll"]');
+      const footer = document.querySelector('[data-scui-role="table-footer"]');
+      return {
+        footerInsideScroll: scroll?.contains(footer) ?? true,
+        overflowX: scroll === null ? '' : getComputedStyle(scroll).overflowX,
+      };
+    });
+    expect(layout.footerInsideScroll, '分页不能放进横向滚动容器').toBe(false);
+    expect(layout.overflowX).toBe('auto');
+  });
+
+  // T3-06：server 模式表内一行都不切，业务侧拿 onChange.pagination 请求后回写 data。
+  // 这条验的是「参数出口 → 回写 → 视图」整链，单测只验到参数出口为止。
+  test('Table 服务端分页：请求参数直接驱动当前页数据', async ({ page }) => {
+    await page.goto('/components/table/pagination-server?standalone=1');
+    const rows = page.locator('[data-scui-row-key]');
+    await expect(rows).toHaveCount(5);
+    await expect(rows.first()).toHaveAttribute('data-scui-row-key', 'A01');
+
+    await page.locator('[data-scui-page="2"]').click();
+    await expect(page.locator('output')).toContainText('page=2&pageSize=5&total=12');
+    await expect(rows.first()).toHaveAttribute('data-scui-row-key', 'A06');
+  });
+
+  // T3-06：空 / 加载占位切换。加载遮罩只挡鼠标，分页还必须收到 disabled，
+  // 否则键盘 Tab 仍能在加载中翻页 —— 这条把两者一起验掉。
+  test('Table 空态与加载态互斥切换，加载中分页禁用', async ({ page }) => {
+    await page.goto('/components/table/empty-loading?standalone=1');
+    const emptyRow = page.locator('[data-scui-role="table-empty-row"]');
+    const loading = page.locator('[data-scui-role="table-loading"]');
+    await expect(emptyRow).toHaveCount(1);
+    await expect(loading).toHaveCount(0);
+
+    await page.getByTestId('state-loading').click();
+    await expect(loading).toHaveCount(1);
+    await expect(page.locator('[data-scui-role="spin"]')).toHaveCount(1);
+    await expect(emptyRow).toHaveCount(0);
+    await expect(page.locator('[data-scui-role="pagination"]')).toHaveAttribute(
+      'data-scui-disabled',
+      '',
+    );
+
+    await page.getByTestId('state-ready').click();
+    await expect(page.locator('[data-scui-row-key]')).toHaveCount(3);
+    await expect(emptyRow).toHaveCount(0);
+    await expect(loading).toHaveCount(0);
+  });
+
   // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
   // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
   // 用真实浏览器把「载入编辑 → 改值 → 提交校验 → 切回新增」整链跑一遍。

@@ -1,11 +1,16 @@
 /**
- * `useTableEngine`（T3-01 基座 + T3-02 排序 / 筛选 + T3-03 行选择）：Table 的**单一状态真源**。
+ * `useTableEngine`（T3-01 基座 + T3-02 排序 / 筛选 + T3-03 行选择 + T3-06 分页）：
+ * Table 的**单一状态真源**。
  *
  * `docs/04 §5.1` 把「受控状态与内部状态混用」列为 Table 的首要风险，要求统一用
  * `useTableEngine` 管理。本层把全部入参 + 非受控内部信号收敛成**一个** `createMemo`
  * 状态快照：视图只读 `state()`、只调引擎方法，不自己建 signal、不散读 props。
- * 排序 / 筛选 / 行选择 / 筛选面板开合都在这里，T3-06 分页继续往 `TableState`
- * 加字段即可。
+ * 排序 / 筛选 / 行选择 / 筛选面板开合 / 分页全在这里。
+ *
+ * T3-06 的分页只复用 `Pagination` 引擎导出的 `getPageCount` / `clampPage` /
+ * `normalizePositive` / `normalizeTotal` 四个纯函数，**不复制一套页码收敛逻辑**；
+ * `PaginationChange` 与 `TablePaginationState` 同形，因此一次分页变更可以原样
+ * 放进 `TableChange.pagination`。
  *
  * 受控优先级与 Select 一致（`value > defaultValue > 内部信号`）：
  * `sorter` / `filters` / `rowSelection.selectedRowKeys` 给了就完全受控，
@@ -20,8 +25,15 @@
  * 比较器用确定性码点 / 数值比较而非 `localeCompare`（避免 SSR 与浏览器
  * ICU 差异造成 hydration 差），`renderToString` 两次输出逐字一致。
  */
-import { createMemo, createSignal, type Accessor } from 'solid-js';
+import { createEffect, createMemo, createSignal, type Accessor } from 'solid-js';
 
+import type { PaginationChange } from '../pagination';
+import {
+  clampPage,
+  getPageCount,
+  normalizePositive,
+  normalizeTotal,
+} from '../pagination/pagination-engine';
 import type {
   TableAlign,
   TableChange,
@@ -30,6 +42,8 @@ import type {
   TableFilterDropdownContext,
   TableFilterMode,
   TableFilters,
+  TablePaginationConfig,
+  TablePaginationState,
   TableProps,
   TableSelectionType,
   TableSize,
@@ -55,6 +69,7 @@ export type TableEngineOptions<T extends object> = Pick<
   | 'onChange'
   | 'server'
   | 'multipleSorters'
+  | 'pagination'
 >;
 
 /** 归一化后的列：`key` / `align` / 能力标记必有值，`width` 统一成 CSS 长度文本。 */
@@ -69,14 +84,22 @@ export interface ResolvedTableColumn<T extends object> extends TableColumn<T> {
   filterMode: TableFilterMode;
 }
 
+/** 分页的展示配置（非状态），归一后随快照一起给视图，避免视图散读 props。 */
+export interface TablePaginationView {
+  showSizeChanger: boolean;
+  showQuickJumper: boolean;
+  showTotal: TablePaginationConfig['showTotal'];
+  pageSizeOptions: readonly number[] | undefined;
+}
+
 /** 表格状态快照。后续任务的状态字段都加在这里，保持单一真源。 */
 export interface TableState<T extends object> {
   columns: readonly ResolvedTableColumn<T>[];
-  /** 实际渲染的行（客户端模式已应用筛选 + 排序；服务端模式等于原始数据）。 */
+  /** 实际渲染的行（客户端模式已应用筛选 + 排序 + **当前页切片**；服务端模式等于原始数据）。 */
   rows: readonly T[];
-  /** 全量行数；筛选 / 窗口化都不改变它（沿用属性契约登记表的既有语义）。 */
+  /** 全量行数；筛选 / 分页都不改变它（沿用属性契约登记表的既有语义）。 */
   totalRowCount: number;
-  /** 当前视图行数；客户端筛选后会小于 `totalRowCount`。 */
+  /** 筛选 + 排序后、分页前的行数；客户端模式下它就是分页的 `total`。 */
   viewRowCount: number;
   rowKey: string | undefined;
   loading: boolean;
@@ -88,6 +111,12 @@ export interface TableState<T extends object> {
   server: boolean;
   multipleSorters: boolean;
   openFilterKey: string | undefined;
+  /** 完整分页快照；未启用分页时为 `undefined`，也是 `TableChange.pagination` 的值。 */
+  pagination: TablePaginationState | undefined;
+  /** 分页展示配置；与 `pagination` 同生同灭。 */
+  paginationView: TablePaginationView | undefined;
+  /** 视图是否为空（无行且非加载态），供空态占位判断。 */
+  empty: boolean;
   /** 行选择模式；`undefined` 表示未启用（不渲染选择列）。 */
   selectionType: TableSelectionType | undefined;
   /** 当前选中行键（归一后）；radio 模式恒 ≤ 1 项。 */
@@ -116,6 +145,8 @@ export interface TableEngine<T extends object> {
   isRowDisabled: (row: T, index: number) => boolean;
   toggleRow: (row: T, index: number) => void;
   toggleAll: () => void;
+  /** `Pagination` 的唯一回流口：把同形的 `PaginationChange` 合流成三参快照。 */
+  changePagination: (change: PaginationChange) => void;
 }
 
 const widthText = (width: number | string | undefined): string | undefined => {
@@ -247,7 +278,13 @@ export function applySorters<T extends object>(
  * 需要响应式上下文）。视图只消费返回的句柄，不复制状态。
  */
 export function useTableEngine<T extends object>(options: TableEngineOptions<T>): TableEngine<T> {
-  // 非受控内部状态只在 setup 期初值化一次；受控模式下这两个 signal 不参与 state()。
+  /** `pagination={false}` / 不传 = 未启用；用函数读 props，保证后续传入配置也能生效。 */
+  const pag = (): TablePaginationConfig | undefined => {
+    const value = options.pagination;
+    return value === false || value === undefined ? undefined : value;
+  };
+
+  // 非受控内部状态只在 setup 期初值化一次；受控模式下这些 signal 不参与 state()。
   const [internalSorters, setInternalSorters] = createSignal<TableSorter>(
     normalizeSorters(options.defaultSorter),
   );
@@ -259,6 +296,14 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
   // 非受控行选择：只在 setup 期读一次 defaultSelectedRowKeys。
   const [internalSelectedKeys, setInternalSelectedKeys] = createSignal<readonly string[]>(
     normalizeSelectedKeys(options.rowSelection?.defaultSelectedRowKeys),
+  );
+  // 分页的两个非受控信号；与 Pagination 同口径，初值只在这里读一次。
+  const initialPage = pag();
+  const [internalPage, setInternalPage] = createSignal(
+    normalizePositive(initialPage?.defaultCurrent ?? 1, 1),
+  );
+  const [internalPageSize, setInternalPageSize] = createSignal(
+    normalizePositive(initialPage?.defaultPageSize ?? 10, 10),
   );
 
   // 列归一化单独一层 memo：`<For each={state().columns}>` 按 item 引用做 keyed diff，
@@ -273,9 +318,45 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
       options.sorter === undefined ? internalSorters() : normalizeSorters(options.sorter);
     const filters = options.filters === undefined ? internalFilters() : { ...options.filters };
     const server = options.server === true;
+    // 判据 4e 钉住这个三元：server 模式只出参数、不本地改数据（行数与顺序都不动）。
     const rows = server
       ? rawRows
       : applySorters(applyFilters(rawRows, filters, resolvedColumns), sorters, resolvedColumns);
+
+    // 分页状态复用 Pagination 引擎的四个纯函数收敛，不另写一套页码算法。
+    const config = pag();
+    const pageSize = normalizePositive(
+      config === undefined ? 10 : (config.pageSize ?? internalPageSize()),
+      10,
+    );
+    // 客户端模式数据就在手里，total 恒等于筛选 + 排序后的行数；服务端模式由调用方给。
+    // 客户端允许传 total 必然产生「页码说有 50 条、表里只有 12 行」的不一致，故忽略。
+    const total =
+      config === undefined
+        ? rows.length
+        : server
+          ? normalizeTotal(config.total ?? rows.length)
+          : rows.length;
+    const current = clampPage(
+      config === undefined ? 1 : (config.current ?? internalPage()),
+      getPageCount(total, pageSize),
+    );
+    const pagination: TablePaginationState | undefined =
+      config === undefined ? undefined : { current, pageSize, total };
+    const start = (current - 1) * pageSize;
+    // 服务端模式**不切数据**：调用方按 onChange 的参数请求后回写 data。
+    const viewRows =
+      pagination === undefined || server ? rows : rows.slice(start, start + pageSize);
+    const paginationView: TablePaginationView | undefined =
+      config === undefined
+        ? undefined
+        : {
+            showSizeChanger: config.showSizeChanger === true,
+            showQuickJumper: config.showQuickJumper === true,
+            showTotal: config.showTotal,
+            pageSizeOptions: config.pageSizeOptions,
+          };
+
     const rowSelection = options.rowSelection;
     const selectionType: TableSelectionType | undefined =
       rowSelection === undefined ? undefined : (rowSelection.type ?? 'checkbox');
@@ -287,11 +368,11 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     const selectedKeys: readonly string[] =
       selectionType === 'radio' ? declaredKeys.slice(0, 1) : declaredKeys;
     const selectedKeySet = new Set(selectedKeys);
-    // 全选 / 半选的分母只算「当前视图内且未禁用」的行：受控值里可能残留视图外 key，
-    // 拿它当分母会让半选态永远差一票。
+    // 全选 / 半选的分母只算「**当前页**且未禁用」的行：表头控件从 T3-03 起就叫
+    // 「全选当前页」，分页后拿全量数据当分母会让半选态永远差一票。
     const selectableKeys: string[] = [];
-    for (let index = 0; index < rows.length; index += 1) {
-      const row = rows[index];
+    for (let index = 0; index < viewRows.length; index += 1) {
+      const row = viewRows[index];
       if (row === undefined) continue;
       if (rowSelection?.isRowDisabled?.(row, index) === true) continue;
       selectableKeys.push(keyAt(row, index, options.rowKey));
@@ -300,13 +381,14 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     const allSelected =
       selectableKeys.length > 0 && selectedSelectableCount === selectableKeys.length;
     const someSelected = selectedSelectableCount > 0 && !allSelected;
+    const loading = options.loading === true;
     return {
       columns: resolvedColumns,
-      rows,
+      rows: viewRows,
       totalRowCount: rawRows.length,
       viewRowCount: rows.length,
       rowKey: options.rowKey,
-      loading: options.loading === true,
+      loading,
       bordered: options.bordered === true,
       size: options.size ?? 'medium',
       density: options.density ?? 'default',
@@ -315,6 +397,9 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
       server,
       multipleSorters: options.multipleSorters === true,
       openFilterKey: openFilterKey(),
+      pagination,
+      paginationView,
+      empty: viewRows.length === 0 && !loading,
       selectionType,
       selectedKeys,
       selectedKeySet,
@@ -324,10 +409,66 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     };
   });
 
-  /** 统一出口：任何一次变更都带出「排序 + 筛选」完整快照，不互相覆盖。 */
-  const emit = (sorters: TableSorter, filters: TableFilters): void => {
-    const change: TableChange = { filters, sorter: sorters, pagination: undefined };
+  // 分页双层收敛的第二步：非受控时把越界 / 非法的内部值真正写回合法值。
+  // 只有渲染期 clamp 会让内部信号一直脏着，数据恢复后页码又跳回越界值；
+  // 受控值归调用方所有，这里不改写（与 Pagination 引擎同口径）。
+  createEffect(() => {
+    const snapshot = state().pagination;
+    const config = pag();
+    if (snapshot === undefined || config === undefined) return;
+    if (config.current === undefined && internalPage() !== snapshot.current) {
+      setInternalPage(snapshot.current);
+    }
+    if (config.pageSize === undefined && internalPageSize() !== snapshot.pageSize) {
+      setInternalPageSize(snapshot.pageSize);
+    }
+  });
+
+  /**
+   * 统一出口：任何一次变更都带出「排序 + 筛选 + 分页」完整三参快照，不互相覆盖。
+   * `pagination` 由调用方显式给出而不是从 `state()` 里捞：受控模式下点击第 3 页，
+   * 组件内部状态仍是第 1 页，从 state 读会把旧页码发给业务侧。
+   */
+  const emit = (
+    sorters: TableSorter,
+    filters: TableFilters,
+    pagination: TablePaginationState | undefined,
+  ): void => {
+    const change: TableChange = { filters, sorter: sorters, pagination };
     options.onChange?.(change);
+  };
+
+  /**
+   * 筛选变化把页码归一到 1。
+   *
+   * 服务端模式下 `onChange` 是业务侧唯一的请求参数：筛选把结果从 50 条缩到 3 条时
+   * 若仍带旧页码 5，请求会直接落到空页，而 Table 并不知道新的 total，越界收敛
+   * 在这里帮不上忙。排序不改变结果集，因此保留当前页。
+   *
+   * 非受控时同步写回内部信号，否则下一次翻页会从旧基准算起；受控值归调用方，
+   * 只把 1 作为「建议页码」带出去，视图仍按调用方给的值显示（与 Pagination
+   * 受控语义一致）。
+   */
+  const resetPageAfterFilter = (
+    pagination: TablePaginationState | undefined,
+  ): TablePaginationState | undefined => {
+    if (pagination === undefined || pagination.current === 1) return pagination;
+    if (pag()?.current === undefined) setInternalPage(1);
+    return { ...pagination, current: 1 };
+  };
+
+  /** `Pagination` 的回流：同形的三字段原样合流，业务侧不再二次翻译。 */
+  const changePagination = (change: PaginationChange): void => {
+    const current = state();
+    const config = pag();
+    if (config === undefined) return;
+    if (config.current === undefined) setInternalPage(change.current);
+    if (config.pageSize === undefined) setInternalPageSize(change.pageSize);
+    emit(current.sorters, current.filters, {
+      current: change.current,
+      pageSize: change.pageSize,
+      total: change.total,
+    });
   };
 
   const toggleSort = (columnKey: string): void => {
@@ -343,7 +484,7 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     const next: TableSorter =
       direction === undefined ? others : [...others, { columnKey, direction }];
     if (options.sorter === undefined) setInternalSorters(next);
-    emit(next, current.filters);
+    emit(next, current.filters, current.pagination);
   };
 
   const setFilterValues = (columnKey: string, values: readonly string[]): void => {
@@ -352,7 +493,11 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     if (values.length === 0) delete next[columnKey];
     else next[columnKey] = values;
     if (options.filters === undefined) setInternalFilters(next);
-    emit(current.sorters, next);
+    // 必须取**筛选后**的快照：客户端模式下 total 恒等于筛选后行数，若沿用变化前的
+    // current.pagination，业务侧会拿着旧 total 去请求（筛选 12 → 6 条却仍报 12）。
+    // 受控 filters 时 state 不重算，total 由调用方回写后自然更新，符合受控语义。
+    const after = state();
+    emit(after.sorters, next, resetPageAfterFilter(after.pagination));
   };
 
   const filterDropdownContext = (columnKey: string): TableFilterDropdownContext => ({
@@ -437,5 +582,6 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     isRowDisabled: rowDisabled,
     toggleRow,
     toggleAll,
+    changePagination,
   };
 }

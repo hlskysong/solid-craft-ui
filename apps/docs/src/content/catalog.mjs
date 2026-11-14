@@ -149,7 +149,7 @@ export const COMPONENTS = [
     title: 'Table 表格',
     category: '数据',
     description:
-      '数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。',
+      '数据表格：列配置、排序筛选、行选择、客户端 / 服务端分页与空 / 加载态；直接组合 Pagination / Empty / Spin，onChange 一次给出三参完整快照，SSR 输出完整静态骨架。',
     exportPath: 'solid-craft/table',
     hasApi: true,
   },

@@ -2298,7 +2298,7 @@
   {
     "type": "component",
     "title": "Table 表格",
-    "description": "数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。",
+    "description": "数据表格：列配置、排序筛选、行选择、客户端 / 服务端分页与空 / 加载态；直接组合 Pagination / Empty / Spin，onChange 一次给出三参完整快照，SSR 输出完整静态骨架。",
     "keywords": "table solid-craft/table",
     "href": "/components/table"
   },
@@ -2325,10 +2325,31 @@
   },
   {
     "type": "demo",
+    "title": "Table 表格 · 空态与加载态",
+    "description": "空数据复用 Empty 占位，加载中复用 Spin 遮罩且分页禁用；两者互斥，切换时表头与列宽不变，不产生布局抖动。",
+    "keywords": "table empty-loading",
+    "href": "/components/table/empty-loading"
+  },
+  {
+    "type": "demo",
     "title": "Table 表格 · 筛选",
     "description": "内置下拉、自定义 filterDropdown 与服务端模式；服务端只带出参数，不改动本地数据。",
     "keywords": "table filtering",
     "href": "/components/table/filtering"
+  },
+  {
+    "type": "demo",
+    "title": "Table 表格 · 客户端分页",
+    "description": "数据全在前端时，Table 自己按筛选与排序后的结果切页，total 恒等于结果行数；翻页、排序、筛选共用 onChange 一个三参出口。",
+    "keywords": "table pagination-client",
+    "href": "/components/table/pagination-client"
+  },
+  {
+    "type": "demo",
+    "title": "Table 表格 · 服务端分页",
+    "description": "server 模式表内一行都不切，业务侧拿 onChange.pagination 直接拼请求、回写当前页数据；total 由调用方给出。",
+    "keywords": "table pagination-server",
+    "href": "/components/table/pagination-server"
   },
   {
     "type": "demo",
@@ -2388,6 +2409,69 @@
   },
   {
     "type": "api",
+    "title": "TablePaginationConfig.total",
+    "description": "服务端总条数；`server` 模式必给，客户端模式忽略。",
+    "keywords": "table number",
+    "href": "/components/table#api-total"
+  },
+  {
+    "type": "api",
+    "title": "TablePaginationConfig.current",
+    "description": "受控当前页；给了点击只发 `onChange`，组件内不保存页码。",
+    "keywords": "table number",
+    "href": "/components/table#api-current"
+  },
+  {
+    "type": "api",
+    "title": "TablePaginationConfig.defaultCurrent",
+    "description": "非受控初始页码；只在 setup 期读一次。 @default 1",
+    "keywords": "table number",
+    "href": "/components/table#api-defaultCurrent"
+  },
+  {
+    "type": "api",
+    "title": "TablePaginationConfig.pageSize",
+    "description": "受控每页条数。",
+    "keywords": "table number",
+    "href": "/components/table#api-pageSize"
+  },
+  {
+    "type": "api",
+    "title": "TablePaginationConfig.defaultPageSize",
+    "description": "非受控初始每页条数。 @default 10",
+    "keywords": "table number",
+    "href": "/components/table#api-defaultPageSize"
+  },
+  {
+    "type": "api",
+    "title": "TablePaginationConfig.pageSizeOptions",
+    "description": "每页条数候选值；`showSizeChanger` 开启时渲染成原生下拉。",
+    "keywords": "table readonly number[]",
+    "href": "/components/table#api-pageSizeOptions"
+  },
+  {
+    "type": "api",
+    "title": "TablePaginationConfig.showSizeChanger",
+    "description": "是否显示每页条数切换器。 @default false",
+    "keywords": "table boolean",
+    "href": "/components/table#api-showSizeChanger"
+  },
+  {
+    "type": "api",
+    "title": "TablePaginationConfig.showQuickJumper",
+    "description": "是否显示快速跳转。 @default false",
+    "keywords": "table boolean",
+    "href": "/components/table#api-showQuickJumper"
+  },
+  {
+    "type": "api",
+    "title": "TablePaginationConfig.showTotal",
+    "description": "总数文案渲染；拿到的是区间，调用方不必自己算 `(current - 1) * pageSize`。",
+    "keywords": "table (total: number, range: readonly [number, number]) => JSX.Element",
+    "href": "/components/table#api-showTotal"
+  },
+  {
+    "type": "api",
     "title": "TableChange.filters",
     "description": "当前生效的筛选状态。",
     "keywords": "table TableFilters",
@@ -2403,7 +2487,7 @@
   {
     "type": "api",
     "title": "TableChange.pagination",
-    "description": "分页参数；T3-02 恒为 `undefined`，T3-06 接入后才有值。",
+    "description": "完整分页快照；未启用分页（未传 `pagination` 或传 `false`）时为 `undefined`。",
     "keywords": "table TablePaginationState | undefined",
     "href": "/components/table#api-pagination"
   },
@@ -2647,8 +2731,15 @@
   },
   {
     "type": "api",
+    "title": "TableProps.pagination",
+    "description": "分页配置；不传或传 `false` 时完全不渲染分页（保持 T3-01~T3-03 的既有 DOM）。 默认关闭是刻意的：Table 的根节点在 T3-06 多了一层 wrapper，但只在启用分页 / 空态 / 加载态时才出现 footer 与占位节点，既有 Demo 与视觉基线因此零改动。",
+    "keywords": "table TablePaginationConfig | false",
+    "href": "/components/table#api-pagination"
+  },
+  {
+    "type": "api",
     "title": "TableProps.onChange",
-    "description": "统一变更出口；排序 / 筛选任一变化都带出完整三参快照。",
+    "description": "统一变更出口；排序 / 筛选 / 分页任一变化都带出完整三参快照。 服务端模式下业务侧可直接拿 `pagination` 拼请求参数，不必自己维护页码。",
     "keywords": "table (change: TableChange) => void",
     "href": "/components/table#api-onChange"
   },
