@@ -44,6 +44,10 @@
 | `data-scui-row-disabled` | `''`（存在即真） | 行选择被禁用：该行控件原生 `disabled`、且不进全选集合；**不改整行文字颜色**（禁用不靠降对比度表达，避免 axe `color-contrast`） | Table（T3-03） |
 | `data-scui-page` | 页码字符串 | 页码按钮定位；值与 `aria-current` 同源，测试与样式只认它，避免按文本抓节点（T3-04） | Pagination |
 | `data-scui-current` | `''`（存在即真） | 当前页；落在页码按钮上，与 `aria-current="page"` **双通道**（后者给读屏、前者给样式与测试）。不复用 `data-scui-selected`：那表达「被选中」而非「当前位于」，一个属性名只表达一个语义（T3-04） | Pagination |
+| `data-scui-variant` | `text \| card \| table \| button \| avatar` | 骨架形状；形状用枚举而不是 `title` / `avatar` 三个布尔，避免拼出头像 + 表格这类不存在的组合（T3-05） | Skeleton |
+| `data-scui-active` | `''`（存在即真） | 骨架微光动画开启；`prefers-reduced-motion: reduce` 时动画由 CSS 静止，属性本身仍输出（T3-05） | Skeleton |
+| `data-scui-last` | `''`（存在即真） | 骨架段落 / 卡片正文的**末行**，用于收窄到 60%。不用 `:last-child`：Solid 复用节点时位置语义不可靠（T3-05） | Skeleton |
+| `data-scui-spinning` | `''`（存在即真） | 包裹模式当前处于加载中，与容器 `aria-busy="true"` 同时出现；延迟未到时两者都不输出（T3-05） | Spin |
 
 ## `data-scui-role` 取值清单
 
@@ -56,6 +60,10 @@
 | `pagination` / `pagination-page` / `pagination-gap` / `pagination-prev` / `pagination-next` | Pagination | 结构锚点（T3-04）：`pagination` 是 `<nav>` 根，`pagination-gap` 是省略号占位（非按钮、`aria-hidden`），其余都是原生 `<button>` |
 | `pagination-size` / `pagination-jump` / `pagination-total` | Pagination | 结构锚点（T3-04）：原生 `<select>` / `<input>` / `<span>`，由 `showSizeChanger` / `showQuickJumper` / `showTotal` 控制是否出现；SSR 按同一条件输出 |
 | `filter-dropdown` / `filter-option` | Table | 筛选面板与内置选项锚点（T3-02）；面板初态关闭，SSR 零输出 |
+| `empty` / `empty-image` / `empty-description` / `empty-footer` | Empty | 结构锚点（T3-05）：`empty-image` 仅在**有插画**时输出（`image={null}` 表示纯文字空状态，整块缺席）；`empty-footer` 仅在传 `children` 时输出 |
+| `skeleton` / `skeleton-wrapper` | Skeleton | 结构锚点（T3-05）：无 `children` 时只有 `skeleton`（独立形态）；有 `children` 时外层是 `skeleton-wrapper`（承载 `aria-busy` 与调用方属性） |
+| `skeleton-line` / `skeleton-title` / `skeleton-row` / `skeleton-head` / `skeleton-button` / `skeleton-avatar` | Skeleton | 形状锚点（T3-05）：`skeleton-head` 是表格表头行、`skeleton-row` 是正文行，两者块高一致 |
+| `spin` / `spin-container` / `spin-overlay` / `spin-tip` | Spin | 结构锚点（T3-05）：`spin` 是转圈本体（`role="status"`，独立与包裹共用），`spin-container` 是包裹模式外层，`spin-overlay` 只在延迟到点后出现 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
 | `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |

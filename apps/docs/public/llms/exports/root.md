@@ -45,6 +45,9 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/range-picker` → RangePicker 日期范围：双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。
 - `solid-craft/table` → Table 表格：数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。
 - `solid-craft/pagination` → Pagination 分页：页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。
+- `solid-craft/empty` → Empty 空状态：插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。
+- `solid-craft/skeleton` → Skeleton 骨架屏：text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。
+- `solid-craft/spin` → Spin 加载中：独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 

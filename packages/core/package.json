@@ -137,6 +137,24 @@
       "import": "./dist/esm/components/pagination/index.js",
       "default": "./dist/esm/components/pagination/index.js"
     },
+    "./empty": {
+      "types": "./dist/types/components/empty/index.d.ts",
+      "solid": "./dist/source/components/empty/index.jsx",
+      "import": "./dist/esm/components/empty/index.js",
+      "default": "./dist/esm/components/empty/index.js"
+    },
+    "./skeleton": {
+      "types": "./dist/types/components/skeleton/index.d.ts",
+      "solid": "./dist/source/components/skeleton/index.jsx",
+      "import": "./dist/esm/components/skeleton/index.js",
+      "default": "./dist/esm/components/skeleton/index.js"
+    },
+    "./spin": {
+      "types": "./dist/types/components/spin/index.d.ts",
+      "solid": "./dist/source/components/spin/index.jsx",
+      "import": "./dist/esm/components/spin/index.js",
+      "default": "./dist/esm/components/spin/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

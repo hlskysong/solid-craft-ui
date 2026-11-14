@@ -1,0 +1,54 @@
+{
+  "slug": "skeleton",
+  "source": "packages/core/src/components/skeleton/types.ts",
+  "interfaces": [
+    {
+      "name": "SkeletonProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'children' | 'style'\n>",
+      "props": [
+        {
+          "name": "variant",
+          "type": "SkeletonVariant",
+          "optional": true,
+          "description": "形状。",
+          "default": "'text'"
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "optional": true,
+          "description": "行数，只对 `text` / `table` 生效；小于 1 的值按 1 处理。",
+          "default": "3"
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "optional": true,
+          "description": "微光动画。开启后仍尊重 `prefers-reduced-motion: reduce`（系统要求减动效时静止）。",
+          "default": "false"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "optional": true,
+          "description": "包裹模式开关，**只有传了 `children` 才有意义**： `true` 显示骨架、`false` 显示内容；不传 `children` 时恒显示骨架。",
+          "default": "false"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "被包裹的真实内容。传了它才进入包裹模式（外层多一个 `aria-busy` 容器）。",
+          "default": "undefined"
+        },
+        {
+          "name": "style",
+          "type": "string",
+          "optional": true,
+          "description": "根节点样式；与 `class` 一样合并而非覆盖。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

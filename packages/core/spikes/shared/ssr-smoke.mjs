@@ -533,6 +533,82 @@ const cases = [
       ['data-scui-disabled=""', 1],
     ],
   },
+  {
+    /* T3-05 三件套各占一个入口：三个组件互相独立，合在一个入口里会让
+       「某个组件的标记整段消失」被另外两个组件的输出兜住，counts 就失去意义。 */
+    id: 'T3-05-empty',
+    file: '/src/components/empty/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="empty"',
+      'data-scui-role="empty-image"',
+      'data-scui-role="empty-description"',
+      'data-scui-role="empty-footer"',
+      'aria-hidden="true"',
+    ],
+    counts: [
+      ['data-scui-role="empty"', 4],
+      ['data-scui-role="empty-image"', 3],
+      ['data-scui-role="empty-description"', 4],
+      ['data-scui-role="empty-footer"', 1],
+      ['data-scui-size="small"', 1],
+      ['data-scui-size="large"', 1],
+      // 4 个实例里只有 2 个走内置插画：一个 image={null}、一个自定义 span
+      ['aria-hidden="true"', 2],
+    ],
+  },
+  {
+    id: 'T3-05-skeleton',
+    file: '/src/components/skeleton/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="skeleton"',
+      'data-scui-role="skeleton-line"',
+      'data-scui-role="skeleton-row"',
+      'data-scui-role="skeleton-head"',
+      'data-scui-role="skeleton-title"',
+      'data-scui-role="skeleton-avatar"',
+      'data-scui-role="skeleton-wrapper"',
+      'aria-busy="true"',
+    ],
+    counts: [
+      ['data-scui-role="skeleton"', 4],
+      ['data-scui-role="skeleton-line"', 5],
+      ['data-scui-role="skeleton-row"', 2],
+      ['data-scui-role="skeleton-head"', 1],
+      ['data-scui-role="skeleton-title"', 1],
+      ['data-scui-role="skeleton-avatar"', 1],
+      ['data-scui-role="skeleton-wrapper"', 1],
+      ['aria-busy="true"', 4],
+      // 末行标记：text 3 行 1 处 + card 2 行 1 处
+      ['data-scui-last=""', 2],
+      ['data-scui-active=""', 1],
+    ],
+  },
+  {
+    id: 'T3-05-spin',
+    file: '/src/components/spin/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="spin"',
+      'data-scui-role="spin-container"',
+      'data-scui-role="spin-overlay"',
+      'data-scui-role="spin-tip"',
+      'role="status"',
+    ],
+    counts: [
+      ['data-scui-role="spin"', 4],
+      ['data-scui-role="spin-container"', 3],
+      // 只有第 4 例（spinning 默认 true 且无 delay）出遮罩
+      ['data-scui-role="spin-overlay"', 1],
+      ['data-scui-role="spin-tip"', 1],
+      ['role="status"', 4],
+      ['aria-busy="true"', 1],
+      ['data-scui-spinning=""', 1],
+      // 无 tip 的转圈补隐藏文案：small / large / 包裹内 共 3 处
+      ['加载中', 3],
+    ],
+  },
 ];
 
 const errors = [];

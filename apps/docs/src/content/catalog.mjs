@@ -162,6 +162,33 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/pagination',
     hasApi: true,
   },
+  {
+    slug: 'empty',
+    title: 'Empty 空状态',
+    category: '反馈',
+    description:
+      '插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。',
+    exportPath: 'solid-craft/empty',
+    hasApi: true,
+  },
+  {
+    slug: 'skeleton',
+    title: 'Skeleton 骨架屏',
+    category: '反馈',
+    description:
+      'text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。',
+    exportPath: 'solid-craft/skeleton',
+    hasApi: true,
+  },
+  {
+    slug: 'spin',
+    title: 'Spin 加载中',
+    category: '反馈',
+    description:
+      '独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。',
+    exportPath: 'solid-craft/spin',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

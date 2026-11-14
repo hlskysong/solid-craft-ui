@@ -1,0 +1,88 @@
+/* Spin（T3-05）
+   加载指示：独立转圈 + 包裹遮罩。变体走属性选择器，不生成 modifier class。
+
+   遮罩用 `color-mix` 而不是写死 `rgb(255 255 255 / 60%)`：后者在深色主题下会把
+   内容糊成一片灰白。browserslist 是 `chrome >= 128`，color-mix 可直接用。
+
+   转圈用「粗边框 + 单边主色」而不是 SVG：纯 CSS 动画不依赖图标资源，
+   也不会在 1px 边框下出现边缘锯齿。 */
+
+:where(.scui-spin) {
+  --scui-spin-size: 32px;
+  --scui-spin-stroke: 3px;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+  color: var(--scui-color-primary);
+}
+
+:where(.scui-spin)[data-scui-size='small'] {
+  --scui-spin-size: 16px;
+  --scui-spin-stroke: 2px;
+}
+
+:where(.scui-spin)[data-scui-size='large'] {
+  --scui-spin-size: 48px;
+  --scui-spin-stroke: 4px;
+}
+
+:where(.scui-spin__indicator) {
+  display: block;
+  box-sizing: border-box;
+  inline-size: var(--scui-spin-size);
+  block-size: var(--scui-spin-size);
+  border: var(--scui-spin-stroke) solid var(--scui-color-neutral-100);
+  border-block-start-color: currentcolor;
+  border-radius: 50%;
+  animation: scui-spin-rotate 0.8s linear infinite;
+}
+
+:where(.scui-spin__tip) {
+  color: var(--scui-color-text-secondary);
+  font-size: var(--scui-font-size-md, 14px);
+  line-height: var(--scui-line-height-md, 22px);
+}
+
+/* 视觉隐藏但保留在无障碍树里：无 tip 时读屏要能读到「加载中」 */
+:where(.scui-spin__sr) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+:where(.scui-spin__container) {
+  position: relative;
+  display: block;
+}
+
+:where(.scui-spin__overlay) {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background-color: color-mix(in srgb, var(--scui-color-bg-surface) 60%, transparent);
+}
+
+@keyframes scui-spin-rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* 系统要求减动效时停转：转圈本身仍是可辨识的加载图形（单边主色的环） */
+@media (prefers-reduced-motion: reduce) {
+  :where(.scui-spin__indicator) {
+    animation: none;
+  }
+}

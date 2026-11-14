@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 98 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 110 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 23 个 exports 子路径、18 个组件页、63 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 26 个 exports 子路径、21 个组件页、72 个 Demo。
 
 ## 关键约定
 
@@ -64,6 +64,9 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [RangePicker 日期范围](llms/exports/range-picker.md) | `solid-craft/range-picker` | 双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。 |
 | [Table 表格](llms/exports/table.md) | `solid-craft/table` | 数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。 |
 | [Pagination 分页](llms/exports/pagination.md) | `solid-craft/pagination` | 页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。 |
+| [Empty 空状态](llms/exports/empty.md) | `solid-craft/empty` | 插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。 |
+| [Skeleton 骨架屏](llms/exports/skeleton.md) | `solid-craft/skeleton` | text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。 |
+| [Spin 加载中](llms/exports/spin.md) | `solid-craft/spin` | 独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。 |
 
 - [ConfigProvider 全局配置](llms/exports/config-provider.md) · [样式](llms/exports/styles-css.md) · [按组件样式通配](llms/exports/styles.md) · [package.json](llms/exports/package-json.md)
 
@@ -152,6 +155,9 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/range-picker` → RangePicker 日期范围：双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。
 - `solid-craft/table` → Table 表格：数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。
 - `solid-craft/pagination` → Pagination 分页：页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。
+- `solid-craft/empty` → Empty 空状态：插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。
+- `solid-craft/skeleton` → Skeleton 骨架屏：text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。
+- `solid-craft/spin` → Spin 加载中：独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 
@@ -4296,6 +4302,425 @@ export interface ButtonProps
 
 ---
 
+<!-- source: llms/exports/empty.md -->
+
+# Empty 空状态（`solid-craft/empty`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/empty/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/empty/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/empty/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/empty/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/empty';
+```
+
+## API
+
+### EmptyProps
+
+继承：`Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' \| 'style'>`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `description` | `JSX.Element` | `'暂无数据'` | 描述文案。传节点而不是字符串，是因为业务经常要带一个「新建」链接或代码片段。 | 否 |
+| `image` | `JSX.Element \| null` | `内置线框插画` | 自定义插画。给了就整体替换内置图形（不是叠加）。 内置图形带 `aria-hidden`，自定义插画由调用方自己决定是否可读。 显式传 `null` 表示**不要插画**（纯文字空状态）；不传则用内置图形。 | 否 |
+| `size` | `EmptySize` | `'medium'` | 尺寸档。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 底部操作区，通常放一个主按钮（例如「新建第一条记录」）。 不传则不渲染该区块，DOM 里不留空壳。 | 否 |
+| `style` | `string` | — | 根节点样式；与 `class` 一样合并而非覆盖。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/empty/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `Empty` 的公共类型（T3-05）。
+ *
+ * 范围按 `docs/04 §4` 的 P0 条目「空状态、自定义插画」：一句话描述 + 一块插画 +
+ * 可选的底部操作区，不做表单向导、不做错误码分支。
+ *
+ * R3 说明：`description` / `image` 都是**节点**而不是渲染函数，所以不套
+ * `MaybeAccessor` —— `typeof value === 'function'` 无法区分「要渲染的函数」与
+ * 「返回值的 getter」，套了会把 `() => <Icon />` 误判成取值器。
+ *
+ * R2 说明：`size` 只接受字符串字面量，不暴露 `{ small: {...} }` 这类配置对象。
+ */
+import type { JSX } from 'solid-js';
+
+/**
+ * 尺寸档：只影响插画块尺寸与字号档，不影响文案排版。
+ * 与全局口径一致，只有 small / medium / large，不存在 sm / md。
+ */
+export type EmptySize = 'small' | 'medium' | 'large';
+
+/** `<Empty>` 入参。原生属性照常透传到根节点。 */
+export interface EmptyProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'style'> {
+  /**
+   * 描述文案。传节点而不是字符串，是因为业务经常要带一个「新建」链接或代码片段。
+   * @default '暂无数据'
+   */
+  description?: JSX.Element;
+  /**
+   * 自定义插画。给了就整体替换内置图形（不是叠加）。
+   * 内置图形带 `aria-hidden`，自定义插画由调用方自己决定是否可读。
+   * 显式传 `null` 表示**不要插画**（纯文字空状态）；不传则用内置图形。
+   * @default 内置线框插画
+   */
+  image?: JSX.Element | null;
+  /**
+   * 尺寸档。
+   * @default 'medium'
+   */
+  size?: EmptySize;
+  /**
+   * 底部操作区，通常放一个主按钮（例如「新建第一条记录」）。
+   * 不传则不渲染该区块，DOM 里不留空壳。
+   * @default undefined
+   */
+  children?: JSX.Element;
+  /**
+   * 根节点样式；与 `class` 一样合并而非覆盖。
+   */
+  style?: string;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/empty-basic.md)：默认插画 + 默认文案；三档尺寸按容器宽度选，不改变文案排版。（源文件 `packages/core/src/components/empty/demos/basic.tsx`）
+- [自定义插画](llms/demos/empty-custom-image.md)：image 整体替换内置图形而非叠加；自定义图形默认对读屏可见，装饰性图形请自行加 aria-hidden。（源文件 `packages/core/src/components/empty/demos/custom-image.tsx`）
+- [带操作](llms/demos/empty-with-action.md)：children 落在描述下方，通常放一个主按钮；不传 children 时该区块不渲染。（源文件 `packages/core/src/components/empty/demos/with-action.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/skeleton.md -->
+
+# Skeleton 骨架屏（`solid-craft/skeleton`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/skeleton/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/skeleton/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/skeleton/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/skeleton/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/skeleton';
+```
+
+## API
+
+### SkeletonProps
+
+继承：`Omit<   JSX.HTMLAttributes<HTMLDivElement>,   'children' \| 'style' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `variant` | `SkeletonVariant` | `'text'` | 形状。 | 否 |
+| `rows` | `number` | `3` | 行数，只对 `text` / `table` 生效；小于 1 的值按 1 处理。 | 否 |
+| `active` | `boolean` | `false` | 微光动画。开启后仍尊重 `prefers-reduced-motion: reduce`（系统要求减动效时静止）。 | 否 |
+| `loading` | `boolean` | `false` | 包裹模式开关，**只有传了 `children` 才有意义**： `true` 显示骨架、`false` 显示内容；不传 `children` 时恒显示骨架。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 被包裹的真实内容。传了它才进入包裹模式（外层多一个 `aria-busy` 容器）。 | 否 |
+| `style` | `string` | — | 根节点样式；与 `class` 一样合并而非覆盖。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/skeleton/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `Skeleton` 的公共类型（T3-05）。
+ *
+ * 范围按 `docs/04 §4` 的 P0 条目「文本 / 表格 / 卡片骨架」：五种形状 + 包裹模式。
+ * 形状用 `variant` 一个字符串开关，而不是 `title` / `avatar` / `paragraph` 三个布尔
+ * ——三个布尔能拼出不存在的组合（头像 + 表格），字符串枚举不会（R2 = A）。
+ *
+ * 硬性约束来自 `docs/08 §4.2` T3-05 验收列：**骨架与真实内容同尺寸、切换不抖动**。
+ * 因此每一个形状的块高都直接引用被替代组件的尺寸 token（见 `skeleton.scss`），
+ * 不写裸像素；文本骨架的行块高恒等于 `--scui-line-height-md`，三行骨架 = 三行文本。
+ *
+ * R3：`children` 是节点，不套 `MaybeAccessor`。
+ */
+import type { JSX } from 'solid-js';
+
+/**
+ * 骨架形状。
+ * - `text`：段落，`rows` 行，末行收窄；
+ * - `card`：卡片，标题条 + 正文行；
+ * - `table`：表格，表头行 + `rows` 行，与 Table 默认密度的行高一致；
+ * - `button`：单条，高度取按钮中年档；
+ * - `avatar`：圆形，尺寸取常用头像档。
+ */
+export type SkeletonVariant = 'text' | 'card' | 'table' | 'button' | 'avatar';
+
+/** `<Skeleton>` 入参。原生属性照常透传到根节点。 */
+export interface SkeletonProps extends Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  'children' | 'style'
+> {
+  /**
+   * 形状。
+   * @default 'text'
+   */
+  variant?: SkeletonVariant;
+  /**
+   * 行数，只对 `text` / `table` 生效；小于 1 的值按 1 处理。
+   * @default 3
+   */
+  rows?: number;
+  /**
+   * 微光动画。开启后仍尊重 `prefers-reduced-motion: reduce`（系统要求减动效时静止）。
+   * @default false
+   */
+  active?: boolean;
+  /**
+   * 包裹模式开关，**只有传了 `children` 才有意义**：
+   * `true` 显示骨架、`false` 显示内容；不传 `children` 时恒显示骨架。
+   * @default false
+   */
+  loading?: boolean;
+  /**
+   * 被包裹的真实内容。传了它才进入包裹模式（外层多一个 `aria-busy` 容器）。
+   * @default undefined
+   */
+  children?: JSX.Element;
+  /**
+   * 根节点样式；与 `class` 一样合并而非覆盖。
+   */
+  style?: string;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [微光动画](llms/demos/skeleton-active.md)：active 开启微光；系统开启「减弱动效」时自动静止，不靠 JS 判断。（源文件 `packages/core/src/components/skeleton/demos/active.tsx`）
+- [五种形状](llms/demos/skeleton-basic.md)：text / card / table / button / avatar；行数与形状都走单一 variant 开关。（源文件 `packages/core/src/components/skeleton/demos/basic.tsx`）
+- [包裹与同高](llms/demos/skeleton-loading.md)：loading 切换骨架与内容；右侧对照区把三行骨架和三行真实文本并排放，高度必须一致。（源文件 `packages/core/src/components/skeleton/demos/loading.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/spin.md -->
+
+# Spin 加载中（`solid-craft/spin`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/spin/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/spin/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/spin/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/spin/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/spin';
+```
+
+## API
+
+### SpinProps
+
+继承：`Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' \| 'style'>`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `spinning` | `boolean` | `true` | 是否加载中。 | 否 |
+| `delay` | `number` | `0` | 延迟显示毫秒数。小于 0 按 0 处理（立即显示）。 | 否 |
+| `size` | `SpinSize` | `'medium'` | 尺寸档。 | 否 |
+| `tip` | `JSX.Element` | `undefined` | 加载文案。不传时读屏仍会读到视觉隐藏的「加载中」，避免出现无声转圈。 | 否 |
+| `children` | `JSX.Element` | `undefined` | 被包裹的内容。传了它才进入包裹模式（遮罩覆盖在内容上）， 不传则渲染独立转圈。 | 否 |
+| `style` | `string` | — | 根节点样式；与 `class` 一样合并而非覆盖。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/spin/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `Spin` 的公共类型（T3-05）。
+ *
+ * 范围按 `docs/04 §4` 的 P0 条目「包裹 / 独立、延迟显示」：
+ * 独立形态是一个自带 `role="status"` 的转圈；包裹形态在内容上层盖一层遮罩，
+ * 并给容器 `aria-busy`。不做全屏 loading、不做进度百分比 —— 那是 `Progress` 的事。
+ *
+ * `delay` 的语义（`docs/08 §4.2` T3-05 验收列要求「延迟显示可测」）：
+ * **从 `spinning` 变为 true 起算**，未到时间不渲染遮罩；期间若 `spinning` 转回 false，
+ * 定时器立即取消，遮罩一次都不出现 —— 避免「请求 80ms 就回来、遮罩闪一下」的抖动。
+ *
+ * R3：`tip` / `children` 是节点，不套 `MaybeAccessor`。
+ */
+import type { JSX } from 'solid-js';
+
+/** 尺寸档：只影响转圈直径与描边粗细。 */
+export type SpinSize = 'small' | 'medium' | 'large';
+
+/** `<Spin>` 入参。原生属性照常透传到根节点。 */
+export interface SpinProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'style'> {
+  /**
+   * 是否加载中。
+   * @default true
+   */
+  spinning?: boolean;
+  /**
+   * 延迟显示毫秒数。小于 0 按 0 处理（立即显示）。
+   * @default 0
+   */
+  delay?: number;
+  /**
+   * 尺寸档。
+   * @default 'medium'
+   */
+  size?: SpinSize;
+  /**
+   * 加载文案。不传时读屏仍会读到视觉隐藏的「加载中」，避免出现无声转圈。
+   * @default undefined
+   */
+  tip?: JSX.Element;
+  /**
+   * 被包裹的内容。传了它才进入包裹模式（遮罩覆盖在内容上），
+   * 不传则渲染独立转圈。
+   * @default undefined
+   */
+  children?: JSX.Element;
+  /**
+   * 根节点样式；与 `class` 一样合并而非覆盖。
+   */
+  style?: string;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [独立使用](llms/demos/spin-basic.md)：不传 children 时是独立转圈；三档尺寸 + 可选文案。（源文件 `packages/core/src/components/spin/demos/basic.tsx`）
+- [延迟显示](llms/demos/spin-delay.md)：delay=400ms：请求很快回来时一次都不闪；超过 400ms 才出遮罩，避免短请求的闪烁抖动。（源文件 `packages/core/src/components/spin/demos/delay.tsx`）
+- [包裹内容](llms/demos/spin-wrap.md)：遮罩盖在内容上层，容器同步 aria-busy；关掉后内容原样可见，不做透明度衰减。（源文件 `packages/core/src/components/spin/demos/wrap.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
 <!-- source: llms/exports/config-provider.md -->
 
 # ConfigProvider 全局配置（`solid-craft/config-provider`）
@@ -4675,6 +5100,9 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./form` → [solid-craft/form](llms/exports/form.md)
 - `./table` → [solid-craft/table](llms/exports/table.md)
 - `./pagination` → [solid-craft/pagination](llms/exports/pagination.md)
+- `./empty` → [solid-craft/empty](llms/exports/empty.md)
+- `./skeleton` → [solid-craft/skeleton](llms/exports/skeleton.md)
+- `./spin` → [solid-craft/spin](llms/exports/spin.md)
 - `./config-provider` → [solid-craft/config-provider](llms/exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](llms/exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](llms/exports/styles.md)
@@ -10137,6 +10565,480 @@ export default function PaginationSizeChangerDemo() {
 ## 相关页面
 
 - [Pagination 分页 API](llms/exports/pagination.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/empty-basic.md -->
+
+# Empty 空状态 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/empty/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+默认插画 + 默认文案；三档尺寸按容器宽度选，不改变文案排版。
+
+## 完整源码
+
+```tsx
+import { Empty } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '默认插画 + 默认文案；三档尺寸按容器宽度选，不改变文案排版。',
+};
+
+export default function EmptyBasicDemo() {
+  return (
+    <>
+      <DemoSection title="默认">
+        <Empty />
+      </DemoSection>
+
+      <DemoSection title="自定义描述">
+        <Empty description="还没有任何设备采购计划" />
+      </DemoSection>
+
+      <DemoSection title="三档尺寸">
+        <div class="demo-row">
+          <Empty size="small" description="small" />
+          <Empty size="medium" description="medium" />
+          <Empty size="large" description="large" />
+        </div>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Empty 空状态 API](llms/exports/empty.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/empty-custom-image.md -->
+
+# Empty 空状态 · 自定义插画（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/empty/demos/custom-image.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+image 整体替换内置图形而非叠加；自定义图形默认对读屏可见，装饰性图形请自行加 aria-hidden。
+
+## 完整源码
+
+```tsx
+import { Empty } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '自定义插画',
+  description:
+    'image 整体替换内置图形而非叠加；自定义图形默认对读屏可见，装饰性图形请自行加 aria-hidden。',
+};
+
+export default function EmptyCustomImageDemo() {
+  return (
+    <>
+      <DemoSection title="自定义图形">
+        <Empty
+          description="所有任务都处理完了"
+          image={
+            <svg viewBox="0 0 96 72" fill="none" aria-hidden="true">
+              <circle cx="48" cy="34" r="22" stroke="currentColor" stroke-width="2.5" />
+              <path
+                d="M38 34l7 7 13-14"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          }
+        />
+      </DemoSection>
+
+      <DemoSection title="纯文字（不要插画）">
+        <Empty image={null} description="这一列暂时没有数据" />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Empty 空状态 API](llms/exports/empty.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/empty-with-action.md -->
+
+# Empty 空状态 · 带操作（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/empty/demos/with-action.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+children 落在描述下方，通常放一个主按钮；不传 children 时该区块不渲染。
+
+## 完整源码
+
+```tsx
+import { Button, Empty } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '带操作',
+  description: 'children 落在描述下方，通常放一个主按钮；不传 children 时该区块不渲染。',
+};
+
+export default function EmptyWithActionDemo() {
+  return (
+    <>
+      <DemoSection title="引导新建">
+        <Empty description="还没有维简设备采购计划">
+          <Button variant="solid">新建计划</Button>
+        </Empty>
+      </DemoSection>
+
+      <DemoSection title="两个操作">
+        <Empty description="当前筛选条件下没有匹配结果">
+          <Button>清空筛选</Button>
+          <Button variant="solid">新建记录</Button>
+        </Empty>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Empty 空状态 API](llms/exports/empty.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/skeleton-active.md -->
+
+# Skeleton 骨架屏 · 微光动画（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/skeleton/demos/active.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+active 开启微光；系统开启「减弱动效」时自动静止，不靠 JS 判断。
+
+## 完整源码
+
+```tsx
+import { Skeleton } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '微光动画',
+  description: 'active 开启微光；系统开启「减弱动效」时自动静止，不靠 JS 判断。',
+};
+
+export default function SkeletonActiveDemo() {
+  return (
+    <>
+      <DemoSection title="段落微光">
+        <Skeleton active rows={4} />
+      </DemoSection>
+
+      <DemoSection title="卡片微光">
+        <Skeleton active variant="card" rows={3} />
+      </DemoSection>
+
+      <DemoSection title="表格微光">
+        <Skeleton active variant="table" rows={3} />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Skeleton 骨架屏 API](llms/exports/skeleton.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/skeleton-basic.md -->
+
+# Skeleton 骨架屏 · 五种形状（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/skeleton/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+text / card / table / button / avatar；行数与形状都走单一 variant 开关。
+
+## 完整源码
+
+```tsx
+import { Skeleton } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '五种形状',
+  description: 'text / card / table / button / avatar；行数与形状都走单一 variant 开关。',
+};
+
+export default function SkeletonBasicDemo() {
+  return (
+    <>
+      <DemoSection title="段落">
+        <Skeleton />
+      </DemoSection>
+
+      <DemoSection title="卡片">
+        <Skeleton variant="card" rows={2} />
+      </DemoSection>
+
+      <DemoSection title="表格">
+        <Skeleton variant="table" rows={4} />
+      </DemoSection>
+
+      <DemoSection title="按钮与头像">
+        <div class="demo-row">
+          <Skeleton variant="avatar" />
+          <Skeleton variant="button" />
+        </div>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Skeleton 骨架屏 API](llms/exports/skeleton.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/skeleton-loading.md -->
+
+# Skeleton 骨架屏 · 包裹与同高（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/skeleton/demos/loading.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+loading 切换骨架与内容；右侧对照区把三行骨架和三行真实文本并排放，高度必须一致。
+
+## 完整源码
+
+```tsx
+import { Button, Skeleton } from 'solid-craft';
+import { createSignal } from 'solid-js';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '包裹与同高',
+  description: 'loading 切换骨架与内容；右侧对照区把三行骨架和三行真实文本并排放，高度必须一致。',
+};
+
+export default function SkeletonLoadingDemo() {
+  const [loading, setLoading] = createSignal(true);
+
+  return (
+    <>
+      <DemoSection title="包裹模式">
+        <Skeleton loading={loading()}>
+          <div>维简设备采购计划已提交，等待机电管理部审核。</div>
+          <div>本次采购数量 12 台，本次采购单价 8.6 万，合计 103.2 万。</div>
+          <div>审核通过后进入招标环节，预计 15 个工作日内完成。</div>
+        </Skeleton>
+        <Button onClick={() => setLoading((value) => !value)}>
+          {loading() ? '显示内容' : '显示骨架'}
+        </Button>
+      </DemoSection>
+
+      {/* 对照区：browser 用例按 boundingBox 实测两列高度差。
+          两列必须 `align-items: flex-start` —— 用 stretch 的话，flex 会把两列强行
+          拉成等高，测出来的「一致」是布局凑出来的，不是骨架真的同高。
+          文本列显式写字号 / 行高 token，避免受页面默认排版影响。 */}
+      <DemoSection title="骨架与真实内容同高">
+        <div class="demo-row" style="align-items: flex-start; gap: 24px">
+          <div data-testid="skeleton-column" style="flex: 1 1 200px">
+            <Skeleton rows={3} />
+          </div>
+          <div
+            data-testid="text-column"
+            style="flex: 1 1 200px; font-size: var(--scui-font-size-md); line-height: var(--scui-line-height-md)"
+          >
+            <div>维简设备采购计划</div>
+            <div>维简设备采购计划</div>
+            <div>维简设备采购计划</div>
+          </div>
+        </div>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Skeleton 骨架屏 API](llms/exports/skeleton.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/spin-basic.md -->
+
+# Spin 加载中 · 独立使用（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/spin/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+不传 children 时是独立转圈；三档尺寸 + 可选文案。
+
+## 完整源码
+
+```tsx
+import { Spin } from 'solid-craft';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '独立使用',
+  description: '不传 children 时是独立转圈；三档尺寸 + 可选文案。',
+};
+
+export default function SpinBasicDemo() {
+  return (
+    <>
+      <DemoSection title="三档尺寸">
+        <div class="demo-row">
+          <Spin size="small" />
+          <Spin />
+          <Spin size="large" />
+        </div>
+      </DemoSection>
+
+      <DemoSection title="带文案">
+        <Spin tip="正在加载设备清单" />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Spin 加载中 API](llms/exports/spin.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/spin-delay.md -->
+
+# Spin 加载中 · 延迟显示（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/spin/demos/delay.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+delay=400ms：请求很快回来时一次都不闪；超过 400ms 才出遮罩，避免短请求的闪烁抖动。
+
+## 完整源码
+
+```tsx
+import { Button, Spin } from 'solid-craft';
+import { createSignal } from 'solid-js';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '延迟显示',
+  description: 'delay=400ms：请求很快回来时一次都不闪；超过 400ms 才出遮罩，避免短请求的闪烁抖动。',
+};
+
+export default function SpinDelayDemo() {
+  const [spinning, setSpinning] = createSignal(false);
+
+  return (
+    <DemoSection title="延迟 400ms">
+      <Spin spinning={spinning()} delay={400} tip="正在加载" style="min-height: 88px">
+        <div data-testid="delay-content">设备采购明细</div>
+      </Spin>
+      <div class="demo-row">
+        <Button onClick={() => setSpinning(true)}>开始加载</Button>
+        <Button onClick={() => setSpinning(false)}>立即结束</Button>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Spin 加载中 API](llms/exports/spin.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/spin-wrap.md -->
+
+# Spin 加载中 · 包裹内容（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/spin/demos/wrap.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+遮罩盖在内容上层，容器同步 aria-busy；关掉后内容原样可见，不做透明度衰减。
+
+## 完整源码
+
+```tsx
+import { Button, Spin } from 'solid-craft';
+import { createSignal } from 'solid-js';
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '包裹内容',
+  description: '遮罩盖在内容上层，容器同步 aria-busy；关掉后内容原样可见，不做透明度衰减。',
+};
+
+export default function SpinWrapDemo() {
+  const [spinning, setSpinning] = createSignal(true);
+
+  return (
+    <>
+      <DemoSection title="包裹一段内容">
+        <Spin spinning={spinning()} tip="正在提交审核" style="min-height: 96px">
+          <div>维简设备采购计划 · 2026 年第三批</div>
+          <div>本次采购数量 12 台，本次采购单价 8.6 万</div>
+        </Spin>
+        <Button onClick={() => setSpinning((value) => !value)}>
+          {spinning() ? '结束加载' : '开始加载'}
+        </Button>
+      </DemoSection>
+
+      <DemoSection title="无文案（读屏仍有「加载中」）">
+        <Spin style="min-height: 72px">
+          <div>设备台账</div>
+        </Spin>
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [Spin 加载中 API](llms/exports/spin.md)
 - [设计 Token](llms/design/tokens.md)
 
 ---

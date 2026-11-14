@@ -2835,6 +2835,209 @@
     "href": "/components/pagination#api-style"
   },
   {
+    "type": "component",
+    "title": "Empty 空状态",
+    "description": "插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。",
+    "keywords": "empty solid-craft/empty",
+    "href": "/components/empty"
+  },
+  {
+    "type": "demo",
+    "title": "Empty 空状态 · 基础用法",
+    "description": "默认插画 + 默认文案；三档尺寸按容器宽度选，不改变文案排版。",
+    "keywords": "empty basic",
+    "href": "/components/empty/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Empty 空状态 · 自定义插画",
+    "description": "image 整体替换内置图形而非叠加；自定义图形默认对读屏可见，装饰性图形请自行加 aria-hidden。",
+    "keywords": "empty custom-image",
+    "href": "/components/empty/custom-image"
+  },
+  {
+    "type": "demo",
+    "title": "Empty 空状态 · 带操作",
+    "description": "children 落在描述下方，通常放一个主按钮；不传 children 时该区块不渲染。",
+    "keywords": "empty with-action",
+    "href": "/components/empty/with-action"
+  },
+  {
+    "type": "api",
+    "title": "EmptyProps.description",
+    "description": "描述文案。传节点而不是字符串，是因为业务经常要带一个「新建」链接或代码片段。",
+    "keywords": "empty JSX.Element",
+    "href": "/components/empty#api-description"
+  },
+  {
+    "type": "api",
+    "title": "EmptyProps.image",
+    "description": "自定义插画。给了就整体替换内置图形（不是叠加）。 内置图形带 `aria-hidden`，自定义插画由调用方自己决定是否可读。 显式传 `null` 表示**不要插画**（纯文字空状态）；不传则用内置图形。",
+    "keywords": "empty JSX.Element | null",
+    "href": "/components/empty#api-image"
+  },
+  {
+    "type": "api",
+    "title": "EmptyProps.size",
+    "description": "尺寸档。",
+    "keywords": "empty EmptySize",
+    "href": "/components/empty#api-size"
+  },
+  {
+    "type": "api",
+    "title": "EmptyProps.children",
+    "description": "底部操作区，通常放一个主按钮（例如「新建第一条记录」）。 不传则不渲染该区块，DOM 里不留空壳。",
+    "keywords": "empty JSX.Element",
+    "href": "/components/empty#api-children"
+  },
+  {
+    "type": "api",
+    "title": "EmptyProps.style",
+    "description": "根节点样式；与 `class` 一样合并而非覆盖。",
+    "keywords": "empty string",
+    "href": "/components/empty#api-style"
+  },
+  {
+    "type": "component",
+    "title": "Skeleton 骨架屏",
+    "description": "text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。",
+    "keywords": "skeleton solid-craft/skeleton",
+    "href": "/components/skeleton"
+  },
+  {
+    "type": "demo",
+    "title": "Skeleton 骨架屏 · 微光动画",
+    "description": "active 开启微光；系统开启「减弱动效」时自动静止，不靠 JS 判断。",
+    "keywords": "skeleton active",
+    "href": "/components/skeleton/active"
+  },
+  {
+    "type": "demo",
+    "title": "Skeleton 骨架屏 · 五种形状",
+    "description": "text / card / table / button / avatar；行数与形状都走单一 variant 开关。",
+    "keywords": "skeleton basic",
+    "href": "/components/skeleton/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Skeleton 骨架屏 · 包裹与同高",
+    "description": "loading 切换骨架与内容；右侧对照区把三行骨架和三行真实文本并排放，高度必须一致。",
+    "keywords": "skeleton loading",
+    "href": "/components/skeleton/loading"
+  },
+  {
+    "type": "api",
+    "title": "SkeletonProps.variant",
+    "description": "形状。",
+    "keywords": "skeleton SkeletonVariant",
+    "href": "/components/skeleton#api-variant"
+  },
+  {
+    "type": "api",
+    "title": "SkeletonProps.rows",
+    "description": "行数，只对 `text` / `table` 生效；小于 1 的值按 1 处理。",
+    "keywords": "skeleton number",
+    "href": "/components/skeleton#api-rows"
+  },
+  {
+    "type": "api",
+    "title": "SkeletonProps.active",
+    "description": "微光动画。开启后仍尊重 `prefers-reduced-motion: reduce`（系统要求减动效时静止）。",
+    "keywords": "skeleton boolean",
+    "href": "/components/skeleton#api-active"
+  },
+  {
+    "type": "api",
+    "title": "SkeletonProps.loading",
+    "description": "包裹模式开关，**只有传了 `children` 才有意义**： `true` 显示骨架、`false` 显示内容；不传 `children` 时恒显示骨架。",
+    "keywords": "skeleton boolean",
+    "href": "/components/skeleton#api-loading"
+  },
+  {
+    "type": "api",
+    "title": "SkeletonProps.children",
+    "description": "被包裹的真实内容。传了它才进入包裹模式（外层多一个 `aria-busy` 容器）。",
+    "keywords": "skeleton JSX.Element",
+    "href": "/components/skeleton#api-children"
+  },
+  {
+    "type": "api",
+    "title": "SkeletonProps.style",
+    "description": "根节点样式；与 `class` 一样合并而非覆盖。",
+    "keywords": "skeleton string",
+    "href": "/components/skeleton#api-style"
+  },
+  {
+    "type": "component",
+    "title": "Spin 加载中",
+    "description": "独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。",
+    "keywords": "spin solid-craft/spin",
+    "href": "/components/spin"
+  },
+  {
+    "type": "demo",
+    "title": "Spin 加载中 · 独立使用",
+    "description": "不传 children 时是独立转圈；三档尺寸 + 可选文案。",
+    "keywords": "spin basic",
+    "href": "/components/spin/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Spin 加载中 · 延迟显示",
+    "description": "delay=400ms：请求很快回来时一次都不闪；超过 400ms 才出遮罩，避免短请求的闪烁抖动。",
+    "keywords": "spin delay",
+    "href": "/components/spin/delay"
+  },
+  {
+    "type": "demo",
+    "title": "Spin 加载中 · 包裹内容",
+    "description": "遮罩盖在内容上层，容器同步 aria-busy；关掉后内容原样可见，不做透明度衰减。",
+    "keywords": "spin wrap",
+    "href": "/components/spin/wrap"
+  },
+  {
+    "type": "api",
+    "title": "SpinProps.spinning",
+    "description": "是否加载中。",
+    "keywords": "spin boolean",
+    "href": "/components/spin#api-spinning"
+  },
+  {
+    "type": "api",
+    "title": "SpinProps.delay",
+    "description": "延迟显示毫秒数。小于 0 按 0 处理（立即显示）。",
+    "keywords": "spin number",
+    "href": "/components/spin#api-delay"
+  },
+  {
+    "type": "api",
+    "title": "SpinProps.size",
+    "description": "尺寸档。",
+    "keywords": "spin SpinSize",
+    "href": "/components/spin#api-size"
+  },
+  {
+    "type": "api",
+    "title": "SpinProps.tip",
+    "description": "加载文案。不传时读屏仍会读到视觉隐藏的「加载中」，避免出现无声转圈。",
+    "keywords": "spin JSX.Element",
+    "href": "/components/spin#api-tip"
+  },
+  {
+    "type": "api",
+    "title": "SpinProps.children",
+    "description": "被包裹的内容。传了它才进入包裹模式（遮罩覆盖在内容上）， 不传则渲染独立转圈。",
+    "keywords": "spin JSX.Element",
+    "href": "/components/spin#api-children"
+  },
+  {
+    "type": "api",
+    "title": "SpinProps.style",
+    "description": "根节点样式；与 `class` 一样合并而非覆盖。",
+    "keywords": "spin string",
+    "href": "/components/spin#api-style"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

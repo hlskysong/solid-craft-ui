@@ -3,7 +3,7 @@
 > SolidJS 企业级中后台组件库 `solid-craft-ui`（npm 包 `solid-craft` v0.1.0，MIT，CSS 前缀 `scui-`）。面向企业内部业务系统，状态由 `data-*` 驱动，样式需显式引入，语义色在构建期按 WCAG21 分档校验。
 > 同时提供编译后 ESM 与保留 JSX 的 `"solid"` 条件产物，SSR 可 renderToString + hydrate。本文件遵循 llmstxt.org；链接相对站点根，逐页为 LLM 友好的 Markdown，完整合并版见 llms-full.txt。
 > Package: `solid-craft@0.1.0` · 本文件随 NPM 包发布，版本与所安装版本一致；Agent 可用 `import.meta.resolve('solid-craft/package.json')` 定位同目录副本。
-> 包内仅发布索引 / 全量合并正文 / manifest 三个文件；`## Docs` 的逐页链接为文档站相对路径，离线请直接读同目录 `llms-full.txt`（含全部 98 页正文、API 表、Demo 源码、Token 与三端消费指南）。
+> 包内仅发布索引 / 全量合并正文 / manifest 三个文件；`## Docs` 的逐页链接为文档站相对路径，离线请直接读同目录 `llms-full.txt`（含全部 110 页正文、API 表、Demo 源码、Token 与三端消费指南）。
 
 ## Docs
 
@@ -27,6 +27,9 @@
 - [Form 表单（solid-craft/form）](llms/exports/form.md): 表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。
 - [Table 表格（solid-craft/table）](llms/exports/table.md): 数据表格基座：列配置、行键、加载态、边框与三档密度；表头与正文共用同一档字号，SSR 输出完整静态表格骨架。
 - [Pagination 分页（solid-craft/pagination）](llms/exports/pagination.md): 页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。
+- [Empty 空状态（solid-craft/empty）](llms/exports/empty.md): 插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。
+- [Skeleton 骨架屏（solid-craft/skeleton）](llms/exports/skeleton.md): text / card / table / button / avatar 五种形状；行块高直接引用正文行高与按钮、表格的尺寸 token，骨架与真实内容同高，切换不抖动。
+- [Spin 加载中（solid-craft/spin）](llms/exports/spin.md): 独立转圈与包裹遮罩两种形态；delay 延迟显示避免短请求闪烁，遮罩用 color-mix 适配深浅主题，转圈恒带可读文案。
 - [ConfigProvider 全局配置（solid-craft/config-provider）](llms/exports/config-provider.md): 全局配置上下文：主题 / 密度 / 方向 / 语言 / z-index 的注入与完整 Props。
 - [子路径 solid-craft/styles.css](llms/exports/styles-css.md): `solid-craft/styles.css` 的条件导出、产物路径与引入方式。
 - [子路径 solid-craft/styles/*](llms/exports/styles.md): `solid-craft/styles/*` 的条件导出、产物路径与引入方式。
@@ -109,3 +112,12 @@
 - [Pagination 分页 · 基础用法（源码）](llms/demos/pagination-basic.md): 页码、边界禁用与总数文案；受控示例把 onChange 的 current 回写后再传回去，形成正常翻页闭环。
 - [Pagination 分页 · 快速跳转（源码）](llms/demos/pagination-quick-jumper.md): 输入页码后按 Enter 提交，越界输入收敛到首末页、非法输入只清空不跳页；末尾一张展示整体禁用。
 - [Pagination 分页 · 每页条数（源码）](llms/demos/pagination-size-changer.md): 切换每页条数会让总页数变化，当前页按新总页数自动收敛；候选值可自定义，当前值不在候选里时会补进选项。
+- [Empty 空状态 · 基础用法（源码）](llms/demos/empty-basic.md): 默认插画 + 默认文案；三档尺寸按容器宽度选，不改变文案排版。
+- [Empty 空状态 · 自定义插画（源码）](llms/demos/empty-custom-image.md): image 整体替换内置图形而非叠加；自定义图形默认对读屏可见，装饰性图形请自行加 aria-hidden。
+- [Empty 空状态 · 带操作（源码）](llms/demos/empty-with-action.md): children 落在描述下方，通常放一个主按钮；不传 children 时该区块不渲染。
+- [Skeleton 骨架屏 · 微光动画（源码）](llms/demos/skeleton-active.md): active 开启微光；系统开启「减弱动效」时自动静止，不靠 JS 判断。
+- [Skeleton 骨架屏 · 五种形状（源码）](llms/demos/skeleton-basic.md): text / card / table / button / avatar；行数与形状都走单一 variant 开关。
+- [Skeleton 骨架屏 · 包裹与同高（源码）](llms/demos/skeleton-loading.md): loading 切换骨架与内容；右侧对照区把三行骨架和三行真实文本并排放，高度必须一致。
+- [Spin 加载中 · 独立使用（源码）](llms/demos/spin-basic.md): 不传 children 时是独立转圈；三档尺寸 + 可选文案。
+- [Spin 加载中 · 延迟显示（源码）](llms/demos/spin-delay.md): delay=400ms：请求很快回来时一次都不闪；超过 400ms 才出遮罩，避免短请求的闪烁抖动。
+- [Spin 加载中 · 包裹内容（源码）](llms/demos/spin-wrap.md): 遮罩盖在内容上层，容器同步 aria-busy；关掉后内容原样可见，不做透明度衰减。

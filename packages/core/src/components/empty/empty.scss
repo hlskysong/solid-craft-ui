@@ -1,0 +1,71 @@
+@use 'mixins' as m;
+
+/* Empty（T3-05）
+   空状态：插画 + 描述 + 可选操作区。变体一律走属性选择器，不生成 modifier class。
+
+   插画尺寸用 `--scui-empty-image-size` 单一变量驱动，三档只改变量值，
+   不在每个子元素上重复写尺寸。文字色走 text-secondary：描述是辅助信息，
+   但**不降到 text-tertiary** —— 后者在浅色底上对比度不足，axe 会报
+   color-contrast（Table 的加载态曾因 opacity 0.6 一次报 12 条）。 */
+
+:where(.scui-empty) {
+  --scui-empty-image-size: 96px;
+  --scui-empty-gap: var(--scui-space-3, 12px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--scui-empty-gap);
+  box-sizing: border-box;
+  padding-block: var(--scui-space-8, 32px);
+  padding-inline: var(--scui-space-4, 16px);
+  color: var(--scui-color-text-secondary);
+  font-size: var(--scui-font-size-md, 14px);
+  line-height: var(--scui-line-height-md, 22px);
+  text-align: center;
+}
+
+:where(.scui-empty)[data-scui-size='small'] {
+  --scui-empty-image-size: 64px;
+  --scui-empty-gap: var(--scui-space-2, 8px);
+
+  padding-block: var(--scui-space-4, 16px);
+  font-size: var(--scui-font-size-sm, 12px);
+  line-height: var(--scui-line-height-sm, 20px);
+}
+
+:where(.scui-empty)[data-scui-size='large'] {
+  --scui-empty-image-size: 128px;
+  --scui-empty-gap: var(--scui-space-4, 16px);
+
+  padding-block: var(--scui-space-8, 32px);
+  font-size: var(--scui-font-size-lg, 16px);
+  line-height: var(--scui-line-height-lg, 24px);
+}
+
+:where(.scui-empty__image) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--scui-empty-image-size);
+  block-size: var(--scui-empty-image-size);
+  color: var(--scui-color-neutral-300);
+}
+
+:where(.scui-empty__svg) {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+:where(.scui-empty__description) {
+  max-inline-size: 36em;
+  text-wrap: pretty;
+}
+
+:where(.scui-empty__footer) {
+  display: flex;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+  margin-block-start: var(--scui-space-1, 4px);
+}

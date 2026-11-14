@@ -109,6 +109,41 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     });
   }
 
+  // T3-05：`docs/08 §4.2` 给这批的验收原话是「骨架与真实内容同尺寸、切换不产生布局抖动」。
+  // jsdom 没有布局引擎，单测只能验结构；「同高」必须用真实浏览器量 —— 而且是量
+  // 骨架与文本各自的盒高，两侧列容器设了 `align-items: flex-start`，不允许 flex 拉伸凑出等高。
+  test('Skeleton 骨架与真实文本同高：三行骨架 = 三行正文', async ({ page }) => {
+    await page.goto('/components/skeleton/loading?standalone=1');
+    const skeletonBox = await page.getByTestId('skeleton-column').boundingBox();
+    const textBox = await page.getByTestId('text-column').boundingBox();
+    expect(skeletonBox, '骨架列未渲染').not.toBeNull();
+    expect(textBox, '文本列未渲染').not.toBeNull();
+    const delta = Math.abs((skeletonBox?.height ?? 0) - (textBox?.height ?? 0));
+    expect(delta, `骨架高 ${skeletonBox?.height} / 文本高 ${textBox?.height}`).toBeLessThanOrEqual(
+      1,
+    );
+  });
+
+  // T3-05：`docs/08 §4.2` 另一条验收是「Spin 延迟显示可测」。单测已用假定时器验过时序，
+  // 这里用真实计时确认「假定时器里对、真实浏览器里也对」—— 两条路径的失败模式不同
+  // （前者漏的是调度契约，后者漏的是 effect 没在真实渲染里跑）。
+  test('Spin 延迟显示：400ms 内不闪、到点才出遮罩、取消后不再出现', async ({ page }) => {
+    await page.goto('/components/spin/delay?standalone=1');
+    const overlay = page.locator('[data-scui-role="spin-overlay"]');
+
+    await page.getByRole('button', { name: '开始加载' }).click();
+    // 点击后立刻读：延迟期内必须是 0，否则短请求会被遮罩闪一下
+    await expect(overlay).toHaveCount(0);
+
+    await expect(overlay).toHaveCount(1, { timeout: 2000 });
+
+    await page.getByRole('button', { name: '立即结束' }).click();
+    await expect(overlay).toHaveCount(0);
+    // 再多等一个延迟周期：确认没有野定时器把遮罩重新打开
+    await page.waitForTimeout(600);
+    await expect(overlay).toHaveCount(0);
+  });
+
   // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
   // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
   // 用真实浏览器把「载入编辑 → 改值 → 提交校验 → 切回新增」整链跑一遍。

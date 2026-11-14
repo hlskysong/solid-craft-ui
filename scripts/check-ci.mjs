@@ -513,6 +513,98 @@ if (paginationImpl.length === 0 || paginationEngine.length === 0 || paginationSt
   }
 }
 
+// 4h. 空 / 加载三件套契约（§30.39，T3-05）。钉的都是「看着对、其实错」的实现：
+// ① Empty 若写成 `image ?? 默认插画`，`image={null}`（纯文字空状态）就永远退化不出来；
+// ② Skeleton 的行高写裸 px、或用 margin 造行间隙，骨架总高就不等于真实文本高度，
+//    切内容时整页跳一下 —— 这正是 T3-05 验收列点名的「切换不产生布局抖动」；
+// ③ Skeleton 的形状分派若是组件调用（`<Body />`），Solid 只执行一次 setup，
+//    variant 从 text 切 table 时 DOM 不会变；
+// ④ Spin 的 delay 若不在 effect 里 onCleanup，延迟期内取消会留下野定时器，
+//    遮罩在用户已经拿到数据之后再弹出来。
+const emptyDir = join(repoRoot, 'packages', 'core', 'src', 'components', 'empty');
+const skeletonDir = join(repoRoot, 'packages', 'core', 'src', 'components', 'skeleton');
+const spinDir = join(repoRoot, 'packages', 'core', 'src', 'components', 'spin');
+const emptyImpl = read(join(emptyDir, 'Empty.tsx'));
+const skeletonImpl = read(join(skeletonDir, 'Skeleton.tsx'));
+const skeletonStyles = read(join(skeletonDir, 'skeleton.scss'));
+const spinImpl = read(join(spinDir, 'Spin.tsx'));
+
+if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
+  fail('缺少 Empty / Skeleton / Spin 的纵向切片源文件（T3-05）');
+} else {
+  // 与 4g 同理：头注释里写了 `image={null}` / `margin` / `onCleanup` 会让判据变成
+  // 「注释冒充实现」的假绿，先剥注释再看代码。
+  const stripT305Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const emptyCode = stripT305Comments(emptyImpl);
+  const skeletonCode = stripT305Comments(skeletonImpl);
+  const skeletonStyleCode = stripT305Comments(skeletonStyles);
+  const spinCode = stripT305Comments(spinImpl);
+
+  // Empty
+  if (!/aria-hidden="true"/.test(emptyCode)) {
+    fail('Empty 的内置插画缺少 aria-hidden：装饰性图形会被读屏念成内容');
+  }
+  if (!/!==\s*null/.test(emptyCode)) {
+    fail('Empty 未区分「未传 image」与「image={null}」：用 ?? 判空会让纯文字空状态失效');
+  }
+  if (!/when=\{local\.children\}/.test(emptyCode) || !/empty__footer/.test(emptyCode)) {
+    fail('Empty 的操作区未按需渲染：不传 children 时仍会留一个空 box');
+  }
+
+  // Skeleton 尺寸纪律
+  if (!/--scui-skeleton-line-block:\s*var\(--scui-line-height-md/.test(skeletonStyleCode)) {
+    fail('skeleton.scss 的行块高未引用 --scui-line-height-md：骨架与正文行高脱钩');
+  }
+  if (!/block-size:\s*var\(--scui-skeleton-line-block\)/.test(skeletonStyleCode)) {
+    fail('skeleton.scss 的行容器未用 --scui-skeleton-line-block：行高被写死');
+  }
+  if (!/--scui-skeleton-bar-block:\s*calc\(/.test(skeletonStyleCode)) {
+    fail('skeleton.scss 的 bar 高度未用 calc 从行块高扣减：间隙靠 margin 会让总高偏大');
+  }
+  if (
+    !/block-size:\s*calc\(var\(--scui-skeleton-line-block\)\s*\+\s*2\s*\*\s*var\(--scui-space-3/.test(
+      skeletonStyleCode,
+    )
+  ) {
+    fail('skeleton.scss 的表格行高未按「行高 + 2 × 单元格内距」计算：与 Table 默认密度不同高');
+  }
+  if (/<Body\s*\/>/.test(skeletonCode) || !/renderBody\(\)/.test(skeletonCode)) {
+    fail('Skeleton 的形状分派写成了组件调用：Solid 只在 setup 执行一次，variant 切换不会更新 DOM');
+  }
+
+  // Spin 延迟语义
+  if (!/onCleanup\(/.test(spinCode) || !/clearTimeout\(/.test(spinCode)) {
+    fail('Spin 的 delay 定时器没有 onCleanup 清理：延迟期内取消会留下野定时器');
+  }
+  if (!/createSignal\(\s*spinning\(\)\s*&&\s*delay\(\)\s*===\s*0\s*\)/.test(spinCode)) {
+    fail('Spin 的可见性初值不是同步算出来的：首帧会「该转的没转」，且 SSR 与客户端不一致');
+  }
+  if (!/role="status"/.test(spinCode)) {
+    fail('Spin 缺少 role="status"：读屏无法得知区域正在更新');
+  }
+  if (!/加载中/.test(spinCode)) {
+    fail('Spin 在无 tip 时没有视觉隐藏文案：读屏面对的是一段无声旋转图形');
+  }
+  if (!/data-scui-spinning/.test(spinCode)) {
+    fail('Spin 未输出 data-scui-spinning：包裹态的样式与测试失去唯一真源');
+  }
+
+  const t305Entries = [
+    ['empty', emptyDir, 'T3-05-empty'],
+    ['skeleton', skeletonDir, 'T3-05-skeleton'],
+    ['spin', spinDir, 'T3-05-spin'],
+  ];
+  for (const [name, dir, id] of t305Entries) {
+    if (!existsSync(join(dir, '__tests__', 'ssr-entry.tsx'))) {
+      fail(`${name} 缺少 SSR 入口 __tests__/ssr-entry.tsx`);
+    }
+    if (!ssrSmokeRunner.includes(`id: '${id}'`)) {
+      fail(`${name} 的 SSR 入口未登记进 ssr-smoke.mjs（id: '${id}'）`);
+    }
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -598,7 +690,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '9c8c6a9e77cf08751a82a6bac81905a53bfc9b9a2c9d9df98a195b295cea741d';
+const FONT_SHA256 = '74a5a339b9368507129af89279b72cf01db282f3ca6388257b79051d1bb83063';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -889,5 +981,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
 );

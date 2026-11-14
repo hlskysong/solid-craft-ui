@@ -1,0 +1,140 @@
+/* Skeleton（T3-05）
+   骨架屏。变体走属性选择器，不生成 modifier class。
+
+   尺寸纪律（T3-05 验收「骨架与真实内容同尺寸、切换不抖动」）：
+   - 文本行块高 = `--scui-line-height-md`，与正文行高逐像素对齐；
+   - 行内 bar 比行块矮 8px，差值由 flex 居中**画出来**，不用 margin / gap；
+     用 margin 的话骨架总高 = 行数 × (22 + 间距)，比真实文本高出一截；
+   - 表格行块高 = 行高 + 2 × 单元格内距，与 Table 默认密度同高；
+   - 按钮块高直接取 `--scui-button-height-medium`。
+
+   颜色只用 neutral-50 / neutral-100：骨架是非文本装饰，不参与对比度判据，
+   但也不该用主题色 —— 主题色会让人误以为那是可交互内容。 */
+
+:where(.scui-skeleton) {
+  --scui-skeleton-line-block: var(--scui-line-height-md, 22px);
+  --scui-skeleton-bar-block: calc(var(--scui-skeleton-line-block) - var(--scui-space-2, 8px));
+  --scui-skeleton-bar-color: var(--scui-color-neutral-50);
+  --scui-skeleton-shine-color: var(--scui-color-neutral-100);
+  --scui-skeleton-radius: var(--scui-radius-1, 4px);
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  inline-size: 100%;
+}
+
+:where(.scui-skeleton__wrapper) {
+  display: block;
+  inline-size: 100%;
+}
+
+:where(.scui-skeleton__line) {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  block-size: var(--scui-skeleton-line-block);
+}
+
+:where(.scui-skeleton__bar) {
+  display: block;
+  inline-size: 100%;
+  block-size: var(--scui-skeleton-bar-block);
+  border-radius: var(--scui-skeleton-radius);
+  background-color: var(--scui-skeleton-bar-color);
+}
+
+/* 末行收窄到 60%：段落真实排版里最后一行很少顶满，收窄后视觉更像文本 */
+:where(.scui-skeleton__line)[data-scui-last] > .scui-skeleton__bar {
+  inline-size: 60%;
+}
+
+/* 卡片：标题条更短，外框与 Card 的圆角 / 边框同档 */
+:where(.scui-skeleton)[data-scui-variant='card'] {
+  padding: var(--scui-space-4, 16px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-radius-3, 8px);
+  background-color: var(--scui-color-bg-surface);
+}
+
+:where(.scui-skeleton)[data-scui-variant='card']
+  :where(.scui-skeleton__line)[data-scui-role='skeleton-title']
+  > .scui-skeleton__bar {
+  inline-size: 40%;
+}
+
+/* 表格：行块高与 Table 默认密度一致（22 + 12 × 2 = 46px），
+   行内 3 列按 2 : 1 : 1 分，分隔线与 Table 同色 */
+:where(.scui-skeleton)[data-scui-variant='table'] {
+  border-block-start: 1px solid var(--scui-color-border-default);
+}
+
+:where(.scui-skeleton__row) {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--scui-space-3, 12px);
+  align-items: center;
+  box-sizing: border-box;
+  block-size: calc(var(--scui-skeleton-line-block) + 2 * var(--scui-space-3, 12px));
+  padding-block: var(--scui-space-3, 12px);
+  padding-inline: var(--scui-space-3, 12px);
+  border-block-end: 1px solid var(--scui-color-border-default);
+
+  /* 表头列条更短，避免和正文行同宽显得像数据 */
+  &[data-scui-role='skeleton-head'] > .scui-skeleton__bar {
+    inline-size: 70%;
+  }
+}
+
+/* 按钮：单条满宽，高度取按钮中年档 */
+:where(.scui-skeleton)[data-scui-variant='button'] {
+  display: block;
+  block-size: var(--scui-button-height-medium, 32px);
+}
+
+:where(.scui-skeleton)[data-scui-variant='button'] > .scui-skeleton__bar {
+  block-size: 100%;
+  border-radius: var(--scui-radius-2, 6px);
+}
+
+/* 头像：40px 圆形，与常用头像档一致 */
+:where(.scui-skeleton)[data-scui-variant='avatar'] {
+  inline-size: 40px;
+  block-size: 40px;
+}
+
+:where(.scui-skeleton)[data-scui-variant='avatar'] > .scui-skeleton__bar {
+  block-size: 100%;
+  border-radius: 50%;
+}
+
+@keyframes scui-skeleton-shimmer {
+  from {
+    background-position: 100% 50%;
+  }
+
+  to {
+    background-position: 0 50%;
+  }
+}
+
+/* 微光周期写 1.4s 字面量：tokens 里只有 `--scui-motion-duration-fast`（120ms），
+   拿它做微光会变成闪烁。慢速档（约 1.2~1.5s）属于动效体系缺口，留 M4 统一补
+   `--scui-motion-duration-slow`，届时这里再换变量。 */
+:where(.scui-skeleton)[data-scui-active] .scui-skeleton__bar {
+  background-image: linear-gradient(
+    90deg,
+    var(--scui-skeleton-bar-color) 25%,
+    var(--scui-skeleton-shine-color) 37%,
+    var(--scui-skeleton-bar-color) 63%
+  );
+  background-size: 400% 100%;
+  animation: scui-skeleton-shimmer 1.4s var(--scui-motion-ease, ease) infinite;
+}
+
+/* 系统要求减动效时静止：微光是装饰，不是状态指示，停掉不影响理解 */
+@media (prefers-reduced-motion: reduce) {
+  :where(.scui-skeleton)[data-scui-active] .scui-skeleton__bar {
+    animation: none;
+  }
+}

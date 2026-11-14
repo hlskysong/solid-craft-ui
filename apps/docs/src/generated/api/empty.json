@@ -1,0 +1,47 @@
+{
+  "slug": "empty",
+  "source": "packages/core/src/components/empty/types.ts",
+  "interfaces": [
+    {
+      "name": "EmptyProps",
+      "inherits": "Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'style'>",
+      "props": [
+        {
+          "name": "description",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "描述文案。传节点而不是字符串，是因为业务经常要带一个「新建」链接或代码片段。",
+          "default": "'暂无数据'"
+        },
+        {
+          "name": "image",
+          "type": "JSX.Element | null",
+          "optional": true,
+          "description": "自定义插画。给了就整体替换内置图形（不是叠加）。 内置图形带 `aria-hidden`，自定义插画由调用方自己决定是否可读。 显式传 `null` 表示**不要插画**（纯文字空状态）；不传则用内置图形。",
+          "default": "内置线框插画"
+        },
+        {
+          "name": "size",
+          "type": "EmptySize",
+          "optional": true,
+          "description": "尺寸档。",
+          "default": "'medium'"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "底部操作区，通常放一个主按钮（例如「新建第一条记录」）。 不传则不渲染该区块，DOM 里不留空壳。",
+          "default": "undefined"
+        },
+        {
+          "name": "style",
+          "type": "string",
+          "optional": true,
+          "description": "根节点样式；与 `class` 一样合并而非覆盖。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

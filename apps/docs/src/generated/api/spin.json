@@ -1,0 +1,54 @@
+{
+  "slug": "spin",
+  "source": "packages/core/src/components/spin/types.ts",
+  "interfaces": [
+    {
+      "name": "SpinProps",
+      "inherits": "Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children' | 'style'>",
+      "props": [
+        {
+          "name": "spinning",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否加载中。",
+          "default": "true"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "optional": true,
+          "description": "延迟显示毫秒数。小于 0 按 0 处理（立即显示）。",
+          "default": "0"
+        },
+        {
+          "name": "size",
+          "type": "SpinSize",
+          "optional": true,
+          "description": "尺寸档。",
+          "default": "'medium'"
+        },
+        {
+          "name": "tip",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "加载文案。不传时读屏仍会读到视觉隐藏的「加载中」，避免出现无声转圈。",
+          "default": "undefined"
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "被包裹的内容。传了它才进入包裹模式（遮罩覆盖在内容上）， 不传则渲染独立转圈。",
+          "default": "undefined"
+        },
+        {
+          "name": "style",
+          "type": "string",
+          "optional": true,
+          "description": "根节点样式；与 `class` 一样合并而非覆盖。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

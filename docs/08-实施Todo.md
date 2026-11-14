@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-05**（M3 第五项「`Empty` / `Skeleton` / `Spin`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38，evidence `30.35` / `30.36` / `30.37` / `30.38`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 已提交 `1f67c23`（均**未推送**）；T3-04 改动**尚未提交 / 推送**（Aming 本轮选「先 A 后 C」） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-04「`Pagination`」改动，再开始 T3-05「空 / 加载三件套」**：M3 已按 `docs/05` Phase 3 拆成 14 项（§4.2）。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-06**（M3 第六项「Table 分页接入 + 空 / 加载态」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 已提交 `1f67c23`、T3-04 已提交 `830c9bb`（均**未推送**）；T3-05 改动**尚未提交 / 推送**（Aming 本轮选「A 方案」） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-05「空 / 加载三件套」改动，再开始 T3-06「Table 分页接入 + 空 / 加载态」**：T3-06 的三个前置（T3-01 引擎 / T3-04 `Pagination` / T3-05 三件套）已全部就位，`TableChange.pagination` 可以从 `undefined` 填上真实值，Table 的空态可直接复用 `Empty`、加载态可复用 `Spin`。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ **T3-06 收口 Table 状态机**；T3-10 / T3-11 / T3-13 与 Table 链可全程并行；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -157,7 +157,7 @@
 | T3-02 | Table 排序与筛选：单列 / 多列、受控 / 非受控、内置筛选下拉与自定义 `filterDropdown` | T3-01 | 技术负责人 | 统一 `onChange({ pagination, filters, sorter })` 协议（对齐 AntD 使用习惯）；服务端模式只出参数不本地改数据；筛选与排序组合不互相覆盖（**291 tests·28 files / SSR 17 入口 / 116 张基线 / 判据 4e + 负向 N169~N178 10/10 / `pnpm verify` RC=0**，见 §30.36） | [x] |
 | T3-03 | Table 选择：checkbox / radio、全选 / 半选、禁用行、受控 `selectedRowKeys` | T3-01 | 工程师 B | 半选 `aria-checked="mixed"` 正确；禁用行不进全选集合；受控与非受控两条链路各有单测（**`rowSelection` 单 prop / `aria-checked="mixed"` + `indeterminate` 双通道 / 禁用行不进全选且不降对比度 / 选择控件自建不复用 Checkbox·Radio / 299 tests·28 files / SSR 18 入口 / 120 张基线 / 判据 4f + 负向 N179~N189 11/11 / `pnpm verify` RC=0**，见 §30.37） | [x] |
 | T3-04 | `Pagination`（M）：页码、每页条数、快速跳转、受控 / 非受控 | T2-05 | 工程师 B | 总页数变化时当前页收敛不越界；键盘可达 + axe 0 violation；组件自身 `onChange` 与 Table 集成互不冲突（**7 槽省略号窗口 + 渲染期 clamp 与 effect 双层收敛 / `onChange` 单对象与 `TablePaginationState` 同形 / `aria-current` + `data-scui-current` 双通道 / option `selected` 而非 select `value` / 窄屏 `flex-wrap` / 324 tests·29 files / SSR 19 入口 / 126 张基线 / 判据 4g + 负向 N190~N203 14/14 / `pnpm verify` RC=0**，见 §30.38） | [x] |
-| T3-05 | `Empty` / `Skeleton` / `Spin`：空状态与加载三件套 | T2-13 | 工程师 C | 各 ≥3 Demo；骨架与真实内容同尺寸、切换不产生布局抖动；Spin 延迟显示可测 | [ ] |
+| T3-05 | `Empty` / `Skeleton` / `Spin`：空状态与加载三件套 | T2-13 | 工程师 C | 各 ≥3 Demo；骨架与真实内容同尺寸、切换不产生布局抖动；Spin 延迟显示可测（**9 Demo（各 3）/ 骨架行块高引用 `--scui-line-height-md`、bar 用 calc 扣减 → 间隙靠 flex 居中画出 / browser 实测三行骨架与三行正文差 ≤ 1px / `delay` 三条时序单测 + 真实计时双覆盖 / 364 tests·32 files / SSR 22 入口 / 144 张基线 / 判据 4h + 负向 N204~N219 16/16 / `pnpm verify` RC=0**，见 §30.39） | [x] |
 | T3-06 | Table 分页接入 + 空 / 加载态：客户端 / 服务端两套协议 | T3-01 / T3-04 / T3-05 | 技术负责人 | `onChange` 三参合流；分页 + 排序 + 筛选任意组合状态不丢；空态与加载态占位切换；服务端参数协议一次定清，业务侧不再自拼 | [ ] |
 | T3-07 | `Modal`（L）：确认、异步关闭、焦点陷阱、尺寸 | T2-01 / T2-06 | 技术负责人 | 焦点陷阱 + ESC 关闭后焦点归还触发元素；SSR 不渲染弹层；异步关闭期间防重复提交；axe 0 violation | [ ] |
 | T3-08 | `Drawer`（M）：方向、尺寸、焦点陷阱 | T3-07 | 工程师 C | 与 Modal **共用**焦点管理与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过 | [ ] |
@@ -4358,3 +4358,129 @@ SSR 入口渲染五个实例：基础（`total=85` → 9 页、1 个省略号）
 4. **受控组件的「收敛」不能只做一层**：渲染期 clamp 保证 SSR / 首帧不越界，effect 写回保证内部状态不脏。少任何一层都会在「数据缩小再放大」或「首帧」时露馅。
 5. **独立组件不要为了复用而引入弹层**：分页的每页条数用原生 `<select>` 就够了，套 `Select` 会带来 Portal / 定位 / 客户端专用 API，还多一条 SSR 分支。复用的前提是「能力真的用得上」，不是「看起来更统一」。
 6. **窄屏要先想好「换行还是滚动」**：`flex-wrap` 一行代码解决了 375px 溢出，比缩字号（可读性）、截断（信息丢失）、横向滚动（可发现性）都划算。
+
+### 30.39 T3-05 Empty / Skeleton / Spin 落地与验收（2026-11-13 实测）
+
+#### 一、结论先行
+
+Aming 选「A 方案」：先把 T3-04 提交为 `830c9bb`（未推送），再按序做 M3 第五项。**空 / 加载三件套已完成并闭合**，工作区改动仍未提交 / 推送。
+
+本轮交付三个独立组件，不是「一个加载态组件加两个变体」：
+
+1. **`Empty`**（S）：插画 + 描述 + 可选操作区。`image` 传 `null` 表示**纯文字空状态**（整块插画缺席），不传才用内置线框插画 —— 这个区分是 T3-06 让 `Table` 复用空态的前提。
+2. **`Skeleton`**（S）：`text` / `card` / `table` / `button` / `avatar` 五种形状 + 包裹模式。硬约束是 `docs/08 §4.2` 点名的「**骨架与真实内容同尺寸、切换不产生布局抖动**」，做法是每个形状的块高直接引用被替代组件的 token，行内间隙靠 flex 居中「画」出来而不是 margin。
+3. **`Spin`**（S）：独立转圈 + 包裹遮罩，`delay` 延迟显示。三条时序行为（未到不显示 / 到点显示 / 延迟期内取消后不再出现）都有单测与真实浏览器双重覆盖。
+
+之所以按 **T3-05 → T3-06** 而不是先接 Table 分页：`Table.tsx` 现在**连空态都没有**（空数据就是一个空 `<tbody>`），T3-06 的验收标题是「分页接入 + 空 / 加载态」，硬先做就得临时塞一段占位、等本轮交付后再删掉重写 —— 那才是真的维护两份。
+
+组件清单 19 → **22 组件**、63 → **72 Demo**、126 → **144 张基线**、914 → **932 码位**、SSR 19 → **22 入口**。`pnpm verify` 26 阶段 **RC=0**，负向 **N204~N219 16/16 PASS**。
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `packages/core/src/components/empty/{types.ts,Empty.tsx,empty.scss,Empty.test.tsx,index.ts}` | 插画 / 描述 / 操作区三段；`image === null` 与「未传」两种语义分开；内置 SVG 用 `currentColor` 描边；三档尺寸走 `--scui-empty-image-size` 单一变量 |
+| `packages/core/src/components/skeleton/{types.ts,Skeleton.tsx,skeleton.scss,Skeleton.test.tsx,index.ts}` | 五种形状 + 包裹模式；`--scui-skeleton-line-block` 引用 `--scui-line-height-md`，bar 高度用 `calc` 扣减，表格行高 = 行高 + 2 × 单元格内距 |
+| `packages/core/src/components/spin/{types.ts,Spin.tsx,spin.scss,Spin.test.tsx,index.ts}` | 独立 / 包裹两种形态；`createSignal` 同步初值 + `createEffect` 内 `onCleanup` 清定时器；遮罩 `color-mix` 适配深浅主题 |
+| `packages/core/src/components/{empty,skeleton,spin}/demos/` | **9 个 Demo**：Empty（基础 / 自定义插画 / 带操作）、Skeleton（五种形状 / 包裹与同高对照 / 微光）、Spin（独立 / 包裹 / 延迟） |
+| `packages/core/src/components/{empty,skeleton,spin}/__tests__/ssr-entry.tsx` | 三个 SSR 入口：Empty 4 实例、Skeleton 5 实例、Spin 6 实例 |
+| `packages/core/src/components/{empty,skeleton,spin}/*.test.tsx` | 新增 **40 个单测**（Empty 10 / Skeleton 15 / Spin 15） |
+| `packages/core/src/index.ts`、`packages/core/package.json` | barrel 导出 3 组件 + 6 类型；新增 `./empty` / `./skeleton` / `./spin` 三条子路径（各四条件） |
+| `apps/docs/src/content/catalog.mjs` | 新增 3 条（`category: '反馈'`、`hasApi: true`） |
+| `packages/core/spikes/shared/ssr-smoke.mjs` | 新增 3 个 case：`T3-05-empty`（7 markers / 7 counts）、`T3-05-skeleton`（9/10）、`T3-05-spin`（6/8） |
+| `packages/core/spikes/api-draft/data-attributes.md` | 新增 `data-scui-variant` / `active` / `last` / `spinning`；role 表新增 3 行共 14 个锚点 |
+| `scripts/check-ci.mjs` | 新增判据 **4h**（13 条子判据 + 3 个 SSR 入口登记，见第六节）；`FONT_SHA256` 重校为 `dc4be338…`；汇总文案追加「空 / 加载三件套契约」 |
+| `tests/e2e/specs/browser.spec.ts` | 新增 **2 条用例**：骨架与真实文本同高（boundingBox 实测 ≤ 1px）、Spin 延迟显示（真实计时） |
+| `apps/docs/src/generated/**`、`apps/docs/public/llms/**`、`packages/core/llms*.txt` | `pnpm docs:generate` 产物：9 个 Demo JSON + 9 个 llms 页 + 3 个 API 表；72 Demo / 436 条搜索索引 |
+| `apps/docs/public/fonts/{charset.txt,scui-visual.woff2}` | 字集重建：**837 CJK/符号 + 95 ASCII = 932 码位**，SHA256 `dc4be338…` |
+| `tests/e2e/baselines/light-ltr-default-{empty,skeleton,spin}-*.png` | 新增 18 张；既有 126 张**零改动** |
+| `docs/08` 本文件、`scripts/todo-governance.json`、`scripts/goals.baseline.json`、`AGENTS.md`（仅标记行） | §4.2 T3-05 勾 `[x]` + 证据、锚点推进 T3-06、治理契约 `T3-05 → 30.39`、基线重校 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| 骨架的「行间隙」**画出来**（22px 容器里放 14px 条 + flex 居中），不用 `margin` / `gap` | 用 margin 时骨架总高 = 行数 × (22 + 间隙)，比真实文本高出一截，`loading` 切换瞬间整页下移。这是「同尺寸」唯一能站住的实现方式，也由判据 4h-d/e/f 钉死 |
+| 表格骨架行高 = `calc(行高 + 2 × 单元格内距)` | Table 默认密度是 `12 / 12` 内距 + 22px 行高 = 46px。写死 46 会在密度切换时脱钩，所以从同一批 token 算出来 |
+| `Skeleton` 的形状用 `variant` 枚举，不用 `title` / `avatar` 布尔 | 三个布尔能拼出「头像 + 表格」这种不存在的组合；枚举把非法状态从类型层就排除（R2 = A） |
+| `Empty.image` 用 `null` 表达「不要插画」，不用空 `<span>` | 空 span 仍占 96px 插画位，视觉上是一块白；`null` 让整块 DOM 缺席 |
+| `Spin` 的可见性**初值同步算**（`createSignal(spinning() && delay() === 0)`） | 先写 `false` 再靠 effect 打开，中间有一帧「该转的没转」；SSR 不执行 effect，初值即服务端输出，`delay > 0` 时首帧无遮罩与客户端一致 |
+| 包裹遮罩用 `color-mix(in srgb, bg-surface 60%, transparent)` | 写死 `rgb(255 255 255 / 60%)` 在深色主题下会把内容糊成灰白。`chrome >= 128` 可直接用 |
+| 转圈本体 `role="status"` 且**必带可读文案** | 没传 `tip` 时输出视觉隐藏的「加载中」。纯旋转图形对读屏是空的，等于没说 |
+
+#### 四、三个真实坑
+
+1. **`Skeleton` 的形状分派写成组件调用会静默失效**。第一版写的是 `<Body />`，`switch (variant())` 在 `Body` 函数体内 —— **Solid 组件只在 setup 执行一次**，`text → table` 时 DOM 一动不动。改成 JSX 子位置的响应式表达式 `{renderBody()}` 才随 signal 重建。单测「variant 切换真的替换 DOM」专门钉这条，判据 4h-h 兜底（组件调用写法会被判为红灯）。
+
+2. **`Spin` 独立模式漏了 `visible` 控制**。`<Show when={hasContent()} fallback={...}>` 的 fallback 分支只渲染转圈、没判断可见性，于是 `spinning={false}` 照样出圈、延迟期内取消也留着圈。单测一次抓到 5 条失败。修法是把 fallback 的内容也套进 `<Show when={visible()}>` —— 两种形态共用同一套可见性判定。
+
+3. **`focusable="false"` 不在 Solid 的 SVG 属性类型里**。`pnpm build` 直接 TS2322 红灯。它是 IE 时代的 SVG 专用属性，在 `chrome >= 128` 的 browserslist 下无任何作用 —— 删掉，而不是用 spread 绕过类型把一个无意义属性塞进 DOM。连带把单测、SSR counts、判据 4h 里的相关断言一并去掉。
+
+#### 五、SSR、视觉与字体
+
+三个入口都验「服务端就是完整静态结构」：Empty 的内置 SVG `aria-hidden="true"`、Skeleton 的 `aria-busy="true"` 与行数、Spin 的 `role="status"` 全是 attribute，SSR 直接输出。**`image={null}` 那一例在 SSR 输出里 `empty-image` 一次都不出现**，由 counts `['data-scui-role="empty-image"', 3]` 反向确认（4 个 Empty 只有 3 个有插画块）。
+
+Spin 的 `delay=400` 入口有一条隐性断言：服务端首帧**没有**遮罩（`spin-overlay` counts = 1，只来自 `spinning` 默认 true 且无 delay 的那一例）。这条同时锁住「初值同步算」与「SSR 不跑 effect」两件事 —— 若有人把初值改回 `false`，N213 会让判据红灯。
+
+22 个 SSR 入口全绿。**Solid SSR 对 `data-scui-active=''` 输出 `data-scui-active=""`**（同 T3-03 的 `disabled`、T3-04 的 `selected` 是裸属性名），两种序列化形态并存，判据一律按实测抓取。
+
+字体：新增的「骨架 / 加载 / 插画 / 遮罩 / 转圈」等文案让字集从 914 → **932 码位**（837 CJK/符号 + 95 ASCII），SHA256 `9c8c6a9e…` → `dc4be338…`。重跑后 **144 张基线全量重建，既有 126 张零改动** —— 说明新字集只命中了本轮新增文案，没有影响任何既有页面。
+
+#### 六、新增判据（`check:ci` 4h，收进既有阶段）
+
+| 子判据 | 内容 | 负向 |
+| --- | --- | --- |
+| 4h-a | Empty 内置插画必须有 `aria-hidden="true"` | N204 |
+| 4h-b | Empty 必须区分「未传 `image`」与 `image={null}`（出现 `!== null`） | N205 |
+| 4h-c | Empty 操作区必须由 `when={local.children}` 条件渲染 | N206 |
+| 4h-d | `skeleton.scss` 行块高必须引用 `--scui-line-height-md` | N207 |
+| 4h-e | 行容器 `block-size` 必须用 `--scui-skeleton-line-block` | N208 |
+| 4h-f | bar 高度必须 `calc(...)` 从行块高扣减 | N209 |
+| 4h-g | 表格行高必须按「行高 + 2 × 单元格内距」计算 | N210 |
+| 4h-h | 形状分派不得写成 `<Body />` 组件调用，必须 `renderBody()` | N211 |
+| 4h-i | Spin 的定时器必须 `onCleanup` + `clearTimeout` | N212 |
+| 4h-j | Spin 可见性初值必须同步算（`spinning() && delay() === 0`） | N213 |
+| 4h-k | Spin 必须有 `role="status"` | N214 |
+| 4h-l | Spin 无 tip 时必须有视觉隐藏的「加载中」 | N215 |
+| 4h-m | Spin 必须输出 `data-scui-spinning` | N216 |
+| 4h-n | 三个 SSR 入口存在且分别登记 `T3-05-empty` / `-skeleton` / `-spin` | N217 / N219 |
+
+判据全部收在 `check:ci` 内部，**不新开 workflow / job / 阶段**，26 阶段不变。4h-h 是本轮最有价值的机械判据：它把「Solid 里组件调用不响应」这个**看过文档也可能写错**的坑变成红灯。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | **RC=0**（26 阶段、全量、不设 `SCUI_E2E_SCOPE`；日志 `/tmp/verify39.log`） |
+| core 单测 | **364 tests / 32 files**（本轮新增 3 文件 40 tests） |
+| browser / visual / docs / llms | **157 / 145 / 8 / 4** 全 passed（144 张截图 + 1 覆盖守卫；新增 9 个 Demo 自动展开 18 条 375px / axe 用例，另加 2 条手写交互用例） |
+| SSR 冒烟 | **22 个入口**全绿（Empty 7/7、Skeleton 9/10、Spin 6/8） |
+| `check:docs` / `check:llms` | 生成物一致 / 113 站点文件 + 3 包内副本（110 页 / 26 exports / 111 条链接 / 0 死链 / 0 孤儿页） |
+| `check:ci` | RC=0，判据 4d + 4e + 4f + 4g + **4h** + 11（22 组件 / 72 Demo / 144 张基线一一对齐）+ 12 全绿；固定字体 837 字集 |
+| `check:todo` | RC=0，65 任务 / **56 个 `[x]`** / 92 验收区块 / 倒挂 0 |
+| `check:goals` | RC=0，受保护文件基线重新校准 |
+| 负向实证 | **N204~N219 16/16 PASS + RESTORE_OK**：逐项改坏 13 条契约 + 6 个 SSR 入口登记与计数；脚本每例重新备份、锚点唯一命中（注释同词允许全局替换并就检查剥注释后的代码）、`RC≠0` 且命中指定诊断，结尾 SHA256 逐个比对 |
+| 冻结面 | `docs/01~07` 与 `pnpm-lock.yaml` **0 改动**；`git diff --check` RC=0；零新增依赖 |
+
+#### 八、允许写入路径（L4）与边界
+
+**允许写入路径（L4，本轮派发边界）**：`packages/core/src/components/{empty,skeleton,spin}/**`（三片新建纵向切片：types / 视图 / 样式 / barrel / 单测 / 各 3 个 Demo / SSR 入口）、`packages/core/src/index.ts`、`packages/core/package.json`（仅 3 条 exports）、`packages/core/spikes/{api-draft/data-attributes.md,shared/ssr-smoke.mjs}`、`packages/core/llms*.txt`、`apps/docs/src/content/catalog.mjs`、`apps/docs/src/generated/**`、`apps/docs/public/{llms/**,llms.txt,llms-full.txt}`、`apps/docs/public/fonts/{charset.txt,scui-visual.woff2}`、`tests/e2e/baselines/**`（仅 18 张新增）、`tests/e2e/specs/browser.spec.ts`（仅 2 条新增用例）、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（由 `--update-baseline` 生成）、`AGENTS.md`（仅标记行）、`docs/08-实施Todo.md`（§4.2 / §30.39 / 锚点 / 状态行）、`.workbuddy/memory/2026-11-13.md`。
+
+**未写入**：`docs/01~07`（冻结）、`pnpm-lock.yaml`、根 `package.json`（26 阶段 / `verify:main` 脚本原样）、`turbo.json`、`.github/workflows/ci.yml`、`scripts/affected.mjs` / `scripts/e2e-affected.mjs`、`tests/e2e/demo-list.ts`（`DEMO_CASES` 自动展开）、`.size-limit.json`（4/6 条原样）、`README.md`、`packages/tokens/**`、`packages/core/src/components/table/**`（本轮未触碰 Table）。
+
+#### 九、已知边界与风险
+
+1. **骨架的「同高」只覆盖文本 / 表格 / 按钮 / 头像四类静态尺寸**：真实内容若是图片、多行折行文本或动态高度，骨架仍可能与内容不等高。这类场景要么由调用方给容器固定高度，要么接受一次重排 —— 组件不提供「测量真实内容高度」的能力（那需要 client-only DOM 测量，会破坏 SSR 首帧一致性）。
+2. **`Table` 的空 / 加载态仍未接**：本轮只交付三个组件，Table 自己的空数据仍是一个空 `<tbody>`，由 T3-06 复用 `Empty` / `Spin`。
+3. **`--scui-motion-duration-slow` 不存在**：tokens 只有 `--scui-motion-duration-fast`（120ms），拿它做骨架微光会变成闪烁，所以 `skeleton.scss` 里写 `1.4s` 字面量。与 `--scui-font-weight-*`、`--scui-color-bg-subtle` 属同一批缺口，留 **M4** 统一补 token（会波及所有组件的动效与字重表现）。
+4. **`Spin` 不做全屏 loading、不做进度百分比**：前者是 `Modal` / 全局反馈的职责，后者是 `Progress`。给 `Spin` 加 `fullscreen` 会让它同时依赖 Portal 与 body 锁定，破坏「S 级组件无副作用」的定位。
+5. **骨架微光在 `prefers-reduced-motion` 下完全静止**：静止态仍是可辨识的加载图形（灰条），但不是「仍有微弱变化」的方案。若要保留极低频闪烁，得单独设计一档，属 M4 动效体系。
+6. **T3-05 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求逐次授权；本轮只把 T3-04 提交到 `830c9bb`，T3-05 留在工作区。
+
+#### 十、教训
+
+1. **「组件调用 vs 响应式表达式」是 Solid 的静默陷阱**：`<Comp />` 的 setup 只跑一次，作为 props 的函数体（`switch (variant())`）不会随 signal 重算。凡是「按状态切换整段 DOM」的组件，分派必须写成 JSX 子位置的 `{fn()}`。这类错误**类型检查全过、肉眼读代码也像对的**，只能靠单测「切换后 DOM 真的变了」抓住 —— 已固化成判据 4h-h。
+2. **`fallback` 分支也是分支**：给 `<Show>` 写 fallback 时容易只想「另一种内容长什么样」，忘了它同样需要状态判定。`Spin` 的独立形态就是这样漏掉可见性的。
+3. **验收要求里的「不抖动」必须落到可执行的测量上**：单测在 jsdom 里量不出高度（全部读 0），所以这条只能进 browser 用例，而且对照区必须 `align-items: flex-start` —— 用 `stretch` 的话 flex 会把两列强行拉平，测出来的「一致」是布局凑的，不是骨架真的同高。
+4. **删属性比绕类型更省事**：`focusable="false"` 用 spread 或 `attr:` 都能过编译，但它对 `chrome >= 128` 没有任何作用。遇到「类型不让写」的遗留属性，先问它还有没有必要存在。
+5. **判据的「距离窗口」是脆弱写法**：4h-c 初版用 `Show[\s\S]{0,240}empty__footer`，靠两个字符串之间的字符距离判断「footer 被条件包裹」，而上方的插画 `<Show>` 很可能落在这个窗口里，造成假绿。改成直接约束 `when={local.children}` 这个条件表达式本身。**判据里凡是「A 到 B 不超过 N 字符」的写法，都要怀疑它会跨节点误命中。**
