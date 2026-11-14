@@ -7,7 +7,7 @@
 
 | 属性 | 取值 | 语义 | 适用组件 |
 | --- | --- | --- | --- |
-| `data-scui-size` | `small \| medium \| large` | 尺寸，默认 `medium`；禁止 `sm` / `md` | Select / DatePicker / Form / Table / Pagination |
+| `data-scui-size` | `small \| medium \| large` | 尺寸，默认 `medium`；禁止 `sm` / `md` | Select / DatePicker / Form / Table / Pagination / Modal |
 | `data-scui-disabled` | `''`（存在即真） | 禁用态，配合原生 `disabled` / `aria-disabled` | 全部 |
 | `data-scui-invalid` | `'true' \| 'false'` | 校验失败；SSR 也输出，避免 hydration 属性差 | Form |
 | `data-scui-open` | `''` | 弹层展开 | Select / DatePicker |
@@ -48,6 +48,7 @@
 | `data-scui-active` | `''`（存在即真） | 骨架微光动画开启；`prefers-reduced-motion: reduce` 时动画由 CSS 静止，属性本身仍输出（T3-05） | Skeleton |
 | `data-scui-last` | `''`（存在即真） | 骨架段落 / 卡片正文的**末行**，用于收窄到 60%。不用 `:last-child`：Solid 复用节点时位置语义不可靠（T3-05） | Skeleton |
 | `data-scui-spinning` | `''`（存在即真） | 包裹模式当前处于加载中，与容器 `aria-busy="true"` 同时出现；延迟未到时两者都不输出（T3-05） | Spin |
+| `data-scui-pending` | `''`（存在即真） | 异步确认进行中（`onOk` 返回的 Promise 未 settle，或 `confirmLoading` 受控为真）：确认按钮 loading、取消与关闭按钮 disabled、ESC / 遮罩 / 外部交互全部被原语拦截。不复用 `data-scui-loading`：后者表达「内容还在取」，pending 表达「请求已发出、不能重复发」（T3-07） | Modal |
 
 ## `data-scui-role` 取值清单
 
@@ -65,6 +66,8 @@
 | `skeleton` / `skeleton-wrapper` | Skeleton | 结构锚点（T3-05）：无 `children` 时只有 `skeleton`（独立形态）；有 `children` 时外层是 `skeleton-wrapper`（承载 `aria-busy` 与调用方属性） |
 | `skeleton-line` / `skeleton-title` / `skeleton-row` / `skeleton-head` / `skeleton-button` / `skeleton-avatar` | Skeleton | 形状锚点（T3-05）：`skeleton-head` 是表格表头行、`skeleton-row` 是正文行，两者块高一致 |
 | `spin` / `spin-container` / `spin-overlay` / `spin-tip` | Spin | 结构锚点（T3-05）：`spin` 是转圈本体（`role="status"`，独立与包裹共用），`spin-container` 是包裹模式外层，`spin-overlay` 只在延迟到点后出现 |
+| `modal` / `modal-overlay` / `modal-title` / `modal-body` / `modal-footer` / `modal-close` | Modal | 结构锚点（T3-07）：全部由 `primitives/overlay` 的 Portal 在客户端挂载，**SSR 零输出**；`modal` 是 `role="dialog"` 的内容根节点（承载 `data-scui-size` / `data-scui-pending`），`modal-overlay` 是兄弟级遮罩，`modal-footer` 在 `footer={null}` 时整块缺席，`modal-close` 在 `closable={false}` 时零输出 |
+| `modal-page` / `modal-trigger` | Modal（SSR 入口专用） | T3-07 的 `ssr-entry.tsx` 静态骨架锚点，不是组件输出：用来验「两个打开态 Modal 在服务端不抛错、页面容器与触发按钮照常输出」。不写「弹层缺席」的 forbid 判据，那是恒真的假判据（N62） |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
 | `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |

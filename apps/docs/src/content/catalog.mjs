@@ -189,6 +189,15 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/spin',
     hasApi: true,
   },
+  {
+    slug: 'modal',
+    title: 'Modal 对话框',
+    category: '反馈',
+    description:
+      '受控打开与外部按钮驱动；异步确认期间防重复提交并拦截 ESC / 遮罩关闭；焦点陷阱与关闭后焦点归还触发元素，SSR 只输出静态骨架。',
+    exportPath: 'solid-craft/modal',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

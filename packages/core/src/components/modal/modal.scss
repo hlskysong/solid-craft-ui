@@ -1,0 +1,115 @@
+@use 'mixins' as m;
+@use '../button/button';
+
+/* Modal（T3-07）
+   浮层行为（Portal / 焦点陷阱 / ESC / 焦点归还）全在 primitives/overlay，
+   这里只负责视觉。属性包由上层传入，变体一律走 [data-scui-*]，不生成 modifier class。
+
+   布局：Overlay 与 Content 是 Portal 下的**兄弟节点**，不能用 flex 父容器居中，
+   因此 Content 用 `position: fixed; inset: 0; margin: auto` + fit-content 自己居中。
+   375px 巡检要求 max-inline-size 收窄，否则固定宽度会把页面撑出横向溢出。
+
+   footer 复用了 Button 组件，而 build-css.mjs 按目录逐个编译、不做依赖聚合，
+   所以必须 @use 把 button 的样式一起带进 modal.css —— 否则「只引 modal.css」
+   的使用方会拿到两个裸按钮（与 T3-06 Table 聚合三件套同源）。 */
+
+:where(.scui-modal__overlay) {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--scui-z-index-base, 0) + 1000);
+
+  /* 遮罩恒为半透明黑：深浅主题都需要把背景压暗，不随主题反转成灰白
+     （Spin 的遮罩曾因写死白色半透明在深色主题下把内容糊成一片）。 */
+  background-color: rgb(0 0 0 / 45%);
+}
+
+:where(.scui-modal) {
+  --scui-modal-width: 520px;
+
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--scui-z-index-base, 0) + 1001);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--scui-space-4);
+  margin: auto;
+  inline-size: var(--scui-modal-width);
+  max-inline-size: calc(100vw - var(--scui-space-4) * 2);
+  block-size: fit-content;
+  max-block-size: calc(100vh - var(--scui-space-4) * 2);
+  padding: var(--scui-space-6);
+  overflow-y: auto;
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-radius-2);
+  background-color: var(--scui-color-bg-surface);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 18%);
+  color: var(--scui-color-text-primary);
+  font: inherit;
+  font-size: var(--scui-font-size-md);
+  line-height: var(--scui-line-height-md);
+
+  &[data-scui-size='small'] {
+    --scui-modal-width: 400px;
+  }
+
+  &[data-scui-size='large'] {
+    --scui-modal-width: 720px;
+  }
+
+  /* 异步提交中：除了按钮 loading / disabled，整块给一个等待光标，
+     让键盘用户也知道「现在点了没用」。 */
+  &[data-scui-pending] {
+    cursor: progress;
+  }
+}
+
+:where(.scui-modal__title) {
+  margin: 0;
+  padding-inline-end: var(--scui-space-6);
+  font-size: var(--scui-font-size-lg);
+  line-height: var(--scui-line-height-lg);
+  color: var(--scui-color-text-primary);
+}
+
+:where(.scui-modal__body) {
+  min-block-size: 0;
+  color: var(--scui-color-text-secondary);
+}
+
+:where(.scui-modal__footer) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--scui-space-2);
+  padding-block-start: var(--scui-space-2);
+  border-block-start: 1px solid var(--scui-color-border-default);
+}
+
+:where(.scui-modal__close) {
+  position: absolute;
+  inset-block-start: var(--scui-space-4);
+  inset-inline-end: var(--scui-space-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 28px;
+  block-size: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--scui-radius-1);
+  background: transparent;
+  color: var(--scui-color-text-secondary);
+  font-size: var(--scui-font-size-xl);
+  line-height: 1;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+
+  &:disabled {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}

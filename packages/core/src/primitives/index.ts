@@ -7,5 +7,12 @@
  */
 export { useClientReady } from './use-client-ready';
 export { PrimitiveDialog } from './dialog';
+export { PrimitiveOverlay } from './overlay';
 export { PrimitiveSelect } from './select';
-export type { PrimitiveDialogProps, PrimitiveOption, PrimitiveSelectProps } from './types';
+export type {
+  PrimitiveDialogProps,
+  PrimitiveOption,
+  PrimitiveOverlayAttributes,
+  PrimitiveOverlayProps,
+  PrimitiveSelectProps,
+} from './types';

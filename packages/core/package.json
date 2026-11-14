@@ -155,6 +155,12 @@
       "import": "./dist/esm/components/spin/index.js",
       "default": "./dist/esm/components/spin/index.js"
     },
+    "./modal": {
+      "types": "./dist/types/components/modal/index.d.ts",
+      "solid": "./dist/source/components/modal/index.jsx",
+      "import": "./dist/esm/components/modal/index.js",
+      "default": "./dist/esm/components/modal/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

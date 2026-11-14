@@ -58,6 +58,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./empty` → [solid-craft/empty](../exports/empty.md)
 - `./skeleton` → [solid-craft/skeleton](../exports/skeleton.md)
 - `./spin` → [solid-craft/spin](../exports/spin.md)
+- `./modal` → [solid-craft/modal](../exports/modal.md)
 - `./config-provider` → [solid-craft/config-provider](../exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](../exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](../exports/styles.md)

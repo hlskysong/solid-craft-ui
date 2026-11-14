@@ -52,6 +52,65 @@ export interface PrimitiveDialogProps {
 }
 
 /**
+ * 上层传给浮层原语的 DOM 属性包。
+ *
+ * 只承载类名与 `data-*` 状态，**不承载事件与第三方类型**：原语自己挂 ESC /
+ * 外部点击 / 焦点钩子，上层若能把事件透传进来就会把两套 dismiss 逻辑叠在一起。
+ */
+export type PrimitiveOverlayAttributes = {
+  class?: string;
+  style?: string;
+} & Record<`data-${string}`, string | undefined>;
+
+/**
+ * 浮层原语（T3-07）：`Modal`（T3-07）与 `Drawer`（T3-08）共用的受控浮层接缝。
+ *
+ * 与 `PrimitiveDialog` 的区别：那份原语强制自带 `Dialog.Trigger`、只有
+ * `defaultOpen`；这里不渲染触发按钮，完全由 `open` 受控，供业务侧外部按钮驱动。
+ */
+export interface PrimitiveOverlayProps {
+  /** 受控打开状态；上层永远传值，原语不做状态裁决，也不管理内部信号。 */
+  open: boolean;
+  /** 打开状态变更请求；上层可据此拦截关闭（如异步提交未结束）。 */
+  onOpenChange?: (open: boolean) => void;
+  /** 标题，渲染进 `KobalteDialog.Title`，是 `aria-labelledby` 的来源。 */
+  title: JSX.Element;
+  /**
+   * 正文。刻意不用 `KobalteDialog.Description` 包裹：它渲染成 `<p>`，
+   * 而 Modal 正文常是表单 / 表格，塞进段落会产生非法嵌套。
+   */
+  children?: JSX.Element;
+  /** 底部操作区；`null` / `undefined` 时整块不渲染，不留空盒子。 */
+  footer?: JSX.Element | null;
+  /** 关闭按钮的无障碍文案，可见部分恒为装饰性「×」。 @default '关闭' */
+  closeLabel?: string;
+  /** 是否渲染右上角关闭按钮。 @default true */
+  closable?: boolean;
+  /** 是否允许 ESC 关闭。 @default true */
+  keyboard?: boolean;
+  /** 是否允许点击遮罩 / 弹层外部关闭。 @default true */
+  maskClosable?: boolean;
+  /**
+   * 是否允许「非业务路径」关闭（ESC / 遮罩 / 外部交互 / 关闭按钮）。
+   * 异步提交期间由上层置 `false`，避免请求未回来就关掉弹层。
+   * 与 `keyboard` / `maskClosable` 正交：后者是静态配置，这里是运行时拦截。
+   * @default true
+   */
+  dismissible?: boolean;
+  /** 遮罩、内容、标题、正文、底部、关闭按钮各自的属性包（视觉归上层）。 */
+  overlayAttributes?: PrimitiveOverlayAttributes;
+  contentAttributes?: PrimitiveOverlayAttributes;
+  titleAttributes?: PrimitiveOverlayAttributes;
+  bodyAttributes?: PrimitiveOverlayAttributes;
+  footerAttributes?: PrimitiveOverlayAttributes;
+  closeAttributes?: PrimitiveOverlayAttributes;
+  /** 焦点刚要移入弹层时触发；原语在此记录触发元素。 */
+  onOpenAutoFocus?: (event: Event) => void;
+  /** 焦点即将归还时触发；原语已先接管默认行为。 */
+  onCloseAutoFocus?: (event: Event) => void;
+}
+
+/**
  * 选择器原语。
  *
  * R2 = A 的落点：对外 `value` 是字符串，Kobalte 的「整个 option 对象作受控值」

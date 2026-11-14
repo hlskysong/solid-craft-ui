@@ -3129,6 +3129,167 @@
     "href": "/components/spin#api-style"
   },
   {
+    "type": "component",
+    "title": "Modal 对话框",
+    "description": "受控打开与外部按钮驱动；异步确认期间防重复提交并拦截 ESC / 遮罩关闭；焦点陷阱与关闭后焦点归还触发元素，SSR 只输出静态骨架。",
+    "keywords": "modal solid-craft/modal",
+    "href": "/components/modal"
+  },
+  {
+    "type": "demo",
+    "title": "Modal 对话框 · 异步关闭",
+    "description": "onOk 返回 Promise 时进入等待态：确认按钮转圈、取消与右上关闭禁用、ESC 与遮罩点击被拦截，重复点击不会再发一次请求。",
+    "keywords": "modal async-close",
+    "href": "/components/modal/async-close"
+  },
+  {
+    "type": "demo",
+    "title": "Modal 对话框 · 基础用法",
+    "description": "外部按钮受控打开；默认底部是「取消 / 确定」。三档尺寸共用同一套交互，显式 width 可覆盖尺寸档位。",
+    "keywords": "modal basic",
+    "href": "/components/modal/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Modal 对话框 · 焦点陷阱与归还",
+    "description": "打开后焦点被限制在弹层内循环；按 ESC 关闭时焦点会回到当初的触发按钮，而不是丢在 body 上。",
+    "keywords": "modal focus",
+    "href": "/components/modal/focus"
+  },
+  {
+    "type": "demo",
+    "title": "Modal 对话框 · 打开态与尺寸",
+    "description": "首屏即打开，用于视觉基线与弹层态 axe 扫描；点底部按钮切换三档尺寸，关闭后可用背景按钮重新打开。",
+    "keywords": "modal open-state",
+    "href": "/components/modal/open-state"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.open",
+    "description": "受控打开状态；给了就完全由调用方驱动，组件内部不回写。",
+    "keywords": "modal boolean",
+    "href": "/components/modal#api-open"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.defaultOpen",
+    "description": "非受控初始状态。 @default false",
+    "keywords": "modal boolean",
+    "href": "/components/modal#api-defaultOpen"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.onOpenChange",
+    "description": "打开状态变化出口；任何关闭路径都会发，请求打开不会（无内置触发按钮）。",
+    "keywords": "modal (open: boolean) => void",
+    "href": "/components/modal#api-onOpenChange"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.title",
+    "description": "标题；渲染进 `Dialog.Title`，是 `aria-labelledby` 的来源。",
+    "keywords": "modal JSX.Element",
+    "href": "/components/modal#api-title"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.children",
+    "description": "正文。",
+    "keywords": "modal JSX.Element",
+    "href": "/components/modal#api-children"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.footer",
+    "description": "底部操作区。传 `null` 表示整块不渲染（不留空盒子）； 不传则渲染默认的「取消 / 确定」两个按钮。",
+    "keywords": "modal JSX.Element | null",
+    "href": "/components/modal#api-footer"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.okText",
+    "description": "默认确定按钮文案。 @default '确定'",
+    "keywords": "modal string",
+    "href": "/components/modal#api-okText"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.cancelText",
+    "description": "默认取消按钮文案。 @default '取消'",
+    "keywords": "modal string",
+    "href": "/components/modal#api-cancelText"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.onOk",
+    "description": "确认回调。返回 Promise 时进入异步关闭状态机：期间禁用确认按钮、 拦截 ESC / 遮罩 / 关闭按钮 / 取消，resolve 后才关闭，reject 则保持打开。",
+    "keywords": "modal () => void | Promise<void>",
+    "href": "/components/modal#api-onOk"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.onCancel",
+    "description": "取消 / ESC / 遮罩 / 关闭按钮触发；异步提交期间不会触发。",
+    "keywords": "modal () => void",
+    "href": "/components/modal#api-onCancel"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.confirmLoading",
+    "description": "外部控制的确认加载态（表单提交由父组件发起时用）。 与 `onOk` 返回 Promise 触发的内部 pending 取或。",
+    "keywords": "modal boolean",
+    "href": "/components/modal#api-confirmLoading"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.size",
+    "description": "三档宽度。 @default 'medium'",
+    "keywords": "modal ModalSize",
+    "href": "/components/modal#api-size"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.width",
+    "description": "显式宽度，覆盖 `size`；数字按 px 处理。 @default undefined",
+    "keywords": "modal number | string",
+    "href": "/components/modal#api-width"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.closable",
+    "description": "是否显示右上角关闭按钮。 @default true",
+    "keywords": "modal boolean",
+    "href": "/components/modal#api-closable"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.keyboard",
+    "description": "是否允许 ESC 关闭。 @default true",
+    "keywords": "modal boolean",
+    "href": "/components/modal#api-keyboard"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.maskClosable",
+    "description": "是否允许点击遮罩关闭。 @default true",
+    "keywords": "modal boolean",
+    "href": "/components/modal#api-maskClosable"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.closeLabel",
+    "description": "右上角关闭按钮的无障碍文案。 @default '关闭'",
+    "keywords": "modal string",
+    "href": "/components/modal#api-closeLabel"
+  },
+  {
+    "type": "api",
+    "title": "ModalProps.class",
+    "description": "内容容器自定义类名。 @default undefined",
+    "keywords": "modal string",
+    "href": "/components/modal#api-class"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

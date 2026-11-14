@@ -714,6 +714,108 @@ if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
   }
 }
 
+// 4j. Modal 契约（§30.41，T3-07）。钉的都是「看着接上了、其实没接对」的点：
+// ① 必须复用共享浮层原语，且第三方类型不越过 primitives；② 焦点归还必须自己
+// 接管（Kobalte 只 focus triggerRef，受控打开时为空）；③ 异步 pending 要同时
+// 挡住重复提交与全部关闭入口；④ 受控优先级；⑤ footer 样式随 modal.css 聚合；
+// ⑥ SSR 入口在册。判据一律先剥注释，避免注释冒充真实代码（T3-04 / T3-05 踩过）。
+{
+  const stripT307Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const modalDir = join(repoRoot, 'packages', 'core', 'src', 'components', 'modal');
+  const primitivesDir = join(repoRoot, 'packages', 'core', 'src', 'primitives');
+  const t307Impl = stripT307Comments(read(join(modalDir, 'Modal.tsx')));
+  const t307Styles = stripT307Comments(read(join(modalDir, 'modal.scss')));
+  const t307Types = stripT307Comments(read(join(modalDir, 'types.ts')));
+  const t307Overlay = stripT307Comments(read(join(primitivesDir, 'overlay.tsx')));
+  const t307Primitives = stripT307Comments(read(join(primitivesDir, 'index.ts')));
+  const t307PrimitiveTypes = stripT307Comments(read(join(primitivesDir, 'types.ts')));
+
+  if (
+    !t307Impl.includes("from '../../primitives'") ||
+    !/<PrimitiveOverlay\b/.test(t307Impl) ||
+    /@kobalte\//.test(t307Impl)
+  ) {
+    fail(
+      'Modal 未复用 primitives/overlay（或直接依赖了第三方无头库）：T3-08 的 Drawer 会重复实现浮层',
+    );
+  }
+  if (
+    !t307Primitives.includes("export { PrimitiveOverlay } from './overlay';") ||
+    !/export interface PrimitiveOverlayProps/.test(t307PrimitiveTypes) ||
+    /@kobalte\//.test(t307PrimitiveTypes)
+  ) {
+    fail('共享浮层原语未从 primitives barrel / types 正确导出，或第三方类型越过了接缝');
+  }
+  if (
+    !/document\.activeElement/.test(t307Overlay) ||
+    !/setRestoreTarget\(active\)/.test(t307Overlay) ||
+    !/event\.preventDefault\(\)/.test(t307Overlay) ||
+    !/target\.focus\(\)/.test(t307Overlay)
+  ) {
+    fail('浮层原语未自己接管焦点归还：受控打开没有 Kobalte Trigger，焦点会丢在 body 上');
+  }
+  if (!/Show when=\{ready\(\)\}/.test(t307Overlay) || !/useClientReady\(\)/.test(t307Overlay)) {
+    fail('浮层 Portal 未受 useClientReady 约束：SSR 与客户端首帧结构会对不上');
+  }
+  for (const hook of [
+    'onEscapeKeyDown={onEscapeKeyDown}',
+    'onPointerDownOutside={blockOutside}',
+    'onInteractOutside={blockOutside}',
+  ]) {
+    if (!t307Overlay.includes(hook)) {
+      fail(`浮层原语缺少 ${hook}：异步提交期间的关闭拦截会漏一条路径`);
+    }
+  }
+  if (
+    !/!dismissible\(\) \|\| !keyboard\(\)/.test(t307Overlay) ||
+    !/!dismissible\(\) \|\| !maskClosable\(\)/.test(t307Overlay) ||
+    !/onPointerDown=\{onMaskPointerDown\}/.test(t307Overlay) ||
+    !/props\.onOpenChange\?\.\(false\)/.test(t307Overlay)
+  ) {
+    fail(
+      '遮罩关闭未走单一出口：Kobalte modal 模式默认点遮罩不 dismiss，必须显式挂 Overlay 的 onPointerDown，且 keyboard / maskClosable 与 pending 拦截要分开',
+    );
+  }
+  if (
+    !t307Impl.includes('local.open ?? internalOpen()') ||
+    !/if \(local\.open === undefined\) setInternalOpen\(false\)/.test(t307Impl)
+  ) {
+    fail('Modal 受控优先级缺失：受控时点击不得回写组件内部信号');
+  }
+  if (
+    !/if \(isPending\(\)\) return;/.test(t307Impl) ||
+    !/result\.then\(/.test(t307Impl) ||
+    !/confirmLoading === true \|\| asyncPending\(\)/.test(t307Impl)
+  ) {
+    fail('异步关闭状态机不完整：重复提交或 Promise reject 会漏掉一条路径');
+  }
+  if (
+    !/dismissible=\{!isPending\(\)\}/.test(t307Impl) ||
+    !/'data-scui-pending': isPending\(\) \? '' : undefined/.test(t307Impl)
+  ) {
+    fail('pending 未同时驱动原语拦截与 data-scui-pending：ESC / 遮罩仍能关掉等待中的弹层');
+  }
+  if (!/local\.footer === null/.test(t307Impl)) {
+    fail('footer={null} 语义缺失：会留下一个空的操作区盒子');
+  }
+  if (!/@use\s+['"]\.\.\/button\/button['"]/.test(t307Styles)) {
+    fail('modal.scss 未聚合 Button 样式：只引 modal.css 时默认 footer 会渲染成两个裸按钮');
+  }
+  if (
+    !/onOk\?: \(\) => void \| Promise<void>/.test(t307Types) ||
+    !/footer\?: JSX\.Element \| null/.test(t307Types)
+  ) {
+    fail('ModalProps 缺少异步 onOk / footer=null 的契约声明');
+  }
+  if (
+    !existsSync(join(modalDir, '__tests__', 'ssr-entry.tsx')) ||
+    !ssrSmokeRunner.includes("id: 'T3-07'")
+  ) {
+    fail('Modal 的 SSR 入口未登记进 ssr-smoke.mjs');
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -799,7 +901,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '212c4ad85a0b19a44b5cace1cf3f357b7acce42c137962bc0d669e2d2dd8eab4';
+const FONT_SHA256 = '85b4005ed4a460f897fd852136cf847474f8decd2ebfa8737afdc51e6a0f4ca5';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -1090,5 +1192,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
 );

@@ -657,6 +657,25 @@ const cases = [
       ['value="5" selected', 1],
     ],
   },
+  {
+    // T3-07：Modal 的「SSR 不渲染弹层」不能写成 forbid 判据（Kobalte Portal
+    // 在服务端恒为空操作，禁不掉，见文件头 N62）。这里验的是正面静态骨架：
+    // 两个打开态 Modal（受控 open / defaultOpen + confirmLoading）在服务端
+    // 不抛错、不访问 document，页面容器与触发按钮照常输出。
+    id: 'T3-07',
+    file: '/src/components/modal/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="modal-page"',
+      'data-scui-role="modal-trigger"',
+      '打开对话框',
+    ],
+    counts: [
+      ['data-scui-role="modal-page"', 1],
+      ['data-scui-role="modal-trigger"', 1],
+      ['打开对话框', 1],
+    ],
+  },
 ];
 
 const errors = [];

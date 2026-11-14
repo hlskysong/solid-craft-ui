@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 113,
+  "pageCount": 118,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -123,6 +123,11 @@
     {
       "path": "llms/exports/spin.md",
       "title": "# Spin 加载中（`solid-craft/spin`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/modal.md",
+      "title": "# Modal 对话框（`solid-craft/modal`）",
       "kind": "exports"
     },
     {
@@ -574,6 +579,26 @@
       "path": "llms/demos/spin-wrap.md",
       "title": "# Spin 加载中 · 包裹内容（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/modal-async-close.md",
+      "title": "# Modal 对话框 · 异步关闭（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/modal-basic.md",
+      "title": "# Modal 对话框 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/modal-focus.md",
+      "title": "# Modal 对话框 · 焦点陷阱与归还（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/modal-open-state.md",
+      "title": "# Modal 对话框 · 打开态与尺寸（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -599,6 +624,7 @@
     "./empty": "llms/exports/empty.md",
     "./skeleton": "llms/exports/skeleton.md",
     "./spin": "llms/exports/spin.md",
+    "./modal": "llms/exports/modal.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -628,6 +654,7 @@
     "llms/exports/empty.md",
     "llms/exports/skeleton.md",
     "llms/exports/spin.md",
+    "llms/exports/modal.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -718,7 +745,11 @@
     "llms/demos/skeleton-loading.md",
     "llms/demos/spin-basic.md",
     "llms/demos/spin-delay.md",
-    "llms/demos/spin-wrap.md"
+    "llms/demos/spin-wrap.md",
+    "llms/demos/modal-async-close.md",
+    "llms/demos/modal-basic.md",
+    "llms/demos/modal-focus.md",
+    "llms/demos/modal-open-state.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

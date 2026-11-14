@@ -221,6 +221,108 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await expect(loading).toHaveCount(0);
   });
 
+  // T3-07：焦点陷阱与「ESC 后焦点归还触发元素」都是真实浏览器行为，
+  // jsdom 没有 focus scope，单测替代不了。这里用连续 Tab 验证焦点不越界，
+  // 并在 ESC 后直接断言 activeElement 回到了当初的触发按钮 —— Kobalte 默认
+  // 只 focus triggerRef，受控打开（外部按钮驱动）没有 Trigger，必须由原语接管。
+  test('Modal 焦点陷阱与 ESC 后焦点归还触发元素', async ({ page }) => {
+    await page.goto('/components/modal/focus?standalone=1');
+    const trigger = page.getByTestId('modal-focus-trigger');
+    const dialog = page.getByRole('dialog', { name: '设备信息登记' });
+
+    await trigger.click();
+    await expect(dialog).toBeVisible();
+
+    const focusInside = (): Promise<boolean> =>
+      page.evaluate(() => {
+        const content = document.querySelector('[role="dialog"]');
+        return content?.contains(document.activeElement) ?? false;
+      });
+    // Kobalte 的 focus scope 在 Content 挂载后的下一个 effect 才把焦点移入，
+    // `toBeVisible()` 不等于「焦点已就位」。单独跑这条用例时时序恰好够，
+    // 全量 178 条连跑时会撞上竞态（T2-13 的「goto 后立刻 Tab」同源）。
+    await page.waitForFunction(
+      () => {
+        const content = document.querySelector('[role="dialog"]');
+        return content?.contains(document.activeElement) ?? false;
+      },
+      null,
+      { timeout: 3000 },
+    );
+    expect(await focusInside(), '打开后焦点应落在弹层内').toBe(true);
+
+    for (let index = 0; index < 8; index += 1) {
+      await page.keyboard.press('Tab');
+      expect(await focusInside(), `第 ${index + 1} 次 Tab 后焦点跑出了弹层`).toBe(true);
+    }
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  });
+
+  // T3-07：异步关闭期间「防重复提交」不能只靠按钮 disabled（业务侧可以换自定义
+  // footer），引擎必须在 pending 时早退，且 ESC / 遮罩 / 取消 / 右上关闭四条
+  // 关闭入口全部失效。这里按真实 900ms 计时跑完整链。
+  test('Modal 异步确认：pending 期间防重复提交且全部关闭入口失效', async ({ page }) => {
+    await page.goto('/components/modal/async-close?standalone=1');
+    await page.getByRole('button', { name: '打开并提交' }).click();
+    const dialog = page.getByRole('dialog', { name: '确认提交采购计划' });
+    await expect(dialog).toBeVisible();
+
+    const ok = page.getByRole('button', { name: '提交审批' });
+    const count = page.getByTestId('modal-submit-count');
+    await ok.click();
+    await expect(page.locator('[data-scui-role="modal"]')).toHaveAttribute('data-scui-pending', '');
+    await expect(count).toHaveText('请求次数：1');
+    await expect(ok).toBeDisabled();
+
+    // 绕过 Playwright 的可点击性检查直接派发 click：disabled 元素不会触发事件，
+    // 真正兜底的是 handleOk 里的 isPending() 早退（自定义 footer 时同样成立）。
+    await page.evaluate(() => {
+      const button = [...document.querySelectorAll('button')].find((item) =>
+        item.textContent?.includes('提交审批'),
+      );
+      button?.click();
+    });
+    await page.keyboard.press('Escape');
+    await page.locator('[data-scui-role="modal-overlay"]').click({
+      position: { x: 6, y: 6 },
+      force: true,
+    });
+    await expect(dialog).toBeVisible();
+    await expect(page.getByRole('button', { name: '取消' })).toBeDisabled();
+    await expect(page.locator('[data-scui-role="modal-close"]')).toBeDisabled();
+    await expect(count).toHaveText('请求次数：1');
+
+    await expect(dialog).toHaveCount(0, { timeout: 4000 });
+    await expect(page.getByTestId('modal-submit-log')).toHaveText('提交完成');
+  });
+
+  // T3-07：遮罩点击是独立于 ESC 的关闭路径；关掉后还要能再次打开，
+  // 否则受控状态会在第一次关闭后卡死。
+  test('Modal 遮罩关闭后可再次打开', async ({ page }) => {
+    await page.goto('/components/modal/basic?standalone=1');
+    const openSmall = page.getByRole('button', { name: '打开 small' });
+    const dialog = page.getByRole('dialog', { name: '新增设备采购计划' });
+
+    await openSmall.click();
+    await expect(dialog).toBeVisible();
+    await expect(page.locator('[data-scui-role="modal"]')).toHaveAttribute(
+      'data-scui-size',
+      'small',
+    );
+
+    await page.locator('[data-scui-role="modal-overlay"]').click({
+      position: { x: 6, y: 6 },
+      force: true,
+    });
+    await expect(dialog).toHaveCount(0);
+
+    await openSmall.click();
+    await expect(dialog).toBeVisible();
+  });
+
   // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
   // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
   // 用真实浏览器把「载入编辑 → 改值 → 提交校验 → 切回新增」整链跑一遍。
@@ -340,6 +442,35 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
 });
 
 test.describe('A11y 链：axe 扫描', () => {
+  // T3-07：弹层是 Portal 到 body 的，普通 Demo 页面在关闭态扫不到它。
+  // open-state Demo 首屏即打开，这条单独点名记录「弹层态 axe 0」这一验收项，
+  // 同时覆盖 aria-modal / aria-labelledby / 焦点陷阱里的控件组合。
+  test('Modal 打开态无 serious / critical 违规', async ({ page }) => {
+    await page.goto('/components/modal/open-state?standalone=1');
+    await expect(page.getByRole('dialog', { name: '打开态视觉基线' })).toBeVisible();
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] modal/open: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
   // T2-13：扫描面从「每组件 basic」扩到「组件 × Demo」。真实表单页
   // （form/real-form）与各组件非首 Demo 都在这条循环里，不再单开用例 ——
   // 单开意味着每新增一个 Demo 就要人肉记得加一条，迟早漏。
