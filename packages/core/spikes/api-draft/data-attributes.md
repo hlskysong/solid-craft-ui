@@ -54,6 +54,8 @@
 | `data-scui-anchor` | `top \| top-start \| top-end \| right \| right-start \| right-end \| bottom \| bottom-start \| bottom-end \| left \| left-start \| left-end` | **锚定浮层挂在触发元素哪一侧**，恒输出（默认 `top`）；与 Floating UI 的 `Placement` 同形，定位 / 翻转由原语负责，CSS 只用它决定 `transform-origin`。刻意新增而不复用：`data-scui-placement` 是反馈容器在屏幕哪个角（六向）、`data-scui-side` 是抽屉贴视口哪条边（四向），三者语义不同（T3-09） | Tooltip / Popconfirm |
 | `data-scui-column` | `1 \| 2 \| 3` | **详情列表一行几列**，恒输出（默认 `2`）；与 `data-scui-span` 成对，由 CSS 派生 `--scui-descriptions-columns`。刻意新增而不复用 `data-scui-layout`：后者是 Form 的 `horizontal / vertical / inline` 布局，同名不同义违反 R1；AGENTS 硬约束 3 也没把「列数」指派给任何名字（T3-11） | Descriptions |
 | `data-scui-span` | `1 \| 2 \| 3` | **一个键值项跨几列**，恒输出（默认 `1`，SSR 与首帧一致）；AGENTS 硬约束 3 本就把 `-span` 指派给栅格布局，登记表此前漏登记，本轮补齐（同 T3-10 对 `-color` 的处理）。窄屏由 CSS 强制回落到 `1`，避免 `span 2` 在单列容器里造出隐式第二列而横向溢出（T3-11） | Descriptions |
+| `data-scui-status` | `ready \| uploading \| done \| error` | **单个文件的上传状态**，落在列表项上且恒输出（SSR 由 `defaultFileList` 给出静态三态）。刻意新增而不复用 `data-scui-state`：后者是原语层专用的 `open / closed` 槽位；也不复用 `-variant`（组件外观变体）或 `-tone`（文本语气），一个属性名只表达一个语义。进度交给原生 `<progress>`，属性只管状态边框色（T3-13） | Upload |
+| `data-scui-dragging` | `''`（存在即真） | 拖拽文件悬停在上传区上方；由原生 `dragover` / `dragleave` / `drop` 单点维护，禁用时恒不输出。不用 `-active`：后者已被 Skeleton 的微光动画占用（T3-13） | Upload |
 
 ## `data-scui-role` 取值清单
 
@@ -99,6 +101,7 @@
 | `switch` | Switch | 结构锚点（T2-05） |
 | `app` / `app-host` / `message-viewport` / `notification-viewport` / `message` / `notification` | App | 结构锚点（T2-06）：`app` 是内联宿主，`app-host` 是脱离树时挂到 body 的全局宿主 |
 | `select` / `select-clear` / `select-search` / `select-empty` / `select-loading` | Select | 结构锚点（T2-07）：后三者只在客户端弹层内出现，SSR 不输出；`select` 是内联根节点 |
+| `upload` / `upload-input` / `upload-trigger` / `upload-list` / `upload-item` / `upload-name` / `upload-size` / `upload-progress` / `upload-error` / `upload-cancel` / `upload-retry` / `upload-remove` | Upload | 结构锚点（T3-13）：**内联渲染、SSR 全量输出**；`upload-input` 是 hidden 原生 `<input type="file">`、`upload-trigger` 是承载 `Form.Item` 的 `label[for]` 目标按钮；`upload-progress` / `upload-cancel` 只在 `uploading` 项出现，`upload-error` / `upload-retry` 只在 `error` 项出现，其余按内容缺席。`upload-item` 恒输出 `data-scui-status` |
 
 > **`data-scui-checked` 为何不复用 `data-scui-selected`**（T2-05）：前者表达控件自身状态、
 > 有三态且恒输出（SSR 也要出 `'false'`）；后者表达「列表项被选中」、存在即真。

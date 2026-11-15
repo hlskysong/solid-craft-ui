@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { DEMO_CASES, DEMO_IDS, demoCaseId, demoPath } from '../demo-list';
 
 test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
@@ -1330,5 +1330,97 @@ test.describe('A11y 链：axe 扫描', () => {
     await page.getByTestId('crud-create').click();
     await expect(page.getByRole('dialog')).toBeVisible();
     expect(await seriousOf()).toEqual([]);
+  });
+});
+
+test.describe('T3-13 Upload：上传 / 删除 / 取消 / 重试 / 表单接入', () => {
+  const uploadFile = async (page: Page, name: string): Promise<void> => {
+    await page.locator('[data-testid="upload-progress"] input[type="file"]').setInputFiles({
+      name,
+      mimeType: 'application/pdf',
+      buffer: Buffer.from('solid-craft upload demo'),
+    });
+  };
+
+  test('Upload 受控：点击删除只发事件，列表不自行回弹', async ({ page }) => {
+    await page.goto('/components/upload/basic?standalone=1');
+    const controlled = page.getByTestId('upload-controlled');
+    await expect(controlled.locator('[data-scui-role="upload-item"]')).toHaveCount(1);
+    await controlled.locator('[data-scui-role="upload-remove"]').click();
+    await expect(page.getByTestId('upload-basic-log')).toContainText('受控收到 0 项');
+    await expect(controlled.locator('[data-scui-role="upload-item"]')).toHaveCount(1);
+  });
+
+  test('Upload 进度：customRequest 回调把状态推到 done', async ({ page }) => {
+    await page.goto('/components/upload/progress?standalone=1');
+    await uploadFile(page, 'progress-new.pdf');
+    const item = page
+      .locator('[data-testid="upload-progress"] [data-scui-role="upload-item"]')
+      .filter({ hasText: 'progress-new.pdf' });
+    await expect(item).toHaveAttribute('data-scui-status', 'uploading');
+    await expect(item.locator('[data-scui-role="upload-progress"]')).toBeVisible();
+    await expect(page.getByTestId('upload-progress-log')).toContainText('上传完成');
+    await expect(item).toHaveAttribute('data-scui-status', 'done');
+  });
+
+  test('Upload 失败与重试：error 项点重试重跑同一条链路', async ({ page }) => {
+    await page.goto('/components/upload/progress?standalone=1');
+    await page.getByTestId('upload-fail-toggle').check();
+    await uploadFile(page, 'retry-me.pdf');
+    const item = page
+      .locator('[data-testid="upload-progress"] [data-scui-role="upload-item"]')
+      .filter({ hasText: 'retry-me.pdf' });
+    await expect(item).toHaveAttribute('data-scui-status', 'error');
+    await expect(item.locator('[data-scui-role="upload-error"]')).toContainText('模拟服务端失败');
+    await page.getByTestId('upload-fail-toggle').uncheck();
+    await item.locator('[data-scui-role="upload-retry"]').click();
+    await expect(item).toHaveAttribute('data-scui-status', 'uploading');
+    await expect(page.getByTestId('upload-progress-log')).toContainText('上传完成');
+    await expect(item).toHaveAttribute('data-scui-status', 'done');
+  });
+
+  test('Upload 取消与删除：abort 后转 error，删除真的移除列表项', async ({ page }) => {
+    await page.goto('/components/upload/progress?standalone=1');
+    await uploadFile(page, 'cancel-me.pdf');
+    const item = page
+      .locator('[data-testid="upload-progress"] [data-scui-role="upload-item"]')
+      .filter({ hasText: 'cancel-me.pdf' });
+    await item.locator('[data-scui-role="upload-cancel"]').click();
+    await expect(item).toHaveAttribute('data-scui-status', 'error');
+    await expect(item.locator('[data-scui-role="upload-error"]')).toContainText('已取消');
+    await item.locator('[data-scui-role="upload-remove"]').click();
+    await expect(item).toHaveCount(0);
+  });
+
+  test('Upload 表单接入：提交拿到 fileList，删空后必填校验生效', async ({ page }) => {
+    await page.goto('/components/upload/form?standalone=1');
+    const control = page.getByTestId('upload-form-control');
+    await expect(control.locator('[data-scui-role="upload-item"]')).toHaveCount(2);
+    await page.getByTestId('upload-form-submit').click();
+    await expect(page.getByTestId('upload-form-result')).toContainText('提交成功：2 个附件');
+    await control.locator('[data-scui-role="upload-remove"]').first().click();
+    await page.getByTestId('upload-form-submit').click();
+    await expect(page.getByTestId('upload-form-result')).toContainText('提交成功：1 个附件');
+    await control.locator('[data-scui-role="upload-remove"]').first().click();
+    await page.getByTestId('upload-form-submit').click();
+    await expect(page.locator('[data-scui-role="field-error"]')).toContainText(
+      '请至少上传一个附件',
+    );
+  });
+
+  test('Upload 三个 Demo 无 serious / critical 违规', async ({ page }) => {
+    const seriousOf = async () => {
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+        .analyze();
+      return results.violations
+        .filter((violation) => violation.impact === 'serious' || violation.impact === 'critical')
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`);
+    };
+    for (const slug of ['basic', 'progress', 'form']) {
+      await page.goto(`/components/upload/${slug}?standalone=1`);
+      await expect(page.locator('[data-scui-role="upload"]').first()).toBeVisible();
+      expect(await seriousOf()).toEqual([]);
+    }
   });
 });

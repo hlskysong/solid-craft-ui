@@ -209,6 +209,12 @@
       "import": "./dist/esm/components/descriptions/index.js",
       "default": "./dist/esm/components/descriptions/index.js"
     },
+    "./upload": {
+      "types": "./dist/types/components/upload/index.d.ts",
+      "solid": "./dist/source/components/upload/index.jsx",
+      "import": "./dist/esm/components/upload/index.js",
+      "default": "./dist/esm/components/upload/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

@@ -270,6 +270,15 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/descriptions',
     hasApi: true,
   },
+  {
+    slug: 'upload',
+    title: 'Upload 上传',
+    category: '表单',
+    description:
+      '点击 / 拖拽共用原生文件入口，customRequest 单点注入传输并回调进度 / 成功 / 失败；文件列表支持删除、取消、重试与错误态，Form.Item 直接把 fileList 当字段值。',
+    exportPath: 'solid-craft/upload',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

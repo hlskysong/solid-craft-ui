@@ -1785,6 +1785,252 @@ if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
   }
 }
 
+// 4p. T3-13 Upload 上传契约（§30.47）。§4.2 验收原话「上传 / 删除 / 重试受控链路；
+// SSR 静态骨架；零新增依赖；与 Form.Item 接入可用」。Kobalte 没有 Upload 原语，
+// 拖拽库 v1.0 才引入，所以判据同时钉「零自研传输」「零新依赖」「静态骨架」三层，
+// 防止只摆一个文件 input 就冒充上传组件。一律先剥注释再匹配。
+{
+  const stripT313Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const t313Dir = join(repoRoot, 'packages', 'core', 'src', 'components', 'upload');
+  const t313Impl = stripT313Comments(read(join(t313Dir, 'Upload.tsx')));
+  const t313Types = stripT313Comments(read(join(t313Dir, 'types.ts')));
+  const t313Scss = stripT313Comments(read(join(t313Dir, 'upload.scss')));
+  const t313Test = stripT313Comments(read(join(t313Dir, 'Upload.test.tsx')));
+  const t313Ssr = stripT313Comments(read(join(t313Dir, '__tests__', 'ssr-entry.tsx')));
+  const t313Smoke = read(join(repoRoot, 'packages', 'core', 'spikes', 'shared', 'ssr-smoke.mjs'));
+  const t313Browser = read(join(repoRoot, 'tests', 'e2e', 'specs', 'browser.spec.ts'));
+  const t313Catalog = read(join(repoRoot, 'apps', 'docs', 'src', 'content', 'catalog.mjs'));
+  const t313Pkg = read(join(repoRoot, 'packages', 'core', 'package.json'));
+  const t313Barrel = read(join(repoRoot, 'packages', 'core', 'src', 'index.ts'));
+  const t313Attrs = read(
+    join(repoRoot, 'packages', 'core', 'spikes', 'api-draft', 'data-attributes.md'),
+  );
+  const t313Governance = read(join(repoRoot, 'scripts', 'todo-governance.json'));
+  const t313Todo = read(join(repoRoot, 'docs', '08-实施Todo.md'));
+
+  // ① 纵向切片齐全：7 类文件 + 3 个 Demo，每个 Demo 都带 meta 与默认导出。
+  const t313Files = [
+    'types.ts',
+    'Upload.tsx',
+    'upload.scss',
+    'index.ts',
+    'Upload.test.tsx',
+    '__tests__/ssr-entry.tsx',
+    'demos/basic.tsx',
+    'demos/progress.tsx',
+    'demos/form.tsx',
+  ];
+  for (const file of t313Files) {
+    if (!existsSync(join(t313Dir, file))) {
+      fail(`T3-13 缺少 Upload 纵向切片文件 ${file}`);
+    }
+  }
+  for (const slug of ['basic', 'progress', 'form']) {
+    const source = stripT313Comments(read(join(t313Dir, 'demos', `${slug}.tsx`)));
+    if (!/export const demo = \{[\s\S]*?title:[\s\S]*?description:/.test(source)) {
+      fail(`T3-13 的 Demo ${slug} 缺少 export const demo = { title, description }`);
+    }
+    if (!/export default function Upload\w+Demo\(\)/.test(source)) {
+      fail(`T3-13 的 Demo ${slug} 缺少默认导出组件`);
+    }
+  }
+
+  // ② 五链接线 + 状态机：customRequest 的四个回调、删除 / 取消 / 重试、
+  // 上传前校验与拖拽入口，全部必须真的出现在实现代码里。
+  for (const anchor of [
+    'customRequest',
+    'onProgress',
+    'onSuccess',
+    'onError',
+    'signal: controller.signal',
+    'new AbortController()',
+    'beforeUpload',
+    'maxSize',
+    'maxCount',
+    'matchesAccept',
+    'handleDragOver',
+    'handleDrop',
+    'const remove = ',
+    'const cancel = ',
+    'const retry = ',
+    'data-scui-role="upload-progress"',
+    'data-scui-role="upload-retry"',
+    'data-scui-role="upload-cancel"',
+    'data-scui-role="upload-remove"',
+  ]) {
+    if (!t313Impl.includes(anchor)) {
+      fail(`T3-13 Upload 缺少上传链路接线 ${anchor}：入口建了但没真的接上`);
+    }
+  }
+
+  // ③ 值优先级与单一出口：Form 字段 > fileList > 内部副本；所有变更只走 emit。
+  for (const anchor of [
+    'useFormFieldOptional()',
+    'const list = (): UploadFile[] => {',
+    'if (field) return toFileList(field.value());',
+    'return local.fileList ?? internal();',
+    'function toFileList(value: unknown): UploadFile[] {',
+    'const emit = (next: UploadFile[], file: UploadFile): void => {',
+    'setInternal(next);',
+    'field?.setValue(next);',
+    'local.onChange?.(next, info);',
+  ]) {
+    if (!t313Impl.includes(anchor)) {
+      fail(`T3-13 Upload 的受控值桥缺少 ${anchor}`);
+    }
+  }
+  if (/fetch\(|XMLHttpRequest|@kobalte\/core\/upload/.test(t313Impl)) {
+    fail('T3-13 Upload 组件内不得自研传输实现或引入 Kobalte Upload 原语');
+  }
+
+  // ④ R1 / 新增属性登记：四个状态属性三层齐全，且不得出现 modifier class。
+  for (const attr of [
+    'data-scui-status',
+    'data-scui-dragging',
+    'data-scui-invalid',
+    'data-scui-disabled',
+  ]) {
+    if (!t313Impl.includes(attr)) {
+      fail(`T3-13 Upload 实现未输出 ${attr}`);
+    }
+    if (!t313Scss.includes(attr)) {
+      fail(`T3-13 Upload 样式未消费 ${attr}`);
+    }
+  }
+  for (const attr of ['data-scui-status', 'data-scui-dragging']) {
+    if (!t313Attrs.includes(`| \`${attr}\``)) {
+      fail(`T3-13 新增属性 ${attr} 未登记进 data-attributes.md`);
+    }
+  }
+  if (/scui-upload--/.test(t313Impl) || /scui-upload--/.test(t313Scss)) {
+    fail('T3-13 Upload 出现 modifier class，违反 R1');
+  }
+  if (t313Types.includes('MaybeAccessor') || t313Impl.includes('MaybeAccessor')) {
+    fail('T3-13 Upload 用 MaybeAccessor 包裹函数型 prop，违反 R3');
+  }
+
+  // ⑤ 零新增依赖 + 公共出口：四条件 exports、barrel、catalog 三条同时在册。
+  for (const condition of ['types', 'solid', 'import', 'default']) {
+    if (
+      !t313Pkg.includes(`"./upload"`) ||
+      !t313Pkg.includes(
+        `./dist/${condition === 'types' ? 'types' : condition === 'solid' ? 'source' : 'esm'}/components/upload/`,
+      )
+    ) {
+      fail(`T3-13 的 package.json ./upload 缺少 ${condition} 条件`);
+    }
+  }
+  if (!t313Barrel.includes("export { Upload } from './components/upload';")) {
+    fail('T3-13 根 barrel 未导出 Upload');
+  }
+  if (!t313Catalog.includes("slug: 'upload'")) {
+    fail('T3-13 缺少 catalog 条目 slug: upload');
+  }
+
+  // ⑥ Form.Item 接入：字段上下文真的接管 value / aria / ids，而不是只写个 Demo。
+  for (const anchor of ['field?.ids.control', "aria()?.['aria-labelledby']", 'field?.disabled()']) {
+    if (!t313Impl.includes(anchor)) {
+      fail(`T3-13 Upload 与 Form.Item 的接线缺少 ${anchor}`);
+    }
+  }
+  // 用正则词边界而不是 includes('<Form.Item')：后者会被 <Form.ItemX 冒充
+  // （负向 N666 实测把标签改坏仍判绿，判据本身也是实证对象）。
+  const t313FormDemo = read(join(t313Dir, 'demos', 'form.tsx'));
+  if (!/<Form\.Item[\s>]/.test(t313FormDemo) || !t313FormDemo.includes('</Form.Item>')) {
+    fail('T3-13 的 form Demo 没有真的把 Upload 放进 Form.Item');
+  }
+
+  // ⑦ SSR 静态骨架：独立入口、不 import 交互 Demo、ssr-smoke 登记与渲染契约。
+  if (t313Ssr.includes('demos/')) {
+    fail('T3-13 SSR 入口不得 import 交互 Demo');
+  }
+  for (const anchor of ['defaultFileList={files}', 'disabled', 'data-testid="upload-ssr-page"']) {
+    if (!t313Ssr.includes(anchor)) {
+      fail(`T3-13 SSR 入口缺少静态骨架 ${anchor}`);
+    }
+  }
+  if (!t313Smoke.includes("id: 'T3-13'")) {
+    fail('T3-13 缺少 ssr-smoke 登记');
+  }
+  if (!t313Smoke.includes("file: '/src/components/upload/__tests__/ssr-entry.tsx'")) {
+    fail('T3-13 的 ssr-smoke 文件路径不对');
+  }
+  const t313Case = t313Smoke.split("id: 'T3-13'")[1]?.split('  },\n')[0] ?? '';
+  for (const marker of [
+    'data-scui-role="upload"',
+    'data-scui-role="upload-input"',
+    'data-scui-role="upload-item"',
+    'data-scui-role="upload-progress"',
+    'data-scui-role="upload-error"',
+    'data-scui-status="uploading"',
+    'data-scui-invalid="false"',
+  ]) {
+    if (!t313Case.includes(marker)) {
+      fail(`T3-13 的 SSR markers 未覆盖渲染契约 ${marker}`);
+    }
+  }
+  for (const lock of [
+    '[\'data-scui-role="upload"\', 2]',
+    '[\'data-scui-role="upload-item"\', 4]',
+    '[\'data-scui-role="upload-progress"\', 1]',
+  ]) {
+    if (!t313Smoke.includes(lock)) {
+      fail(`T3-13 的 SSR counts 未钉住 ${lock}`);
+    }
+  }
+
+  // ⑧ 单测与 E2E：五条手写链 + axe 组合用例在册，判据不靠「文件存在」假绿。
+  for (const label of [
+    '受控 fileList 时删除只发 onChange',
+    '选择文件后进度 / 成功真的改写状态',
+    'onError 转入 error 并露出可读文案',
+    '取消先 abort 再转 error',
+    '重试重新调用 customRequest',
+    'Form.Item 接管 fileList',
+  ]) {
+    if (!t313Test.includes(label)) {
+      fail(`T3-13 单测缺少用例 ${label}`);
+    }
+  }
+  for (const label of [
+    'Upload 受控：点击删除只发事件，列表不自行回弹',
+    'Upload 进度：customRequest 回调把状态推到 done',
+    'Upload 失败与重试：error 项点重试重跑同一条链路',
+    'Upload 取消与删除：abort 后转 error，删除真的移除列表项',
+    'Upload 表单接入：提交拿到 fileList，删空后必填校验生效',
+    'Upload 三个 Demo 无 serious / critical 违规',
+  ]) {
+    if (!t313Browser.includes(label)) {
+      fail(`T3-13 缺少 E2E 用例 ${label}`);
+    }
+  }
+
+  // ⑨ 生成物 / 视觉基线在册（整份删除由负向实证覆盖）。
+  for (const generated of [
+    join(repoRoot, 'apps', 'docs', 'src', 'generated', 'demos', 'upload-basic.json'),
+    join(repoRoot, 'apps', 'docs', 'public', 'llms', 'demos', 'upload-progress.md'),
+    join(repoRoot, 'tests', 'e2e', 'baselines', 'light-ltr-default-upload-form-1280.png'),
+  ]) {
+    if (!existsSync(generated)) {
+      fail(`T3-13 缺少生成物或视觉基线 ${generated}`);
+    }
+  }
+
+  // ⑩ 治理闭环：evidence / 落地记录 / 勾 [x] 三者同步。
+  if (!/"T3-13": "30\.47"/.test(t313Governance)) {
+    fail('T3-13 勾了 [x] 但 todo-governance.json 没有 evidence 30.47');
+  }
+  const t313Sections = t313Todo.split('\n').filter((line) => line.startsWith('### 30.47 '));
+  if (t313Sections.length !== 1) {
+    fail('T3-13 缺少 docs/08 §30.47 落地记录');
+  }
+  const t313Row = t313Todo.split('\n').find((line) => line.startsWith('| T3-13 |')) ?? '';
+  if (!t313Row.includes('[x]')) {
+    fail('T3-13 的 §4.2 主行尚未勾 [x]');
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -1870,7 +2116,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '50b3d44496bdd80364c912bdbe9db0b505126e047d3e7a8a6ed57bdb13c9e942';
+const FONT_SHA256 = '75f2c86ae8ae7b68779e3174fc5575a6ba136d4859dedabd05edabead9616406';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -1890,8 +2136,15 @@ if (!existsSync(fontFile)) {
 if (!/SIL OPEN FONT LICENSE Version 1\.1/.test(read(oflFile))) {
   fail('缺少字体许可证全文 apps/docs/public/fonts/OFL.txt（OFL-1.1）');
 }
-if (!existsSync(join(repoRoot, 'scripts', 'build-visual-font.py'))) {
+const fontScriptPath = join(repoRoot, 'scripts', 'build-visual-font.py');
+if (!existsSync(fontScriptPath)) {
   fail('缺少可复现的字体子集生成脚本 scripts/build-visual-font.py');
+} else {
+  // 注释里写同样的字面量也不算数（与判据 4p 的剥注释口径一致）
+  const fontScriptCode = read(fontScriptPath).replace(/#[^\n]*/g, '');
+  if (!/font\.recalcTimestamp\s*=\s*False/.test(fontScriptCode)) {
+    fail('字体生成脚本未关闭 head 时间戳重算：同一字集重复重建会产出不同字节');
+  }
 }
 
 // 先剥离 CSS 注释，再解析真实配置块：注释里写完整 @font-face 也不得冒充
@@ -2161,5 +2414,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· Upload 上传契约（customRequest 单点注入传输且组件内零 fetch·XHR / 进度·成功·失败·取消·删除·重试六链 / 受控值桥 Form 字段 > fileList > 内部副本 / 新增 status·dragging 两属性并登记 / Form.Item 用 ids.control 与字段 aria / SSR 静态三态骨架且 counts 钉死 / 3 Demo + 5 手写 E2E + axe / 零新增依赖）· size-limit@${sizeLimit} + file 插件`,
 );

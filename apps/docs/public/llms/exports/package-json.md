@@ -67,6 +67,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./tag` → [solid-craft/tag](../exports/tag.md)
 - `./tabs` → [solid-craft/tabs](../exports/tabs.md)
 - `./descriptions` → [solid-craft/descriptions](../exports/descriptions.md)
+- `./upload` → [solid-craft/upload](../exports/upload.md)
 - `./config-provider` → [solid-craft/config-provider](../exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](../exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](../exports/styles.md)

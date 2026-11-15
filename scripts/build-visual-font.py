@@ -121,6 +121,9 @@ def main():
 
     out = pathlib.Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+    # fontTools 默认在 save() 时把 head.modified 重算成当前时间；不关掉的话
+    # 同一字集每次重建都会得到不同字节，固定字体哈希判据将永远追不上。
+    font.recalcTimestamp = False
     font.flavor = 'woff2'
     font.save(out)
 

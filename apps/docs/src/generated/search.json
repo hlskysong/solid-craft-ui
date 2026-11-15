@@ -4088,6 +4088,216 @@
     "href": "/components/descriptions#api-bordered"
   },
   {
+    "type": "component",
+    "title": "Upload 上传",
+    "description": "点击 / 拖拽共用原生文件入口，customRequest 单点注入传输并回调进度 / 成功 / 失败；文件列表支持删除、取消、重试与错误态，Form.Item 直接把 fileList 当字段值。",
+    "keywords": "upload solid-craft/upload",
+    "href": "/components/upload"
+  },
+  {
+    "type": "demo",
+    "title": "Upload 上传 · 点击 / 拖拽与上传前校验",
+    "description": "原生 input[type=file] 与 HTML5 拖拽共用同一个入口；accept / maxSize / maxCount / beforeUpload 的拒绝结果以 error 状态留在列表里说明原因，不静默丢弃。受控 fileList 演示「只发事件、DOM 不回弹」。",
+    "keywords": "upload basic",
+    "href": "/components/upload/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Upload 上传 · 与 Form.Item 接入",
+    "description": "Upload 在 <Form.Item> 内由字段上下文接管 fileList，值优先级高于 props；删除、重试、进度都回写同一个字段，提交时拿到的是变更后的列表。必填规则对空数组同样生效。",
+    "keywords": "upload form",
+    "href": "/components/upload/form"
+  },
+  {
+    "type": "demo",
+    "title": "Upload 上传 · customRequest 进度 / 取消 / 重试",
+    "description": "组件不内置任何传输实现：customRequest 拿到 onProgress / onSuccess / onError 与 AbortSignal，删除或取消时 abort 并清掉定时器。列表初始态直接给出 uploading / done / error 三态静态骨架。",
+    "keywords": "upload progress",
+    "href": "/components/upload/progress"
+  },
+  {
+    "type": "api",
+    "title": "UploadFile.uid",
+    "description": "列表内唯一 id；组件内由 `createUniqueId()` + 自增序号生成，不用随机数。",
+    "keywords": "upload string",
+    "href": "/components/upload#api-uid"
+  },
+  {
+    "type": "api",
+    "title": "UploadFile.name",
+    "description": "文件名。",
+    "keywords": "upload string",
+    "href": "/components/upload#api-name"
+  },
+  {
+    "type": "api",
+    "title": "UploadFile.size",
+    "description": "字节数，缺省时不展示体积。",
+    "keywords": "upload number",
+    "href": "/components/upload#api-size"
+  },
+  {
+    "type": "api",
+    "title": "UploadFile.status",
+    "description": "上传状态。 @default 'ready'",
+    "keywords": "upload UploadFileStatus",
+    "href": "/components/upload#api-status"
+  },
+  {
+    "type": "api",
+    "title": "UploadFile.percent",
+    "description": "0~100 进度；`uploading` 时驱动原生 `<progress>`。",
+    "keywords": "upload number",
+    "href": "/components/upload#api-percent"
+  },
+  {
+    "type": "api",
+    "title": "UploadFile.response",
+    "description": "服务端响应，由 `customRequest.onSuccess` 回传。",
+    "keywords": "upload unknown",
+    "href": "/components/upload#api-response"
+  },
+  {
+    "type": "api",
+    "title": "UploadFile.error",
+    "description": "错误 / 取消原因，用于可读文案与 `aria-live` 输出。",
+    "keywords": "upload string",
+    "href": "/components/upload#api-error"
+  },
+  {
+    "type": "api",
+    "title": "UploadFile.originFile",
+    "description": "浏览器原始 File；只在客户端事件链里存在，SSR 入口不传。",
+    "keywords": "upload File",
+    "href": "/components/upload#api-originFile"
+  },
+  {
+    "type": "api",
+    "title": "UploadRequestOptions.file",
+    "description": "当前文件项（含 `originFile`）。",
+    "keywords": "upload UploadFile",
+    "href": "/components/upload#api-file"
+  },
+  {
+    "type": "api",
+    "title": "UploadRequestOptions.onProgress",
+    "description": "上报 0~100 进度；组件会夹取到 [0, 100]。",
+    "keywords": "upload (percent: number) => void",
+    "href": "/components/upload#api-onProgress"
+  },
+  {
+    "type": "api",
+    "title": "UploadRequestOptions.onSuccess",
+    "description": "成功结束；可带回服务端响应。",
+    "keywords": "upload (response?: unknown) => void",
+    "href": "/components/upload#api-onSuccess"
+  },
+  {
+    "type": "api",
+    "title": "UploadRequestOptions.onError",
+    "description": "失败结束；文件转入 `error` 并可重试。",
+    "keywords": "upload (error: Error) => void",
+    "href": "/components/upload#api-onError"
+  },
+  {
+    "type": "api",
+    "title": "UploadRequestOptions.signal",
+    "description": "删除 / 取消时 `abort()`，供 `fetch` 等可取消传输使用。",
+    "keywords": "upload AbortSignal",
+    "href": "/components/upload#api-signal"
+  },
+  {
+    "type": "api",
+    "title": "UploadChangeInfo.file",
+    "description": "触发变化的文件项。",
+    "keywords": "upload UploadFile",
+    "href": "/components/upload#api-file"
+  },
+  {
+    "type": "api",
+    "title": "UploadChangeInfo.fileList",
+    "description": "变化后的完整列表（与第一个参数同源）。",
+    "keywords": "upload UploadFile[]",
+    "href": "/components/upload#api-fileList"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.fileList",
+    "description": "受控文件列表；给出时所有变更只发 `onChange`，DOM 由调用方回弹。 在 `<Form.Item>` 内时字段值优先于本 prop（与 `useInputValue` 同口径）。",
+    "keywords": "upload UploadFile[]",
+    "href": "/components/upload#api-fileList"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.defaultFileList",
+    "description": "非受控初始列表；同时是 SSR 静态骨架的唯一来源。 @default []",
+    "keywords": "upload UploadFile[]",
+    "href": "/components/upload#api-defaultFileList"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.onChange",
+    "description": "列表变化；受控、非受控、Form 接管三种模式都只走这一个出口。",
+    "keywords": "upload (fileList: UploadFile[], info: UploadChangeInfo) => void",
+    "href": "/components/upload#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.customRequest",
+    "description": "自定义上传实现。不传时不做网络请求，文件直接置为 `done`。 同一文件重试会重新调用本函数并换一个新的 `AbortSignal`。",
+    "keywords": "upload (options: UploadRequestOptions) => void",
+    "href": "/components/upload#api-customRequest"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.beforeUpload",
+    "description": "上传前校验；返回 `false` 或 resolve 成 `false` 时文件以 `error` 入列， 不调用 `customRequest`（`docs/02 L490` 的 preventDefault 语义）。",
+    "keywords": "upload (file: File) => boolean | Promise<boolean>",
+    "href": "/components/upload#api-beforeUpload"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.accept",
+    "description": "原生 accept 字符串，同时用于 `<input accept>` 与拖拽文件的二次校验。",
+    "keywords": "upload string",
+    "href": "/components/upload#api-accept"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.maxSize",
+    "description": "单文件字节上限；超限文件以 `error` 入列。",
+    "keywords": "upload number",
+    "href": "/components/upload#api-maxSize"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.maxCount",
+    "description": "列表条数上限；超限的新文件以 `error` 入列而不是静默丢弃。",
+    "keywords": "upload number",
+    "href": "/components/upload#api-maxCount"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.multiple",
+    "description": "是否允许多选。 @default true",
+    "keywords": "upload boolean",
+    "href": "/components/upload#api-multiple"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.disabled",
+    "description": "禁用选择、拖拽、删除、重试与取消。 @default false",
+    "keywords": "upload boolean",
+    "href": "/components/upload#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "UploadProps.children",
+    "description": "触发区自定义内容；缺省为内置提示文案。",
+    "keywords": "upload JSX.Element",
+    "href": "/components/upload#api-children"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

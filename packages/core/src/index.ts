@@ -186,6 +186,14 @@ export type {
   DescriptionsItem,
   DescriptionsProps,
 } from './components/descriptions';
+export { Upload } from './components/upload';
+export type {
+  UploadChangeInfo,
+  UploadFile,
+  UploadFileStatus,
+  UploadProps,
+  UploadRequestOptions,
+} from './components/upload';
 export { resolveValue } from './utils/resolve-value';
 export type { MaybeAccessor } from './utils/resolve-value';
 export { ConfigProvider, useConfig, ConfigProviderContext } from './config-provider';

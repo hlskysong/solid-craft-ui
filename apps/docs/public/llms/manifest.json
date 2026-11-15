@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 152,
+  "pageCount": 156,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -168,6 +168,11 @@
     {
       "path": "llms/exports/descriptions.md",
       "title": "# Descriptions 详情列表（`solid-craft/descriptions`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/upload.md",
+      "title": "# Upload 上传（`solid-craft/upload`）",
       "kind": "exports"
     },
     {
@@ -769,6 +774,21 @@
       "path": "llms/demos/descriptions-column.md",
       "title": "# Descriptions 详情列表 · 列数与跨列（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/upload-basic.md",
+      "title": "# Upload 上传 · 点击 / 拖拽与上传前校验（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/upload-form.md",
+      "title": "# Upload 上传 · 与 Form.Item 接入（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/upload-progress.md",
+      "title": "# Upload 上传 · customRequest 进度 / 取消 / 重试（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -803,6 +823,7 @@
     "./tag": "llms/exports/tag.md",
     "./tabs": "llms/exports/tabs.md",
     "./descriptions": "llms/exports/descriptions.md",
+    "./upload": "llms/exports/upload.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -841,6 +862,7 @@
     "llms/exports/tag.md",
     "llms/exports/tabs.md",
     "llms/exports/descriptions.md",
+    "llms/exports/upload.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -961,7 +983,10 @@
     "llms/demos/tabs-variant.md",
     "llms/demos/descriptions-basic.md",
     "llms/demos/descriptions-bordered.md",
-    "llms/demos/descriptions-column.md"
+    "llms/demos/descriptions-column.md",
+    "llms/demos/upload-basic.md",
+    "llms/demos/upload-form.md",
+    "llms/demos/upload-progress.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

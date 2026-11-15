@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-13**（M3 第十三项「`Upload`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43` / `30.44` / `30.45` / `30.46`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`（均**未推送**）；T3-12 改动**尚未提交 / 推送**（Aming 本轮授权「继续」，默认只 commit 不 push） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-12「CRUD 列表页组合 Demo」改动，再开始 T3-13「`Upload`」**：T3-12 只组合既有组件，挂 `table/demos/crud-list.tsx` 复用 `form/demos/real-form.tsx` 的页面级 Demo 先例，不新建 catalog 条目 / 组件子路径 / `data-scui-*` 属性 / 依赖 / 组件；查询 / 新增 / 编辑 / 删除四条 E2E + 两态 axe 全绿，判据 4o 把「接线 / 静态骨架 / 治理闭环」三层机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 → T3-10 → T3-11 → T3-12 已闭合；**T3-13 `Upload` 是 M2 后移项，可与主链并行**；T3-14 须等 T3-12 / T3-13 齐备后最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-14**（M3 第十四项「体积预算 + M3 Exit 检查」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」 / T3-13「`Upload`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43` / `30.44` / `30.45` / `30.46` / `30.47`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`（均**未推送**）；T3-13 改动**尚未提交 / 推送**（Aming 本轮授权「继续」，默认只 commit 不 push） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-13「`Upload`」改动，再开始 T3-14「体积预算 + M3 Exit 检查」**：T3-12 只组合既有组件，挂 `table/demos/crud-list.tsx` 复用 `form/demos/real-form.tsx` 的页面级 Demo 先例，不新建 catalog 条目 / 组件子路径 / `data-scui-*` 属性 / 依赖 / 组件；查询 / 新增 / 编辑 / 删除四条 E2E + 两态 axe 全绿，判据 4o 把「接线 / 静态骨架 / 治理闭环」三层机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 → T3-10 → T3-11 → T3-12 已闭合；**T3-13 `Upload` 已闭合（M2 后移项）**；T3-14 在 T3-12 / T3-13 齐备后即可最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -165,7 +165,7 @@
 | T3-10 | `Card` / `Tag`（S） | T2-13 | 工程师 C | Card 标题 / 操作 / 封面 / 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线（**复用 `data-scui-color` / `data-scui-loading` / `data-scui-bordered` 三个既有属性、只补 `-color` 的登记表缺漏；Card 加载态组合 `Skeleton` 且量切换前后高度差 ≤ 2px / Tag 边框恒 1px 不抖动 / 467 tests·39 files / SSR 30 入口 / 196 张基线 / 判据 4m + 负向 N387~N456 70/70 / `pnpm verify` RC=0**，见 §30.44） | [x] |
 | T3-11 | `Tabs` / `Descriptions`（M） | T2-13 | 工程师 B | Tabs 线型 / 卡片 / 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0（**键盘·焦点·ARIA 全交 `@kobalte/core/tabs` 原语单点输出、组件层零重复实现 / `content` 惰性工厂让懒加载真的推迟节点创建 / 线型激活态底部实色条 / Descriptions 用原生 `dl`·`dt`·`dd` 且 `column`·`span`·`bordered` 三层齐全 / 新增 `data-scui-column`、补登记 `data-scui-span` / 窄屏抬特异性后 375px 零溢出 / 493 tests·41 files / SSR 32 入口 / 208 张基线 / 判据 4n + 负向 N457~N541 85/85 / `pnpm verify` RC=0**，见 §30.45） | [x] |
 | T3-12 | **CRUD 列表页组合 Demo**：Table + Form 查询 + Modal 新增 / 编辑 + 删除确认 + 操作反馈端到端 | T3-06 / T3-07 / T3-09 / T3-11 | 技术负责人 | 一页真实列表页可独立开发；新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐（**挂 `table/demos/crud-list.tsx` 复用页面级组合 Demo 先例、不新建 catalog 条目 / 组件子路径 / 新属性 / 新依赖 / 新组件**；Form 查询 + Table 三参 onChange + Modal 异步 onOk + Popconfirm 删除 + 静态 message 五链接线；新增 5 条手写 E2E + 1 条两态 axe 组合用例，7/7 passed；SSR **33 入口**且 `T3-12` 14/14 markers + 10/10 counts、弹层 counts 锁 0；**210 张基线**新增 2 张且既有 208 张 SHA256 零变化；31 组件 / 105 Demo / 586 索引 / 字集 1019 码位；判据 4o + 负向 N542~N600 59/59 / `pnpm verify` RC=0**，见 §30.46） | [x] |
-| T3-13 | `Upload`（M2 后移项）：`customRequest`、进度、文件列表、删除 / 重试 | T2-08 / T2-09 | 工程师 C | 上传 / 删除 / 重试受控链路；SSR 静态骨架；零新增依赖；与 `Form.Item` 接入可用 | [ ] |
+| T3-13 | `Upload`（M2 后移项）：`customRequest`、进度、文件列表、删除 / 重试 | T2-08 / T2-09 | 工程师 C | 上传 / 删除 / 重试受控链路；SSR 静态骨架；零新增依赖；与 `Form.Item` 接入可用（**自研组件、Kobalte 无此原语；`customRequest` 单点注入传输，组件内零 fetch / XHR / 新依赖；进度走原生 `<progress>`；新增 `data-scui-status` / `data-scui-dragging` 两属性并登记；`Form.Item` 用字段上下文接管 `fileList` 且 `ids.control` 落在 `input[type=file]`；3 Demo / 507 tests·42 files / SSR 34 入口 / 216 张基线 / 判据 4p + 负向 N601~N700 100/100 / `pnpm verify` RC=0**，见 §30.47） | [x] |
 | T3-14 | **体积预算 + M3 Exit 检查**：Table 预算实跑、每组件 ≥3 Demo、视觉基线全对齐、文档与 llms 生成物、里程碑散文记录 | T3-01 / T3-06 / T3-12 / T3-13 | 技术负责人 | `pnpm verify` RC=0；`check:ci` 判据 11 的 Demo 覆盖与基线对齐在扩面后仍成立；M3 里程碑只做散文记录、勾选只发生在 §4.2 | [ ] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
@@ -5210,3 +5210,177 @@ T3-12 按 §4.2 验收列五条全部闭合：**一页真实列表页可独立�
 3. **页面级 Demo 也会改变视觉字集**：源码经 `generated/demos/*.json` 进入字集收集范围，新增中文文案就要重建字体并同步 `FONT_SHA256`；但字形是追加，已有基线可逐张 SHA256 比对证明零回归。
 4. **测试锚点命名要避开同名歧义**：触发按钮「删除」与确认按钮「确认删除」分开命名，比在 E2E 里用 `exact` / 索引兜底更稳。
 5. **组合页的 axe 要扫交互后的状态**：只扫列表初始态会漏掉 Modal 内表单的 label / 焦点 / 对比度；本轮用「列表态 + 弹层打开态」两次扫描覆盖。
+
+### 30.47 T3-13 Upload 上传组件落地与验收（2026-11-15 实测）
+
+#### 一、任务与范围
+
+按 §4.2 T3-13 验收列闭合 M2 后移项：`customRequest`、进度、文件列表、删除 / 重试，
+外加「上传 / 删除 / 重试受控链路、SSR 静态骨架、零新增依赖、与 `Form.Item` 接入可用」。
+
+冻结面依据：`docs/04 §5.5` P0（点击 / 拖拽、多文件、accept / maxSize / maxCount、
+beforeUpload / customRequest / 进度 / 取消 / 删除 / 重试 / 错误状态）；
+`docs/01 L164` 把 Upload 列为 Kobalte 缺口、须自研；`docs/01 L54` 的拖拽库要到 v1.0
+才引入。`docs/04 §5.5` 把「与 Form 集成」列在 P1，但 §4.2 验收列明确要求，故本轮按任务列落地。
+
+**不做**：图片预览、粘贴上传、目录上传、拖拽排序、分片续传、云厂商 SDK（P1 / P2）。
+
+#### 二、实现要点
+
+- 纵向切片 9 个文件：`types.ts` / `Upload.tsx` / `upload.scss` / `index.ts` /
+  `Upload.test.tsx` / `__tests__/ssr-entry.tsx` / `demos/{basic,progress,form}.tsx`；
+  再接 barrel、`package.json` 四条件 exports、catalog 一条「表单」、data-attributes 登记、
+  `ssr-smoke.mjs` 一个入口、生成物、视觉基线、判据 4p 与治理。
+- 状态机只维护 `UploadFile[]`：`ready → uploading → done | error`，`error` 可重试、
+  `uploading` 可取消（取消后转 `error` 并写「已取消」），任意状态可删除并 `abort()`。
+- `customRequest({ file, onProgress, onSuccess, onError, signal })` 是唯一传输缝；
+  进度夹取到 `[0, 100]`，`signal.aborted` 后旧回调一律不再改写状态。
+- 所有列表变更只走 `emit(next, file)`：写内部工作副本 → 回写字段（若有）→ 发 `onChange`。
+  渲染真源 `list()` 的优先级是 **Form 字段值 > `fileList` > 内部副本**；
+  受控时 DOM 不自行回弹，而传输状态机仍可用工作副本跑完。
+- 三个 Demo：`basic`（点击 / 拖拽 / 校验 / 受控不回弹）、
+  `progress`（customRequest 模拟进度 + 取消 / 重试 / 失败）、`form`（Form.Item 接管 fileList）。
+
+#### 三、关键决策
+
+| 决策 | 理由 |
+| --- | --- |
+| 组件内零 `fetch` / `XMLHttpRequest` | 传输策略（XHR / fetch / OSS 直传）是业务侧的事；组件只给回调与可取消 signal，P1 的云厂商直传也复用这条缝。不传时不做网络请求、文件直接 `done`，在类型注释与 Demo 里写明是本地列表语义 |
+| 拖拽用原生 HTML5 DragEvent | 拖拽库按 `docs/01 L54` v1.0 才引入，本轮零新增依赖；`dragover` / `dragleave` / `drop` 三个原生事件共用同一个 `handleFiles` 入口 |
+| 新增 `data-scui-status` / `data-scui-dragging` 并登记 | 上传项状态与拖拽悬停是组件自有状态；不复用原语专用的 `data-scui-state`（open/closed）、被 Skeleton 占用的 `-active`、文本语义的 `-tone`、外观变体的 `-variant` |
+| 进度走原生 `<progress>` | `role="progressbar"` / `aria-valuenow` / `value` / `max` 由浏览器输出，组件层零 ARIA 重复实现；`data-scui-status` 只管状态边框色 |
+| `Form.Item` 接管 `fileList` | 与 `useInputValue` 同口径：`useFormFieldOptional()` 拿字段值，`toFileList(unknown)` 单点守卫收窄（字段值一律 `unknown`），`ids.control` 与 `aria` 三件套落在 labelable 的 `input[type=file]`（不落在长文案触发按钮，避免 `label-content-name-mismatch`），`label[for]` 仍可聚焦该控件 |
+| SSR 骨架用 `defaultFileList` 纯数据 | 不 import 交互 Demo、不碰 `File` / `DataTransfer` / `AbortController`；两个实例分别覆盖 uploading / done / error 三态与 disabled + 空校验态 |
+
+#### 四、本轮真实缺陷与假信号
+
+1. ⚠️ **把内部工作副本当操作基准**：初版 `patch` / `addFile` / `remove` 都基于 `internal()`，
+   而受控与 Form 模式的真源在外部 → 删除基于空数组，`onChange` 发出 0 项、Form 提交拿到空列表，
+   单测一次抓到 3 条红灯。**修法**：所有操作基准改成渲染真源 `list()`，`internal` 只保留为
+   「非受控模式的回写目的地」；受控时 `list()` 仍返回外部数组，正好实现「只发事件、不回弹」。
+2. ⚠️ **把「请求正常结束」误断言成「取消」**：重试用例初版要求第一次 `signal.aborted === true`，
+   但 `onError` 是请求结束、组件会删掉 controller，重试时没有可 abort 的旧请求。
+   断言改成「旧 signal 未 aborted + 两次拿到不同 signal + 新 signal 未 aborted」，
+   语义才是「重试换一条全新请求」。
+3. ⚠️ **Form 的 `onFinish` 在 `await validateFields()` 之后才发**：单测直接读 `mock.calls[0]`
+   拿到 undefined；改成 `async` + `vi.waitFor` 等微任务落地，不靠 `setTimeout` 碰运气。
+4. ⚠️ **判据不能只验文件存在**：4p 逐锚点钉 `customRequest` 四回调、六条操作链、
+   `useFormFieldOptional` 值桥、SSR markers/counts、单测与 E2E 用例名，
+   全部先剥注释再匹配，防止注释冒充接线。
+5. ⚠️ **`'/*'` 字符串字面量会同时骗过两道注释判据**：accept 通配初版写成
+   `token.endsWith('/*')`，`check:ci` 的「dist 产物零源码注释」用
+   `/\\*[\\s\\S]*?\\*/` 扫产物，把这个字符串与后面 `/* @__PURE__ */` 的 `*/`
+   误配成一段假块注释；4p 自己的剥注释函数也把它后面的 `export function Upload`
+   整段吞掉，导致 5 条锚点假 FAIL。**修法**：改成只判断 `endsWith('*')`，
+   `slice(0, -1)` 拿到的仍是 `image/` 前缀，语义完全等价，源码不再出现该字面量。
+   教训：**判据的注释剥离也是实证对象**，源码里的注释状字符串要主动避开。
+6. ⚠️ **`label[for]` 不能指向长文案按钮**：Form 接入初版把 `ids.control` 与
+   `aria-labelledby` 放在触发按钮上，字段名「附件」变成按钮的可访问名称，
+   可见文案「点击选择文件，或把文件拖拽到此处」被覆盖，axe 报
+   `label-content-name-mismatch(serious)`。**修法**：字段控件三件套改落到
+   labelable 的 `input[type=file]`（hidden，无可见文本），按钮只用自己的可见文案命名；
+   单测同时断言按钮不再带 `aria-labelledby`。
+7. ⚠️ **判据自己的 `includes('<Form.Item')` 会被 `<Form.ItemX` 冒充**：负向实证
+   N666 把标签改坏后 `check:ci` 仍 RC=0，首轮 99/100。**修法**：改成
+   `/<Form\.Item[\s>]/` 词边界正则，并同时要求闭合标签 `</Form.Item>` 存在；
+   与 T3-12 的「文档文字冒充判据」同源，**判据必须逐例被改坏过才算数**。
+8. ⚠️ **`div[role="group"][aria-label]` 过不了 Biome `useSemanticElements`**：
+   最终 verify 首轮 RC=1，分项命令全绿但 `lint:biome` 单独判红（诊断被 44 条
+   warning 截断，用 `--diagnostic-level=error` 才定位到）。   **修法**：根节点只保留
+   `data-scui-*`，可访问名称 `aria-label` 落到 labelable 的 `input[type=file]`，
+   与第 6 条的字段控件三件套同处；单测同时断言根节点零 role / 零 aria-label。
+   去掉 role 后 Biome 又用 `noStaticElementInteractions` 判红（静态 div 上挂拖放事件），
+   因此把 `dragover` / `dragleave` / `drop` 一并移到**交互元素**触发按钮上 ——
+   拖放目标与 `[data-scui-dragging]` 高亮的正是同一个区域，语义反而更一致。
+   **规则重申**：分项全绿 ≠ 全量 verify 绿，新增 `.tsx` 必须跑 `pnpm lint` 全链。
+9. ⚠️ **字体生成脚本非确定性**：`fontTools` 的 `TTFont.save()` 默认把
+   `head.modified` 重算成当前时间，同一字集连续两次重建分别得到
+   294196 / 294352 bytes、SHA `98c82bad…` / `a860731e…`；本轮此前
+   `60f2d712…` / `d2b5df60…` / `9373a050…` / `b0848964…` 四个中间态哈希全源于此，
+   `FONT_SHA256` 因此一改再改、文档口径永远落后于产物。**修法**：`save()` 前显式
+   `font.recalcTimestamp = False`，连跑两次稳定在 294332 bytes / `75f2c86a…`；
+   判据 8 新增子判据剥注释后钉住该行，负向 N701 改坏即红灯。
+   **规则**：生成物必须先确定性，再谈固定哈希；否则判据追的是时间，不是内容。
+
+#### 五、SSR、视觉与字体
+
+- `ssr-smoke.mjs` 扩到 **34 个入口**；`T3-13` 18/18 markers + 10/10 counts，
+  counts 钉住 2 个上传区、4 个列表项、1 个进度条，并同时要求
+  `data-scui-invalid="true"` 与 `"false"` 各 1 处。
+- 视觉基线新增 3 Demo × 2 视口 = **6 张**，既有 210 张 SHA256 逐张零变化。
+- 固定字体按 `prettier → docs:generate → 字体` 顺序重建（新 Demo 中文文案经
+  `generated/demos/*.json` 进入字集）：928 CJK/符号 + 95 ASCII = **1023 码位**、
+  **294332 bytes**，`FONT_SHA256=75f2c86ae8ae7b68779e3174fc5575a6ba136d4859dedabd05edabead9616406`；
+  生成脚本已关闭 `head` 时间戳重算，同一字集重复重建字节恒定（第四节第 9 条）。
+  既有 210 张基线 SHA256 逐张零变化，证明字形追加不影响已有页面。
+
+#### 六、新增判据（`check:ci` 4p，收进既有阶段）
+
+| 子判据 | 钉住什么 |
+| --- | --- |
+| 4p-① | 9 个切片文件 + 3 个 Demo 的 meta 与默认导出 |
+| 4p-② | customRequest 四回调、AbortSignal、校验参数、拖拽入口、六个操作 role |
+| 4p-③ | 值优先级、`toFileList(unknown)` 守卫、`emit` 单一出口、组件内零传输实现 |
+| 4p-④ | R1（四个属性三层齐全、两个新属性已登记、无 modifier class）/ R3（无 MaybeAccessor） |
+| 4p-⑤ | `./upload` 四条件 exports、barrel、catalog 三条在册 |
+| 4p-⑥ | `Form.Item` 的 ids / aria / disabled 真的接上，form Demo 真的用 `<Form.Item>` |
+| 4p-⑦ | SSR 独立静态骨架、不 import Demo、ssr-smoke 登记 / markers / counts |
+| 4p-⑧ | 6 组单测用例名 + 6 条手写 E2E / axe 用例名 |
+| 4p-⑨ | 生成物与视觉基线在册（整份删除由负向实证覆盖） |
+| 4p-⑩ | evidence `30.47` / `### 30.47 ` 标题行唯一 / §4.2 T3-13 勾 `[x]` |
+
+判据一律收进既有 `check:ci`，**未新增 workflow / job / verify 阶段**（26 阶段不变）；
+字体确定性子判据收进既有判据 8（视觉基线字体契约），不另起阶段。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | ✅ RC=0（26 阶段全量，最终态） |
+| core 单测 | ✅ **507 tests / 42 files**（新增 14 条 Upload 用例） |
+| browser / visual / docs / llms | ✅ 全 passed；`-g "Upload"` 手写 6/6，三个 Demo axe 0 serious / critical |
+| SSR 冒烟 | ✅ **34 入口**，`T3-13` 18/18 markers + 10/10 counts |
+| 规模 | ✅ 32 组件 / 108 Demo / 32 API 表 / 616 条搜索索引 / **216 张基线**（新增 6 张） / 字集 1023 码位 |
+| `check:ci` | ✅ 判据 4p 收进既有阶段，汇总文案带「Upload 上传契约」；判据 8 新增字体确定性子判据 |
+| 负向实证 | ✅ **N601~N701 101/101 PASS + RESTORE_OK**（逐例改坏 4p 与判据 8 → `RC≠0` + 命中指定诊断 → 还原；21 个涉案文件 SHA256 逐字节与开工前一致，含 12 例整份删除实证；首轮 99/100 抓出 `<Form.Item` 子串假绿并修判据后重跑；末次在字体哈希同步后的干净基线上复跑全绿） |
+| `check:todo` | ✅ 65 任务 / 64 `[x]` 全有证据 / 倒挂 0 |
+| 冻结面 | ✅ `docs/01~07` + `pnpm-lock.yaml` 零改动，零新增依赖，`git diff --check` RC=0 |
+| 治理 | §30.47 落地、T3-13 勾 `[x]`、锚点推进 **T3-14**、evidence `30.47`、goals 基线重校 |
+
+#### 八、允许写入路径（L4）与边界
+
+本轮改动全部落在允许的 L4 路径：`components/upload/*` 新切片、`spikes/api-draft/data-attributes.md`、
+`spikes/shared/ssr-smoke.mjs`、`src/index.ts`、`packages/core/package.json`、
+`apps/docs/src/content/catalog.mjs`、`scripts/check-ci.mjs`、
+`scripts/build-visual-font.py`（关闭 `head` 时间戳重算）、
+`scripts/todo-governance.json`、`scripts/goals.baseline.json`、
+`tests/e2e/specs/browser.spec.ts`、6 张视觉基线、
+`apps/docs/src/generated/*` 与 `apps/docs/public/llms/*` 生成物、
+`apps/docs/public/fonts/` 两个字体产物、`docs/08-实施Todo.md`、
+`AGENTS.md`（仅 `check:goals` 自动更新的基线哈希）。
+`docs/01~07` 与 `pnpm-lock.yaml` 一个字节未改。
+
+#### 九、已知边界与风险
+
+1. **不传 `customRequest` 只做本地列表管理**，不发任何网络请求；生产接入必须自己注入传输，
+   并在 `onError` 里给出可读错误。前端 `accept` / `maxSize` 只是体验，服务端必须二次校验。
+2. **`AbortSignal` 只是协作式取消**：`customRequest` 实现方要自己把 signal 交给 `fetch` 或
+   在 abort 事件里清理定时器；Demo 用 `addEventListener('abort', ...)` + `onCleanup` 演示。
+3. **受控模式下调用方必须回弹 `fileList`**：组件只发 `onChange`，传输状态机的工作副本
+   不会自行改写渲染真源；这与 Input / Select 的受控口径一致。
+4. **`beforeUpload` 返回 Promise 时入列是异步的**：同步 `false` 立即拒绝，
+   Promise 分支在 `.then()` 里入列，Demo 与 E2E 只走同步路径。
+5. **T3-13 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求逐次授权；HEAD 为 `7065520`（T3-12）。
+
+#### 十、教训
+
+1. **「工作副本」与「渲染真源」必须分清**：一旦把内部 signal 当成操作基准，
+   受控与 Form 两种模式会同时崩；判据要钉的是 `list()` 的优先级，而不是「有没有 signal」。
+2. **传输层外置才有可测的状态机**：`customRequest` 把网络挪出组件后，
+   进度 / 成功 / 失败 / 取消都能在 jsdom 里用手写回调精确驱动，不需要 mock `fetch`。
+3. **新增 `data-scui-*` 前先查登记表**：`-state` 是原语槽位、`-active` 是骨架微光、
+   `-tone` 是文本语气，看起来都能用但都是同名不同义；宁可新增并登记。
+4. **SSR 骨架要覆盖「两态」**：只给一个 uploading 实例验不出 `data-scui-invalid`
+   的恒两态输出；补一个 disabled + 空校验实例，counts 才能把 SSR 稳定性钉死。
+5. **确定性优先于哈希判据**：`FONT_SHA256` 固定的前提是同一输入恒定产同一字节；
+   生成脚本带时间戳时，判据实际在追时间，任何一次重跑都会制造一次「哈希漂移」假信号。

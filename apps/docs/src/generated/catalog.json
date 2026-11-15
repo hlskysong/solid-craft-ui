@@ -31,7 +31,8 @@
     "card",
     "tag",
     "tabs",
-    "descriptions"
+    "descriptions",
+    "upload"
   ],
   "components": [
     {
@@ -971,6 +972,34 @@
           "path": "packages/core/src/components/descriptions/demos/column.tsx",
           "title": "列数与跨列",
           "description": "column=1 / 2 / 3 三档由 data-scui-column 派生 grid 列数；窄屏强制单列且把 span 收回 1，避免隐式列导致横向溢出。"
+        }
+      ]
+    },
+    {
+      "slug": "upload",
+      "title": "Upload 上传",
+      "category": "表单",
+      "description": "点击 / 拖拽共用原生文件入口，customRequest 单点注入传输并回调进度 / 成功 / 失败；文件列表支持删除、取消、重试与错误态，Form.Item 直接把 fileList 当字段值。",
+      "exportPath": "solid-craft/upload",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/upload/demos/basic.tsx",
+          "title": "点击 / 拖拽与上传前校验",
+          "description": "原生 input[type=file] 与 HTML5 拖拽共用同一个入口；accept / maxSize / maxCount / beforeUpload 的拒绝结果以 error 状态留在列表里说明原因，不静默丢弃。受控 fileList 演示「只发事件、DOM 不回弹」。"
+        },
+        {
+          "name": "form",
+          "path": "packages/core/src/components/upload/demos/form.tsx",
+          "title": "与 Form.Item 接入",
+          "description": "Upload 在 <Form.Item> 内由字段上下文接管 fileList，值优先级高于 props；删除、重试、进度都回写同一个字段，提交时拿到的是变更后的列表。必填规则对空数组同样生效。"
+        },
+        {
+          "name": "progress",
+          "path": "packages/core/src/components/upload/demos/progress.tsx",
+          "title": "customRequest 进度 / 取消 / 重试",
+          "description": "组件不内置任何传输实现：customRequest 拿到 onProgress / onSuccess / onError 与 AbortSignal，删除或取消时 abort 并清掉定时器。列表初始态直接给出 uploading / done / error 三态静态骨架。"
         }
       ]
     }

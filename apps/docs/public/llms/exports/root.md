@@ -57,6 +57,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/tag` → Tag 标签：五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。
 - `solid-craft/tabs` → Tabs 标签页：线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。
 - `solid-craft/descriptions` → Descriptions 详情列表：详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。
+- `solid-craft/upload` → Upload 上传：点击 / 拖拽共用原生文件入口，customRequest 单点注入传输并回调进度 / 成功 / 失败；文件列表支持删除、取消、重试与错误态，Form.Item 直接把 fileList 当字段值。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 

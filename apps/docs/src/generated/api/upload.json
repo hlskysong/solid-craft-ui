@@ -1,0 +1,212 @@
+{
+  "slug": "upload",
+  "source": "packages/core/src/components/upload/types.ts",
+  "interfaces": [
+    {
+      "name": "UploadFile",
+      "inherits": null,
+      "props": [
+        {
+          "name": "uid",
+          "type": "string",
+          "optional": false,
+          "description": "列表内唯一 id；组件内由 `createUniqueId()` + 自增序号生成，不用随机数。",
+          "default": null
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "description": "文件名。",
+          "default": null
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "optional": true,
+          "description": "字节数，缺省时不展示体积。",
+          "default": null
+        },
+        {
+          "name": "status",
+          "type": "UploadFileStatus",
+          "optional": false,
+          "description": "上传状态。 @default 'ready'",
+          "default": null
+        },
+        {
+          "name": "percent",
+          "type": "number",
+          "optional": true,
+          "description": "0~100 进度；`uploading` 时驱动原生 `<progress>`。",
+          "default": null
+        },
+        {
+          "name": "response",
+          "type": "unknown",
+          "optional": true,
+          "description": "服务端响应，由 `customRequest.onSuccess` 回传。",
+          "default": null
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "optional": true,
+          "description": "错误 / 取消原因，用于可读文案与 `aria-live` 输出。",
+          "default": null
+        },
+        {
+          "name": "originFile",
+          "type": "File",
+          "optional": true,
+          "description": "浏览器原始 File；只在客户端事件链里存在，SSR 入口不传。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "UploadRequestOptions",
+      "inherits": null,
+      "props": [
+        {
+          "name": "file",
+          "type": "UploadFile",
+          "optional": false,
+          "description": "当前文件项（含 `originFile`）。",
+          "default": null
+        },
+        {
+          "name": "onProgress",
+          "type": "(percent: number) => void",
+          "optional": false,
+          "description": "上报 0~100 进度；组件会夹取到 [0, 100]。",
+          "default": null
+        },
+        {
+          "name": "onSuccess",
+          "type": "(response?: unknown) => void",
+          "optional": false,
+          "description": "成功结束；可带回服务端响应。",
+          "default": null
+        },
+        {
+          "name": "onError",
+          "type": "(error: Error) => void",
+          "optional": false,
+          "description": "失败结束；文件转入 `error` 并可重试。",
+          "default": null
+        },
+        {
+          "name": "signal",
+          "type": "AbortSignal",
+          "optional": false,
+          "description": "删除 / 取消时 `abort()`，供 `fetch` 等可取消传输使用。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "UploadChangeInfo",
+      "inherits": null,
+      "props": [
+        {
+          "name": "file",
+          "type": "UploadFile",
+          "optional": false,
+          "description": "触发变化的文件项。",
+          "default": null
+        },
+        {
+          "name": "fileList",
+          "type": "UploadFile[]",
+          "optional": false,
+          "description": "变化后的完整列表（与第一个参数同源）。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "UploadProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'onChange' | 'children'\n>",
+      "props": [
+        {
+          "name": "fileList",
+          "type": "UploadFile[]",
+          "optional": true,
+          "description": "受控文件列表；给出时所有变更只发 `onChange`，DOM 由调用方回弹。 在 `<Form.Item>` 内时字段值优先于本 prop（与 `useInputValue` 同口径）。",
+          "default": null
+        },
+        {
+          "name": "defaultFileList",
+          "type": "UploadFile[]",
+          "optional": true,
+          "description": "非受控初始列表；同时是 SSR 静态骨架的唯一来源。 @default []",
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "(fileList: UploadFile[], info: UploadChangeInfo) => void",
+          "optional": true,
+          "description": "列表变化；受控、非受控、Form 接管三种模式都只走这一个出口。",
+          "default": null
+        },
+        {
+          "name": "customRequest",
+          "type": "(options: UploadRequestOptions) => void",
+          "optional": true,
+          "description": "自定义上传实现。不传时不做网络请求，文件直接置为 `done`。 同一文件重试会重新调用本函数并换一个新的 `AbortSignal`。",
+          "default": null
+        },
+        {
+          "name": "beforeUpload",
+          "type": "(file: File) => boolean | Promise<boolean>",
+          "optional": true,
+          "description": "上传前校验；返回 `false` 或 resolve 成 `false` 时文件以 `error` 入列， 不调用 `customRequest`（`docs/02 L490` 的 preventDefault 语义）。",
+          "default": null
+        },
+        {
+          "name": "accept",
+          "type": "string",
+          "optional": true,
+          "description": "原生 accept 字符串，同时用于 `<input accept>` 与拖拽文件的二次校验。",
+          "default": null
+        },
+        {
+          "name": "maxSize",
+          "type": "number",
+          "optional": true,
+          "description": "单文件字节上限；超限文件以 `error` 入列。",
+          "default": null
+        },
+        {
+          "name": "maxCount",
+          "type": "number",
+          "optional": true,
+          "description": "列表条数上限；超限的新文件以 `error` 入列而不是静默丢弃。",
+          "default": null
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否允许多选。 @default true",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "optional": true,
+          "description": "禁用选择、拖拽、删除、重试与取消。 @default false",
+          "default": null
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "触发区自定义内容；缺省为内置提示文案。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

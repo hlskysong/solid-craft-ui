@@ -882,6 +882,45 @@ const cases = [
       ['data-scui-role="popconfirm-trigger"', 0],
     ],
   },
+  {
+    // T3-13：Upload 静态骨架。列表来自 defaultFileList 纯数据，两个实例分别覆盖
+    // uploading / done / error 三态与 disabled + 空校验态；File / DataTransfer /
+    // AbortController 只存在于客户端事件链，服务端首帧零访问。
+    id: 'T3-13',
+    file: '/src/components/upload/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-testid="upload-ssr-page"',
+      'data-scui-role="upload"',
+      'data-scui-role="upload-trigger"',
+      'data-scui-role="upload-input"',
+      'data-scui-role="upload-item"',
+      'data-scui-role="upload-progress"',
+      'data-scui-role="upload-error"',
+      'data-scui-status="uploading"',
+      'data-scui-status="done"',
+      'data-scui-status="error"',
+      'data-scui-invalid="true"',
+      'data-scui-invalid="false"',
+      'data-scui-disabled',
+      'aria-label="采购附件上传"',
+      'type="file"',
+      '设备清单.pdf',
+      '网络中断，可重试',
+    ],
+    counts: [
+      ['data-testid="upload-ssr-page"', 1],
+      ['data-scui-role="upload"', 2],
+      ['data-scui-role="upload-trigger"', 2],
+      ['data-scui-role="upload-input"', 2],
+      ['data-scui-role="upload-item"', 4],
+      ['data-scui-role="upload-progress"', 1],
+      ['data-scui-role="upload-error"', 1],
+      ['type="file"', 2],
+      ['data-scui-invalid="true"', 1],
+      ['data-scui-invalid="false"', 1],
+    ],
+  },
 ];
 
 const errors = [];
