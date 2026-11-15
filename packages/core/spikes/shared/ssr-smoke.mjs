@@ -741,6 +741,57 @@ const cases = [
       ['data-scui-role="popconfirm-trigger"', 4],
     ],
   },
+  {
+    // T3-10-a：Card 全量内联输出。三张卡片分别覆盖「标题 + 操作区」「封面 +
+    // 加载态」「纯内容」；加载态必须真的渲染出 T3-05 的 Skeleton 角色，
+    // 否则 data-scui-loading 只是个没接线的属性。
+    id: 'T3-10-card',
+    file: '/src/components/card/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="card-page"',
+      'data-scui-role="card-trigger"',
+      'data-scui-loading=""',
+      'data-scui-role="skeleton"',
+    ],
+    counts: [
+      ['data-scui-role="card-page"', 1],
+      ['data-scui-role="card-trigger"', 1],
+      ['data-scui-role="card"', 3],
+      ['data-scui-loading=""', 1],
+      ['data-scui-role="card-cover"', 1],
+      ['data-scui-role="card-header"', 2],
+      ['data-scui-role="card-title"', 2],
+      ['data-scui-role="card-extra"', 2],
+      ['data-scui-role="card-body"', 3],
+      ['data-scui-role="skeleton"', 1],
+    ],
+  },
+  {
+    // T3-10-b：Tag 五档颜色逐一计数，边框与可关闭按钮都是 SSR 也输出的静态结构。
+    // 只验正面骨架，不写「关闭后必须缺席」的 forbid 假判据。
+    id: 'T3-10-tag',
+    file: '/src/components/tag/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="tag-page"',
+      'data-scui-role="tag-trigger"',
+      'data-scui-bordered=""',
+      'data-scui-role="tag-close"',
+    ],
+    counts: [
+      ['data-scui-role="tag-page"', 1],
+      ['data-scui-role="tag-trigger"', 1],
+      ['data-scui-role="tag"', 5],
+      ['data-scui-color="neutral"', 1],
+      ['data-scui-color="primary"', 1],
+      ['data-scui-color="success"', 1],
+      ['data-scui-color="warning"', 1],
+      ['data-scui-color="danger"', 1],
+      ['data-scui-bordered=""', 2],
+      ['data-scui-role="tag-close"', 2],
+    ],
+  },
 ];
 
 const errors = [];

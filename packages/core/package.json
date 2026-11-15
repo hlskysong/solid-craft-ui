@@ -185,6 +185,18 @@
       "import": "./dist/esm/components/popconfirm/index.js",
       "default": "./dist/esm/components/popconfirm/index.js"
     },
+    "./card": {
+      "types": "./dist/types/components/card/index.d.ts",
+      "solid": "./dist/source/components/card/index.jsx",
+      "import": "./dist/esm/components/card/index.js",
+      "default": "./dist/esm/components/card/index.js"
+    },
+    "./tag": {
+      "types": "./dist/types/components/tag/index.d.ts",
+      "solid": "./dist/source/components/tag/index.jsx",
+      "import": "./dist/esm/components/tag/index.js",
+      "default": "./dist/esm/components/tag/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

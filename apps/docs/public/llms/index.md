@@ -4,7 +4,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 31 个 exports 子路径、26 个组件页、92 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 33 个 exports 子路径、28 个组件页、98 个 Demo。
 
 ## 关键约定
 
@@ -64,6 +64,8 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Alert 警告提示](exports/alert.md) | `solid-craft/alert` | 页内常驻反馈条：四种语义类型、标题与描述、可关闭、右侧操作区；操作区可直接调用 T2-06 的全局 message 通道，SSR 只输出静态骨架。 |
 | [Tooltip 文字提示](exports/tooltip.md) | `solid-craft/tooltip` | 锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。 |
 | [Popconfirm 气泡确认](exports/popconfirm.md) | `solid-craft/popconfirm` | 锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。 |
+| [Card 卡片](exports/card.md) | `solid-craft/card` | 标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。 |
+| [Tag 标签](exports/tag.md) | `solid-craft/tag` | 五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。 |
 
 - [ConfigProvider 全局配置](exports/config-provider.md) · [样式](exports/styles-css.md) · [按组件样式通配](exports/styles.md) · [package.json](exports/package-json.md)
 

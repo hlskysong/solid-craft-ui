@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 135 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 143 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 31 个 exports 子路径、26 个组件页、92 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 33 个 exports 子路径、28 个组件页、98 个 Demo。
 
 ## 关键约定
 
@@ -72,6 +72,8 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Alert 警告提示](llms/exports/alert.md) | `solid-craft/alert` | 页内常驻反馈条：四种语义类型、标题与描述、可关闭、右侧操作区；操作区可直接调用 T2-06 的全局 message 通道，SSR 只输出静态骨架。 |
 | [Tooltip 文字提示](llms/exports/tooltip.md) | `solid-craft/tooltip` | 锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。 |
 | [Popconfirm 气泡确认](llms/exports/popconfirm.md) | `solid-craft/popconfirm` | 锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。 |
+| [Card 卡片](llms/exports/card.md) | `solid-craft/card` | 标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。 |
+| [Tag 标签](llms/exports/tag.md) | `solid-craft/tag` | 五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。 |
 
 - [ConfigProvider 全局配置](llms/exports/config-provider.md) · [样式](llms/exports/styles-css.md) · [按组件样式通配](llms/exports/styles.md) · [package.json](llms/exports/package-json.md)
 
@@ -168,6 +170,8 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/alert` → Alert 警告提示：页内常驻反馈条：四种语义类型、标题与描述、可关闭、右侧操作区；操作区可直接调用 T2-06 的全局 message 通道，SSR 只输出静态骨架。
 - `solid-craft/tooltip` → Tooltip 文字提示：锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。
 - `solid-craft/popconfirm` → Popconfirm 气泡确认：锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。
+- `solid-craft/card` → Card 卡片：标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。
+- `solid-craft/tag` → Tag 标签：五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 
@@ -5522,6 +5526,253 @@ export interface ButtonProps
 
 ---
 
+<!-- source: llms/exports/card.md -->
+
+# Card 卡片（`solid-craft/card`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/card/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/card/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/card/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/card/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/card';
+```
+
+## API
+
+### CardProps
+
+继承：`Omit<JSX.HTMLAttributes<HTMLDivElement>, 'title' \| 'children'>`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `title` | `JSX.Element` | — | 卡片标题；省略时整块表头按 `extra` 是否存在决定，二者都不传则表头整块缺席。 | 否 |
+| `extra` | `JSX.Element` | — | 表头右侧操作区；不传时整块不渲染，不留空盒子。 | 否 |
+| `cover` | `JSX.Element` | — | 封面，位于表头之上；常放 `<img>` 或自定义渐变块。 | 否 |
+| `loading` | `boolean` | `false` | 加载态。为 `true` 时根节点输出 `data-scui-loading`，正文换成 `Skeleton`； 表头与封面照常渲染，避免加载前后整张卡片跳动。 | 否 |
+| `children` | `JSX.Element` | — | 卡片正文；`loading` 为真时不被渲染。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/card/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `Card` 的公共类型（T3-10，§4.2 与 `docs/04 §2.3`「标题、操作、封面、加载」）。
+ *
+ * 范围严格按 §4.2 验收列的四项，不加 `hoverable` / `size` / `bordered` 等冻结面
+ * 没要求的开关：S 复杂度组件多一个布尔就多一套选择器与一份 Demo 基线，而调用方
+ * 完全可以用 `class` 覆盖。尺寸口径仍是 `small | medium | large`，但 Card 不暴露它。
+ *
+ * 加载态**复用** `data-scui-loading`（Select / Table 已登记的「存在即真」口径），
+ * 并在 `body` 里直接组合 T3-05 的 `Skeleton`，不自建第二套占位骨架。
+ *
+ * R3：函数型 prop 直接声明为函数，不用 `MaybeAccessor` 包裹；本组件无函数型 prop。
+ */
+import type { JSX } from 'solid-js';
+
+/** `<Card>` 入参。原生属性照常透传到根节点。 */
+export interface CardProps extends Omit<JSX.HTMLAttributes<HTMLDivElement>, 'title' | 'children'> {
+  /** 卡片标题；省略时整块表头按 `extra` 是否存在决定，二者都不传则表头整块缺席。 */
+  title?: JSX.Element;
+  /** 表头右侧操作区；不传时整块不渲染，不留空盒子。 */
+  extra?: JSX.Element;
+  /** 封面，位于表头之上；常放 `<img>` 或自定义渐变块。 */
+  cover?: JSX.Element;
+  /**
+   * 加载态。为 `true` 时根节点输出 `data-scui-loading`，正文换成 `Skeleton`；
+   * 表头与封面照常渲染，避免加载前后整张卡片跳动。
+   * @default false
+   */
+  loading?: boolean;
+  /** 卡片正文；`loading` 为真时不被渲染。 */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [标题与操作区](llms/demos/card-basic.md)：表头由 title 与 extra 两块组成，任一块不传就整块缺席；操作区可放任意节点，这里用 Button。（源文件 `packages/core/src/components/card/demos/basic.tsx`）
+- [封面](llms/demos/card-cover.md)：cover 位于表头之上、圆角内裁剪；传 <img> 时样式自动铺满，也可以直接放自定义块。（源文件 `packages/core/src/components/card/demos/cover.tsx`）
+- [加载态](llms/demos/card-loading.md)：loading 为真时正文换成 T3-05 的 Skeleton，表头与封面照常占位；切换前后卡片高度不抖动。（源文件 `packages/core/src/components/card/demos/loading.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/tag.md -->
+
+# Tag 标签（`solid-craft/tag`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/tag/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/tag/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/tag/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/tag/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/tag';
+```
+
+## API
+
+### TagProps
+
+继承：`Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'children' \| 'color'>`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `color` | `TagColor` | `'neutral'` | 配色，恒输出为 `data-scui-color`。 | 否 |
+| `bordered` | `boolean` | `false` | 是否显示外边框；为真时输出存在即真的 `data-scui-bordered`。 边框恒占 1px（无边框时用透明色），切换不抖动。 | 否 |
+| `closable` | `boolean` | `false` | 是否可关闭；为真时尾部多一个带 `aria-label` 的按钮。 | 否 |
+| `closeLabel` | `string` | — | 关闭按钮的无障碍文案。 @default '关闭标签' | 否 |
+| `onClose` | `() => void` | — | 点击关闭后触发；组件内部同时移除自身 DOM（与 Alert 一致的非受控口径）。 | 否 |
+| `children` | `JSX.Element` | — | 标签文案。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/tag/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `Tag` 的公共类型（T3-10，§4.2 与 `docs/04 §2.3`「颜色、可关闭、边框」）。
+ *
+ * 颜色**复用** `data-scui-color`：Button 早已输出这个属性，取值也和
+ * `demos/shared.tsx` 的 `COLORS` 完全同口径（primary / neutral / success /
+ * warning / danger）。刻意不复用 `data-scui-kind`（那是「一条反馈自身的语义
+ * 类型」，取值 info/success/warning/error/loading）或 `data-scui-variant`
+ * （那是 Skeleton 的骨架形状）——同名不同义会违反 R1。
+ *
+ * 边框复用 `data-scui-bordered`（Table 已登记的「存在即真」口径）；可关闭只是
+ * 结构开关，不需要新状态属性。范围严格按 §4.2 三项，不加 size / disabled 等
+ * 冻结面没要求的开关。
+ *
+ * R3：函数型 prop（`onClose`）直接声明为函数，不用 `MaybeAccessor` 包裹。
+ */
+import type { JSX } from 'solid-js';
+
+/** 标签配色，默认 `neutral`；与 Button 的 `data-scui-color` 同一套取值。 */
+export type TagColor = 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+
+/** `<Tag>` 入参。原生属性照常透传到根节点。 */
+export interface TagProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'children' | 'color'> {
+  /**
+   * 配色，恒输出为 `data-scui-color`。
+   * @default 'neutral'
+   */
+  color?: TagColor;
+  /**
+   * 是否显示外边框；为真时输出存在即真的 `data-scui-bordered`。
+   * 边框恒占 1px（无边框时用透明色），切换不抖动。
+   * @default false
+   */
+  bordered?: boolean;
+  /**
+   * 是否可关闭；为真时尾部多一个带 `aria-label` 的按钮。
+   * @default false
+   */
+  closable?: boolean;
+  /** 关闭按钮的无障碍文案。 @default '关闭标签' */
+  closeLabel?: string;
+  /** 点击关闭后触发；组件内部同时移除自身 DOM（与 Alert 一致的非受控口径）。 */
+  onClose?: () => void;
+  /** 标签文案。 */
+  children?: JSX.Element;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [五档配色](llms/demos/tag-basic.md)：data-scui-color 恒输出，取值与 Button 完全同口径；文本恒用深色，配色只影响浅色背景与边框，避免高饱和色铺满整个标签。（源文件 `packages/core/src/components/tag/demos/basic.tsx`）
+- [边框开关](llms/demos/tag-bordered.md)：data-scui-bordered 存在即真。边框恒占 1px，关闭时只是透明色，因此开关前后标签高度不变、不抖动。（源文件 `packages/core/src/components/tag/demos/bordered.tsx`）
+- [可关闭](llms/demos/tag-closable.md)：关闭是非受控的：组件自己移除 DOM 并发一次 onClose。关闭按钮恒带 aria-label，可用 closeLabel 覆盖。（源文件 `packages/core/src/components/tag/demos/closable.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
 <!-- source: llms/exports/config-provider.md -->
 
 # ConfigProvider 全局配置（`solid-craft/config-provider`）
@@ -5909,6 +6160,8 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./alert` → [solid-craft/alert](llms/exports/alert.md)
 - `./tooltip` → [solid-craft/tooltip](llms/exports/tooltip.md)
 - `./popconfirm` → [solid-craft/popconfirm](llms/exports/popconfirm.md)
+- `./card` → [solid-craft/card](llms/exports/card.md)
+- `./tag` → [solid-craft/tag](llms/exports/tag.md)
 - `./config-provider` → [solid-craft/config-provider](llms/exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](llms/exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](llms/exports/styles.md)
@@ -13249,6 +13502,345 @@ export default function PopconfirmPlacementDemo() {
 ## 相关页面
 
 - [Popconfirm 气泡确认 API](llms/exports/popconfirm.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/card-basic.md -->
+
+# Card 卡片 · 标题与操作区（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/card/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+表头由 title 与 extra 两块组成，任一块不传就整块缺席；操作区可放任意节点，这里用 Button。
+
+## 完整源码
+
+```tsx
+import { Button, Card } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '标题与操作区',
+  description:
+    '表头由 title 与 extra 两块组成，任一块不传就整块缺席；操作区可放任意节点，这里用 Button。',
+};
+
+export default function CardBasicDemo() {
+  return (
+    <DemoSection title="基础用法">
+      <div class="demo-column">
+        <Card
+          title="维简设备采购计划"
+          extra={
+            <Button variant="outline" size="small">
+              编辑
+            </Button>
+          }
+        >
+          本次采购数量按年度维简计划填写，提交后进入审批流。
+        </Card>
+        <Card title="无操作区的卡片">表头只剩标题，右侧不会留下空盒子。</Card>
+        <Card>既不传标题也不传操作区时，表头整块不渲染，正文直接贴着卡片内边距。</Card>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Card 卡片 API](llms/exports/card.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/card-cover.md -->
+
+# Card 卡片 · 封面（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/card/demos/cover.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+cover 位于表头之上、圆角内裁剪；传 <img> 时样式自动铺满，也可以直接放自定义块。
+
+## 完整源码
+
+```tsx
+import { Card } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '封面',
+  description: 'cover 位于表头之上、圆角内裁剪；传 <img> 时样式自动铺满，也可以直接放自定义块。',
+};
+
+const COVER_STYLE =
+  'display:flex;align-items:center;justify-content:center;block-size:132px;' +
+  'background:linear-gradient(120deg,#1b3a6b,#2d66f5 55%,#54c8e8);' +
+  'color:#fff;font-size:18px;letter-spacing:2px';
+
+export default function CardCoverDemo() {
+  return (
+    <DemoSection title="封面">
+      <div class="demo-column">
+        <Card
+          cover={<div style={COVER_STYLE}>设备档案 · 2026</div>}
+          title="主通风机"
+          extra={<span>编号 SB-0421</span>}
+        >
+          安装地点：井下中央变电所；上次检修日期：2026-09-18。
+        </Card>
+        <Card cover={<div style={COVER_STYLE}>纯封面卡片</div>}>
+          不传标题与操作区时，封面下面直接接正文。
+        </Card>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Card 卡片 API](llms/exports/card.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/card-loading.md -->
+
+# Card 卡片 · 加载态（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/card/demos/loading.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+loading 为真时正文换成 T3-05 的 Skeleton，表头与封面照常占位；切换前后卡片高度不抖动。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Card } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '加载态',
+  description:
+    'loading 为真时正文换成 T3-05 的 Skeleton，表头与封面照常占位；切换前后卡片高度不抖动。',
+};
+
+export default function CardLoadingDemo() {
+  const [loading, setLoading] = createSignal(true);
+
+  return (
+    <DemoSection title="加载态">
+      <div class="demo-column">
+        <Button variant="outline" size="small" onClick={() => setLoading(!loading())}>
+          切换加载状态
+        </Button>
+        <p data-testid="card-loading-log">当前状态：{loading() ? '加载中' : '已加载'}</p>
+        <Card
+          title="年度维简计划明细"
+          extra={<span>共 12 条</span>}
+          loading={loading()}
+          data-testid="card-loading-target"
+        >
+          <div>
+            <div>第一行：主通风机 2 台</div>
+            <div>第二行：皮带输送机 1 套</div>
+            <div>第三行：供电柜 4 面</div>
+          </div>
+        </Card>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Card 卡片 API](llms/exports/card.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/tag-basic.md -->
+
+# Tag 标签 · 五档配色（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/tag/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+data-scui-color 恒输出，取值与 Button 完全同口径；文本恒用深色，配色只影响浅色背景与边框，避免高饱和色铺满整个标签。
+
+## 完整源码
+
+```tsx
+import { Tag, type TagColor } from 'solid-craft';
+
+import { COLORS, DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '五档配色',
+  description:
+    'data-scui-color 恒输出，取值与 Button 完全同口径；文本恒用深色，配色只影响浅色背景与边框，避免高饱和色铺满整个标签。',
+};
+
+const LABELS: Record<TagColor, string> = {
+  primary: '进行中',
+  neutral: '草稿',
+  success: '已通过',
+  warning: '待复核',
+  danger: '已驳回',
+};
+
+export default function TagBasicDemo() {
+  return (
+    <DemoSection title="基础用法">
+      <div class="demo-row">
+        {COLORS.map((color) => (
+          <Tag color={color}>{LABELS[color]}</Tag>
+        ))}
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Tag 标签 API](llms/exports/tag.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/tag-bordered.md -->
+
+# Tag 标签 · 边框开关（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/tag/demos/bordered.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+data-scui-bordered 存在即真。边框恒占 1px，关闭时只是透明色，因此开关前后标签高度不变、不抖动。
+
+## 完整源码
+
+```tsx
+import { Tag, type TagColor } from 'solid-craft';
+
+import { COLORS, DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '边框开关',
+  description:
+    'data-scui-bordered 存在即真。边框恒占 1px，关闭时只是透明色，因此开关前后标签高度不变、不抖动。',
+};
+
+const LABELS: Record<TagColor, string> = {
+  primary: '进行中',
+  neutral: '草稿',
+  success: '已通过',
+  warning: '待复核',
+  danger: '已驳回',
+};
+
+export default function TagBorderedDemo() {
+  return (
+    <DemoSection title="边框开关">
+      <div class="demo-column">
+        <div class="demo-row" data-testid="tag-bordered-on">
+          {COLORS.map((color) => (
+            <Tag color={color} bordered data-testid={`tag-on-${color}`}>
+              {LABELS[color]}
+            </Tag>
+          ))}
+        </div>
+        <div class="demo-row" data-testid="tag-bordered-off">
+          {COLORS.map((color) => (
+            <Tag color={color} data-testid={`tag-off-${color}`}>
+              {LABELS[color]}
+            </Tag>
+          ))}
+        </div>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Tag 标签 API](llms/exports/tag.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/tag-closable.md -->
+
+# Tag 标签 · 可关闭（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/tag/demos/closable.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+关闭是非受控的：组件自己移除 DOM 并发一次 onClose。关闭按钮恒带 aria-label，可用 closeLabel 覆盖。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Tag } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '可关闭',
+  description:
+    '关闭是非受控的：组件自己移除 DOM 并发一次 onClose。关闭按钮恒带 aria-label，可用 closeLabel 覆盖。',
+};
+
+export default function TagClosableDemo() {
+  const [closed, setClosed] = createSignal(0);
+
+  const handleClose = (): void => {
+    setClosed(closed() + 1);
+  };
+
+  return (
+    <DemoSection title="可关闭">
+      <div class="demo-column">
+        <div class="demo-row">
+          <Tag closable onClose={handleClose}>
+            待复核
+          </Tag>
+          <Tag closable closeLabel="移除已通过标签" color="success" onClose={handleClose}>
+            已通过
+          </Tag>
+          <Tag closable color="danger" onClose={handleClose}>
+            已驳回
+          </Tag>
+          <Tag color="neutral">不可关闭</Tag>
+        </div>
+        <p data-testid="tag-close-count">累计关闭 {closed()} 次</p>
+        <p data-testid="tag-close-log">当前状态：{closed() === 0 ? '尚未关闭' : '已有关闭'}</p>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Tag 标签 API](llms/exports/tag.md)
 - [设计 Token](llms/design/tokens.md)
 
 ---

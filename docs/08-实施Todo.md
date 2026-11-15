@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-10**（M3 第十项「`Card` / `Tag`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`（均**未推送**）；T3-09 改动**尚未提交 / 推送**（Aming 本轮授权「先提交再继续」，默认只 commit 不 push） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」改动，再开始 T3-10「`Card` / `Tag`」**：两条浮层链接缝已定死 —— 模态走 `primitives/overlay`（自建焦点归还）、锚定走 `primitives/anchored`（有 Trigger，交给 Kobalte），组件层零浮层实现且由判据 4j / 4k / 4l 机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 已闭合；**T3-10 / T3-11 / T3-13 可全程并行**；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-11**（M3 第十一项「`Tabs` / `Descriptions`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」/ T3-10「`Card` / `Tag`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43` / `30.44`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`（均**未推送**）；T3-10 改动**尚未提交 / 推送**（Aming 本轮授权「继续」，默认只 commit 不 push） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-10「`Card` / `Tag`」改动，再开始 T3-11「`Tabs` / `Descriptions`」**：T3-10 三个能力全部复用既有属性（`data-scui-color` 只补登记表缺漏），未新造语义名；展示类组件与浮层链互不影响，判据 4m 已把「组合 Skeleton / 五档配色三层 / 边框恒 1px / 非受控关闭」机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 → T3-10 已闭合；**T3-11 / T3-13 可全程并行**；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -162,7 +162,7 @@
 | T3-07 | `Modal`（L）：确认、异步关闭、焦点陷阱、尺寸 | T2-01 / T2-06 | 技术负责人 | 焦点陷阱 + ESC 关闭后焦点归还触发元素；SSR 不渲染弹层；异步关闭期间防重复提交；axe 0 violation（**共享浮层原语 `primitives/overlay` / 焦点归还自己接管 / 遮罩关闭单一出口 / 396 tests·33 files / SSR 24 入口 / 158 张基线 / 判据 4j + 负向 N245~N275 31/31 / `pnpm verify` RC=0**，见 §30.41） | [x] |
 | T3-08 | `Drawer`（M）：方向、尺寸、焦点陷阱 | T3-07 | 工程师 C | 与 Modal **共用**焦点管理与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过（**组件层零浮层实现 / 新增 `data-scui-side` 四方向 + 三档 `data-scui-size` / width·height 按方向归一 / 414 tests·34 files / SSR 25 入口 / 166 张基线 / 判据 4k + 负向 N276~N312 37/37 / `pnpm verify` RC=0**，见 §30.42） | [x] |
 | T3-09 | `Alert` / `Tooltip` / `Popconfirm` + 接入 T2-06 的 `Message` / `App` 宿主 | T2-01 / T2-06 | 工程师 C | Tooltip 定位 / 延迟 / 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR 不报错（**锚定浮层走新建 `primitives/anchored`、组件层零浮层实现 / 新增 `data-scui-anchor` 十二向 / 复用 `data-scui-kind`·`data-scui-pending` / 444 tests·37 files / SSR 28 入口 / 184 张基线 / 判据 4l + 负向 N313~N386 74/74 / `pnpm verify` RC=0**，见 §30.43） | [x] |
-| T3-10 | `Card` / `Tag`（S） | T2-13 | 工程师 C | Card 标题 / 操作 / 封面 / 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线 | [ ] |
+| T3-10 | `Card` / `Tag`（S） | T2-13 | 工程师 C | Card 标题 / 操作 / 封面 / 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线（**复用 `data-scui-color` / `data-scui-loading` / `data-scui-bordered` 三个既有属性、只补 `-color` 的登记表缺漏；Card 加载态组合 `Skeleton` 且量切换前后高度差 ≤ 2px / Tag 边框恒 1px 不抖动 / 467 tests·39 files / SSR 30 入口 / 196 张基线 / 判据 4m + 负向 N387~N456 70/70 / `pnpm verify` RC=0**，见 §30.44） | [x] |
 | T3-11 | `Tabs` / `Descriptions`（M） | T2-13 | 工程师 B | Tabs 线型 / 卡片 / 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0 | [ ] |
 | T3-12 | **CRUD 列表页组合 Demo**：Table + Form 查询 + Modal 新增 / 编辑 + 删除确认 + 操作反馈端到端 | T3-06 / T3-07 / T3-09 / T3-11 | 技术负责人 | 一页真实列表页可独立开发；新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐 | [ ] |
 | T3-13 | `Upload`（M2 后移项）：`customRequest`、进度、文件列表、删除 / 重试 | T2-08 / T2-09 | 工程师 C | 上传 / 删除 / 重试受控链路；SSR 静态骨架；零新增依赖；与 `Form.Item` 接入可用 | [ ] |
@@ -4896,3 +4896,99 @@ T3-09 按 §4.2 验收列四条全部闭合：**Tooltip 定位 / 延迟 / 箭头
 4. **SSR marker 必须是服务端真的输出的东西**：浮层标题在 Portal 里，服务端零输出；「验浮层文案」这类 marker 天生恒假。入口只断言触发按钮与页面骨架，浮层态交给 browser 与视觉基线。
 5. **浏览器用例里的数量断言要数整页，不是数当前 DemoSection**：组合 Demo 常有多个示例区，写死数字前先回读页面结构，否则一次通过只是巧合。
 6. **接入既有宿主不等于新建组件**：T2-06 的 `message` / `useApp` 已经能脱离树调用，本轮只在 Demo 与 SSR 入口里真实调用它，没有再建一份 `Message` 组件或第二份队列。
+
+### 30.44 T3-10 Card / Tag 落地与验收（2026-11-14 实测）
+
+#### 一、结论先行
+
+T3-10 按 §4.2 验收列四条全部闭合：**Card 标题 / 操作 / 封面 / 加载**、**Tag 颜色 / 可关闭 / 边框**、**各 ≥3 Demo**、**视觉基线**。冻结面 `docs/04 §2.3` 把两者列为 P0 / S（S 是**复杂度 1–3 天**，不是 size 档）；`docs/01~07` 与 `spikes/api-draft/` 对这两个组件**没有任何 API 草案或 data 属性登记**，连「展示类组件公共约束」章节都不存在，约束分散在 §2.3 / §3.3 / §8 / §10、`docs/03`、`docs/06` 与 AGENTS 里。
+
+本轮最重要的判断是：**颜色不需要新属性**。`data-scui-color` 是 AGENTS 硬约束 3 明文指派给「颜色」的语义名，Button 自 T1 起一直在输出它，只是 `data-attributes.md` 的全局约定表**漏登记**了这一行；Tag 沿用同一套取值（`COLORS` = primary / neutral / success / warning / danger）即可。若照「冻结面留白 → 新增属性」的惯性另起 `-tone` / `-kind`，反而会制造同名不同义。同理 `loading` / `bordered` 也是**复用**而非新增。
+
+#### 二、交付清单
+
+| 交付物 | 说明 |
+| --- | --- |
+| `components/card/` | `types.ts` / `Card.tsx` / `card.scss` / `index.ts` / `Card.test.tsx`（9 条）/ 3 个 Demo / SSR 入口 |
+| `components/tag/` | `types.ts` / `Tag.tsx` / `tag.scss` / `index.ts` / `Tag.test.tsx`（14 条）/ 3 个 Demo / SSR 入口 |
+| 接线 | `src/index.ts` 两组导出、`package.json` 两个四条件 exports、catalog 两条「数据」、data-attributes 补 `data-scui-color` 登记行 + 三条复用/role 行、ssr-smoke 两个入口、docs:generate / llms 全量产物 |
+| 门禁 | `check-ci.mjs` 判据 **4m**（收进既有阶段）、汇总文案、`FONT_SHA256`、`tests/e2e/specs/browser.spec.ts` 6 条新用例 |
+| 基线 | 6 个 Demo × 2 视口 = **12 张**新基线（184 → 196），逐张/代表图回读确认 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| Tag 颜色复用 `data-scui-color`，不新增属性 | AGENTS 硬约束 3 把「颜色」指派给 `-color`，Button 早已输出且取值与 `demos/shared.tsx` 的 `COLORS` 完全一致；本轮只是**补齐登记表缺漏**。`-kind` 是反馈语义类型（含 info / loading）、`-variant` 是 Skeleton 骨架形状、`-tone` 归 Typography 文本语义色，三者都不能串味 |
+| 边框复用 `data-scui-bordered`，加载复用 `data-scui-loading` | 都是已登记的「存在即真」口径，语义完全同义（一个开关、一个是内容还在取）；新造 `data-scui-outlined` / `data-scui-skeleton-loading` 只会让同一状态出现两套选择器 |
+| Card 加载态直接组合 T3-05 的 `Skeleton` | 骨架行块高已引用正文行高 token，三行骨架 = 三行正文，切换不抖动；组件里再写一套 bar / keyframes 就是第二份真源。判据 4m 用「骨架关键字黑名单」把这点钉成机器闸门 |
+| 加载时表头与封面照常渲染 | 只把 `card-body` 的内容换掉，卡片的标题 / 操作区 / 封面位置不变，避免「标题先到、内容后到」导致整块跳动；browser 用 `boundingBox` 量切换前后高度差 ≤ 2px 做实证，而不只断言属性 |
+| `border: 1px solid transparent` 恒占位 | `bordered` 开关只把 transparent 换成 accent，标签高度在开关前后完全一致；若用 `border: 0 → 1px`，视觉基线会出现整行 2px 抖动 |
+| 文本恒用 `--scui-color-text-primary` | `docs/03 §4.5` 要求状态标签「浅色背景 + 深色文本」；把 warning 的浅黄直接做字色会掉到 axe 的对比度线下。五档配色只改 `--scui-tag-accent` 一个变量，由它派生浅背景与边框 |
+| Tag 关闭是非受控的 | 与 Alert 同口径：组件自己移除 DOM 并发一次 `onClose`。再加 `visible` 受控会让已关掉的 Tag 继续占着组件树；判据 4m 禁止出现 `visible?:` / `onVisibleChange` |
+| 严格不加冻结面没要求的开关 | 不做 `hoverable` / `size` / `bordered`（Card）/ `disabled`。多一个布尔就多一套选择器、一份 Demo 与两张基线，而调用方用 `class` 就能覆盖；S 复杂度按验收列四项收口 |
+| catalog 归「数据」 | `docs/04 §2.3` 标题即「数据展示」，Card / Tag 与 Table / Pagination 同节；现有 catalog 也有「数据」分类。判据 4m 钉住分类名，防止后续误归「反馈」 |
+
+#### 四、本轮真实缺陷与假信号
+
+1. ⚠️ **单测与类型检查抓到不同层的问题**：`handleClose(): void => setClosed(closed() + 1)` 用表达式体隐式返回 number，TS2322；改成块体后 `typecheck` RC=0。单测此时已 467/467 全绿 —— 再一次说明「测试绿 ≠ 类型绿」，两条链都得跑。
+2. ⚠️ **SSR counts 写错而非断言写松**：`card-extra` 初版期望 2 次、实际只有 1 张卡片带操作区，`check:ci` 精准报出。没有把期望改成 1 了事，而是给加载态卡片补上 `extra`，让「加载时表头保留」也进入 SSR 实证。
+3. ⚠️ **正则窗口跨块会假绿**：4m 初版取 `split(...)[1].slice(0, 140)` 判断每档是否改了 `--scui-tag-accent`，140 字符会跨到下一档的规则块，删掉当前档赋值仍会被下一档冒充命中。改成 `split('}')[0]` 只取当前规则块，负向 N413 / N414 才真的打红。
+4. ⚠️ **「加载不抖动」必须量真实几何**：只断言 `data-scui-loading` 与骨架存在会漏掉「正文与骨架不同高」。把 loading Demo 正文改成三行 `div`，再用 `boundingBox` 断言切换前后卡片高度差 ≤ 2px。
+5. ⚠️ **负向脚本自身锚点也会撞车**：`from './components/card'` 在 barrel 里出现两次（值导出 + 类型导出），第一次跑到 N437 就因「锚点命中 2 次」自毁。改成整块双行替换后 70/70 通过；先用 `node scripts/check-ci.mjs` RC=0 确认上次崩溃没留下残留改动，再重跑。
+6. ✅ 严格按「改源码 → `pnpm build` → browser / visual」执行，未复发 T3-07 的 `dist/source` 旧产物坑；三张代表基线逐张图片回读确认。
+
+#### 五、SSR、视觉与字体
+
+- **30 个 SSR 入口**全绿：新增 `T3-10-card`（5 markers / 10 counts，三张卡片分别覆盖标题+操作区、封面+加载、纯内容，加载态必须真的渲染出 `data-scui-role="skeleton"`）、`T3-10-tag`（5/10，五档 `data-scui-color` 逐一计数、`data-scui-bordered` 两处、两个关闭按钮）。两个入口都只验正面静态骨架，不写 forbid 假判据（N62）。
+- 视觉基线 12 张，图片回读确认：Card 加载态三行灰骨架 + 标题 + 「共 12 条」、封面渐变被圆角裁剪、Tag 上排五档彩色边框与下排无边框对照清晰，均无溢出 / 错位。
+- 字集重建到 **983 码位**（888 CJK/符号 + 95 ASCII），字体 284076 bytes，`FONT_SHA256` 同步为 `e8f8c7be…`。
+
+#### 六、新增判据（`check:ci` 4m，收进既有阶段）
+
+| 子判据 | 钉住什么 | 负向实证 |
+| --- | --- | --- |
+| 4m-a | Card 五个结构锚点齐全、封面按内容缺席、title / extra 共用一个可缺席表头 | N387~N391 |
+| 4m-b | `data-scui-loading` 存在即真 + 组合 `Skeleton` + `fallback` 指向 children + 不自建骨架 + 样式三行占位 + CSS 聚合 skeleton / button | N392~N402 |
+| 4m-c | Tag 五档颜色在类型枚举 / 运行时属性 / 五条样式规则三层齐全，且每档真的改 `--scui-tag-accent`；默认 neutral、不混用 kind / variant | N403~N417 |
+| 4m-d | `bordered` 存在即真、样式真的换边框色、边框恒 1px 不抖动 | N418~N421 |
+| 4m-e | 可关闭按 `closable` 缺席、恒带 `aria-label`、非受控单一出口（早退 / 移除 DOM / 只发一次 onClose）、禁 `visible` 受控 | N422~N427 |
+| 4m-f | R1（无 modifier class）/ R3（无 MaybeAccessor）/ `data-scui-color` 登记补齐 / loading·bordered 复用登记 / 两组件 role 在册 | N428~N436 |
+| 4m-g | barrel / 四条件 exports / catalog 分类与 exportPath / 两个 SSR 入口文件与登记 / 各 ≥3 Demo | N437~N456 |
+
+判据一律先剥注释再匹配（T3-04 / T3-05 的注释冒充坑），范围收进对应文件；**未新增 workflow / job / verify 阶段**（26 阶段不变）。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | ✅ RC=0（26 阶段全量，最终态） |
+| core 单测 | ✅ 467 tests / 39 files（新增 23） |
+| browser / visual / docs / llms | ✅ 236 / 197 / 8 / 4 全 passed（手写新增 6 条 browser 用例 + 12 张基线） |
+| SSR 冒烟 | ✅ 30 入口，T3-10 两入口 5/5 markers + 10/10 counts 全中 |
+| 规模 | ✅ 29 组件 / 98 Demo / 196 张基线 / 字集 983 码位 |
+| `check:ci` | ✅ 判据 4m 收进既有阶段，汇总文案带「Card / Tag 展示契约」 |
+| 负向实证 | ✅ N387~N456 **70/70 PASS + RESTORE_OK**（SHA256 逐字节还原） |
+| `check:todo` | ✅ 65 任务 / 61 `[x]` 全有证据 / 97 验收区块 / 倒挂 0 |
+| 冻结面 | ✅ `docs/01~07` + `pnpm-lock.yaml` 零改动，零新增依赖，`git diff --check` RC=0 |
+| 治理 | §30.44 落地、T3-10 勾 `[x]`、锚点推进 **T3-11**、evidence `30.44`、goals 基线重校 |
+
+#### 八、允许写入路径（L4）与边界
+
+本轮改动全部落在允许的 L4 路径：两个新建组件目录（源码 / Demo / 单测 / SSR 入口 / SCSS）、`src/index.ts`、`packages/core/package.json`、`apps/docs/src/content/catalog.mjs` 与其生成物、`packages/core/spikes/api-draft/data-attributes.md`、`packages/core/spikes/shared/ssr-smoke.mjs`、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`、`tests/e2e/specs/browser.spec.ts`、视觉基线、`docs/08-实施Todo.md`、`AGENTS.md`（仅 `check:goals` 自动更新的基线哈希）、`.workbuddy/memory/`。`docs/01~07` 与 `pnpm-lock.yaml` 零改动；未新增 workflow / job / verify 阶段；未新增依赖；未发布；未推送。
+
+#### 九、已知边界与风险
+
+1. **Card 无 `size` / `hoverable` / `bordered`**：按 §4.2 四项收口，需要时优先用 `class` 覆盖；若未来要加，须同步补枚举、SCSS、Demo、基线、登记表与判据，不能只加 prop。
+2. **Tag 关闭后不可恢复**：非受控口径下调用方要「撤销」只能重建节点；这是与 Alert 一致的取舍，不是缺漏。
+3. **`data-scui-color` 的登记是补漏而非新语义**：Button 的颜色样式一直靠它，但 `data-attributes.md` 此前没有这一行；后续若有组件再用配色语义，必须沿用同一取值集合，不要扩成 `blue / green / red` 之类的第二套。
+4. **`color-mix` 依赖 Chromium ≥ 111**：视觉基线走 bundled chromium、契约已锁；IE / 旧内核不在 MVP 范围（`docs/01` 浏览器矩阵）。
+5. **T3-10 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求逐次授权；本轮只把 T3-09 提交到 `610fff8`，`origin/dev` 仍停 `fa72233`。
+
+#### 十、教训
+
+1. **「冻结面留白」不等于「可以随便新增属性」**：先查 AGENTS 硬约束里已经指派过的语义名，再查登记表缺漏。本轮三个能力全部是**复用 / 补登记**，一个都没新造；这与 T3-08 新增 `-side`、T3-09 新增 `-anchor` 的结论相反，说明「查占用」每次都要真查。
+2. **登记表也会有「代码有、文档没有」的欠账**：Button 的 `data-scui-color` 从 T1 就在输出，直到本轮才进 `data-attributes.md`。判据把「登记在册」列为硬约束，正是为了逼出这类静默缺漏。
+3. **组合已有组件比再写一份更难验、但更值得**：Card 加载态复用 Skeleton 后，必须同时验「骨架真的出现」「children 真的被换掉」「高度真的不抖」，三缺一都可能是半接线；单靠 `data-scui-loading` 断言全是假绿。
+4. **判据自身的正则窗口也是实证对象**：负向实证不只验业务代码，也要验判据没有「跨块误命中」这类假绿；本轮 N413 / N414 就是为此补的。
+5. **负向脚本崩了要先确认工作区没残留**：脚本在 `patch` 断言处自毁时不会走收尾的 SHA256 汇总，重跑前先用一次 `check:ci` RC=0 证明现场干净，比直接信任 `finally` 更可靠。

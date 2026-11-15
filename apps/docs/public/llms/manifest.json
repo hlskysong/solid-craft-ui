@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 135,
+  "pageCount": 143,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -148,6 +148,16 @@
     {
       "path": "llms/exports/popconfirm.md",
       "title": "# Popconfirm 气泡确认（`solid-craft/popconfirm`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/card.md",
+      "title": "# Card 卡片（`solid-craft/card`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/tag.md",
+      "title": "# Tag 标签（`solid-craft/tag`）",
       "kind": "exports"
     },
     {
@@ -684,6 +694,36 @@
       "path": "llms/demos/popconfirm-placement.md",
       "title": "# Popconfirm 气泡确认 · 定位与文案覆盖（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/card-basic.md",
+      "title": "# Card 卡片 · 标题与操作区（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/card-cover.md",
+      "title": "# Card 卡片 · 封面（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/card-loading.md",
+      "title": "# Card 卡片 · 加载态（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tag-basic.md",
+      "title": "# Tag 标签 · 五档配色（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tag-bordered.md",
+      "title": "# Tag 标签 · 边框开关（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tag-closable.md",
+      "title": "# Tag 标签 · 可关闭（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -714,6 +754,8 @@
     "./alert": "llms/exports/alert.md",
     "./tooltip": "llms/exports/tooltip.md",
     "./popconfirm": "llms/exports/popconfirm.md",
+    "./card": "llms/exports/card.md",
+    "./tag": "llms/exports/tag.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -748,6 +790,8 @@
     "llms/exports/alert.md",
     "llms/exports/tooltip.md",
     "llms/exports/popconfirm.md",
+    "llms/exports/card.md",
+    "llms/exports/tag.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -855,7 +899,13 @@
     "llms/demos/tooltip-open-state.md",
     "llms/demos/popconfirm-basic.md",
     "llms/demos/popconfirm-open-state.md",
-    "llms/demos/popconfirm-placement.md"
+    "llms/demos/popconfirm-placement.md",
+    "llms/demos/card-basic.md",
+    "llms/demos/card-cover.md",
+    "llms/demos/card-loading.md",
+    "llms/demos/tag-basic.md",
+    "llms/demos/tag-bordered.md",
+    "llms/demos/tag-closable.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

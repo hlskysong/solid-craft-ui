@@ -1132,6 +1132,205 @@ if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
   }
 }
 
+// 4m. T3-10 展示组件契约（§30.44）。§4.2 验收原话「Card 标题 / 操作 / 封面 /
+// 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线」的机器闸门。
+// ① Card 四块结构按内容缺席；② 加载态复用 data-scui-loading 且真的组合
+// Skeleton（不自建第二套骨架）；③ Tag 五档颜色在类型 / 运行时 / 样式三层齐全；
+// ④ bordered 存在即真且样式真的改边框；⑤ 可关闭非受控 + 恒带 aria-label；
+// ⑥ R1 / R3（无 modifier class、无 MaybeAccessor、属性与 role 登记在册）；
+// ⑦ barrel / exports / catalog / Demo / 两个 SSR 入口在册。判据一律先剥注释，
+// 避免注释冒充代码（T3-04 / T3-05 踩过）。
+{
+  const stripT310Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const componentsDir = join(repoRoot, 'packages', 'core', 'src', 'components');
+  const coreSrc = join(repoRoot, 'packages', 'core', 'src');
+  const t310Impl = {
+    card: stripT310Comments(read(join(componentsDir, 'card', 'Card.tsx'))),
+    tag: stripT310Comments(read(join(componentsDir, 'tag', 'Tag.tsx'))),
+  };
+  const t310Styles = {
+    card: stripT310Comments(read(join(componentsDir, 'card', 'card.scss'))),
+    tag: stripT310Comments(read(join(componentsDir, 'tag', 'tag.scss'))),
+  };
+  const t310Types = {
+    card: stripT310Comments(read(join(componentsDir, 'card', 'types.ts'))),
+    tag: stripT310Comments(read(join(componentsDir, 'tag', 'types.ts'))),
+  };
+  const t310DataAttrs = read(
+    join(repoRoot, 'packages', 'core', 'spikes', 'api-draft', 'data-attributes.md'),
+  );
+  const t310Smoke = read(join(repoRoot, 'packages', 'core', 'spikes', 'shared', 'ssr-smoke.mjs'));
+  const t310Catalog = read(join(repoRoot, 'apps', 'docs', 'src', 'content', 'catalog.mjs'));
+  const t310Barrel = read(join(coreSrc, 'index.ts'));
+  const t310Pkg = read(join(repoRoot, 'packages', 'core', 'package.json'));
+
+  // ① 四块结构：每块都能按「是否传了内容」整块缺席，不留空盒子。
+  for (const name of ['card-cover', 'card-header', 'card-title', 'card-extra', 'card-body']) {
+    if (!t310Impl.card.includes(`data-scui-role="${name}"`)) {
+      fail(`Card 缺少结构锚点 ${name}：四块结构必须各自可缺席`);
+    }
+  }
+  if (!/<Show when=\{local\.cover !== undefined\}>/.test(t310Impl.card)) {
+    fail('Card 封面未按内容整块缺席：不传 cover 时会留下空盒子');
+  }
+  if (
+    !/local\.title !== undefined \|\| local\.extra !== undefined/.test(t310Impl.card) ||
+    !/<Show when=\{hasHeader\(\)\}>/.test(t310Impl.card)
+  ) {
+    fail('Card 的 title / extra 未共用同一个表头：两者都为 undefined 时表头必须整块缺席');
+  }
+
+  // ② 加载态：复用既有属性 + 直接组合 T3-05 的 Skeleton，样式随之聚合。
+  if (!/data-scui-loading=\{loading\(\) \? '' : undefined\}/.test(t310Impl.card)) {
+    fail('Card 加载态未复用 data-scui-loading 的存在即真口径');
+  }
+  if (
+    !t310Impl.card.includes("from '../skeleton'") ||
+    !/<Skeleton variant="text" rows=\{3\}/.test(t310Impl.card)
+  ) {
+    fail('Card 未组合 T3-05 的 Skeleton：会与骨架组件重复实现占位');
+  }
+  if (!/<Show when=\{loading\(\)\} fallback=\{local\.children\}>/.test(t310Impl.card)) {
+    fail('Card 加载时正文未换成 Skeleton：fallback 必须指向 children');
+  }
+  for (const token of ['skeleton__bar', '@keyframes', 'data-scui-variant']) {
+    if (t310Impl.card.includes(token)) {
+      fail(`Card 自建了骨架（${token}）：必须只组合 Skeleton`);
+    }
+  }
+  if (
+    !/&\[data-scui-loading\] \.scui-card__body/.test(t310Styles.card) ||
+    !/min-block-size: calc\(var\(--scui-line-height-md/.test(t310Styles.card)
+  ) {
+    fail('Card 加载态样式未落地：card.scss 缺少 [data-scui-loading] 的三行占位');
+  }
+  if (
+    !t310Styles.card.includes("@use '../skeleton/skeleton';") ||
+    !t310Styles.card.includes("@use '../button/button';")
+  ) {
+    fail('Card 样式未聚合 Skeleton / Button：CSS 逐目录编译不做依赖聚合');
+  }
+
+  // ③ 颜色五档：类型枚举、运行时属性、样式三层缺一层就是死代码。
+  const t310Colors = ['primary', 'neutral', 'success', 'warning', 'danger'];
+  for (const color of t310Colors) {
+    if (!t310Types.tag.includes(`'${color}'`)) {
+      fail(`Tag 颜色枚举缺少 ${color}`);
+    }
+    // 只取当前规则块（到第一个 `}` 为止），窗口跨到下一档会让它档的赋值冒充命中。
+    const block = t310Styles.tag.split(`&[data-scui-color='${color}']`)[1]?.split('}')[0] ?? '';
+    if (block.length === 0) {
+      fail(`Tag 缺少 ${color} 的样式规则：只改属性不改样式是死代码`);
+    }
+    if (!block.includes('--scui-tag-accent')) {
+      fail(`Tag 的 ${color} 样式没有改 --scui-tag-accent：五档配色会退化成同一色`);
+    }
+  }
+  if (!/data-scui-color=\{color\(\)\}/.test(t310Impl.tag)) {
+    fail('Tag 未恒输出 data-scui-color');
+  }
+  if (!/local\.color \?\? 'neutral'/.test(t310Impl.tag)) {
+    fail('Tag 默认配色不是 neutral');
+  }
+  if (t310Impl.tag.includes('data-scui-kind') || t310Impl.tag.includes('data-scui-variant')) {
+    fail('Tag 混用了 data-scui-kind / data-scui-variant：颜色语义必须走 -color');
+  }
+
+  // ④ 边框：存在即真 + 样式真的换色 + 恒占 1px（开关不抖动）。
+  if (!/data-scui-bordered=\{local\.bordered === true \? '' : undefined\}/.test(t310Impl.tag)) {
+    fail('Tag 的 bordered 未走存在即真口径');
+  }
+  if (
+    !/&\[data-scui-bordered\]/.test(t310Styles.tag) ||
+    !/border-color: var\(--scui-tag-accent\)/.test(t310Styles.tag)
+  ) {
+    fail('Tag bordered 样式未真正改边框色');
+  }
+  if (!/border: 1px solid transparent/.test(t310Styles.tag)) {
+    fail('Tag 边框未恒占 1px：开关前后会抖动');
+  }
+
+  // ⑤ 可关闭：非受控单一出口，按钮恒带可读名称。
+  if (!/<Show when=\{local\.closable === true\}>/.test(t310Impl.tag)) {
+    fail('Tag 可关闭按钮未按 closable 缺席');
+  }
+  if (!/aria-label=\{local\.closeLabel \?\? '关闭标签'\}/.test(t310Impl.tag)) {
+    fail('Tag 可关闭按钮缺少 aria-label');
+  }
+  if (
+    !/if \(!visible\(\)\) return;/.test(t310Impl.tag) ||
+    !/setVisible\(false\)/.test(t310Impl.tag) ||
+    !/local\.onClose\?\.\(\)/.test(t310Impl.tag)
+  ) {
+    fail('Tag 关闭不是非受控单一出口：必须移除 DOM 且只发一次 onClose');
+  }
+  if (/visible\?:|defaultVisible|onVisibleChange/.test(t310Types.tag + t310Impl.tag)) {
+    fail('Tag 引入了 visible 受控态：与 Alert 的非受控口径不一致');
+  }
+
+  // ⑥ R1 / R3 与登记表：颜色属性是「补齐登记」而非新增语义。
+  for (const name of ['card', 'tag']) {
+    if (t310Types[name].includes('MaybeAccessor')) {
+      fail(`${name} 的函数型 prop 被 MaybeAccessor 包裹（R3）`);
+    }
+    if (new RegExp(`scui-${name}--`).test(t310Styles[name] + t310Impl[name])) {
+      fail(`${name} 出现 modifier class（R1）`);
+    }
+  }
+  if (!t310DataAttrs.includes('| `data-scui-color` |')) {
+    fail('data-scui-color 未登记进 data-attributes.md：Button 一直在输出、登记表此前缺漏');
+  }
+  if (!/data-scui-loading`[^\n]*Select \/ Table \/ Card/.test(t310DataAttrs)) {
+    fail('data-scui-loading 登记表未补 Card 复用');
+  }
+  if (!/data-scui-bordered`[^\n]*Table \/ Tag/.test(t310DataAttrs)) {
+    fail('data-scui-bordered 登记表未补 Tag 复用');
+  }
+  if (
+    !t310DataAttrs.includes('`card` / `card-cover`') ||
+    !t310DataAttrs.includes('`tag` / `tag-content`')
+  ) {
+    fail('Card / Tag 的结构锚点未登记进 role 表');
+  }
+
+  // ⑦ 接线：barrel / 四条件 exports / catalog / Demo / 两个 SSR 入口。
+  for (const name of ['card', 'tag']) {
+    if (!t310Barrel.includes(`from './components/${name}'`)) {
+      fail(`${name} 未进 src/index.ts barrel`);
+    }
+    if (!t310Pkg.includes(`"./${name}"`)) {
+      fail(`${name} 缺少 package.json 四条件 exports`);
+    }
+    if (!t310Catalog.includes(`slug: '${name}'`)) {
+      fail(`${name} 未登记进 catalog.mjs`);
+    }
+    if (!existsSync(join(componentsDir, name, '__tests__', 'ssr-entry.tsx'))) {
+      fail(`${name} 缺少 SSR 入口文件`);
+    }
+    if (!t310Smoke.includes(`id: 'T3-10-${name}'`)) {
+      fail(`T3-10 的 SSR 入口 ${name} 未登记进 ssr-smoke.mjs`);
+    }
+  }
+  if (
+    !/slug: 'card'[\s\S]{0,240}category: '数据'/.test(t310Catalog) ||
+    !/slug: 'tag'[\s\S]{0,240}category: '数据'/.test(t310Catalog)
+  ) {
+    fail('Card / Tag 的 catalog 分类不是「数据」：冻结面 §2.3 归数据展示');
+  }
+  const t310Demos = { card: ['basic', 'cover', 'loading'], tag: ['basic', 'closable', 'bordered'] };
+  for (const [name, files] of Object.entries(t310Demos)) {
+    for (const file of files) {
+      if (!existsSync(join(componentsDir, name, 'demos', `${file}.tsx`))) {
+        fail(`${name} 缺少 Demo ${file}：§4.2 要求各 ≥3 Demo`);
+      }
+    }
+    if (!t310Catalog.includes(`exportPath: 'solid-craft/${name}'`)) {
+      fail(`${name} 缺少 catalog exportPath`);
+    }
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -1217,7 +1416,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '243e5b40c27332429c297e35025592ae6a4c2b995dfb052e5be3e7d72fb8d8ef';
+const FONT_SHA256 = 'e8f8c7be2d14e17335dc57f78f1b0fc332a890c532ba04e24c1e63c9884bbf3e';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -1508,5 +1707,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
 );

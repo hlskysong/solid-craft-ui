@@ -8,10 +8,11 @@
 | 属性 | 取值 | 语义 | 适用组件 |
 | --- | --- | --- | --- |
 | `data-scui-size` | `small \| medium \| large` | 尺寸，默认 `medium`；禁止 `sm` / `md` | Select / DatePicker / Form / Table / Pagination / Modal / Drawer |
+| `data-scui-color` | `primary \| neutral \| success \| warning \| danger` | **控件的配色语义**，恒输出（Button 默认 `primary`、Tag 默认 `neutral`）；与 `demos/shared.tsx` 的 `COLORS` 同口径。AGENTS.md 硬约束 3 早就把「颜色」指派给 `-color`，Button 自 T1 起一直在输出，本行是 T3-10 补齐的**登记表缺漏**（此前只写在代码里）。刻意不复用 `data-scui-kind`（反馈语义类型，取值含 `info` / `loading`）或 `data-scui-variant`（Skeleton 骨架形状）——同名不同义违反 R1（T3-10） | Button / Tag |
 | `data-scui-disabled` | `''`（存在即真） | 禁用态，配合原生 `disabled` / `aria-disabled` | 全部 |
 | `data-scui-invalid` | `'true' \| 'false'` | 校验失败；SSR 也输出，避免 hydration 属性差 | Form |
 | `data-scui-open` | `''` | 弹层展开 | Select / DatePicker |
-| `data-scui-loading` | `''`（存在即真） | 加载态：弹层只显示加载提示、触发器置 `aria-busy="true"`；与 `data-scui-open` 同属「存在即真」口径。Table 复用同一口径，落在滚动容器上 | Select / Table |
+| `data-scui-loading` | `''`（存在即真） | 加载态：弹层只显示加载提示、触发器置 `aria-busy="true"`；与 `data-scui-open` 同属「存在即真」口径。Table 复用同一口径，落在滚动容器上；Card 同样复用（T3-10），落在卡片根节点上，正文换成组合进来的 `Skeleton`，不自建第二套骨架 | Select / Table / Card |
 | `data-scui-auto-size` | `''`（存在即真） | 自动高度生效中（关闭拖拽手柄，高度由 JS 写内联值） | Input（Textarea） |
 | `data-scui-count` | `''`（存在即真） | 字数统计显示中（页脚留位） | Input（Textarea） |
 | `data-scui-role` | 见下表 | 结构定位（测试/样式锚点），**不表达状态** | 全部 |
@@ -35,7 +36,7 @@
 | `data-scui-sort` | `asc \| desc` | 当前列排序方向；落在参与排序的 `<th>` 上（T3-02） | Table |
 | `data-scui-sort-key` | 列 key | 排序列标识 | Table |
 | `data-scui-density` | `comfortable \| default \| compact` | 单元格内距档：16 / 16、12 / 12（默认）、8 / 8；与 `data-scui-size`（行高档）正交 | Table |
-| `data-scui-bordered` | `''`（存在即真） | 外边框与列分隔线开关 | Table |
+| `data-scui-bordered` | `''`（存在即真） | 外边框开关；Table 用它同时控制外边框与列分隔线，Tag 复用同一语义只控制自身外边框（T3-10）。边框恒占 1px、关掉时是透明色，因此开关前后尺寸不变 | Table / Tag |
 | `data-scui-align` | `left \| center \| right` | 列水平对齐；表头与正文同源输出，恒有值 | Table |
 | `data-scui-row-key` | 行键字符串 | 行定位锚点；`rowKey` 缺省时按行序号兜底，供后续选择 / 展开使用 | Table |
 | `data-scui-filtered` | `''`（存在即真） | 当前列有生效的筛选值，落在 `<th>` 上（T3-02） | Table |
@@ -76,6 +77,9 @@
 | `tooltip` / `tooltip-trigger` / `tooltip-arrow` | Tooltip | 结构锚点（T3-09）：`tooltip` 是 `role="tooltip"` 的内容根节点，与 `tooltip-arrow` 都由 `primitives/anchored` 的 Portal 在客户端挂载、**SSR 零输出**；`tooltip-trigger` 是 SSR 也输出的静态触发按钮，承载 `data-scui-anchor` 的同源方向真源 |
 | `popconfirm` / `popconfirm-trigger` / `popconfirm-title` / `popconfirm-description` / `popconfirm-footer` / `popconfirm-arrow` | Popconfirm | 结构锚点（T3-09）：`popconfirm` 是 `role="dialog"` 的内容根节点（承载 `data-scui-anchor` / `data-scui-pending`），与标题 / 描述 / 操作区 / 箭头同由 `primitives/anchored` 的 Portal 在客户端挂载、**SSR 零输出**；`popconfirm-trigger` 是 SSR 静态触发按钮 |
 | `alert-page` / `tooltip-page` / `popconfirm-page` | Alert / Tooltip / Popconfirm（SSR 入口专用） | T3-09 三个 `ssr-entry.tsx` 的页面容器锚点，不是组件输出；触发按钮沿用上一行的 `*-trigger` 角色。验打开态 / 四方向 / 异步回调在服务端渲染期不访问 DOM、不抛错。同样不写 forbid 假判据 |
+| `card` / `card-cover` / `card-header` / `card-title` / `card-extra` / `card-body` | Card | 结构锚点（T3-10）：内联渲染、**SSR 全量输出**；`card-cover` / `card-header` 按是否传内容整块缺席，`card-title` / `card-extra` 各自独立缺席但共享同一个 `card-header`。加载时 `card-body` 内的子节点换成 `skeleton`（沿用 T3-05 的角色值，不另起 `card-skeleton`）。根节点承载 `data-scui-loading` |
+| `tag` / `tag-content` / `tag-close` | Tag | 结构锚点（T3-10）：内联渲染、**SSR 全量输出**；`tag-close` 只在 `closable` 为真时输出且恒带 `aria-label`。根节点恒输出 `data-scui-color`，`data-scui-bordered` 是存在即真的可选项。关闭只改 DOM 不引入新状态属性 |
+| `card-page` / `card-trigger` / `tag-page` / `tag-trigger` | Card / Tag（SSR 入口专用） | T3-10 两个 `ssr-entry.tsx` 的页面容器与静态触发按钮锚点，不是组件输出。验三张卡片（含加载态）与五个标签（含边框 / 可关闭）在服务端渲染期不访问 DOM、不抛错。同样不写 forbid 假判据 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
 | `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |

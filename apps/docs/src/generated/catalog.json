@@ -27,7 +27,9 @@
     "drawer",
     "alert",
     "tooltip",
-    "popconfirm"
+    "popconfirm",
+    "card",
+    "tag"
   ],
   "components": [
     {
@@ -849,6 +851,62 @@
           "path": "packages/core/src/components/popconfirm/demos/placement.tsx",
           "title": "定位与文案覆盖",
           "description": "四向 placement 由 Floating UI 负责翻转；okText / cancelText 与 arrow 开关都只影响展示，不改变异步确认协议。"
+        }
+      ]
+    },
+    {
+      "slug": "card",
+      "title": "Card 卡片",
+      "category": "数据",
+      "description": "标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。",
+      "exportPath": "solid-craft/card",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/card/demos/basic.tsx",
+          "title": "标题与操作区",
+          "description": "表头由 title 与 extra 两块组成，任一块不传就整块缺席；操作区可放任意节点，这里用 Button。"
+        },
+        {
+          "name": "cover",
+          "path": "packages/core/src/components/card/demos/cover.tsx",
+          "title": "封面",
+          "description": "cover 位于表头之上、圆角内裁剪；传 <img> 时样式自动铺满，也可以直接放自定义块。"
+        },
+        {
+          "name": "loading",
+          "path": "packages/core/src/components/card/demos/loading.tsx",
+          "title": "加载态",
+          "description": "loading 为真时正文换成 T3-05 的 Skeleton，表头与封面照常占位；切换前后卡片高度不抖动。"
+        }
+      ]
+    },
+    {
+      "slug": "tag",
+      "title": "Tag 标签",
+      "category": "数据",
+      "description": "五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。",
+      "exportPath": "solid-craft/tag",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/tag/demos/basic.tsx",
+          "title": "五档配色",
+          "description": "data-scui-color 恒输出，取值与 Button 完全同口径；文本恒用深色，配色只影响浅色背景与边框，避免高饱和色铺满整个标签。"
+        },
+        {
+          "name": "bordered",
+          "path": "packages/core/src/components/tag/demos/bordered.tsx",
+          "title": "边框开关",
+          "description": "data-scui-bordered 存在即真。边框恒占 1px，关闭时只是透明色，因此开关前后标签高度不变、不抖动。"
+        },
+        {
+          "name": "closable",
+          "path": "packages/core/src/components/tag/demos/closable.tsx",
+          "title": "可关闭",
+          "description": "关闭是非受控的：组件自己移除 DOM 并发一次 onClose。关闭按钮恒带 aria-label，可用 closeLabel 覆盖。"
         }
       ]
     }

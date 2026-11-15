@@ -553,6 +553,103 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     }
   });
 
+  // T3-10：Card 的四块结构 + 加载态。只断言 data-scui-loading 会漏掉「骨架没接上」，
+  // 所以同时验 Skeleton 角色真的出现在 body 里、children 真的被换掉；再用
+  // boundingBox 量切换前后的卡片高度差 ≤ 2px，把「加载不抖动」变成实测而非文案。
+  test('Card 结构缺席规则与加载态组合 Skeleton 不抖动', async ({ page }) => {
+    await page.goto('/components/card/basic?standalone=1');
+    await expect(page.locator('[data-scui-role="card"]')).toHaveCount(3);
+    await expect(page.locator('[data-scui-role="card-cover"]')).toHaveCount(0);
+    await expect(page.locator('[data-scui-role="card-header"]')).toHaveCount(2);
+    await expect(page.locator('[data-scui-role="card-extra"]')).toHaveCount(1);
+
+    await page.goto('/components/card/cover?standalone=1');
+    await expect(page.locator('[data-scui-role="card-cover"]')).toHaveCount(2);
+    await expect(page.locator('[data-scui-role="card-header"]')).toHaveCount(1);
+
+    await page.goto('/components/card/loading?standalone=1');
+    const card = page.getByTestId('card-loading-target');
+    await expect(card).toHaveAttribute('data-scui-loading', '');
+    await expect(card.locator('[data-scui-role="skeleton"]')).toHaveCount(1);
+    await expect(card.locator('[data-scui-role="skeleton-line"]')).toHaveCount(3);
+    const loadingBox = await card.boundingBox();
+
+    await page.getByRole('button', { name: '切换加载状态' }).click();
+    await expect(page.getByTestId('card-loading-log')).toHaveText('当前状态：已加载');
+    expect(await card.getAttribute('data-scui-loading')).toBeNull();
+    await expect(card.locator('[data-scui-role="skeleton"]')).toHaveCount(0);
+    await expect(card).toContainText('第一行：主通风机 2 台');
+    const loadedBox = await card.boundingBox();
+    expect(
+      Math.abs((loadingBox?.height ?? 0) - (loadedBox?.height ?? 0)),
+      '加载态与正文态卡片高度应一致',
+    ).toBeLessThanOrEqual(2);
+  });
+
+  // T3-10：375px 只做「不溢出、不截断关键信息」冒烟（docs/06 §5.3）。
+  test('Card 封面与操作区在 375px 不横向溢出', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto('/components/card/cover?standalone=1');
+    const cards = page.locator('[data-scui-role="card"]');
+    const count = await cards.count();
+    expect(count).toBeGreaterThan(0);
+    for (let index = 0; index < count; index += 1) {
+      const box = await cards.nth(index).boundingBox();
+      expect(box?.x ?? -1).toBeGreaterThanOrEqual(-1);
+      expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(376);
+    }
+  });
+
+  // T3-10：五档颜色必须同时改属性与真实配色；只改属性而样式没接上是死代码。
+  // bordered 用 computed style 验「开=accent 实色、关=transparent」，并验恒占 1px。
+  test('Tag 五档配色与边框开关在真实样式上生效', async ({ page }) => {
+    await page.goto('/components/tag/bordered?standalone=1');
+    const colors = ['primary', 'neutral', 'success', 'warning', 'danger'];
+    const backgrounds: string[] = [];
+    for (const color of colors) {
+      const on = page.getByTestId(`tag-on-${color}`);
+      const off = page.getByTestId(`tag-off-${color}`);
+      await expect(on).toHaveAttribute('data-scui-color', color);
+      await expect(on).toHaveAttribute('data-scui-bordered', '');
+      await expect(off).toHaveAttribute('data-scui-color', color);
+      expect(await off.getAttribute('data-scui-bordered')).toBeNull();
+      backgrounds.push(await off.evaluate((element) => getComputedStyle(element).backgroundColor));
+    }
+    expect(new Set(backgrounds).size, '五档配色应产生不同的浅色背景').toBeGreaterThanOrEqual(4);
+
+    const onBorder = await page
+      .getByTestId('tag-on-primary')
+      .evaluate((element) => getComputedStyle(element).borderTopColor);
+    const offBorder = await page
+      .getByTestId('tag-off-primary')
+      .evaluate((element) => getComputedStyle(element).borderTopColor);
+    expect(onBorder).not.toBe(offBorder);
+    expect(offBorder).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
+    const width = await page
+      .getByTestId('tag-off-primary')
+      .evaluate((element) => getComputedStyle(element).borderTopWidth);
+    expect(width).toBe('1px');
+  });
+
+  // T3-10：可关闭既要点击路径也要键盘路径，并且关闭按钮恒带可读名称。
+  test('Tag 可关闭：点击与 Enter 两条路径都只计一次', async ({ page }) => {
+    await page.goto('/components/tag/closable?standalone=1');
+    await expect(page.locator('[data-scui-role="tag"]')).toHaveCount(4);
+    await expect(page.locator('[data-scui-role="tag-close"]')).toHaveCount(3);
+
+    await page.locator('[data-scui-role="tag-close"]').first().click();
+    await expect(page.getByTestId('tag-close-count')).toHaveText('累计关闭 1 次');
+    await expect(page.locator('[data-scui-role="tag"]')).toHaveCount(3);
+
+    const keyboardTarget = page.getByRole('button', { name: '移除已通过标签' });
+    await keyboardTarget.focus();
+    await expect(keyboardTarget).toBeFocused();
+    expect(await keyboardTarget.getAttribute('aria-label')).toBe('移除已通过标签');
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('tag-close-count')).toHaveText('累计关闭 2 次');
+    await expect(page.locator('[data-scui-role="tag"]')).toHaveCount(2);
+  });
+
   // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
   // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
   // 用真实浏览器把「载入编辑 → 改值 → 提交校验 → 切回新增」整链跑一遍。
@@ -898,6 +995,61 @@ test.describe('A11y 链：axe 扫描', () => {
     );
     console.log(
       `[axe] popconfirm/open: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
+  // T3-10：Card 加载态里骨架是 aria-busy 的装饰块，封面是无 alt 的装饰渐变，
+  // 单独点名验「加载 + 封面同页」不出现 serious / critical。
+  test('Card 加载态与封面无 serious / critical 违规', async ({ page }) => {
+    await page.goto('/components/card/loading?standalone=1');
+    await expect(page.locator('[data-scui-role="skeleton"]')).toHaveCount(1);
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] card/loading: ${results.violations.length} violations ${results.violations
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+        .join(', ')}`,
+    );
+    for (const violation of serious) {
+      for (const node of violation.nodes.slice(0, 4)) {
+        const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+        console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+      }
+    }
+    expect(
+      serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
+    ).toEqual([]);
+  });
+
+  // T3-10：五档浅色背景 + 深色文本必须满足对比度；可关闭按钮要有可读名称。
+  test('Tag 五档配色与可关闭按钮无 serious / critical 违规', async ({ page }) => {
+    await page.goto('/components/tag/closable?standalone=1');
+    await expect(page.locator('[data-scui-role="tag-close"]')).toHaveCount(3);
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+      .analyze();
+    const serious = results.violations.filter(
+      (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+    );
+    console.log(
+      `[axe] tag/closable: ${results.violations.length} violations ${results.violations
         .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
         .join(', ')}`,
     );

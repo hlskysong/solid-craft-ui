@@ -63,6 +63,8 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./alert` → [solid-craft/alert](../exports/alert.md)
 - `./tooltip` → [solid-craft/tooltip](../exports/tooltip.md)
 - `./popconfirm` → [solid-craft/popconfirm](../exports/popconfirm.md)
+- `./card` → [solid-craft/card](../exports/card.md)
+- `./tag` → [solid-craft/tag](../exports/tag.md)
 - `./config-provider` → [solid-craft/config-provider](../exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](../exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](../exports/styles.md)

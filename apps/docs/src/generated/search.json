@@ -3759,6 +3759,139 @@
     "href": "/components/popconfirm#api-class"
   },
   {
+    "type": "component",
+    "title": "Card 卡片",
+    "description": "标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。",
+    "keywords": "card solid-craft/card",
+    "href": "/components/card"
+  },
+  {
+    "type": "demo",
+    "title": "Card 卡片 · 标题与操作区",
+    "description": "表头由 title 与 extra 两块组成，任一块不传就整块缺席；操作区可放任意节点，这里用 Button。",
+    "keywords": "card basic",
+    "href": "/components/card/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Card 卡片 · 封面",
+    "description": "cover 位于表头之上、圆角内裁剪；传 <img> 时样式自动铺满，也可以直接放自定义块。",
+    "keywords": "card cover",
+    "href": "/components/card/cover"
+  },
+  {
+    "type": "demo",
+    "title": "Card 卡片 · 加载态",
+    "description": "loading 为真时正文换成 T3-05 的 Skeleton，表头与封面照常占位；切换前后卡片高度不抖动。",
+    "keywords": "card loading",
+    "href": "/components/card/loading"
+  },
+  {
+    "type": "api",
+    "title": "CardProps.title",
+    "description": "卡片标题；省略时整块表头按 `extra` 是否存在决定，二者都不传则表头整块缺席。",
+    "keywords": "card JSX.Element",
+    "href": "/components/card#api-title"
+  },
+  {
+    "type": "api",
+    "title": "CardProps.extra",
+    "description": "表头右侧操作区；不传时整块不渲染，不留空盒子。",
+    "keywords": "card JSX.Element",
+    "href": "/components/card#api-extra"
+  },
+  {
+    "type": "api",
+    "title": "CardProps.cover",
+    "description": "封面，位于表头之上；常放 `<img>` 或自定义渐变块。",
+    "keywords": "card JSX.Element",
+    "href": "/components/card#api-cover"
+  },
+  {
+    "type": "api",
+    "title": "CardProps.loading",
+    "description": "加载态。为 `true` 时根节点输出 `data-scui-loading`，正文换成 `Skeleton`； 表头与封面照常渲染，避免加载前后整张卡片跳动。",
+    "keywords": "card boolean",
+    "href": "/components/card#api-loading"
+  },
+  {
+    "type": "api",
+    "title": "CardProps.children",
+    "description": "卡片正文；`loading` 为真时不被渲染。",
+    "keywords": "card JSX.Element",
+    "href": "/components/card#api-children"
+  },
+  {
+    "type": "component",
+    "title": "Tag 标签",
+    "description": "五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。",
+    "keywords": "tag solid-craft/tag",
+    "href": "/components/tag"
+  },
+  {
+    "type": "demo",
+    "title": "Tag 标签 · 五档配色",
+    "description": "data-scui-color 恒输出，取值与 Button 完全同口径；文本恒用深色，配色只影响浅色背景与边框，避免高饱和色铺满整个标签。",
+    "keywords": "tag basic",
+    "href": "/components/tag/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Tag 标签 · 边框开关",
+    "description": "data-scui-bordered 存在即真。边框恒占 1px，关闭时只是透明色，因此开关前后标签高度不变、不抖动。",
+    "keywords": "tag bordered",
+    "href": "/components/tag/bordered"
+  },
+  {
+    "type": "demo",
+    "title": "Tag 标签 · 可关闭",
+    "description": "关闭是非受控的：组件自己移除 DOM 并发一次 onClose。关闭按钮恒带 aria-label，可用 closeLabel 覆盖。",
+    "keywords": "tag closable",
+    "href": "/components/tag/closable"
+  },
+  {
+    "type": "api",
+    "title": "TagProps.color",
+    "description": "配色，恒输出为 `data-scui-color`。",
+    "keywords": "tag TagColor",
+    "href": "/components/tag#api-color"
+  },
+  {
+    "type": "api",
+    "title": "TagProps.bordered",
+    "description": "是否显示外边框；为真时输出存在即真的 `data-scui-bordered`。 边框恒占 1px（无边框时用透明色），切换不抖动。",
+    "keywords": "tag boolean",
+    "href": "/components/tag#api-bordered"
+  },
+  {
+    "type": "api",
+    "title": "TagProps.closable",
+    "description": "是否可关闭；为真时尾部多一个带 `aria-label` 的按钮。",
+    "keywords": "tag boolean",
+    "href": "/components/tag#api-closable"
+  },
+  {
+    "type": "api",
+    "title": "TagProps.closeLabel",
+    "description": "关闭按钮的无障碍文案。 @default '关闭标签'",
+    "keywords": "tag string",
+    "href": "/components/tag#api-closeLabel"
+  },
+  {
+    "type": "api",
+    "title": "TagProps.onClose",
+    "description": "点击关闭后触发；组件内部同时移除自身 DOM（与 Alert 一致的非受控口径）。",
+    "keywords": "tag () => void",
+    "href": "/components/tag#api-onClose"
+  },
+  {
+    "type": "api",
+    "title": "TagProps.children",
+    "description": "标签文案。",
+    "keywords": "tag JSX.Element",
+    "href": "/components/tag#api-children"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

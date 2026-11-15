@@ -234,6 +234,24 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/popconfirm',
     hasApi: true,
   },
+  {
+    slug: 'card',
+    title: 'Card 卡片',
+    category: '数据',
+    description:
+      '标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。',
+    exportPath: 'solid-craft/card',
+    hasApi: true,
+  },
+  {
+    slug: 'tag',
+    title: 'Tag 标签',
+    category: '数据',
+    description:
+      '五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。',
+    exportPath: 'solid-craft/tag',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

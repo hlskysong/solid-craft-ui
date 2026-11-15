@@ -1,0 +1,54 @@
+{
+  "slug": "tag",
+  "source": "packages/core/src/components/tag/types.ts",
+  "interfaces": [
+    {
+      "name": "TagProps",
+      "inherits": "Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'children' | 'color'>",
+      "props": [
+        {
+          "name": "color",
+          "type": "TagColor",
+          "optional": true,
+          "description": "配色，恒输出为 `data-scui-color`。",
+          "default": "'neutral'"
+        },
+        {
+          "name": "bordered",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否显示外边框；为真时输出存在即真的 `data-scui-bordered`。 边框恒占 1px（无边框时用透明色），切换不抖动。",
+          "default": "false"
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否可关闭；为真时尾部多一个带 `aria-label` 的按钮。",
+          "default": "false"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "optional": true,
+          "description": "关闭按钮的无障碍文案。 @default '关闭标签'",
+          "default": null
+        },
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "optional": true,
+          "description": "点击关闭后触发；组件内部同时移除自身 DOM（与 Alert 一致的非受控口径）。",
+          "default": null
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "标签文案。",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

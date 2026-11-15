@@ -53,6 +53,8 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/alert` → Alert 警告提示：页内常驻反馈条：四种语义类型、标题与描述、可关闭、右侧操作区；操作区可直接调用 T2-06 的全局 message 通道，SSR 只输出静态骨架。
 - `solid-craft/tooltip` → Tooltip 文字提示：锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。
 - `solid-craft/popconfirm` → Popconfirm 气泡确认：锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。
+- `solid-craft/card` → Card 卡片：标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。
+- `solid-craft/tag` → Tag 标签：五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 

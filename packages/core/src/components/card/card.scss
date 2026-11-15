@@ -1,0 +1,71 @@
+@use '../button/button';
+@use '../skeleton/skeleton';
+
+/* Card（T3-10）
+   四块结构：封面 -> 表头（标题 + 操作区）-> 正文。加载时只把正文换成 Skeleton，
+   表头与封面照常占位，卡片才不会在「标题先到、内容后到」时整块跳动。
+   build-css.mjs 按目录逐个出 CSS、不做依赖聚合，所以这里必须自己把 button /
+   skeleton 的样式带进 card.css，否则操作区按钮与骨架会变成裸元素。 */
+
+:where(.scui-card) {
+  box-sizing: border-box;
+  inline-size: 100%;
+  overflow: hidden;
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-radius-3, 8px);
+  background-color: var(--scui-color-bg-surface);
+  color: var(--scui-color-text-primary);
+  font-size: var(--scui-font-size-md, 14px);
+  line-height: var(--scui-line-height-md, 22px);
+
+  /* 加载态不是纯装饰：正文换成骨架后仍要占住三行高度，切换前后零抖动。 */
+  &[data-scui-loading] .scui-card__body {
+    min-block-size: calc(var(--scui-line-height-md, 22px) * 3);
+  }
+}
+
+:where(.scui-card__cover) {
+  overflow: hidden;
+  background-color: var(--scui-color-neutral-50);
+
+  & > img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+}
+
+:where(.scui-card__header) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scui-space-2, 8px);
+  padding: var(--scui-space-3, 12px) var(--scui-space-6, 16px);
+  border-block-end: 1px solid var(--scui-color-border-default);
+}
+
+:where(.scui-card__title) {
+  min-inline-size: 0;
+  font-size: var(--scui-font-size-lg, 16px);
+  font-weight: var(--scui-font-weight-medium, 600);
+}
+
+:where(.scui-card__extra) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+}
+
+:where(.scui-card__body) {
+  min-inline-size: 0;
+  padding: var(--scui-space-6, 16px);
+}
+
+@media (width <= 480px) {
+  :where(.scui-card__header),
+  :where(.scui-card__body) {
+    padding: var(--scui-space-3, 12px);
+  }
+}

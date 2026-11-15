@@ -1,0 +1,77 @@
+@use 'mixins' as m;
+
+/* Tag（T3-10）
+   五档配色只改 --scui-tag-accent 一个变量，边框 / 浅色背景全部由它派生：
+   docs/03 §4.5 要求「表格中的状态标签用浅色背景 + 深色文本」，所以文本恒用
+   text-primary，不用语义色本身做字色（warning 的浅黄做字色会掉到对比度线下）。
+   边框恒占 1px，bordered 只是把 transparent 换成 accent —— 切换不抖动。 */
+
+:where(.scui-tag) {
+  --scui-tag-accent: var(--scui-color-text-secondary);
+
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: var(--scui-space-1, 4px);
+  max-inline-size: 100%;
+  min-block-size: 24px;
+  padding-inline: var(--scui-space-2, 8px);
+  border: 1px solid transparent;
+  border-radius: var(--scui-radius-1, 4px);
+  background-color: color-mix(in srgb, var(--scui-tag-accent) 14%, var(--scui-color-bg-surface));
+  color: var(--scui-color-text-primary);
+  font-size: var(--scui-font-size-sm, 13px);
+  line-height: var(--scui-line-height-md, 22px);
+
+  &[data-scui-color='primary'] {
+    --scui-tag-accent: var(--scui-color-primary);
+  }
+
+  &[data-scui-color='neutral'] {
+    --scui-tag-accent: var(--scui-color-text-secondary);
+  }
+
+  &[data-scui-color='success'] {
+    --scui-tag-accent: var(--scui-color-success, var(--scui-color-primary));
+  }
+
+  &[data-scui-color='warning'] {
+    --scui-tag-accent: var(--scui-color-warning, var(--scui-color-primary));
+  }
+
+  &[data-scui-color='danger'] {
+    --scui-tag-accent: var(--scui-color-danger, var(--scui-color-primary));
+  }
+
+  &[data-scui-bordered] {
+    border-color: var(--scui-tag-accent);
+  }
+}
+
+:where(.scui-tag__content) {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+:where(.scui-tag__close) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--scui-radius-1, 4px);
+  background: transparent;
+  color: var(--scui-color-text-secondary);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--scui-color-text-primary);
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
