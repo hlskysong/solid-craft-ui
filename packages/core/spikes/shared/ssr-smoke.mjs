@@ -847,6 +847,41 @@ const cases = [
       ['data-scui-bordered=""', 1],
     ],
   },
+  {
+    // T3-12：CRUD 列表页组合 Demo 的静态骨架。查询表单 / 工具栏 / 带分页 Table /
+    // 新增·编辑表单四块在服务端首帧就齐全；Modal 与 Popconfirm 的 Portal 只在客户端
+    // onMount 后挂载，因此 counts 锁 0（不写 forbid 假判据）。
+    id: 'T3-12',
+    file: '/src/components/table/__tests__/ssr-crud-list.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-testid="crud-ssr-page"',
+      'data-scui-role="form"',
+      'data-scui-role="form-item"',
+      'data-scui-role="table-root"',
+      'data-scui-role="table-footer"',
+      'data-scui-role="input"',
+      'data-scui-role="input-number"',
+      'data-scui-role="select"',
+      'aria-label="计划查询"',
+      'aria-label="维简设备采购计划列表"',
+      'aria-label="采购计划表单"',
+      '主井提升机变频改造',
+      '已审批',
+    ],
+    counts: [
+      ['data-testid="crud-ssr-page"', 1],
+      ['data-scui-role="form"', 2],
+      ['data-scui-role="form-item"', 4],
+      ['data-scui-role="table-root"', 1],
+      ['data-scui-role="table-footer"', 1],
+      ['data-scui-role="input"', 2],
+      ['data-scui-role="input-number"', 1],
+      ['data-scui-role="select"', 1],
+      ['data-scui-role="modal"', 0],
+      ['data-scui-role="popconfirm-trigger"', 0],
+    ],
+  },
 ];
 
 const errors = [];

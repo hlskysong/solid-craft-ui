@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 151,
+  "pageCount": 152,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -521,6 +521,11 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/table-crud-list.md",
+      "title": "# Table 表格 · CRUD 列表页（查询 / 新增 / 编辑 / 删除）（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/table-density.md",
       "title": "# Table 表格 · 密度档位（源码）",
       "kind": "demos"
@@ -907,6 +912,7 @@
     "llms/demos/range-picker-format.md",
     "llms/demos/table-basic.md",
     "llms/demos/table-borders.md",
+    "llms/demos/table-crud-list.md",
     "llms/demos/table-density.md",
     "llms/demos/table-empty-loading.md",
     "llms/demos/table-filtering.md",

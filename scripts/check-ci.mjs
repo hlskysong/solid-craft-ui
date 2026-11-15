@@ -1592,6 +1592,199 @@ if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
   }
 }
 
+// 4o. T3-12 CRUD 列表页组合契约（§30.46）。§4.2 验收原话「一页真实列表页可独立开发；
+// 新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐」。
+// 组合 Demo 落在 table/demos/ 而不是新建 catalog 条目（与 form/demos/real-form.tsx 同口径）：
+// generate-docs 的双向校验与判据 11 的 AGGREGATE_SLUGS 都不为该 Demo 破例。
+// 一律先剥注释再匹配；判据同时钉「接线」「静态骨架」「四条链」三层，防止只摆组件不接事件。
+{
+  const stripT312Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const t312Dir = join(repoRoot, 'packages', 'core', 'src', 'components', 'table');
+  const t312DemoPath = join(t312Dir, 'demos', 'crud-list.tsx');
+  const t312SsrPath = join(t312Dir, '__tests__', 'ssr-crud-list.tsx');
+  const t312Smoke = read(join(repoRoot, 'packages', 'core', 'spikes', 'shared', 'ssr-smoke.mjs'));
+  const t312Browser = read(join(repoRoot, 'tests', 'e2e', 'specs', 'browser.spec.ts'));
+  const t312Catalog = read(join(repoRoot, 'apps', 'docs', 'src', 'content', 'catalog.mjs'));
+  const t312Pkg = read(join(repoRoot, 'packages', 'core', 'package.json'));
+  const t312Governance = read(join(repoRoot, 'scripts', 'todo-governance.json'));
+  const t312Todo = read(join(repoRoot, 'docs', '08-实施Todo.md'));
+
+  // ① 组合页在册：单点 meta、默认导出、真的跨组件引入，而不是单组件示例。
+  if (!existsSync(t312DemoPath)) {
+    fail('T3-12 缺少 CRUD 列表页组合 Demo：table/demos/crud-list.tsx');
+  } else {
+    const t312Demo = stripT312Comments(read(t312DemoPath));
+    if (!/export const demo = \{[\s\S]*?title:[\s\S]*?description:/.test(t312Demo)) {
+      fail('T3-12 组合 Demo 缺少 export const demo = { title, description }');
+    }
+    if (!/export default function CrudListDemo\(\)/.test(t312Demo)) {
+      fail('T3-12 组合 Demo 缺少默认导出函数 CrudListDemo');
+    }
+    const importBlock = t312Demo.split("from 'solid-craft'")[0] ?? '';
+    for (const symbol of [
+      'Table',
+      'Form',
+      'Input',
+      'InputNumber',
+      'Select',
+      'Button',
+      'Modal',
+      'Popconfirm',
+      'Tag',
+      'message',
+      'useForm',
+    ]) {
+      if (!new RegExp(`\\b${symbol}\\b`).test(importBlock)) {
+        fail(`T3-12 组合 Demo 未接入 ${symbol}：组合页必须真的跨组件，不是单组件示例`);
+      }
+    }
+
+    // ② 四条业务链接线 + 全局反馈：少了任何一条就是「摆了组件但没接事件」。
+    for (const [anchor, diagnosis] of [
+      ['onFinish={handleQuery}', '查询链未接 Form.onFinish'],
+      ['onOk={handleSubmit}', '新增 / 编辑提交未接 Modal.onOk'],
+      ['onOk={() => handleDelete(row)}', '删除确认未接 Popconfirm.onOk'],
+      ['onChange={handleTableChange}', '表格变更未走 Table 统一 onChange'],
+      ['void message.success', '操作反馈未接 T2-06 的全局 message'],
+      ['data-testid="crud-create"', '新增入口缺少 E2E 锚点'],
+      ['data-testid="crud-query-submit"', '查询入口缺少 E2E 锚点'],
+    ]) {
+      if (!t312Demo.includes(anchor)) {
+        fail(`T3-12 ${diagnosis}：源码里找不到 ${anchor}`);
+      }
+    }
+
+    // ③ onChange 三参必须被真的消费，避免只写 onChange={() => {}} 的假接线。
+    for (const token of ['change.pagination', 'change.sorter', 'change.filters']) {
+      if (!t312Demo.includes(token)) {
+        fail(`T3-12 的 Table onChange 未消费 ${token}：三参协议要在业务侧落地`);
+      }
+    }
+
+    // ④ R1 / R3：组合 Demo 只消费既有组件，不新造属性、不包 MaybeAccessor。
+    if (/data-scui-[a-z-]+\s*=\s*["'{]/.test(t312Demo)) {
+      fail('T3-12 组合 Demo 新造了 data-scui-* 属性：页面级 Demo 只用 data-testid 锚点（R1）');
+    }
+    if (t312Demo.includes('MaybeAccessor')) {
+      fail('T3-12 组合 Demo 出现 MaybeAccessor：函数型 prop 不得包裹（R3）');
+    }
+    if (/scui-[a-z]+--/.test(t312Demo)) {
+      fail('T3-12 组合 Demo 出现 modifier class（R1）');
+    }
+  }
+
+  // ⑤ 不新建 catalog 条目 / 不新增组件子路径：挂 table/demos 才不触发双向校验破例。
+  if (t312Catalog.includes("slug: 'crud-list'")) {
+    fail('T3-12 不该新增独立 catalog 条目：应复用 table/demos 落点（方案 A）');
+  }
+  if (t312Pkg.includes('"./crud-list"')) {
+    fail('T3-12 不该新增组件子路径 exports：组合 Demo 不是新组件');
+  }
+
+  // ⑥ SSR：独立静态骨架 + 在册 + 弹层 counts 锁 0，且不直接渲染 Demo 文件。
+  if (!existsSync(t312SsrPath)) {
+    fail('T3-12 缺少 SSR 入口 table/__tests__/ssr-crud-list.tsx');
+  } else {
+    const t312Ssr = stripT312Comments(read(t312SsrPath));
+    if (t312Ssr.includes('demos/crud-list')) {
+      fail('T3-12 的 SSR 入口直接渲染了交互 Demo：Portal 与全局 message 会破坏双渲确定性');
+    }
+    if (t312Ssr.includes('<Modal') || t312Ssr.includes('<Popconfirm')) {
+      fail('T3-12 的 SSR 入口挂了弹层组件：Portal 只在客户端 onMount 后挂载');
+    }
+    // 源码层只能验「真的用了这些组件」；data-scui-role 是渲染输出，由下面
+    // ssr-smoke 的 markers 契约 + 实跑双渲钉住，不在源码里找字符串冒充判据。
+    for (const token of [
+      'data-testid="crud-ssr-page"',
+      '<Form',
+      '<Table',
+      'aria-label="计划查询"',
+      'aria-label="维简设备采购计划列表"',
+      'aria-label="采购计划表单"',
+    ]) {
+      if (!t312Ssr.includes(token)) {
+        fail(`T3-12 的 SSR 静态骨架缺少 ${token}`);
+      }
+    }
+  }
+  if (!t312Smoke.includes("id: 'T3-12'")) {
+    fail('T3-12 的 SSR 入口未登记进 ssr-smoke.mjs（建了入口却没跑等于没有）');
+  }
+  if (!t312Smoke.includes("file: '/src/components/table/__tests__/ssr-crud-list.tsx'")) {
+    fail('T3-12 的 SSR 入口登记路径不对');
+  }
+  const t312Case = t312Smoke.split("id: 'T3-12'")[1]?.split('  },\n')[0] ?? '';
+  for (const marker of [
+    'data-scui-role="form"',
+    'data-scui-role="form-item"',
+    'data-scui-role="table-root"',
+    'data-scui-role="table-footer"',
+  ]) {
+    if (!t312Case.includes(marker)) {
+      fail(`T3-12 的 SSR markers 未覆盖渲染契约 ${marker}：入口建了但没验静态骨架`);
+    }
+  }
+  for (const lock of [
+    `['data-scui-role="modal"', 0]`,
+    `['data-scui-role="popconfirm-trigger"', 0]`,
+  ]) {
+    if (!t312Smoke.includes(lock)) {
+      fail('T3-12 的 SSR counts 未锁 0：Modal / Popconfirm 的 Portal 服务端零输出');
+    }
+  }
+
+  // ⑦ 生成物与视觉基线在册（判据 11 自动反算，这里点名两条固定产物）。
+  for (const file of [
+    join(repoRoot, 'apps', 'docs', 'src', 'generated', 'demos', 'table-crud-list.json'),
+    join(repoRoot, 'apps', 'docs', 'public', 'llms', 'demos', 'table-crud-list.md'),
+  ]) {
+    if (!existsSync(file)) {
+      fail(`T3-12 缺少生成物 ${file}：新增 Demo 必须跑 pnpm docs:generate`);
+    }
+  }
+  for (const width of [1280, 768]) {
+    if (
+      !existsSync(
+        join(
+          repoRoot,
+          'tests',
+          'e2e',
+          'baselines',
+          `light-ltr-default-table-crud-list-${width}.png`,
+        ),
+      )
+    ) {
+      fail(`T3-12 缺少 ${width}px 视觉基线：新增 Demo 须跑 pnpm test:visual:update`);
+    }
+  }
+
+  // ⑧ 四条 E2E 链与 axe 组合用例在册；375px 与 Demo axe 循环由 DEMO_CASES 自动覆盖。
+  for (const label of ['CRUD 查询', 'CRUD 新增', 'CRUD 编辑', 'CRUD 删除']) {
+    if (!t312Browser.includes(label)) {
+      fail(`T3-12 缺少手写 E2E 用例：${label}`);
+    }
+  }
+  if (!t312Browser.includes('CRUD 列表页无 serious / critical 违规')) {
+    fail('T3-12 缺少弹层打开态的 axe 组合用例');
+  }
+
+  // ⑨ 治理闭环：evidence / 落地记录 / 勾 [x] 三者同步（check:todo 已覆盖，这里呼应）。
+  if (!/"T3-12": "30\.46"/.test(t312Governance)) {
+    fail('T3-12 勾了 [x] 但 todo-governance.json 没有 evidence 30.46');
+  }
+  // 按标题行精确识别：§30.46 判据表里也写着 `### 30.46` 字面量，
+  // 用 includes 全文搜会被表格文字冒充（T3-04 / T3-05 的注释冒充坑同源）。
+  const t312Sections = t312Todo.split('\n').filter((line) => line.startsWith('### 30.46 '));
+  if (t312Sections.length !== 1) {
+    fail('T3-12 缺少 docs/08 §30.46 落地记录');
+  }
+  const t312Row = t312Todo.split('\n').find((line) => line.startsWith('| T3-12 |')) ?? '';
+  if (!t312Row.includes('[x]')) {
+    fail('T3-12 的 §4.2 主行尚未勾 [x]');
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -1677,7 +1870,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = 'd324bbbcedb9081899ba5b6e83d6eb33e7430647b6e15e25345fbe64985363b3';
+const FONT_SHA256 = '50b3d44496bdd80364c912bdbe9db0b505126e047d3e7a8a6ed57bdb13c9e942';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -1968,5 +2161,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· size-limit@${sizeLimit} + file 插件`,
 );

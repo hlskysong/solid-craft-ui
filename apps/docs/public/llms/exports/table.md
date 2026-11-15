@@ -497,6 +497,7 @@ export interface TableProps<T extends object> extends Omit<
 
 - [基础用法](../demos/table-basic.md)：列配置、数据、行键与自定义渲染；第二张表开启加载态，只落状态属性。（源文件 `packages/core/src/components/table/demos/basic.tsx`）
 - [边框与尺寸](../demos/table-borders.md)：bordered 开关与三档行高；表头和正文始终共用同一档字号。（源文件 `packages/core/src/components/table/demos/borders.tsx`）
+- [CRUD 列表页（查询 / 新增 / 编辑 / 删除）](../demos/table-crud-list.md)：一页真实列表页：Form 查询 + Table 三参 onChange + Modal 新增编辑 + Popconfirm 删除确认 + 静态 message 反馈，四条链路端到端可跑；只组合既有组件，不新增组件或属性。（源文件 `packages/core/src/components/table/demos/crud-list.tsx`）
 - [密度档位](../demos/table-density.md)：舒适、默认、紧凑三档单元格内距；密度只改内距，不改变行高与字号。（源文件 `packages/core/src/components/table/demos/density.tsx`）
 - [空态与加载态](../demos/table-empty-loading.md)：空数据复用 Empty 占位，加载中复用 Spin 遮罩且分页禁用；两者互斥，切换时表头与列宽不变，不产生布局抖动。（源文件 `packages/core/src/components/table/demos/empty-loading.tsx`）
 - [筛选](../demos/table-filtering.md)：内置下拉、自定义 filterDropdown 与服务端模式；服务端只带出参数，不改动本地数据。（源文件 `packages/core/src/components/table/demos/filtering.tsx`）

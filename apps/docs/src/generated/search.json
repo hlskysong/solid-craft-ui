@@ -2318,6 +2318,13 @@
   },
   {
     "type": "demo",
+    "title": "Table 表格 · CRUD 列表页（查询 / 新增 / 编辑 / 删除）",
+    "description": "一页真实列表页：Form 查询 + Table 三参 onChange + Modal 新增编辑 + Popconfirm 删除确认 + 静态 message 反馈，四条链路端到端可跑；只组合既有组件，不新增组件或属性。",
+    "keywords": "table crud-list",
+    "href": "/components/table/crud-list"
+  },
+  {
+    "type": "demo",
     "title": "Table 表格 · 密度档位",
     "description": "舒适、默认、紧凑三档单元格内距；密度只改内距，不改变行高与字号。",
     "keywords": "table density",

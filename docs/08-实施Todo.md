@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-12**（M3 第十二项「CRUD 列表页组合 Demo」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43` / `30.44` / `30.45`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`（均**未推送**）；T3-11 改动**尚未提交 / 推送**（Aming 本轮授权「继续」，默认只 commit 不 push） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-11「`Tabs` / `Descriptions`」改动，再开始 T3-12「CRUD 列表页组合 Demo」**：T3-11 键盘·焦点·ARIA 全部交给 Kobalte Tabs 原语、组件层零重复实现，`content` 惰性工厂让懒加载真的推迟节点创建；Descriptions 用原生 `dl`·`dt`·`dd`，新增 `data-scui-column`、复用 `variant` / `current` / `bordered` / `span`；判据 4n 与负向 N457~N541 85/85 已把八组契约机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 → T3-10 → T3-11 已闭合；**T3-13 `Upload` 与 T3-12 可并行**；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备（现已齐备）；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-13**（M3 第十三项「`Upload`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43` / `30.44` / `30.45` / `30.46`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`（均**未推送**）；T3-12 改动**尚未提交 / 推送**（Aming 本轮授权「继续」，默认只 commit 不 push） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-12「CRUD 列表页组合 Demo」改动，再开始 T3-13「`Upload`」**：T3-12 只组合既有组件，挂 `table/demos/crud-list.tsx` 复用 `form/demos/real-form.tsx` 的页面级 Demo 先例，不新建 catalog 条目 / 组件子路径 / `data-scui-*` 属性 / 依赖 / 组件；查询 / 新增 / 编辑 / 删除四条 E2E + 两态 axe 全绿，判据 4o 把「接线 / 静态骨架 / 治理闭环」三层机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 → T3-10 → T3-11 → T3-12 已闭合；**T3-13 `Upload` 是 M2 后移项，可与主链并行**；T3-14 须等 T3-12 / T3-13 齐备后最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -164,7 +164,7 @@
 | T3-09 | `Alert` / `Tooltip` / `Popconfirm` + 接入 T2-06 的 `Message` / `App` 宿主 | T2-01 / T2-06 | 工程师 C | Tooltip 定位 / 延迟 / 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR 不报错（**锚定浮层走新建 `primitives/anchored`、组件层零浮层实现 / 新增 `data-scui-anchor` 十二向 / 复用 `data-scui-kind`·`data-scui-pending` / 444 tests·37 files / SSR 28 入口 / 184 张基线 / 判据 4l + 负向 N313~N386 74/74 / `pnpm verify` RC=0**，见 §30.43） | [x] |
 | T3-10 | `Card` / `Tag`（S） | T2-13 | 工程师 C | Card 标题 / 操作 / 封面 / 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线（**复用 `data-scui-color` / `data-scui-loading` / `data-scui-bordered` 三个既有属性、只补 `-color` 的登记表缺漏；Card 加载态组合 `Skeleton` 且量切换前后高度差 ≤ 2px / Tag 边框恒 1px 不抖动 / 467 tests·39 files / SSR 30 入口 / 196 张基线 / 判据 4m + 负向 N387~N456 70/70 / `pnpm verify` RC=0**，见 §30.44） | [x] |
 | T3-11 | `Tabs` / `Descriptions`（M） | T2-13 | 工程师 B | Tabs 线型 / 卡片 / 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0（**键盘·焦点·ARIA 全交 `@kobalte/core/tabs` 原语单点输出、组件层零重复实现 / `content` 惰性工厂让懒加载真的推迟节点创建 / 线型激活态底部实色条 / Descriptions 用原生 `dl`·`dt`·`dd` 且 `column`·`span`·`bordered` 三层齐全 / 新增 `data-scui-column`、补登记 `data-scui-span` / 窄屏抬特异性后 375px 零溢出 / 493 tests·41 files / SSR 32 入口 / 208 张基线 / 判据 4n + 负向 N457~N541 85/85 / `pnpm verify` RC=0**，见 §30.45） | [x] |
-| T3-12 | **CRUD 列表页组合 Demo**：Table + Form 查询 + Modal 新增 / 编辑 + 删除确认 + 操作反馈端到端 | T3-06 / T3-07 / T3-09 / T3-11 | 技术负责人 | 一页真实列表页可独立开发；新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐 | [ ] |
+| T3-12 | **CRUD 列表页组合 Demo**：Table + Form 查询 + Modal 新增 / 编辑 + 删除确认 + 操作反馈端到端 | T3-06 / T3-07 / T3-09 / T3-11 | 技术负责人 | 一页真实列表页可独立开发；新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐（**挂 `table/demos/crud-list.tsx` 复用页面级组合 Demo 先例、不新建 catalog 条目 / 组件子路径 / 新属性 / 新依赖 / 新组件**；Form 查询 + Table 三参 onChange + Modal 异步 onOk + Popconfirm 删除 + 静态 message 五链接线；新增 5 条手写 E2E + 1 条两态 axe 组合用例，7/7 passed；SSR **33 入口**且 `T3-12` 14/14 markers + 10/10 counts、弹层 counts 锁 0；**210 张基线**新增 2 张且既有 208 张 SHA256 零变化；31 组件 / 105 Demo / 586 索引 / 字集 1019 码位；判据 4o + 负向 N542~N600 59/59 / `pnpm verify` RC=0**，见 §30.46） | [x] |
 | T3-13 | `Upload`（M2 后移项）：`customRequest`、进度、文件列表、删除 / 重试 | T2-08 / T2-09 | 工程师 C | 上传 / 删除 / 重试受控链路；SSR 静态骨架；零新增依赖；与 `Form.Item` 接入可用 | [ ] |
 | T3-14 | **体积预算 + M3 Exit 检查**：Table 预算实跑、每组件 ≥3 Demo、视觉基线全对齐、文档与 llms 生成物、里程碑散文记录 | T3-01 / T3-06 / T3-12 / T3-13 | 技术负责人 | `pnpm verify` RC=0；`check:ci` 判据 11 的 Demo 覆盖与基线对齐在扩面后仍成立；M3 里程碑只做散文记录、勾选只发生在 §4.2 | [ ] |
 
@@ -5109,3 +5109,104 @@ T3-11 按 §4.2 验收列四条全部闭合：**Tabs 线型 / 卡片 / 懒加载
 5. **样式修复后要强制移走基线重生成**：`--update-snapshots` 判一致不写盘的假通过已第二次遇到，SHA256 12/12 全变才是可信证据。
 6. **`count()` 不等待挂载**：真实浏览器用例里凡是数节点，先等 `toBeVisible()` 再数，否则拿到的是 hydration 前的空 DOM。
 7. **分项命令绿 ≠ 全量 verify 绿**：本轮 typecheck / 单测 / SSR / build / `check:ci` / visual / browser 全绿，最终 `pnpm verify` 仍在 `lint` 阶段连挂两次（Biome `noUnknownUnit` + stylelint 注释空行）。26 阶段一条都不能跳过，尤其新增 `.scss` 后必须跑 `pnpm lint` 全链（oxlint / biome / stylelint / prettier 四条子链各自能单独判红）。
+
+### 30.46 T3-12 CRUD 列表页组合 Demo 落地与验收（2026-11-15 实测）
+
+#### 一、结论先行
+
+T3-12 按 §4.2 验收列五条全部闭合：**一页真实列表页可独立开发**、**新增 / 编辑 / 删除 / 查询四条 E2E 全绿**、**axe 0 violation**、**SSR 入口扩到本页**、**视觉基线对齐**。这是 M3 里第一个「不新增组件、只把既有组件接到一条真实业务链」的任务，也是 `docs/04 §3` MVP 目标「让试点业务系统能完整开发一个典型 CRUD 页面」的落地实证。
+
+本轮最重要的判断是：**组合页不是一个新组件**。落地方案 A —— 挂在 `table/demos/crud-list.tsx`，复用 `form/demos/real-form.tsx` 的「页面级组合 Demo」先例；**不改 catalog、不改 package.json exports、不新增 `data-scui-*`、不新增依赖、不新增组件目录**。理由不是省事，而是两条机器约束：`generate-docs.mjs` 对 `components/<slug>/demos/` 与 catalog 做双向校验，判据 11 的 `AGGREGATE_SLUGS` 又只豁免 `overview` 的「≥3 Demo」；新建独立 slug 就要为它破例，等于给门禁开后门。
+
+第二个判断：**「组件都摆上」不等于「链路接通」**。判据 4o 不只看 import 列表，还逐条钉住 `Form.onFinish` / `Modal.onOk` / `Popconfirm.onOk` / `Table.onChange` / `message.*` 五个接线点、三参是否被真的消费、以及四条手写 E2E 用例是否在册。
+
+#### 二、交付清单
+
+| 交付物 | 说明 |
+| --- | --- |
+| `components/table/demos/crud-list.tsx` | 组合 Demo：`export const demo` + 默认导出；从 `solid-craft` 引入 11 个符号（Table / Form / Input / InputNumber / Select / Button / Modal / Popconfirm / Tag / message / useForm）；8 条维简设备采购计划种子数据 |
+| `components/table/__tests__/ssr-crud-list.tsx` | 独立手写的 SSR 静态骨架：查询 Form / 工具栏 / 带分页 Table / 新增·编辑 Form 四块，不 import Demo 文件、不挂 Portal 弹层 |
+| 接线 | `ssr-smoke.mjs` 新增 `T3-12`（33 入口）、`docs:generate` 全量生成物、固定字体重建、`check-ci.mjs` 判据 **4o** + 汇总文案、`browser.spec.ts` 5 条手写用例 + 1 条两态 axe 组合用例 |
+| 基线 | 新增 **2 张**（`light-ltr-default-table-crud-list-{1280,768}.png`，208 → 210），既有 208 张 SHA256 零变化 |
+| 治理 | §30.46 十节、§4.2 T3-12 勾 `[x]`、锚点推进 **T3-13**、`evidence["T3-12"]="30.46"`、goals 基线重校、memory 日志 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| 挂 `table/demos/` 而非新建 catalog 条目（方案 A） | 双向校验 + `AGGREGATE_SLUGS` 两条约束决定了「新建 slug 就要破例」；`form/demos/real-form.tsx` 已证明页面级组合 Demo 可以挂在组件目录下，且 `DEMO_CASES` 自动纳入 375px 与 axe 循环 |
+| 四条链共用一条 `plans` 信号 | 查询 / 新增 / 编辑 / 删除都读同一份数据源，不各自存一份；分页交给 Table 客户端模式，业务侧只从 `onChange` 接快照，不自己切页 |
+| `onChange` 三参全部消费 | 日志里同时打印 `pagination.current / pageSize / total`、`sorter.length`、`filters` 列数；避免写成 `onChange={() => {}}` 的假接线，也让 T3-06 协议在真实页面里被验一次 |
+| Modal `onOk` 返回 Promise，校验失败 reject 保持打开 | 复用 T3-07 的异步协议：`validateFields()` 不通过时 `message.error` + reject，Modal 不关闭；通过时写入数据源 + `message.success` + 关闭。不在组件层造第二套 pending 状态 |
+| Popconfirm 确认按钮用「确认删除」而非「删除」 | 触发按钮文案已是「删除」，同名会让 E2E 的 `getByRole('button', { name })` 歧义；`exact` 定位也挡不住子串匹配 |
+| 操作日志用 `<output data-testid="crud-log">` 落地 | 全局 `message` 浮层会卸载，E2E 不能只靠浮层出现与否断言；每条链都同时验「业务结果（行数 / 表格内容）+ 操作日志」两处 |
+| SSR 入口独立手写、不渲染 Demo | 与 `form/__tests__/ssr-real-form.tsx` 同口径：Demo 含交互状态、Portal 与全局 message，直接渲染会破坏双渲确定性；counts 锁 `modal` / `popconfirm-trigger` 为 0，而不是写 forbid 假判据 |
+| 页面级 Demo 只用 `data-testid`，零新增 `data-scui-*` | R1 的例外只有 `data-testid` / `data-hk`；组合页只消费既有组件的状态属性，自己不产出状态，就不需要新语义名，也不必改登记表 |
+| 不做冻结面之外的能力 | 不做真实 HTTP、路由跳转、批量删除、行选择联动、列显隐；§4.2 只要求四条端到端链，多一个开关就多一套选择器与基线 |
+
+#### 四、本轮真实缺陷与假信号
+
+1. ⚠️ **编辑态回填为空（浏览器实测抓到）**：`openEdit` 先 `planForm.setFieldsValue(...)` 再 `setModalOpen(true)`，但 `useForm` 的 `setFieldsValue` 只作用于**已注册字段**（`form-instance.ts:74-76`），而 Modal 内容是 Portal，`Form.Item` 要等弹层打开才 `register`；值全部丢失，注册时又回落到 `useForm(EMPTY_PLAN)` 初值。`real-form.tsx` 没踩到，是因为那张 Form 一直挂载。**修法**：把 `editing` 改成 `Plan | null` 单一真源，新增 `FillFieldsOnMount`（零 DOM 组件，放在 Form 最后一个 child），在 `onMount` 里单点完成「新增清空 / 编辑回填」；开关弹层时不再写第二份回填。修复后 CRUD 7/7 全绿。
+2. ⚠️ **组合 Demo 的中文文案会改变视觉字集**：字体脚本只遍历 `apps/docs/src`，但 `generate-docs.mjs` 会把 Demo 完整源码写进 `apps/docs/src/generated/demos/*.json`，于是新增文案进入字集。收口时按 `prettier → docs:generate → 字体` 固定顺序重跑，生成物随格式化后的最终源码同步，字集再增 4 个码位：924 CJK/符号 + 95 ASCII = **1019 码位**、字体 293360 bytes，`FONT_SHA256` 同步为 `50b3d444…`；重跑视觉 211 passed，**既有 208 张基线 SHA256 零变化**，证明字形追加不影响已有页面。
+3. ⚠️ **判据不能只验「文件存在」**：4o 初版若只查 `crud-list.tsx` 存在，删掉四个事件接线仍全绿。改成逐锚点钉接线、三参消费、SSR counts 锁 0、E2E 用例名与治理 evidence 三层。
+4. ✅ 严格按「`docs:generate` → 字体 → `build` → `test:visual:update` → browser」顺序执行，未复发 T3-07 的 `dist/source` 旧产物坑；代表基线 `ViewImage` 回读确认查询表单、工具栏、五列表格、分页条齐全，无溢出 / 重叠 / 弹层误显示。
+5. ⚠️ **判据自身的「文档文字冒充判据」假绿**：4o-⑨ 初版用 `todo.includes('### 30.46')` 全文搜，但 §30.46 自己的判据表里就写着 `### 30.46` 字面量 —— 把落地记录标题整段删掉仍判绿。改成按行 `startsWith('### 30.46 ')` 且恰好 1 行；这与 T3-04 / T3-05 的注释冒充同源，**判据本身也是实证对象**。
+6. ⚠️ **负向脚本自身两处锚点坑**：① 把 E2E 用例改成 `test('X CRUD 查询` 时，新名字里仍含判据检索的 `CRUD 查询`，N587~N590 首轮假 FAIL；② `### 30.46` 短锚点在标题与判据表各命中一次，脚本自毁。首轮 58/59，修正脚本与判据后 **N542~N600 59/59 + RESTORE_OK**；脚本自毁后先用一次 `check:ci RC=0` 证明无残留、无 `.bak` 遗留，再重跑。
+
+#### 五、SSR、视觉与字体
+
+- **33 个 SSR 入口**全绿：`T3-12` 8364 chars / 双渲一致 / **14/14 markers + 10/10 counts**，覆盖两个 `form`、四个 `form-item`、`table-root` / `table-footer`、`input` / `input-number` / `select` 与三个 `aria-label`；`modal` / `popconfirm-trigger` counts 锁 0（Portal 只在客户端挂载）。
+- 视觉基线新增 2 张、总数 **210**；`pnpm test:visual:update` 211 passed，208 张已有基线 SHA256 逐张零变化。
+- 浏览器 `-g "CRUD"` **7/7 passed**：其中 2 条由 `DEMO_CASES` 自动生成（375px 不溢出、Demo axe 0 violations），5 条手写（查询 / 新增 / 编辑 / 删除 / 两态 axe）。新增用例里「空名称点保存 → Modal 保持打开且显示校验文案 → 填写后再保存」把异步协议的 reject 分支也验了。
+- 字集 **1019 码位**，字体 293360 bytes，`FONT_SHA256=50b3d44496bdd80364c912bdbe9db0b505126e047d3e7a8a6ed57bdb13c9e942`。
+
+#### 六、新增判据（`check:ci` 4o，收进既有阶段）
+
+| 子判据 | 钉住什么 | 负向实证 |
+| --- | --- | --- |
+| 4o-① | 组合 Demo 在册、`export const demo` meta、默认导出、真的跨 11 个 `solid-craft` 符号 | N542~N554、N599 |
+| 4o-② | 五链接线（Form.onFinish / Modal.onOk / Popconfirm.onOk / Table.onChange / message）与两个 `data-testid` 入口锚点；含「接线写进注释」的剥注释实证 | N555~N562 |
+| 4o-③ | `change.pagination` / `change.sorter` / `change.filters` 三参真被消费 | N563~N565 |
+| 4o-④ | R1（零新增 `data-scui-*`、无 modifier class）/ R3（无 MaybeAccessor） | N566~N568 |
+| 4o-⑤ | 不新建 catalog 条目、不新增组件子路径 exports（守住方案 A） | N569~N570 |
+| 4o-⑥ | SSR 独立静态骨架在册、不 import Demo、不挂弹层、`ssr-smoke.mjs` 登记 / markers / counts 锁 0 | N571~N586、N600 |
+| 4o-⑦ | 两个生成物与两张视觉基线在册（整份删除实证） | N595~N598 |
+| 4o-⑧ | 四条手写 E2E 用例名 + 两态 axe 组合用例在册 | N587~N591 |
+| 4o-⑨ | evidence `30.46` / `### 30.46` 标题行 / §4.2 T3-12 勾 `[x]` 三者同步 | N592~N594 |
+
+判据一律先剥注释再匹配，窗口收在具体文件；**未新增 workflow / job / verify 阶段**（26 阶段不变）。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | ✅ RC=0（26 阶段全量，最终态） |
+| core 单测 | ✅ 493 tests / 41 files（组合 Demo 不新增组件单测，数字不变） |
+| browser / visual / docs / llms | ✅ 262 / 211 / 8 / 4 全 passed（`-g "CRUD"` 7/7） |
+| SSR 冒烟 | ✅ **33 入口**，`T3-12` 14/14 markers + 10/10 counts |
+| 规模 | ✅ 31 组件 / **105 Demo** / 31 API 表 / 586 条搜索索引 / **210 张基线** / 字集 **1019 码位** |
+| `check:ci` | ✅ 判据 4o 收进既有阶段，汇总文案带「CRUD 列表页组合契约」 |
+| 负向实证 | ✅ **N542~N600 59/59 PASS + RESTORE_OK**（逐例改坏 4o → `RC≠0` + 指定诊断 + 逐文件 SHA256 与开工前一致；含 6 例整份删除实证，分组见第六节） |
+| `check:todo` | ✅ 65 任务 / 63 `[x]` 全有证据 / 倒挂 0 |
+| 冻结面 | ✅ `docs/01~07` + `pnpm-lock.yaml` 零改动，零新增依赖，`git diff --check` RC=0 |
+| 治理 | §30.46 落地、T3-12 勾 `[x]`、锚点推进 **T3-13**、evidence `30.46`、goals 基线重校 |
+
+#### 八、允许写入路径（L4）与边界
+
+本轮改动全部落在允许的 L4 路径：`table/demos/crud-list.tsx`、`table/__tests__/ssr-crud-list.tsx`、`spikes/shared/ssr-smoke.mjs`、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`、`tests/e2e/specs/browser.spec.ts`、2 张视觉基线、`apps/docs/src/generated/*` 与 `apps/docs/public/llms/*` 生成物、`apps/docs/public/fonts/` 两个字体产物、`docs/08-实施Todo.md`、`AGENTS.md`（仅 `check:goals` 自动更新的基线哈希）、`.workbuddy/memory/`。`docs/01~07` 与 `pnpm-lock.yaml` 零改动；未新增 workflow / job / verify 阶段；未新增依赖；未发布；未推送。
+
+#### 九、已知边界与风险
+
+1. **Demo 是内存数据源，不接真实接口**：`plans` 是本地 signal，刷新即回到 8 条种子数据；真实项目把 `handleQuery` / `handleSubmit` / `handleDelete` 换成请求即可，组件层协议不变。
+2. **Modal 表单回填依赖 Portal 每次打开重新挂载**：`FillFieldsOnMount` 用 `onMount` 保证字段注册完成后再灌值；若未来给 Modal 开 `forceMount`，必须重新验编辑态回填，否则会退回本轮的空值缺陷。
+3. **Popconfirm 每行一个实例**：8 条数据 5 条/页时同页最多 5 个浮层，均为未打开的 Trigger；若未来做批量删除，须另设一个受控 `open`，不要复用行内实例。
+4. **静态 `message` 脱离树调用**：与 T3-09 同口径，反馈浮层不在组件树内，SSR 零输出；E2E 用 `crud-log` 做稳定断言，不依赖浮层存活。
+5. **T3-12 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求逐次授权；HEAD 为 `82c5d28`（T3-11），`origin/dev` 仍停 `fa72233`。
+
+#### 十、教训
+
+1. **「组合既有组件」比「再写一个组件」更难验**：没有新类型、新 SCSS、新 exports，唯一可验的是**接线**；判据必须把事件锚点、三参消费、E2E 用例名全部钉住，否则「摆了 11 个组件但一个事件没接」也能全绿。
+2. **Portal 的挂载时序会改变状态写入语义**：`setFieldsValue` 这类「只作用于已注册字段」的 API，在弹层里必须先挂载后写入。查根因要读到 `form-instance.ts:74-76`，不能靠「多调用一次」碰运气。
+3. **页面级 Demo 也会改变视觉字集**：源码经 `generated/demos/*.json` 进入字集收集范围，新增中文文案就要重建字体并同步 `FONT_SHA256`；但字形是追加，已有基线可逐张 SHA256 比对证明零回归。
+4. **测试锚点命名要避开同名歧义**：触发按钮「删除」与确认按钮「确认删除」分开命名，比在 E2E 里用 `exact` / 索引兜底更稳。
+5. **组合页的 axe 要扫交互后的状态**：只扫列表初始态会漏掉 Modal 内表单的 label / 焦点 / 对比度；本轮用「列表态 + 弹层打开态」两次扫描覆盖。

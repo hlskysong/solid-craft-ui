@@ -543,6 +543,12 @@
           "description": "bordered 开关与三档行高；表头和正文始终共用同一档字号。"
         },
         {
+          "name": "crud-list",
+          "path": "packages/core/src/components/table/demos/crud-list.tsx",
+          "title": "CRUD 列表页（查询 / 新增 / 编辑 / 删除）",
+          "description": "一页真实列表页：Form 查询 + Table 三参 onChange + Modal 新增编辑 + Popconfirm 删除确认 + 静态 message 反馈，四条链路端到端可跑；只组合既有组件，不新增组件或属性。"
+        },
+        {
           "name": "density",
           "path": "packages/core/src/components/table/demos/density.tsx",
           "title": "密度档位",

@@ -1252,4 +1252,83 @@ test.describe('A11y 链：axe 扫描', () => {
       ).toEqual([]);
     }
   });
+
+  // T3-12：CRUD 列表页组合 Demo 的四条端到端链（§4.2 验收列）。四条都断言
+  // 「业务结果 + 操作日志」两处，避免只靠浮层出现/消失的假绿。
+  test('CRUD 查询：关键字过滤生效，重置恢复全量', async ({ page }) => {
+    await page.goto('/components/table/crud-list?standalone=1');
+    const count = page.getByTestId('crud-count');
+    const log = page.getByTestId('crud-log');
+    await expect(count).toContainText('8 条');
+    await page.getByTestId('crud-query-keyword').fill('通风');
+    await page.getByTestId('crud-query-submit').click();
+    await expect(count).toContainText('1 条');
+    await expect(log).toContainText('查询 通风');
+    await page.getByTestId('crud-query-reset').click();
+    await expect(count).toContainText('8 条');
+    await expect(log).toContainText('已重置查询');
+  });
+
+  test('CRUD 新增：Modal 校验不通过保持打开，写入后计数与反馈都更新', async ({ page }) => {
+    await page.goto('/components/table/crud-list?standalone=1');
+    await page.getByTestId('crud-create').click();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    const save = dialog.getByRole('button', { name: '保存计划' });
+    await save.click();
+    await expect(page.getByTestId('crud-modal-body')).toContainText('请输入计划名称');
+    await expect(dialog).toBeVisible();
+    await expect(save).toBeEnabled();
+    await page.getByTestId('crud-modal-name').fill('新增测试计划');
+    await save.click();
+    await expect(dialog).toHaveCount(0);
+    await expect(page.getByTestId('crud-count')).toContainText('9 条');
+    await expect(page.getByTestId('crud-log')).toContainText('新增 PLAN-09');
+  });
+
+  test('CRUD 编辑：回填既有值，保存后表格行同步更新', async ({ page }) => {
+    await page.goto('/components/table/crud-list?standalone=1');
+    await page.getByTestId('crud-edit-PLAN-01').click();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(page.getByTestId('crud-modal-name')).toHaveValue('主井提升机变频改造');
+    await page.getByTestId('crud-modal-name').fill('主井提升机变频改造二期');
+    await dialog.getByRole('button', { name: '保存计划' }).click();
+    await expect(dialog).toHaveCount(0);
+    await expect(page.getByTestId('crud-log')).toContainText('编辑 PLAN-01');
+    await expect(page.getByTestId('crud-table')).toContainText('主井提升机变频改造二期');
+  });
+
+  test('CRUD 删除：Popconfirm 确认后移除行、计数与反馈同步', async ({ page }) => {
+    await page.goto('/components/table/crud-list?standalone=1');
+    await page
+      .getByTestId('crud-actions-PLAN-02')
+      .getByRole('button', { name: '删除', exact: true })
+      .click();
+    const popover = page.locator('[data-scui-role="popconfirm"]');
+    await expect(popover).toBeVisible();
+    await popover.getByRole('button', { name: '确认删除' }).click();
+    await expect(popover).toHaveCount(0);
+    await expect(page.getByTestId('crud-count')).toContainText('7 条');
+    await expect(page.getByTestId('crud-log')).toContainText('删除 PLAN-02');
+    await expect(page.getByTestId('crud-actions-PLAN-02')).toHaveCount(0);
+  });
+
+  // 组合页的 axe 要扫两态：列表初始态 + Modal 打开态（弹层里的表单 label / 焦点）。
+  test('CRUD 列表页无 serious / critical 违规', async ({ page }) => {
+    const seriousOf = async () => {
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+        .analyze();
+      return results.violations
+        .filter((violation) => violation.impact === 'serious' || violation.impact === 'critical')
+        .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`);
+    };
+    await page.goto('/components/table/crud-list?standalone=1');
+    await expect(page.getByTestId('crud-table')).toBeVisible();
+    expect(await seriousOf()).toEqual([]);
+    await page.getByTestId('crud-create').click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    expect(await seriousOf()).toEqual([]);
+  });
 });
