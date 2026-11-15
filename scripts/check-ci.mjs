@@ -44,11 +44,17 @@
  *      说明 Demo 删了基线没清，两种都会让「视觉回归」变成部分覆盖；③ 截图 / axe 用例
  *      必须按 DEMO_CASES 循环并断言 data-demo-name，否则宿主回落到首 Demo 时
  *      「截图成功但截错页面」不会被发现。
+ *  12. T3-14 M3 Exit 体积实算（2026-11-15 §30.48）：docs/02 §4.6 的
+ *      「Table + Virtual ≤ 35 KB」含 Phase 5 才交付的虚拟滚动，本阶段不把该行
+ *      塞进 .size-limit.json（判据 2 的「只报告、不伪造配置」），改用与
+ *      @size-limit/file 同口径的逐文件 gzipSync 实算 Table 基础链路并对比 35 KB；
+ *      同时钉住未实现预算的显式声明、判据 11 扩面后仍成立、M3 里程碑散文记录。
  */
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, globSync, readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { gzipSync } from 'node:zlib';
 
 const repoRoot = resolve(import.meta.dirname, '..');
 const errors = [];
@@ -2407,6 +2413,111 @@ if (catalogComponents.length === 0) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// 12. T3-14 M3 Exit：Table 体积预算实跑 + 里程碑散文记录（docs/08 §30.48）
+// ---------------------------------------------------------------------------
+// docs/02 §4.6 的「Table + Virtual ≤ 35 KB」含 docs/05 Phase 5 才交付的虚拟滚动；
+// 判据 2 的既有口径是「未实现的预算行只报告、不伪造配置」，所以本阶段不把该行
+// 塞进 .size-limit.json，而是在这里按 @size-limit/file 同口径实算 Table 基础链路：
+// 逐文件 gzipSync({ level: 9 }) 求和（已用 Button 1.85 kB 与 pnpm size 输出对拍）。
+const TABLE_CHAIN_BUDGET_KB = 35;
+const TABLE_CHAIN_DIRS = new Set(['table', 'pagination', 'empty', 'spin']);
+const tableChainGlobs = [
+  ...[...TABLE_CHAIN_DIRS].map((dir) => `packages/core/dist/esm/components/${dir}/*.js`),
+  'packages/core/dist/styles/components/table.css',
+];
+const tableChainFiles = tableChainGlobs.flatMap((pattern) => globSync(pattern, { cwd: repoRoot }));
+if (tableChainFiles.length < 10) {
+  fail('T3-14 的 Table 链路体积实算产物过少：path 可能空匹配（先跑 pnpm build）');
+}
+const tableChainBytes = tableChainFiles.reduce(
+  (sum, rel) => sum + gzipSync(readFileSync(join(repoRoot, rel)), { level: 9 }).length,
+  0,
+);
+const tableChainKb = (tableChainBytes / 1000).toFixed(2);
+if (tableChainBytes / 1000 > TABLE_CHAIN_BUDGET_KB) {
+  fail(
+    `T3-14 Table 链路实跑 ${tableChainKb} kB 超出 docs/02 §4.6 的 ${TABLE_CHAIN_BUDGET_KB} KB 预算`,
+  );
+}
+// 防漏算：Table 产物的相对 import 与 table.scss 的 @use 都必须落在清单目录内，
+// 否则新增依赖后体积被悄悄少算，35 KB 判据会变成假绿。
+const tableImplFiles = globSync('packages/core/dist/esm/components/table/*.js', {
+  cwd: repoRoot,
+});
+const tableChainRefs =
+  tableImplFiles.map((rel) => read(join(repoRoot, rel))).join('\n') +
+  read(join(repoRoot, 'packages', 'core', 'src', 'components', 'table', 'table.scss'));
+for (const match of tableChainRefs.matchAll(/(?:from|@use)\s+["']\.\.\/([a-z-]+)\//g)) {
+  if (!TABLE_CHAIN_DIRS.has(match[1])) {
+    fail(`T3-14 的 Table 链路引用了未计入体积清单的 ${match[1]} 组件目录`);
+  }
+}
+
+// 未实现预算不得伪造配置，且必须在落地记录里显式声明
+const t314SizeConfig = read(sizeConfigPath);
+if (t314SizeConfig.includes('Table + Virtual') || t314SizeConfig.includes('单个图标')) {
+  fail(
+    'T3-14 不得把尚未实现的 Table + Virtual / 单个图标 预算塞进 .size-limit.json（判据 2：只报告、不伪造配置）',
+  );
+}
+// 只认真实 .js 产物：空目录不是产物，负向实证创建 / 删除 probe 后不应残留误报。
+const virtualArtifacts = globSync('packages/core/dist/esm/components/virtual/**', {
+  cwd: repoRoot,
+}).filter((rel) => rel.endsWith('.js'));
+if (virtualArtifacts.length > 0) {
+  fail('T3-14 检测到 virtual 产物：Virtual 属 Phase 5，接入后必须重校 35 KB 预算');
+}
+const t314Todo = read(join(repoRoot, 'docs', '08-实施Todo.md'));
+const t314Section = t314Todo.split('### 30.48 ')[1]?.split('\n### 30.49')[0] ?? '';
+if (t314Section.length === 0) fail('缺少 docs/08 §30.48 T3-14 落地记录');
+if (!t314Section.includes('Phase 5') || !t314Section.includes('图标包')) {
+  fail('docs/08 §30.48 未显式声明 Virtual（Phase 5）与图标包占位这两项待实现预算');
+}
+
+// 文档里的实算值与判据 11 扩面数字必须由机器背书，不能手写
+const t314Anchor = t314Section.match(
+  /机器锚点：T3-14 实算 Table 链路 \*\*([\d.]+) kB\*\* \/ 35 KB；判据 11 扩面后 \*\*(\d+) 组件 \/ (\d+) Demo \/ (\d+) 基线\*\*/,
+);
+if (!t314Anchor) {
+  fail('docs/08 §30.48 缺少 T3-14 机器锚点行（实算值 + Demo / 基线覆盖）');
+} else {
+  if (t314Anchor[1] !== tableChainKb) {
+    fail(
+      `docs/08 §30.48 记录的 Table 实算 ${t314Anchor[1]} kB 与本次实跑 ${tableChainKb} kB 不一致`,
+    );
+  }
+  if (Number(t314Anchor[2]) !== demoCoverage.components) {
+    fail(
+      `docs/08 §30.48 记录的组件数 ${t314Anchor[2]} 与 catalog 实算 ${demoCoverage.components} 不一致`,
+    );
+  }
+  if (Number(t314Anchor[3]) !== demoCoverage.demos) {
+    fail(
+      `docs/08 §30.48 记录的 Demo 数 ${t314Anchor[3]} 与 catalog 实算 ${demoCoverage.demos} 不一致`,
+    );
+  }
+  if (Number(t314Anchor[4]) !== demoCoverage.baselines) {
+    fail(`docs/08 §30.48 记录的基线数 ${t314Anchor[4]} 与实有 ${demoCoverage.baselines} 不一致`);
+  }
+}
+
+// M3 里程碑只做散文记录、勾选只发生在 §4.2
+if (!/^\| M3 \|[^\n]*\|\s*\[ \]\s*\|$/m.test(t314Todo)) {
+  fail('T3-14 的 §4 里程碑简表 M3 行被改动：里程碑只做散文记录，勾选只发生在 §4.2');
+}
+const t314Row = t314Todo.split('\n').find((line) => line.startsWith('| T3-14 |')) ?? '';
+if (!/\[x\]\s*\|\s*$/.test(t314Row)) {
+  fail('T3-14 的 §4.2 主行尚未勾 [x]');
+}
+const t314Governance = JSON.parse(read(join(repoRoot, 'scripts', 'todo-governance.json')));
+if (t314Governance.evidence?.['T3-14'] !== '30.48') {
+  fail('T3-14 勾了 [x] 但 todo-governance.json 没有 evidence 30.48');
+}
+if (!/当前任务 ID \|[^\n]*M4/.test(t314Todo)) {
+  fail('T3-14 闭合后锚点未推进到 M4');
+}
+
 if (errors.length > 0) {
   console.error(`[check:ci] ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
@@ -2414,5 +2525,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· Upload 上传契约（customRequest 单点注入传输且组件内零 fetch·XHR / 进度·成功·失败·取消·删除·重试六链 / 受控值桥 Form 字段 > fileList > 内部副本 / 新增 status·dragging 两属性并登记 / Form.Item 用 ids.control 与字段 aria / SSR 静态三态骨架且 counts 钉死 / 3 Demo + 5 手写 E2E + axe / 零新增依赖）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· Upload 上传契约（customRequest 单点注入传输且组件内零 fetch·XHR / 进度·成功·失败·取消·删除·重试六链 / 受控值桥 Form 字段 > fileList > 内部副本 / 新增 status·dragging 两属性并登记 / Form.Item 用 ids.control 与字段 aria / SSR 静态三态骨架且 counts 钉死 / 3 Demo + 5 手写 E2E + axe / 零新增依赖）· size-limit@${sizeLimit} + file 插件 · M3 Exit 检查（Table 链路实跑 ${tableChainKb} kB / 35 KB，Virtual 与单图标 pending；${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / ${demoCoverage.baselines} 基线；里程碑散文记录）`,
 );
