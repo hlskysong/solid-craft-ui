@@ -197,6 +197,18 @@
       "import": "./dist/esm/components/tag/index.js",
       "default": "./dist/esm/components/tag/index.js"
     },
+    "./tabs": {
+      "types": "./dist/types/components/tabs/index.d.ts",
+      "solid": "./dist/source/components/tabs/index.jsx",
+      "import": "./dist/esm/components/tabs/index.js",
+      "default": "./dist/esm/components/tabs/index.js"
+    },
+    "./descriptions": {
+      "types": "./dist/types/components/descriptions/index.d.ts",
+      "solid": "./dist/source/components/descriptions/index.jsx",
+      "import": "./dist/esm/components/descriptions/index.js",
+      "default": "./dist/esm/components/descriptions/index.js"
+    },
     "./config-provider": {
       "types": "./dist/types/config-provider/index.d.ts",
       "solid": "./dist/source/config-provider/index.jsx",

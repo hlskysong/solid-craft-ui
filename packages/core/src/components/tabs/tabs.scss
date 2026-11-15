@@ -1,0 +1,102 @@
+/* Tabs（T3-11）
+   键盘 / 焦点 / ARIA 由 Kobalte Tabs 原语输出，这里只做 line / card 两档外观与
+   激活态样式。选择器一律落在 :where(.scui-*) 静态类作用域下，状态只认
+   data-scui-*；不生成 modifier class。 */
+
+:where(.scui-tabs) {
+  /* 回退用 rgb() 而非 #hex：Biome noUnknownUnit 会把自定义属性值里
+     #2563eb 的 eb / #4b5563 的 b5563 误判成 CSS 单位。颜色值等价。 */
+  --scui-tabs-accent: var(--scui-color-primary, rgb(37 99 235));
+  --scui-tabs-muted: var(--scui-color-text-secondary, rgb(75 85 99));
+
+  inline-size: 100%;
+  color: var(--scui-color-text-primary, #111827);
+  font-size: var(--scui-font-size-md, 14px);
+  line-height: var(--scui-line-height-md, 22px);
+}
+
+:where(.scui-tabs__list) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--scui-space-1, 4px);
+  border-block-end: 1px solid var(--scui-color-border-default, #e5e7eb);
+}
+
+:where(.scui-tabs__tab) {
+  box-sizing: border-box;
+  padding: var(--scui-space-2, 8px) var(--scui-space-4, 16px);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--scui-tabs-muted);
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+:where(.scui-tabs__tab):focus-visible {
+  outline: 2px solid var(--scui-focus-ring, #2563eb);
+  outline-offset: 2px;
+}
+
+:where(.scui-tabs__tab)[data-scui-current] {
+  color: var(--scui-tabs-accent);
+  font-weight: var(--scui-font-weight-medium, 600);
+}
+
+:where(.scui-tabs__tab)[data-scui-disabled] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* 线型：激活标签用底部 2px 实色条，非激活恒留透明 2px 占位避免抖动。 */
+:where(.scui-tabs)[data-scui-variant='line'] .scui-tabs__tab {
+  border-block-end: 2px solid transparent;
+  margin-block-end: -1px;
+}
+
+/* 激活标签必须真的换边框色：只有蓝字会让「线型」退化成纯文字态（基线回读实证）。 */
+:where(.scui-tabs)[data-scui-variant='line'] .scui-tabs__tab[data-scui-current] {
+  border-block-end-color: var(--scui-tabs-accent);
+}
+
+/* 卡片：激活标签与面板连成一个带圆角的卡片头。 */
+:where(.scui-tabs)[data-scui-variant='card'] .scui-tabs__list {
+  gap: var(--scui-space-1, 4px);
+  border-block-end: 1px solid var(--scui-color-border-default, #e5e7eb);
+}
+
+:where(.scui-tabs)[data-scui-variant='card'] .scui-tabs__tab {
+  border: 1px solid var(--scui-color-border-default, #e5e7eb);
+  border-block-end-color: transparent;
+  border-start-start-radius: var(--scui-radius-2, 6px);
+  border-start-end-radius: var(--scui-radius-2, 6px);
+  background-color: var(--scui-color-neutral-50, #f9fafb);
+}
+
+:where(.scui-tabs)[data-scui-variant='card'] .scui-tabs__tab[data-scui-current] {
+  background-color: var(--scui-color-bg-surface, #fff);
+  border-block-end-color: var(--scui-color-bg-surface, #fff);
+  margin-block-end: -1px;
+}
+
+:where(.scui-tabs__panel) {
+  box-sizing: border-box;
+  padding: var(--scui-space-4, 16px) var(--scui-space-1, 4px);
+  min-block-size: var(--scui-space-8, 32px);
+}
+
+/* forceMount 的非激活面板靠原生 hidden 收起，避免多个 tabpanel 同时可见。 */
+:where(.scui-tabs__panel)[hidden] {
+  display: none;
+}
+
+@media (width <= 480px) {
+  :where(.scui-tabs__list) {
+    gap: 0;
+  }
+
+  :where(.scui-tabs__tab) {
+    padding: var(--scui-space-2, 8px) var(--scui-space-3, 12px);
+  }
+}

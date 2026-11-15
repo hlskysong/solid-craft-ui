@@ -792,6 +792,61 @@ const cases = [
       ['data-scui-role="tag-close"', 2],
     ],
   },
+  {
+    // T3-11-a：Tabs 两个实例（默认线型 + 卡片/全量挂载）。只验正面静态骨架：
+    // tablist / tab 由 Kobalte 在服务端照常输出，panel 的 presence 交给原语，
+    // 因此不写「未激活 panel 必须缺席」的 forbid 假判据。
+    id: 'T3-11-tabs',
+    file: '/src/components/tabs/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="tabs-page"',
+      'data-scui-role="tabs-trigger"',
+      'data-scui-variant="card"',
+      'data-scui-current=""',
+    ],
+    counts: [
+      ['data-scui-role="tabs-page"', 1],
+      ['data-scui-role="tabs-trigger"', 1],
+      ['data-scui-role="tabs"', 2],
+      ['data-scui-role="tabs-list"', 2],
+      ['data-scui-role="tabs-tab"', 6],
+      ['data-scui-variant="line"', 1],
+      ['data-scui-variant="card"', 1],
+      ['role="tablist"', 2],
+      ['role="tab"', 6],
+      ['data-scui-current=""', 4],
+    ],
+  },
+  {
+    // T3-11-b：Descriptions 三个实例（默认两列 / 三列带边框 / 单列），
+    // dl / dt / dd 与 column / span / bordered 全是 SSR 也输出的静态结构。
+    id: 'T3-11-descriptions',
+    file: '/src/components/descriptions/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="descriptions-page"',
+      'data-scui-role="descriptions-trigger"',
+      'data-scui-column="3"',
+      'data-scui-span="2"',
+      'data-scui-bordered=""',
+      '<dl',
+    ],
+    counts: [
+      ['data-scui-role="descriptions-page"', 1],
+      ['data-scui-role="descriptions-trigger"', 1],
+      ['data-scui-role="descriptions"', 3],
+      ['data-scui-role="descriptions-list"', 3],
+      ['data-scui-role="descriptions-item"', 9],
+      ['data-scui-role="descriptions-label"', 9],
+      ['data-scui-role="descriptions-content"', 9],
+      ['data-scui-column="1"', 1],
+      ['data-scui-column="2"', 1],
+      ['data-scui-column="3"', 1],
+      ['data-scui-span="2"', 3],
+      ['data-scui-bordered=""', 1],
+    ],
+  },
 ];
 
 const errors = [];

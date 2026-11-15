@@ -650,6 +650,161 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await expect(page.locator('[data-scui-role="tag"]')).toHaveCount(2);
   });
 
+  // T3-11：线型 / 卡片不能只验属性，要量真实样式；切换按钮再验属性与外观同步。
+  test('Tabs 线型与卡片两档在真实样式上生效', async ({ page }) => {
+    await page.goto('/components/tabs/variant?standalone=1');
+    const line = page.getByTestId('tabs-line');
+    const card = page.getByTestId('tabs-card');
+    await expect(line).toHaveAttribute('data-scui-variant', 'line');
+    await expect(card).toHaveAttribute('data-scui-variant', 'card');
+
+    const lineTab = line.locator('[data-scui-role="tabs-tab"]').first();
+    const cardTab = card.locator('[data-scui-role="tabs-tab"]').first();
+    expect(await lineTab.evaluate((element) => getComputedStyle(element).borderBlockEndWidth)).toBe(
+      '2px',
+    );
+    const cardBackground = await cardTab.evaluate(
+      (element) => getComputedStyle(element).backgroundColor,
+    );
+    expect(cardBackground).not.toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
+    const activeColor = await lineTab.evaluate((element) => getComputedStyle(element).color);
+    const inactiveColor = await line
+      .locator('[data-scui-role="tabs-tab"]')
+      .nth(1)
+      .evaluate((element) => getComputedStyle(element).color);
+    expect(activeColor).not.toBe(inactiveColor);
+    // 线型的激活态不能只是蓝字：底部 2px 实色条必须真的换色。
+    const activeBorder = await lineTab.evaluate(
+      (element) => getComputedStyle(element).borderBlockEndColor,
+    );
+    const inactiveBorder = await line
+      .locator('[data-scui-role="tabs-tab"]')
+      .nth(1)
+      .evaluate((element) => getComputedStyle(element).borderBlockEndColor);
+    expect(activeBorder).not.toBe(inactiveBorder);
+    expect(inactiveBorder).toMatch(/rgba\(0, 0, 0, 0\)|transparent/);
+
+    await page.getByRole('button', { name: '切换样式' }).click();
+    await expect(page.getByTestId('tabs-variant-log')).toHaveText('当前样式：卡片');
+    await expect(page.locator('[data-testid="tabs-line"]')).toHaveAttribute(
+      'data-scui-variant',
+      'line',
+    );
+  });
+
+  // T3-11：方向键 / Home / End 全部由 Kobalte 原语处理，组件层零键盘代码。
+  test('Tabs 键盘导航：方向键与 Home / End 切换激活项', async ({ page }) => {
+    await page.goto('/components/tabs/basic?standalone=1');
+    const root = page.getByTestId('tabs-basic-root');
+    const first = root.getByRole('tab').first();
+    await first.focus();
+    await expect(first).toBeFocused();
+    expect(await first.evaluate((element) => getComputedStyle(element).outlineStyle)).not.toBe(
+      'none',
+    );
+
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByTestId('tabs-active-log')).toHaveText('当前标签：detail');
+    await expect(root.getByRole('tab').nth(1)).toHaveAttribute('aria-selected', 'true');
+
+    await page.keyboard.press('End');
+    await expect(page.getByTestId('tabs-active-log')).toHaveText('当前标签：audit');
+    await expect(root.getByRole('tab').nth(3)).toBeDisabled();
+
+    await page.keyboard.press('Home');
+    await expect(page.getByTestId('tabs-active-log')).toHaveText('当前标签：plan');
+  });
+
+  // T3-11：懒加载要验「未激活 panel 的内容节点根本没进 DOM」，不是只验属性。
+  test('Tabs 懒加载：默认只挂载激活 panel，lazy=false 全挂载且 hidden', async ({ page }) => {
+    await page.goto('/components/tabs/lazy?standalone=1');
+    const lazy = page.getByTestId('tabs-lazy-on');
+    const eager = page.getByTestId('tabs-lazy-off');
+
+    await expect(lazy.locator('[data-testid="tabs-lazy-lazy-first"]')).toHaveCount(1);
+    await expect(lazy.locator('[data-testid="tabs-lazy-lazy-second"]')).toHaveCount(0);
+    await expect(lazy.locator('[data-testid="tabs-lazy-lazy-third"]')).toHaveCount(0);
+
+    await lazy.getByRole('tab', { name: '第二页' }).click();
+    await expect(lazy.locator('[data-testid="tabs-lazy-lazy-second"]')).toHaveCount(1);
+    await expect(lazy.locator('[data-testid="tabs-lazy-lazy-first"]')).toHaveCount(0);
+
+    await expect(eager.locator('[data-scui-role="tabs-panel"]')).toHaveCount(3);
+    await expect(eager.locator('[data-scui-role="tabs-panel"][hidden]')).toHaveCount(2);
+    await expect(eager.locator('[data-testid="tabs-lazy-eager-third"]')).toBeHidden();
+  });
+
+  // T3-11：受控 value 锁定时点击只发 onChange，DOM 必须由调用方回弹。
+  test('Tabs 受控 value：点击只通知、激活态不自行回弹', async ({ page }) => {
+    await page.goto('/components/tabs/basic?standalone=1');
+    const locked = page.getByTestId('tabs-locked');
+    const first = locked.getByRole('tab').first();
+    const second = locked.getByRole('tab', { name: '明细清单' });
+    await expect(first).toHaveAttribute('data-scui-current', '');
+    await second.click();
+    await expect(page.getByTestId('tabs-controlled-log')).toHaveText('收到 detail，DOM 不回弹');
+    await expect(first).toHaveAttribute('data-scui-current', '');
+    expect(await second.getAttribute('data-scui-current')).toBeNull();
+    await expect(locked.locator('[data-testid="tabs-panel-plan"]')).toHaveCount(1);
+  });
+
+  // T3-11：column / span / bordered 都要量真实布局，避免「属性改了样式没接上」。
+  test('Descriptions 三档列数、跨列与边框在真实样式上生效', async ({ page }) => {
+    await page.goto('/components/descriptions/column?standalone=1');
+    const target = page.getByTestId('descriptions-column-target');
+    const list = target.locator('[data-scui-role="descriptions-list"]');
+    await expect(target).toHaveAttribute('data-scui-column', '2');
+    const twoColumns = await list.evaluate(
+      (element) => getComputedStyle(element).gridTemplateColumns.split(' ').length,
+    );
+    expect(twoColumns).toBe(2);
+
+    await page.getByRole('button', { name: '三列' }).click();
+    await expect(page.getByTestId('descriptions-column-log')).toHaveText('当前列数：3');
+    await expect(target).toHaveAttribute('data-scui-column', '3');
+    const threeColumns = await list.evaluate(
+      (element) => getComputedStyle(element).gridTemplateColumns.split(' ').length,
+    );
+    expect(threeColumns).toBe(3);
+    await expect(target.locator('[data-scui-role="descriptions-label"]').first()).toBeVisible();
+
+    await page.goto('/components/descriptions/basic?standalone=1');
+    await expect(
+      page.getByTestId('descriptions-basic').locator('[data-scui-span="2"]'),
+    ).toHaveCount(1);
+
+    await page.goto('/components/descriptions/bordered?standalone=1');
+    const bordered = page.getByTestId('descriptions-bordered-target');
+    await expect(bordered).toHaveAttribute('data-scui-bordered', '');
+    const item = bordered.locator('[data-scui-role="descriptions-item"]').first();
+    expect(await item.evaluate((element) => getComputedStyle(element).borderTopWidth)).toBe('1px');
+    await page.getByRole('button', { name: '切换边框' }).click();
+    expect(await bordered.getAttribute('data-scui-bordered')).toBeNull();
+  });
+
+  // T3-11：375px 只做「不溢出、不截断关键信息」冒烟（docs/06 §5.3）。
+  test('Tabs 与 Descriptions 在 375px 不横向溢出', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    for (const path of [
+      '/components/tabs/variant?standalone=1',
+      '/components/descriptions/column?standalone=1',
+    ]) {
+      await page.goto(path);
+      const roots = page.locator('[data-scui-role="tabs"], [data-scui-role="descriptions"]');
+      // count() 不等待挂载：goto 刚返回时 Solid 可能还没把组件插进 DOM。
+      await expect(roots.first()).toBeVisible();
+      const count = await roots.count();
+      expect(count).toBeGreaterThan(0);
+      for (let index = 0; index < count; index += 1) {
+        const box = await roots.nth(index).boundingBox();
+        expect(box?.x ?? -1).toBeGreaterThanOrEqual(-1);
+        expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(376);
+      }
+      const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      expect(scrollWidth, `${path} 不应出现横向滚动`).toBeLessThanOrEqual(376);
+    }
+  });
+
   // T2-09：真实表单页（新增 / 编辑）是 §4.1 的验收项。`demoPath()` 在 T2-13
   // 扩面前只截每个 slug 的 basic，因此这条用例直接 goto 该 Demo 的独立页，
   // 用真实浏览器把「载入编辑 → 改值 → 提交校验 → 切回新增」整链跑一遍。
@@ -1062,5 +1217,39 @@ test.describe('A11y 链：axe 扫描', () => {
     expect(
       serious.map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`),
     ).toEqual([]);
+  });
+
+  // T3-11：tablist / tab / tabpanel 与 dl / dt / dd 语义要过 axe；两个组件分开扫，
+  // 任一 serious / critical 都直接判红（§4.2「各 ≥3 Demo + axe 0」）。
+  test('Tabs 与 Descriptions 无 serious / critical 违规', async ({ page }) => {
+    for (const [path, anchor] of [
+      ['/components/tabs/basic?standalone=1', 'tabs-basic-root'],
+      ['/components/descriptions/basic?standalone=1', 'descriptions-basic'],
+    ] as const) {
+      await page.goto(path);
+      await expect(page.getByTestId(anchor)).toHaveCount(1);
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice'])
+        .analyze();
+      const serious = results.violations.filter(
+        (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+      );
+      console.log(
+        `[axe] ${path}: ${results.violations.length} violations ${results.violations
+          .map((violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`)
+          .join(', ')}`,
+      );
+      for (const violation of serious) {
+        for (const node of violation.nodes.slice(0, 4)) {
+          const reason = (node.failureSummary ?? '').replaceAll('\n', ' ').slice(0, 200);
+          console.log(`[axe]   ${violation.id} ${JSON.stringify(node.target)} :: ${reason}`);
+        }
+      }
+      expect(
+        serious.map(
+          (violation) => `${violation.id}(${violation.impact})×${violation.nodes.length}`,
+        ),
+      ).toEqual([]);
+    }
   });
 });

@@ -36,7 +36,7 @@
 | `data-scui-sort` | `asc \| desc` | 当前列排序方向；落在参与排序的 `<th>` 上（T3-02） | Table |
 | `data-scui-sort-key` | 列 key | 排序列标识 | Table |
 | `data-scui-density` | `comfortable \| default \| compact` | 单元格内距档：16 / 16、12 / 12（默认）、8 / 8；与 `data-scui-size`（行高档）正交 | Table |
-| `data-scui-bordered` | `''`（存在即真） | 外边框开关；Table 用它同时控制外边框与列分隔线，Tag 复用同一语义只控制自身外边框（T3-10）。边框恒占 1px、关掉时是透明色，因此开关前后尺寸不变 | Table / Tag |
+| `data-scui-bordered` | `''`（存在即真） | 外边框开关；Table 用它同时控制外边框与列分隔线，Tag 复用同一语义只控制自身外边框（T3-10），Descriptions 复用它给每个键值项加框（T3-11）。Tag 的边框恒占 1px、关掉时是透明色，因此开关前后尺寸不变 | Table / Tag / Descriptions |
 | `data-scui-align` | `left \| center \| right` | 列水平对齐；表头与正文同源输出，恒有值 | Table |
 | `data-scui-row-key` | 行键字符串 | 行定位锚点；`rowKey` 缺省时按行序号兜底，供后续选择 / 展开使用 | Table |
 | `data-scui-filtered` | `''`（存在即真） | 当前列有生效的筛选值，落在 `<th>` 上（T3-02） | Table |
@@ -44,14 +44,16 @@
 | `data-scui-server` | `''`（存在即真） | 服务端模式：只把排序 / 筛选参数交给 `onChange`，不本地改数据顺序与行数（T3-02） | Table |
 | `data-scui-row-disabled` | `''`（存在即真） | 行选择被禁用：该行控件原生 `disabled`、且不进全选集合；**不改整行文字颜色**（禁用不靠降对比度表达，避免 axe `color-contrast`） | Table（T3-03） |
 | `data-scui-page` | 页码字符串 | 页码按钮定位；值与 `aria-current` 同源，测试与样式只认它，避免按文本抓节点（T3-04） | Pagination |
-| `data-scui-current` | `''`（存在即真） | 当前页；落在页码按钮上，与 `aria-current="page"` **双通道**（后者给读屏、前者给样式与测试）。不复用 `data-scui-selected`：那表达「被选中」而非「当前位于」，一个属性名只表达一个语义（T3-04） | Pagination |
-| `data-scui-variant` | `text \| card \| table \| button \| avatar` | 骨架形状；形状用枚举而不是 `title` / `avatar` 三个布尔，避免拼出头像 + 表格这类不存在的组合（T3-05） | Skeleton |
+| `data-scui-current` | `''`（存在即真） | 「当前位于」：落在页码按钮 / 激活标签上，与 `aria-current="page"`（Pagination）或 `aria-selected="true"`（Tabs，由 Kobalte 输出）**双通道**。不复用 `data-scui-selected`：那表达「列表项被选中」而非「当前位于」，一个属性名只表达一个语义（T3-04）。Tabs 复用同一语义而不另起 `-active`：后者已被 Skeleton 的微光动画占用（T3-11） | Pagination / Tabs |
+| `data-scui-variant` | Skeleton：`text \| card \| table \| button \| avatar`；Tabs：`line \| card` | **组件的视觉变体**；AGENTS 硬约束 3 把「变体」明文指派给 `-variant`，两个组件只是各自枚举不同，语义仍是同一个。形状用枚举而不是 `title` / `avatar` 三个布尔，避免拼出头像 + 表格这类不存在的组合（T3-05）；Tabs 的线型 / 卡片同理（T3-11）。注意 Tag 的**颜色**不能用本属性（那是 `-color`，同名不同义），见 `-color` 行 | Skeleton / Tabs |
 | `data-scui-active` | `''`（存在即真） | 骨架微光动画开启；`prefers-reduced-motion: reduce` 时动画由 CSS 静止，属性本身仍输出（T3-05） | Skeleton |
 | `data-scui-last` | `''`（存在即真） | 骨架段落 / 卡片正文的**末行**，用于收窄到 60%。不用 `:last-child`：Solid 复用节点时位置语义不可靠（T3-05） | Skeleton |
 | `data-scui-spinning` | `''`（存在即真） | 包裹模式当前处于加载中，与容器 `aria-busy="true"` 同时出现；延迟未到时两者都不输出（T3-05） | Spin |
 | `data-scui-pending` | `''`（存在即真） | 异步确认进行中（`onOk` 返回的 Promise 未 settle，或 `confirmLoading` 受控为真）：确认按钮 loading、取消与关闭按钮 disabled、ESC / 遮罩 / 外部交互全部被原语拦截。不复用 `data-scui-loading`：后者表达「内容还在取」，pending 表达「请求已发出、不能重复发」（T3-07）。`Popconfirm` 复用同一属性与同一套异步协议（T3-09） | Modal / Popconfirm |
 | `data-scui-side` | `left \| right \| top \| bottom` | 抽屉贴边方向，**恒输出**（默认 `right`）；左右方向用 `width`、上下方向用 `height`，两者归一到同一个 `--scui-drawer-size`。刻意新增属性而不复用：`data-scui-placement` 已被 App / Message 的反馈容器位置占用（六向值）、`data-scui-fixed` 是 Table 固定列方向、`data-scui-direction` 表示书写方向 ltr/rtl、`data-scui-orientation` 表示水平 / 垂直（T3-08） | Drawer |
 | `data-scui-anchor` | `top \| top-start \| top-end \| right \| right-start \| right-end \| bottom \| bottom-start \| bottom-end \| left \| left-start \| left-end` | **锚定浮层挂在触发元素哪一侧**，恒输出（默认 `top`）；与 Floating UI 的 `Placement` 同形，定位 / 翻转由原语负责，CSS 只用它决定 `transform-origin`。刻意新增而不复用：`data-scui-placement` 是反馈容器在屏幕哪个角（六向）、`data-scui-side` 是抽屉贴视口哪条边（四向），三者语义不同（T3-09） | Tooltip / Popconfirm |
+| `data-scui-column` | `1 \| 2 \| 3` | **详情列表一行几列**，恒输出（默认 `2`）；与 `data-scui-span` 成对，由 CSS 派生 `--scui-descriptions-columns`。刻意新增而不复用 `data-scui-layout`：后者是 Form 的 `horizontal / vertical / inline` 布局，同名不同义违反 R1；AGENTS 硬约束 3 也没把「列数」指派给任何名字（T3-11） | Descriptions |
+| `data-scui-span` | `1 \| 2 \| 3` | **一个键值项跨几列**，恒输出（默认 `1`，SSR 与首帧一致）；AGENTS 硬约束 3 本就把 `-span` 指派给栅格布局，登记表此前漏登记，本轮补齐（同 T3-10 对 `-color` 的处理）。窄屏由 CSS 强制回落到 `1`，避免 `span 2` 在单列容器里造出隐式第二列而横向溢出（T3-11） | Descriptions |
 
 ## `data-scui-role` 取值清单
 
@@ -80,6 +82,9 @@
 | `card` / `card-cover` / `card-header` / `card-title` / `card-extra` / `card-body` | Card | 结构锚点（T3-10）：内联渲染、**SSR 全量输出**；`card-cover` / `card-header` 按是否传内容整块缺席，`card-title` / `card-extra` 各自独立缺席但共享同一个 `card-header`。加载时 `card-body` 内的子节点换成 `skeleton`（沿用 T3-05 的角色值，不另起 `card-skeleton`）。根节点承载 `data-scui-loading` |
 | `tag` / `tag-content` / `tag-close` | Tag | 结构锚点（T3-10）：内联渲染、**SSR 全量输出**；`tag-close` 只在 `closable` 为真时输出且恒带 `aria-label`。根节点恒输出 `data-scui-color`，`data-scui-bordered` 是存在即真的可选项。关闭只改 DOM 不引入新状态属性 |
 | `card-page` / `card-trigger` / `tag-page` / `tag-trigger` | Card / Tag（SSR 入口专用） | T3-10 两个 `ssr-entry.tsx` 的页面容器与静态触发按钮锚点，不是组件输出。验三张卡片（含加载态）与五个标签（含边框 / 可关闭）在服务端渲染期不访问 DOM、不抛错。同样不写 forbid 假判据 |
+| `tabs` / `tabs-list` / `tabs-tab` / `tabs-panel` | Tabs | 结构锚点（T3-11）：`tabs-list` 由 Kobalte 输出 `role="tablist"`、`tabs-tab` 输出 `role="tab"`、`tabs-panel` 输出 `role="tabpanel"`，组件层只挂 `data-scui-role` 与 `data-scui-current`，不重复实现 ARIA。`tabs-panel` 在 `lazy` 为 true 时只挂载激活项 |
+| `descriptions` / `descriptions-header` / `descriptions-title` / `descriptions-extra` / `descriptions-list` / `descriptions-item` / `descriptions-label` / `descriptions-content` | Descriptions | 结构锚点（T3-11）：内联渲染、**SSR 全量输出**；`descriptions-list` 是 `<dl>`、`-label` 是 `<dt>`、`-content` 是 `<dd>`，不复用表格语义。`descriptions-header` 按 `title` / `extra` 是否传入整块缺席 |
+| `tabs-page` / `tabs-trigger` / `descriptions-page` / `descriptions-trigger` | Tabs / Descriptions（SSR 入口专用） | T3-11 两个 `ssr-entry.tsx` 的页面容器与静态触发按钮锚点，不是组件输出。验线型 / 卡片 / 全量挂载与三档列数 / 跨列 / 边框在服务端渲染期不访问 DOM、不抛错。同样不写 forbid 假判据 |
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
 | `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |

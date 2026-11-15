@@ -29,7 +29,9 @@
     "tooltip",
     "popconfirm",
     "card",
-    "tag"
+    "tag",
+    "tabs",
+    "descriptions"
   ],
   "components": [
     {
@@ -907,6 +909,62 @@
           "path": "packages/core/src/components/tag/demos/closable.tsx",
           "title": "可关闭",
           "description": "关闭是非受控的：组件自己移除 DOM 并发一次 onClose。关闭按钮恒带 aria-label，可用 closeLabel 覆盖。"
+        }
+      ]
+    },
+    {
+      "slug": "tabs",
+      "title": "Tabs 标签页",
+      "category": "数据",
+      "description": "线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。",
+      "exportPath": "solid-craft/tabs",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/tabs/demos/basic.tsx",
+          "title": "基础用法与键盘导航",
+          "description": "tablist / tab / tabpanel 与方向键、Home / End、roving tabindex 都由 Kobalte 原语输出；组件只把激活态落成 data-scui-current。禁用项不可聚焦。"
+        },
+        {
+          "name": "lazy",
+          "path": "packages/core/src/components/tabs/demos/lazy.tsx",
+          "title": "懒加载开关",
+          "description": "lazy 默认 true：未激活 panel 的 content 工厂一次都不调用，切换才创建。lazy=false 时所有 panel 首帧挂载，非激活的用原生 hidden 收起，不重复创建。"
+        },
+        {
+          "name": "variant",
+          "path": "packages/core/src/components/tabs/demos/variant.tsx",
+          "title": "线型与卡片",
+          "description": "两档样式都由 data-scui-variant 表达（AGENTS 硬约束 3 把「变体」指派给该属性），激活态复用 data-scui-current。切换按钮验证属性与样式同步生效。"
+        }
+      ]
+    },
+    {
+      "slug": "descriptions",
+      "title": "Descriptions 详情列表",
+      "category": "数据",
+      "description": "详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。",
+      "exportPath": "solid-craft/descriptions",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/descriptions/demos/basic.tsx",
+          "title": "详情页键值展示",
+          "description": "用原生 dl / dt / dd 承载字段名与值，标题与操作区按内容缺席；备注用 span=2 跨满一行。列数与跨列都恒输出 data-scui-*，SSR 与首帧一致。"
+        },
+        {
+          "name": "bordered",
+          "path": "packages/core/src/components/descriptions/demos/bordered.tsx",
+          "title": "边框与表头",
+          "description": "bordered 复用 Table / Tag 已登记的 data-scui-bordered（存在即真）；标题与操作区都为 undefined 时表头整块缺席，不留空盒子。"
+        },
+        {
+          "name": "column",
+          "path": "packages/core/src/components/descriptions/demos/column.tsx",
+          "title": "列数与跨列",
+          "description": "column=1 / 2 / 3 三档由 data-scui-column 派生 grid 列数；窄屏强制单列且把 span 收回 1，避免隐式列导致横向溢出。"
         }
       ]
     }

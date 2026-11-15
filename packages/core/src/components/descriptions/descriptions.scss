@@ -1,0 +1,110 @@
+@use '../button/button';
+
+/* Descriptions（T3-11）
+   详情页键值列表：根节点按 data-scui-column 派生列数，item 按 data-scui-span
+   派生跨列。CSS 逐目录编译不做依赖聚合，所以表头操作区用到的 Button 样式
+   必须自己 @use 进来。 */
+
+:where(.scui-descriptions) {
+  --scui-descriptions-columns: 2;
+
+  inline-size: 100%;
+  color: var(--scui-color-text-primary, #111827);
+  font-size: var(--scui-font-size-md, 14px);
+  line-height: var(--scui-line-height-md, 22px);
+
+  &[data-scui-column='1'] {
+    --scui-descriptions-columns: 1;
+  }
+
+  &[data-scui-column='2'] {
+    --scui-descriptions-columns: 2;
+  }
+
+  &[data-scui-column='3'] {
+    --scui-descriptions-columns: 3;
+  }
+
+  &[data-scui-bordered] .scui-descriptions__item {
+    border: 1px solid var(--scui-color-border-default, #e5e7eb);
+    padding: var(--scui-space-3, 12px) var(--scui-space-4, 16px);
+  }
+}
+
+:where(.scui-descriptions__header) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scui-space-2, 8px);
+  margin-block-end: var(--scui-space-3, 12px);
+}
+
+:where(.scui-descriptions__title) {
+  font-size: var(--scui-font-size-lg, 16px);
+  font-weight: var(--scui-font-weight-medium, 600);
+}
+
+:where(.scui-descriptions__extra) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--scui-space-2, 8px);
+}
+
+:where(.scui-descriptions__list) {
+  display: grid;
+  grid-template-columns: repeat(var(--scui-descriptions-columns), minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+}
+
+:where(.scui-descriptions__item) {
+  --scui-descriptions-span: 1;
+
+  display: grid;
+
+  /* label 用固定列宽：按比例算时两 / 三列会把「本次采购金额」挤到折行，
+     且跨列项的 label 会比同行其它项更宽，详情页列不齐（基线回读实证）。 */
+  grid-template-columns: 120px minmax(0, 1fr);
+  grid-column: span var(--scui-descriptions-span);
+  min-inline-size: 0;
+  border: 1px solid transparent;
+  border-block-end-color: var(--scui-color-border-default, #e5e7eb);
+
+  &[data-scui-span='2'] {
+    --scui-descriptions-span: 2;
+  }
+
+  &[data-scui-span='3'] {
+    --scui-descriptions-span: 3;
+  }
+}
+
+:where(.scui-descriptions__label) {
+  padding: var(--scui-space-3, 12px) var(--scui-space-2, 8px);
+  background-color: var(--scui-color-neutral-50, #f9fafb);
+  color: var(--scui-color-text-secondary, #4b5563);
+  overflow-wrap: anywhere;
+}
+
+:where(.scui-descriptions__content) {
+  padding: var(--scui-space-3, 12px) var(--scui-space-2, 8px);
+  margin: 0;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+/* 窄屏强制单列，且把跨列收回 1：span 2 在 1 列容器里会造出隐式第二列而溢出。
+   选择器必须带 [data-scui-column] / [data-scui-span] 抬到 0,1,0 —— 只写
+   :where(.scui-descriptions) 特异性为 0，会输给上面的 &[data-scui-column='3']，
+   三列区块在 375px 仍排三列并横向溢出（browser 实测 385px）。 */
+@media (width <= 600px) {
+  :where(.scui-descriptions)[data-scui-column] {
+    --scui-descriptions-columns: 1;
+  }
+
+  :where(.scui-descriptions__item)[data-scui-span] {
+    --scui-descriptions-span: 1;
+  }
+}

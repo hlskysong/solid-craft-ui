@@ -252,6 +252,24 @@ export const COMPONENTS = [
     exportPath: 'solid-craft/tag',
     hasApi: true,
   },
+  {
+    slug: 'tabs',
+    title: 'Tabs 标签页',
+    category: '数据',
+    description:
+      '线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。',
+    exportPath: 'solid-craft/tabs',
+    hasApi: true,
+  },
+  {
+    slug: 'descriptions',
+    title: 'Descriptions 详情列表',
+    category: '数据',
+    description:
+      '详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。',
+    exportPath: 'solid-craft/descriptions',
+    hasApi: true,
+  },
 ];
 
 /** 非组件页面的补充 API 表（02 §12.3 的手工补充范围之外，仍由 oxc-parser 生成）。 */

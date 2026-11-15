@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 已拆解为 T3-01~T3-14 共 14 项（§4.2），T3-01 / T3-02 已完成并闭合（§30.35 / §30.36），余 12 项待执行；分支策略改为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M2 表单闭环已闭合**（2026-11-12，§30.31；M1 Exit 于 2026-11-11 闭合，见 §30.11；R1~R5 四条修改要求全部收口：§30.12 / §30.13 / §30.14）。M2 范围由 Aming 2026-11-11 裁决为**表单 9 件套 + Textarea + App**（Upload 后移 M3），拆为 **T2-01~T2-13 共 13 项**（§4.1）并已全部完成；M3 范围校正见 §30.34 第三节。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-11**（M3 第十一项「`Tabs` / `Descriptions`」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」/ T3-10「`Card` / `Tag`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43` / `30.44`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`（均**未推送**）；T3-10 改动**尚未提交 / 推送**（Aming 本轮授权「继续」，默认只 commit 不 push） |
-| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-10「`Card` / `Tag`」改动，再开始 T3-11「`Tabs` / `Descriptions`」**：T3-10 三个能力全部复用既有属性（`data-scui-color` 只补登记表缺漏），未新造语义名；展示类组件与浮层链互不影响，判据 4m 已把「组合 Skeleton / 五档配色三层 / 边框恒 1px / 非受控关闭」机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 → T3-10 已闭合；**T3-11 / T3-13 可全程并行**；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T3-12**（M3 第十二项「CRUD 列表页组合 Demo」，§4.2，**待执行**）；**T3-01「Table 引擎基座」/ T3-02「Table 排序与筛选」/ T3-03「Table 选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm` + 反馈接入」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」已完成并闭合**（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45，evidence `30.35` / `30.36` / `30.37` / `30.38` / `30.39` / `30.40` / `30.41` / `30.42` / `30.43` / `30.44` / `30.45`）；此前 **T2-13** 已完成并闭合（§30.31），M2 十三项 T2-01~T2-13 全部收口；M1 已于 2026-11-11 闭合（§30.11，38/38 旧任务全勾）；T0-03 评审结论签字落盘在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；CI 最新真实 run `43360663611`（`fa72233`，dev push）回读 **completed / success**；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01 + T3-02 已提交 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`（均**未推送**）；T3-11 改动**尚未提交 / 推送**（Aming 本轮授权「继续」，默认只 commit 不 push） |
+| 下一步 | **先按 AGENTS.md 硬约束 13 取得 Aming 逐次授权，提交（并按需推送）T3-11「`Tabs` / `Descriptions`」改动，再开始 T3-12「CRUD 列表页组合 Demo」**：T3-11 键盘·焦点·ARIA 全部交给 Kobalte Tabs 原语、组件层零重复实现，`content` 惰性工厂让懒加载真的推迟节点创建；Descriptions 用原生 `dl`·`dt`·`dd`，新增 `data-scui-column`、复用 `variant` / `current` / `bordered` / `span`；判据 4n 与负向 N457~N541 85/85 已把八组契约机器守住。推进顺序 T3-01 →（T3-02 / T3-03 并行）→ T3-06 → T3-07 → T3-08 → T3-09 → T3-10 → T3-11 已闭合；**T3-13 `Upload` 与 T3-12 可并行**；T3-12 须等 Table / 弹层 / 反馈 / 展示四路齐备（现已齐备）；T3-14 最后收口（含 Table + Virtual ≤ 35 KB 体积实跑）。门禁已是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -163,7 +163,7 @@
 | T3-08 | `Drawer`（M）：方向、尺寸、焦点陷阱 | T3-07 | 工程师 C | 与 Modal **共用**焦点管理与浮层原语，不重复实现；四方向 + 尺寸；键盘与 axe 通过（**组件层零浮层实现 / 新增 `data-scui-side` 四方向 + 三档 `data-scui-size` / width·height 按方向归一 / 414 tests·34 files / SSR 25 入口 / 166 张基线 / 判据 4k + 负向 N276~N312 37/37 / `pnpm verify` RC=0**，见 §30.42） | [x] |
 | T3-09 | `Alert` / `Tooltip` / `Popconfirm` + 接入 T2-06 的 `Message` / `App` 宿主 | T2-01 / T2-06 | 工程师 C | Tooltip 定位 / 延迟 / 箭头；Popconfirm 异步确认；Alert 可关闭与操作区；全局反馈能脱离树调用且 SSR 不报错（**锚定浮层走新建 `primitives/anchored`、组件层零浮层实现 / 新增 `data-scui-anchor` 十二向 / 复用 `data-scui-kind`·`data-scui-pending` / 444 tests·37 files / SSR 28 入口 / 184 张基线 / 判据 4l + 负向 N313~N386 74/74 / `pnpm verify` RC=0**，见 §30.43） | [x] |
 | T3-10 | `Card` / `Tag`（S） | T2-13 | 工程师 C | Card 标题 / 操作 / 封面 / 加载；Tag 颜色 / 可关闭 / 边框；各 ≥3 Demo + 视觉基线（**复用 `data-scui-color` / `data-scui-loading` / `data-scui-bordered` 三个既有属性、只补 `-color` 的登记表缺漏；Card 加载态组合 `Skeleton` 且量切换前后高度差 ≤ 2px / Tag 边框恒 1px 不抖动 / 467 tests·39 files / SSR 30 入口 / 196 张基线 / 判据 4m + 负向 N387~N456 70/70 / `pnpm verify` RC=0**，见 §30.44） | [x] |
-| T3-11 | `Tabs` / `Descriptions`（M） | T2-13 | 工程师 B | Tabs 线型 / 卡片 / 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0 | [ ] |
+| T3-11 | `Tabs` / `Descriptions`（M） | T2-13 | 工程师 B | Tabs 线型 / 卡片 / 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0（**键盘·焦点·ARIA 全交 `@kobalte/core/tabs` 原语单点输出、组件层零重复实现 / `content` 惰性工厂让懒加载真的推迟节点创建 / 线型激活态底部实色条 / Descriptions 用原生 `dl`·`dt`·`dd` 且 `column`·`span`·`bordered` 三层齐全 / 新增 `data-scui-column`、补登记 `data-scui-span` / 窄屏抬特异性后 375px 零溢出 / 493 tests·41 files / SSR 32 入口 / 208 张基线 / 判据 4n + 负向 N457~N541 85/85 / `pnpm verify` RC=0**，见 §30.45） | [x] |
 | T3-12 | **CRUD 列表页组合 Demo**：Table + Form 查询 + Modal 新增 / 编辑 + 删除确认 + 操作反馈端到端 | T3-06 / T3-07 / T3-09 / T3-11 | 技术负责人 | 一页真实列表页可独立开发；新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐 | [ ] |
 | T3-13 | `Upload`（M2 后移项）：`customRequest`、进度、文件列表、删除 / 重试 | T2-08 / T2-09 | 工程师 C | 上传 / 删除 / 重试受控链路；SSR 静态骨架；零新增依赖；与 `Form.Item` 接入可用 | [ ] |
 | T3-14 | **体积预算 + M3 Exit 检查**：Table 预算实跑、每组件 ≥3 Demo、视觉基线全对齐、文档与 llms 生成物、里程碑散文记录 | T3-01 / T3-06 / T3-12 / T3-13 | 技术负责人 | `pnpm verify` RC=0；`check:ci` 判据 11 的 Demo 覆盖与基线对齐在扩面后仍成立；M3 里程碑只做散文记录、勾选只发生在 §4.2 | [ ] |
@@ -4992,3 +4992,120 @@ T3-10 按 §4.2 验收列四条全部闭合：**Card 标题 / 操作 / 封面 / 
 3. **组合已有组件比再写一份更难验、但更值得**：Card 加载态复用 Skeleton 后，必须同时验「骨架真的出现」「children 真的被换掉」「高度真的不抖」，三缺一都可能是半接线；单靠 `data-scui-loading` 断言全是假绿。
 4. **判据自身的正则窗口也是实证对象**：负向实证不只验业务代码，也要验判据没有「跨块误命中」这类假绿；本轮 N413 / N414 就是为此补的。
 5. **负向脚本崩了要先确认工作区没残留**：脚本在 `patch` 断言处自毁时不会走收尾的 SHA256 汇总，重跑前先用一次 `check:ci` RC=0 证明现场干净，比直接信任 `finally` 更可靠。
+
+### 30.45 T3-11 Tabs / Descriptions 落地与验收（2026-11-15 实测）
+
+#### 一、结论先行
+
+T3-11 按 §4.2 验收列四条全部闭合：**Tabs 线型 / 卡片 / 懒加载 / 键盘导航**、**Descriptions 详情页键值展示**、**各 ≥3 Demo**、**axe 0 violation**。冻结面 `docs/04 §2.3` 把两者列为 P0 / **M**（M 是**复杂度档**，不是 size 档，与 T3-10 的 S 同理）；`docs/01~07` 对这两个组件同样没有独立 API 草案章节，约束散在 `docs/02 L563 / L568`（焦点与键盘由原语承担）、`docs/03 §4.5`（文本对比度）、AGENTS 硬约束 3（属性语义名）与登记表。
+
+本轮三个关键判断：
+
+1. **键盘、焦点、ARIA 一个都不自己写**。`@kobalte/core/tabs` 的 `Root / List / Trigger / Content` 单点输出 `tablist` / `tab` / `tabpanel`、方向键 / Home / End / roving tabindex、`aria-selected`；组件层只负责受控值归一、样式变体、懒加载开关与 `data-scui-*`。这与 T3-07 新建 `primitives/overlay`、T3-09 新建 `primitives/anchored` 同源：自己再写一份必然与 hydration、焦点归还、读屏语义分叉。判据 4n-a 用九个关键字黑名单把这点钉成机器闸门。
+2. **懒加载必须是「不创建节点」，不是「创建了再隐藏」**。`TabItem.content` 定为惰性工厂 `() => JSX.Element`；`lazy=true` 时只挂载激活 panel，`lazy=false` 时 `forceMount` 全挂载并用原生 `hidden` 收起。若 `content` 直接是 `JSX.Element`，构造 `items` 数组时就已求值，懒加载只是摆设。
+3. **详情页不是数据表**。Descriptions 用原生 `<dl>` / `<dt>` / `<dd>`，不用 `<table>`；否则读屏器会拿到虚假的行列关系。
+
+属性口径上：**只新增 `data-scui-column`**（一行几列），**补登记 `data-scui-span`**（AGENTS 硬约束 3 早已把「栅格跨列」指派给它，登记表此前缺漏），其余全部复用 `data-scui-variant` / `data-scui-current` / `data-scui-bordered`。一个属性名只表达一个语义，不为「激活」「选中」再造 `-active` / `-selected`。
+
+#### 二、交付清单
+
+| 交付物 | 说明 |
+| --- | --- |
+| `components/tabs/` | `types.ts` / `Tabs.tsx` / `tabs.scss` / `index.ts` / `Tabs.test.tsx` / 3 个 Demo（basic / variant / lazy）/ SSR 入口 |
+| `components/descriptions/` | `types.ts` / `Descriptions.tsx` / `descriptions.scss` / `index.ts` / `Descriptions.test.tsx` / 3 个 Demo（basic / column / bordered）/ SSR 入口 |
+| 接线 | `src/index.ts` 两组导出、`package.json` 两个四条件 exports、catalog 两条「数据」、`data-attributes.md` 新增 `data-scui-column` 行 + 补 `data-scui-span` / 三条复用 / role 锚点、`ssr-smoke.mjs` 两个入口、`docs:generate` 与 llms 全量生成物 |
+| 门禁 | `check-ci.mjs` 判据 **4n**（收进既有阶段）+ 汇总文案 + `FONT_SHA256`、`tests/e2e/specs/browser.spec.ts` 7 条手写用例 + 1 条 Tabs/Descriptions 组合 axe 用例 |
+| 基线 | 6 个 Demo × 2 视口 = **12 张**新基线（196 → 208），强制移走重生成后逐张 SHA256 比对、代表图回读确认 |
+
+#### 三、设计决策：为什么这样定
+
+| 决策 | 理由 |
+| --- | --- |
+| 键盘 / 焦点 / ARIA 全交 Kobalte Tabs 原语 | `docs/02 L563 / L568` 明确要求原语承担；组件层出现 `onKeyDown` / `tabIndex` / `activeElement` / `aria-selected` / `role="tab*"` 任一即判红。不搞「原语 + 补一点」的双真源 |
+| `content` 是惰性工厂 | 懒加载的语义是**推迟节点创建**；静态 `JSX.Element` 在数组构造时已求值。判据 4n-d 同时钉住类型签名与 `{item.content?.()}` 调用点 |
+| `lazy` 默认 `true`，`forceMount` / `hidden` 单一出口 | 默认只挂载激活 panel；关闭懒加载时全挂载但用原生 `hidden` 收起，避免多个 `tabpanel` 同时可见。两个分支都由同一个 `lazy()` 派生，不写第二套条件 |
+| 受控优先级 `value > internal > defaultValue > firstKey` | 与 Modal / Drawer / Pagination 同口径；受控时点击只发 `onChange`、不回写内部信号，DOM 由调用方回弹。basic Demo 用 `value="plan"` 锁定并打印日志做实证 |
+| 变体复用 `data-scui-variant`，激活态复用 `data-scui-current` | `-variant` 是既有「外观档」语义、`-current` 是既有「当前项」语义；造 `-tab-type` / `-active` / `-selected` 会让同一状态出现两套选择器。`data-scui-current` 必须同时落在 Trigger 与 Content 两处，判据用 `matchAll` 数到 2 |
+| 线型激活态必须换底部边框色 | 首轮回读基线发现只有蓝字、没有蓝色实线，线型退化成纯文字态；补 `border-block-end-color: var(--scui-tabs-accent)` 并加 computed-style 断言 |
+| Descriptions 用 `dl` / `dt` / `dd` | 详情页是键值列表不是数据表；`<table>` 会让读屏器播报虚假行列。表头 `title` / `extra` 共用一个 `hasHeader()` 可缺席 `<Show>`，不写两套条件 |
+| `column` / `span` / `bordered` 三层齐全 | 类型枚举（1\|2\|3 / 存在即真）、运行时属性恒输出（SSR 与首帧一致）、样式规则真的改 `--scui-descriptions-columns` / `--scui-descriptions-span`；三层缺一层就是死代码。判据逐档取 `split('}')[0]` 当前块，避免 T3-10 N413 / N414 的跨块假绿 |
+| label 列固定 `120px` | 比例宽 `minmax(88px, 34%)` 在两列 / 三列下把「本次采购金额」「计划完成时间」挤折行，且跨列项 label 宽与同行不一致；固定宽让跨列项与同行对齐 |
+| 窄屏规则带属性选择器抬特异性 | `:where(.scui-descriptions)` 特异性为 0，输给 `&[data-scui-column='3']` 的 0,1,0，三列 / 跨列在窄屏没被压回 → 375px 实测 `scrollWidth=385`。改成 `[data-scui-column]` / `[data-scui-span]` 后单列生效 |
+| `descriptions.scss` 自行 `@use '../button/button';` | CSS 逐组件独立编译、不做依赖聚合；Demo / 表头操作区用到 Button 就必须自己聚合 |
+| catalog 归「数据」 | 与 T3-10 同因：冻结面 §2.3 标题即「数据展示」；判据 4n-h 钉住分类名，防止误归「反馈」 |
+| 严格不加冻结面之外的能力 | 不做可编辑标签页 / 动态增减 / 图标 / `size` / 上下左右四个 tab 位置 / Descriptions 的 vertical 与编辑态。多一个开关就多一套选择器、Demo 与两张基线，而调用方用 `class` 就能覆盖 |
+
+#### 四、本轮真实缺陷与假信号
+
+1. ⚠️ **`noUncheckedIndexedAccess` 抓到单测下标**：`Tabs.test.tsx` 的 `tabs()[i]` / `panels()[i]` 与 `Descriptions.test.tsx` 的 `labels[0]` / `items[0]` 报 TS2532 / TS2345 / TS2322。修法是加 `tabAt` / `panelAt` 取数器与非空断言 `!`，不是关编译选项。
+2. ⚠️ **Kobalte 0.13 懒加载下 `aria-controls` 不指向未挂载 panel**：查明其 `contentIdsMap` 是普通 Map，Trigger 首次求值后不重算，未挂载 panel 没有 id。**没有在组件层代填 ARIA**（那正是「重复实现」），改为断言「`aria-selected` 必须存在；`aria-controls` 若存在则必须指向真实 DOM 节点；激活 panel 的 `role="tabpanel"` 仍由原语输出」。
+3. ⚠️ **判据自身正则误报两处**：`const lazy = (): boolean => local.lazy !== false;` 被初版正则误判「默认值不是 true」；`<dd` 被 prettier 折行后初版 `<dd ` 判为未用原生语义。分别改成整行精确匹配与 `/<dd[\s>]/`。判据也是实证对象。
+4. ⚠️ **视觉基线回读才发现线型 Tabs 只有蓝字**：单测 / axe / SSR 全绿，但 `tabs-basic` 截图里激活标签下方没有蓝色 2px 实线。补样式并写进 4n-c 与 browser computed-style 断言。
+5. ⚠️ **Descriptions 比例 label 列导致字段名折行**：同样是「测试全绿但画面不对」，改固定 `120px` 并把规则写进 4n-f。
+6. ⚠️ **375px 横向溢出 385px**：`:where()` 归零特异性输给列数规则（见第三节）。补属性选择器后 browser 断言 `scrollWidth <= 375` 通过。
+7. ⚠️ **375px 用例 `count()` 不等待挂载**：`goto` 刚返回时 Solid 可能还没把组件插进 DOM，`roots.count()` 拿到 0。先 `await expect(roots.first()).toBeVisible()` 再数。
+8. ⚠️ **`test:visual:update` 的假通过风险**：旧 dev server / Vite 缓存 / `maxDiffPixelRatio=0.002` 都可能让 `--update-snapshots` 判一致但不写盘。把 12 张 T3-11 基线整体移到 `/tmp/t311-baselines-backup/` 强制重生成，SHA256 比对 **12/12 全变**，证明样式修复真的进了截图。
+9. ⚠️ **负向脚本 catalog 分类锚点不唯一**：`slug: 'tabs'` 全局替换会撞到别处；最后改成「slug + title + category」三行整块定位，85/85 一次跑通。
+10. ✅ 严格按「改组件源码 → 重 `pnpm build` → browser / visual」执行，未复发 T3-07 的 `dist/source` 旧产物坑；开工前先跑一次 `check:ci` RC=0 证明负向脚本无残留。
+11. ⚠️ **最终全量 verify 才暴露 Biome `noUnknownUnit` 误报**：`tabs.scss` 两条自定义属性声明的 `var(--scui-color-primary, #2563eb)` / `var(--scui-color-text-secondary, #4b5563)` 被 Biome 把 `eb` / `b5563` 当成未知 CSS 单位判错；同样写法出现在普通属性（`table.scss:235` 的 `accent-color: var(--scui-color-primary, #2563eb)`）却不报错，是**自定义属性值解析的假阳性**。改成等价 `rgb(37 99 235)` / `rgb(75 85 99)`，颜色字节不变、仍保留 token 缺席时的兜底（不删回退、不依赖 token 一定加载）。Biome 默认截断 38 条诊断，须用 `--diagnostic-level=error` 才看得到这 2 条。
+12. ⚠️ **`comment-empty-line-before`**：`descriptions.scss:66` 注释紧跟 `display: grid;`，stylelint 判红，补一空行即可。两项都是纯格式修复，不改判据、不改负向锚点，`check:ci` 修复前后均 RC=0。
+
+#### 五、SSR、视觉与字体
+
+- **32 个 SSR 入口**全绿：`T3-11-tabs` 3065 chars / 5 markers / 10 counts（默认线型 + 卡片全量挂载两个实例）、`T3-11-descriptions` 3335 chars / 7 markers / 12 counts（默认两列 / 三列边框 / 单列纯列表三个实例）。两个入口只验正面静态骨架，不写 forbid 假判据（N62）。
+- 视觉基线 12 张（196 → **208**），强制移走重生成且 SHA256 12/12 全变；`ViewImage` 回读确认：线型激活标签下方蓝色 2px 实线、卡片变体边框闭合、懒加载两组对照、Descriptions 固定 label 列不再折行且「备注」跨整行、三列 / 单列切换布局正常。
+- 字集重建到 **1004 码位**（909 CJK/符号 + 95 ASCII），字体 **289724 bytes**，`FONT_SHA256` 同步为 `d324bbbcedb9081899ba5b6e83d6eb33e7430647b6e15e25345fbe64985363b3`。
+- 浏览器：`pnpm test:visual:update` 209 passed；`-g "Tabs|Descriptions"` **19/19 passed**（7 条手写 + 1 条组合 axe + 自动生成的 DEMO_CASES），含 375px 零溢出与 axe 0 violation。
+
+#### 六、新增判据（`check:ci` 4n，收进既有阶段）
+
+| 子判据 | 钉住什么 | 负向实证 |
+| --- | --- | --- |
+| 4n-a | 组件层零键盘 / 焦点 / ARIA 实现（九个关键字黑名单）、全走 Kobalte Tabs 原语、tablist 恒有可读名称 | N457~N467 |
+| 4n-b | 受控优先级 `value > internal > defaultValue > firstKey`、受控只发事件不回写、`current()` 交给原语受控值 | N468~N471 |
+| 4n-c | 线型 / 卡片在类型枚举、运行时 `data-scui-variant`、样式规则三层齐全；默认 line；线型激活态真的换边框色 | N472~N479 |
+| 4n-d | `content` 惰性工厂、`lazy` 默认 true、`forceMount` / `hidden` 单一出口、样式真的收起非激活 panel | N480~N486 |
+| 4n-e | 激活态复用 `data-scui-current` 且 Trigger / Content 各一处，禁 `-active` / `-selected` / `-kind` 串味 | N487~N490 |
+| 4n-f | Descriptions 的 `dl`·`dt`·`dd`、表头按内容缺席、`column` / `span` / `bordered` 三层、Button 样式聚合、固定 label 列、窄屏单列且带属性选择器抬特异性 | N491~N510 |
+| 4n-g | R1（无 modifier class）/ R3（无 MaybeAccessor）/ 新增 `data-scui-column` 与补登记 `data-scui-span` / 三条复用登记 / 两组 role 锚点 | N511~N521 |
+| 4n-h | barrel / 四条件 exports / catalog 分类与 exportPath / 两个 SSR 入口文件与登记 / 各 ≥3 Demo（整份删除实证） | N522~N541 |
+
+判据一律先剥注释再匹配（T3-04 / T3-05 的注释冒充坑），规则窗口用 `split('}')[0]` 收进当前规则块（T3-10 N413 / N414 的跨块假绿）；**未新增 workflow / job / verify 阶段**（26 阶段不变）。
+
+#### 七、验收
+
+| 项 | 结果 |
+| --- | --- |
+| `pnpm verify` | ✅ RC=0（26 阶段全量，最终态） |
+| core 单测 | ✅ **493 tests / 41 files**（新增 26） |
+| browser / visual / docs / llms | ✅ **255 / 209 / 8 / 4** 全 passed（手写新增 8 条 browser 用例 + 12 张基线；`-g "Tabs|Descriptions"` 19/19） |
+| SSR 冒烟 | ✅ **32 入口**，T3-11 两入口 5/5 + 7/7 markers、10/10 + 12/12 counts 全中 |
+| 规模 | ✅ **31 组件 / 104 Demo / 31 API 表 / 585 条搜索索引 / 208 张基线 / 字集 1004 码位** |
+| `check:ci` | ✅ 判据 4n 收进既有阶段，汇总文案带「Tabs / Descriptions 契约」 |
+| 负向实证 | ✅ **N457~N541 85/85 PASS + RESTORE_OK**（逐文件 SHA256 与开工前逐字节一致） |
+| `check:todo` | ✅ 65 任务 / 62 `[x]` 全有证据 / 倒挂 0 |
+| 冻结面 | ✅ `docs/01~07` + `pnpm-lock.yaml` 零改动，零新增依赖，`git diff --check` RC=0 |
+| 治理 | §30.45 落地、T3-11 勾 `[x]`、锚点推进 **T3-12**、evidence `30.45`、goals 基线重校 |
+
+#### 八、允许写入路径（L4）与边界
+
+本轮改动全部落在允许的 L4 路径：两个新建组件目录（源码 / Demo / 单测 / SSR 入口 / SCSS）、`src/index.ts`、`packages/core/package.json`、`apps/docs/src/content/catalog.mjs` 与其生成物、`apps/docs/public/fonts/` 两个字体产物、`packages/core/spikes/api-draft/data-attributes.md`、`packages/core/spikes/shared/ssr-smoke.mjs`、`scripts/check-ci.mjs`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`、`tests/e2e/specs/browser.spec.ts`、视觉基线、`docs/08-实施Todo.md`、`AGENTS.md`（仅 `check:goals` 自动更新的基线哈希）、`.workbuddy/memory/`。`docs/01~07` 与 `pnpm-lock.yaml` 零改动；未新增 workflow / job / verify 阶段；未新增依赖；未发布；未推送。
+
+#### 九、已知边界与风险
+
+1. **Tabs 不做可编辑标签页 / 动态增减 / 图标 / `size` / 上下左右位置**：按 §4.2 四项收口；新增须同步补枚举、SCSS、Demo、基线、登记表与判据，不能只加 prop。
+2. **懒加载下 `aria-controls` 可能缺席**：Kobalte 0.13 的 `contentIdsMap` 是普通 Map、Trigger 首次求值后不重算；本轮坚持不代填 ARIA。`aria-selected` 与激活 `role="tabpanel"` 仍由原语完整输出，axe 实测 0 violation。
+3. **Descriptions 不做 vertical / 编辑态 / 自定义 label 宽**：需要时用 CSS 变量或 `class` 覆盖，不新增 prop。
+4. **375px 单列依赖特异性**：窄屏规则必须带 `[data-scui-column]` / `[data-scui-span]`，后续若改列数规则的选择器权重，必须同步复核 375px 不溢出。
+5. **`color-mix` 依赖 Chromium ≥ 111**（沿用 T3-10 结论），视觉基线走 bundled chromium、契约已锁。
+6. **T3-11 改动未提交 / 未推送**：AGENTS.md 硬约束 13 要求逐次授权；HEAD 仍 `1be8999`（T3-10），`origin/dev` 仍停 `fa72233`。
+
+#### 十、教训
+
+1. **「用原语」不是「import 一下就完」**：必须列黑名单把 `role="tab*"` / `aria-selected` / `aria-controls` / `onKeyDown` / `tabIndex` / `activeElement` 全部钉死，否则「补一点」会慢慢长回第二套实现。负向 N458~N466 就是把每个关键字逐条改坏验红。
+2. **惰性求值由数据模型决定，渲染分支补不回来**：`content` 只要写成 `JSX.Element`，再怎么加 `forceMount` 都只是「创建了再隐藏」。判据必须同时盯类型签名与调用点。
+3. **视觉基线回读一次都不能省**：本轮两个真缺陷（线型无蓝线、label 折行）都是单测 / SSR / axe 全绿但画面不对；computed-style 与 375px 几何断言是对「只断言属性」的必要补强。
+4. **`:where()` 的特异性归零是布局 bug 的温床**：窄屏覆盖规则一旦输给属性选择器，就是 10px 横向溢出这类「看着像小毛病」的问题；判据把「必须带属性选择器」写死。
+5. **样式修复后要强制移走基线重生成**：`--update-snapshots` 判一致不写盘的假通过已第二次遇到，SHA256 12/12 全变才是可信证据。
+6. **`count()` 不等待挂载**：真实浏览器用例里凡是数节点，先等 `toBeVisible()` 再数，否则拿到的是 hydration 前的空 DOM。
+7. **分项命令绿 ≠ 全量 verify 绿**：本轮 typecheck / 单测 / SSR / build / `check:ci` / visual / browser 全绿，最终 `pnpm verify` 仍在 `lint` 阶段连挂两次（Biome `noUnknownUnit` + stylelint 注释空行）。26 阶段一条都不能跳过，尤其新增 `.scss` 后必须跑 `pnpm lint` 全链（oxlint / biome / stylelint / prettier 四条子链各自能单独判红）。

@@ -1,0 +1,88 @@
+{
+  "slug": "tabs",
+  "source": "packages/core/src/components/tabs/types.ts",
+  "interfaces": [
+    {
+      "name": "TabItem",
+      "inherits": null,
+      "props": [
+        {
+          "name": "key",
+          "type": "string",
+          "optional": false,
+          "description": "唯一 key，同时是 Kobalte 的 value / Trigger 与 Content 的关联键。",
+          "default": null
+        },
+        {
+          "name": "label",
+          "type": "JSX.Element",
+          "optional": false,
+          "description": "标签头文案。",
+          "default": null
+        },
+        {
+          "name": "content",
+          "type": "() => JSX.Element",
+          "optional": true,
+          "description": "面板内容的**惰性工厂**。只有该 panel 首次挂载时才调用；`lazy` 为 true 时 未激活的 panel 不挂载，因此连节点创建都被推迟，而不只是「插进 DOM 后隐藏」。",
+          "default": null
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "optional": true,
+          "description": "禁用该标签；原生 `disabled` 与 `data-scui-disabled` 同时输出。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TabsProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'children' | 'onChange'\n>",
+      "props": [
+        {
+          "name": "items",
+          "type": "TabItem[]",
+          "optional": false,
+          "description": "标签页列表。",
+          "default": null
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": true,
+          "description": "受控激活 key；给出时点击只发 `onChange`，DOM 由调用方回弹。",
+          "default": null
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "optional": true,
+          "description": "非受控初始 key；缺省时回落到 `items[0].key`。",
+          "default": null
+        },
+        {
+          "name": "onChange",
+          "type": "(value: string) => void",
+          "optional": true,
+          "description": "激活 key 变化；受控与非受控都只走这一个出口。",
+          "default": null
+        },
+        {
+          "name": "variant",
+          "type": "TabsVariant",
+          "optional": true,
+          "description": "样式变体，恒输出为 `data-scui-variant`。",
+          "default": "'line'"
+        },
+        {
+          "name": "lazy",
+          "type": "boolean",
+          "optional": true,
+          "description": "懒加载：`true` 时只挂载激活 panel（Kobalte 默认 presence），切换会卸载旧 panel；`false` 时所有 panel 首帧即挂载，非激活panel 用原生 `hidden` 收起。",
+          "default": "true"
+        }
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 143,
+  "pageCount": 151,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -158,6 +158,16 @@
     {
       "path": "llms/exports/tag.md",
       "title": "# Tag 标签（`solid-craft/tag`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/tabs.md",
+      "title": "# Tabs 标签页（`solid-craft/tabs`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/descriptions.md",
+      "title": "# Descriptions 详情列表（`solid-craft/descriptions`）",
       "kind": "exports"
     },
     {
@@ -724,6 +734,36 @@
       "path": "llms/demos/tag-closable.md",
       "title": "# Tag 标签 · 可关闭（源码）",
       "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tabs-basic.md",
+      "title": "# Tabs 标签页 · 基础用法与键盘导航（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tabs-lazy.md",
+      "title": "# Tabs 标签页 · 懒加载开关（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/tabs-variant.md",
+      "title": "# Tabs 标签页 · 线型与卡片（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/descriptions-basic.md",
+      "title": "# Descriptions 详情列表 · 详情页键值展示（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/descriptions-bordered.md",
+      "title": "# Descriptions 详情列表 · 边框与表头（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/descriptions-column.md",
+      "title": "# Descriptions 详情列表 · 列数与跨列（源码）",
+      "kind": "demos"
     }
   ],
   "exports": {
@@ -756,6 +796,8 @@
     "./popconfirm": "llms/exports/popconfirm.md",
     "./card": "llms/exports/card.md",
     "./tag": "llms/exports/tag.md",
+    "./tabs": "llms/exports/tabs.md",
+    "./descriptions": "llms/exports/descriptions.md",
     "./config-provider": "llms/exports/config-provider.md",
     "./styles.css": "llms/exports/styles-css.md",
     "./styles/*": "llms/exports/styles.md",
@@ -792,6 +834,8 @@
     "llms/exports/popconfirm.md",
     "llms/exports/card.md",
     "llms/exports/tag.md",
+    "llms/exports/tabs.md",
+    "llms/exports/descriptions.md",
     "llms/exports/config-provider.md",
     "llms/exports/styles-css.md",
     "llms/exports/styles.md",
@@ -905,7 +949,13 @@
     "llms/demos/card-loading.md",
     "llms/demos/tag-basic.md",
     "llms/demos/tag-bordered.md",
-    "llms/demos/tag-closable.md"
+    "llms/demos/tag-closable.md",
+    "llms/demos/tabs-basic.md",
+    "llms/demos/tabs-lazy.md",
+    "llms/demos/tabs-variant.md",
+    "llms/demos/descriptions-basic.md",
+    "llms/demos/descriptions-bordered.md",
+    "llms/demos/descriptions-column.md"
   ],
   "requiredSections": [
     "SSR 与 Hydration",

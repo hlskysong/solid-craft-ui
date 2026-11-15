@@ -3892,6 +3892,195 @@
     "href": "/components/tag#api-children"
   },
   {
+    "type": "component",
+    "title": "Tabs 标签页",
+    "description": "线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。",
+    "keywords": "tabs solid-craft/tabs",
+    "href": "/components/tabs"
+  },
+  {
+    "type": "demo",
+    "title": "Tabs 标签页 · 基础用法与键盘导航",
+    "description": "tablist / tab / tabpanel 与方向键、Home / End、roving tabindex 都由 Kobalte 原语输出；组件只把激活态落成 data-scui-current。禁用项不可聚焦。",
+    "keywords": "tabs basic",
+    "href": "/components/tabs/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Tabs 标签页 · 懒加载开关",
+    "description": "lazy 默认 true：未激活 panel 的 content 工厂一次都不调用，切换才创建。lazy=false 时所有 panel 首帧挂载，非激活的用原生 hidden 收起，不重复创建。",
+    "keywords": "tabs lazy",
+    "href": "/components/tabs/lazy"
+  },
+  {
+    "type": "demo",
+    "title": "Tabs 标签页 · 线型与卡片",
+    "description": "两档样式都由 data-scui-variant 表达（AGENTS 硬约束 3 把「变体」指派给该属性），激活态复用 data-scui-current。切换按钮验证属性与样式同步生效。",
+    "keywords": "tabs variant",
+    "href": "/components/tabs/variant"
+  },
+  {
+    "type": "api",
+    "title": "TabItem.key",
+    "description": "唯一 key，同时是 Kobalte 的 value / Trigger 与 Content 的关联键。",
+    "keywords": "tabs string",
+    "href": "/components/tabs#api-key"
+  },
+  {
+    "type": "api",
+    "title": "TabItem.label",
+    "description": "标签头文案。",
+    "keywords": "tabs JSX.Element",
+    "href": "/components/tabs#api-label"
+  },
+  {
+    "type": "api",
+    "title": "TabItem.content",
+    "description": "面板内容的**惰性工厂**。只有该 panel 首次挂载时才调用；`lazy` 为 true 时 未激活的 panel 不挂载，因此连节点创建都被推迟，而不只是「插进 DOM 后隐藏」。",
+    "keywords": "tabs () => JSX.Element",
+    "href": "/components/tabs#api-content"
+  },
+  {
+    "type": "api",
+    "title": "TabItem.disabled",
+    "description": "禁用该标签；原生 `disabled` 与 `data-scui-disabled` 同时输出。",
+    "keywords": "tabs boolean",
+    "href": "/components/tabs#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "TabsProps.items",
+    "description": "标签页列表。",
+    "keywords": "tabs TabItem[]",
+    "href": "/components/tabs#api-items"
+  },
+  {
+    "type": "api",
+    "title": "TabsProps.value",
+    "description": "受控激活 key；给出时点击只发 `onChange`，DOM 由调用方回弹。",
+    "keywords": "tabs string",
+    "href": "/components/tabs#api-value"
+  },
+  {
+    "type": "api",
+    "title": "TabsProps.defaultValue",
+    "description": "非受控初始 key；缺省时回落到 `items[0].key`。",
+    "keywords": "tabs string",
+    "href": "/components/tabs#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "TabsProps.onChange",
+    "description": "激活 key 变化；受控与非受控都只走这一个出口。",
+    "keywords": "tabs (value: string) => void",
+    "href": "/components/tabs#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "TabsProps.variant",
+    "description": "样式变体，恒输出为 `data-scui-variant`。",
+    "keywords": "tabs TabsVariant",
+    "href": "/components/tabs#api-variant"
+  },
+  {
+    "type": "api",
+    "title": "TabsProps.lazy",
+    "description": "懒加载：`true` 时只挂载激活 panel（Kobalte 默认 presence），切换会卸载旧 panel；`false` 时所有 panel 首帧即挂载，非激活panel 用原生 `hidden` 收起。",
+    "keywords": "tabs boolean",
+    "href": "/components/tabs#api-lazy"
+  },
+  {
+    "type": "component",
+    "title": "Descriptions 详情列表",
+    "description": "详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。",
+    "keywords": "descriptions solid-craft/descriptions",
+    "href": "/components/descriptions"
+  },
+  {
+    "type": "demo",
+    "title": "Descriptions 详情列表 · 详情页键值展示",
+    "description": "用原生 dl / dt / dd 承载字段名与值，标题与操作区按内容缺席；备注用 span=2 跨满一行。列数与跨列都恒输出 data-scui-*，SSR 与首帧一致。",
+    "keywords": "descriptions basic",
+    "href": "/components/descriptions/basic"
+  },
+  {
+    "type": "demo",
+    "title": "Descriptions 详情列表 · 边框与表头",
+    "description": "bordered 复用 Table / Tag 已登记的 data-scui-bordered（存在即真）；标题与操作区都为 undefined 时表头整块缺席，不留空盒子。",
+    "keywords": "descriptions bordered",
+    "href": "/components/descriptions/bordered"
+  },
+  {
+    "type": "demo",
+    "title": "Descriptions 详情列表 · 列数与跨列",
+    "description": "column=1 / 2 / 3 三档由 data-scui-column 派生 grid 列数；窄屏强制单列且把 span 收回 1，避免隐式列导致横向溢出。",
+    "keywords": "descriptions column",
+    "href": "/components/descriptions/column"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsItem.key",
+    "description": "唯一 key，供 `<For>` 复用节点。",
+    "keywords": "descriptions string",
+    "href": "/components/descriptions#api-key"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsItem.label",
+    "description": "字段名。",
+    "keywords": "descriptions JSX.Element",
+    "href": "/components/descriptions#api-label"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsItem.children",
+    "description": "字段值；缺席时渲染空的 `<dd>`，不留塌陷。",
+    "keywords": "descriptions JSX.Element",
+    "href": "/components/descriptions#api-children"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsItem.span",
+    "description": "该项跨几列，默认 1；窄屏由 CSS 强制回落到 1 以免溢出。",
+    "keywords": "descriptions DescriptionsColumn",
+    "href": "/components/descriptions#api-span"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsProps.items",
+    "description": "键值项列表。",
+    "keywords": "descriptions DescriptionsItem[]",
+    "href": "/components/descriptions#api-items"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsProps.title",
+    "description": "详情页标题；省略时按 `extra` 是否存在决定表头是否整块缺席。",
+    "keywords": "descriptions JSX.Element",
+    "href": "/components/descriptions#api-title"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsProps.extra",
+    "description": "表头右侧操作区。",
+    "keywords": "descriptions JSX.Element",
+    "href": "/components/descriptions#api-extra"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsProps.column",
+    "description": "一行几列，恒输出为 `data-scui-column`。",
+    "keywords": "descriptions DescriptionsColumn",
+    "href": "/components/descriptions#api-column"
+  },
+  {
+    "type": "api",
+    "title": "DescriptionsProps.bordered",
+    "description": "是否给每个键值项加外边框；复用 `data-scui-bordered`。 @default false",
+    "keywords": "descriptions boolean",
+    "href": "/components/descriptions#api-bordered"
+  },
+  {
     "type": "page",
     "title": "更新记录",
     "description": "Changesets 版本记录",

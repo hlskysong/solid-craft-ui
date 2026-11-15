@@ -1,0 +1,81 @@
+{
+  "slug": "descriptions",
+  "source": "packages/core/src/components/descriptions/types.ts",
+  "interfaces": [
+    {
+      "name": "DescriptionsItem",
+      "inherits": null,
+      "props": [
+        {
+          "name": "key",
+          "type": "string",
+          "optional": false,
+          "description": "唯一 key，供 `<For>` 复用节点。",
+          "default": null
+        },
+        {
+          "name": "label",
+          "type": "JSX.Element",
+          "optional": false,
+          "description": "字段名。",
+          "default": null
+        },
+        {
+          "name": "children",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "字段值；缺席时渲染空的 `<dd>`，不留塌陷。",
+          "default": null
+        },
+        {
+          "name": "span",
+          "type": "DescriptionsColumn",
+          "optional": true,
+          "description": "该项跨几列，默认 1；窄屏由 CSS 强制回落到 1 以免溢出。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "DescriptionsProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'children' | 'title'\n>",
+      "props": [
+        {
+          "name": "items",
+          "type": "DescriptionsItem[]",
+          "optional": false,
+          "description": "键值项列表。",
+          "default": null
+        },
+        {
+          "name": "title",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "详情页标题；省略时按 `extra` 是否存在决定表头是否整块缺席。",
+          "default": null
+        },
+        {
+          "name": "extra",
+          "type": "JSX.Element",
+          "optional": true,
+          "description": "表头右侧操作区。",
+          "default": null
+        },
+        {
+          "name": "column",
+          "type": "DescriptionsColumn",
+          "optional": true,
+          "description": "一行几列，恒输出为 `data-scui-column`。",
+          "default": "2"
+        },
+        {
+          "name": "bordered",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否给每个键值项加外边框；复用 `data-scui-bordered`。 @default false",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

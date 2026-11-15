@@ -1331,6 +1331,267 @@ if (!emptyImpl || !skeletonImpl || !skeletonStyles || !spinImpl) {
   }
 }
 
+// 4n. T3-11 标签页 / 详情列表契约（§30.45）。§4.2 验收原话「Tabs 线型 / 卡片 /
+// 懒加载 / 键盘导航；Descriptions 详情页键值展示；各 ≥3 Demo + axe 0」的机器闸门。
+// ① 键盘 / ARIA 零重复实现（全交给 Kobalte Tabs 原语）；② 受控优先级；
+// ③ 线型 / 卡片在类型·运行时·样式三层齐全；④ 懒加载真的推迟 content 工厂调用；
+// ⑤ 激活态复用 data-scui-current 且不串味；⑥ Descriptions 的 dl 语义与
+// column / span / bordered 三层；⑦ barrel / exports / catalog / Demo / 两个 SSR 入口。
+// 一律先剥注释再匹配（T3-04 / T3-05 的注释冒充坑），规则窗口用 split('}')[0]
+// 收进当前块（T3-10 N413 / N414 的跨块假绿）。
+{
+  const stripT311Comments = (code) =>
+    code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const componentsDir = join(repoRoot, 'packages', 'core', 'src', 'components');
+  const coreSrc = join(repoRoot, 'packages', 'core', 'src');
+  const t311Impl = {
+    tabs: stripT311Comments(read(join(componentsDir, 'tabs', 'Tabs.tsx'))),
+    descriptions: stripT311Comments(read(join(componentsDir, 'descriptions', 'Descriptions.tsx'))),
+  };
+  const t311Styles = {
+    tabs: stripT311Comments(read(join(componentsDir, 'tabs', 'tabs.scss'))),
+    descriptions: stripT311Comments(read(join(componentsDir, 'descriptions', 'descriptions.scss'))),
+  };
+  const t311Types = {
+    tabs: stripT311Comments(read(join(componentsDir, 'tabs', 'types.ts'))),
+    descriptions: stripT311Comments(read(join(componentsDir, 'descriptions', 'types.ts'))),
+  };
+  const t311DataAttrs = read(
+    join(repoRoot, 'packages', 'core', 'spikes', 'api-draft', 'data-attributes.md'),
+  );
+  const t311Smoke = read(join(repoRoot, 'packages', 'core', 'spikes', 'shared', 'ssr-smoke.mjs'));
+  const t311Catalog = read(join(repoRoot, 'apps', 'docs', 'src', 'content', 'catalog.mjs'));
+  const t311Barrel = read(join(coreSrc, 'index.ts'));
+  const t311Pkg = read(join(repoRoot, 'packages', 'core', 'package.json'));
+
+  // ① 键盘 / 焦点 / ARIA 只能出自 Kobalte 原语；组件层出现任一实现关键字即判红。
+  if (!t311Impl.tabs.includes('@kobalte/core/tabs')) {
+    fail('Tabs 未使用 Kobalte Tabs 原语：docs/02 L563 / L568 要求焦点与键盘由原语承担');
+  }
+  for (const token of [
+    'role="tablist"',
+    'role="tabpanel"',
+    'role="tab"',
+    'aria-selected',
+    'aria-controls',
+    'onKeyDown',
+    'tabIndex',
+    'activeElement',
+    'createUniqueId',
+  ]) {
+    if (t311Impl.tabs.includes(token)) {
+      fail(`Tabs 组件层重复实现了 ${token}：键盘 / 焦点 / ARIA 必须由 Kobalte 原语单点输出`);
+    }
+  }
+  if (!/aria-label=\{local\['aria-label'\] \?\? '标签页'\}/.test(t311Impl.tabs)) {
+    fail('Tabs 的 tablist 未恒输出可读名称：axe 会报控件无名');
+  }
+
+  // ② 受控优先级：value > 内部信号 > defaultValue > 首项；受控只通知不回写。
+  if (
+    !/local\.value \?\? internal\(\) \?\? local\.defaultValue \?\? firstKey\(\)/.test(t311Impl.tabs)
+  ) {
+    fail('Tabs 受控优先级不是 value > internal > defaultValue > firstKey');
+  }
+  if (
+    !/if \(local\.value === undefined\) setInternal\(key\);/.test(t311Impl.tabs) ||
+    !/local\.onChange\?\.\(key\);/.test(t311Impl.tabs)
+  ) {
+    fail('Tabs 受控时点击只发事件、不回写内部状态；或 onChange 不是单一出口');
+  }
+  if (!/<KobalteTabs value=\{current\(\)\} onChange=\{handleChange\}/.test(t311Impl.tabs)) {
+    fail('Tabs 未把归一后的 current() 交给原语受控值');
+  }
+
+  // ③ 线型 / 卡片三层：类型枚举、运行时恒输出、样式规则真的改外观。
+  for (const value of ['line', 'card']) {
+    if (!t311Types.tabs.includes(`'${value}'`)) {
+      fail(`Tabs 变体枚举缺少 ${value}`);
+    }
+    const block = t311Styles.tabs.split(`[data-scui-variant='${value}']`)[1]?.split('}')[0] ?? '';
+    if (block.length === 0 || !/[a-z-]+:/.test(block)) {
+      fail(`Tabs 缺少 ${value} 的真实样式规则：只改属性不改样式是死代码`);
+    }
+  }
+  if (!/data-scui-variant=\{variant\(\)\}/.test(t311Impl.tabs)) {
+    fail('Tabs 未恒输出 data-scui-variant');
+  }
+  if (!/local\.variant \?\? 'line'/.test(t311Impl.tabs)) {
+    fail('Tabs 默认变体不是 line');
+  }
+  if (!/export type TabsVariant = 'line' \| 'card'/.test(t311Types.tabs)) {
+    fail('Tabs 变体类型未收口成 line | card 两档');
+  }
+  if (
+    !/\[data-scui-variant='line'\] \.scui-tabs__tab\[data-scui-current\]/.test(t311Styles.tabs) ||
+    !/border-block-end-color: var\(--scui-tabs-accent\)/.test(t311Styles.tabs)
+  ) {
+    fail('Tabs 线型激活态未真的换边框色：只有蓝字会让线型退化成纯文字态');
+  }
+
+  // ④ 懒加载：content 是惰性工厂、forceMount 与 hidden 都由 lazy 派生。
+  if (!/content\?: \(\) => JSX\.Element/.test(t311Types.tabs)) {
+    fail('Tabs 的 content 不是惰性渲染工厂：懒加载会退化成「插进 DOM 后隐藏」');
+  }
+  if (!/\{item\.content\?\.\(\)\}/.test(t311Impl.tabs)) {
+    fail('Tabs 未在原语 Content 内调用 content 工厂：节点创建没有被推迟');
+  }
+  if (!/const lazy = \(\): boolean => local\.lazy !== false;/.test(t311Impl.tabs)) {
+    fail('Tabs 的 lazy 默认值不是 true');
+  }
+  if (
+    !/forceMount=\{!lazy\(\)\}/.test(t311Impl.tabs) ||
+    !/hidden=\{!lazy\(\) && item\.key !== current\(\)\}/.test(t311Impl.tabs)
+  ) {
+    fail('Tabs 懒加载未走 forceMount / hidden 单一出口：全量挂载会让多个 tabpanel 同时可见');
+  }
+  if (
+    !/:where\(\.scui-tabs__panel\)\[hidden\]/.test(t311Styles.tabs) ||
+    !/display: none/.test(t311Styles.tabs)
+  ) {
+    fail('Tabs 样式未把 forceMount 的非激活 panel 收起');
+  }
+
+  // ⑤ 激活态复用 -current，双通道由 Kobalte 的 aria-selected 承担。
+  const currentSites = [
+    ...t311Impl.tabs.matchAll(/data-scui-current=\{item\.key === current\(\) \? '' : undefined\}/g),
+  ];
+  if (currentSites.length !== 2) {
+    fail('Tabs 的 data-scui-current 必须同时落在 Trigger 与 Content 两处');
+  }
+  for (const token of ['data-scui-active', 'data-scui-selected', 'data-scui-kind']) {
+    if (t311Impl.tabs.includes(token)) {
+      fail(`Tabs 混用了 ${token}：激活态必须复用 data-scui-current`);
+    }
+  }
+
+  // ⑥ Descriptions：dl 语义、表头按内容缺席、column / span / bordered 三层。
+  // 用标签起始匹配而非 `<dd `：prettier 会把多属性标签折行，`<dd` 后可能是换行。
+  if (
+    !/<dl[\s>]/.test(t311Impl.descriptions) ||
+    !/<dt[\s>]/.test(t311Impl.descriptions) ||
+    !/<dd[\s>]/.test(t311Impl.descriptions)
+  ) {
+    fail('Descriptions 未用原生 dl / dt / dd 承载键值：详情页不是数据表');
+  }
+  if (
+    !/local\.title !== undefined \|\| local\.extra !== undefined/.test(t311Impl.descriptions) ||
+    !/<Show when=\{hasHeader\(\)\}>/.test(t311Impl.descriptions)
+  ) {
+    fail('Descriptions 的 title / extra 未共用同一个可缺席表头');
+  }
+  if (!/data-scui-column=\{column\(\)\}/.test(t311Impl.descriptions)) {
+    fail('Descriptions 未恒输出 data-scui-column：SSR 与首帧属性会不一致');
+  }
+  if (!/local\.column \?\? 2/.test(t311Impl.descriptions)) {
+    fail('Descriptions 默认列数不是 2');
+  }
+  if (!/export type DescriptionsColumn = 1 \| 2 \| 3/.test(t311Types.descriptions)) {
+    fail('Descriptions 列数类型未收口成 1 | 2 | 3');
+  }
+  for (const value of ['1', '2', '3']) {
+    const block =
+      t311Styles.descriptions.split(`&[data-scui-column='${value}']`)[1]?.split('}')[0] ?? '';
+    if (!block.includes('--scui-descriptions-columns')) {
+      fail(`Descriptions 的 column=${value} 样式没有改网格列数：三层缺一层就是死代码`);
+    }
+  }
+  if (!/data-scui-span=\{item\.span \?\? 1\}/.test(t311Impl.descriptions)) {
+    fail('Descriptions 未恒输出 data-scui-span（默认 1）');
+  }
+  for (const value of ['2', '3']) {
+    const block =
+      t311Styles.descriptions.split(`&[data-scui-span='${value}']`)[1]?.split('}')[0] ?? '';
+    if (!block.includes('--scui-descriptions-span')) {
+      fail(`Descriptions 的 span=${value} 样式没有改跨列变量`);
+    }
+  }
+  if (
+    !/data-scui-bordered=\{local\.bordered === true \? '' : undefined\}/.test(t311Impl.descriptions)
+  ) {
+    fail('Descriptions 的 bordered 未走存在即真口径');
+  }
+  if (!t311Styles.descriptions.includes("@use '../button/button';")) {
+    fail('Descriptions 样式未聚合 Button：CSS 逐目录编译不做依赖聚合');
+  }
+  if (
+    !/@media \(width <= 600px\)/.test(t311Styles.descriptions) ||
+    !/--scui-descriptions-columns: 1/.test(t311Styles.descriptions)
+  ) {
+    fail('Descriptions 窄屏未强制单列：span 会在单列容器里造出隐式第二列');
+  }
+  if (!/grid-template-columns: 120px minmax\(0, 1fr\)/.test(t311Styles.descriptions)) {
+    fail('Descriptions 的 label 列不是固定宽：按比例算会把多列下的字段名挤到折行');
+  }
+  const narrowBlock = t311Styles.descriptions.split('@media (width <= 600px)')[1] ?? '';
+  if (!narrowBlock.includes('[data-scui-column]') || !narrowBlock.includes('[data-scui-span]')) {
+    fail('Descriptions 窄屏规则未带属性选择器抬特异性：会输给列数规则，375px 仍横向溢出');
+  }
+
+  // ⑦ R1 / R3 与登记表：新增 column、补登记 span、复用 variant / current / bordered。
+  for (const name of ['tabs', 'descriptions']) {
+    if (t311Types[name].includes('MaybeAccessor')) {
+      fail(`${name} 的函数型 prop 被 MaybeAccessor 包裹（R3）`);
+    }
+    if (new RegExp(`scui-${name}--`).test(t311Styles[name] + t311Impl[name])) {
+      fail(`${name} 出现 modifier class（R1）`);
+    }
+  }
+  if (!t311DataAttrs.includes('| `data-scui-column` |')) {
+    fail('data-scui-column 未登记进 data-attributes.md：新增属性必须同步登记表');
+  }
+  if (!t311DataAttrs.includes('| `data-scui-span` |')) {
+    fail('data-scui-span 未补登记：AGENTS 硬约束 3 已指派给栅格布局，登记表此前缺漏');
+  }
+  for (const needle of ['Pagination / Tabs', 'Skeleton / Tabs', 'Table / Tag / Descriptions']) {
+    if (!t311DataAttrs.includes(needle)) {
+      fail(`data-attributes.md 未补复用登记：${needle}`);
+    }
+  }
+  if (
+    !t311DataAttrs.includes('`tabs` / `tabs-list`') ||
+    !t311DataAttrs.includes('`descriptions` / `descriptions-header`')
+  ) {
+    fail('Tabs / Descriptions 的结构锚点未登记进 role 表');
+  }
+
+  // ⑧ 接线：barrel / 四条件 exports / catalog 分类 / Demo / 两个 SSR 入口。
+  for (const name of ['tabs', 'descriptions']) {
+    if (!t311Barrel.includes(`from './components/${name}'`)) {
+      fail(`${name} 未进 src/index.ts barrel`);
+    }
+    if (!t311Pkg.includes(`"./${name}"`)) {
+      fail(`${name} 缺少 package.json 四条件 exports`);
+    }
+    if (!t311Catalog.includes(`slug: '${name}'`)) {
+      fail(`${name} 未登记进 catalog.mjs`);
+    }
+    if (!t311Catalog.includes(`exportPath: 'solid-craft/${name}'`)) {
+      fail(`${name} 缺少 catalog exportPath`);
+    }
+    if (!existsSync(join(componentsDir, name, '__tests__', 'ssr-entry.tsx'))) {
+      fail(`${name} 缺少 SSR 入口文件`);
+    }
+    if (!t311Smoke.includes(`id: 'T3-11-${name}'`)) {
+      fail(`T3-11 的 SSR 入口 ${name} 未登记进 ssr-smoke.mjs`);
+    }
+    if (!new RegExp(`slug: '${name}'[\\s\\S]{0,280}category: '数据'`).test(t311Catalog)) {
+      fail(`${name} 的 catalog 分类不是「数据」：冻结面 §2.3 归数据展示`);
+    }
+  }
+  const t311Demos = {
+    tabs: ['basic', 'variant', 'lazy'],
+    descriptions: ['basic', 'column', 'bordered'],
+  };
+  for (const [name, files] of Object.entries(t311Demos)) {
+    for (const file of files) {
+      if (!existsSync(join(componentsDir, name, 'demos', `${file}.tsx`))) {
+        fail(`${name} 缺少 Demo ${file}：§4.2 要求各 ≥3 Demo`);
+      }
+    }
+  }
+}
+
 // 4b. 视觉基线防漂移（docs/08 §30.8）：统一浏览器 build，禁止改回系统 Chrome / 放宽阈值
 const playwrightConfig = read(join(repoRoot, 'playwright.config.ts'));
 if (playwrightConfig.length === 0) {
@@ -1416,7 +1677,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = 'e8f8c7be2d14e17335dc57f78f1b0fc332a890c532ba04e24c1e63c9884bbf3e';
+const FONT_SHA256 = 'd324bbbcedb9081899ba5b6e83d6eb33e7430647b6e15e25345fbe64985363b3';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -1707,5 +1968,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· size-limit@${sizeLimit} + file 插件`,
 );

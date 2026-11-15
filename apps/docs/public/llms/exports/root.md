@@ -55,6 +55,8 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/popconfirm` → Popconfirm 气泡确认：锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。
 - `solid-craft/card` → Card 卡片：标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。
 - `solid-craft/tag` → Tag 标签：五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。
+- `solid-craft/tabs` → Tabs 标签页：线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。
+- `solid-craft/descriptions` → Descriptions 详情列表：详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 

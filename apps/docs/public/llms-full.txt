@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 143 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 151 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 33 个 exports 子路径、28 个组件页、98 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 35 个 exports 子路径、30 个组件页、104 个 Demo。
 
 ## 关键约定
 
@@ -74,6 +74,8 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Popconfirm 气泡确认](llms/exports/popconfirm.md) | `solid-craft/popconfirm` | 锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。 |
 | [Card 卡片](llms/exports/card.md) | `solid-craft/card` | 标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。 |
 | [Tag 标签](llms/exports/tag.md) | `solid-craft/tag` | 五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。 |
+| [Tabs 标签页](llms/exports/tabs.md) | `solid-craft/tabs` | 线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。 |
+| [Descriptions 详情列表](llms/exports/descriptions.md) | `solid-craft/descriptions` | 详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。 |
 
 - [ConfigProvider 全局配置](llms/exports/config-provider.md) · [样式](llms/exports/styles-css.md) · [按组件样式通配](llms/exports/styles.md) · [package.json](llms/exports/package-json.md)
 
@@ -172,6 +174,8 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/popconfirm` → Popconfirm 气泡确认：锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。
 - `solid-craft/card` → Card 卡片：标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。
 - `solid-craft/tag` → Tag 标签：五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。
+- `solid-craft/tabs` → Tabs 标签页：线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。
+- `solid-craft/descriptions` → Descriptions 详情列表：详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。
 
 - `solid-craft/config-provider` → ConfigProvider 全局配置
 
@@ -5773,6 +5777,329 @@ export interface ButtonProps
 
 ---
 
+<!-- source: llms/exports/tabs.md -->
+
+# Tabs 标签页（`solid-craft/tabs`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/tabs/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/tabs/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/tabs/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/tabs/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/tabs';
+```
+
+## API
+
+### TabItem
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `key` | `string` | — | 唯一 key，同时是 Kobalte 的 value / Trigger 与 Content 的关联键。 | 是 |
+| `label` | `JSX.Element` | — | 标签头文案。 | 是 |
+| `content` | `() => JSX.Element` | — | 面板内容的**惰性工厂**。只有该 panel 首次挂载时才调用；`lazy` 为 true 时 未激活的 panel 不挂载，因此连节点创建都被推迟，而不只是「插进 DOM 后隐藏」。 | 否 |
+| `disabled` | `boolean` | — | 禁用该标签；原生 `disabled` 与 `data-scui-disabled` 同时输出。 | 否 |
+
+### TabsProps
+
+继承：`Omit<   JSX.HTMLAttributes<HTMLDivElement>,   'children' \| 'onChange' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `items` | `TabItem[]` | — | 标签页列表。 | 是 |
+| `value` | `string` | — | 受控激活 key；给出时点击只发 `onChange`，DOM 由调用方回弹。 | 否 |
+| `defaultValue` | `string` | — | 非受控初始 key；缺省时回落到 `items[0].key`。 | 否 |
+| `onChange` | `(value: string) => void` | — | 激活 key 变化；受控与非受控都只走这一个出口。 | 否 |
+| `variant` | `TabsVariant` | `'line'` | 样式变体，恒输出为 `data-scui-variant`。 | 否 |
+| `lazy` | `boolean` | `true` | 懒加载：`true` 时只挂载激活 panel（Kobalte 默认 presence），切换会卸载旧 panel；`false` 时所有 panel 首帧即挂载，非激活panel 用原生 `hidden` 收起。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/tabs/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `Tabs` 的公共类型（T3-11，§4.2 与 `docs/04 §2.3`「线型/卡片、可编辑、懒加载」）。
+ *
+ * 冻结面只给四条验收（线型 / 卡片 / 懒加载 / 键盘导航），`docs/01~07` 与
+ * `spikes/api-draft/` 对 Tabs **零 API 草案、零 data 属性登记**。因此范围严格按
+ * §4.2 收口，不做「可编辑」（`docs/04 §2.3` 的说明列提到但任务验收列没要求）。
+ *
+ * 键盘 / 焦点 / ARIA 全部由 Kobalte Tabs 原语承担：`docs/02 L563`「Kobalte 负责
+ * Dialog / Select / Menu / Tabs / Tooltip 等原语的焦点与键盘；我们负责样式、
+ * 语义补充、业务状态」、`L568`「Tabs：aria-controls、aria-selected、方向键」。
+ * 组件层不写 `role="tablist"` / `onKeyDown` / `tabIndex`，也不另建第二套焦点状态。
+ *
+ * 属性口径：
+ * - 样式变体**复用** `data-scui-variant`：AGENTS 硬约束 3 把「变体」明文指派给它，
+ *   Skeleton 的形状变体与 Tabs 的 line / card 都是「组件视觉变体」这一个语义，
+ *   取值按组件枚举扩展，不是同名不同义。刻意不新增 `-type`（硬约束 3 指派给文本
+ *   语义）、`-style`（太泛）、`-mode`（语义重复）。
+ * - 激活态**复用** `data-scui-current`：与 Pagination「当前页」同为「当前位于」，
+ *   和 Kobalte 输出 `aria-selected="true"` 构成双通道。不复用 `data-scui-active`
+ *   （Skeleton 微光动画开）、`data-scui-selected`（列表项被选中）——语义不同。
+ * - 禁用复用 `data-scui-disabled`（存在即真），与原生 `disabled` 双保险。
+ *
+ * R3：函数型 prop（`onChange` / `TabItem.content`）直接声明为函数，不用
+ * `MaybeAccessor` 包裹。`content` 是**惰性渲染工厂**而非状态回调：只有 panel
+ * 真正挂载时才会调用，这是「懒加载」能被单测计数的关键。
+ */
+import type { JSX } from 'solid-js';
+
+/** 标签页样式变体，默认 `line`。 */
+export type TabsVariant = 'line' | 'card';
+
+/** 单个标签页的定义。 */
+export interface TabItem {
+  /** 唯一 key，同时是 Kobalte 的 value / Trigger 与 Content 的关联键。 */
+  key: string;
+  /** 标签头文案。 */
+  label: JSX.Element;
+  /**
+   * 面板内容的**惰性工厂**。只有该 panel 首次挂载时才调用；`lazy` 为 true 时
+   * 未激活的 panel 不挂载，因此连节点创建都被推迟，而不只是「插进 DOM 后隐藏」。
+   */
+  content?: () => JSX.Element;
+  /** 禁用该标签；原生 `disabled` 与 `data-scui-disabled` 同时输出。 */
+  disabled?: boolean;
+}
+
+/** `<Tabs>` 入参。原生属性照常透传到根节点。 */
+export interface TabsProps extends Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  'children' | 'onChange'
+> {
+  /** 标签页列表。 */
+  items: TabItem[];
+  /** 受控激活 key；给出时点击只发 `onChange`，DOM 由调用方回弹。 */
+  value?: string;
+  /** 非受控初始 key；缺省时回落到 `items[0].key`。 */
+  defaultValue?: string;
+  /** 激活 key 变化；受控与非受控都只走这一个出口。 */
+  onChange?: (value: string) => void;
+  /**
+   * 样式变体，恒输出为 `data-scui-variant`。
+   * @default 'line'
+   */
+  variant?: TabsVariant;
+  /**
+   * 懒加载：`true` 时只挂载激活 panel（Kobalte 默认 presence），切换会卸载旧
+   * panel；`false` 时所有 panel 首帧即挂载，非激活panel 用原生 `hidden` 收起。
+   * @default true
+   */
+  lazy?: boolean;
+  /** `tablist` 的无障碍名称；恒输出，避免 axe 的 landmark/控件无名。 @default '标签页' */
+  'aria-label'?: string;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法与键盘导航](llms/demos/tabs-basic.md)：tablist / tab / tabpanel 与方向键、Home / End、roving tabindex 都由 Kobalte 原语输出；组件只把激活态落成 data-scui-current。禁用项不可聚焦。（源文件 `packages/core/src/components/tabs/demos/basic.tsx`）
+- [懒加载开关](llms/demos/tabs-lazy.md)：lazy 默认 true：未激活 panel 的 content 工厂一次都不调用，切换才创建。lazy=false 时所有 panel 首帧挂载，非激活的用原生 hidden 收起，不重复创建。（源文件 `packages/core/src/components/tabs/demos/lazy.tsx`）
+- [线型与卡片](llms/demos/tabs-variant.md)：两档样式都由 data-scui-variant 表达（AGENTS 硬约束 3 把「变体」指派给该属性），激活态复用 data-scui-current。切换按钮验证属性与样式同步生效。（源文件 `packages/core/src/components/tabs/demos/variant.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/descriptions.md -->
+
+# Descriptions 详情列表（`solid-craft/descriptions`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/descriptions/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/descriptions/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/descriptions/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/descriptions/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/descriptions';
+```
+
+## API
+
+### DescriptionsItem
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `key` | `string` | — | 唯一 key，供 `<For>` 复用节点。 | 是 |
+| `label` | `JSX.Element` | — | 字段名。 | 是 |
+| `children` | `JSX.Element` | — | 字段值；缺席时渲染空的 `<dd>`，不留塌陷。 | 否 |
+| `span` | `DescriptionsColumn` | — | 该项跨几列，默认 1；窄屏由 CSS 强制回落到 1 以免溢出。 | 否 |
+
+### DescriptionsProps
+
+继承：`Omit<   JSX.HTMLAttributes<HTMLDivElement>,   'children' \| 'title' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `items` | `DescriptionsItem[]` | — | 键值项列表。 | 是 |
+| `title` | `JSX.Element` | — | 详情页标题；省略时按 `extra` 是否存在决定表头是否整块缺席。 | 否 |
+| `extra` | `JSX.Element` | — | 表头右侧操作区。 | 否 |
+| `column` | `DescriptionsColumn` | `2` | 一行几列，恒输出为 `data-scui-column`。 | 否 |
+| `bordered` | `boolean` | — | 是否给每个键值项加外边框；复用 `data-scui-bordered`。 @default false | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/descriptions/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `Descriptions` 的公共类型（T3-11，§4.2「详情页键值展示」与 `docs/04 §2.3`）。
+ *
+ * 冻结面 `docs/01~07` 与 `spikes/api-draft/` 对本组件零 API 草案、零属性登记；
+ * `docs/03 §?` 只给了一条 item padding token。范围严格按「详情页键值展示」收口：
+ * 标题 / 操作区、键值列表、列数、跨列、边框，不做紧凑档 / 可编辑 / 虚拟滚动。
+ *
+ * 语义用原生 `<dl>` + `<dt>` + `<dd>`（HTML5 允许用 `<div>` 把它们分组），
+ * 不复用 `<table>`：详情页不是数据表，用表格语义会给读屏器带来虚假的行列关系。
+ *
+ * 属性口径：
+ * - **新增** `data-scui-column`（一行几列）：AGENTS 硬约束 3 未把「列数」指派给
+ *   任何名字，登记表也没有；`data-scui-layout` 已被 Form 的
+ *   horizontal / vertical / inline 占用，同名不同义不能复用。
+ * - **复用** `data-scui-span`（跨列）：AGENTS 硬约束 3 本就把 `-span` 指派给栅格
+ *   布局，登记表此前漏登记，本轮补齐（同 T3-10 对 `-color` 的处理）。
+ * - **复用** `data-scui-bordered`（存在即真）：Table / Tag 同口径。
+ * - 不新增 `-type`（文本语义）/ `-active` / `-variant` 等已被占用或串味的名字。
+ *
+ * 本组件无函数型 prop，天然不触碰 R3 的 `MaybeAccessor` 禁令。
+ */
+import type { JSX } from 'solid-js';
+
+/** 列数 / 跨列数，只允许 1 / 2 / 3，避免拼出比列数还大的 span。 */
+export type DescriptionsColumn = 1 | 2 | 3;
+
+/** 详情页的一个键值项。 */
+export interface DescriptionsItem {
+  /** 唯一 key，供 `<For>` 复用节点。 */
+  key: string;
+  /** 字段名。 */
+  label: JSX.Element;
+  /** 字段值；缺席时渲染空的 `<dd>`，不留塌陷。 */
+  children?: JSX.Element;
+  /** 该项跨几列，默认 1；窄屏由 CSS 强制回落到 1 以免溢出。 */
+  span?: DescriptionsColumn;
+}
+
+/** `<Descriptions>` 入参。原生属性照常透传到根节点。 */
+export interface DescriptionsProps extends Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  'children' | 'title'
+> {
+  /** 键值项列表。 */
+  items: DescriptionsItem[];
+  /** 详情页标题；省略时按 `extra` 是否存在决定表头是否整块缺席。 */
+  title?: JSX.Element;
+  /** 表头右侧操作区。 */
+  extra?: JSX.Element;
+  /**
+   * 一行几列，恒输出为 `data-scui-column`。
+   * @default 2
+   */
+  column?: DescriptionsColumn;
+  /** 是否给每个键值项加外边框；复用 `data-scui-bordered`。 @default false */
+  bordered?: boolean;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [详情页键值展示](llms/demos/descriptions-basic.md)：用原生 dl / dt / dd 承载字段名与值，标题与操作区按内容缺席；备注用 span=2 跨满一行。列数与跨列都恒输出 data-scui-*，SSR 与首帧一致。（源文件 `packages/core/src/components/descriptions/demos/basic.tsx`）
+- [边框与表头](llms/demos/descriptions-bordered.md)：bordered 复用 Table / Tag 已登记的 data-scui-bordered（存在即真）；标题与操作区都为 undefined 时表头整块缺席，不留空盒子。（源文件 `packages/core/src/components/descriptions/demos/bordered.tsx`）
+- [列数与跨列](llms/demos/descriptions-column.md)：column=1 / 2 / 3 三档由 data-scui-column 派生 grid 列数；窄屏强制单列且把 span 收回 1，避免隐式列导致横向溢出。（源文件 `packages/core/src/components/descriptions/demos/column.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
 <!-- source: llms/exports/config-provider.md -->
 
 # ConfigProvider 全局配置（`solid-craft/config-provider`）
@@ -6162,6 +6489,8 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./popconfirm` → [solid-craft/popconfirm](llms/exports/popconfirm.md)
 - `./card` → [solid-craft/card](llms/exports/card.md)
 - `./tag` → [solid-craft/tag](llms/exports/tag.md)
+- `./tabs` → [solid-craft/tabs](llms/exports/tabs.md)
+- `./descriptions` → [solid-craft/descriptions](llms/exports/descriptions.md)
 - `./config-provider` → [solid-craft/config-provider](llms/exports/config-provider.md)
 - `./styles.css` → [solid-craft/styles.css](llms/exports/styles-css.md)
 - `./styles/*` → [solid-craft/styles/*](llms/exports/styles.md)
@@ -13841,6 +14170,422 @@ export default function TagClosableDemo() {
 ## 相关页面
 
 - [Tag 标签 API](llms/exports/tag.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/tabs-basic.md -->
+
+# Tabs 标签页 · 基础用法与键盘导航（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/tabs/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+tablist / tab / tabpanel 与方向键、Home / End、roving tabindex 都由 Kobalte 原语输出；组件只把激活态落成 data-scui-current。禁用项不可聚焦。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Tabs } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法与键盘导航',
+  description:
+    'tablist / tab / tabpanel 与方向键、Home / End、roving tabindex 都由 Kobalte 原语输出；组件只把激活态落成 data-scui-current。禁用项不可聚焦。',
+};
+
+const items = [
+  {
+    key: 'plan',
+    label: '计划概览',
+    content: () => (
+      <div data-testid="tabs-panel-plan">年度维简设备采购计划共 12 条，已提交 8 条。</div>
+    ),
+  },
+  {
+    key: 'detail',
+    label: '明细清单',
+    content: () => (
+      <div data-testid="tabs-panel-detail">主通风机 2 台、皮带输送机 1 套、供电柜 4 面。</div>
+    ),
+  },
+  {
+    key: 'audit',
+    label: '审批记录',
+    content: () => <div data-testid="tabs-panel-audit">2026-11-12 由技术负责人复核通过。</div>,
+  },
+  {
+    key: 'archive',
+    label: '归档资料',
+    disabled: true,
+    content: () => <div data-testid="tabs-panel-archive">归档资料尚未开放。</div>,
+  },
+];
+
+export default function TabsBasicDemo() {
+  const [active, setActive] = createSignal('plan');
+  const [controlledLog, setControlledLog] = createSignal('尚未点击');
+
+  return (
+    <DemoSection title="基础用法">
+      <div class="demo-column">
+        <Tabs
+          items={items}
+          defaultValue="plan"
+          onChange={setActive}
+          aria-label="采购计划分区"
+          data-testid="tabs-basic-root"
+        />
+        <p data-testid="tabs-active-log">当前标签：{active()}</p>
+        <p>把焦点移到第一个标签，用左右方向键与 Home / End 切换，观察上方文案。</p>
+        <h3>受控 value 锁定在「计划概览」</h3>
+        <Tabs
+          items={items}
+          value="plan"
+          onChange={(key) => setControlledLog(`收到 ${key}，DOM 不回弹`)}
+          aria-label="锁定标签页"
+          data-testid="tabs-locked"
+        />
+        <p data-testid="tabs-controlled-log">{controlledLog()}</p>
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Tabs 标签页 API](llms/exports/tabs.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/tabs-lazy.md -->
+
+# Tabs 标签页 · 懒加载开关（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/tabs/demos/lazy.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+lazy 默认 true：未激活 panel 的 content 工厂一次都不调用，切换才创建。lazy=false 时所有 panel 首帧挂载，非激活的用原生 hidden 收起，不重复创建。
+
+## 完整源码
+
+```tsx
+import { Tabs } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '懒加载开关',
+  description:
+    'lazy 默认 true：未激活 panel 的 content 工厂一次都不调用，切换才创建。lazy=false 时所有 panel 首帧挂载，非激活的用原生 hidden 收起，不重复创建。',
+};
+
+const makeItems = (mode: string) => [
+  {
+    key: 'first',
+    label: '第一页',
+    content: () => <div data-testid={`tabs-lazy-${mode}-first`}>第一页内容：概览数据。</div>,
+  },
+  {
+    key: 'second',
+    label: '第二页',
+    content: () => <div data-testid={`tabs-lazy-${mode}-second`}>第二页内容：明细表格。</div>,
+  },
+  {
+    key: 'third',
+    label: '第三页',
+    content: () => <div data-testid={`tabs-lazy-${mode}-third`}>第三页内容：审批意见。</div>,
+  },
+];
+
+export default function TabsLazyDemo() {
+  return (
+    <DemoSection title="懒加载">
+      <div class="demo-column">
+        <h3>默认 lazy=true（只挂载激活 panel）</h3>
+        <Tabs items={makeItems('lazy')} aria-label="懒加载标签页" data-testid="tabs-lazy-on" />
+        <h3>lazy=false（全部挂载，非激活 hidden）</h3>
+        <Tabs
+          items={makeItems('eager')}
+          lazy={false}
+          aria-label="全量挂载标签页"
+          data-testid="tabs-lazy-off"
+        />
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Tabs 标签页 API](llms/exports/tabs.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/tabs-variant.md -->
+
+# Tabs 标签页 · 线型与卡片（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/tabs/demos/variant.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+两档样式都由 data-scui-variant 表达（AGENTS 硬约束 3 把「变体」指派给该属性），激活态复用 data-scui-current。切换按钮验证属性与样式同步生效。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Tabs, type TabsVariant } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '线型与卡片',
+  description:
+    '两档样式都由 data-scui-variant 表达（AGENTS 硬约束 3 把「变体」指派给该属性），激活态复用 data-scui-current。切换按钮验证属性与样式同步生效。',
+};
+
+const items = [
+  { key: 'one', label: '基本信息', content: () => <div>项目编号：WJ-2026-012</div> },
+  { key: 'two', label: '资金计划', content: () => <div>本次采购金额：148 万元</div> },
+  { key: 'three', label: '附件', content: () => <div>共 3 份附件，待补充签字页。</div> },
+];
+
+export default function TabsVariantDemo() {
+  const [variant, setVariant] = createSignal<TabsVariant>('line');
+
+  return (
+    <DemoSection title="线型 / 卡片">
+      <div class="demo-column">
+        <Button
+          variant="outline"
+          size="small"
+          onClick={() => setVariant(variant() === 'line' ? 'card' : 'line')}
+        >
+          切换样式
+        </Button>
+        <p data-testid="tabs-variant-log">当前样式：{variant() === 'line' ? '线型' : '卡片'}</p>
+        <Tabs items={items} variant="line" aria-label="线型标签页" data-testid="tabs-line" />
+        <Tabs items={items} variant="card" aria-label="卡片标签页" data-testid="tabs-card" />
+        <Tabs items={items} variant={variant()} aria-label="可切换标签页" />
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Tabs 标签页 API](llms/exports/tabs.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/descriptions-basic.md -->
+
+# Descriptions 详情列表 · 详情页键值展示（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/descriptions/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+用原生 dl / dt / dd 承载字段名与值，标题与操作区按内容缺席；备注用 span=2 跨满一行。列数与跨列都恒输出 data-scui-*，SSR 与首帧一致。
+
+## 完整源码
+
+```tsx
+import { Button, Descriptions } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '详情页键值展示',
+  description:
+    '用原生 dl / dt / dd 承载字段名与值，标题与操作区按内容缺席；备注用 span=2 跨满一行。列数与跨列都恒输出 data-scui-*，SSR 与首帧一致。',
+};
+
+const items = [
+  { key: 'no', label: '项目编号', children: 'WJ-2026-012' },
+  { key: 'name', label: '项目名称', children: '主通风机更新改造' },
+  { key: 'dept', label: '申报单位', children: '机电运输部' },
+  { key: 'amount', label: '本次采购金额', children: '148 万元' },
+  { key: 'date', label: '计划完成时间', children: '2026-12-31' },
+  { key: 'status', label: '当前状态', children: '审批中' },
+  {
+    key: 'note',
+    label: '备注',
+    children: '含设备安装、调试与一年质保；到货后由使用单位组织验收。',
+    span: 2 as const,
+  },
+];
+
+export default function DescriptionsBasicDemo() {
+  return (
+    <DemoSection title="基础用法">
+      <div class="demo-column">
+        <Descriptions
+          items={items}
+          title="维简设备采购计划详情"
+          extra={
+            <Button variant="outline" size="small">
+              编辑
+            </Button>
+          }
+          data-testid="descriptions-basic"
+        />
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Descriptions 详情列表 API](llms/exports/descriptions.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/descriptions-bordered.md -->
+
+# Descriptions 详情列表 · 边框与表头（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/descriptions/demos/bordered.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+bordered 复用 Table / Tag 已登记的 data-scui-bordered（存在即真）；标题与操作区都为 undefined 时表头整块缺席，不留空盒子。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Descriptions } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '边框与表头',
+  description:
+    'bordered 复用 Table / Tag 已登记的 data-scui-bordered（存在即真）；标题与操作区都为 undefined 时表头整块缺席，不留空盒子。',
+};
+
+const items = [
+  { key: 'no', label: '项目编号', children: 'WJ-2026-012' },
+  { key: 'name', label: '项目名称', children: '皮带输送机更新' },
+  { key: 'amount', label: '本次采购金额', children: '86 万元' },
+  { key: 'date', label: '计划完成时间', children: '2026-12-31' },
+];
+
+export default function DescriptionsBorderedDemo() {
+  const [bordered, setBordered] = createSignal(true);
+
+  return (
+    <DemoSection title="边框">
+      <div class="demo-column">
+        <Button variant="outline" size="small" onClick={() => setBordered(!bordered())}>
+          切换边框
+        </Button>
+        <p data-testid="descriptions-bordered-log">当前状态：{bordered() ? '有边框' : '无边框'}</p>
+        <Descriptions
+          items={items}
+          bordered={bordered()}
+          title="带边框详情"
+          data-testid="descriptions-bordered-target"
+        />
+        <Descriptions items={items} title="无表头操作区" />
+        <Descriptions items={items} bordered />
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Descriptions 详情列表 API](llms/exports/descriptions.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/descriptions-column.md -->
+
+# Descriptions 详情列表 · 列数与跨列（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/descriptions/demos/column.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+column=1 / 2 / 3 三档由 data-scui-column 派生 grid 列数；窄屏强制单列且把 span 收回 1，避免隐式列导致横向溢出。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { Button, Descriptions, type DescriptionsColumn } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '列数与跨列',
+  description:
+    'column=1 / 2 / 3 三档由 data-scui-column 派生 grid 列数；窄屏强制单列且把 span 收回 1，避免隐式列导致横向溢出。',
+};
+
+const items = [
+  { key: 'a', label: '项目编号', children: 'WJ-2026-012' },
+  { key: 'b', label: '申报单位', children: '机电运输部' },
+  { key: 'c', label: '资金来源', children: '维简费' },
+  { key: 'd', label: '本次采购金额', children: '148 万元' },
+  { key: 'e', label: '经办人', children: '宋桂明' },
+  { key: 'f', label: '当前状态', children: '审批中' },
+];
+
+export default function DescriptionsColumnDemo() {
+  const [column, setColumn] = createSignal<DescriptionsColumn>(2);
+
+  return (
+    <DemoSection title="列数">
+      <div class="demo-column">
+        <div class="demo-row">
+          <Button variant="outline" size="small" onClick={() => setColumn(1)}>
+            一列
+          </Button>
+          <Button variant="outline" size="small" onClick={() => setColumn(2)}>
+            两列
+          </Button>
+          <Button variant="outline" size="small" onClick={() => setColumn(3)}>
+            三列
+          </Button>
+        </div>
+        <p data-testid="descriptions-column-log">当前列数：{column()}</p>
+        <Descriptions
+          items={items}
+          column={column()}
+          title="可切换列数"
+          data-testid="descriptions-column-target"
+        />
+        <Descriptions items={items} column={1} title="单列详情" />
+        <Descriptions items={items} column={3} title="三列详情" />
+      </div>
+    </DemoSection>
+  );
+}
+```
+
+## 相关页面
+
+- [Descriptions 详情列表 API](llms/exports/descriptions.md)
 - [设计 Token](llms/design/tokens.md)
 
 ---
