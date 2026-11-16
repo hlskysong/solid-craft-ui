@@ -53,6 +53,20 @@ body {
   font-family: 'SCUI Visual', sans-serif;
 }
 
+/*
+ * §30.50：浮层内容由 Portal 挂在 body 下，不在 `.demo-root` 内。只给 `.demo-root`
+ * 设固定字体时，弹层文字会继承 body 的系统栈（Arial / PingFang SC）—— macOS 15 与 26
+ * 的 PingFang 版本不同，同一份代码在两平台渲染出不同墨迹（§30.49 实测：背景 0 差异、
+ * 浮层全变）。这里按浮层根节点把固定字体补齐，`demo-standalone` 只在 ?standalone=1
+ * 截图宿主上由 renderStandalone 添加，文档站的非截图页面不受影响。
+ */
+.demo-standalone [data-scui-role='modal'],
+.demo-standalone [data-scui-role='drawer'],
+.demo-standalone [data-scui-role='popconfirm'],
+.demo-standalone [data-scui-role='tooltip'] {
+  font-family: 'SCUI Visual', sans-serif;
+}
+
 .demo-root__title {
   margin: 0 0 4px;
   font-size: 24px;

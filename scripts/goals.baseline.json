@@ -14,9 +14,9 @@
     "scripts/check-goals.mjs": "d34a86bcd4cce6713e6a5b6b6cbaaa88abc18f831ac3c8447527fa5cf57dc9e8",
     "scripts/check-naming.mjs": "ee600a6c6c033bb377e0ce197fb125e7e384c2afa9980a5a8e56090230990c16",
     "scripts/check-public-repo.mjs": "a3829db15ad75615a936196a555a1e9cf934a220070449f7cd1088d7894a614a",
-    "scripts/check-todo.mjs": "fd0a31303057ff70773e649b776c0e8280a29eb056efc8a4e2c3d52bf07199e6",
+    "scripts/check-todo.mjs": "0d6293790a14c6228d798e01f9b93a047b4d6195f9dc53c2f4e8eb30e7d9cdb4",
     "scripts/naming-legacy.mjs": "f51a922a1e69577768dc5297b3c8d2e84468a1b74539a5e58cee1dd491a542d9",
     "scripts/scope.mjs": "49cb4a450039f3106632affc532890ddb715567a83ae661484104e691441bafc",
-    "scripts/todo-governance.json": "1d5a9b702ce73af0ba95f81de7e615c0038fd1f2ca009327da3b1777c2a62714"
+    "scripts/todo-governance.json": "4e6ffcb42766cfd52d31bf2c2a4e116e65799ebbc0857f09f21a91027a6bcb6d"
   }
 }

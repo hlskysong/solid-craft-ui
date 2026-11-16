@@ -221,7 +221,7 @@ if (workflow.length === 0) {
   }
   if (!/runs-on:\s*macos-15/.test(workflow)) {
     fail(
-      'ci.yml 主门禁未使用 macos-15 runner（字形已由仓库内字体固定，但光栅化仍走 CoreText，需与基线同 macOS 大系列）',
+      'ci.yml 主门禁未使用 macos-15 runner（runner 版本固定是为了让基线与 run 可复现；跨 macOS 大版本的浮层文字差异由 §30.50 的有界容差 + 排版结构断言兜底，不靠放宽全局阈值）',
     );
   }
   if (!workflow.includes('matrix:')) fail('ci.yml 缺少多架构 matrix');
@@ -2122,7 +2122,7 @@ if (releaseWorkflow.length === 0) {
 }
 
 // 8. 视觉基线字体契约（docs/08 §30.9 方案 B）：Demo 宿主固定仓库内 Web 字体
-const FONT_SHA256 = '75f2c86ae8ae7b68779e3174fc5575a6ba136d4859dedabd05edabead9616406';
+const FONT_SHA256 = '47bc14d9b0af6b1a765628e0e70028fb99015475de95d2b4f73db09aba35ceac';
 const fontsDir = join(repoRoot, 'apps', 'docs', 'public', 'fonts');
 const fontFile = join(fontsDir, 'scui-visual.woff2');
 const charsetFile = join(fontsDir, 'charset.txt');
@@ -2518,6 +2518,154 @@ if (!/当前任务 ID \|[^\n]*M4/.test(t314Todo)) {
   fail('T3-14 闭合后锚点未推进到 M4');
 }
 
+// 13. T4-01 浮层视觉容差有界 + 排版结构断言（docs/08 §30.50）
+// ---------------------------------------------------------------------------
+// §30.49 诊断：CI 6 张浮层 open-state 基线失败，真因是浮层内容由 Portal 挂到 body 下，
+// 固定字体只写在 `.demo-root` 上，弹层文字落回系统 PingFang —— macOS 15 / 26 的
+// PingFang 版本不同，于是「背景 0 差异、浮层全变」。修法是三件套，缺任一件都会让
+// 容差变成掩盖回归的橡皮图章：宿主钉字体（真因） / 有界容差（环境噪声） / 结构断言（回归）。
+const t401VisualSpec = read(join(repoRoot, 'tests', 'e2e', 'specs', 'visual.spec.ts'));
+// 注释里出现同名字面量不得冒充已配置（判据 4p 同型盲区）
+const stripT401Comments = (code) =>
+  code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+const t401Visual = stripT401Comments(t401VisualSpec);
+const t401OpenStateSlugs = catalogComponents.flatMap((component) =>
+  (Array.isArray(component.demos) ? component.demos : [])
+    .filter((demo) => demo.name === 'open-state')
+    .map(() => component.slug),
+);
+if (t401OpenStateSlugs.length === 0) {
+  fail('catalog 里没有任何 open-state Demo：浮层容差判据会空转（先跑 pnpm docs:generate）');
+}
+
+// 13a. 容差必须是可审计的字面量，且比例上限必须同时给出
+if (!/const OVERLAY_MAX_DIFF_PIXELS = 4000;/.test(t401Visual)) {
+  fail('浮层视觉容差上限不是 4000 px 字面量：容差必须有界、可审计，不得按需放大（§30.50）');
+}
+if (!/const OVERLAY_MAX_DIFF_PIXEL_RATIO = 0\.01;/.test(t401Visual)) {
+  fail(
+    '浮层用例缺少 maxDiffPixelRatio 0.01：Playwright 对 maxDiffPixels 与 maxDiffPixelRatio 取 min，只给像素上限时全局 0.002 会在 1280×800 折出 2048 把上限压回去',
+  );
+}
+
+// 13b. 容差不得外溢：只允许出现在 open-state 分支这一处
+const t401PixelOptionHits = (t401Visual.match(/maxDiffPixels:/g) ?? []).length;
+if (t401PixelOptionHits !== 1) {
+  fail(
+    `maxDiffPixels 在视觉用例里出现 ${t401PixelOptionHits} 次：有界容差只允许出现在 open-state 分支一处，其余基线仍走全局 0.002`,
+  );
+}
+if (
+  !/const isOverlayOpenState = \(id: string\): boolean => id\.endsWith\('-open-state'\);/.test(
+    t401Visual,
+  )
+) {
+  fail('浮层容差的作用域判定不是「用例 id 以 -open-state 结尾」：不得退化成 slug 白名单');
+}
+if (
+  !/maxDiffPixels: OVERLAY_MAX_DIFF_PIXELS,[\s\S]{0,160}maxDiffPixelRatio: OVERLAY_MAX_DIFF_PIXEL_RATIO,/.test(
+    t401Visual,
+  )
+) {
+  fail('浮层用例没有同时给出 maxDiffPixels 与 maxDiffPixelRatio：缺一个都会被全局 0.002 压回去');
+}
+
+// 13c. 结构断言必须在场，且覆盖 catalog 里全部 open-state Demo（条数由 catalog 背书）
+for (const needle of [
+  'const OVERLAY_TYPOGRAPHY: readonly OverlayTypography[]',
+  'expect(insideDemoRoot).toBe(false);',
+  'await expect(heading).toHaveText(item.heading);',
+  "expect(metrics.fontFamily).toContain('SCUI Visual');",
+  'expect(metrics.fontSize).toBe(item.fontSize);',
+  'expect(metrics.fontWeight).toBe(item.fontWeight);',
+  'expect(metrics.color).toBe(item.color);',
+]) {
+  if (!t401Visual.includes(needle)) {
+    fail(`浮层排版结构断言缺失：${needle}（容差必须配结构证据，§30.50）`);
+  }
+}
+const t401TypographyCount = (t401Visual.match(/headingRole: '/g) ?? []).length;
+if (t401TypographyCount !== t401OpenStateSlugs.length) {
+  fail(
+    `浮层排版结构断言覆盖 ${t401TypographyCount} 个 open-state Demo，catalog 实有 ${t401OpenStateSlugs.length} 个`,
+  );
+}
+const t401RoleOf = (slug) =>
+  t401Visual.match(new RegExp(`slug: '${slug}',\\s*rootRole: '([a-z-]+)'`))?.[1] ?? '';
+for (const slug of t401OpenStateSlugs) {
+  if (!t401Visual.includes(`slug: '${slug}'`)) {
+    fail(`浮层排版结构断言漏了 ${slug}：新增的 open-state Demo 必须补结构断言`);
+  }
+  if (!t401RoleOf(slug)) {
+    fail(`浮层排版结构断言没有登记 ${slug} 的 rootRole：base.css 的字体补丁无法被机器校验`);
+  }
+}
+
+// 13d. 真因修复：宿主打标记 + base.css 给每个浮层根节点补固定字体
+const t401Standalone = read(join(repoRoot, 'apps', 'docs', 'src', 'standalone.tsx'));
+if (!t401Standalone.includes("classList.add('demo-standalone')")) {
+  fail('standalone 宿主没有打 demo-standalone 标记：base.css 的浮层字体补丁会整体失效');
+}
+const t401BaseCss = read(join(repoRoot, 'apps', 'docs', 'src', 'styles', 'base.css'));
+if (!/\.demo-standalone[^{]*\{[^}]*font-family:\s*'SCUI Visual', sans-serif;/.test(t401BaseCss)) {
+  fail('base.css 没有把固定字体补到浮层根节点：浮层文字会落回系统 PingFang（§30.49 真因）');
+}
+const t401GlobalScreenshot =
+  read(join(repoRoot, 'playwright.config.ts')).match(/toHaveScreenshot:\s*\{([\s\S]*?)\}/)?.[1] ??
+  '';
+if (
+  !/maxDiffPixelRatio:\s*0\.002/.test(t401GlobalScreenshot) ||
+  /0\.01|4000/.test(t401GlobalScreenshot)
+) {
+  fail('playwright.config.ts 的全局视觉阈值被改动：§30.50 只在用例级给浮层开有界容差');
+}
+for (const slug of t401OpenStateSlugs) {
+  const role = t401RoleOf(slug);
+  if (!t401BaseCss.includes(`.demo-standalone [data-scui-role='${role}']`)) {
+    fail(
+      `base.css 的浮层字体补丁漏了 data-scui-role="${role}"（${slug}）：该浮层截图会重新依赖 runner 的系统字体`,
+    );
+  }
+}
+
+// 13e. 文档机器锚点 + 治理闭环（数字写错即红灯）
+const t401Todo = read(join(repoRoot, 'docs', '08-实施Todo.md'));
+const t401Section = t401Todo.split('### 30.50 ')[1]?.split('\n### 30.51')[0] ?? '';
+if (t401Section.length === 0) fail('缺少 docs/08 §30.50 T4-01 落地记录');
+const t401Anchor = t401Section.match(
+  /机器锚点：浮层 open-state \*\*(\d+) 条 × 2 视口\*\*；容差 \*\*maxDiffPixels (\d+) \/ maxDiffPixelRatio ([\d.]+)\*\*；全局 \*\*maxDiffPixelRatio ([\d.]+) 未放宽\*\*/,
+);
+if (!t401Anchor) {
+  fail('docs/08 §30.50 缺少 T4-01 机器锚点行（open-state 条数 / 容差两参数 / 全局阈值）');
+} else {
+  if (Number(t401Anchor[1]) !== t401OpenStateSlugs.length) {
+    fail(
+      `docs/08 §30.50 记录 ${t401Anchor[1]} 条 open-state，catalog 实有 ${t401OpenStateSlugs.length} 条`,
+    );
+  }
+  if (t401Anchor[2] !== '4000' || t401Anchor[3] !== '0.01') {
+    fail('docs/08 §30.50 记录的容差与 visual.spec.ts 常量不一致');
+  }
+  if (t401Anchor[4] !== '0.002') {
+    fail('docs/08 §30.50 记录的全局阈值与 playwright.config.ts 不一致');
+  }
+}
+const t401Row = t401Todo.split('\n').find((line) => line.startsWith('| T4-01 |')) ?? '';
+if (!/\[x\]\s*\|\s*$/.test(t401Row)) {
+  fail('T4-01 的 §4.2 主行尚未勾 [x]');
+}
+if (!/^\| M4 \|[^\n]*\|\s*\[ \]\s*\|$/m.test(t401Todo)) {
+  fail('T4-01 的 §4 里程碑简表 M4 行被改动：里程碑勾选只发生在 §4.2');
+}
+const t401Governance = JSON.parse(read(join(repoRoot, 'scripts', 'todo-governance.json')));
+if (t401Governance.evidence?.['T4-01'] !== '30.50') {
+  fail('T4-01 勾了 [x] 但 todo-governance.json 没有 evidence 30.50');
+}
+// 锚点必须以 T4-01 开头：行尾还会出现「T4-01 改动尚未提交」，子串命中会被它冒充。
+if (!/当前任务 ID \|\s*\*\*T4-01/.test(t401Todo)) {
+  fail('T4-01 闭合后锚点的当前任务 ID 未以 T4-01 开头');
+}
+
 if (errors.length > 0) {
   console.error(`[check:ci] ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
@@ -2525,5 +2673,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（阈值 0.002 未放宽）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· Upload 上传契约（customRequest 单点注入传输且组件内零 fetch·XHR / 进度·成功·失败·取消·删除·重试六链 / 受控值桥 Form 字段 > fileList > 内部副本 / 新增 status·dragging 两属性并登记 / Form.Item 用 ids.control 与字段 aria / SSR 静态三态骨架且 counts 钉死 / 3 Demo + 5 手写 E2E + axe / 零新增依赖）· size-limit@${sizeLimit} + file 插件 · M3 Exit 检查（Table 链路实跑 ${tableChainKb} kB / 35 KB，Virtual 与单图标 pending；${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / ${demoCoverage.baselines} 基线；里程碑散文记录）`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（全局 maxDiffPixelRatio 0.002 未放宽，浮层 open-state ${t401OpenStateSlugs.length} 条走有界容差 4000 px）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· Upload 上传契约（customRequest 单点注入传输且组件内零 fetch·XHR / 进度·成功·失败·取消·删除·重试六链 / 受控值桥 Form 字段 > fileList > 内部副本 / 新增 status·dragging 两属性并登记 / Form.Item 用 ids.control 与字段 aria / SSR 静态三态骨架且 counts 钉死 / 3 Demo + 5 手写 E2E + axe / 零新增依赖）· size-limit@${sizeLimit} + file 插件 · M3 Exit 检查（Table 链路实跑 ${tableChainKb} kB / 35 KB，Virtual 与单图标 pending；${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / ${demoCoverage.baselines} 基线；里程碑散文记录）`,
 );

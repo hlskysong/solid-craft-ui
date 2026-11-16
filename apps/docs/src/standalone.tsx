@@ -13,6 +13,12 @@ import { demoComponents, demoKey, findComponent, findDemo } from './lib/catalog'
  * 文档级规则同时满足（53 个 Demo 页 axe 全 0 violation）。
  */
 export function renderStandalone(root: HTMLElement) {
+  // 截图宿主标记（docs/08 §30.50）：浮层内容由 Portal 挂在 body 下，不在 `.demo-root` 内，
+  // 只给 `.demo-root` 设固定字体时弹层文字会落回 body 的系统栈（Arial / PingFang SC）。
+  // macOS 15 与 26 的 PingFang 版本不同，同一份代码在两平台渲染出不同墨迹，
+  // 表现为「背景 0 差异、浮层全变」（§30.49）。base.css 靠这个类把固定字体补到浮层上。
+  document.documentElement.classList.add('demo-standalone');
+
   const parts = window.location.pathname.split('/').filter(Boolean);
   const slug = parts.length === 3 && parts[0] === 'components' ? parts[1] : 'overview';
   const requestedName = parts.length === 3 ? parts[2] : 'basic';

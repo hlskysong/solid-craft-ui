@@ -9,10 +9,10 @@
 
 | 字段 | 值 |
 | --- | --- |
-| 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；锚点推进 M4 拆解（Phase 4，需 Aming 逐次授权后开工）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T3-14（已闭合，§30.48）→ M4 拆解（待 Aming 逐次授权后开始）**；M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均未推送**）；**T3-14 改动尚未提交 / 推送** |
-| 下一步 | **按 AGENTS.md 硬约束 13 取得 Aming 逐次授权后提交 T3-14 改动（默认只 commit 不 push）**；随后按 `docs/05` Phase 4 拆 M4 任务级清单，开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.33 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T4-01（已闭合，§30.50）→ M4 后续任务拆解（待 Aming 逐次授权后开始）**；M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 改动尚未提交 / 推送** |
+| 下一步 | **按 AGENTS.md 硬约束 13 取得 Aming 逐次授权后提交 T4-01 改动（默认只 commit 不 push）**；提交后按 `docs/05` Phase 4 继续拆 M4 任务级清单（试点页面 / `0.1.0` 发布准备）；真 CI 复验需 push 触发新 run，属单独授权项，未 push 前不得宣称 CI 已转绿。开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.33 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -167,6 +167,7 @@
 | T3-12 | **CRUD 列表页组合 Demo**：Table + Form 查询 + Modal 新增 / 编辑 + 删除确认 + 操作反馈端到端 | T3-06 / T3-07 / T3-09 / T3-11 | 技术负责人 | 一页真实列表页可独立开发；新增 / 编辑 / 删除 / 查询四条 E2E 全绿；axe 0 violation；SSR 入口扩到本页；视觉基线对齐（**挂 `table/demos/crud-list.tsx` 复用页面级组合 Demo 先例、不新建 catalog 条目 / 组件子路径 / 新属性 / 新依赖 / 新组件**；Form 查询 + Table 三参 onChange + Modal 异步 onOk + Popconfirm 删除 + 静态 message 五链接线；新增 5 条手写 E2E + 1 条两态 axe 组合用例，7/7 passed；SSR **33 入口**且 `T3-12` 14/14 markers + 10/10 counts、弹层 counts 锁 0；**210 张基线**新增 2 张且既有 208 张 SHA256 零变化；31 组件 / 105 Demo / 586 索引 / 字集 1019 码位；判据 4o + 负向 N542~N600 59/59 / `pnpm verify` RC=0**，见 §30.46） | [x] |
 | T3-13 | `Upload`（M2 后移项）：`customRequest`、进度、文件列表、删除 / 重试 | T2-08 / T2-09 | 工程师 C | 上传 / 删除 / 重试受控链路；SSR 静态骨架；零新增依赖；与 `Form.Item` 接入可用（**自研组件、Kobalte 无此原语；`customRequest` 单点注入传输，组件内零 fetch / XHR / 新依赖；进度走原生 `<progress>`；新增 `data-scui-status` / `data-scui-dragging` 两属性并登记；`Form.Item` 用字段上下文接管 `fileList` 且 `ids.control` 落在 `input[type=file]`；3 Demo / 507 tests·42 files / SSR 34 入口 / 216 张基线 / 判据 4p + 负向 N601~N700 100/100 / `pnpm verify` RC=0**，见 §30.47） | [x] |
 | T3-14 | **体积预算 + M3 Exit 检查**：Table 预算实跑、每组件 ≥3 Demo、视觉基线全对齐、文档与 llms 生成物、里程碑散文记录 | T3-01 / T3-06 / T3-12 / T3-13 | 技术负责人 | `pnpm verify` RC=0；`check:ci` 判据 11 的 Demo 覆盖与基线对齐在扩面后仍成立；M3 里程碑只做散文记录、勾选只发生在 §4.2 （**Table 链路实跑 15.33 kB / 35 KB、余量 19.67 kB（15 个产物逐文件 gzip level 9）；判据 11 扩面后 32 组件 / 108 Demo / 216 基线逐一对齐；llms 159 站点文件 + 3 包内副本 / 36 exports 全覆盖 / 0 死链；Table + Virtual 与单个图标两条预算仍 pending，只报告不伪造配置；判据 4q 收进既有 check:ci、26 阶段不变；M3 里程碑只做散文记录，§4 简表 M3 行保持未勾；负向 N702~N728 27/27 + `pnpm verify` RC=0**，见 §30.48） | [x] |
+| T4-01 | **CI 视觉门禁受控容差 + 浮层排版结构断言**：先修「浮层文字没吃到固定字体」的真因，再把跨平台栅格化差异收进有界容差 | T3-09 / T3-14 | 技术负责人 | 全局 `maxDiffPixelRatio` 保持 0.002，仅 open-state 4 条放开 4000 px；结构断言钉住文案 / 字体族 / 字号 / 字重 / 颜色；`check:ci` 判据 4r 机器背书（**真因 = 浮层经 Portal 落在 `.demo-root` 之外、继承系统 PingFang；宿主 `demo-standalone` 标记 + `base.css` 给浮层根节点补固定字体；`maxDiffPixels` 4000 与 `maxDiffPixelRatio` 0.01 必须同时给（Playwright 取 min）；有界性实证 3000 px 放过 / 10000 px 拦住 / 普通用例 3000 px 拦住；§30.49 根因已更正；字集 1025 码位 / 字体 `47bc14d9…`**，见 §30.50） | [x] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
@@ -5538,3 +5539,255 @@ Aming 授权「继续」后按 §4.2 收口：**M3 的 T3-01~T3-14 共 14 项全
    正确做法是按诊断补齐，而不是为了让 CI 变绿去砍判据。
 5. **还原审计要覆盖「文件之外的状态」**：空目录不被 git 跟踪，却能被 glob 当成产物；
    SHA256 全对不代表工作区真的回到开工前。判据与负向脚本必须双向收紧。
+
+### 30.49 CI 视觉基线跨平台栅格化差异诊断（2026-11-16 实测，仅诊断不改代码）
+
+#### 一、结论先行
+
+`79c9e86` 推送后 GitHub Actions run **`43732152182`** 在 `Incremental gate (pnpm verify:main)`
+的视觉链 **6 failed / 211 passed**，其余 25 阶段全绿。6 张失败全是浮层打开态
+（`modal` / `drawer` / `popconfirm` 的 `open-state` × 1280 / 768），`tooltip-open-state` 通过。
+根因不是代码回归，而是**基线生成环境 macOS 26.5.1 与 CI runner `macos-15-arm64`
+的 CoreText 中文字形栅格化差异**，只在浮层合成层文字上显现。
+
+Aming 2026-11-16 裁决：**不同平台 / 大版本之间文字渲染存在差异，工程上应当被接受**。
+本节据此把这类差异定性为环境噪声，并把「让门禁承认它」列为 M4 待办。
+本轮按 Aming 选定方案 **只出诊断**：代码、视觉基线、workflow、判据、阈值全部保持原样，
+**CI 保持红色**，不 push、不伪装成已修复。
+
+#### 二、失败现场
+
+| 项 | 实测 |
+| --- | --- |
+| run / job | `43732152182` / `132866746226`，push dev，sha `79c9e866` |
+| 时间 | 2026-11-15 15:50:56Z 创建（北京 23:50），16:07:01Z 结束，约 16 分钟 |
+| 失败步骤 | 第 9 步 `Incremental gate (pnpm verify:main)`；第 10 步全量门按设计跳过 |
+| 增量作用域 | `scripts/affected.mjs` 输出 `scope=all`，`[e2e] SCUI_E2E_SCOPE=all → browser / visual / docs / llms` |
+| 结果 | visual `6 failed / 211 passed (5.2m)`；单测 507、browser 274、docs / llms、其余 check 全绿 |
+| 失败清单 | `modal-open-state`、`drawer-open-state`、`popconfirm-open-state` × `@1280` / `@768` |
+| 差异量 | 2496 / 2170 / 2618 px，Playwright 报 `ratio 0.01` |
+| 门禁阈值 | `playwright.config.ts` → `toHaveScreenshot: { threshold: 0.2, maxDiffPixelRatio: 0.002 }` ⇒ 超阈约 5 倍 |
+| 诊断产物 | artifact `visual-diff-43732152182`（`14169870144`，49 文件）已下载比对 |
+
+#### 三、排除项（逐项证伪，不是猜）
+
+| 假设 | 证伪依据 |
+| --- | --- |
+| 浏览器 / Node / 架构不一致 | CI 与本机同为 Chrome for Testing **156.0.8078.4 / chromium v1248**、Playwright 1.64.1、Node 26.12.1、arm64 |
+| 固定字体未入库 / 未加载 | `apps/docs/public/fonts/scui-visual.woff2` = `75f2c86a…` 随 `a636b2f` 入库；CI 日志 `waiting for fonts to load... fonts loaded` |
+| 动画竞态 / FOUT | error-context 记 `disabled all CSS animations`、`captured a stable screenshot`；两次截图差异数完全相同 |
+| 本机 verify 假绿（Vite 缓存旧字体） | `rm -rf apps/docs/node_modules/.vite` 后本机重跑 8 张 open-state **8/8 绿**；`playwright.config.ts` 的 `reuseExistingServer` 在 CI 下为 false |
+| 全站字体 fallback / 换字形 | 背景大标题墨迹像素 **1717 vs 1717、0 差异**；英文、边框、圆角、按钮位置、布局全部一致 |
+| 负载 / 容量抖动 | 6 张差异像素数跨 1280 / 768 **完全相同**（各自 2496 / 2170 / 2618），与视口无关，是稳定的确定性差异 |
+
+#### 四、像素量化（CI expected 与 actual 逐像素比对）
+
+| 区域 | expected 深色像素 | actual | 变化 | 列数 | 差异像素(>16) |
+| --- | --- | --- | --- | --- | --- |
+| 背景大标题 | 1717 | 1717 | **+0（0.0%）** | 170 / 170 | **0** |
+| 浮层标题 | 635 | 674 | +6.1% | 98 / 98 | 904 |
+| 浮层正文 | 683 | 880 | **+28.8%** | 299 / 311 | 3285 |
+| 浮层标签 | 166 | 182 | +9.6% | 68 / 64 | 557 |
+| 底部按钮文字 | 1775 | 1802 | +1.5% | 108 / 109 | 575 |
+
+3 倍放大对照（`/tmp/ci-zoom.png`）可见：字形、字距、颜色、位置一致，差别是
+**中文笔画更粗 / 更实**，即栅格化（抗锯齿与笔画加权）路径不同，而不是字形替换。
+`light-ltr-default-modal-open-state-1280.png` 等 6 张 expected 与本机基线 SHA256 完全一致，
+确认 CI 比的就是仓库里的基线。
+
+#### 五、根因
+
+- 基线生成机：`sw_vers` = **macOS 26.5.1 (25F80)**。
+- CI runner：image **`macos-15-arm64` / 20261104.0514.1**（runner 2.338.2）。
+- 两个 macOS 大版本的 CoreText 字体栅格化不同；浮层内容经 Portal 挂在合成层上，
+  抗锯齿 / 次像素渲染路径与主文档流不同，于是**只有浮层文字**表现出墨迹浓度差异。
+  主文档流文字（背景标题）在两版间恰好一致，这解释了为什么只有 6 张挂。
+- `tooltip-open-state` 通过，说明差异与「是否有遮罩 / 合成层」相关，不是全站字体问题。
+
+> **更正（2026-11-16，§30.50）**：上述根因不准确。实测浮层内容经 Portal 挂在 `body` 下，固定字体只写在 `.demo-root` 上，**弹层文字继承的是 body 的系统栈（`Arial`, `PingFang SC`）**，两平台差异来自系统 PingFang 版本不同；`tooltip-open-state` 通过只是因为该处差异像素（2563 px）恰好落在旧阈值内，与「有没有遮罩」无关。修法见 §30.50。
+
+#### 六、为什么现在才炸 / 历史关联
+
+- 远程 dev 长期停在 `fa72233`（2026-11-13，当时仅 **106** 张基线），
+  夜间 `schedule` 一直在验老基线集合，所以长期全绿。本次 13 个提交一次性推送，
+  CI **第一次**验 **216** 张基线，才命中这批 11-14 新增的浮层 open-state 图。
+- §30.9（2026-11-10）已诊断过**同一个**跨 macOS 字体问题：当时用方案 B
+  「固定 Web 字体 + `font-display: block`」消除了**字形来源**差异，16/16 零差异、
+  `maxDiffPixelRatio: 0.002` 未放宽。本次证明固定字体只解决字形来源，
+  **没有消除 CoreText 光栅化差异**，只是旧基线集合没有命中它。
+- `scripts/check-ci.mjs` 判据 2 的理由写「光栅化仍走 CoreText，需与基线同 macOS 大系列」，
+  但实际是基线 26 / runner 15，**口径已不自洽**，M4 需一并校正或明示例外。
+- 默认分支经 API 实测为 **dev**（`visibility=public`），夜间全量兜底会 checkout dev 最新提交，
+  因此在 M4 收口前夜跑同样会复现这 6 张失败；看到「夜跑 success」不能当作问题已消失。
+
+#### 七、裁决：跨大版本文字栅格化差异应被接受
+
+Aming 2026-11-16 明确：**在不同平台 / 大版本差异上，文字渲染有差异是可以接受的**。
+结合本节证据，这个判断成立的技术边界是：
+
+1. 差异只落在**文字笔画栅格化**，布局、盒模型、颜色、边框、圆角、交互状态、ARIA 全一致；
+2. 差异**确定性且量级有界**（≤ 0.012 像素占比），不随视口变化，不是随机抖动；
+3. 差异由**生成基线的主机与 runner 的 OS 大版本不同**造成，不是产品代码回归。
+
+因此正确方向是**让门禁以受控方式承认这类噪声**，而不是升级 runner 去追本机小版本、
+也不是重生成 216 张基线去迁就 CI。同时必须守住「容差只吃栅格化噪声」：
+M4 落地时应给浮层内容补结构 / 文案断言，防止「文字消失、换字体、字号变化」被容差放过。
+
+#### 八、门禁现状与差距（本轮不修）
+
+现状是**判断上接受、机器上门禁未接受**：`maxDiffPixelRatio: 0.002` 仍是零漂移口径，
+实测 ratio ≈0.01，于是 CI 红。这是口径差距，不是 bug。
+本节如实登记 CI 仍为 `failure`，不修改 `playwright.config.ts`、不放宽阈值、
+不改 `ci.yml`、不改 `scripts/check-ci.mjs`、不动任何 `tests/e2e/baselines/*.png`。
+
+#### 九、M4 待办（Phase 4 统一处理，需逐次授权）
+
+1. 把「接受跨大版本文字栅格化差异」落成可执行的门禁口径：给出**有上限**的
+   `maxDiffPixelRatio`（实测最大 0.0117，留安全余量即可），并说明只适用于浮层文字噪声；
+2. 配套判据钉死容差上限与适用范围，写负向实证（放大容差 / 删除范围约束必须红灯）；
+3. 给 6 张 open-state 补文字内容 / 结构断言，堵住容差可能掩盖的真实回归；
+4. 校正 `check-ci.mjs` 判据 2 里「同 macOS 大系列」的失真理由，或登记为显式例外；
+5. 改动合并后 **push 触发真实 CI run 验真**，不再以本机 `pnpm verify` 代替 CI 结论；
+6. 若选择升级 runner（`macos-26` 已 GA）或重生成基线，作为备选方案另行评审，
+   不要与容差方案混做。
+
+#### 十、允许写入路径与验收状态
+
+- **允许写入路径**：仅 `docs/08-实施Todo.md` 本节 + workspace memory 日志。
+- **明确不动**：`.github/workflows/*.yml`、`playwright.config.ts`、`scripts/check-ci.mjs`、
+  `scripts/todo-governance.json`、`tests/e2e/baselines/*`、`package.json`、
+  `docs/01~07`、`pnpm-lock.yaml`。本轮不新增任务行、不勾 `[x]`、不登记 evidence。
+- **本机验收**：文档追加后跑 26 阶段全量 `pnpm verify RC=0`
+  （内含 `check:todo` / `check:ci` / `check:goals`），另跑 `git diff --check RC=0`。
+- **CI 验收**：run `43732152182` = `failure`，**保持红色**，等 M4 收口后由新 run 验真。
+- **反差本身就是证据**：同一代码态本机 `pnpm verify RC=0`、CI visual 6 failed，
+  恰好说明差异来自 runner 环境而非仓库内容。
+
+#### 十一、实测复验记录（2026-11-16）
+
+| 命令 | 结果 |
+| --- | --- |
+| `pnpm verify`（26 阶段全量，文档追加后） | ✅ **RC=0**：42 test files / browser 274 / visual 217 / docs 8 / llms 4；`check:docs` 142 生成物一致；`check:llms` 159 文件 / 36 exports 全覆盖 / 0 死链；`check:goals` 15 文件咬合；真实 SolidStart SSR 0 warning |
+| `check:todo` / `check:ci` | ✅ 均在 verify 内通过：65 任务 / 65 `[x]` / 倒挂 0 / §30 派发边界与全链证据在位；`check:ci` 契约全绿且明确记录「阈值 0.002 未放宽」 |
+| `git diff --check` | ✅ RC=0（文档末尾单换行；工作区仅 `docs/08` 一个改动） |
+| GitHub Actions run `43732152182` | ❌ **failure，保持红色**；按本节裁决不修、不 push，等 M4 收口后由新 run 验真 |
+
+### 30.50 T4-01 CI 视觉门禁受控容差 + 浮层排版结构断言（2026-11-16 实测）
+
+#### 一、结论先行
+
+§30.49 记录的 6 张浮层基线失败，**真因不是「固定字体的 CoreText 栅格化」**，而是浮层内容
+由 Portal 挂到 `body` 下、**根本没吃到宿主的固定字体**：`'SCUI Visual'` 只写在 `.demo-root` 上，
+弹层文字继承 `body` 的 `Arial, 'PingFang SC', …` 系统栈；macOS 15 与 26 的 PingFang 版本不同，
+同一份代码在两平台渲染出不同墨迹。这解释了「背景标题 0 差异、浮层文字全变」的全部现象。
+
+本轮 T4-01 按 Aming「先把容差落地」执行，但容差只是兜底，落地的是**三件套**：
+宿主钉字体（消除真因）+ 有界容差（吸收真实跨平台噪声）+ 排版结构断言（防止容差掩盖回归）。
+全局 `maxDiffPixelRatio` 仍是 **0.002**，只有 4 条 `open-state` 用例拿到 **4000 px** 上限。
+
+#### 二、真因实证（计算样式，不是推测）
+
+| 页面 | 浮层根 | 在 `.demo-root` 内 | 计算 `font-family` |
+| --- | --- | --- | --- |
+| `modal/open-state` | `[data-scui-role="modal"]` | ❌ false | `Arial, "PingFang SC", "Microsoft YaHei", sans-serif` |
+| `drawer/open-state` | `[data-scui-role="drawer"]` | ❌ false | 同上 |
+| `popconfirm/open-state` | `[data-scui-role="popconfirm"]` | ❌ false | 同上 |
+| `tooltip/open-state` | `[data-scui-role="tooltip"]` | ❌ false | 同上 |
+| 同页对照：`[data-scui-role="popconfirm-trigger"]` | — | ✅ true | `"SCUI Visual", sans-serif` |
+
+同一页面里「触发按钮」是固定字体、「弹层内容」是系统字体 —— 像素差异只能来自后者。
+`font-family` 是渲染前的声明，比事后比对像素更早、更准地指出问题。
+
+#### 三、三件套修法（4 个文件）
+
+| 文件 | 改动 |
+| --- | --- |
+| `apps/docs/src/standalone.tsx` | `renderStandalone` 给 `<html>` 打 `demo-standalone` 标记，标明「这是截图宿主」 |
+| `apps/docs/src/styles/base.css` | `.demo-standalone [data-scui-role='modal' / 'drawer' / 'popconfirm' / 'tooltip']` 补 `font-family: 'SCUI Visual', sans-serif` |
+| `tests/e2e/specs/visual.spec.ts` | 有界容差（仅 `-open-state`）+ 浮层排版结构断言 4 条 |
+| `scripts/check-ci.mjs` | 判据 4r 机器背书；判据 2 的 runner 理由校正为真实口径 |
+
+`demo-standalone` 只由截图宿主添加，文档站的普通页面仍走系统字体栈 —— 与 §30.9 方案 B
+「只作用于 Demo 宿主，不修改组件库样式」的边界一致。
+
+#### 四、容差口径（两个常量必须同时给）
+
+| 项 | 值 | 依据 |
+| --- | --- | --- |
+| `OVERLAY_MAX_DIFF_PIXELS` | **4000** | 实测三个浮层差异 2496 / 2170 / 2618 px，且 1280 与 768 完全相同（与视口无关）⇒ 绝对上限才对得上这个物理量；4000 ≈ 最坏值 1.5 倍 |
+| `OVERLAY_MAX_DIFF_PIXEL_RATIO` | **0.01** | Playwright `compareImages` 取 `Math.min(maxDiffPixels, ratio × 总面积)`；只给 4000 时全局 0.002 在 1280×800 折 2048，会把上限压回去 ⇒ 比例必须同时给，且两档面积下（10240 / 6144）都高于 4000 |
+| 作用域 | `id.endsWith('-open-state')` | 只覆盖首屏即打开、必然 Portal 出浮层的 Demo；不写成 slug 白名单 |
+| 全局 | `maxDiffPixelRatio: 0.002` 不变 | 其余 208 张基线不放宽（§30.9 结论不推翻） |
+
+#### 五、过程缺陷与修正（本轮真实踩到的三个坑）
+
+1. **`--update-snapshots` 只重写失败的快照**：首轮重生成后 `tooltip-open-state` 两张「没变」。
+   原因是新容差 4000 让 2563 px 的字体差异判为通过，于是 Playwright 直接跳过、基线仍是系统字体像素。
+   修法：把 8 张浮层基线移走强制重生成，再逐张比对（6 张 0 差异 = 首轮已重写，tooltip 2 张 2563 px = 本轮才真重建）。
+   **教训：容差放宽与「基线是否真的重建」是两件事，关键基线必须强制重生成。**
+2. **只给 `maxDiffPixels` 等于没放开**：有界性实证 A 例（浮层 + 3000 px 人造差异）本应放过却被拦。
+   读 `playwright-core/lib/coreBundle.js` 的 `compareImages` 才确认真实现是两参数取 min，
+   全局 0.002 折出 2048 把 4000 压回去。修法：浮层用例同时给比例 0.01。
+   **教训：判据必须同时钉住两个常量，否则「改了一个」会被另一个静默抵消。**
+3. **字体重建环境被系统清理**：`/tmp/fontvenv` 与 `/tmp/NotoSansSC.ttf` 在午夜被清空，
+   `build-visual-font.py` 先报缺 `fontTools`、后报源字体不存在。修法：重装 `fonttools` + `brotli`，
+   按脚本头部指定的 `ofl/notosanssc/NotoSansSC[wght].ttf` 重新下载（17.7 MB）。
+
+#### 六、排版结构断言（4 条，钉住 5 件事）
+
+| slug | 浮层根 | 标题 role | 文案 | 字号 | 字重 | 颜色 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `modal` | `[data-scui-role="modal"]` | `modal-title` | 打开态视觉基线 | 16px | 700 | `rgba(0, 0, 0, 0.88)` |
+| `drawer` | `[data-scui-role="drawer"]` | `drawer-title` | 打开态视觉基线 | 16px | 700 | `rgba(0, 0, 0, 0.88)` |
+| `popconfirm` | `[data-scui-role="popconfirm"]` | `popconfirm-title` | 确认删除这条采购明细？ | 21px | 600 | `rgba(0, 0, 0, 0.88)` |
+| `tooltip` | `[data-scui-role="tooltip"]` | `tooltip` | 本次采购数量按年度维简计划填写，提交后进入审批流。 | 13px | 400 | `rgba(0, 0, 0, 0.88)` |
+
+每条用例逐项断言：浮层确实 Portal 在 `.demo-root` 之外、正文关键句在场、标题**逐字**比对、
+`font-family` 必须含 `SCUI Visual`、字号 / 字重 / 颜色精确相等、`document.fonts.check('16px "SCUI Visual"')` 为真。
+这样容差只能吸收抗锯齿与笔画粗细；文字消失、换字体、改字号、改颜色都过不去。
+
+#### 七、边界与不做的事
+
+- **不改 runner**：`ci.yml` 仍是 `macos-15-arm64`，不升 `macos-26`（改 runner 会牵动全部基线的复现口径）。
+- **不重生成普通基线**：216 张里只有 8 张浮层图变化，其余 208 张零漂移（已逐张核对）。
+- **不放宽全局阈值**：`playwright.config.ts` 的 0.002 与 `threshold: 0.2` 原样；判据 4r 反向盯住这两行。
+- **不宣称 CI 已绿**：真实 CI 要 push 触发新 run 才算验证，本轮不 push。
+
+#### 八、机器锚点
+
+机器锚点：浮层 open-state **4 条 × 2 视口**；容差 **maxDiffPixels 4000 / maxDiffPixelRatio 0.01**；全局 **maxDiffPixelRatio 0.002 未放宽**
+
+#### 九、验收
+
+- **有界性实证 3/3**：A 浮层 + 3000 px 人造差异 → 通过（容差真的生效，不是死代码）；
+  B 浮层 + 10000 px → 失败（4000 上限是真的）；C 普通用例 + 3000 px → 失败（容差没有外溢）。
+  三例结束后基线 SHA256 与开工前逐字节一致。
+- **视觉链**：`221 passed` = 216 张基线 + 4 条排版结构断言 + 1 条清单覆盖守卫；8 张浮层基线重生成后复跑全绿。
+- **字体**：字集 **930 CJK/符号 + 95 ASCII = 1025 码位**、**295000 bytes**、
+  `FONT_SHA256=47bc14d9b0af6b1a765628e0e70028fb99015475de95d2b4f73db09aba35ceac`；
+  重建后 216 张基线像素零漂移，证明字形未变、只是字集扩容。
+- **门禁**：`check:ci` 判据 4r 覆盖「常量字面量 / 两参数同时给 / 作用域判定 / 容差唯一处 /
+  结构断言在场且覆盖条数与 catalog 一致 / base.css 字体补丁逐 role / 全局阈值未动 / §30.50 机器锚点 / §4.2 勾选与 evidence」。
+- **`pnpm verify` RC=0**（26 阶段全量，最终文件状态）：单测 507 / 42 files、browser 274、visual 221、
+  docs 8、llms 4、`check:docs` 142 个生成物一致、`check:llms` 159 站点 + 3 副本 / 0 死链、
+  `check:goals` 15 个受保护文件咬合、`check:todo` **66 任务 / 66 [x]** / 倒挂 0 / 锚点 5 字段齐全。
+- **治理前缀扩展**：`check-todo.mjs` 的 `taskIdRe` 之前只认 `T0~T3`，M4 的 `T4-01` 会整片绕过
+  结构 / 倒挂 / 证据校验；本项一次性扩到 `T4` 并把 `T4-01` 登记进 `todo-governance.json#taskIds`。
+
+#### 十、允许写入路径
+
+`apps/docs/src/standalone.tsx`、`apps/docs/src/styles/base.css`、`tests/e2e/specs/visual.spec.ts`、
+`scripts/check-ci.mjs`、`tests/e2e/baselines/light-ltr-default-{modal,drawer,popconfirm,tooltip}-open-state-{1280,768}.png`（8 张）、
+`apps/docs/public/fonts/{scui-visual.woff2,charset.txt}`、`docs/08-实施Todo.md`、`scripts/todo-governance.json`、
+`scripts/goals.baseline.json`、`AGENTS.md`。`playwright.config.ts` 只读不写（判据反向盯住其阈值）。
+
+#### 十一、教训
+
+1. **先查「有没有吃到那个字体」，再谈「同字体跨平台栅格化」**：一条 `getComputedStyle().fontFamily`
+   就能否掉一个错误根因，比逐像素反推快一个数量级。§30.49 的根因因此被更正。
+2. **容差会掩盖基线未重建**：`--update-snapshots` 只重写失败快照，一旦放宽阈值，旧基线会「通过」并留在仓库里。
+   关键基线必须「移走 → 强制重生成 → 逐张比对」。
+3. **Playwright 的 `maxDiffPixels` 与 `maxDiffPixelRatio` 取 min**：只改一个等于没改，
+   判据必须同时钉住两个常量，并写清为什么比例不能省。
+4. 结构性断言是容差的「配重」：容差负责环境噪声，结构断言负责产品回归，两者缺一，
+   门禁就会变成要么天天误报、要么橡皮图章。
