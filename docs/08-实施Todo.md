@@ -12,7 +12,7 @@
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
 | 当前任务 ID | **T4-01（已闭合，§30.50）→ M4 后续任务拆解（待 Aming 逐次授权后开始）**；M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
-| 下一步 | **按 `docs/05` Phase 4 继续拆 M4 任务级清单（试点页面 / `0.1.0` 发布准备），T4-02 起须 Aming 逐次授权**；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.33 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 下一步 | **按 `docs/05` Phase 4 继续拆 M4 任务级清单（试点页面 / `0.1.0` 发布准备），T4-02 起须 Aming 逐次授权**；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.33 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -5941,3 +5941,128 @@ run `44045841394`（2026-11-17 08:20，夜间全量，head `889f9b5`）失败在
    判据照样绿，而被校验的那份根本不生效。判据必须断言「唯一声明」，不能只断言「存在」。
 6. **负向实证的价值不在「证明判据有用」，而在「暴露判据的盲区」**：N803 就是这么被发现的 ——
    正常态全绿时，没人会想到顶层常量和内层常量同时存在。
+
+### 30.52 Upload 进度推进重建列表行导致 E2E 点击超时（2026-11-17 实测）
+
+#### 一、结论先行
+
+CI run `44116541822`（`88626dd` push）失败在 `browser.spec.ts` 的
+「Upload 取消与删除」，报 `locator.click: Test timeout of 30000ms exceeded`，接
+`element is not stable` 与 `element was detached from the DOM`。不是测试写法问题，是
+`Upload` 的真实缺陷：`patch()` 每次改字段都产出**新对象**，而列表用 `<For>`（按引用
+diff）渲染，于是进度每推进一次（Demo 里 120ms 一条）就把整行 `<li>` **销毁重建**。
+点击动作要跨帧等待稳定，节点每 120ms 换一个，慢速 runner 上必然输掉这场竞速。
+
+修法：行渲染由 `For` 换成 `Index`（按位置渲染、子节点拿访问器），字段更新只改属性，
+行节点恒稳。探针实测：修复前 1.2s 内行节点被重建 6 次，修复后 **0 次**。
+
+#### 二、失败现场
+
+```
+272 ✘ browser.spec.ts:1382 Upload 取消与删除：abort 后转 error，删除真的移除列表项 (30.1s)
+Error: locator.click: Test timeout of 30000ms exceeded.
+  waiting for locator('[data-testid="upload-progress"] [data-scui-role="upload-item"]')
+                        .filter({ hasText: 'cancel-me.pdf' })
+                        .locator('[data-scui-role="upload-cancel"]')
+  2 × locator resolved to <button type="button" class="scui-upload__action"
+                              data-scui-role="upload-cancel">取消</button>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is not stable
+  - retrying click action
+    - element was detached from the DOM, retrying
+```
+
+同一 run 其余 273 条全过（含同组另外 5 条 Upload 用例），本地 `--repeat-each 5` 也
+5/5 通过。**它只在慢速 runner 上炸**，这正是「高频 DOM 重建」这类缺陷的典型表现：
+不是稳定复现的 bug，而是把点击窗口压缩到几乎必然失败。
+
+#### 三、真因：`For` 按引用 diff + `patch()` 每 tick 新对象
+
+```ts
+const patch = (uid, change) => {
+  const next = list().map((item) => (item.uid === uid ? { ...item, ...change } : item));
+  ...
+};
+```
+
+`{ ...item, ...change }` 让被改的那一项换了引用。Solid 的 `<For>` 按**引用**做 keyed
+diff，引用一变就判定「旧项删除 + 新项插入」，整行 DOM 重建；`onProgress` 每 120ms 调一次
+`patch`，于是行节点每 120ms 重建一次。
+
+浏览器探针（`MutationObserver` 监听 `<ul>` 的 childList + 行节点标记）实测：
+
+| 时点 | 修复前 | 修复后 |
+| --- | --- | --- |
+| 1.2s 内 childList 新增节点数 | **6** | **0** |
+| 行节点 `sameNode` | 全程 false | 全程 true |
+| 节点上的自定义标记 `markKept` | 全程 false（节点被换掉） | 全程 true |
+
+#### 四、影响不止 E2E
+
+行节点重建的代价是实打实的，只是平时没人盯着看：
+
+1. **焦点丢失**：行内的「取消 / 删除」按钮若有焦点，重建后焦点掉回 body。
+2. **滚动与布局跳动**：重建触发重排，长列表里表现为可见跳动。
+3. **CSS 过渡重启**：`progress` 元素本身被换新，宽度过渡每 tick 从头开始。
+4. **无障碍噪声**：`role="status"` 的节点重建会被读屏重新播报。
+5. **分配抖动**：每次 tick 新建对象 + 销毁重建 DOM 子树。
+
+也就是说，这条 CI 红灯只是最表层的一个症状。
+
+#### 五、修法：`For` → `Index`
+
+```tsx
+<Index each={list()}>
+  {(item) => (
+    <li data-scui-status={item().status}>
+      ...
+      <button onClick={() => cancel(item())}>取消</button>
+    </li>
+  )}
+</Index>
+```
+
+- `Index` 按位置渲染，子节点拿到 `Accessor<UploadFile>`；`percent` / `status` 更新只改
+  属性与文本，**行节点不动**。
+- 没有改成 store 方案：`emit()` 是列表变更的唯一出口、还要同时回写 Form 字段与 `onChange`，
+  换状态模型会牵动受控值桥与 `check:ci` 的 ③ 号契约；`Index` 只改渲染策略，改动面最小。
+- 没有改测试（`force: true` / 调大超时 / 加重试）：那会把「节点被换掉」这个事实藏起来，
+  等于给缺陷打掩护。
+
+#### 六、机器锚点
+
+- 单测 `Upload.test.tsx` 新增「进度推进不重建列表行」：连发三次 `onProgress` 后断言
+  行节点、取消按钮、`progress` 元素**三个引用都不变**，且进度值已更新。
+- `check:ci` 的 T3-13 契约新增判定：实现必须含 `<Index each={list()}>`、不得出现
+  `<For each={list()}>`、§30.52 本节在场、单测标题在场。
+- 探针脚本 `.probe-upload-churn.mjs` 只用于本次诊断，诊断完即删，**不提交**。
+
+#### 七、验收
+
+- Upload 单测 **15 passed**（新增 1 条）。
+- 负向：把 `Upload.tsx` 换回 HEAD 的 `For` 版本后重跑单测 → **1 failed | 14 passed**，
+  失败的正是新增那条（`expected <li> to be <li>`）；还原后 SHA256 逐字节一致
+  （`6b9d5c34…`）、15 passed。
+- `browser.spec.ts -g Upload` **12 passed**；目标用例 `--repeat-each 5` **5/5 passed**。
+- `visual.spec.ts -g upload` **6 passed**，基线**零漂移**（DOM 静息结构与改动前一致）。
+- `pnpm verify` 全链 RC=0（见下方本轮验收记录）。
+
+#### 八、允许写入路径
+
+`packages/core/src/components/upload/Upload.tsx`、
+`packages/core/src/components/upload/Upload.test.tsx`、`scripts/check-ci.mjs`、
+`docs/08-实施Todo.md`。
+
+#### 九、教训
+
+1. **keyed diff 的 key 是「对象引用」，不是 uid**：想用 `uid` 当 key，就必须让对象引用
+   稳定；否则 `For` 会退化成「每帧全量重建」。
+2. **高频字段更新适合 `Index`，增删排序适合 `For`**：`docs/06` 那句「稳定 key 用 For」
+   的前提是「key 真的稳定」，本例的对象引用恰恰不稳定。
+3. **`element was detached from the DOM` 是重建信号**，不是随机抖动：Playwright 的这句
+   日志相当于免费的性能探针。
+4. **负向实证要拿旧实现跑新测试**：光看「新测试现在绿了」说明不了它能证伪，必须用
+   `git show HEAD:…` 把旧实现放回去，看它是不是真的红。
+5. **修 flake 的三条捷径（force / 加超时 / 加重试）都在掩盖事实**：这次如果选捷径，
+   用户侧「点取消偶尔没反应」的缺陷会一直留在产品里。

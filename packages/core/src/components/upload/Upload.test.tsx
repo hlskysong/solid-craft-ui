@@ -148,6 +148,32 @@ describe('Upload：customRequest 驱动上传状态机', () => {
     expect(actionAt(0, 'upload-retry')).not.toBeNull();
   });
 
+  it('进度推进不重建列表行：行节点身份在整条上传链路里保持稳定', () => {
+    // §30.52：进度是高频更新（Demo 里 120ms 一条），行节点一旦被重建，焦点、滚动位置、
+    // CSS 过渡全丢，真实浏览器里连点击都会撞上「节点已从 DOM 移除」。这里用节点身份钉死。
+    const captured: UploadRequestOptions[] = [];
+    render(() => (
+      <Upload
+        customRequest={(options) => {
+          captured.push(options);
+        }}
+      />
+    ));
+    select([makeFile()]);
+    const row = itemAt(0);
+    const cancelButton = actionAt(0, 'upload-cancel');
+    const progress = itemAt(0).querySelector('progress');
+
+    captured[0]?.onProgress(20);
+    captured[0]?.onProgress(40);
+    captured[0]?.onProgress(60);
+
+    expect(itemAt(0)).toBe(row);
+    expect(actionAt(0, 'upload-cancel')).toBe(cancelButton);
+    expect(itemAt(0).querySelector('progress')).toBe(progress);
+    expect(progress?.getAttribute('value')).toBe('60');
+  });
+
   it('不传 customRequest 时不发网络请求，文件直接 done', () => {
     render(() => <Upload />);
     select([makeFile('local.txt')]);

@@ -15,7 +15,15 @@
  * 保证 id 确定性；`AbortController` / `File` / `DataTransfer` 只出现在事件链里，
  * 模块顶层与渲染期都不碰 `window` / `document` / 当前时间。
  */
-import { For, Show, createSignal, createUniqueId, onCleanup, splitProps, type JSX } from 'solid-js';
+import {
+  Index,
+  Show,
+  createSignal,
+  createUniqueId,
+  onCleanup,
+  splitProps,
+  type JSX,
+} from 'solid-js';
 
 import { CSS_PREFIX } from '../../scope';
 import { useFormFieldOptional } from '../../form/use-form-field';
@@ -294,53 +302,59 @@ export function Upload(props: UploadProps): JSX.Element {
         {local.children ?? '点击选择文件，或把文件拖拽到此处'}
       </button>
       <ul class={`${CSS_PREFIX}upload__list`} data-scui-role="upload-list">
-        <For each={list()}>
+        {/*
+         * 用 Index 而非 For（§30.52）：`patch()` 每次改字段都会产出新对象，For 按引用
+         * diff，于是进度每推进一次（本例 120ms 一条）就把整行 <li> 销毁重建 —— 焦点、
+         * 滚动位置与 CSS 过渡全丢，连 E2E 的点击都会撞上「节点已从 DOM 移除」。
+         * Index 按位置渲染、子节点拿到访问器，字段更新只改属性，行节点恒稳。
+         */}
+        <Index each={list()}>
           {(item) => (
             <li
               class={`${CSS_PREFIX}upload__item`}
               data-scui-role="upload-item"
-              data-scui-status={item.status}
+              data-scui-status={item().status}
             >
               <span class={`${CSS_PREFIX}upload__name`} data-scui-role="upload-name">
-                {item.name}
+                {item().name}
               </span>
-              <Show when={formatSize(item.size) !== ''}>
+              <Show when={formatSize(item().size) !== ''}>
                 <span class={`${CSS_PREFIX}upload__size`} data-scui-role="upload-size">
-                  {formatSize(item.size)}
+                  {formatSize(item().size)}
                 </span>
               </Show>
-              <Show when={item.status === 'uploading'}>
+              <Show when={item().status === 'uploading'}>
                 <progress
                   class={`${CSS_PREFIX}upload__progress`}
                   data-scui-role="upload-progress"
                   max="100"
-                  value={item.percent ?? 0}
-                  aria-label={`${item.name} 上传进度`}
+                  value={item().percent ?? 0}
+                  aria-label={`${item().name} 上传进度`}
                 />
                 <button
                   type="button"
                   class={`${CSS_PREFIX}upload__action`}
                   data-scui-role="upload-cancel"
                   disabled={disabled()}
-                  onClick={() => cancel(item)}
+                  onClick={() => cancel(item())}
                 >
                   取消
                 </button>
               </Show>
-              <Show when={item.status === 'error'}>
+              <Show when={item().status === 'error'}>
                 <span
                   class={`${CSS_PREFIX}upload__error`}
                   data-scui-role="upload-error"
                   role="status"
                 >
-                  {item.error ?? '上传失败'}
+                  {item().error ?? '上传失败'}
                 </span>
                 <button
                   type="button"
                   class={`${CSS_PREFIX}upload__action`}
                   data-scui-role="upload-retry"
                   disabled={disabled()}
-                  onClick={() => retry(item)}
+                  onClick={() => retry(item())}
                 >
                   重试
                 </button>
@@ -350,14 +364,14 @@ export function Upload(props: UploadProps): JSX.Element {
                 class={`${CSS_PREFIX}upload__action`}
                 data-scui-role="upload-remove"
                 disabled={disabled()}
-                aria-label={`删除 ${item.name}`}
-                onClick={() => remove(item)}
+                aria-label={`删除 ${item().name}`}
+                onClick={() => remove(item())}
               >
                 删除
               </button>
             </li>
           )}
-        </For>
+        </Index>
       </ul>
     </div>
   );
