@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { DEMO_IDS, demoPath } from '../demo-list';
 
 type CatalogShape = {
@@ -40,38 +40,89 @@ const catalogValue = readGenerated('apps/docs/src/generated/catalog.json');
 if (!isCatalogShape(catalogValue)) throw new Error('[docs.spec] catalog.json 结构异常');
 const catalog: CatalogShape = catalogValue;
 
+/**
+ * 单页导航超时（§30.51）：Playwright 的 30s 默认值是「整条用例」的预算，某一页卡住时
+ * 只能得到一句 `Test timeout of 30000ms exceeded`，分不清是页面慢、断言失败还是页面
+ * 真的不可达。给 goto 单独设一个短超时，报错会直接点名卡住的那一页。
+ */
+const PAGE_LOAD_TIMEOUT_MS = 10_000;
+
+/** 组件路由 / 独立 Demo 页的批大小，拆批理由见「路由可访问」describe 内的注释。 */
+const COMPONENT_BATCH_SIZE = 12;
+const DEMO_BATCH_SIZE = 12;
+
 test.describe('T1-06 文档站：路由可访问', () => {
-  test('02 §12.1 全量路由 + 404 兜底', async ({ page }) => {
-    const routes: [string, string][] = [
+  const checkRoutes = async (page: Page, routes: [string, string][]): Promise<void> => {
+    for (const [path, testId] of routes) {
+      const response = await page.goto(path, { timeout: PAGE_LOAD_TIMEOUT_MS });
+      expect(response?.status(), `${path} HTTP 状态`).toBe(200);
+      await expect(page.getByTestId(testId), `${path} 页面挂载`).toBeVisible();
+      await expect(page.getByTestId('docs-app'), `${path} 站点布局`).toBeVisible();
+    }
+  };
+
+  test('02 §12.1 固定路由 + 404 兜底', async ({ page }) => {
+    await checkRoutes(page, [
       ['/', 'page-home'],
       ['/docs/getting-started', 'page-getting-started'],
       ['/changelog', 'page-changelog'],
       ['/components/button', 'page-component'],
       ['/components/button/basic', 'page-demo'],
       ['/no-such-page', 'page-not-found'],
-    ];
-    for (const pageMeta of catalog.designPages) {
-      routes.push([`/docs/design/${pageMeta.slug}`, 'page-design']);
-    }
-    for (const component of catalog.components) {
-      routes.push([`/components/${component.slug}`, 'page-component']);
-    }
-
-    for (const [path, testId] of routes) {
-      const response = await page.goto(path);
-      expect(response?.status(), `${path} HTTP 状态`).toBe(200);
-      await expect(page.getByTestId(testId), `${path} 页面挂载`).toBeVisible();
-      await expect(page.getByTestId('docs-app'), `${path} 站点布局`).toBeVisible();
-    }
+    ]);
   });
 
-  test('独立 Demo 页无站点 chrome，且与 E2E 清单同源', async ({ page }) => {
-    for (const id of DEMO_IDS) {
-      await page.goto(demoPath(id));
-      await expect(page.getByTestId('demo-root')).toHaveAttribute('data-demo', id);
-      await expect(page.getByTestId('docs-app')).toHaveCount(0);
-    }
+  test('§12.1 设计页路由（全量）', async ({ page }) => {
+    const routes = catalog.designPages.map((pageMeta): [string, string] => [
+      `/docs/design/${pageMeta.slug}`,
+      'page-design',
+    ]);
+    await checkRoutes(page, routes);
   });
+
+  /**
+   * 组件路由必须拆批（§30.51）：44 条路由塞进一个 test 时，正常日就吃掉 16.9s / 30s 预算
+   * （56%），夜间全量 runner 整体慢 1.8 倍即穿透超时 —— run 44045841394 卡在
+   * `/components/skeleton` 的 load 事件上，而该页本地只需 91ms。按 12 条一批拆分后，
+   * 单批正常日约 5s、慢速 runner 约 10s，余量充足，且失败能定位到具体批次。
+   */
+  const componentRoutes = catalog.components.map((component): [string, string] => [
+    `/components/${component.slug}`,
+    'page-component',
+  ]);
+  const componentBatches = Array.from(
+    { length: Math.ceil(componentRoutes.length / COMPONENT_BATCH_SIZE) },
+    (_, index) =>
+      componentRoutes.slice(index * COMPONENT_BATCH_SIZE, (index + 1) * COMPONENT_BATCH_SIZE),
+  );
+  for (const [index, batch] of componentBatches.entries()) {
+    test(`§12.1 组件路由第 ${index + 1} / ${componentBatches.length} 批（${batch.length} 页）`, async ({
+      page,
+    }) => {
+      await checkRoutes(page, batch);
+    });
+  }
+
+  /**
+   * 独立 Demo 页同样必须拆批（§30.51）：32 个独立 Demo 页跑在一个 test 里，CI 慢速 runner
+   * 上实测 21.1s / 30s（70%），是下一个必炸点。按 12 页一批拆分后单批约 8s。
+   * 批大小常量在模块顶层统一声明，此处不得再定义同名常量（会遮蔽顶层那份）。
+   */
+  const demoBatches = Array.from(
+    { length: Math.ceil(DEMO_IDS.length / DEMO_BATCH_SIZE) },
+    (_, index) => DEMO_IDS.slice(index * DEMO_BATCH_SIZE, (index + 1) * DEMO_BATCH_SIZE),
+  );
+  for (const [index, batch] of demoBatches.entries()) {
+    test(`独立 Demo 页无站点 chrome，且与 E2E 清单同源 第 ${
+      index + 1
+    } / ${demoBatches.length} 批（${batch.length} 页）`, async ({ page }) => {
+      for (const id of batch) {
+        await page.goto(demoPath(id), { timeout: PAGE_LOAD_TIMEOUT_MS });
+        await expect(page.getByTestId('demo-root')).toHaveAttribute('data-demo', id);
+        await expect(page.getByTestId('docs-app')).toHaveCount(0);
+      }
+    });
+  }
 });
 
 test.describe('T1-06 文档站：Demo 与源码同源', () => {
@@ -84,7 +135,7 @@ test.describe('T1-06 文档站：Demo 与源码同源', () => {
     const disk = readSource(basic.path);
     const key = 'button/basic';
 
-    await page.goto('/components/button');
+    await page.goto('/components/button', { timeout: PAGE_LOAD_TIMEOUT_MS });
     await page.getByTestId(`source-toggle-${key}`).click();
 
     // ① 页面展示的 Shiki 高亮文本 = 磁盘源码（生成脚本读同一文件）。
@@ -110,7 +161,7 @@ test.describe('T1-06 文档站：Demo 与源码同源', () => {
   });
 
   test('每个 Demo 都有独立页链接且可打开', async ({ page }) => {
-    await page.goto('/components/button');
+    await page.goto('/components/button', { timeout: PAGE_LOAD_TIMEOUT_MS });
     const button = catalog.components.find((item) => item.slug === 'button');
     expect(button?.demos.length).toBeGreaterThanOrEqual(3);
     for (const demo of button?.demos ?? []) {
@@ -124,7 +175,7 @@ test.describe('T1-06 文档站：Demo 与源码同源', () => {
 
 test.describe('T1-06 文档站：API 表 / 搜索 / 全局设置', () => {
   test('API 表由 types.ts 生成，默认值来自 JSDoc @default', async ({ page }) => {
-    await page.goto('/components/button');
+    await page.goto('/components/button', { timeout: PAGE_LOAD_TIMEOUT_MS });
     const table = page.getByTestId('api-table');
     await expect(table).toHaveAttribute('data-api', 'button');
     await expect(table.locator('[data-prop="variant"]')).toContainText("'solid'");
@@ -139,7 +190,7 @@ test.describe('T1-06 文档站：API 表 / 搜索 / 全局设置', () => {
   });
 
   test('Fuse.js 搜索命中组件并跳转', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { timeout: PAGE_LOAD_TIMEOUT_MS });
     await page.getByTestId('search-input').fill('栅格');
     await expect(page.getByTestId('search-result').first()).toBeVisible();
     const href = await page.getByTestId('search-result').first().getAttribute('href');
@@ -150,7 +201,7 @@ test.describe('T1-06 文档站：API 表 / 搜索 / 全局设置', () => {
   });
 
   test('主题 / 密度 / 方向切换真实写入 data-scui-* 契约', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { timeout: PAGE_LOAD_TIMEOUT_MS });
     await page.getByTestId('setting-theme').selectOption('dark');
     await page.getByTestId('setting-density').selectOption('compact');
     await page.getByTestId('setting-direction').selectOption('rtl');
@@ -175,7 +226,7 @@ test.describe('T1-06 文档站：A11y', () => {
       '/components/overview',
       '/changelog',
     ]) {
-      await page.goto(path);
+      await page.goto(path, { timeout: PAGE_LOAD_TIMEOUT_MS });
       // SPA 的动态 chunk 可能晚于 goto 返回；等站点根节点挂载后再扫，避免扫到空 DOM 假报。
       await expect(page.getByTestId('docs-app')).toBeVisible();
       const results = await new AxeBuilder({ page })
