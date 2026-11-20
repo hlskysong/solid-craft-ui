@@ -42,7 +42,7 @@
 
 :where(.scui-descriptions__title) {
   font-size: var(--scui-font-size-lg, 16px);
-  font-weight: var(--scui-font-weight-medium, 600);
+  font-weight: var(--scui-font-weight-semibold);
 }
 
 :where(.scui-descriptions__extra) {

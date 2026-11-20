@@ -79,7 +79,7 @@
 
 :where(.scui-radio)[data-scui-disabled] .scui-radio__indicator {
   border-color: var(--scui-color-border-default);
-  background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+  background: var(--scui-color-bg-subtle);
 }
 
 :where(.scui-radio__label) {

@@ -19,7 +19,7 @@
   padding: var(--scui-space-4, 16px);
   border: 1px dashed var(--scui-color-border-default, #d1d5db);
   border-radius: var(--scui-radius-2, 6px);
-  background-color: var(--scui-color-bg-subtle, #f9fafb);
+  background-color: var(--scui-color-bg-subtle);
   color: inherit;
   font: inherit;
   text-align: center;
@@ -27,7 +27,7 @@
 }
 
 :where(.scui-upload__trigger):focus-visible {
-  outline: 2px solid var(--scui-focus-ring, #2563eb);
+  outline: 2px solid var(--scui-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -37,8 +37,11 @@
 }
 
 :where(.scui-upload)[data-scui-dragging] .scui-upload__trigger {
-  border-color: var(--scui-color-primary, #2563eb);
-  background-color: var(--scui-color-primary-subtle, #eff6ff);
+  border-color: var(--scui-color-primary);
+
+  /* 拖拽态底色用 color-mix 现算：`--scui-color-primary-subtle` 从未定义过，
+     而写死 `#eff6ff` 在暗色主题下会亮成一块白斑（与 Tag 14% / Spin 60% 同一手法）。 */
+  background-color: color-mix(in srgb, var(--scui-color-primary) 10%, var(--scui-color-bg-surface));
 }
 
 :where(.scui-upload)[data-scui-invalid='true'] .scui-upload__trigger {
@@ -104,7 +107,7 @@
 }
 
 :where(.scui-upload__action):focus-visible {
-  outline: 2px solid var(--scui-focus-ring, #2563eb);
+  outline: 2px solid var(--scui-color-focus-ring);
   outline-offset: 2px;
 }
 

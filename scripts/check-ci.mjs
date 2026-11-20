@@ -49,6 +49,12 @@
  *      塞进 .size-limit.json（判据 2 的「只报告、不伪造配置」），改用与
  *      @size-limit/file 同口径的逐文件 gzipSync 实算 Table 基础链路并对比 35 KB；
  *      同时钉住未实现预算的显式声明、判据 11 扩面后仍成立、M3 里程碑散文记录。
+ *  15. T4-02 Token 变量有源（2026-11-20 §30.54）：组件样式里每个 `--scui-*`
+ *      引用都必须能在 tokens 产物或样式表本地声明里找到来源。此前
+ *      `--scui-font-weight-*` / `--scui-color-bg-subtle` 等靠 fallback 假装正常，
+ *      值与 token 分叉、去掉 fallback 就整条声明失效。豁免只有两类且写清理由：
+ *      组件级覆盖钩子 `--scui-<组件目录名>-*`、ConfigProvider 注入的
+ *      `--scui-z-index-base`（03 §7）。
  */
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -2770,6 +2776,92 @@ if (!t451Anchor) {
   }
 }
 
+// 15. T4-02 Token 变量有源契约（docs/08 §30.54）
+//     背景：`var(--scui-font-weight-medium, 600)` / `var(--scui-color-bg-subtle, ...)`
+//     这类引用在 tokens 里从来没有定义，全靠 fallback 假装正常 —— 声明值从此与
+//     token 值分叉，而一旦有人把 fallback 去掉，整条声明就会静默失效
+//     （invalid at computed-value time，浏览器直接丢弃）。这类缺陷类型检查、
+//     lint、单测全过，只有像素级比对才「看起来有点怪」。
+//     判据：组件样式里每个 `--scui-*` 引用都必须有源，来源只有三种 ——
+//     tokens 产物派生、同文件/他文件本地声明、两类显式豁免（下面写清理由）。
+const tokenCssFiles = [
+  'packages/tokens/dist/css/tokens.css',
+  'packages/tokens/dist/css/theme-dark.css',
+];
+const tokenDefinedVars = new Set();
+for (const rel of tokenCssFiles) {
+  const css = read(join(repoRoot, rel));
+  if (css.length === 0) fail(`Token 变量有源契约读不到产物：${rel}（build 必须先跑）`);
+  for (const match of css.matchAll(/^\s*(--scui-[\w-]+)\s*:/gm)) tokenDefinedVars.add(match[1]);
+}
+// 豁免①：组件级覆盖钩子 `--scui-<组件目录名>-*`。这些是给宿主调尺寸 / 配色的
+//   可选入口（如 `--scui-input-height-medium`），组件自己用现值兜底，本来就不该
+//   进 token 管线；用组件目录名做命名空间判定，避免把 `--scui-color-*` 误豁免。
+const componentDirNames = readdirSync(join(repoRoot, 'packages/core/src/components'), {
+  withFileTypes: true,
+})
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name);
+// Textarea 与 Input 同处 components/input/，目录名判不出来，单独登记；
+// 它的 `--scui-textarea-height-*` 同样是覆盖钩子，不是语义 token。
+const extraComponentNamespaces = new Set(['textarea']);
+const componentNamespaces = new Set([...componentDirNames, ...extraComponentNamespaces]);
+// 豁免②：`--scui-z-index-base`。03 §7 明确由 ConfigProvider 挂载时写入作用域元素，
+//   严格 CSP 下退化为 :root 常量；组件写 `calc(var(--scui-z-index-base, 0) + 偏移)`。
+const runtimeInjectedVars = new Set(['--scui-z-index-base']);
+const isExemptVar = (name) => {
+  if (runtimeInjectedVars.has(name)) return true;
+  const bare = name.replace(/^--scui-/, '');
+  return [...componentNamespaces].some(
+    (component) => bare === component || bare.startsWith(`${component}-`),
+  );
+};
+const styleFileList = globSync('packages/core/src/**/*.{scss,css}', { cwd: repoRoot });
+const localDeclaredVars = new Set();
+const varRefSites = new Map();
+for (const rel of styleFileList) {
+  read(join(repoRoot, rel))
+    .split('\n')
+    .forEach((line, index) => {
+      const declared = line.match(/^\s*(--scui-[\w-]+)\s*:/);
+      if (declared) localDeclaredVars.add(declared[1]);
+      for (const ref of line.matchAll(/var\(\s*(--scui-[\w-]+)/g)) {
+        if (!varRefSites.has(ref[1])) varRefSites.set(ref[1], []);
+        varRefSites.get(ref[1]).push(`${rel}:${index + 1}`);
+      }
+    });
+}
+const unsourcedVars = [...varRefSites.keys()].filter(
+  (name) => !tokenDefinedVars.has(name) && !localDeclaredVars.has(name) && !isExemptVar(name),
+);
+for (const name of unsourcedVars) {
+  fail(
+    `--scui-* 变量无源：${name}（${varRefSites.get(name).slice(0, 3).join(' / ')}）` +
+      '——引用了不存在的 token，fallback 会把缺失藏起来（§30.54）',
+  );
+}
+// T4-02 六个变量必须真的落到 tokens.css 产物里（§4.2 验收原文「五变量均在 tokens.css 定义」，
+// 字重按 03 §4 拆成 400/500/600 三档，故为六个）
+const t402RequiredVars = [
+  '--scui-font-weight-regular',
+  '--scui-font-weight-medium',
+  '--scui-font-weight-semibold',
+  '--scui-color-bg-subtle',
+  '--scui-motion-duration-base',
+  '--scui-motion-duration-slow',
+];
+for (const name of t402RequiredVars) {
+  if (!tokenDefinedVars.has(name)) {
+    fail(`T4-02 应补齐的 token 没进 tokens.css：${name}（03 §4 字重三档 / §6 动效三档）`);
+  }
+}
+
+// 15b. 落地记录与判据同源：§30.54 必须在位（否则「补齐了」只存在于提交信息里）
+const t402Section = t401Todo.split('### 30.54 ')[1]?.split('\n### ')[0] ?? '';
+if (t402Section.length === 0) {
+  fail('缺少 docs/08 §30.54 Token 缺口补齐落地记录（T4-02 验收要求逐项点名）');
+}
+
 if (errors.length > 0) {
   console.error(`[check:ci] ${errors.length} 项不合规：`);
   for (const message of errors) console.error(`  - ${message}`);
@@ -2777,5 +2869,5 @@ if (errors.length > 0) {
 }
 const pending = [...budgets.keys()].filter((name) => !covered.has(name));
 console.log(
-  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（全局 maxDiffPixelRatio 0.002 未放宽，浮层 open-state ${t401OpenStateSlugs.length} 条走有界容差 4000 px）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· Upload 上传契约（customRequest 单点注入传输且组件内零 fetch·XHR / 进度·成功·失败·取消·删除·重试六链 / 受控值桥 Form 字段 > fileList > 内部副本 / 新增 status·dragging 两属性并登记 / Form.Item 用 ids.control 与字段 aria / SSR 静态三态骨架且 counts 钉死 / 3 Demo + 5 手写 E2E + axe / 零新增依赖 / 行渲染走 Index 且节点不随进度重建）· size-limit@${sizeLimit} + file 插件 · M3 Exit 检查（Table 链路实跑 ${tableChainKb} kB / 35 KB，Virtual 与单图标 pending；${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / ${demoCoverage.baselines} 基线；里程碑散文记录）· docs 路由拆批契约在位（单页 10000 ms / 组件 12 页 / Demo 12 页）`,
+  `[check:ci] verify ${requiredStages.length} 个阶段齐全且 build 优先 · 体积预算 ${checks.length}/${budgets.size} 条与 02 §4.6 一致（未实现：${pending.join(' / ') || '无'}）· path 全部命中 dist · ci.yml 契约齐全且无发布凭据 · 用量红线（push 时运行 ${ciUsage.pushJobs}/${ciUsage.totalJobs} 个 job、跨架构矩阵按需派发、cancel-in-progress 在位、每 job 有 timeout）· 门禁分流（dev 增量 verify:main / main·tag·手动·夜间全量 verify，两门互补、作用域判定默认全量）· 全 ${workflowFiles.length} 个 workflow 扫描 · release.yml stage-only 通道在位 · 视觉基线 bundled chromium 契约在位（全局 maxDiffPixelRatio 0.002 未放宽，浮层 open-state ${t401OpenStateSlugs.length} 条走有界容差 4000 px）· 固定字体契约在位（SHA256 锁定 / ${renderedChars.size} 字集 / 无系统回退 / OFL-1.1）· Phase 0 Spike 契约在位（${spikeCases.length} 个 Spike / ${spikeCases.reduce((sum, item) => sum + item.tests.length, 0)} 组客户端实证 / SSR 冒烟真实跑绿 / 7 份评审材料 / 不进 npm 包）· 产物零源码注释（${distArtifacts.length} 个文件）· Demo 覆盖（${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / 每组件 ≥${MIN_DEMOS}）· 视觉基线全覆盖（${demoCoverage.baselines} 张 = 组件×Demo×${SCREENSHOT_WIDTHS.length} 视口，用例按 DEMO_CASES 循环）· Table 引擎契约（单一状态真源 / 表头正文同字号 / SSR 入口在册）· Table 排序筛选契约（onChange 三参 / 状态收在引擎 / server 只出参数 / 列引用稳定 / SSR 入口在册）· Table 行选择契约（aria-checked mixed 三态 / 禁用行不进全选 / 选择控件不复用 Checkbox·Radio / SSR 入口在册）· Pagination 契约（页码收敛在引擎 / 当前页 aria-current + data-scui-current 双通道 / option selected 而非 select value / 窄屏换行 / SSR 入口在册）· 空 / 加载三件套契约（Empty 的 image=null 语义 / 骨架行块高引用正文行高 token 且间隙靠 flex 居中画出 / 形状分派必须是响应式表达式 / Spin 定时器清理与同步初值 / 转圈恒带可读文案 / 三个 SSR 入口在册）· Table 分页接入契约（组合 Pagination·Empty·Spin 且样式随 Table 样式表聚合 / footer 在滚动容器外 / 分页状态归引擎且 server 不切数据 / onChange 三参不再恒 undefined / 筛选页码归一 / 空与加载态互斥 / SSR 入口在册）· Modal 契约（复用共享浮层原语 / 焦点归还自己接管 / 异步 pending 拦截全部关闭入口 / 受控优先级 / footer 样式随 modal.css 聚合 / SSR 入口在册）· Drawer 契约（组件层零浮层实现且全部走共享原语 / 四方向在类型·运行时·贴边样式三层齐全 / width·height 按方向归一 / 受控优先级 / 逻辑属性贴边与窄屏收窄 / footer 样式随 drawer.css 聚合 / SSR 入口在册）· T3-09 反馈与锚定浮层契约（组件层零浮层实现且全部走 primitives/anchored / 锚定原语不重复实现焦点归还 / 十二向 data-scui-anchor 三层齐全 / 延迟两层透传 / Popconfirm 异步 pending 与 Modal 同形 / Alert 四种 kind 与可关闭·操作区 / 三个 SSR 入口在册且真实调用静态 message·useApp）· Card / Tag 展示契约（Card 四块按内容缺席且加载复用 Skeleton / Tag 五档 data-scui-color 三层齐全 / bordered 存在即真且边框恒 1px / 可关闭非受控且恒带 aria-label / 属性与 role 登记补齐 / 两个 SSR 入口在册）· Tabs / Descriptions 契约（组件层零键盘·焦点·ARIA 实现且全走 Kobalte Tabs 原语 / 受控优先级 / 线型·卡片三层 / content 惰性工厂让懒加载真的推迟节点创建 / 激活态复用 data-scui-current / Descriptions 用 dl·dt·dd 且 column·span·bordered 三层齐全 / 新增 column 与补登记 span / 两个 SSR 入口在册）· CRUD 列表页组合契约（挂 table/demos 复用页面级 Demo 先例 / Form 查询·Modal 新增编辑·Popconfirm 删除·全局 message 四链接线 / onChange 三参真被消费 / SSR 独立静态骨架且弹层 counts 锁 0 / 四条手写 E2E 与 axe 组合用例在册 / 页面级 Demo 不新造 data-scui-*）· Upload 上传契约（customRequest 单点注入传输且组件内零 fetch·XHR / 进度·成功·失败·取消·删除·重试六链 / 受控值桥 Form 字段 > fileList > 内部副本 / 新增 status·dragging 两属性并登记 / Form.Item 用 ids.control 与字段 aria / SSR 静态三态骨架且 counts 钉死 / 3 Demo + 5 手写 E2E + axe / 零新增依赖 / 行渲染走 Index 且节点不随进度重建）· size-limit@${sizeLimit} + file 插件 · M3 Exit 检查（Table 链路实跑 ${tableChainKb} kB / 35 KB，Virtual 与单图标 pending；${demoCoverage.components} 组件 / ${demoCoverage.demos} Demo / ${demoCoverage.baselines} 基线；里程碑散文记录）· docs 路由拆批契约在位（单页 10000 ms / 组件 12 页 / Demo 12 页）· Token 变量有源（tokens.css ${tokenDefinedVars.size} 个定义 / 组件 ${varRefSites.size} 个引用 / 无源 0 个，T4-02 六变量在册）`,
 );

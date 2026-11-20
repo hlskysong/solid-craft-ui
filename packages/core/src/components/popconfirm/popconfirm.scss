@@ -70,7 +70,7 @@
 
 :where(.scui-popconfirm__title) {
   color: var(--scui-color-text-primary);
-  font-weight: var(--scui-font-weight-medium, 600);
+  font-weight: var(--scui-font-weight-semibold);
 }
 
 :where(.scui-popconfirm__description) {

@@ -72,7 +72,7 @@
 
 :where(.scui-checkbox)[data-scui-disabled] .scui-checkbox__indicator {
   border-color: var(--scui-color-border-default);
-  background: var(--scui-color-bg-subtle, var(--scui-color-bg-surface));
+  background: var(--scui-color-bg-subtle);
   color: var(--scui-color-text-disabled);
 }
 

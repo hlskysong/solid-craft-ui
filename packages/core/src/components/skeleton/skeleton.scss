@@ -118,9 +118,9 @@
   }
 }
 
-/* 微光周期写 1.4s 字面量：tokens 里只有 `--scui-motion-duration-fast`（120ms），
-   拿它做微光会变成闪烁。慢速档（约 1.2~1.5s）属于动效体系缺口，留 M4 统一补
-   `--scui-motion-duration-slow`，届时这里再换变量。 */
+/* 微光周期 1.4s 保持字面量：T4-02 补齐后慢速档是 `--scui-motion-duration-slow`
+   （200ms，03 §6 给 Modal / Drawer 的进出场用），而微光是**循环周期**不是状态
+   过渡，套 200ms 会变成闪烁。两者语义不同，duration token 不覆盖动画周期。 */
 :where(.scui-skeleton)[data-scui-active] .scui-skeleton__bar {
   background-image: linear-gradient(
     90deg,

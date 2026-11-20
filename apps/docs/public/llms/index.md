@@ -24,6 +24,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | `--scui-color-text-inverse` | `#ffffff` | `#1f1f1f` | `text` |
 | `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `rgba(255, 255, 255, 0.25)` | `disabled` |
 | `--scui-color-bg-surface` | `#ffffff` | `#1f1f1f` | `background` |
+| `--scui-color-bg-subtle` | `#f5f5f5` | `#262626` | `background` |
 | `--scui-color-border-default` | `#f0f0f0` | `#303030` | `decorative` |
 | `--scui-color-border-strong` | `#949494` | `#8a8a8a` | `control` |
 | `--scui-color-primary` | `{color.palette.blue.6}` | `{color.palette.blue.6}` | `text` |

@@ -35,13 +35,13 @@
 }
 
 :where(.scui-tabs__tab):focus-visible {
-  outline: 2px solid var(--scui-focus-ring, #2563eb);
+  outline: 2px solid var(--scui-color-focus-ring);
   outline-offset: 2px;
 }
 
 :where(.scui-tabs__tab)[data-scui-current] {
   color: var(--scui-tabs-accent);
-  font-weight: var(--scui-font-weight-medium, 600);
+  font-weight: var(--scui-font-weight-semibold);
 }
 
 :where(.scui-tabs__tab)[data-scui-disabled] {

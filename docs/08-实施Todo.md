@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-04（已闭合，§30.53）→ 待 T4-02 Token 决策与 T4-05 试点/发布授权**；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-02 与 T4-05 为阻塞项，等 Aming 决策/授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
-| 下一步 | **M4 技术面已完成、`pnpm verify` RC=0，剩两项须 Aming 拍板：① T4-02 Token 缺口补齐（`--scui-font-weight-medium` 两派 fallback 500 vs 600 冲突，补任一定义必改一半组件字重并漂移涉及 table 的基线，见 §30.53 第四节）；② T4-05 试点应用接入 + `0.1.0` 发布（仓库内无试点宿主、发布须硬约束 13 逐次授权）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.33 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T4-02（已闭合，§30.54）→ 只剩 T4-05 试点接入 + `0.1.0` 发布（等 Aming 授权）**；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-02 已按 Aming 三项裁决落地（字重语义正确 / `bg-subtle` = `#f5f5f5` / 试点等真实业务系统），T4-05 仍等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 下一步 | **M4 只剩 T4-05：试点应用接入 + `0.1.0` 发布（仓库内无试点宿主、发布与合并 `main` 均须硬约束 13 逐次授权）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.33 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -169,7 +169,7 @@
 | T3-14 | **体积预算 + M3 Exit 检查**：Table 预算实跑、每组件 ≥3 Demo、视觉基线全对齐、文档与 llms 生成物、里程碑散文记录 | T3-01 / T3-06 / T3-12 / T3-13 | 技术负责人 | `pnpm verify` RC=0；`check:ci` 判据 11 的 Demo 覆盖与基线对齐在扩面后仍成立；M3 里程碑只做散文记录、勾选只发生在 §4.2 （**Table 链路实跑 15.33 kB / 35 KB、余量 19.67 kB（15 个产物逐文件 gzip level 9）；判据 11 扩面后 32 组件 / 108 Demo / 216 基线逐一对齐；llms 159 站点文件 + 3 包内副本 / 36 exports 全覆盖 / 0 死链；Table + Virtual 与单个图标两条预算仍 pending，只报告不伪造配置；判据 4q 收进既有 check:ci、26 阶段不变；M3 里程碑只做散文记录，§4 简表 M3 行保持未勾；负向 N702~N728 27/27 + `pnpm verify` RC=0**，见 §30.48） | [x] |
 | T4-01 | **CI 视觉门禁受控容差 + 浮层排版结构断言**：先修「浮层文字没吃到固定字体」的真因，再把跨平台栅格化差异收进有界容差 | T3-09 / T3-14 | 技术负责人 | 全局 `maxDiffPixelRatio` 保持 0.002，仅 open-state 4 条放开 4000 px；结构断言钉住文案 / 字体族 / 字号 / 字重 / 颜色；`check:ci` 判据 4r 机器背书（**真因 = 浮层经 Portal 落在 `.demo-root` 之外、继承系统 PingFang；宿主 `demo-standalone` 标记 + `base.css` 给浮层根节点补固定字体；`maxDiffPixels` 4000 与 `maxDiffPixelRatio` 0.01 必须同时给（Playwright 取 min）；有界性实证 3000 px 放过 / 10000 px 拦住 / 普通用例 3000 px 拦住；§30.49 根因已更正；字集 1025 码位 / 字体 `47bc14d9…`**，见 §30.50） | [x] |
 
-| T4-02 | **Token 缺口补齐**：补齐 `--scui-font-weight-regular` / `--scui-font-weight-medium` / `--scui-color-bg-subtle` / `--scui-motion-duration-base` / `--scui-motion-duration-slow` 五个未定义变量，消除静默失效死代码 | T3-14 | 技术负责人 | 依据 `docs/03` §5（400/500/600）与 §6（fast 100 / base 150 / slow 200）；补齐后重生成受影响视觉基线；`check:ci` 机器锚点钉住五变量均在 `tokens.css` 定义（**待 Aming 决策：`--scui-font-weight-medium` 两派 fallback（500 vs 600）冲突，补齐必改一半组件字重**，见 §30.53 第四节） | [ ] |
+| T4-02 | **Token 缺口补齐**：补齐 `--scui-font-weight-regular` / `--scui-font-weight-medium` / `--scui-color-bg-subtle` / `--scui-motion-duration-base` / `--scui-motion-duration-slow` 五个未定义变量，消除静默失效死代码 | T3-14 | 技术负责人 | 依据 `docs/03` §4 字重三档（400/500/600）与 §6 动效三档（fast 120 / base 150 / slow 200）；Aming 裁决「语义正确」→ 新增 `semibold 600` 并把 5 个标题类组件改名，`medium` 归位 500；`bg-subtle` 定 `#f5f5f5`（dark `#262626`）。`tokens.css` **119 → 125**，组件 **14 个 scss** 去 fallback；扫描顺手清掉同批缺口（`--scui-focus-ring` 错名 3 处、`--scui-color-primary-subtle` 自造色改 `color-mix`）；`check:ci` 新增判据 15「变量有源」（**125 定义 / 131 引用 / 0 无源**，两类显式豁免）；计算样式探针 13 个消费点全部读回期望值；`test:visual` **221 项 0 漂移**、`pnpm verify` **RC=0**（**基线未漂是因为色差 <5/255、字重变化低于 `maxDiffPixelRatio 0.002`，不是改动没生效**，见 §30.54） | [x] |
 | T4-03 | **README 对外数字精修**：校正 M2 时期过时数字 | T4-01 | 技术负责人 | 8 个组件子路径 → **32**（= exports 36 减根 / styles / package.json）；25 阶段 → **26**；34 页 → **156 页**；「当前为 8 组」→ 32（**`check:docs` 142 / `check:llms` 159+3 / `check:goals` 15 全部 RC=0**，见 §30.53） | [x] |
 | T4-04 | **M4 Exit 技术面复核**：A11y / 双构建 / SolidStart SSR / 包质量四项逐条核对 | T4-01 | 技术负责人 | A11y 108 条 axe + 10 条键盘 + 构建期对比度；双构建 32/32 子路径有 `solid` 产物；`smoke:ssr` 0 warnings + `smoke:start-real` SSR 0 console warning；size 4 条 / publint / attw / 三端消费 / tarball 全绿（**`pnpm verify` RC=0，26 阶段；31/31 组件有 API 表；216 张基线全 light-ltr-default**，见 §30.53） | [x] |
 | T4-05 | **试点应用接入 + `0.1.0` 发布**：提供接入指南、试点页面上线、CHANGELOG 与已知问题 | T4-04 | 技术负责人 | 试点应用至少一个页面上线；无 P0 阻塞；`0.1.0` + CHANGELOG + 已知问题；**合并 `dev` → `main` 与 `pnpm release` 均须 Aming 逐次授权**（硬约束 13）；当前阻塞：仓库内无试点宿主、发布未授权（见 §30.53 第一节） | [ ] |
@@ -6129,3 +6129,124 @@ docs/03 §5 规定「400 正文 / 500 强调·按钮 / 600 标题」。把 mediu
 
 `README.md`、`docs/08-实施Todo.md` 本节、workspace memory 日志。
 `docs/01~07`、`playwright.config.ts`、`.size-limit.json`、`pnpm-lock.yaml` 零改动。
+
+### 30.54 T4-02 Token 缺口补齐结果（2026-11-20）
+
+#### 一、结论先行
+
+Aming 三条裁决落地：字重**「语义正确」**（400/500/600 各归其位，不硬凑一个值）、`bg-subtle`
+**定为 `#f5f5f5`**、试点应用**等真实业务系统**（T4-05 保持 `[ ]`）。本轮只做前两项。
+
+实质不是「补几个变量」，而是把**「fallback 假装 token 存在」**这个失效模式从仓库里清掉：
+`var(--scui-font-weight-medium, 600)` 这种写法在 tokens 里根本没有定义，声明的值与 token 值
+从此分叉；更糟的是只要有人把 fallback 去掉，整条声明就变成 invalid at computed-value time，
+浏览器静默丢弃 —— 类型检查、lint、单测全过的「死代码」。
+
+第一次全量扫描（`packages/core/src/**/*.{scss,css}` 共 131 个 `--scui-*` 引用）发现
+**13 个无源变量**，远超 §30.53 记载的五项。逐项分类见第三节。
+
+| 项 | 结果 |
+| --- | --- |
+| token 变量 | `tokens.css` **119 → 125**（+6），构建期对比度校验 light/dark 各 125 / 14 档全过 |
+| 六个变量 | `--scui-font-weight-{regular,medium,semibold}` = 400/500/600；`--scui-color-bg-subtle` = `#f5f5f5`（dark `#262626`）；`--scui-motion-duration-{base,slow}` = 150ms/200ms |
+| 组件改动 | **14 个 scss**：5 处标题类改 `semibold`、8 处 `bg-subtle` 去 fallback、3 处 focus-ring 改名、1 处拖拽底色改 `color-mix` |
+| 计算样式实测 | 六变量与 13 个消费点全部读回期望值（第四节探针表，非推断） |
+| 视觉基线 | **221 passed / 0 张漂移**（216 张截图 + 4 条浮层结构断言 + 1 条覆盖守卫） |
+| `check:ci` | 新增判据 15「变量有源」：125 个定义 / 131 个引用 / **0 个无源**，两类豁免写清理由 |
+| `check:llms` | 首次跑红 **16 项**并已重生成：设计页 token 表嵌了颜色 token，`bg-subtle` 新增后 6 张设计页 + `llms-full.txt` + 2 份包内副本必须同步（`pnpm generate:llms`，重生成后 159 站点文件 / 157 条链接 / 0 死链） |
+| `pnpm verify` | **RC=0**（26 阶段，全量；日志 `/tmp/t402-verify-final.log`） |
+| 负向实证 | **N1 / N2 2/2 PASS + RESTORE_OK**：N1 把 `upload` 的 `bg-subtle` 改成 `--scui-color-nope` → 报「变量无源（`upload.scss:22`）」；N2 删掉 `fontWeight.semibold` 并重建 → 同时报「变量无源」与「T4-02 应补齐的 token 没进 `tokens.css`」，两条判据各自独立生效；还原后 SHA256 与改前逐字一致（`d1a7631b…` / `c95cd227…`），门禁转绿 |
+| 单测 / 端到端 | core **508 tests / 42 files**；browser **274** / visual **221** / docs **14** / llms **4**，全部 passed |
+
+#### 二、三项裁决的落点（逐项对照）
+
+| 裁决 | 落点 | 为什么不选另一条 |
+| --- | --- | --- |
+| 字重「语义正确」 | `fontWeight` 新增三档 primitive：regular 400 / medium 500 / **semibold 600**；5 个标题类组件（`tabs` 激活项 / `card` 标题 / `alert` 标题 / `popconfirm` 标题 / `descriptions` 标题）从「medium 带 600 fallback」改为 `semibold`；`pagination` 当前页、日期 / 区间面板月份保持 `medium` | 把 medium 定成 600 会让「强调」与「标题」同档，03 §4 的三档语义消失；定成 500 则 5 个标题全变细。两者都要求改一半组件，改名反而一行都不用重排语义 |
+| `bg-subtle` = `#f5f5f5` | `semantic/light.json` 新增 `color.bg.subtle`（03 §4 的 `fill`），暗色 `#262626`（03 §3.3 的 fill） | 沿用 `surface`（`#ffffff`）会让「选中态底 / 禁用底 / 拖拽区」继续与卡片底无区分 |
+| 试点等真实业务系统 | T4-05 保持 `[ ]`，本轮不造宿主 | 仓内无真实业务页，造假宿主只会让「试点通过」变成自证 |
+
+#### 三、扫描发现的额外缺口（超出 §30.53 记载的三项）
+
+| 变量 | 引用 | 性质 | 处理 |
+| --- | --- | --- | --- |
+| `--scui-font-weight-medium` | 12（9 带 fallback、3 裸引用） | 语义 token 缺口 | 补三档 primitive，5 处改 `semibold`，9 处 fallback 全删 |
+| `--scui-font-weight-regular` | 3（2 带 fallback） | 同上 | 补 token，去 fallback |
+| `--scui-color-bg-subtle` | 8（全带 fallback） | 同上 | 补 token（light/dark 各一档），去 fallback |
+| `--scui-motion-duration-base` / `-slow` | 0 | 缺口（03 §6 要求，但无消费点） | 补 token；`skeleton` 的 1.4s 微光**仍不套用**（见第五节） |
+| `--scui-color-primary-subtle` | 1（`upload` 拖拽态） | **从未定义，值也不在调色板**（`#eff6ff` 是自造色） | 删掉该引用，改 `color-mix(in srgb, var(--scui-color-primary) 10%, var(--scui-color-bg-surface))`，与 Tag 14% / Spin 60% 同一手法 —— 暗色主题自动成立，不必为新 token 再定一个暗色值 |
+| `--scui-focus-ring` | 3（`tabs` / `upload` ×2） | **错名**：真名是 `--scui-color-focus-ring`，`_mixins.scss` 的 `scui-focus-ring` 一直用的是对的 | 三处统一改名，焦点环颜色从自造 `#2563eb` 归位到主色 `#2d66f5` |
+| `--scui-input-height-{small,medium,large}` / `--scui-input-radius-default` / `--scui-textarea-height-{small,medium,large}` | 8 | **组件级覆盖钩子**：`--scui-input-current-height: var(--scui-input-height-medium, 32px)` 是给宿主调尺寸的入口，本来就不该进 token 管线 | 豁免（按 `--scui-<组件目录名>-*` 命名空间判定；`textarea` 与 `input` 同目录，单独登记） |
+| `--scui-z-index-base` | 7 | **运行时注入点**：03 §7 明确由 `ConfigProvider` 挂载时写入作用域元素，严格 CSP 下退化 `:root` 常量，组件写 `calc(var(--scui-z-index-base, 0) + 偏移)` | 豁免（显式登记，理由写在判据注释里） |
+
+判据 15 的两类豁免**必须带 fallback 才有意义**，所以脚本只豁免这两类、其余一律红灯 ——
+「新加一个 `var(--scui-color-foo)` 却没定义」这种写法会在 `check:ci` 当场失败。
+
+#### 四、计算样式实测（基线没漂 ≠ 改动没生效）
+
+`test:visual` 221 项全绿、**0 张基线漂移**。这个结果很容易被误读成「改了个寂寞」，所以补了一版
+一次性探针（`tests/e2e/specs/zz-t402-probe.spec.ts`，跑完即删），直接读 `getComputedStyle`：
+
+| 位置 | 读回值 | 期望 |
+| --- | --- | --- |
+| `:root` 六变量 | 400 / 500 / 600 · `#f5f5f5` · 150ms / 200ms | 六变量在册 |
+| Table 表头 / 正文单元格 | **500** / 400 | 表头强调、正文 400（改前表头裸引用失效，实为继承的 400） |
+| Tabs 激活项 / Card / Alert / Descriptions 标题 | 600 / 600 / 600 / 600 | 标题档 |
+| Pagination 当前页 | 500 | 强调档 |
+| Upload 拖拽区 / Checkbox 禁用 / Radio 禁用 底色 | `rgb(245, 245, 245)` | `#f5f5f5` |
+| Upload 拖拽态（`color-mix` 现算） | `color(srgb 0.9176 0.94 0.9961)` + 边框 `rgb(45, 102, 245)` | 解析成功，不是 `transparent` |
+
+**为什么基线一张都没动**（三条都能算出来，不是「大概看不出」）：
+
+1. 5 个标题类组件的 fallback 本来就是 `600`，换成 `semibold`（600）值不变；`pagination` /
+   `date-picker` / `range-picker` 的 fallback 本来就是 500 / 400，裸引用后取值不变。
+2. `bg-subtle` 的色差是 `#ffffff`→`#f5f5f5`、`#f9fafb`→`#f5f5f5`，单通道 ≤10/255，
+   低于 `toHaveScreenshot` 的 `threshold: 0.2`（YIQ 归一化「肉眼同色」阈值）。
+3. Table 表头 400→500 只改一小块文字的笔画，差异像素低于 `maxDiffPixelRatio: 0.002`
+   （1280×800 折算 2048 px）；`focus-ring` 只在 `:focus-visible` 出现，截图不聚焦。
+
+结论：**基线没漂是因为改动量小于比对阈值，不是因为改动没生效** —— 生效证据是第四节的
+计算样式，不是截图。这也是后续同类改动的判断口径：先看计算样式，再看像素。
+
+#### 五、两处「故意不改」
+
+| 位置 | 现状 | 理由 |
+| --- | --- | --- |
+| `table` 表头底色 | 仍用 `--scui-color-neutral-50`（`#f0f0f0`），不是 `bg-subtle`（`#f5f5f5`） | 表头需要比「填充色」深一档才与白底分得清；换成 `bg-subtle` 会让表头与卡片底糊在一起。原注释写「`bg-subtle` 未定义」已失效，改为记录这个取舍 |
+| `skeleton` 微光周期 | 仍写 `1.4s` 字面量 | `--scui-motion-duration-slow`（200ms）是**状态过渡**时长，微光是**循环周期**，套 200ms 会变成闪烁。duration token 不覆盖动画周期，这条不是缺口 |
+
+另有一处**已知边界**（不是本轮引入）：`apps/docs` 的设计页 token 表只渲染**颜色类**变量（取
+`tokens.json` 里带 `$contrastTier` 的那批，共 17 行），字重 / 动效 / 间距这类非颜色 token 在
+`tokens.css`、`tokens.json`、`dist/ts/tokens.ts` 里可查，但文档页看不到。把 token 表按类型扩面
+属于文档站范围（涉及 03 §5 / §6 页面的重新组织），本轮不做，已记在此处备查。
+
+#### 六、机器锚点
+
+- **机器锚点**：`tokens.css` **125** 个 `--scui-*` 定义；组件样式 **131** 个引用；无源 **0** 个
+  （豁免 2 类：组件覆盖钩子 / `--scui-z-index-base`）；T4-02 六变量全部在册；
+  `test:visual` **221** 项 0 漂移；`pnpm verify` 26 阶段 RC=0。
+
+#### 七、允许写入路径
+
+`packages/tokens/tokens/{primitive/type.json,semantic/light.json,semantic/dark.json}`、
+`packages/core/src/components/{alert,card,checkbox,date-picker,descriptions,pagination,popconfirm,radio,range-picker,select,skeleton,table,tabs,upload}/*.scss`、
+`scripts/check-ci.mjs`（判据 15 与头部注释）、`docs/08-实施Todo.md`（本节 / §4.2 / 顶部锚点）、
+`apps/docs/public/llms/{index.md,design/*.md,llms-full.txt}` 与 `packages/core/llms-full.txt`
+（`check:llms` 要求重生成，非手改）、`scripts/todo-governance.json`、`scripts/goals.baseline.json`
+（由 `--update-baseline` 生成）、`AGENTS.md`（仅标记行）、`.workbuddy/memory/2026-11-20.md`。
+`docs/01~07`、`pnpm-lock.yaml`、`playwright.config.ts`、`.size-limit.json`、`tests/e2e/baselines/**`
+**零改动**（本轮没有一张基线需要重生成）。
+
+#### 八、教训
+
+1. **fallback 是「把事故藏起来」的最短路径**：`var(--x, 500)` 写在 8 个组件里，读起来像「贴心的兜底」，
+   实际是「这个 token 根本不存在」。判断标准很简单：**token 有源就该写裸变量，没源就该补 token**，
+   两种情况都不该出现 fallback。
+2. **「文件没变绿」之前先别信自己改了**：221 项基线全绿的第一反应应该是「探针呢？」。这次三条
+   漂移解释（阈值吸收 / 值本来相同 / 截不到焦点）都必须能算出数字，否则「全绿」很可能意味着
+   「改错文件了」。
+3. **同一批缺陷往往不止文档记载的那几项**：§30.53 记录的是 5 个，全量扫描扫出 13 个。
+   凡是「已知 N 处」的说法，都值得用一次机械扫描复核 —— 扫描脚本本身就是判据的来源。
+4. **豁免要写进脚本而不是写进脑子**：`--scui-input-height-*` 与 `--scui-z-index-base` 属于「合法的
+   无源变量」，但如果不写进判据、只在评审时说一句，下一个人照样会把它当成缺陷去「修」。
+

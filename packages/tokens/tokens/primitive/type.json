@@ -19,6 +19,19 @@
     "3xl": { "$type": "dimension", "$value": "30px", "$usage": "大标题 / 空状态" },
     "4xl": { "$type": "dimension", "$value": "38px", "$usage": "结果页数字" }
   },
+  "fontWeight": {
+    "regular": { "$type": "fontWeight", "$value": "400", "$usage": "正文（03 §4 字重三档）" },
+    "medium": {
+      "$type": "fontWeight",
+      "$value": "500",
+      "$usage": "强调 / 按钮 / 表头 / 日期面板月份"
+    },
+    "semibold": {
+      "$type": "fontWeight",
+      "$value": "600",
+      "$usage": "标题（卡片 / 弹层 / 区块标题 / 页签激活项）"
+    }
+  },
   "lineHeight": {
     "xs": { "$type": "dimension", "$value": "20px" },
     "sm": { "$type": "dimension", "$value": "20px" },
@@ -31,7 +44,11 @@
   },
   "iconSize": {
     "sm": { "$type": "dimension", "$value": "12px", "$usage": "紧凑行内、小号控件内图标" },
-    "md": { "$type": "dimension", "$value": "16px", "$usage": "默认图标（对齐 Semi default / TDesign comp-size-xs）" },
+    "md": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$usage": "默认图标（对齐 Semi default / TDesign comp-size-xs）"
+    },
     "lg": { "$type": "dimension", "$value": "20px", "$usage": "强调、独立入口图标" }
   }
 }

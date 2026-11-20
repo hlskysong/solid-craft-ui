@@ -42,6 +42,12 @@
         "$value": "#1f1f1f",
         "$contrastTier": "background",
         "$usage": "暗色主题参照背景"
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "#262626",
+        "$contrastTier": "background",
+        "$usage": "暗色填充色：选中态底、日期面板头、上传拖拽区（03 §3.3 fill）"
       }
     },
     "border": {
@@ -97,7 +103,9 @@
   },
   "motion": {
     "duration": {
-      "fast": { "$type": "duration", "$value": "120ms" }
+      "fast": { "$type": "duration", "$value": "120ms", "$usage": "hover / 颜色变化" },
+      "base": { "$type": "duration", "$value": "150ms", "$usage": "展开 / 淡入（03 §6）" },
+      "slow": { "$type": "duration", "$value": "200ms", "$usage": "Modal / Drawer（03 §6）" }
     },
     "ease": { "$type": "cubicBezier", "$value": "cubic-bezier(0.2, 0, 0, 1)" }
   }

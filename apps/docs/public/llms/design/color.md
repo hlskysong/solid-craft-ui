@@ -18,6 +18,7 @@ OKLCH 生成的 6 色相 × 10 级色阶与语义色引用。
 | `--scui-color-text-inverse` | `#ffffff` | `text` | `color.primary` | 实心按钮 / 深色背景上的文本；校验对主色背景的对比度 |
 | `--scui-color-text-disabled` | `rgba(0, 0, 0, 0.25)` | `disabled` | `—` | 禁用态文本；按 03 §3.1 豁免对比度，且不得单独承载信息 |
 | `--scui-color-bg-surface` | `#ffffff` | `background` | `—` | 亮色主题参照背景 |
+| `--scui-color-bg-subtle` | `#f5f5f5` | `background` | `—` | 填充色：选中态底、日期面板头、上传拖拽区（03 §4 的 fill，与 neutral-50 区分一档） |
 | `--scui-color-border-default` | `#f0f0f0` | `decorative` | `—` | 纯装饰性默认边框 / 分割线，不承担控件边界识别 |
 | `--scui-color-border-strong` | `#949494` | `control` | `color.bg.surface` | 输入框 / 按钮等可识别控件边界 |
 | `--scui-color-primary` | `{color.palette.blue.6}` | `text` | `color.bg.surface` | 主操作 / 选中 / 链接；Button 默认色（ADR-019） |
