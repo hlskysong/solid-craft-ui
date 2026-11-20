@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-01（已闭合，§30.50）→ M4 后续任务拆解（待 Aming 逐次授权后开始）**；M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
-| 下一步 | **按 `docs/05` Phase 4 继续拆 M4 任务级清单（试点页面 / `0.1.0` 发布准备），T4-02 起须 Aming 逐次授权**；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.33 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T4-04（已闭合，§30.53）→ 待 T4-02 Token 决策与 T4-05 试点/发布授权**；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-02 与 T4-05 为阻塞项，等 Aming 决策/授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 下一步 | **M4 技术面已完成、`pnpm verify` RC=0，剩两项须 Aming 拍板：① T4-02 Token 缺口补齐（`--scui-font-weight-medium` 两派 fallback 500 vs 600 冲突，补任一定义必改一半组件字重并漂移涉及 table 的基线，见 §30.53 第四节）；② T4-05 试点应用接入 + `0.1.0` 发布（仓库内无试点宿主、发布须硬约束 13 逐次授权）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.33 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -168,6 +168,11 @@
 | T3-13 | `Upload`（M2 后移项）：`customRequest`、进度、文件列表、删除 / 重试 | T2-08 / T2-09 | 工程师 C | 上传 / 删除 / 重试受控链路；SSR 静态骨架；零新增依赖；与 `Form.Item` 接入可用（**自研组件、Kobalte 无此原语；`customRequest` 单点注入传输，组件内零 fetch / XHR / 新依赖；进度走原生 `<progress>`；新增 `data-scui-status` / `data-scui-dragging` 两属性并登记；`Form.Item` 用字段上下文接管 `fileList` 且 `ids.control` 落在 `input[type=file]`；3 Demo / 507 tests·42 files / SSR 34 入口 / 216 张基线 / 判据 4p + 负向 N601~N700 100/100 / `pnpm verify` RC=0**，见 §30.47） | [x] |
 | T3-14 | **体积预算 + M3 Exit 检查**：Table 预算实跑、每组件 ≥3 Demo、视觉基线全对齐、文档与 llms 生成物、里程碑散文记录 | T3-01 / T3-06 / T3-12 / T3-13 | 技术负责人 | `pnpm verify` RC=0；`check:ci` 判据 11 的 Demo 覆盖与基线对齐在扩面后仍成立；M3 里程碑只做散文记录、勾选只发生在 §4.2 （**Table 链路实跑 15.33 kB / 35 KB、余量 19.67 kB（15 个产物逐文件 gzip level 9）；判据 11 扩面后 32 组件 / 108 Demo / 216 基线逐一对齐；llms 159 站点文件 + 3 包内副本 / 36 exports 全覆盖 / 0 死链；Table + Virtual 与单个图标两条预算仍 pending，只报告不伪造配置；判据 4q 收进既有 check:ci、26 阶段不变；M3 里程碑只做散文记录，§4 简表 M3 行保持未勾；负向 N702~N728 27/27 + `pnpm verify` RC=0**，见 §30.48） | [x] |
 | T4-01 | **CI 视觉门禁受控容差 + 浮层排版结构断言**：先修「浮层文字没吃到固定字体」的真因，再把跨平台栅格化差异收进有界容差 | T3-09 / T3-14 | 技术负责人 | 全局 `maxDiffPixelRatio` 保持 0.002，仅 open-state 4 条放开 4000 px；结构断言钉住文案 / 字体族 / 字号 / 字重 / 颜色；`check:ci` 判据 4r 机器背书（**真因 = 浮层经 Portal 落在 `.demo-root` 之外、继承系统 PingFang；宿主 `demo-standalone` 标记 + `base.css` 给浮层根节点补固定字体；`maxDiffPixels` 4000 与 `maxDiffPixelRatio` 0.01 必须同时给（Playwright 取 min）；有界性实证 3000 px 放过 / 10000 px 拦住 / 普通用例 3000 px 拦住；§30.49 根因已更正；字集 1025 码位 / 字体 `47bc14d9…`**，见 §30.50） | [x] |
+
+| T4-02 | **Token 缺口补齐**：补齐 `--scui-font-weight-regular` / `--scui-font-weight-medium` / `--scui-color-bg-subtle` / `--scui-motion-duration-base` / `--scui-motion-duration-slow` 五个未定义变量，消除静默失效死代码 | T3-14 | 技术负责人 | 依据 `docs/03` §5（400/500/600）与 §6（fast 100 / base 150 / slow 200）；补齐后重生成受影响视觉基线；`check:ci` 机器锚点钉住五变量均在 `tokens.css` 定义（**待 Aming 决策：`--scui-font-weight-medium` 两派 fallback（500 vs 600）冲突，补齐必改一半组件字重**，见 §30.53 第四节） | [ ] |
+| T4-03 | **README 对外数字精修**：校正 M2 时期过时数字 | T4-01 | 技术负责人 | 8 个组件子路径 → **32**（= exports 36 减根 / styles / package.json）；25 阶段 → **26**；34 页 → **156 页**；「当前为 8 组」→ 32（**`check:docs` 142 / `check:llms` 159+3 / `check:goals` 15 全部 RC=0**，见 §30.53） | [x] |
+| T4-04 | **M4 Exit 技术面复核**：A11y / 双构建 / SolidStart SSR / 包质量四项逐条核对 | T4-01 | 技术负责人 | A11y 108 条 axe + 10 条键盘 + 构建期对比度；双构建 32/32 子路径有 `solid` 产物；`smoke:ssr` 0 warnings + `smoke:start-real` SSR 0 console warning；size 4 条 / publint / attw / 三端消费 / tarball 全绿（**`pnpm verify` RC=0，26 阶段；31/31 组件有 API 表；216 张基线全 light-ltr-default**，见 §30.53） | [x] |
+| T4-05 | **试点应用接入 + `0.1.0` 发布**：提供接入指南、试点页面上线、CHANGELOG 与已知问题 | T4-04 | 技术负责人 | 试点应用至少一个页面上线；无 P0 阻塞；`0.1.0` + CHANGELOG + 已知问题；**合并 `dev` → `main` 与 `pnpm release` 均须 Aming 逐次授权**（硬约束 13）；当前阻塞：仓库内无试点宿主、发布未授权（见 §30.53 第一节） | [ ] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
@@ -6066,3 +6071,61 @@ diff，引用一变就判定「旧项删除 + 新项插入」，整行 DOM 重�
    `git show HEAD:…` 把旧实现放回去，看它是不是真的红。
 5. **修 flake 的三条捷径（force / 加超时 / 加重试）都在掩盖事实**：这次如果选捷径，
    用户侧「点取消偶尔没反应」的缺陷会一直留在产品里。
+
+### 30.53 M4 Exit 技术面核查结果（2026-11-20）
+
+#### 一、结论先行
+
+M4 的**技术面**已全部达标，跑通 `pnpm verify` **RC=0**（26 阶段）。但 M4 Exit 还有
+**三项非技术阻塞**必须由 Aming 决策或授权，本文档不擅自跨越：
+
+| # | 阻塞项 | 性质 | 为什么不能自主 |
+| --- | --- | --- | --- |
+| 1 | Token 缺口补齐（`--scui-font-weight-*` / `--scui-color-bg-subtle` / `--scui-motion-duration-slow`） | 设计系统 | 同一变量在两派组件里期望 500 与 600，补任一定义都会改掉一半组件字重并漂移基线 |
+| 2 | 试点应用接入（「试点应用至少一个页面上线」） | 业务 | 需要真实业务系统，仓库内无试点宿主 |
+| 3 | `0.1.0` 发布 | 授权 | 硬约束 13：发布须 Aming 逐次明确授权 |
+
+**任务归属**：本节的 README 数字校正归 **T4-03**；A11y / 双构建 / SSR / 包质量四项复核归
+**T4-04**（此前 T2/T3 已落地并有门禁守住，本轮只做 Exit 复核，不改代码）。Token 缺口属
+**T4-02**、试点接入与 `0.1.0` 发布属 **T4-05**，二者均为阻塞项，保持 `[ ]`。
+
+#### 二、已核查达标项
+
+| Exit 要求 | 现状 | 证据 |
+| --- | --- | --- |
+| 组件数 | docs/04 的 **33 个 P0 组件全部实现** | `InputNumber` 在 `input` 子路径、`Message` 在 `app` 子路径，作为子导出存在；exports 32 个子路径（含 `config-provider`） |
+| 文档：每组件 ≥3 Demo | 31 个真实组件全部 ≥3（仅 `overview` 是总览页 1 条） | catalog 32 组件 / 108 Demo |
+| 文档：API 表 | **31/31** 组件有 API 表（`overview` 为总览页，无 API） | `hasApi: true` ×31 |
+| 视觉基线 light/ltr/default | **216 张全部 `light-ltr-default`**，1280 视口 | `tests/e2e/baselines/` |
+| `"solid"` 双构建 | **32/32 子路径**均有 `dist/source/*.jsx`，`check:exports` RC=0 | 141 个声明文件零第三方引用 |
+| SolidStart SSR/hydration | `smoke:ssr` renderToString 2251 chars / hydrate 保留 createUniqueId / 点击投递 1 次 / **0 warnings** | `smoke:start-real` 真实 @solidjs/start 构建命中 `solid` 条件、SSR 0 console warning |
+| A11y | **108 条 axe 用例**（每 Demo 一条）+ 10 条键盘/焦点用例 + 构建期对比度强制 | `browser.spec.ts` / `docs.spec.ts` / `tokens/contrast.mjs` |
+| 包质量 | Button 1.85/6 kB、Form+Input+Select 17.83/25 kB、DatePicker 13.3/30 kB、Core 124.08/180 kB；publint All good；attw 全绿；三端消费 + tarball PASS | `pnpm size` / `publint` / `attw` / `smoke:consumers` / `smoke:tarball` |
+
+#### 三、本轮实际改动
+
+| 文件 | 改动 |
+| --- | --- |
+| `README.md` | 4 处 M2 时期过时数字校正：8 个组件子路径 → 32；25 阶段 → 26；34 页 → 156 页；「当前为 8 组」→ 32 个组件子路径 |
+
+其余 4 项（A11y / 双构建 / SSR / 包质量）经核查**已达标，无需改动代码** —— 这四项此前 T2/T3
+阶段已落地并有门禁守住，本轮只做 Exit 复核。
+
+#### 四、Token 缺口的真实冲突（阻塞项 1 细节）
+
+同一变量 `--scui-font-weight-medium` 在仓库里有两派 fallback：
+
+| 派别 | 组件 | fallback |
+| --- | --- | --- |
+| 「强调 500」 | `pagination` / `date-picker` / `range-picker` | `var(--scui-font-weight-medium, 500)` |
+| 「标题 600」 | `tabs` / `card` / `alert` / `popconfirm` / `descriptions` | `var(--scui-font-weight-medium, 600)` |
+| 裸引用（无 fallback，静默失效） | `table` 表头 4 处 | `var(--scui-font-weight-medium)` |
+
+docs/03 §5 规定「400 正文 / 500 强调·按钮 / 600 标题」。把 medium 定成 500 会让 5 个标题类
+组件变细；定成 600 会让 3 个强调类组件变粗；无论哪种，`table` 表头都会从浏览器默认 400 变成
+实际值——**必然漂移涉及 table 的视觉基线**。这是设计系统取舍，不自行拍板。
+
+#### 五、允许写入路径
+
+`README.md`、`docs/08-实施Todo.md` 本节、workspace memory 日志。
+`docs/01~07`、`playwright.config.ts`、`.size-limit.json`、`pnpm-lock.yaml` 零改动。

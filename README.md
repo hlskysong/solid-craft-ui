@@ -14,7 +14,7 @@ SolidJS 企业级中后台组件库。基于细粒度响应式，面向表单、
 | --- | --- |
 | Solid 原生 | 不套 React 运行时、不做 Web Components；props 接受 `T` 或 `Accessor<T>`，内部用 `resolveValue()` 归一 |
 | 双构建 / SSR | 每个入口同时提供编译后 ESM 与保留 JSX 的 `"solid"` 条件产物；`renderToString` + hydrate 已冒烟（含真实 SolidStart） |
-| 按子路径引入 | 8 个组件子路径 + `./styles.css` / `./styles/*`，只打包实际用到的部分 |
+| 按子路径引入 | 32 个组件子路径 + `./styles.css` / `./styles/*`，只打包实际用到的部分 |
 | 样式与主题 | SCSS → CSS 变量；亮/暗、密度、方向、品牌经 `ConfigProvider` 与 `data-*` 切换；语义色在构建期按 WCAG 2.1 分档校验 |
 | 质量保障 | Vitest 单测、Playwright E2E / 视觉基线、axe-core 无障碍、`size-limit` 体积预算、三端消费与 tarball 冒烟 |
 | 面向 AI Agent | `llms.txt` / `llms-full.txt` / `llms-manifest.json` 随包发布，版本与所安装版本一致 |
@@ -39,7 +39,7 @@ cd solid-craft-ui
 pnpm install
 pnpm build
 pnpm docs:dev     # 文档站：组件 Demo + API 表
-pnpm verify       # 25 阶段全链验收：单测 / E2E / 类型 / lint / 体积 / SSR / tarball / 组件纵向切片 / Phase 0 决策检查点
+pnpm verify       # 26 阶段全链验收：单测 / E2E / 类型 / lint / 体积 / SSR / tarball / 组件纵向切片 / Phase 0 决策检查点
 ```
 
 > 用 fnm 时，仓库 `.node-version` 会自动切到 Node 26.12.1，直接 `pnpm <script>` 即可。
@@ -81,7 +81,7 @@ render(
 | `solid-craft/config-provider` | `ConfigProvider`, `useConfig`, `ConfigProviderContext` |
 | `solid-craft/styles.css` | 汇总样式；也可用 `solid-craft/styles/*` 按需引入 |
 
-组件范围仍在扩展，当前为 8 组；规划与验收口径见 `docs/04-组件范围.md`。
+组件范围仍在扩展，当前已导出 32 个组件子路径（完整清单见 `solid-craft/package.json` 的 `exports`）；规划与验收口径见 `docs/04-组件范围.md`。
 
 ## 样式与主题
 
@@ -97,7 +97,7 @@ render(
 
 - `pnpm docs:dev` 启动本地文档站（Vite + Solid，TSX Demo + `oxc-parser` 生成的 API 表）。
 - 设计与工程规范：`docs/01-技术选型.md` ~ `docs/07-决策与风险.md`；实施清单：`docs/08-实施Todo.md`。
-- **给 AI / Agent**：`llms.txt`（索引）、`llms-full.txt`（34 页合并正文）、`llms-manifest.json` 随 `solid-craft` 包发布。已安装时可用 `import.meta.resolve('solid-craft/package.json')` 定位同目录副本，读到的文档版本与安装版本严格一致。
+- **给 AI / Agent**：`llms.txt`（索引）、`llms-full.txt`（156 页合并正文）、`llms-manifest.json` 随 `solid-craft` 包发布。已安装时可用 `import.meta.resolve('solid-craft/package.json')` 定位同目录副本，读到的文档版本与安装版本严格一致。
 - 消费示例：`examples/vite`、`examples/webpack`、`examples/rspack`、`examples/solid-start`、`examples/start-real`。
 
 ## 参与
