@@ -11,7 +11,7 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-07（已闭合，§30.56）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 当前任务 ID | **T4-08（已闭合，§30.57）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
 | 下一步 | **M4 只剩 T4-05 `0.1.0` 发布（发布与合并 `main` 均须硬约束 13 逐次授权）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
@@ -175,6 +175,7 @@
 | T4-05 | **`0.1.0` 发布**：CHANGELOG、npm 发布、合并 `dev` → `main` | T4-04 / T4-06 | 技术负责人 | `0.1.0` + CHANGELOG 齐备；**合并 `dev` → `main` 与 `pnpm release` 均须 Aming 逐次授权**（硬约束 13）；试点接入部分已由 T4-06 完成，本行只剩发布动作，未授权前保持 `[ ]` | [ ] |
 | T4-06 | **试点应用接入 + 组件库四项缺口修复**：admin 模板（Vite 版，Ant Design Pro 风）+ 主题属性统一 `data-theme` / 表头 color-mix / 三浮层 z-index / Select 浮层左对齐 | T4-04 | 技术负责人 | 试点页面两页（工作台 + 采购计划 CRUD）浏览器实测通过；四项修复各带实证；新增 2 条 E2E 防复发断言；`pnpm verify` RC=0；仓外 `admin-framework/vite/` 纯前端（见 §30.55） | [x] |
 | T4-07 | **reset 自动注入 `styles.css`**：补齐归一化规则并入主入口，消除「库有 reset.css 但全员漏引」的静默失效 | T4-06 | 技术负责人 | Aming 裁决「自动注入 styles.css」（2026-11-20）；reset 补 box-sizing / margin / font inherit / button 重置（全 `:where()` 零特异性）并拼入 `index.css` 最前，独立 `reset.css` 保留兼容；admin 模板删手写 reset；`check:styles` 产物层新增判据 + 负向实证；契约变更同步 `docs/01~05` / README / llms（见 §30.56） | [x] |
+| T4-08 | **全局 density 链路修复 + admin 模板 click-to-component**：`ConfigProvider density` 写入根节点后组件零消费，表格密度切换假生效 | T4-07 | 技术负责人 | Aming 截图实测「密度紧凑/标准未生效」→ 裁决库级彻底修（2026-11-22）；Table 用 `useContext(ConfigProviderContext)` + `mergeProps` 作 density 兜底（props 显式优先，无 Provider 独立用不抛错）；单测 41/41（4 条新增）+ docs E2E 真样式断言（padding 12→8px）+ 负向实证 1/1 + SHA256 还原一致；admin 模板接入 `solid-devtools` locator（Alt+点击跳源码，需浏览器扩展）；仓外模板不随库提交（见 §30.57） | [x] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
@@ -5409,7 +5410,7 @@ Aming 授权「继续」后按 §4.2 收口：**M3 的 T3-01~T3-14 共 14 项全
    llms 159 个站点文件 + 3 个包内副本，36 个 exports 子路径 100% 覆盖、0 死链、0 孤儿页。
 4. **M3 里程碑散文记录**：见第三节；§4 简表 M3 行保持未勾，勾选只发生在 §4.2 任务行。
 
-机器锚点：T3-14 实算 Table 链路 **15.34 kB** / 35 KB；判据 11 扩面后 **32 组件 / 108 Demo / 216 基线**
+机器锚点：T3-14 实算 Table 链路 **15.40 kB** / 35 KB；判据 11 扩面后 **32 组件 / 108 Demo / 216 基线**
 
 #### 二、体积预算实跑（口径与数值）
 
@@ -6395,3 +6396,90 @@ range-picker 也是裸 1000（内联浮层，暂未暴露）。三处统一改�
 3. **门禁别只查声明值**：`box-sizing: border-box` 在组件样式里也出现，单查字符串会让门禁假绿；
    改为整段 reset 规则前缀比对才真正钉住「自动注入且排最前」。
 
+### 30.58 T4-08 复盘：视图层兜底被「单一状态真源」门禁否决（2026-11-22）
+
+一开始把全局 density 兜底写在 `Table.tsx` 视图层（`useContext` + `mergeProps` getter），单测与 E2E
+都绿，但 `check:ci` 直接报红：`Table.tsx 直接读取 props / local 的状态字段（含分页配置）：
+状态必须由 useTableEngine 归一后消费`。这是 T3-01 起就钉住的架构约束（`docs/04 §5.1` 首要风险），
+门禁正则覆盖 `local.density`。**正确修法不是绕开正则，而是把兜底下沉到引擎** —— 
+`useTableEngine` 本身就是 Solid hook，setup 期 `useContext(ConfigProviderContext)` 读一次、
+state memo 内 `options.density ?? globalConfig?.density() ?? 'default'` 做归一。视图零改动，
+体积反而从视图方案的 15.44 kB 降到 15.40 kB。**教训**：遇到门禁拦截先读判据意图，别钻正则空子；
+「单一状态真源」是架构契约，所有状态归一（含全局上下文兜底）都应落在引擎层。
+
+
+### 30.57 T4-08 全局 density 链路修复 + admin 模板 click-to-component 结果（2026-11-22）
+
+> T4-08 由 Aming 在 admin 模板截图实测「密度 紧凑/标准 未生效」，并要求加 click-to-component 而立项。
+> 当场裁决 **库级彻底修**（不做模板透传绕过）。本节记录 T4-08 的根因、修复与完整实证链。
+
+#### 一、根因：属性写了，但没人消费
+
+| 环节 | 现状 |
+| --- | --- |
+| ConfigProvider | `themeTarget="global"` 把 `data-scui-density="compact"` 写到 `<html>` 根节点 |
+| Table 组件 | `data-scui-density={state().density}` 只取自己 props 的 `density`，没传就固定 `default` |
+| 样式选择器 | `:where(.scui-table)[data-scui-density='compact']` —— 要求属性写在 `<table>` 自身 |
+| 全库 | 组件里 `useConfig()` **零引用** —— 全局 density 从来没有任何消费方 |
+
+结论：与 T4-07 的 reset 同类问题 —— 「写了契约但链路断在最后一环」，切按钮只改了 `<html>` 属性，表格内距不变。
+
+#### 二、修复
+
+1. `packages/core/src/components/table/table-engine.ts`（**最终方案；视图层方案被门禁否决**）：
+   - 先在视图 `Table.tsx` 用 `useContext(ConfigProviderContext)` + `mergeProps` 做兜底，但
+     `check:ci` 判据禁止视图直接读 `local.density`（违反「单一状态真源」），故下沉到引擎
+   - 引擎 setup 期 `const globalConfig = useContext(ConfigProviderContext)` —— 用 `useContext`
+     而非 `useConfig()`，因为 Table 在 SSR smoke、独立 demo 中无 Provider 也能用，
+     `useConfig()` 会抛错；无 Provider 时 `useContext` 返回 `undefined`，安全
+   - state memo 内 `density: options.density ?? globalConfig?.density() ?? 'default'`
+     —— props 显式优先，否则取全局；在 memo 内读 `config.density()` 保持响应式
+   - `Table.tsx` 零改动，视图仍只读 `state()`，体积 15.34→**15.40 kB**（引擎方案反而比
+     视图 mergeProps 方案的 15.44 kB 更小）
+2. `packages/core/src/components/table/Table.test.tsx`：新增 4 条单测（无 Provider 不抛 / 全局 compact
+   落属性 / props 优先全局 / 全局信号响应式更新），Table 单测 37→41 全绿
+3. `tests/e2e/specs/docs.spec.ts`：新增「全局 density=compact 真正改变表格单元格内距」断言 ——
+   切 compact 后 SPA 导航到 `/components/table`，读首行 td 的 `paddingBlockStart` 应为 8px
+4. 仓外 `admin-framework/vite/`：装 `solid-devtools@0.34.5` + `@solid-devtools/overlay@0.33.5`，
+   `vite.config.mjs` 的 `devtools()` 配 `locator { targetIDE:'vscode', key:'Alt', jsxLocation:true,
+   componentLocation:true }`，`src/index.tsx` 顶部 `import 'solid-devtools'` 注入 runtime，
+   并在 `render` 后调用 `attachDevtoolsOverlay()`。**页内 overlay 自带 dev 守卫，无需 Chrome 扩展**
+   （Aming 指出「不能加到打包配置里吗」后纠正：官方有 standalone overlay 包，扩展只提供额外的
+   独立面板，click-to-component 不依赖它）；生产 build tree-shake，dist 内零 devtools 关键字。
+   浏览器实证：overlay 挂载后角落出现 `Devtools` 触发按钮（`data-testid=solid-devtools-overlay`），
+   Babel 注入 `data-source-loc` 源码定位属性，零 console 错误。
+5. **targetIDE=openidea 修正**：Aming 改成 `openidea` 后跳转静默失效 —— `TargetIDE` 枚举只有
+   `vscode|vscode-insiders|webstorm|atom`，`getTargetURL` 的 switch 无匹配返回 undefined。且
+   OpenIDEA（`l0ng-ai/openidea`，Rust+Tauri，tauri.conf.json v0.1.50）**未注册 URL scheme /
+   deep-link**（plugins 仅 updater）。按 Aming 裁决用 `TargetURLFunction`：vite 插件 locator 类型
+   `Exclude<..., TargetURLFunction>` + JSON.stringify 注入无法传函数，故 `vite.config.mjs` 用合法值
+   `webstorm` 占位（保 jsxLocation/componentLocation），在 `src/index.tsx` 从 `solid-devtools/setup`
+   导 `setLocatorOptions` 运行时覆盖为函数，生成 `openidea://open?file=...&line=...&column=...`。
+   实证：runtime `targetIDE` 类型为 function、产出 URL 格式正确、180 处 `data-source-loc`、零错误。
+   **边界**：URL 生成链路已通，但 OpenIDEA 未注册协议 → 点击后 OS 不响应，等上游加 deep-link
+   插件（或手动注册 scheme）后才真正跳转；已建议提 issue。
+
+#### 三、实证链
+
+| 项 | 结果 |
+| --- | --- |
+| 单测 | Table 41/41（含 4 条新增）；一次曾因 import 路径写 `../config-provider` 报错，改 `../../config-provider/ConfigProvider` 后绿 |
+| 正向 E2E | 新断言 1 passed（fresh server，padding 12→8px）；本地曾因 4173 残留旧 dev server（PID 41054）假红，Aming 授权 kill 后 Playwright 自起新 server 转绿 |
+| 负向实证 | 从 `dist/source/.../Table.jsx` 删掉兜底逻辑 → E2E 红（`Expected 8px, Received 12px`），证明断言钉的是真链路 |
+| 还原 | `cp` 还原后 SHA256 `2de7346b…` 与备份逐字一致，E2E 复绿 1 passed |
+| 模板 | `pnpm typecheck` / `pnpm build` RC=0（CSS 98.74 kB / JS 199.10 kB，devtools 不进生产包） |
+| 冻结面 | 本轮未改 `docs/01~07` / Token / 生成物；改 Table 引擎的 density 兜底（唯一运行时语义变化，属授权修复）+ 测试 + 仓外模板（见 §30.58） |
+
+#### 四、影响文件
+
+`packages/core/src/components/table/table-engine.ts`、`packages/core/src/components/table/Table.test.tsx`、
+`tests/e2e/specs/docs.spec.ts`、`docs/08-实施Todo.md`（本节 / §4.2 / §30.48 体积锚点 / 顶部锚点）、
+`scripts/todo-governance.json`（taskIds + evidence）、仓外 `admin-framework/vite/`
+（`package.json` + `pnpm-lock.yaml` + `vite.config.mjs` + `src/index.tsx` + 前两轮的
+`src/styles.css` 两处微调）、`.workbuddy/memory/2026-11-20.md`。
+
+#### 五、教训
+
+「属性写到根节点」≠「组件响应」。全局上下文（theme / density / direction / z-index）都必须有
+对应的组件消费点，否则切换器只是改了个没人看的 DOM 属性。验收要测**计算样式**（padding/颜色），
+不能只测属性字符串 —— 后者在 T4-07 reset 与本次 density 两次都差点假绿。

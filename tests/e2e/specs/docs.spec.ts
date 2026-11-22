@@ -213,6 +213,20 @@ test.describe('T1-06 文档站：API 表 / 搜索 / 全局设置', () => {
     expect(attributes).toEqual({ theme: 'dark', density: 'compact', direction: 'rtl' });
     await expect(page.getByTestId('docs-version')).toBeVisible();
   });
+
+  test('全局 density=compact 真正改变表格单元格内距（不只是写属性）', async ({ page }) => {
+    await page.goto('/', { timeout: PAGE_LOAD_TIMEOUT_MS });
+    await page.getByTestId('setting-density').selectOption('compact');
+    // SPA 站内导航保留 SettingsProvider 的 signal；goto 会重置，故用链接点击。
+    await page.locator('a.docs-nav__link[href="/components/table"]').click();
+    await expect(page).toHaveURL(/\/components\/table/);
+
+    const firstCell = page.locator('[data-scui-role="table"] td').first();
+    await expect(firstCell).toBeVisible();
+    const padding = await firstCell.evaluate((el) => getComputedStyle(el).paddingBlockStart);
+    // compact 单元格上下内距 = --scui-space-2 = 8px；default 是 12px。
+    expect(padding).toBe('8px');
+  });
 });
 
 test.describe('T1-06 文档站：A11y', () => {

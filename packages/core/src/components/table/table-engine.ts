@@ -25,8 +25,9 @@
  * 比较器用确定性码点 / 数值比较而非 `localeCompare`（避免 SSR 与浏览器
  * ICU 差异造成 hydration 差），`renderToString` 两次输出逐字一致。
  */
-import { createEffect, createMemo, createSignal, type Accessor } from 'solid-js';
+import { createEffect, createMemo, createSignal, useContext, type Accessor } from 'solid-js';
 
+import { ConfigProviderContext } from '../../config-provider/context';
 import type { PaginationChange } from '../pagination';
 import {
   clampPage,
@@ -306,6 +307,11 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
     normalizePositive(initialPage?.defaultPageSize ?? 10, 10),
   );
 
+  // 全局 density 兜底：在 setup 期读 context（无 Provider 时 useContext 返回
+  // undefined，不抛错），在 state memo 内通过 config?.density() 读取以保持响应式。
+  // props 显式 density 优先；单一状态真源仍在引擎，视图不散读 props。
+  const globalConfig = useContext(ConfigProviderContext);
+
   // 列归一化单独一层 memo：`<For each={state().columns}>` 按 item 引用做 keyed diff，
   // 若把它塞进 state 的每次重算里，一次筛选点击就会重建整张表头（连筛选面板里的
   // input 一起脱管、焦点丢失）。只有调用方真的换了 columns 才允许重算。
@@ -391,7 +397,7 @@ export function useTableEngine<T extends object>(options: TableEngineOptions<T>)
       loading,
       bordered: options.bordered === true,
       size: options.size ?? 'medium',
-      density: options.density ?? 'default',
+      density: options.density ?? globalConfig?.density() ?? 'default',
       sorters,
       filters,
       server,

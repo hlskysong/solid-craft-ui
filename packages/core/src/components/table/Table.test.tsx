@@ -12,6 +12,7 @@ import { cleanup, fireEvent, render, waitFor } from '@solidjs/testing-library';
 import { createSignal } from 'solid-js';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { ConfigProvider } from '../../config-provider/ConfigProvider';
 import { Table } from './Table';
 import {
   applyFilters,
@@ -872,5 +873,43 @@ describe('Table：T3-06 分页 / 空态 / 加载态', () => {
     await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
     const call = onChange.mock.calls.at(-1);
     expect(call?.[0]).toEqual(['A01', 'A02', 'A03', 'A04', 'A05']);
+  });
+});
+
+describe('Table：全局 density 兜底（ConfigProvider）', () => {
+  it('无 Provider 时独立使用不报错，density 维持 default', () => {
+    render(() => <Table columns={columns} data={rows} rowKey="id" />);
+    expect(table()).toHaveAttribute('data-scui-density', 'default');
+  });
+
+  it('全局 density=compact 且 Table 未显式传时，落到 compact', () => {
+    render(() => (
+      <ConfigProvider density="compact">
+        <Table columns={columns} data={rows} rowKey="id" />
+      </ConfigProvider>
+    ));
+    expect(table()).toHaveAttribute('data-scui-density', 'compact');
+  });
+
+  it('props 显式 density 优先于全局配置', () => {
+    render(() => (
+      <ConfigProvider density="compact">
+        <Table columns={columns} data={rows} rowKey="id" density="comfortable" />
+      </ConfigProvider>
+    ));
+    expect(table()).toHaveAttribute('data-scui-density', 'comfortable');
+  });
+
+  it('全局 density 信号变化后，Table 属性响应式更新', async () => {
+    const [density, setDensity] = createSignal<'default' | 'compact'>('default');
+    render(() => (
+      <ConfigProvider density={density()}>
+        <Table columns={columns} data={rows} rowKey="id" />
+      </ConfigProvider>
+    ));
+    expect(table()).toHaveAttribute('data-scui-density', 'default');
+
+    setDensity('compact');
+    await waitFor(() => expect(table()).toHaveAttribute('data-scui-density', 'compact'));
   });
 });
