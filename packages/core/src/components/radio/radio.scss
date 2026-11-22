@@ -8,6 +8,11 @@
 :where(.scui-radio) {
   --scui-radio-current-size: 16px;
 
+  /* 内点用确定的偶数 px，而非 content-box 的 50%：后者在 medium/large 会算出
+     奇数尺寸（7/9px）+ 半像素居中留白（4.5/5.5px），1x 屏光栅化舍入后白点视觉偏 0.5px。
+     content box = size - 2px border，留白 = (content - dot)/2 必须落在整数像素上。 */
+  --scui-radio-current-dot: 8px;
+
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -27,10 +32,12 @@
 
 :where(.scui-radio)[data-scui-size='small'] {
   --scui-radio-current-size: 14px;
+  --scui-radio-current-dot: 6px;
 }
 
 :where(.scui-radio)[data-scui-size='large'] {
   --scui-radio-current-size: 20px;
+  --scui-radio-current-dot: 10px;
 }
 
 :where(.scui-radio__control) {
@@ -59,8 +66,8 @@
 }
 
 :where(.scui-radio__dot) {
-  inline-size: 50%;
-  block-size: 50%;
+  inline-size: var(--scui-radio-current-dot);
+  block-size: var(--scui-radio-current-dot);
   border-radius: 50%;
   background: transparent;
   transition: background-color var(--scui-motion-duration-base) var(--scui-motion-ease);

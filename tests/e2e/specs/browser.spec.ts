@@ -46,6 +46,49 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     }
   });
 
+  // T4-10（Aming 实测「radio 选中圆点视觉偏位」）：dot 曾用 content-box 的 50%，
+  // medium/large 算出奇数尺寸 + 半像素居中留白，1x 屏光栅化舍入后白点偏 0.5px。
+  // 现按尺寸档给确定偶数 px，断言三档的居中留白都落在整数像素上（不留半像素）。
+  test('T4-10 radio 选中圆点三档居中留白均为整数像素', async ({ page }) => {
+    await page.goto(demoPath('radio'));
+    await expect(page.getByTestId('demo-root')).toBeVisible();
+    const cases = await page.evaluate(() => {
+      const out: { size: string; dotW: number; padL: number; padT: number }[] = [];
+      for (const size of ['small', 'medium', 'large']) {
+        const shell = [...document.querySelectorAll('.scui-radio')].find(
+          (el) =>
+            el.getAttribute('data-scui-size') === size &&
+            el.getAttribute('data-scui-checked') === 'true',
+        );
+        if (!shell) continue;
+        const indicator = shell.querySelector('.scui-radio__indicator')!;
+        const dot = shell.querySelector('.scui-radio__dot')!;
+        const ir = indicator.getBoundingClientRect();
+        const dr = dot.getBoundingClientRect();
+        out.push({
+          size,
+          dotW: parseFloat(getComputedStyle(dot).width),
+          padL: dr.left - ir.left,
+          padT: dr.top - ir.top,
+        });
+      }
+      return out;
+    });
+    expect(cases.map((c) => c.size)).toEqual(['small', 'medium', 'large']);
+    for (const c of cases) {
+      expect(Number.isInteger(c.dotW), `${c.size} 圆点尺寸应为偶数整数 px，实际 ${c.dotW}`).toBe(
+        true,
+      );
+      expect(c.dotW % 2, `${c.size} 圆点尺寸应为偶数 px`).toBe(0);
+      expect(Number.isInteger(c.padL), `${c.size} 水平居中留白应为整数像素，实际 ${c.padL}`).toBe(
+        true,
+      );
+      expect(Number.isInteger(c.padT), `${c.size} 垂直居中留白应为整数像素，实际 ${c.padT}`).toBe(
+        true,
+      );
+    }
+  });
+
   test('Button 点击链：计数更新，禁用 / 加载态不可点击', async ({ page }) => {
     await page.goto(demoPath('button'));
     const count = page.getByTestId('click-count');
