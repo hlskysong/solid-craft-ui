@@ -8,10 +8,12 @@
  *   2. 组件层：SCSS 里出现的每个 data-<attr> 都能在同目录 *.tsx 源码里找到输出，
  *      否则说明样式写了但组件不产出该属性（死选择器）。
  *   3. 产物层：PostCSS 之后 index.css / base.css / reset.css / components/*.css 齐全，
- *      源码里的每个 [data-x='v'] 都仍在 index.css 中（Sass 会去掉引号，故归一化比对）。
+ *      源码里的每个 [data-x='v'] 都仍在 index.css 中（Sass 会去掉引号，故归一化比对）；
+ *      T4-07 起 reset 必须自动注入 index.css 且排在 token 之前，独立 reset.css 仅作兼容别名。
  *   4. 命名层（R1 = B，Aming 2026-11-11 裁决）：src 内禁止裸 data-*，只允许
  *      `data-<CSS_PREFIX>*`；`data-testid` / `data-hk` 是行业通用测试锚点与 Solid
- *      hydration key，白名单放行。同时每个带 [data-*] 的 SCSS 选择器，其**解析后**
+ *      hydration key，`data-theme` 是 theme-dark.css 的主题契约（T4-05），三者白名单
+ *      放行。同时每个带 [data-*] 的 SCSS 选择器，其**解析后**
  *      的完整选择器必须被 `.scui-` 静态类作用域覆盖（含 `&` 嵌套与 @media 包裹），
  *      否则裸属性可以被宿主任意全局样式改到，B 的防污染动机就没闭环。
  */
@@ -79,7 +81,11 @@ if (mixinUsers === 0) fail('mixins.scss 未被任何组件 @use（死代码）')
 // ---- 第 4 层：R1 命名与作用域契约（Aming 2026-11-11 裁决「R1 = B」）----
 
 const DATA_PREFIX = `data-${CSS_PREFIX}`;
-const DATA_ALLOWLIST = new Set(['data-testid', 'data-hk']);
+// T4-05（Aming 裁决「主题属性统一 data-theme」）：`data-theme` 是 theme-dark.css
+// 命中 `[data-theme='dark']` 的固定契约名，由 token 产物（冻结面）定义，组件侧不可改名，
+// 与 data-testid / data-hk 同属「非组件状态、不得用 data-scui-* 命名空间」的例外。
+// ConfigProvider 写它让暗色主题真正生效；其余所有状态属性仍强制 data-scui-* 前缀。
+const DATA_ALLOWLIST = new Set(['data-testid', 'data-hk', 'data-theme']);
 const SCAN_EXTS = new Set(['.ts', '.tsx', '.css', '.scss']);
 const DATA_TOKEN = /data-[a-z][a-z0-9-]*/g;
 
@@ -252,6 +258,22 @@ if (allCss.length === 0) fail('dist/styles 下没有任何 CSS 产物');
 const indexCss = read(join(outDir, 'index.css'));
 if (!indexCss.includes('--scui-color-primary')) {
   fail('index.css 未包含 Token 变量（PostCSS custom-properties 配置或 Token 管线异常）');
+}
+
+// T4-07（Aming 裁决「reset 自动注入 styles.css」）：主入口必须自带 reset，独立 reset.css
+// 只是兼容别名。断链时所有只引 styles.css 的消费方都会静默退回浏览器默认样式（本次真因）。
+const resetCss = read(join(outDir, 'reset.css'));
+const resetMarkers = ['box-sizing: border-box', 'list-style: none', 'cursor: pointer'];
+for (const marker of resetMarkers) {
+  if (!resetCss.includes(marker)) fail(`reset.css 缺少归一化规则：${marker}`);
+}
+// 声明值会在组件样式里重名（box-sizing 等），只查字符串会被骗过；必须整段 reset 规则
+// 原样位于 index.css 最前，才算 styles.css 真正自动注入。
+const stripCharset = (css) => css.replace(/^@charset[^;]*;/, '').trim();
+const resetRules = stripCharset(resetCss);
+const indexHead = stripCharset(indexCss);
+if (!resetRules || !indexHead.startsWith(resetRules)) {
+  fail('index.css 未把 reset 层原样放在 tokens/base/组件样式之前（归一化先落盘，组件层后覆盖）');
 }
 if (modifierSelector.test(allCss)) fail('编译产物出现 modifier class 死代码');
 

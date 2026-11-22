@@ -66,7 +66,7 @@ export function ConfigProvider(props: ConfigProviderProps) {
 
     const root = document.documentElement;
     const previous = {
-      theme: root.getAttribute('data-scui-theme'),
+      theme: root.getAttribute('data-theme'),
       density: root.getAttribute('data-scui-density'),
       direction: root.getAttribute('data-scui-direction'),
       zIndexBase: root.style.getPropertyValue('--scui-z-index-base'),
@@ -74,15 +74,15 @@ export function ConfigProvider(props: ConfigProviderProps) {
     };
 
     createEffect(() => {
-      root.setAttribute('data-scui-theme', theme());
+      root.setAttribute('data-theme', theme());
       root.setAttribute('data-scui-density', density());
       root.setAttribute('data-scui-direction', direction());
       root.style.setProperty('--scui-z-index-base', String(zIndexBase()));
     });
 
     onCleanup(() => {
-      if (previous.theme === null) root.removeAttribute('data-scui-theme');
-      else root.setAttribute('data-scui-theme', previous.theme);
+      if (previous.theme === null) root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', previous.theme);
 
       if (previous.density === null) root.removeAttribute('data-scui-density');
       else root.setAttribute('data-scui-density', previous.density);
@@ -107,7 +107,7 @@ export function ConfigProvider(props: ConfigProviderProps) {
       ) : (
         <div
           class={classNames(`${CSS_PREFIX}config-provider`, local.class)}
-          data-scui-theme={theme()}
+          data-theme={theme()}
           data-scui-density={density()}
           data-scui-direction={direction()}
           style={{

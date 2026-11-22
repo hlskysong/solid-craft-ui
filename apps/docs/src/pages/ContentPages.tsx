@@ -96,7 +96,7 @@ const DESIGN_SECTIONS: Record<string, { title: string; paragraphs: string[] }> =
   dark: {
     title: '暗色主题',
     paragraphs: [
-      '暗色由 theme-dark.css 覆盖语义变量，ConfigProvider theme="dark" 写入 data-scui-theme。',
+      '暗色由 theme-dark.css 覆盖语义变量，ConfigProvider theme="dark" 写入 data-theme。',
       '当前状态：Token 与构建期对比度校验已覆盖暗色，但端到端视觉回归 / SSR 全矩阵按 06 §5.3、04 §3.2 属于 v1.0，MVP 未验收。文档站切换器标注为预览。',
     ],
   },

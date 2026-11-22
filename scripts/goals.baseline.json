@@ -4,19 +4,19 @@
   "note": "由 pnpm check:goals --update-baseline 生成；受保护文件的任何改动都会让 pnpm verify 失败，改动须人工确认并重跑该命令。",
   "files": {
     "AGENTS.md": "d5659e9afceb3dba57a1f0e35501b74b18c70fccdb6d75d2ef456d19add84185",
-    "docs/01-技术选型.md": "d9e376e2444b576310884017f247ac302a4c24bb1a129cc8ba202e839f71afce",
-    "docs/02-架构设计.md": "6b45b90ca458bc4aa8d64583fecd35495ce641cbbf379110a820f56fdae5fc70",
+    "docs/01-技术选型.md": "18eb895d0c3e4e981fc362f75dc0802d6089a8011eb5a6d4c73faf50612d172a",
+    "docs/02-架构设计.md": "232814136f2559f65ffc3a30ebb129c8d25e31bd06f8901c909d34273cb045c7",
     "docs/03-设计系统.md": "208a436221fbeceb51c32af8a14d93dfb97dfdffc0a8607e468cd22e7405b37d",
     "docs/04-组件范围.md": "2bf0fe1e44613ef4366a6794941053db3695ee43193d4463c06b3f355cd5f53d",
-    "docs/05-路线图.md": "7159a73809cbed88948f7ad72cd20e391f6c733f64f008d1e9b5f2d73481d3c1",
+    "docs/05-路线图.md": "f18973896ddfa2aa5b2e134b1a427822803413a8102bd1bf023d1e695b6c6a27",
     "docs/06-工程规范.md": "ca0d2707389490ac56fcee2615734ab5a4d5fe5cc5b1480333fd804c938e08a3",
-    "docs/07-决策与风险.md": "cf9b5847dac6dbf6804e63b8c3892e8be634e3555e067696160d597e1d1f4daa",
+    "docs/07-决策与风险.md": "4e7881f33ec81e21c36fe08e5033b8495e5ffd0790978daecf6e052b23a943e7",
     "scripts/check-goals.mjs": "d34a86bcd4cce6713e6a5b6b6cbaaa88abc18f831ac3c8447527fa5cf57dc9e8",
     "scripts/check-naming.mjs": "ee600a6c6c033bb377e0ce197fb125e7e384c2afa9980a5a8e56090230990c16",
     "scripts/check-public-repo.mjs": "a3829db15ad75615a936196a555a1e9cf934a220070449f7cd1088d7894a614a",
     "scripts/check-todo.mjs": "0d6293790a14c6228d798e01f9b93a047b4d6195f9dc53c2f4e8eb30e7d9cdb4",
     "scripts/naming-legacy.mjs": "f51a922a1e69577768dc5297b3c8d2e84468a1b74539a5e58cee1dd491a542d9",
     "scripts/scope.mjs": "49cb4a450039f3106632affc532890ddb715567a83ae661484104e691441bafc",
-    "scripts/todo-governance.json": "a915fe8f2d74b3dbfc99bb3716caa995df657fc9de9fc32168caf41927e1af00"
+    "scripts/todo-governance.json": "85c2539e3a1321168d7c73b68afed030553217f56e750194394e40c0f873d58b"
   }
 }

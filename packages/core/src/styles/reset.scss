@@ -1,4 +1,13 @@
-/* Optional reset. Consumed explicitly: solid-craft/styles/reset.css */
+/* Reset layer. Merged into styles.css (dist/styles/index.css) since T4-07
+   (Aming 裁决 2026-11-20: 自动注入). Also emitted standalone at
+   solid-craft/styles/reset.css for consumers that already reference it.
+   Every rule sits inside :where() so host styles win at equal specificity. */
+:where(*),
+:where(*)::before,
+:where(*)::after {
+  box-sizing: border-box;
+}
+
 :where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, figure, blockquote) {
   margin: 0;
   padding: 0;
@@ -6,4 +15,16 @@
 
 :where(ul, ol) {
   list-style: none;
+}
+
+:where(button, input, select, textarea) {
+  font: inherit;
+  color: inherit;
+}
+
+:where(button) {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }

@@ -8,7 +8,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 
 ## 关键约定
 
-- **样式显式引入**：JS 不隐式加载 CSS，需 `import 'solid-craft/styles.css'`，变量统一为 `--scui-*` 前缀。
+- **样式显式引入**：JS 不隐式加载 CSS，需 `import 'solid-craft/styles.css'`（reset 已自动注入，无需再引 `styles/reset.css`），变量统一为 `--scui-*` 前缀。
 - **状态由 `data-*` 驱动**：组件不叠加 modifier class，样式按属性选择器命中。
 - **双构建 / `"solid"` 条件**：`dist/source/*.jsx` 保留 JSX 供消费方按 SSR / CSR 目标编译，`dist/esm/*.js` 为编译后产物。
 - **响应式契约**：Props 可为值或 Accessor，组件内部统一用 `resolveValue()` 读取。

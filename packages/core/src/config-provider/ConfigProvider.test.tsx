@@ -53,9 +53,9 @@ describe('ConfigProvider', () => {
     expect(screen.getByTestId('direction')).toHaveTextContent('rtl');
     expect(screen.getByTestId('z-index-base')).toHaveTextContent('1000');
 
-    const root = screen.getByTestId('probe').closest('[data-scui-theme]');
+    const root = screen.getByTestId('probe').closest('[data-theme]');
     expect(root).not.toBeNull();
-    expect(root).toHaveAttribute('data-scui-theme', 'dark');
+    expect(root).toHaveAttribute('data-theme', 'dark');
     expect(root).toHaveAttribute('data-scui-density', 'compact');
     expect(root).toHaveAttribute('data-scui-direction', 'rtl');
   });
@@ -69,15 +69,15 @@ describe('ConfigProvider', () => {
       </ConfigProvider>
     ));
 
-    const root = screen.getByTestId('probe').closest('[data-scui-theme]');
+    const root = screen.getByTestId('probe').closest('[data-theme]');
     expect(root).not.toBeNull();
     expect(screen.getByTestId('theme')).toHaveTextContent('light');
-    expect(root).toHaveAttribute('data-scui-theme', 'light');
+    expect(root).toHaveAttribute('data-theme', 'light');
 
     setTheme('dark');
 
     expect(screen.getByTestId('theme')).toHaveTextContent('dark');
-    expect(root).toHaveAttribute('data-scui-theme', 'dark');
+    expect(root).toHaveAttribute('data-theme', 'dark');
   });
 
   it('throws when useConfig is called outside of ConfigProvider', () => {

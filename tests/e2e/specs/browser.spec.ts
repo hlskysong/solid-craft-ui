@@ -88,6 +88,53 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     expect(primary).toBe('#2d66f5');
   });
 
+  // T4-05 修复回归：Select 浮层经 Portal 挂到 body，若 z-index 写成裸 1000，
+  // 恰好等于 Modal 遮罩（base+1000）、低于弹窗本体（base+1001），Modal 内的
+  // 下拉会被弹窗盖住。这条断言读 CSS 计算值中的层级次序（不是 DOM 顺序），
+  // 保证三个浮层都高于 Modal，且 zIndexBase 配置能继续叠加。
+  test('浮层层级契约：Select / DatePicker / RangePicker 高于 Modal（T4-05）', async ({ page }) => {
+    await page.goto(demoPath('button'));
+    const layers = await page.evaluate(() => {
+      const probe = (className: string) => {
+        const element = document.createElement('div');
+        element.className = className;
+        element.style.position = 'absolute';
+        document.body.appendChild(element);
+        const zIndex = getComputedStyle(element).zIndex;
+        element.remove();
+        return zIndex;
+      };
+      return {
+        overlay: probe('scui-modal__overlay'),
+        modal: probe('scui-modal'),
+        select: probe('scui-select__content'),
+        datePicker: probe('scui-date-picker__popup'),
+        rangePicker: probe('scui-range-picker__popup'),
+      };
+    });
+    const modalZ = Number(layers.modal);
+    expect(Number(layers.overlay), 'Modal 遮罩层级').toBeLessThan(modalZ);
+    for (const key of ['select', 'datePicker', 'rangePicker'] as const) {
+      expect(Number(layers[key]), `${key} 浮层须高于 Modal 本体`).toBeGreaterThan(modalZ);
+    }
+  });
+
+  // T4-05 回归：Select 浮层 min-inline-size(200px) 比触发器宽，Kobalte 默认
+  // placement='bottom' 居中会让它按触发器宽度算中心、左溢出约 59px（左侧留白、
+  // 不与 Select 对齐）。primitive 改 placement='bottom-start' 后应左边缘对齐。
+  test('Select 浮层左边缘与触发器对齐（T4-05）', async ({ page }) => {
+    await page.goto('/components/select/basic?standalone=1');
+    const trigger = page.locator('[data-scui-primitive="select-trigger"]').first();
+    await trigger.click();
+    const content = page.locator('[data-scui-primitive="select-content"]').first();
+    await expect(content).toBeVisible();
+    const triggerBox = await trigger.boundingBox();
+    const contentBox = await content.boundingBox();
+    expect(triggerBox).not.toBeNull();
+    expect(contentBox).not.toBeNull();
+    expect(Math.abs(contentBox!.x - triggerBox!.x)).toBeLessThan(2);
+  });
+
   // T2-13：按「组件 × Demo」逐页扫，窄屏溢出往往是某个 Demo 单独引入的
   //（例如多列栅格 / 双输入控件），只扫 basic 会整片漏掉。
   //

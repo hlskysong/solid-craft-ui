@@ -206,7 +206,7 @@ test.describe('T1-06 文档站：API 表 / 搜索 / 全局设置', () => {
     await page.getByTestId('setting-density').selectOption('compact');
     await page.getByTestId('setting-direction').selectOption('rtl');
     const attributes = await page.evaluate(() => ({
-      theme: document.documentElement.getAttribute('data-scui-theme'),
+      theme: document.documentElement.getAttribute('data-theme'),
       density: document.documentElement.getAttribute('data-scui-density'),
       direction: document.documentElement.getAttribute('data-scui-direction'),
     }));

@@ -45,7 +45,7 @@ try {
 }
 
 const requiredSnippets = [
-  'data-scui-theme="light"',
+  'data-theme="light"',
   'data-scui-density="default"',
   'data-scui-direction="ltr"',
   'data-scui-color="primary"',

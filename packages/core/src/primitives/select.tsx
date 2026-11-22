@@ -50,6 +50,11 @@ export function PrimitiveSelect(props: PrimitiveSelectProps): JSX.Element {
       <KobalteSelect<PrimitiveOption>
         options={[...options()]}
         value={selected()}
+        /* T4-05：Kobalte 默认 placement='bottom' 居中，而浮层 CSS 有 min-inline-size:200px，
+           触发器常窄于此（如 82px）——按 82px 锚点居中会让 200px 浮层左溢出约 59px，
+           表现为「左侧留白多、不与 Select 左对齐」。改 bottom-start 让浮层左边缘对齐
+           触发器左边缘（Ant Design 惯例），sameWidth 仍保证窄触发器也能点到整行。 */
+        placement="bottom-start"
         open={open()}
         onOpenChange={(next) => {
           setOpen(next);

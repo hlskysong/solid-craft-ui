@@ -8,6 +8,8 @@ import { compile } from 'sass';
 /**
  * CSS 构建：tokens.css + base.scss → base.css；逐组件 SCSS → components/*.css；
  * 拼接 → index.css；reset.scss → reset.css。CSS 不进 JS，由消费方显式引入。
+ * T4-07（Aming 裁决）：reset 自动注入主入口 index.css（styles.css），
+ * 独立 reset.css 仍保留以兼容已有引用；两条路径同源，均出自 reset.scss。
  */
 const repoRoot = resolve(import.meta.dirname, '..');
 const coreDir = join(repoRoot, 'packages', 'core');
@@ -59,7 +61,8 @@ if (existsSync(componentsDir)) {
   }
 }
 
-await emit('index.css', [tokensCss, baseCss, ...componentCss].join('\n'));
+// reset 放最前：零特异性的归一化先落盘，tokens/base/组件样式依序覆盖。
+await emit('index.css', [resetCss, tokensCss, baseCss, ...componentCss].join('\n'));
 console.log(
   `[build-css] base.css / reset.css / index.css + ${componentCss.length} component stylesheets`,
 );

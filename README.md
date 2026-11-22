@@ -79,13 +79,15 @@ render(
 | `solid-craft/layout` | `Layout`, `Header`, `Sider`, `Content`, `Footer` |
 | `solid-craft/grid` | `Row`, `Col` |
 | `solid-craft/config-provider` | `ConfigProvider`, `useConfig`, `ConfigProviderContext` |
-| `solid-craft/styles.css` | 汇总样式；也可用 `solid-craft/styles/*` 按需引入 |
+| `solid-craft/styles.css` | 汇总样式（含自动注入的 reset）；也可用 `solid-craft/styles/*` 按需引入 |
 
 组件范围仍在扩展，当前已导出 32 个组件子路径（完整清单见 `solid-craft/package.json` 的 `exports`）；规划与验收口径见 `docs/04-组件范围.md`。
 
 ## 样式与主题
 
 - 组件根节点使用 `scui-*` 类名，变量为 `--scui-*`；变体与状态走 `data-*`，不用运行时 CSS-in-JS。
+- `styles.css` 已包含 reset（box-sizing / 默认 margin / 表单控件与 button 归一化，全部 `:where()` 零特异性），
+  无需再单独引入 `styles/reset.css`；宿主自有 reset 后加载即可覆盖。
 - `ConfigProvider` 提供 `theme` / `density` / `direction`；品牌定制覆盖对应 CSS 变量即可。
 - 主包 `sideEffects` 只声明 CSS，按需引入样式不会把整个 JS 入口带进 bundle。
 

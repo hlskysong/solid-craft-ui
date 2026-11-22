@@ -92,7 +92,12 @@
 
 :where(.scui-select__content) {
   box-sizing: border-box;
-  z-index: 1000;
+
+  /* T4-05 修复：Select 浮层经 Portal 挂到 body，与 Modal 同处根层叠上下文。
+     原先写死 1000，恰好等于 Modal 遮罩（base+1000）且低于弹窗本体（base+1001），
+     导致 Modal 内打开 Select 时下拉被弹窗盖住。改用与 Tooltip / Popconfirm 相同的
+     base+1100 档，压在弹窗之上；zIndexBase 配置也随之生效。 */
+  z-index: calc(var(--scui-z-index-base, 0) + 1100);
   min-inline-size: 200px;
   max-block-size: 280px;
   overflow-y: auto;

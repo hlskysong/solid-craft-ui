@@ -118,10 +118,14 @@
 :where(.scui-table__head-cell) {
   border-block-end: 1px solid var(--scui-color-border-default);
 
-  /* 表头底色用 neutral-50（#f0f0f0）：T4-02 补齐 `--scui-color-bg-subtle` 之前，
-     这里引用的是不存在的变量（表头全白）；补齐后仍保留 neutral-50，因为表头
-     需要比「填充色」（#f5f5f5）深一档才分得清区块，改用它会让表头与白底糊在一起。 */
-  background: var(--scui-color-neutral-50);
+  /* 表头底色用 color-mix 现算（T4-05 修复暗色表头白底浅字）：原先写死
+     `--scui-color-neutral-50`（#f0f0f0），它在 tokens.css 的 :root 里定义、
+     theme-dark.css 没有重定义 —— 暗色下表头仍是 #f0f0f0，文字却是浅色
+     text-secondary，白底浅字对比度不足。改用 surface + 6% text-primary 现算：
+     亮色 = 白掺黑 ≈ #f0f0f0（仍比 bg-subtle 深一档，分区不糊）；
+     暗色 = #1f1f1f 掺白 ≈ #2b2b2b（比 surface 亮一档，浅字可读）。
+     与 Tag 14% / Spin 60% 同一手法，无需新增 token。 */
+  background: color-mix(in srgb, var(--scui-color-bg-surface) 94%, var(--scui-color-text-primary));
   color: var(--scui-color-text-secondary);
   font-weight: var(--scui-font-weight-medium);
 }

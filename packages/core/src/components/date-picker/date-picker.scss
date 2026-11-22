@@ -103,7 +103,9 @@
 :where(.scui-date-picker__popup) {
   box-sizing: border-box;
   position: absolute;
-  z-index: 1000;
+
+  /* T4-05：与 Select / Tooltip / Popconfirm 统一走 zIndexBase 体系 */
+  z-index: calc(var(--scui-z-index-base, 0) + 1100);
   inset-block-start: calc(100% + 4px);
   inset-inline-start: 0;
   inline-size: 248px;
