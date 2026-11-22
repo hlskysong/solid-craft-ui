@@ -1,4 +1,5 @@
 @use 'mixins' as m;
+@use 'motion' as motion;
 
 /* App / Message / Notification（T2-06）
    App 根节点用 display: contents 保持子树布局不变；容器是 position: fixed 的
@@ -71,6 +72,12 @@
   box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
   color: var(--scui-color-text-primary);
   pointer-events: auto;
+
+  /* T4-09：通知入场用 translate + opacity；居中定位 transform 在父级 viewport 上，
+     通知本体无定位 transform，独立 translate 不冲突。 */
+  animation: scui-rise-in var(--scui-motion-duration-base) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 }
 
 :where(.scui-app-notice__icon) {

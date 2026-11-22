@@ -1,4 +1,5 @@
 @use 'mixins' as m;
+@use 'motion' as motion;
 
 /* Tooltip（T3-09）
    定位 / 翻转 / 箭头旋转由 Kobalte + Floating UI 负责，这里只负责视觉。
@@ -39,6 +40,12 @@
   font-size: var(--scui-font-size-sm, 12px);
   line-height: var(--scui-line-height-sm, 20px);
   text-wrap: pretty;
+
+  /* T4-09：气泡浮层入场用 scale + opacity；transform-origin 由下方 data-scui-anchor
+     决定展开方向（独立 scale 属性同样遵循 transform-origin，且不碰定位 transform）。 */
+  animation: scui-pop-in var(--scui-motion-duration-fast) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 
   &[data-scui-anchor^='top'] {
     transform-origin: bottom center;

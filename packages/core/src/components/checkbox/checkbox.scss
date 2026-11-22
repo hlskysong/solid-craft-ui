@@ -1,9 +1,10 @@
-@use 'mixins' as m;
+@use 'motion' as motion;
 
 /* Checkbox / CheckboxGroup（T2-05）
    原生 input 只留 1px 可聚焦区，视觉由 __indicator 承担；状态一律 [data-scui-*]，
    类名只有块与元素两级（无 modifier）。三件套共用「壳 + 控件 + 指示器 + 文案」结构，
-   因此这里的尺寸 / 禁用 / 焦点 / 校验口径与 radio.scss / switch.scss 保持一致。 */
+   因此这里的尺寸 / 禁用 / 校验口径与 radio.scss / switch.scss 保持一致。
+   T4-09（Aming 裁决）：移除 :focus-within 焦点环，点击/选中不再出现蓝框。 */
 
 :where(.scui-checkbox) {
   --scui-checkbox-current-size: 16px;
@@ -14,10 +15,6 @@
   gap: var(--scui-space-2, 8px);
   color: var(--scui-color-text-primary);
   cursor: pointer;
-
-  &:focus-within {
-    @include m.scui-focus-ring;
-  }
 
   &[data-scui-invalid='true'] .scui-checkbox__indicator {
     border-color: var(--scui-color-danger);
@@ -59,8 +56,9 @@
   background: var(--scui-color-bg-surface);
   color: transparent;
   transition:
-    background-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease),
-    border-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+    background-color var(--scui-motion-duration-base) var(--scui-motion-ease),
+    border-color var(--scui-motion-duration-base) var(--scui-motion-ease),
+    color var(--scui-motion-duration-base) var(--scui-motion-ease);
 }
 
 :where(.scui-checkbox)[data-scui-checked='true'] .scui-checkbox__indicator,
@@ -68,6 +66,11 @@
   border-color: var(--scui-color-primary);
   background: var(--scui-color-primary);
   color: var(--scui-color-bg-surface);
+
+  /* T4-09：选中/半选瞬间的轻微心跳，结束态 scale=1 与静态一致。 */
+  animation: scui-select-pop var(--scui-motion-duration-slow) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 }
 
 :where(.scui-checkbox)[data-scui-disabled] .scui-checkbox__indicator {

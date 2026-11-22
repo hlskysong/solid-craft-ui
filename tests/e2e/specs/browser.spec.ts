@@ -9,6 +9,43 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     expect(ids.split(',').filter(Boolean)).toEqual([...DEMO_IDS]);
   });
 
+  // T4-09（Aming 裁决「完全删除焦点环 + 交互类补动画」）。
+  // 自动化浏览器全局禁 transition/animation，所以这里不测动画计算值，只测两件可靠的事：
+  // ① 选择三件套的 root 点击/聚焦后 outline-style 必须是 none（focus ring 已删），
+  //    且仍带 data-scui-checked 状态（视觉反馈没丢）；
+  // ② 交互组件的关键帧规则确实进了 CSSOM（浮层 / 选择心跳），防止构建把动画摇掉。
+  test('T4-09 选择控件无点击焦点环 + 交互动画关键帧在册', async ({ page }) => {
+    for (const slug of ['switch', 'radio', 'checkbox'] as const) {
+      await page.goto(demoPath(slug));
+      await expect(page.getByTestId('demo-root')).toBeVisible();
+      const shell = page.locator(`.scui-${slug}`).first();
+      await shell.click();
+      const outline = await shell.evaluate((el) => getComputedStyle(el).outlineStyle);
+      expect(outline, `${slug} 点击后不应出现 focus ring`).toBe('none');
+      await expect(shell).toHaveAttribute('data-scui-checked');
+    }
+
+    await page.goto(demoPath('modal'));
+    const keyframes = await page.evaluate(() => {
+      const names = new Set<string>();
+      for (const sheet of document.styleSheets) {
+        let rules: CSSRuleList;
+        try {
+          rules = sheet.cssRules;
+        } catch {
+          continue;
+        }
+        for (const rule of rules) {
+          if (rule instanceof CSSKeyframesRule) names.add(rule.name);
+        }
+      }
+      return [...names];
+    });
+    for (const name of ['scui-fade-in', 'scui-pop-in', 'scui-rise-in', 'scui-select-pop']) {
+      expect(keyframes, `缺少关键帧 ${name}`).toContain(name);
+    }
+  });
+
   test('Button 点击链：计数更新，禁用 / 加载态不可点击', async ({ page }) => {
     await page.goto(demoPath('button'));
     const count = page.getByTestId('click-count');

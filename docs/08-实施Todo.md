@@ -11,7 +11,7 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-08（已闭合，§30.57）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 当前任务 ID | **T4-09（已闭合，§30.59；交互类补动画 + 选择控件移除点击焦点环）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
 | 下一步 | **M4 只剩 T4-05 `0.1.0` 发布（发布与合并 `main` 均须硬约束 13 逐次授权）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
@@ -176,6 +176,7 @@
 | T4-06 | **试点应用接入 + 组件库四项缺口修复**：admin 模板（Vite 版，Ant Design Pro 风）+ 主题属性统一 `data-theme` / 表头 color-mix / 三浮层 z-index / Select 浮层左对齐 | T4-04 | 技术负责人 | 试点页面两页（工作台 + 采购计划 CRUD）浏览器实测通过；四项修复各带实证；新增 2 条 E2E 防复发断言；`pnpm verify` RC=0；仓外 `admin-framework/vite/` 纯前端（见 §30.55） | [x] |
 | T4-07 | **reset 自动注入 `styles.css`**：补齐归一化规则并入主入口，消除「库有 reset.css 但全员漏引」的静默失效 | T4-06 | 技术负责人 | Aming 裁决「自动注入 styles.css」（2026-11-20）；reset 补 box-sizing / margin / font inherit / button 重置（全 `:where()` 零特异性）并拼入 `index.css` 最前，独立 `reset.css` 保留兼容；admin 模板删手写 reset；`check:styles` 产物层新增判据 + 负向实证；契约变更同步 `docs/01~05` / README / llms（见 §30.56） | [x] |
 | T4-08 | **全局 density 链路修复 + admin 模板 click-to-component**：`ConfigProvider density` 写入根节点后组件零消费，表格密度切换假生效 | T4-07 | 技术负责人 | Aming 截图实测「密度紧凑/标准未生效」→ 裁决库级彻底修（2026-11-22）；Table 用 `useContext(ConfigProviderContext)` + `mergeProps` 作 density 兜底（props 显式优先，无 Provider 独立用不抛错）；单测 41/41（4 条新增）+ docs E2E 真样式断言（padding 12→8px）+ 负向实证 1/1 + SHA256 还原一致；admin 模板接入 `solid-devtools` locator（Alt+点击跳源码，需浏览器扩展）；仓外模板不随库提交（见 §30.57） | [x] |
+| T4-09 | **交互类补动画 + 选择控件移除点击焦点环**：全库 34 组件仅 9 个有动画，Switch 切换生硬；Switch/Radio/Checkbox 的 `:focus-within` ring 点击即显示蓝框 | T4-08 | 技术负责人 | Aming 实测截图裁决「布局类不动、交互类补动画」+「焦点环完全删除」（2026-11-22）；新增共享 `styles/motion.scss`（8 组关键帧 + reduced-motion mixin），三件套切换改 base/slow 时长 + 回弹曲线 + 选中心跳，浮层（Modal/Drawer/Select/Tooltip/Popconfirm/Message）加进场动画（只用 `opacity`/`scale`/`translate`，绝不碰 Kobalte 定位 `transform`）；选择三件套删 `:focus-within` ring，其余 `:focus-visible`（键盘焦点）保留不动（受硬约束 11 与 2 处 E2E 保护）；E2E 1 条（焦点环 none + 关键帧在册）+ 负向注入实证；`pnpm verify` RC=0，216 张基线 0 漂移（Playwright 全局禁动画，见 §30.59） | [x] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
@@ -6483,3 +6484,51 @@ state memo 内 `options.density ?? globalConfig?.density() ?? 'default'` 做归�
 「属性写到根节点」≠「组件响应」。全局上下文（theme / density / direction / z-index）都必须有
 对应的组件消费点，否则切换器只是改了个没人看的 DOM 属性。验收要测**计算样式**（padding/颜色），
 不能只测属性字符串 —— 后者在 T4-07 reset 与本次 density 两次都差点假绿。
+
+---
+
+### 30.59 T4-09 交互类补动画 + 选择控件移除点击焦点环结果（2026-11-22）
+
+> T4-09 由 Aming 实测组件库截图后裁决立项：「现在组件库全部都没有动画，Switch 切换很生硬」，
+> 并圈出 Switch「带文案」Demo 中点击后出现的蓝色边框要求「选中的边框显示也取消」。
+> 当场两项裁决：**① 布局类组件不需要动画，交互类组件考虑补动画；② 焦点边框完全删除。**
+
+#### 一、根因与裁决边界（先实测，不靠猜）
+
+| 观察 | 实测结论 |
+| --- | --- |
+| 「组件库全部没动画」 | 不全对：34 组件里 **9 个**已有动画（Button / Input / Switch / Radio / Checkbox / Icon / Skeleton / Spin / Layout），Modal / Drawer / Select / Tooltip / Popconfirm / Tabs / Message 等浮层类**完全没有** |
+| Switch 切换生硬 | 属实：thumb 位移 + track 变色**有** transition，但时长 `fast 120ms` 太短，视觉上就是瞬间跳变 |
+| 截图蓝框是什么 | 实测浏览器计算样式：点击后 `.scui-switch` 的 `outline` 由 `none` 变 `rgb(45,102,245) solid 2px`，且 `matches(':focus-within')=true`、`matches(':focus-visible')=false` —— 蓝框来自 **`:focus-within`**（鼠标点击即触发），**不是**选中态样式 |
+| 全库焦点环分两派 | **只有 Switch / Radio / Checkbox 3 个用 `:focus-within`**（点击就显示蓝框，正是截图现象）；其余 20+ 组件全用 `:focus-visible`（鼠标点击不显示，仅键盘 Tab 显示） |
+
+关键边界：`:focus-visible` 那批**受 AGENTS.md 硬约束 11 + `browser.spec.ts` 两处断言（Button 焦点环 `solid 2px rgb(45,102,245)`、Tabs outline 非 none）保护**，且用户鼠标操作根本看不到，故**保留不动**。「完全删除」精确落地为「删除用户实际看到的 `:focus-within` 点击蓝框（3 个选择控件）」，而不是无差别删掉全部键盘焦点可见性 —— 后者会破坏可访问性门禁，属超范围改坏。
+
+#### 二、修复
+
+1. **焦点环删除**（`switch.scss` / `radio.scss` / `checkbox.scss`）：删除 `&:focus-within { @include m.scui-focus-ring }` 整块，连带移除不再使用的 `@use 'mixins'`。编译产物三个组件的 `:focus-within` 规则数均为 **0**；选中态 `data-scui-checked` / 颜色 / 图标反馈全部保留。
+2. **共享动效模块**（新增 `styles/motion.scss`）：8 组关键帧（`scui-fade-in` / `scui-pop-in` / `scui-rise-in` / `scui-select-pop` / `scui-slide-{x,y}-{start,end}`）+ `scui-motion-reduce` mixin（内建 `prefers-reduced-motion: reduce → animation: none`）。**两条硬规则**：① 只动 `opacity` 与独立的 `scale` / `translate` 属性，**绝不写 `transform`** —— 浮层由 Kobalte + Floating UI 用 inline `transform: translate(x,y)` 定位，CSS `transform` 会盖掉它导致浮层飞走；② 元素静态样式即动画终态，Playwright 全局 `animations:'disabled'` + `reducedMotion:'reduce'` 截到终态。
+3. **选择三件套切换动画**：Switch thumb 位移从 `fast 120ms` 改 `slow 200ms` + 回弹曲线 `cubic-bezier(0.34,1.12,0.64,1)`（幅度压到 1.12，符合 docs 03 §6「克制」）；track 背景改 base 150ms；Radio / Checkbox 指示器改 base 时长 + 选中瞬间 `scui-select-pop` 心跳（1→1.12→1，结束态与静态一致，无需 forwards），dot / 勾的显隐也纳入过渡；三者均加 reduced-motion 降级。
+4. **浮层进场动画**：Modal / Drawer 遮罩 `fade-in`、弹窗 `rise-in`、抽屉按 `data-scui-side` 四方向 `slide`（用 `animation-name` 切换）；Select / Tooltip / Popconfirm 浮层 `pop-in`（方向由既有 `transform-origin` 决定，独立 `scale` 同样遵循）；Message（`app-notice`）`rise-in`（居中定位 transform 在父级 viewport 上，本体无冲突）。全部内建 reduced-motion 降级。
+5. **布局类不动**：Layout / Grid / Space / Divider 遵守裁决与 docs 03 §6「表格排序、筛选、分页不做大幅动画」，不加动画。
+
+#### 三、实证链
+
+| 项 | 结果 |
+| --- | --- |
+| 产物层 | 三件套 `:focus-within` 规则数 = 0；11 组关键帧全部输出进 `index.css`；`scui-select-pop` 在 radio / checkbox.css；6 个浮层组件动画规则命中 |
+| E2E | `browser.spec.ts` 新增 T4-09 用例 1 passed：3 个选择控件点击后 `outlineStyle='none'` 且仍带 `data-scui-checked`；CSSOM 读到 4 组关键帧在册 |
+| 负向实证 | 浏览器注入 `.scui-switch:focus-within{outline:2px solid #2d66f5}` → outline 由 `none` 变 `solid`，移除后恢复 `none`，证明断言钉的是真链路 |
+| 门禁 | `pnpm build` / `check:styles`（17 @use mixins / 244 选择器全命中）/ `check:ci`（26 阶段 / 变量有源 125 定义·133 引用·0 无源 · Table 15.40 kB）/ `test` / `typecheck` / `lint` / `check:todo` 全 RC=0 |
+| 视觉基线 | 216 张 0 漂移 —— Playwright 全局禁动画 + 静态样式即终态，动画不会改截图（非「改动没生效」） |
+
+#### 四、允许写入路径与全链验收
+
+- 允许写入：`packages/core/src/styles/motion.scss`（新增）、`packages/core/src/components/{switch,radio,checkbox,modal,drawer,select,tooltip,popconfirm,app}/*.scss`、`tests/e2e/specs/browser.spec.ts`、`docs/08-实施Todo.md`（本节 / §4.2 / 顶部锚点）、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（受保护文件基线重校准）。
+- 禁止写入：`docs/01~07`（冻结）、Token（本轮零改动）、仓外 admin 模板（本轮不涉）。
+- 全链验收：`pnpm verify` **RC=0**（26 阶段全绿），机器证据见上方实证链各门禁输出。
+
+#### 五、影响文件
+
+`packages/core/src/styles/motion.scss`（新增）、9 个组件 SCSS、`tests/e2e/specs/browser.spec.ts`、
+`docs/08-实施Todo.md`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`。

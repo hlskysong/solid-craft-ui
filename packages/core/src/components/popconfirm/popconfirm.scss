@@ -1,4 +1,5 @@
 @use 'mixins' as m;
+@use 'motion' as motion;
 @use '../button/button';
 
 /* Popconfirm（T3-09）
@@ -45,6 +46,11 @@
   color: var(--scui-color-text-primary);
   font-size: var(--scui-font-size-md, 14px);
   line-height: var(--scui-line-height-md, 22px);
+
+  /* T4-09：确认气泡入场用 scale + opacity，方向由 transform-origin 决定。 */
+  animation: scui-pop-in var(--scui-motion-duration-fast) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 
   &[data-scui-anchor^='top'] {
     transform-origin: bottom center;

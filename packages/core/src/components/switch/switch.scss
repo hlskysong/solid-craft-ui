@@ -1,8 +1,7 @@
-@use 'mixins' as m;
-
 /* Switch（T2-05）
    role="switch" 的原生 checkbox，指示器是「轨道 + 滑块」。
-   滑块位移只认 [data-scui-checked='true']，不给 input 挂 modifier class。 */
+   滑块位移只认 [data-scui-checked='true']，不给 input 挂 modifier class。
+   T4-09（Aming 裁决）：移除 :focus-within 焦点环，点击/选中不再出现蓝框。 */
 
 :where(.scui-switch) {
   --scui-switch-current-width: 36px;
@@ -15,10 +14,6 @@
   gap: var(--scui-space-2, 8px);
   color: var(--scui-color-text-primary);
   cursor: pointer;
-
-  &:focus-within {
-    @include m.scui-focus-ring;
-  }
 
   &[data-scui-invalid='true'] .scui-switch__track {
     border-color: var(--scui-color-danger);
@@ -62,7 +57,7 @@
   border: 1px solid transparent;
   border-radius: 999px;
   background: var(--scui-color-border-strong);
-  transition: background-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+  transition: background-color var(--scui-motion-duration-base) var(--scui-motion-ease);
 }
 
 :where(.scui-switch__thumb) {
@@ -70,7 +65,17 @@
   block-size: var(--scui-switch-current-thumb);
   border-radius: 50%;
   background: var(--scui-color-bg-surface);
-  transition: transform var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+
+  /* T4-09：滑块位移用 base 档 + 轻微回弹曲线，消除 120ms 线性位移的「跳变」生硬感。
+     docs/03 §6 动效只表达状态变化；位移是二态间唯一的运动，回弹幅度刻意压到 1.12。 */
+  transition: transform var(--scui-motion-duration-slow) cubic-bezier(0.34, 1.12, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.scui-switch__track),
+  :where(.scui-switch__thumb) {
+    transition: none;
+  }
 }
 
 :where(.scui-switch)[data-scui-checked='true'] .scui-switch__track {

@@ -1,8 +1,9 @@
-@use 'mixins' as m;
+@use 'motion' as motion;
 
 /* Radio / RadioGroup（T2-05）
    与 checkbox.scss 同构：原生 input 保留可聚焦，指示器是圆形边框 + 内点。
-   方向键互斥由浏览器原生承担，样式不参与状态判断。 */
+   方向键互斥由浏览器原生承担，样式不参与状态判断。
+   T4-09（Aming 裁决）：移除 :focus-within 焦点环，点击/选中不再出现蓝框。 */
 
 :where(.scui-radio) {
   --scui-radio-current-size: 16px;
@@ -13,10 +14,6 @@
   gap: var(--scui-space-2, 8px);
   color: var(--scui-color-text-primary);
   cursor: pointer;
-
-  &:focus-within {
-    @include m.scui-focus-ring;
-  }
 
   &[data-scui-invalid='true'] .scui-radio__indicator {
     border-color: var(--scui-color-danger);
@@ -57,8 +54,8 @@
   border-radius: 50%;
   background: var(--scui-color-bg-surface);
   transition:
-    background-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease),
-    border-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
+    background-color var(--scui-motion-duration-base) var(--scui-motion-ease),
+    border-color var(--scui-motion-duration-base) var(--scui-motion-ease);
 }
 
 :where(.scui-radio__dot) {
@@ -66,11 +63,17 @@
   block-size: 50%;
   border-radius: 50%;
   background: transparent;
+  transition: background-color var(--scui-motion-duration-base) var(--scui-motion-ease);
 }
 
 :where(.scui-radio)[data-scui-checked='true'] .scui-radio__indicator {
   border-color: var(--scui-color-primary);
   background: var(--scui-color-primary);
+
+  /* T4-09：选中瞬间的轻微心跳，结束态 scale=1 与静态一致。 */
+  animation: scui-select-pop var(--scui-motion-duration-slow) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 }
 
 :where(.scui-radio)[data-scui-checked='true'] .scui-radio__dot {

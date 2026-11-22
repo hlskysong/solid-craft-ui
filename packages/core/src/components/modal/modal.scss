@@ -1,4 +1,5 @@
 @use 'mixins' as m;
+@use 'motion' as motion;
 @use '../button/button';
 
 /* Modal（T3-07）
@@ -21,6 +22,11 @@
   /* 遮罩恒为半透明黑：深浅主题都需要把背景压暗，不随主题反转成灰白
      （Spin 的遮罩曾因写死白色半透明在深色主题下把内容糊成一片）。 */
   background-color: rgb(0 0 0 / 45%);
+
+  /* T4-09：遮罩淡入。只动 opacity，不碰 transform。 */
+  animation: scui-fade-in var(--scui-motion-duration-base) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 }
 
 :where(.scui-modal) {
@@ -48,6 +54,11 @@
   font: inherit;
   font-size: var(--scui-font-size-md);
   line-height: var(--scui-line-height-md);
+
+  /* T4-09：弹窗入场用 translate + opacity（不用 transform，避免覆盖 Portal 定位）。 */
+  animation: scui-rise-in var(--scui-motion-duration-slow) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 
   &[data-scui-size='small'] {
     --scui-modal-width: 400px;

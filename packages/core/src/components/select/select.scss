@@ -1,4 +1,5 @@
 @use 'mixins' as m;
+@use 'motion' as motion;
 
 /* Select（T2-07）
    触发器 / 清除按钮在组件根节点内，可直接继承 root 的 --scui-select-* 变量；
@@ -108,6 +109,11 @@
   box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
   color: var(--scui-color-text-primary);
   font: inherit;
+
+  /* T4-09：下拉浮层入场用 scale + opacity（不碰 transform，Kobalte 靠它定位）。 */
+  animation: scui-pop-in var(--scui-motion-duration-fast) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 }
 
 :where(.scui-select__search) {

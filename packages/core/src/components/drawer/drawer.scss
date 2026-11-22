@@ -1,4 +1,5 @@
 @use 'mixins' as m;
+@use 'motion' as motion;
 @use '../button/button';
 
 /* Drawer（T3-08）
@@ -23,6 +24,11 @@
 
   /* 遮罩恒为半透明黑：深浅主题都要把背景压暗，不随主题反转成灰白。 */
   background-color: rgb(0 0 0 / 45%);
+
+  /* T4-09：遮罩淡入。只动 opacity，不碰 transform。 */
+  animation: scui-fade-in var(--scui-motion-duration-base) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
 }
 
 :where(.scui-drawer) {
@@ -45,7 +51,13 @@
   font-size: var(--scui-font-size-md);
   line-height: var(--scui-line-height-md);
 
+  /* T4-09：抽屉按方向滑入，用独立 translate 属性，不碰 transform（Portal 定位）。 */
+  animation: scui-slide-x-end var(--scui-motion-duration-slow) var(--scui-motion-ease);
+
+  @include motion.scui-motion-reduce;
+
   &[data-scui-side='left'] {
+    animation-name: scui-slide-x-start;
     inset-inline-end: auto;
     inline-size: var(--scui-drawer-size);
     max-inline-size: 100vw;
@@ -53,6 +65,7 @@
   }
 
   &[data-scui-side='right'] {
+    animation-name: scui-slide-x-end;
     inset-inline-start: auto;
     inline-size: var(--scui-drawer-size);
     max-inline-size: 100vw;
@@ -60,6 +73,7 @@
   }
 
   &[data-scui-side='top'] {
+    animation-name: scui-slide-y-start;
     inset-block-end: auto;
     block-size: var(--scui-drawer-size);
     max-block-size: 100vh;
@@ -67,6 +81,7 @@
   }
 
   &[data-scui-side='bottom'] {
+    animation-name: scui-slide-y-end;
     inset-block-start: auto;
     block-size: var(--scui-drawer-size);
     max-block-size: 100vh;

@@ -1,0 +1,109 @@
+/* Shared entrance motion（T4-09）。
+   口径见 docs/03 §6：动效只表达状态变化、克制、尊重 prefers-reduced-motion。
+
+   两条硬规则：
+   1. 只动 `opacity` 与独立的 `scale` / `translate` 属性，**绝不写 `transform`** ——
+      浮层由 Kobalte + Floating UI 用 inline `transform: translate(x, y)` 定位，
+      任何 CSS `transform` 都会盖掉定位值，让浮层飞到视口左上角。
+   2. 元素的静态样式就是动画终态；每个 mixin 内建 `prefers-reduced-motion: reduce`
+      降级为 `animation: none`。于是 Playwright（全局 reducedMotion=reduce +
+      animations=disabled）截到的是终态，视觉基线零漂移，无障碍也成立。
+
+   Sass 的 @use 会把本文件的 @keyframes 输出到每个引用它的组件 CSS 顶部（同一
+   编译单元只输出一次），所以「只引单个组件 CSS」的消费方同样拿得到关键帧。 */
+
+@mixin scui-motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* 选择控件（Radio/Checkbox）选中瞬间的轻微心跳：1 → 1.12 → 1，表达「已选中」。
+   结束态 scale=1 与静态样式一致，无需 forwards；reduced-motion 下降级为 none。 */
+@keyframes scui-select-pop {
+  0% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.12;
+  }
+
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes scui-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scui-pop-in {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes scui-rise-in {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes scui-slide-x-start {
+  from {
+    translate: -100% 0;
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes scui-slide-x-end {
+  from {
+    translate: 100% 0;
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes scui-slide-y-start {
+  from {
+    translate: 0 -100%;
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes scui-slide-y-end {
+  from {
+    translate: 0 100%;
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
