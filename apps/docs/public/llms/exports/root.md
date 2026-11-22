@@ -43,6 +43,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/form` → Form 表单：表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。
 - `solid-craft/date-picker` → DatePicker 日期选择：单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。
 - `solid-craft/range-picker` → RangePicker 日期范围：双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。
+- `solid-craft/time-picker` → TimePicker 时间选择：独立时间选择：时 / 分 / 秒列、12 / 24 小时制、min·max 与 disabledTime 禁用；值为 24 小时制 HH:mm，也可由 DatePicker showTime 复用同一面板。
 - `solid-craft/table` → Table 表格：数据表格：列配置、排序筛选、行选择、客户端 / 服务端分页与空 / 加载态；直接组合 Pagination / Empty / Spin，onChange 一次给出三参完整快照，SSR 输出完整静态骨架。
 - `solid-craft/pagination` → Pagination 分页：页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。
 - `solid-craft/empty` → Empty 空状态：插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。

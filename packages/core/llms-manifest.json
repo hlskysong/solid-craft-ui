@@ -3,7 +3,7 @@
   "package": "solid-craft",
   "index": "llms.txt",
   "full": "llms-full.txt",
-  "pageCount": 156,
+  "pageCount": 160,
   "packageDocs": [
     "llms.txt",
     "llms-full.txt",
@@ -93,6 +93,11 @@
     {
       "path": "llms/exports/range-picker.md",
       "title": "# RangePicker 日期范围（`solid-craft/range-picker`）",
+      "kind": "exports"
+    },
+    {
+      "path": "llms/exports/time-picker.md",
+      "title": "# TimePicker 时间选择（`solid-craft/time-picker`）",
       "kind": "exports"
     },
     {
@@ -516,6 +521,21 @@
       "kind": "demos"
     },
     {
+      "path": "llms/demos/time-picker-basic.md",
+      "title": "# TimePicker 时间选择 · 基础用法（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/time-picker-constraints.md",
+      "title": "# TimePicker 时间选择 · 可选范围（源码）",
+      "kind": "demos"
+    },
+    {
+      "path": "llms/demos/time-picker-format.md",
+      "title": "# TimePicker 时间选择 · 格式与显示（源码）",
+      "kind": "demos"
+    },
+    {
       "path": "llms/demos/table-basic.md",
       "title": "# Table 表格 · 基础用法（源码）",
       "kind": "demos"
@@ -808,6 +828,7 @@
     "./select": "llms/exports/select.md",
     "./date-picker": "llms/exports/date-picker.md",
     "./range-picker": "llms/exports/range-picker.md",
+    "./time-picker": "llms/exports/time-picker.md",
     "./form": "llms/exports/form.md",
     "./table": "llms/exports/table.md",
     "./pagination": "llms/exports/pagination.md",
@@ -847,6 +868,7 @@
     "llms/exports/select.md",
     "llms/exports/date-picker.md",
     "llms/exports/range-picker.md",
+    "llms/exports/time-picker.md",
     "llms/exports/form.md",
     "llms/exports/table.md",
     "llms/exports/pagination.md",
@@ -932,6 +954,9 @@
     "llms/demos/range-picker-basic.md",
     "llms/demos/range-picker-constraints.md",
     "llms/demos/range-picker-format.md",
+    "llms/demos/time-picker-basic.md",
+    "llms/demos/time-picker-constraints.md",
+    "llms/demos/time-picker-format.md",
     "llms/demos/table-basic.md",
     "llms/demos/table-borders.md",
     "llms/demos/table-crud-list.md",

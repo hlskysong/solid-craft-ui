@@ -1090,6 +1090,57 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
   });
 });
 
+test.describe('TimePicker 时间选择（T4-13）', () => {
+  test('时间列真实点击写值，确定收起且值仍是 24 小时制', async ({ page }) => {
+    await page.goto('/components/time-picker/basic?standalone=1');
+    const group = page
+      .locator('[data-scui-role="time-picker"]')
+      .filter({ has: page.getByRole('combobox', { name: '会议时间（受控）' }) });
+    const input = group.getByRole('combobox');
+    await expect(input).toHaveValue('09:30');
+
+    await input.click();
+    const panel = page.getByRole('dialog', { name: '选择时间' });
+    await expect(panel).toBeVisible();
+    await panel.locator('[data-scui-time-unit="minute"] [data-scui-index="45"]').click();
+    await expect(input).toHaveValue('09:45');
+    await expect(panel).toBeVisible();
+
+    await panel.getByRole('button', { name: '确定' }).click();
+    await expect(panel).toHaveCount(0);
+  });
+
+  test('12 小时制多一列时段，显示上午/下午而值不变', async ({ page }) => {
+    await page.goto('/components/time-picker/format?standalone=1');
+    const input = page.getByRole('combobox', { name: '12 小时制', exact: true });
+    await expect(input).toHaveValue('下午 02:05');
+
+    await input.click();
+    const panel = page.getByRole('dialog', { name: '选择时间' });
+    await expect(panel.locator('[data-scui-time-unit="meridiem"]')).toBeVisible();
+    await expect(panel.locator('[data-scui-time-unit="hour"]')).toBeVisible();
+    await expect(panel.locator('[data-scui-time-unit="second"]')).toHaveCount(0);
+  });
+
+  test('DatePicker showTime 选日期不收起，确定后落完整日期时间值', async ({ page }) => {
+    await page.goto('/components/date-picker/basic?standalone=1');
+    // showTime 用例不在 basic Demo，走 format Demo 的受控实例
+    await page.goto('/components/date-picker/format?standalone=1');
+    const input = page.getByRole('combobox', { name: '日期时间' }).first();
+    await expect(input).toBeVisible();
+
+    await input.click();
+    const popup = page.locator('[data-scui-role="calendar-popup"]');
+    await expect(popup).toBeVisible();
+    await expect(popup.locator('[data-scui-role="time-panel"]')).toBeVisible();
+
+    await popup.locator('button[data-scui-day="2026-03-20"]').click();
+    await expect(popup).toBeVisible();
+    await popup.locator('[data-scui-role="date-ok"]').click();
+    await expect(popup).toHaveCount(0);
+  });
+});
+
 test.describe('A11y 链：axe 扫描', () => {
   // T3-07：弹层是 Portal 到 body 的，普通 Demo 页面在关闭态扫不到它。
   // open-state Demo 首屏即打开，这条单独点名记录「弹层态 axe 0」这一验收项，

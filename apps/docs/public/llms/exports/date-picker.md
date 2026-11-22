@@ -44,6 +44,11 @@ import { /* 导出符号 */ } from 'solid-craft/date-picker';
 | `allowClear` | `boolean` | `false` | 是否显示清除按钮（有值时出现）。 | 否 |
 | `clearLabel` | `string` | `'清除'` | 清除按钮的无障碍文案。 | 否 |
 | `todayLabel` | `string` | `'今天'` | 「今天」按钮文案。 | 否 |
+| `showTime` | `boolean` | `false` | 是否在日历弹层内显示时间列（值变为 `YYYY-MM-DDTHH:mm`）。 | 否 |
+| `showSeconds` | `boolean` | `false` | `showTime` 时时间部分带秒。 | 否 |
+| `hour12` | `MaybeAccessor<boolean>` | `false` | `showTime` 时用 12 小时制显示时间（值仍是 24 小时制）。 | 否 |
+| `disabledTime` | `(time: TimeValue) => boolean` | `undefined` | `showTime` 时禁用指定时间。 | 否 |
+| `okLabel` | `string` | `'确定'` | `showTime` 时「确定」按钮文案。 | 否 |
 | `name` | `string` | `undefined` | 表单字段名（原生 `input` 的 `name`）。 | 否 |
 | `class` | `string` | `undefined` | 附加类名。 | 否 |
 
@@ -61,12 +66,15 @@ import { /* 导出符号 */ } from 'solid-craft/date-picker';
  * 不出现 `@internationalized/date` 包名（`check:exports` 第 6 条），换日期库不破坏消费方。
  *
  * 本轮范围按 `docs/08 §4.1` 的 T2-10 验收列：单选 + `min` / `max` / `disabledDate` +
- * `format` + 中文 locale + 键盘 + `editing` 状态机 + SSR 不取当前时间。
- * `showTime` / 时区 / 月年快选 / 快捷选项属 `docs/04 §5.4` 的 P1，RangePicker 单独排期（T2-11）。
+ * `format` + 中文 locale + 键盘 + `editing` 状态机 + SSR 不取当前时间；
+ * T4-13 起补 P1 的 `showTime`（复用 TimePicker 的时间面板），值为
+ * `YYYY-MM-DDTHH:mm`（`showSeconds` 时 `HH:mm:ss`），无 `showTime` 时仍是 `YYYY-MM-DD`。
+ * 时区 / 月年快选 / 快捷选项仍属后续范围。
  */
 import type { JSX } from 'solid-js';
 
 import type { MaybeAccessor } from '../../utils/resolve-value';
+import type { TimeValue } from '../time-picker/types';
 import type { DateValue, WeekStart } from './calendar';
 
 /** 尺寸口径与全局一致：只有 `small` / `medium` / `large`，不存在 `md` / `sm`。 */
@@ -173,6 +181,31 @@ export interface DatePickerProps extends Omit<
    */
   todayLabel?: string;
   /**
+   * 是否在日历弹层内显示时间列（值变为 `YYYY-MM-DDTHH:mm`）。
+   * @default false
+   */
+  showTime?: boolean;
+  /**
+   * `showTime` 时时间部分带秒。
+   * @default false
+   */
+  showSeconds?: boolean;
+  /**
+   * `showTime` 时用 12 小时制显示时间（值仍是 24 小时制）。
+   * @default false
+   */
+  hour12?: MaybeAccessor<boolean>;
+  /**
+   * `showTime` 时禁用指定时间。
+   * @default undefined
+   */
+  disabledTime?: (time: TimeValue) => boolean;
+  /**
+   * `showTime` 时「确定」按钮文案。
+   * @default '确定'
+   */
+  okLabel?: string;
+  /**
    * 输入框无障碍名称；被 `<Form.Item>` 包裹时由字段 label 接管。
    * @default '日期'
    */
@@ -194,7 +227,7 @@ export interface DatePickerProps extends Omit<
 
 - [基础用法](../demos/date-picker-basic.md)：非受控与受控两种取值方式、显示格式、清除与三档尺寸。（源文件 `packages/core/src/components/date-picker/demos/basic.tsx`）
 - [可选范围](../demos/date-picker-constraints.md)：min / max 闭区间、disabledDate 自定义禁用，以及错误与禁用态。（源文件 `packages/core/src/components/date-picker/demos/constraints.tsx`）
-- [格式与尺寸](../demos/date-picker-format.md)：format 的 token 子集、三档尺寸与清除按钮。（源文件 `packages/core/src/components/date-picker/demos/format.tsx`）
+- [格式与尺寸](../demos/date-picker-format.md)：format 的 token 子集、三档尺寸、清除按钮，以及 showTime 日期时间同选。（源文件 `packages/core/src/components/date-picker/demos/format.tsx`）
 
 ## 相关规范
 

@@ -1,6 +1,6 @@
 # solid-craft-ui · 完整文档（llms-full.txt）
 
-> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 156 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
+> 由 `pnpm generate:llms` 生成。版本 0.1.0，共 160 页；页面顺序与 /llms.txt 的 Docs + Optional 一致，逐页源文件见 HTML 注释。
 
 ---
 
@@ -12,7 +12,7 @@
 
 ## 概要
 
-SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 36 个 exports 子路径、31 个组件页、108 个 Demo。
+SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`，兄弟包 `solid-craft-icons` / `solid-craft-tokens`，CSS 前缀 `scui-`）。当前版本 `0.1.0`，公开包 `solid-craft` 共 37 个 exports 子路径、32 个组件页、111 个 Demo。
 
 ## 关键约定
 
@@ -63,6 +63,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Form 表单](llms/exports/form.md) | `solid-craft/form` | 表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。 |
 | [DatePicker 日期选择](llms/exports/date-picker.md) | `solid-craft/date-picker` | 单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。 |
 | [RangePicker 日期范围](llms/exports/range-picker.md) | `solid-craft/range-picker` | 双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。 |
+| [TimePicker 时间选择](llms/exports/time-picker.md) | `solid-craft/time-picker` | 独立时间选择：时 / 分 / 秒列、12 / 24 小时制、min·max 与 disabledTime 禁用；值为 24 小时制 HH:mm，也可由 DatePicker showTime 复用同一面板。 |
 | [Table 表格](llms/exports/table.md) | `solid-craft/table` | 数据表格：列配置、排序筛选、行选择、客户端 / 服务端分页与空 / 加载态；直接组合 Pagination / Empty / Spin，onChange 一次给出三参完整快照，SSR 输出完整静态骨架。 |
 | [Pagination 分页](llms/exports/pagination.md) | `solid-craft/pagination` | 页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。 |
 | [Empty 空状态](llms/exports/empty.md) | `solid-craft/empty` | 插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。 |
@@ -164,6 +165,7 @@ import { /* 导出符号 */ } from 'solid-craft';
 - `solid-craft/form` → Form 表单：表单引擎与字段壳：受控值、六类校验规则、三种布局、错误滚动与 label 三件套，SSR 输出完整静态骨架。
 - `solid-craft/date-picker` → DatePicker 日期选择：单选日期：min / max / disabledDate、自定义格式、中文 locale 与键盘导航；日期运算走 @internationalized/date，SSR 不取当前时间。
 - `solid-craft/range-picker` → RangePicker 日期范围：双输入框日期区间：选起点后悬停预览、反向点击自动归一化、键盘两段落点与焦点移交；同日 / 跨月 / 跨年边界与 min·max 约束共用一套日期内核。
+- `solid-craft/time-picker` → TimePicker 时间选择：独立时间选择：时 / 分 / 秒列、12 / 24 小时制、min·max 与 disabledTime 禁用；值为 24 小时制 HH:mm，也可由 DatePicker showTime 复用同一面板。
 - `solid-craft/table` → Table 表格：数据表格：列配置、排序筛选、行选择、客户端 / 服务端分页与空 / 加载态；直接组合 Pagination / Empty / Spin，onChange 一次给出三参完整快照，SSR 输出完整静态骨架。
 - `solid-craft/pagination` → Pagination 分页：页码、每页条数、快速跳转三段式；总页数变化时当前页自动收敛不越界，受控与非受控同口径，窄屏换行不横向溢出。
 - `solid-craft/empty` → Empty 空状态：插画 + 描述 + 可选操作区；内置插画随主题取 currentColor，image 传 null 可退化为纯文字空状态。
@@ -2873,6 +2875,11 @@ import { /* 导出符号 */ } from 'solid-craft/date-picker';
 | `allowClear` | `boolean` | `false` | 是否显示清除按钮（有值时出现）。 | 否 |
 | `clearLabel` | `string` | `'清除'` | 清除按钮的无障碍文案。 | 否 |
 | `todayLabel` | `string` | `'今天'` | 「今天」按钮文案。 | 否 |
+| `showTime` | `boolean` | `false` | 是否在日历弹层内显示时间列（值变为 `YYYY-MM-DDTHH:mm`）。 | 否 |
+| `showSeconds` | `boolean` | `false` | `showTime` 时时间部分带秒。 | 否 |
+| `hour12` | `MaybeAccessor<boolean>` | `false` | `showTime` 时用 12 小时制显示时间（值仍是 24 小时制）。 | 否 |
+| `disabledTime` | `(time: TimeValue) => boolean` | `undefined` | `showTime` 时禁用指定时间。 | 否 |
+| `okLabel` | `string` | `'确定'` | `showTime` 时「确定」按钮文案。 | 否 |
 | `name` | `string` | `undefined` | 表单字段名（原生 `input` 的 `name`）。 | 否 |
 | `class` | `string` | `undefined` | 附加类名。 | 否 |
 
@@ -2890,12 +2897,15 @@ import { /* 导出符号 */ } from 'solid-craft/date-picker';
  * 不出现 `@internationalized/date` 包名（`check:exports` 第 6 条），换日期库不破坏消费方。
  *
  * 本轮范围按 `docs/08 §4.1` 的 T2-10 验收列：单选 + `min` / `max` / `disabledDate` +
- * `format` + 中文 locale + 键盘 + `editing` 状态机 + SSR 不取当前时间。
- * `showTime` / 时区 / 月年快选 / 快捷选项属 `docs/04 §5.4` 的 P1，RangePicker 单独排期（T2-11）。
+ * `format` + 中文 locale + 键盘 + `editing` 状态机 + SSR 不取当前时间；
+ * T4-13 起补 P1 的 `showTime`（复用 TimePicker 的时间面板），值为
+ * `YYYY-MM-DDTHH:mm`（`showSeconds` 时 `HH:mm:ss`），无 `showTime` 时仍是 `YYYY-MM-DD`。
+ * 时区 / 月年快选 / 快捷选项仍属后续范围。
  */
 import type { JSX } from 'solid-js';
 
 import type { MaybeAccessor } from '../../utils/resolve-value';
+import type { TimeValue } from '../time-picker/types';
 import type { DateValue, WeekStart } from './calendar';
 
 /** 尺寸口径与全局一致：只有 `small` / `medium` / `large`，不存在 `md` / `sm`。 */
@@ -3002,6 +3012,31 @@ export interface DatePickerProps extends Omit<
    */
   todayLabel?: string;
   /**
+   * 是否在日历弹层内显示时间列（值变为 `YYYY-MM-DDTHH:mm`）。
+   * @default false
+   */
+  showTime?: boolean;
+  /**
+   * `showTime` 时时间部分带秒。
+   * @default false
+   */
+  showSeconds?: boolean;
+  /**
+   * `showTime` 时用 12 小时制显示时间（值仍是 24 小时制）。
+   * @default false
+   */
+  hour12?: MaybeAccessor<boolean>;
+  /**
+   * `showTime` 时禁用指定时间。
+   * @default undefined
+   */
+  disabledTime?: (time: TimeValue) => boolean;
+  /**
+   * `showTime` 时「确定」按钮文案。
+   * @default '确定'
+   */
+  okLabel?: string;
+  /**
    * 输入框无障碍名称；被 `<Form.Item>` 包裹时由字段 label 接管。
    * @default '日期'
    */
@@ -3023,7 +3058,7 @@ export interface DatePickerProps extends Omit<
 
 - [基础用法](llms/demos/date-picker-basic.md)：非受控与受控两种取值方式、显示格式、清除与三档尺寸。（源文件 `packages/core/src/components/date-picker/demos/basic.tsx`）
 - [可选范围](llms/demos/date-picker-constraints.md)：min / max 闭区间、disabledDate 自定义禁用，以及错误与禁用态。（源文件 `packages/core/src/components/date-picker/demos/constraints.tsx`）
-- [格式与尺寸](llms/demos/date-picker-format.md)：format 的 token 子集、三档尺寸与清除按钮。（源文件 `packages/core/src/components/date-picker/demos/format.tsx`）
+- [格式与尺寸](llms/demos/date-picker-format.md)：format 的 token 子集、三档尺寸、清除按钮，以及 showTime 日期时间同选。（源文件 `packages/core/src/components/date-picker/demos/format.tsx`）
 
 ## 相关规范
 
@@ -3287,6 +3322,269 @@ export interface RangePickerProps extends Omit<
 - [基础用法](llms/demos/range-picker-basic.md)：非受控与受控两种取值方式、显示格式、三档尺寸。选完起点后悬停任意日期即可预览区间，移出日历回到单点。（源文件 `packages/core/src/components/range-picker/demos/basic.tsx`）
 - [可选范围](llms/demos/range-picker-constraints.md)：min / max 闭区间、disabledDate 自定义禁用（两端共用同一约束）、同日选择，以及错误与禁用态。（源文件 `packages/core/src/components/range-picker/demos/constraints.tsx`）
 - [格式与尺寸](llms/demos/range-picker-format.md)：格式与分隔文案两端共用，三档尺寸与清除按钮。（源文件 `packages/core/src/components/range-picker/demos/format.tsx`）
+
+## 相关规范
+
+> 规范摘录：`docs/02-架构设计.md` → ### 6.1 命名与 Props
+
+
+```tsx
+export interface ButtonProps
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  variant?: 'solid' | 'outline' | 'dashed' | 'text' | 'link';
+  /** 语义色，默认 primary（v0.3 / Q16 已定） */
+  color?: 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  block?: boolean;
+  loading?: boolean;
+  icon?: JSX.Element;
+  iconPosition?: 'start' | 'end';
+  shape?: 'default' | 'round' | 'circle';
+  htmlType?: 'button' | 'submit' | 'reset';
+}
+```
+
+约定：
+
+- 尺寸统一 `small | medium | large`（24 / 32 / 40 px），与 TDesign/AntD 习惯一致。
+- 变体统一 `variant` + `color`；表单状态统一 `status: 'error' | 'warning' | 'success'`。
+- 继承原生属性；`class` / `style` 合并而不是覆盖。
+- `ref` 支持 `HTMLElement` 或回调；不额外发明 `forwardRef`。
+- 布尔 prop 用肯定语义：`disabled`、`loading`、`block`、`clearable`、`searchable`。
+- 不使用 `isXxx` 前缀；不使用 `onXxxChange` 之外的自定义事件名。
+
+---
+
+<!-- source: llms/exports/time-picker.md -->
+
+# TimePicker 时间选择（`solid-craft/time-picker`）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/package.json#exports` + `generated/api/*.json`（源自组件 `types.ts` JSDoc）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 概要
+
+独立时间选择：时 / 分 / 秒列、12 / 24 小时制、min·max 与 disabledTime 禁用；值为 24 小时制 HH:mm，也可由 DatePicker showTime 复用同一面板。
+
+## 条件导出
+
+| 条件 | 产物路径 | 说明 |
+| --- | --- | --- |
+| `types` | `./dist/types/components/time-picker/index.d.ts` | TypeScript 声明入口 |
+| `solid` | `./dist/source/components/time-picker/index.jsx` | 保留 JSX 的源码产物，供消费方按 SSR / CSR 目标重新编译 |
+| `import` | `./dist/esm/components/time-picker/index.js` | 编译后或静态产物 |
+| `default` | `./dist/esm/components/time-picker/index.js` | 编译后或静态产物 |
+
+## 引入方式
+
+```ts
+import { /* 导出符号 */ } from 'solid-craft/time-picker';
+```
+
+## API
+
+### TimeValue
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `hour` | `number` | — | 小时 0–23。 | 是 |
+| `minute` | `number` | — | 分钟 0–59。 | 是 |
+| `second` | `number` | — | 秒 0–59（无秒模式下恒为 0）。 | 是 |
+
+### TimeLimits
+
+继承：无
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `min` | `string` | — | 最小可选时间（含），`HH:mm`。 | 否 |
+| `max` | `string` | — | 最大可选时间（含），`HH:mm`。 | 否 |
+| `disabledTime` | `(time: TimeValue) => boolean` | — | 自定义禁用判定。 | 否 |
+
+### TimePickerProps
+
+继承：`Omit<   JSX.HTMLAttributes<HTMLDivElement>,   'onChange' \| 'onInput' >`
+
+| 属性 | 类型 | 默认值 | 说明 | 必填 |
+| --- | --- | --- | --- | --- |
+| `value` | `MaybeAccessor<string>` | `undefined` | 受控值（24 小时制 `HH:mm` / `HH:mm:ss`）；支持传值或 getter。 与 `defaultValue` 二选一，传了即为受控。 | 否 |
+| `defaultValue` | `MaybeAccessor<string>` | `undefined` | 非受控初始值；仅在挂载时读取一次。 | 否 |
+| `onChange` | `TimePickerChangeHandler` | `undefined` | 选中回调；参数是 24 小时制 ISO 字符串，清空时为 `''`。 | 否 |
+| `showSeconds` | `boolean` | `false` | 是否带秒（值格式 `HH:mm:ss`）。 | 否 |
+| `hour12` | `MaybeAccessor<boolean>` | `false` | 是否用 12 小时制显示（多一列「上午 / 下午」），值仍是 24 小时制。 | 否 |
+| `format` | `string` | `'HH:mm'` | 显示格式，token 子集 `HH` / `H` / `mm` / `m` / `ss` / `s` / `A`。 | 否 |
+| `min` | `MaybeAccessor<string>` | `undefined` | 最小可选时间（含），`HH:mm`。 | 否 |
+| `max` | `MaybeAccessor<string>` | `undefined` | 最大可选时间（含），`HH:mm`。 | 否 |
+| `disabledTime` | `(time: TimeValue) => boolean` | `undefined` | 自定义禁用判定；与 `min` / `max` 叠加生效。 | 否 |
+| `placeholder` | `string` | `'HH:mm'` | 输入框占位文案。 | 否 |
+| `size` | `TimePickerSize` | `'medium'` | 尺寸。 | 否 |
+| `status` | `TimePickerStatus` | `'default'` | 校验态；被 `<Form.Item>` 包裹时默认跟随字段状态。 | 否 |
+| `disabled` | `MaybeAccessor<boolean>` | `false` | 禁用；与 `<Form disabled>` 取或。 | 否 |
+| `allowClear` | `boolean` | `false` | 是否显示清除按钮（有值时出现）。 | 否 |
+| `clearLabel` | `string` | `'清除'` | 清除按钮的无障碍文案。 | 否 |
+| `okLabel` | `string` | `'确定'` | 浮层「确定」按钮文案。 | 否 |
+| `name` | `string` | `undefined` | 表单字段名（原生 `input` 的 `name`）。 | 否 |
+| `class` | `string` | `undefined` | 附加类名。 | 否 |
+
+
+## 类型定义源码（含 JSDoc 全文）
+
+源：`packages/core/src/components/time-picker/types.ts`。此区块直接读取组件源码，因此 JSDoc / 默认值变更而未重新生成时会让 `pnpm check:llms` 失败。
+
+```ts
+/**
+ * `TimePicker` 的公共类型（T4-13）。
+ *
+ * 值口径固定为 24 小时制 ISO `HH:mm`；`showSeconds` 为真时是 `HH:mm:ss`。
+ * 12 小时制（`hour12`）只改变面板显示与「上午 / 下午」列，不改变值。
+ * 内核不依赖第三方日期库，也不产生任何「当前时间」默认值（SSR 稳定）。
+ */
+import type { JSX } from 'solid-js';
+
+import type { MaybeAccessor } from '../../utils/resolve-value';
+
+/** 尺寸口径与全局一致：只有 `small` / `medium` / `large`。 */
+export type TimePickerSize = 'small' | 'medium' | 'large';
+
+/** 校验态。与 `FieldStatus` 同值域，避免控件与表单出现两套状态词。 */
+export type TimePickerStatus = 'default' | 'error';
+
+/** 时间的结构性最小集；无 `toString`，避免要求消费方造方法。 */
+export interface TimeValue {
+  /** 小时 0–23。 */
+  readonly hour: number;
+  /** 分钟 0–59。 */
+  readonly minute: number;
+  /** 秒 0–59（无秒模式下恒为 0）。 */
+  readonly second: number;
+}
+
+/** 时间上下界与自定义禁用规则。 */
+export interface TimeLimits {
+  /** 最小可选时间（含），`HH:mm`。 */
+  min?: string;
+  /** 最大可选时间（含），`HH:mm`。 */
+  max?: string;
+  /** 自定义禁用判定。 */
+  disabledTime?: (time: TimeValue) => boolean;
+}
+
+/** 值变更回调；空字符串表示已清空。 */
+export type TimePickerChangeHandler = (time: string) => void;
+
+/** 面板列标识；`meridiem` 只在 12 小时制出现。 */
+export type TimeColumn = 'meridiem' | 'hour' | 'minute' | 'second';
+
+/** `TimePicker` 的入参。原生 `div` 属性照常透传，仅覆盖与控件语义冲突的项。 */
+export interface TimePickerProps extends Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'onInput'
+> {
+  /**
+   * 受控值（24 小时制 `HH:mm` / `HH:mm:ss`）；支持传值或 getter。
+   * 与 `defaultValue` 二选一，传了即为受控。
+   * @default undefined
+   */
+  value?: MaybeAccessor<string>;
+  /**
+   * 非受控初始值；仅在挂载时读取一次。
+   * @default undefined
+   */
+  defaultValue?: MaybeAccessor<string>;
+  /**
+   * 选中回调；参数是 24 小时制 ISO 字符串，清空时为 `''`。
+   * @default undefined
+   */
+  onChange?: TimePickerChangeHandler;
+  /**
+   * 是否带秒（值格式 `HH:mm:ss`）。
+   * @default false
+   */
+  showSeconds?: boolean;
+  /**
+   * 是否用 12 小时制显示（多一列「上午 / 下午」），值仍是 24 小时制。
+   * @default false
+   */
+  hour12?: MaybeAccessor<boolean>;
+  /**
+   * 显示格式，token 子集 `HH` / `H` / `mm` / `m` / `ss` / `s` / `A`。
+   * @default 'HH:mm'
+   */
+  format?: string;
+  /**
+   * 最小可选时间（含），`HH:mm`。
+   * @default undefined
+   */
+  min?: MaybeAccessor<string>;
+  /**
+   * 最大可选时间（含），`HH:mm`。
+   * @default undefined
+   */
+  max?: MaybeAccessor<string>;
+  /**
+   * 自定义禁用判定；与 `min` / `max` 叠加生效。
+   * @default undefined
+   */
+  disabledTime?: (time: TimeValue) => boolean;
+  /**
+   * 输入框占位文案。
+   * @default 'HH:mm'
+   */
+  placeholder?: string;
+  /**
+   * 尺寸。
+   * @default 'medium'
+   */
+  size?: TimePickerSize;
+  /**
+   * 校验态；被 `<Form.Item>` 包裹时默认跟随字段状态。
+   * @default 'default'
+   */
+  status?: TimePickerStatus;
+  /**
+   * 禁用；与 `<Form disabled>` 取或。
+   * @default false
+   */
+  disabled?: MaybeAccessor<boolean>;
+  /**
+   * 是否显示清除按钮（有值时出现）。
+   * @default false
+   */
+  allowClear?: boolean;
+  /**
+   * 清除按钮的无障碍文案。
+   * @default '清除'
+   */
+  clearLabel?: string;
+  /**
+   * 浮层「确定」按钮文案。
+   * @default '确定'
+   */
+  okLabel?: string;
+  /**
+   * 输入框无障碍名称；被 `<Form.Item>` 包裹时由字段 label 接管。
+   * @default '时间'
+   */
+  'aria-label'?: string;
+  /**
+   * 表单字段名（原生 `input` 的 `name`）。
+   * @default undefined
+   */
+  name?: string;
+  /**
+   * 附加类名。
+   * @default undefined
+   */
+  class?: string;
+}
+```
+
+## 相关 Demo（完整源码见链接页）
+
+- [基础用法](llms/demos/time-picker-basic.md)：非受控与受控两种取值方式、清除与三档尺寸；值为 24 小时制 HH:mm。（源文件 `packages/core/src/components/time-picker/demos/basic.tsx`）
+- [可选范围](llms/demos/time-picker-constraints.md)：min / max 闭区间与 disabledTime 自定义禁用；手输越界同样被拒绝。（源文件 `packages/core/src/components/time-picker/demos/constraints.tsx`）
+- [格式与显示](llms/demos/time-picker-format.md)：12 / 24 小时制、带秒、自定义显示格式；显示变化不影响 24 小时制的值。（源文件 `packages/core/src/components/time-picker/demos/format.tsx`）
 
 ## 相关规范
 
@@ -6717,6 +7015,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./select` → [solid-craft/select](llms/exports/select.md)
 - `./date-picker` → [solid-craft/date-picker](llms/exports/date-picker.md)
 - `./range-picker` → [solid-craft/range-picker](llms/exports/range-picker.md)
+- `./time-picker` → [solid-craft/time-picker](llms/exports/time-picker.md)
 - `./form` → [solid-craft/form](llms/exports/form.md)
 - `./table` → [solid-craft/table](llms/exports/table.md)
 - `./pagination` → [solid-craft/pagination](llms/exports/pagination.md)
@@ -11137,20 +11436,23 @@ export default function ConstraintsDemo() {
 
 ## 说明
 
-format 的 token 子集、三档尺寸与清除按钮。
+format 的 token 子集、三档尺寸、清除按钮，以及 showTime 日期时间同选。
 
 ## 完整源码
 
 ```tsx
+import { createSignal } from 'solid-js';
 import { DatePicker } from 'solid-craft';
 import { DemoSection } from '../../demos/shared';
 
 export const demo = {
   title: '格式与尺寸',
-  description: 'format 的 token 子集、三档尺寸与清除按钮。',
+  description: 'format 的 token 子集、三档尺寸、清除按钮，以及 showTime 日期时间同选。',
 };
 
 export default function Format() {
+  const [dateTime, setDateTime] = createSignal('2026-03-15T09:30');
+
   return (
     <>
       <DemoSection title="自定义格式">
@@ -11165,6 +11467,19 @@ export default function Format() {
       <DemoSection title="可清除">
         <DatePicker allowClear defaultValue="2026-03-15" aria-label="可清除" />
         <DatePicker allowClear placeholder="请选择日期" aria-label="空值可清除" />
+      </DemoSection>
+      <DemoSection title="日期时间同选">
+        <DatePicker showTime value={dateTime()} onChange={setDateTime} aria-label="日期时间" />
+        <span>
+          当前值：<output>{dateTime()}</output>
+        </span>
+        <DatePicker
+          showTime
+          showSeconds
+          hour12
+          defaultValue="2026-03-15T14:05:30"
+          aria-label="日期时间带秒"
+        />
       </DemoSection>
     </>
   );
@@ -11405,6 +11720,164 @@ export default function Format() {
 ## 相关页面
 
 - [RangePicker 日期范围 API](llms/exports/range-picker.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/time-picker-basic.md -->
+
+# TimePicker 时间选择 · 基础用法（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/time-picker/demos/basic.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+非受控与受控两种取值方式、清除与三档尺寸；值为 24 小时制 HH:mm。
+
+## 完整源码
+
+```tsx
+import { createSignal } from 'solid-js';
+import { TimePicker } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '基础用法',
+  description: '非受控与受控两种取值方式、清除与三档尺寸；值为 24 小时制 HH:mm。',
+};
+
+export default function BasicDemo() {
+  const [picked, setPicked] = createSignal('09:30');
+
+  return (
+    <>
+      <DemoSection title="非受控与受控">
+        <TimePicker defaultValue="08:15" allowClear aria-label="上班时间（非受控）" />
+        <TimePicker
+          value={picked()}
+          allowClear
+          onChange={setPicked}
+          aria-label="会议时间（受控）"
+        />
+        <span>
+          当前值：<output>{picked() === '' ? '（空）' : picked()}</output>
+        </span>
+      </DemoSection>
+
+      <DemoSection title="尺寸">
+        <TimePicker size="small" defaultValue="08:15" aria-label="small 尺寸" />
+        <TimePicker size="medium" defaultValue="08:15" aria-label="medium 尺寸" />
+        <TimePicker size="large" defaultValue="08:15" aria-label="large 尺寸" />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [TimePicker 时间选择 API](llms/exports/time-picker.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/time-picker-constraints.md -->
+
+# TimePicker 时间选择 · 可选范围（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/time-picker/demos/constraints.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+min / max 闭区间与 disabledTime 自定义禁用；手输越界同样被拒绝。
+
+## 完整源码
+
+```tsx
+import { TimePicker } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '可选范围',
+  description: 'min / max 闭区间与 disabledTime 自定义禁用；手输越界同样被拒绝。',
+};
+
+export default function ConstraintsDemo() {
+  return (
+    <>
+      <DemoSection title="时间区间">
+        <TimePicker defaultValue="09:00" min="08:30" max="18:00" aria-label="工作时间" />
+      </DemoSection>
+
+      <DemoSection title="自定义禁用">
+        <TimePicker
+          defaultValue="10:00"
+          disabledTime={(time) => time.hour >= 12 && time.hour < 13}
+          aria-label="排除午休"
+        />
+        <TimePicker defaultValue="10:00" disabled aria-label="禁用" />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [TimePicker 时间选择 API](llms/exports/time-picker.md)
+- [设计 Token](llms/design/tokens.md)
+
+---
+
+<!-- source: llms/demos/time-picker-format.md -->
+
+# TimePicker 时间选择 · 格式与显示（源码）
+
+> 由 `pnpm generate:llms` 生成，请勿手工编辑。真源：`packages/core/src/components/time-picker/demos/format.tsx`（与文档站渲染 / 展示 / 截图基线同源）；改源后需重新生成，否则 `pnpm check:llms` 失败。
+
+## 说明
+
+12 / 24 小时制、带秒、自定义显示格式；显示变化不影响 24 小时制的值。
+
+## 完整源码
+
+```tsx
+import { TimePicker } from 'solid-craft';
+
+import { DemoSection } from '../../demos/shared';
+
+export const demo = {
+  title: '格式与显示',
+  description: '12 / 24 小时制、带秒、自定义显示格式；显示变化不影响 24 小时制的值。',
+};
+
+export default function FormatDemo() {
+  return (
+    <>
+      <DemoSection title="24 小时制">
+        <TimePicker defaultValue="14:05" aria-label="24 小时制" />
+        <TimePicker defaultValue="14:05:30" showSeconds aria-label="带秒" />
+      </DemoSection>
+
+      <DemoSection title="12 小时制">
+        <TimePicker defaultValue="14:05" hour12 aria-label="12 小时制" />
+        <TimePicker defaultValue="14:05:30" hour12 showSeconds aria-label="12 小时制带秒" />
+      </DemoSection>
+
+      <DemoSection title="自定义显示格式">
+        <TimePicker defaultValue="14:05" format="H 时 mm 分" aria-label="中文格式" />
+        <TimePicker defaultValue="14:05" hour12 format="A HH:mm" aria-label="上午下午格式" />
+      </DemoSection>
+    </>
+  );
+}
+```
+
+## 相关页面
+
+- [TimePicker 时间选择 API](llms/exports/time-picker.md)
 - [设计 Token](llms/design/tokens.md)
 
 ---

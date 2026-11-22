@@ -145,6 +145,15 @@ export const COMPONENTS = [
     hasApi: true,
   },
   {
+    slug: 'time-picker',
+    title: 'TimePicker 时间选择',
+    category: '表单',
+    description:
+      '独立时间选择：时 / 分 / 秒列、12 / 24 小时制、min·max 与 disabledTime 禁用；值为 24 小时制 HH:mm，也可由 DatePicker showTime 复用同一面板。',
+    exportPath: 'solid-craft/time-picker',
+    hasApi: true,
+  },
+  {
     slug: 'table',
     title: 'Table 表格',
     category: '数据',

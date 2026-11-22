@@ -285,3 +285,57 @@ describe('DatePicker 清除', () => {
     expect(document.querySelectorAll('[data-scui-role="date-clear"]')).toHaveLength(0);
   });
 });
+
+describe('DatePicker showTime（T4-13）', () => {
+  it('无时间部分时默认 00:00，显示用空格分隔日期与时间', () => {
+    render(() => <DatePicker value="2026-03-15" showTime aria-label="日期时间" />);
+    expect(control().value).toBe('2026-03-15 00:00');
+  });
+
+  it('受控日期时间值按 T 拆分回显', () => {
+    render(() => <DatePicker value="2026-03-15T14:05" showTime aria-label="日期时间" />);
+    expect(control().value).toBe('2026-03-15 14:05');
+  });
+
+  it('showSeconds 带秒，hour12 只影响显示', () => {
+    render(() => (
+      <DatePicker value="2026-03-15T14:05:30" showTime showSeconds hour12 aria-label="日期时间" />
+    ));
+    expect(control().value).toBe('2026-03-15 下午 02:05:30');
+  });
+
+  it('选日期后弹层保持打开，点确定才关闭', async () => {
+    const onChange = vi.fn();
+    render(() => <DatePicker defaultValue="2026-03-15T09:30" showTime onChange={onChange} />);
+    openCalendar();
+    fireEvent.click(element('[data-scui-day="2026-03-20"]'));
+
+    expect(onChange).toHaveBeenCalledWith('2026-03-20T09:30');
+    expect(document.querySelector('[data-scui-role="calendar-popup"]')).not.toBeNull();
+
+    fireEvent.click(element('[data-scui-role="date-ok"]'));
+    await waitFor(() =>
+      expect(document.querySelector('[data-scui-role="calendar-popup"]')).toBeNull(),
+    );
+  });
+
+  it('时间列选项只更新值的时间部分，日期不变', () => {
+    const onChange = vi.fn();
+    render(() => <DatePicker defaultValue="2026-03-15T09:30" showTime onChange={onChange} />);
+    openCalendar();
+    const minute = document.querySelector<HTMLElement>(
+      '[data-scui-role="time-column"][data-scui-time-unit="minute"] [data-scui-index="45"]',
+    );
+    expect(minute).not.toBeNull();
+    fireEvent.click(minute as HTMLElement);
+    expect(onChange).toHaveBeenCalledWith('2026-03-15T09:45');
+  });
+
+  it('手输日期时间可提交', () => {
+    const onChange = vi.fn();
+    render(() => <DatePicker showTime onChange={onChange} />);
+    fireEvent.input(control(), { target: { value: '2026-03-15T14:05' } });
+    fireEvent.blur(control());
+    expect(onChange).toHaveBeenCalledWith('2026-03-15T14:05');
+  });
+});

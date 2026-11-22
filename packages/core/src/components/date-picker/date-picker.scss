@@ -1,5 +1,9 @@
 @use 'mixins' as m;
 
+/* showTime 内嵌 TimePanel：只引 date-picker.css 的使用方也要拿到时间列样式
+   （与 modal.scss 聚合 button 同一手法）。 */
+@use '../time-picker/time-picker';
+
 /* DatePicker（T2-10）
    状态一律 [data-scui-*] 且带 .scui- 静态类作用域，类名只有块与元素两级（无 modifier）。
    弹层内联在根节点内（position: absolute），可直接继承 root 的 --scui-date-picker-* 变量；
@@ -204,6 +208,12 @@
     cursor: not-allowed;
     text-decoration: line-through;
   }
+}
+
+:where(.scui-date-picker__time) {
+  margin-block-start: var(--scui-space-2, 8px);
+  padding-block-start: var(--scui-space-2, 8px);
+  border-block-start: 1px solid var(--scui-color-border-default);
 }
 
 :where(.scui-date-picker__footer) {

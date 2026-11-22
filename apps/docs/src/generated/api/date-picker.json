@@ -112,6 +112,41 @@
           "default": "'今天'"
         },
         {
+          "name": "showTime",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否在日历弹层内显示时间列（值变为 `YYYY-MM-DDTHH:mm`）。",
+          "default": "false"
+        },
+        {
+          "name": "showSeconds",
+          "type": "boolean",
+          "optional": true,
+          "description": "`showTime` 时时间部分带秒。",
+          "default": "false"
+        },
+        {
+          "name": "hour12",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "`showTime` 时用 12 小时制显示时间（值仍是 24 小时制）。",
+          "default": "false"
+        },
+        {
+          "name": "disabledTime",
+          "type": "(time: TimeValue) => boolean",
+          "optional": true,
+          "description": "`showTime` 时禁用指定时间。",
+          "default": "undefined"
+        },
+        {
+          "name": "okLabel",
+          "type": "string",
+          "optional": true,
+          "description": "`showTime` 时「确定」按钮文案。",
+          "default": "'确定'"
+        },
+        {
           "name": "name",
           "type": "string",
           "optional": true,

@@ -11,7 +11,7 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-12（已闭合，§30.62；浮层 Content 恢复 pointer-events，修复内容点击穿透关闭）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 当前任务 ID | **T4-13（已闭合，§30.63；新增 TimePicker 子路径 + DatePicker `showTime`，补齐 docs/04 §5.4 的时间选择 P1）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-12 已闭合（§30.62）；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
 | 下一步 | **M4 只剩 T4-05 `0.1.0` 发布（发布与合并 `main` 均须硬约束 13 逐次授权）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
@@ -180,6 +180,7 @@
 | T4-10 | **radio 选中圆点半像素偏位修复**：dot 用 `content-box` 的 50%，medium/large 算出奇数尺寸（7/9px）+ 半像素居中留白（4.5/5.5px），1x 屏光栅化舍入后白点视觉偏 0.5px | T4-09 | 技术负责人 | Aming 实测截图「radio 选中圆点居中写法不对、视觉有偏差」→ 浏览器精确测量确认 medium/large 圆点留白 4.5/5.5px 半像素（small 4px 整数所以看着正）；dot 改为按尺寸档的确定偶数 px（`--scui-radio-current-dot` = 6/8/10），三档留白全落整数（4/4/5px）；Checkbox 用固定 12×12 SVG 勾无同类问题、不在范围；E2E 1 条（三档 dot 偶数 + 留白整数）+ 注入旧写法负向实证（medium/large `integer=false`）；视觉基线 2 张更新（dot 大 1px），见 §30.60 | [x] |
 | T4-11 | **dist/source 产物补 sourcemap（Alt+click 精确对行）**：admin 模板 click-to-ide 跳源码只能近似定位——solid-devtools 注入的是产物行列，擦除 TS 类型致行号漂移（Button 产物 L51 = 源码 L57），无 map 无法精确反查 | T4-10 | 技术负责人 | Aming「需要 sourcemap 才能精确对行，这个要带上」；`build-source.mjs` 给 esbuild transform 开 `sourcemap: 'external'`，140 个 `.jsx` 各配 `.jsx.map`（`sources` 用 `path.relative` 回指 `src`、`sourcesContent` 内嵌、加 `file` 字段 + 产物尾 `sourceMappingURL`）；沿 docs/02「不压缩、保留 sourcemap」既有决策，与 dist/esm 的 `*.js.map` 对齐；仓外 click-to-ide 共享包用 `@jridgewell/trace-mapping` 把产物行列精确反查回源码（10 条契约测试，Button 51:8→57:7，map 缺失回退近似行）；`check-exports` esm<->source parity / publint / attw / tarball / size / check:ci 全 RC=0，见 §30.61 | [x] |
 | T4-12 | **浮层 Content 恢复 pointer-events（设置抽屉一点就关）**：Kobalte modal 给 body 设 `pointer-events:none`、只给 Overlay 放行 `auto`，Modal / Drawer 的 Content 没显式恢复，真实鼠标点抽屉内任意控件都穿到遮罩触发关闭 | T4-11 | 技术负责人 | Aming 实测「页面设置弹层点击选择时直接收起」；DevTools 实测 `body=none / overlay=auto / drawer=none`、色板真实 `pointerdown` 的 target 是 `scui-drawer__overlay` —— 不是冒泡误判，是内容失去指针事件；`modal.scss` / `drawer.scss` 的 Content 显式补 `pointer-events: auto`，并纠正 `overlay.tsx` 与 Drawer 单测里「Kobalte 会给 Content 写 auto」的错误注释；E2E 1 条（computed style 三值 + 真实指针点内容不关闭，脚本 `.click()` 测不出该 bug）；浏览器实测色板/图卡/Switch 真实点击均保持抽屉打开且设置生效；见 §30.62 | [x] |
+| T4-13 | **时间选择 P1：新增 `TimePicker` 子路径 + DatePicker `showTime`**：Aming 问「datepicker 是不是少了 time 选择器」，确认 `showTime` / `TimePicker` 在 docs/04 §5.4 与第 168 行列为 P1 / v1.0、0.1.0 尚未做；裁决按「完整 P1」补 | T4-12 | 技术负责人 | Aming 在范围选择中选「完整 P1：TimePicker + showTime」；新增 `./time-picker`（时/分/秒列、min·max·disabledTime、12/24 小时、受控非受控、SSR 稳定锚点），DatePicker `showTime` 复用同一时间面板、值 `YYYY-MM-DDTHH:mm[:ss]` 且无 showTime 时保持原 ISO 口径；零新增依赖（时间内核原生算术）；单测 39/39、SSR 35 入口、E2E 3 条、视觉基线 222 张；`data-scui-time-unit` 避开与 Descriptions `data-scui-column` 同名不同义；踩坑与负向实证见 §30.63 | [x] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
@@ -5414,7 +5415,7 @@ Aming 授权「继续」后按 §4.2 收口：**M3 的 T3-01~T3-14 共 14 项全
    llms 159 个站点文件 + 3 个包内副本，36 个 exports 子路径 100% 覆盖、0 死链、0 孤儿页。
 4. **M3 里程碑散文记录**：见第三节；§4 简表 M3 行保持未勾，勾选只发生在 §4.2 任务行。
 
-机器锚点：T3-14 实算 Table 链路 **15.40 kB** / 35 KB；判据 11 扩面后 **32 组件 / 108 Demo / 216 基线**
+机器锚点：T3-14 实算 Table 链路 **15.40 kB** / 35 KB；判据 11 扩面后 **33 组件 / 111 Demo / 222 基线**
 
 #### 二、体积预算实跑（口径与数值）
 
@@ -6683,3 +6684,81 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 
 `packages/core/src/components/drawer/drawer.scss`、`packages/core/src/components/modal/modal.scss`、`packages/core/src/primitives/overlay.tsx`、`packages/core/src/components/drawer/Drawer.test.tsx`、`tests/e2e/specs/browser.spec.ts`、`docs/08-实施Todo.md`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`。
 产物影响：`packages/core/dist/styles/*` 重新构建（仅增加 `pointer-events: auto` 声明）。
+
+---
+
+### 30.63 T4-13 时间选择 P1（TimePicker + DatePicker showTime）结果（2026-11-22）
+
+> Aming：「datepicker 是不是少了 time 选择器」。核对 `docs/04 §5.4` P1 与第 168 行 v1.0 规划后确认是**计划内缺口**，非漏实现；范围选择中选「完整 P1：TimePicker + showTime」。
+
+#### 一、结论先行
+
+- 新增独立 `./time-picker` 子路径，DatePicker 加 `showTime` 复用同一时间面板；**零新增依赖**（时间是三个整数区间，内核用原生算术，不引第三方时间库）。
+- 值口径：`TimePicker` = 24 小时制 `HH:mm`（`showSeconds` 时 `HH:mm:ss`）；DatePicker 无 `showTime` 仍是 `YYYY-MM-DD`，有 `showTime` 是 `YYYY-MM-DDTHH:mm[:ss]`。`hour12` 只改显示，不改值。
+- SSR 安全：无「当前时间」默认值，面板锚点固定 `00:00`；服务端只输出输入框骨架。
+
+#### 二、交付清单
+
+| 路径 | 内容 |
+| --- | --- |
+| `packages/core/src/components/time-picker/{time.ts,types.ts,TimePanel.tsx,TimePicker.tsx,time-picker.scss,index.ts,TimePicker.test.tsx}` | 时间内核 / 公共类型 / 共用面板 / 组件 / 样式 / 导出 / 15 条单测 |
+| `packages/core/src/components/time-picker/__tests__/ssr-entry.tsx` | SSR 静态骨架入口（T4-13 case） |
+| `packages/core/src/components/time-picker/demos/{basic,format,constraints}.tsx` | 3 个 Demo（≥3 契约） |
+| `packages/core/src/components/date-picker/{types.ts,DatePicker.tsx,date-picker.scss}` + `demos/format.tsx` | `showTime` / `showSeconds` / `hour12` / `disabledTime` / `okLabel`；SCSS 聚合 time-picker 样式；format Demo 加日期时间同选 |
+| `packages/core/src/components/date-picker/DatePicker.test.tsx` | 6 条 showTime 契约（原 18 条 P0 回归全绿） |
+| `packages/core/src/index.ts` / `packages/core/package.json` | barrel 导出 + `./time-picker` 四条件 exports（32→33 子路径） |
+| `packages/core/spikes/shared/ssr-smoke.mjs` / `spikes/api-draft/data-attributes.md` | SSR case 34→35；`data-scui-time-unit` / `-index` / `-hour12` / `-seconds` 与 role 清单登记 |
+| `apps/docs/src/content/catalog.mjs` + `apps/docs/src/generated/**` + llms 产物 + `README.md` | catalog 新增条目；`docs:generate` 重生成（33 组件 / 111 Demo / 33 API / 37 exports）；README 32→33 |
+| `scripts/check-ci.mjs` / `apps/docs/public/fonts/{charset.txt,scui-visual.woff2}` | `FONT_SHA256` 47bc14d9→706a18ef；字集 1025→1028 码位（933 CJK + 95 ASCII） |
+| `tests/e2e/specs/browser.spec.ts` / `tests/e2e/baselines/**` | 3 条 TimePicker 交互 E2E；视觉基线 216→222 张全量重生成 |
+| `docs/08-实施Todo.md` / `scripts/todo-governance.json` / `scripts/goals.baseline.json` | 本任务行 + 顶部锚点 + 本节 + 机器锚点 33/111/222；evidence；基线重校准 |
+
+#### 三、核心契约
+
+| 决策 | 做法 | 理由 |
+| --- | --- | --- |
+| 时间列属性名 | `data-scui-time-unit`（`meridiem/hour/minute/second`） | `data-scui-column` 已被 Descriptions 占用（「一行几列」），同名不同义违反 R1 硬约束；不是复用而是新语义 |
+| 时间选项渲染 | `<Index>` 按位置复用 DOM | `<For>` 按对象引用 keyed，值一变重建全部按钮 → 被点按钮销毁、focusout.relatedTarget=null → 外层误关弹层（E2E 实证） |
+| 焦点离开判定 | 根节点用 `ref` 而非 `event.currentTarget` | Solid `on*` 走事件委托，handler 里 currentTarget 不是绑定节点（与 §30.62 遮罩同源坑）；DatePicker 内嵌时间面板后同样修掉 |
+| 12 小时制默认显示 | 未传 `format` 时自动补 `A ` token | 只传 `hour12` 时若默认 `HH:mm` 不带 A，选了「上午/下午」在输入框看不出效果（E2E 红灯） |
+| 面板复用 | `TimePanel` 内部组件，不进公共导出 | TimePicker 与 DatePicker `showTime` 共用一套列定义 / 键盘 / 禁用规则；不新增第二个公共子路径 |
+| DatePicker 选日期行为 | `showTime` 时不收起，点「确定」才关 | 需要连续选日期 + 时间；无 `showTime` 时保持原「点格即关」P0 行为 |
+| 样式聚合 | `date-picker.scss` `@use '../time-picker/time-picker'` | 只引 `date-picker.css` 的使用方也要拿到内嵌时间列样式（同 modal.scss 聚合 button） |
+
+#### 四、验收数字
+
+| 项 | 结果 |
+| --- | --- |
+| 单测 | TimePicker 15/15 + DatePicker 24/24（原 18 条 P0 零回归）= **39/39** |
+| SSR 冒烟 | **35 入口**（34→35），T4-13 case 14/14 markers + 7/7 counts，双渲一致 0 warning |
+| E2E | 新增 3 条全绿：真实点时间列写值且浮层保持 / 12 小时制多时段列 / DatePicker showTime 选日期不收起且确定后落完整值 |
+| 文档与包 | `docs:generate` 33 组件 / 111 Demo / 33 API 表 / 37 exports 全覆盖 0 死链；`check:ci` RC=0，机器锚点 33/111/222 对齐 |
+| 视觉基线 | **222 张**（216→222，新增 time-picker 3 Demo × 2 视口），字体变更导致全量重生成，227 passed（含 5 条结构断言） |
+| 门禁 | `pnpm verify` **RC=0**（26 阶段全绿） |
+
+#### 五、负向实证（踩坑→红灯→修复）
+
+| 现象 | 根因 | 修法 |
+| --- | --- | --- |
+| 点分钟选项后值变成 09:45，但弹层立刻收起 | `<For>` 按对象引用 keyed，`columns()` 每次重算生成新对象 → 全部按钮重建、被点节点销毁 → focusout.relatedTarget=null | 外层与内层都改 `<Index>`；`option`/`column` 变 accessor |
+| 12 小时制输入框显示 `02:05` 而非 `下午 02:05` | 默认 format `HH:mm` 无 `A` token | 未显式传 format 时按 `hour12` 补 `A ` |
+| E2E 连续两轮跑的还是旧代码 | docs app 走 `solid` 条件解析 `dist/source/*.jsx`，改源码后未重 build；`reuseExistingServer` 又复用了旧 4173 | 重跑 `pnpm build` 后再 E2E，浏览器 reload 确认值已更新 |
+| `data-scui-column` 语义冲突 | 与 Descriptions「一行几列」同名不同义（R1 违规） | 改 `data-scui-time-unit` 并补登记 |
+| `check:ci` 字集 + 基线红灯 | 新增 Demo 文案引入新汉字；字体子集与 222 张基线需同步 | 下载 NotoSansSC 源字体重跑 `build-visual-font.py`，更新 `FONT_SHA256` 到 `706a18ef…`，全量重生成基线 |
+
+#### 六、允许写入路径与全链验收
+
+- 允许写入：第「二、交付清单」节所列路径；`docs/08-实施Todo.md`（本节 / §4.2 / 顶部锚点 / §30.48 机器锚点）、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（受保护文件基线重校准）。
+- 禁止写入：`docs/01~07`（冻结，一个字节不改）；根级配置与锁文件；新增依赖。
+- 全链验收：`pnpm verify` **RC=0**（26 阶段全绿），机器证据见第四节各门禁输出。
+
+#### 七、治理回写
+
+- §4.2 T4-13 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-13 → 30.63`；goals 基线重校准（AGENTS.md 标记行同步）。
+- 既有 T4-05 `0.1.0` 发布仍保持 `[ ]`，须 Aming 逐次授权。
+
+#### 八、已知边界
+
+1. 时区、月/年快选、快捷选项、多选日期、自定义单元格仍在 docs/04 §5.4 P1/P2 范围，本轮未做。
+2. RangePicker 未加 `showTime`（范围时间选择需单独设计值格式），本轮只覆盖 DatePicker 单选。
+3. 时间列面板不接 Portal（与 DatePicker 一致内联定位），窄屏下弹层可能超出视口，未做自适应翻转。

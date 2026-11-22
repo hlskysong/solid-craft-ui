@@ -117,6 +117,15 @@ export type {
   RangePickerValue,
   RangePickerWeekStart,
 } from './components/range-picker';
+export { TimePicker } from './components/time-picker';
+export type {
+  TimeLimits,
+  TimePickerChangeHandler,
+  TimePickerProps,
+  TimePickerSize,
+  TimePickerStatus,
+  TimeValue,
+} from './components/time-picker';
 export { Table, useTableEngine } from './components/table';
 export type {
   TableAlign,

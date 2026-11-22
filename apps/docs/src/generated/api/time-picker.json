@@ -1,0 +1,192 @@
+{
+  "slug": "time-picker",
+  "source": "packages/core/src/components/time-picker/types.ts",
+  "interfaces": [
+    {
+      "name": "TimeValue",
+      "inherits": null,
+      "props": [
+        {
+          "name": "hour",
+          "type": "number",
+          "optional": false,
+          "description": "小时 0–23。",
+          "default": null
+        },
+        {
+          "name": "minute",
+          "type": "number",
+          "optional": false,
+          "description": "分钟 0–59。",
+          "default": null
+        },
+        {
+          "name": "second",
+          "type": "number",
+          "optional": false,
+          "description": "秒 0–59（无秒模式下恒为 0）。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TimeLimits",
+      "inherits": null,
+      "props": [
+        {
+          "name": "min",
+          "type": "string",
+          "optional": true,
+          "description": "最小可选时间（含），`HH:mm`。",
+          "default": null
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "optional": true,
+          "description": "最大可选时间（含），`HH:mm`。",
+          "default": null
+        },
+        {
+          "name": "disabledTime",
+          "type": "(time: TimeValue) => boolean",
+          "optional": true,
+          "description": "自定义禁用判定。",
+          "default": null
+        }
+      ]
+    },
+    {
+      "name": "TimePickerProps",
+      "inherits": "Omit<\n  JSX.HTMLAttributes<HTMLDivElement>,\n  'onChange' | 'onInput'\n>",
+      "props": [
+        {
+          "name": "value",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "受控值（24 小时制 `HH:mm` / `HH:mm:ss`）；支持传值或 getter。 与 `defaultValue` 二选一，传了即为受控。",
+          "default": "undefined"
+        },
+        {
+          "name": "defaultValue",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "非受控初始值；仅在挂载时读取一次。",
+          "default": "undefined"
+        },
+        {
+          "name": "onChange",
+          "type": "TimePickerChangeHandler",
+          "optional": true,
+          "description": "选中回调；参数是 24 小时制 ISO 字符串，清空时为 `''`。",
+          "default": "undefined"
+        },
+        {
+          "name": "showSeconds",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否带秒（值格式 `HH:mm:ss`）。",
+          "default": "false"
+        },
+        {
+          "name": "hour12",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "是否用 12 小时制显示（多一列「上午 / 下午」），值仍是 24 小时制。",
+          "default": "false"
+        },
+        {
+          "name": "format",
+          "type": "string",
+          "optional": true,
+          "description": "显示格式，token 子集 `HH` / `H` / `mm` / `m` / `ss` / `s` / `A`。",
+          "default": "'HH:mm'"
+        },
+        {
+          "name": "min",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "最小可选时间（含），`HH:mm`。",
+          "default": "undefined"
+        },
+        {
+          "name": "max",
+          "type": "MaybeAccessor<string>",
+          "optional": true,
+          "description": "最大可选时间（含），`HH:mm`。",
+          "default": "undefined"
+        },
+        {
+          "name": "disabledTime",
+          "type": "(time: TimeValue) => boolean",
+          "optional": true,
+          "description": "自定义禁用判定；与 `min` / `max` 叠加生效。",
+          "default": "undefined"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "optional": true,
+          "description": "输入框占位文案。",
+          "default": "'HH:mm'"
+        },
+        {
+          "name": "size",
+          "type": "TimePickerSize",
+          "optional": true,
+          "description": "尺寸。",
+          "default": "'medium'"
+        },
+        {
+          "name": "status",
+          "type": "TimePickerStatus",
+          "optional": true,
+          "description": "校验态；被 `<Form.Item>` 包裹时默认跟随字段状态。",
+          "default": "'default'"
+        },
+        {
+          "name": "disabled",
+          "type": "MaybeAccessor<boolean>",
+          "optional": true,
+          "description": "禁用；与 `<Form disabled>` 取或。",
+          "default": "false"
+        },
+        {
+          "name": "allowClear",
+          "type": "boolean",
+          "optional": true,
+          "description": "是否显示清除按钮（有值时出现）。",
+          "default": "false"
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "optional": true,
+          "description": "清除按钮的无障碍文案。",
+          "default": "'清除'"
+        },
+        {
+          "name": "okLabel",
+          "type": "string",
+          "optional": true,
+          "description": "浮层「确定」按钮文案。",
+          "default": "'确定'"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": true,
+          "description": "表单字段名（原生 `input` 的 `name`）。",
+          "default": "undefined"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "optional": true,
+          "description": "附加类名。",
+          "default": "undefined"
+        }
+      ]
+    }
+  ]
+}

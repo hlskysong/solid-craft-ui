@@ -6,12 +6,15 @@
  * 不出现 `@internationalized/date` 包名（`check:exports` 第 6 条），换日期库不破坏消费方。
  *
  * 本轮范围按 `docs/08 §4.1` 的 T2-10 验收列：单选 + `min` / `max` / `disabledDate` +
- * `format` + 中文 locale + 键盘 + `editing` 状态机 + SSR 不取当前时间。
- * `showTime` / 时区 / 月年快选 / 快捷选项属 `docs/04 §5.4` 的 P1，RangePicker 单独排期（T2-11）。
+ * `format` + 中文 locale + 键盘 + `editing` 状态机 + SSR 不取当前时间；
+ * T4-13 起补 P1 的 `showTime`（复用 TimePicker 的时间面板），值为
+ * `YYYY-MM-DDTHH:mm`（`showSeconds` 时 `HH:mm:ss`），无 `showTime` 时仍是 `YYYY-MM-DD`。
+ * 时区 / 月年快选 / 快捷选项仍属后续范围。
  */
 import type { JSX } from 'solid-js';
 
 import type { MaybeAccessor } from '../../utils/resolve-value';
+import type { TimeValue } from '../time-picker/types';
 import type { DateValue, WeekStart } from './calendar';
 
 /** 尺寸口径与全局一致：只有 `small` / `medium` / `large`，不存在 `md` / `sm`。 */
@@ -117,6 +120,31 @@ export interface DatePickerProps extends Omit<
    * @default '今天'
    */
   todayLabel?: string;
+  /**
+   * 是否在日历弹层内显示时间列（值变为 `YYYY-MM-DDTHH:mm`）。
+   * @default false
+   */
+  showTime?: boolean;
+  /**
+   * `showTime` 时时间部分带秒。
+   * @default false
+   */
+  showSeconds?: boolean;
+  /**
+   * `showTime` 时用 12 小时制显示时间（值仍是 24 小时制）。
+   * @default false
+   */
+  hour12?: MaybeAccessor<boolean>;
+  /**
+   * `showTime` 时禁用指定时间。
+   * @default undefined
+   */
+  disabledTime?: (time: TimeValue) => boolean;
+  /**
+   * `showTime` 时「确定」按钮文案。
+   * @default '确定'
+   */
+  okLabel?: string;
   /**
    * 输入框无障碍名称；被 `<Form.Item>` 包裹时由字段 label 接管。
    * @default '日期'

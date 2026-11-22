@@ -29,6 +29,9 @@ import { CSS_PREFIX } from '../../scope';
 import { classNames } from '../../utils/class-names';
 import { resolveValue } from '../../utils/resolve-value';
 import { resolveStatus, useInputValue } from '../input/use-input-value';
+import { TimePanel } from '../time-picker/TimePanel';
+import { DEFAULT_TIME, formatTime, isTimeAllowed, parseTime, timeIso } from '../time-picker/time';
+import type { TimeLimits, TimeValue } from '../time-picker/types';
 import {
   buildMonthGrid,
   DEFAULT_ANCHOR,
@@ -65,6 +68,11 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
     'allowClear',
     'clearLabel',
     'todayLabel',
+    'showTime',
+    'showSeconds',
+    'hour12',
+    'disabledTime',
+    'okLabel',
     'aria-label',
     'name',
     'class',
@@ -78,6 +86,7 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
   });
 
   let control: HTMLInputElement | undefined;
+  let root: HTMLDivElement | undefined;
   const dayButtons = new Map<string, HTMLButtonElement>();
   /** 是否要在本次「开弹层 / 移动焦点」后把 DOM 焦点交给日历格（仅键盘路径置真）。 */
   let pendingGridFocus = false;
@@ -109,15 +118,34 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
     disabledDate: local.disabledDate,
   }));
 
-  const selected = createMemo<DateValue | null>(() => parseIso(bridge.value()));
+  const showTime = () => local.showTime === true;
+  const withSeconds = () => local.showSeconds === true;
+  const twelve = () => Boolean(resolveValue(local.hour12 ?? false));
+  const timePattern = () => (twelve() ? 'A ' : '') + (withSeconds() ? 'HH:mm:ss' : 'HH:mm');
+
+  /** `showTime` 时值是 `YYYY-MM-DDTHH:mm[:ss]`，拆开后日期 / 时间各自复用既有内核。 */
+  const valueParts = createMemo(() => {
+    const raw = bridge.value();
+    const at = raw.indexOf('T');
+    return at < 0 ? { date: raw, time: '' } : { date: raw.slice(0, at), time: raw.slice(at + 1) };
+  });
+  const selected = createMemo<DateValue | null>(() => parseIso(valueParts().date));
+  const selectedTime = createMemo(() => parseTime(valueParts().time) ?? { ...DEFAULT_TIME });
+  const timeLimits = createMemo<TimeLimits>(() => ({ disabledTime: local.disabledTime }));
   const selectedIso = () => selected()?.toString() ?? '';
   const focusedIso = () => focused().toString();
+
+  /** 组合完整值；无 `showTime` 时完全等价于原来的 `YYYY-MM-DD`。 */
+  const combine = (dateIso: string, time: TimeValue): string =>
+    showTime() ? `${dateIso}T${timeIso(time, withSeconds())}` : dateIso;
 
   // 编辑态显示 draft；否则显示按 format 格式化的当前值（非法存量值原样回显，避免吞数据）。
   const display = createMemo(() => {
     if (editing()) return draft();
     const date = selected();
-    return date ? formatDate(date, pattern()) : bridge.value();
+    if (!date) return bridge.value();
+    const base = formatDate(date, pattern());
+    return showTime() ? `${base} ${formatTime(selectedTime(), timePattern(), twelve())}` : base;
   });
 
   const grid = createMemo(() =>
@@ -152,15 +180,42 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
 
   const confirmDraft = () => {
     if (!editing()) return;
-    const parsed = parseIso(draft());
-    if (parsed && isAllowed(parsed, limits())) commit(parsed.toString());
+    if (showTime()) {
+      const [datePart, timePart] = draft().trim().split('T');
+      const parsedDate = datePart ? parseIso(datePart) : null;
+      const parsedTime = timePart ? parseTime(timePart) : null;
+      if (
+        parsedDate &&
+        isAllowed(parsedDate, limits()) &&
+        parsedTime &&
+        isTimeAllowed(parsedTime, timeLimits())
+      ) {
+        commit(combine(parsedDate.toString(), parsedTime));
+      }
+    } else {
+      const parsed = parseIso(draft());
+      if (parsed && isAllowed(parsed, limits())) commit(parsed.toString());
+    }
     setDraft('');
     setEditing(false);
   };
 
   const choose = (date: DateValue) => {
     if (disabled() || !isAllowed(date, limits())) return;
-    commit(date.toString());
+    commit(combine(date.toString(), selectedTime()));
+    // 带时间时先留着弹层让用户继续选时间，点「确定」才收起。
+    if (!showTime()) close(true);
+  };
+
+  const chooseTime = (iso: string): void => {
+    const date = selected();
+    const time = parseTime(iso);
+    if (!date || !time) return;
+    commit(combine(date.toString(), time));
+  };
+
+  const cancel = (): void => {
+    // 受控值未回写的 draft 已在每次 commit 时清掉；这里只做关闭。
     close(true);
   };
 
@@ -224,6 +279,9 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
   return (
     <div
       {...rest}
+      ref={(element) => {
+        root = element;
+      }}
       class={classNames(`${CSS_PREFIX}date-picker`, local.class)}
       data-scui-role="date-picker"
       data-scui-size={size()}
@@ -233,7 +291,9 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
       lang={ZH_LOCALE}
       onFocusOut={(event) => {
         const next = event.relatedTarget;
-        if (next instanceof Node && event.currentTarget.contains(next)) return;
+        // Solid on* 是事件委托，currentTarget 在 handler 里不是根节点（T4-13 实测）；
+        // showTime 内嵌时间面板后必须靠 ref 判定，否则点时间列会误关日历弹层。
+        if (next instanceof Node && root?.contains(next)) return;
         setOpen(false);
       }}
     >
@@ -373,6 +433,19 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
             </tbody>
           </table>
 
+          <Show when={showTime()}>
+            <div class={`${CSS_PREFIX}date-picker__time`}>
+              <TimePanel
+                value={timeIso(selectedTime(), withSeconds())}
+                onChange={chooseTime}
+                showSeconds={withSeconds()}
+                hour12={twelve()}
+                limits={timeLimits()}
+                disabled={disabled()}
+              />
+            </div>
+          </Show>
+
           <div class={`${CSS_PREFIX}date-picker__footer`}>
             <button
               type="button"
@@ -382,6 +455,24 @@ export function DatePicker(props: DatePickerProps): JSX.Element {
             >
               {local.todayLabel ?? '今天'}
             </button>
+            <Show when={showTime()}>
+              <button
+                type="button"
+                class={`${CSS_PREFIX}date-picker__action`}
+                data-scui-role="date-cancel"
+                onClick={cancel}
+              >
+                取消
+              </button>
+              <button
+                type="button"
+                class={`${CSS_PREFIX}date-picker__action`}
+                data-scui-role="date-ok"
+                onClick={() => close(true)}
+              >
+                {local.okLabel ?? '确定'}
+              </button>
+            </Show>
           </div>
         </div>
       </Show>

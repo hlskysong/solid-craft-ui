@@ -18,6 +18,7 @@
     "form",
     "date-picker",
     "range-picker",
+    "time-picker",
     "table",
     "pagination",
     "empty",
@@ -491,7 +492,7 @@
           "name": "format",
           "path": "packages/core/src/components/date-picker/demos/format.tsx",
           "title": "格式与尺寸",
-          "description": "format 的 token 子集、三档尺寸与清除按钮。"
+          "description": "format 的 token 子集、三档尺寸、清除按钮，以及 showTime 日期时间同选。"
         }
       ]
     },
@@ -520,6 +521,34 @@
           "path": "packages/core/src/components/range-picker/demos/format.tsx",
           "title": "格式与尺寸",
           "description": "格式与分隔文案两端共用，三档尺寸与清除按钮。"
+        }
+      ]
+    },
+    {
+      "slug": "time-picker",
+      "title": "TimePicker 时间选择",
+      "category": "表单",
+      "description": "独立时间选择：时 / 分 / 秒列、12 / 24 小时制、min·max 与 disabledTime 禁用；值为 24 小时制 HH:mm，也可由 DatePicker showTime 复用同一面板。",
+      "exportPath": "solid-craft/time-picker",
+      "hasApi": true,
+      "demos": [
+        {
+          "name": "basic",
+          "path": "packages/core/src/components/time-picker/demos/basic.tsx",
+          "title": "基础用法",
+          "description": "非受控与受控两种取值方式、清除与三档尺寸；值为 24 小时制 HH:mm。"
+        },
+        {
+          "name": "constraints",
+          "path": "packages/core/src/components/time-picker/demos/constraints.tsx",
+          "title": "可选范围",
+          "description": "min / max 闭区间与 disabledTime 自定义禁用；手输越界同样被拒绝。"
+        },
+        {
+          "name": "format",
+          "path": "packages/core/src/components/time-picker/demos/format.tsx",
+          "title": "格式与显示",
+          "description": "12 / 24 小时制、带秒、自定义显示格式；显示变化不影响 24 小时制的值。"
         }
       ]
     },

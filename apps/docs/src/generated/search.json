@@ -2004,7 +2004,7 @@
   {
     "type": "demo",
     "title": "DatePicker 日期选择 · 格式与尺寸",
-    "description": "format 的 token 子集、三档尺寸与清除按钮。",
+    "description": "format 的 token 子集、三档尺寸、清除按钮，以及 showTime 日期时间同选。",
     "keywords": "date-picker format",
     "href": "/components/date-picker/format"
   },
@@ -2112,6 +2112,41 @@
     "description": "「今天」按钮文案。",
     "keywords": "date-picker string",
     "href": "/components/date-picker#api-todayLabel"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.showTime",
+    "description": "是否在日历弹层内显示时间列（值变为 `YYYY-MM-DDTHH:mm`）。",
+    "keywords": "date-picker boolean",
+    "href": "/components/date-picker#api-showTime"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.showSeconds",
+    "description": "`showTime` 时时间部分带秒。",
+    "keywords": "date-picker boolean",
+    "href": "/components/date-picker#api-showSeconds"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.hour12",
+    "description": "`showTime` 时用 12 小时制显示时间（值仍是 24 小时制）。",
+    "keywords": "date-picker MaybeAccessor<boolean>",
+    "href": "/components/date-picker#api-hour12"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.disabledTime",
+    "description": "`showTime` 时禁用指定时间。",
+    "keywords": "date-picker (time: TimeValue) => boolean",
+    "href": "/components/date-picker#api-disabledTime"
+  },
+  {
+    "type": "api",
+    "title": "DatePickerProps.okLabel",
+    "description": "`showTime` 时「确定」按钮文案。",
+    "keywords": "date-picker string",
+    "href": "/components/date-picker#api-okLabel"
   },
   {
     "type": "api",
@@ -2294,6 +2329,202 @@
     "description": "附加类名。",
     "keywords": "range-picker string",
     "href": "/components/range-picker#api-class"
+  },
+  {
+    "type": "component",
+    "title": "TimePicker 时间选择",
+    "description": "独立时间选择：时 / 分 / 秒列、12 / 24 小时制、min·max 与 disabledTime 禁用；值为 24 小时制 HH:mm，也可由 DatePicker showTime 复用同一面板。",
+    "keywords": "time-picker solid-craft/time-picker",
+    "href": "/components/time-picker"
+  },
+  {
+    "type": "demo",
+    "title": "TimePicker 时间选择 · 基础用法",
+    "description": "非受控与受控两种取值方式、清除与三档尺寸；值为 24 小时制 HH:mm。",
+    "keywords": "time-picker basic",
+    "href": "/components/time-picker/basic"
+  },
+  {
+    "type": "demo",
+    "title": "TimePicker 时间选择 · 可选范围",
+    "description": "min / max 闭区间与 disabledTime 自定义禁用；手输越界同样被拒绝。",
+    "keywords": "time-picker constraints",
+    "href": "/components/time-picker/constraints"
+  },
+  {
+    "type": "demo",
+    "title": "TimePicker 时间选择 · 格式与显示",
+    "description": "12 / 24 小时制、带秒、自定义显示格式；显示变化不影响 24 小时制的值。",
+    "keywords": "time-picker format",
+    "href": "/components/time-picker/format"
+  },
+  {
+    "type": "api",
+    "title": "TimeValue.hour",
+    "description": "小时 0–23。",
+    "keywords": "time-picker number",
+    "href": "/components/time-picker#api-hour"
+  },
+  {
+    "type": "api",
+    "title": "TimeValue.minute",
+    "description": "分钟 0–59。",
+    "keywords": "time-picker number",
+    "href": "/components/time-picker#api-minute"
+  },
+  {
+    "type": "api",
+    "title": "TimeValue.second",
+    "description": "秒 0–59（无秒模式下恒为 0）。",
+    "keywords": "time-picker number",
+    "href": "/components/time-picker#api-second"
+  },
+  {
+    "type": "api",
+    "title": "TimeLimits.min",
+    "description": "最小可选时间（含），`HH:mm`。",
+    "keywords": "time-picker string",
+    "href": "/components/time-picker#api-min"
+  },
+  {
+    "type": "api",
+    "title": "TimeLimits.max",
+    "description": "最大可选时间（含），`HH:mm`。",
+    "keywords": "time-picker string",
+    "href": "/components/time-picker#api-max"
+  },
+  {
+    "type": "api",
+    "title": "TimeLimits.disabledTime",
+    "description": "自定义禁用判定。",
+    "keywords": "time-picker (time: TimeValue) => boolean",
+    "href": "/components/time-picker#api-disabledTime"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.value",
+    "description": "受控值（24 小时制 `HH:mm` / `HH:mm:ss`）；支持传值或 getter。 与 `defaultValue` 二选一，传了即为受控。",
+    "keywords": "time-picker MaybeAccessor<string>",
+    "href": "/components/time-picker#api-value"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.defaultValue",
+    "description": "非受控初始值；仅在挂载时读取一次。",
+    "keywords": "time-picker MaybeAccessor<string>",
+    "href": "/components/time-picker#api-defaultValue"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.onChange",
+    "description": "选中回调；参数是 24 小时制 ISO 字符串，清空时为 `''`。",
+    "keywords": "time-picker TimePickerChangeHandler",
+    "href": "/components/time-picker#api-onChange"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.showSeconds",
+    "description": "是否带秒（值格式 `HH:mm:ss`）。",
+    "keywords": "time-picker boolean",
+    "href": "/components/time-picker#api-showSeconds"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.hour12",
+    "description": "是否用 12 小时制显示（多一列「上午 / 下午」），值仍是 24 小时制。",
+    "keywords": "time-picker MaybeAccessor<boolean>",
+    "href": "/components/time-picker#api-hour12"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.format",
+    "description": "显示格式，token 子集 `HH` / `H` / `mm` / `m` / `ss` / `s` / `A`。",
+    "keywords": "time-picker string",
+    "href": "/components/time-picker#api-format"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.min",
+    "description": "最小可选时间（含），`HH:mm`。",
+    "keywords": "time-picker MaybeAccessor<string>",
+    "href": "/components/time-picker#api-min"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.max",
+    "description": "最大可选时间（含），`HH:mm`。",
+    "keywords": "time-picker MaybeAccessor<string>",
+    "href": "/components/time-picker#api-max"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.disabledTime",
+    "description": "自定义禁用判定；与 `min` / `max` 叠加生效。",
+    "keywords": "time-picker (time: TimeValue) => boolean",
+    "href": "/components/time-picker#api-disabledTime"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.placeholder",
+    "description": "输入框占位文案。",
+    "keywords": "time-picker string",
+    "href": "/components/time-picker#api-placeholder"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.size",
+    "description": "尺寸。",
+    "keywords": "time-picker TimePickerSize",
+    "href": "/components/time-picker#api-size"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.status",
+    "description": "校验态；被 `<Form.Item>` 包裹时默认跟随字段状态。",
+    "keywords": "time-picker TimePickerStatus",
+    "href": "/components/time-picker#api-status"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.disabled",
+    "description": "禁用；与 `<Form disabled>` 取或。",
+    "keywords": "time-picker MaybeAccessor<boolean>",
+    "href": "/components/time-picker#api-disabled"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.allowClear",
+    "description": "是否显示清除按钮（有值时出现）。",
+    "keywords": "time-picker boolean",
+    "href": "/components/time-picker#api-allowClear"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.clearLabel",
+    "description": "清除按钮的无障碍文案。",
+    "keywords": "time-picker string",
+    "href": "/components/time-picker#api-clearLabel"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.okLabel",
+    "description": "浮层「确定」按钮文案。",
+    "keywords": "time-picker string",
+    "href": "/components/time-picker#api-okLabel"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.name",
+    "description": "表单字段名（原生 `input` 的 `name`）。",
+    "keywords": "time-picker string",
+    "href": "/components/time-picker#api-name"
+  },
+  {
+    "type": "api",
+    "title": "TimePickerProps.class",
+    "description": "附加类名。",
+    "keywords": "time-picker string",
+    "href": "/components/time-picker#api-class"
   },
   {
     "type": "component",

@@ -7,11 +7,14 @@
 
 | 属性 | 取值 | 语义 | 适用组件 |
 | --- | --- | --- | --- |
-| `data-scui-size` | `small \| medium \| large` | 尺寸，默认 `medium`；禁止 `sm` / `md` | Select / DatePicker / Form / Table / Pagination / Modal / Drawer |
+| `data-scui-size` | `small \| medium \| large` | 尺寸，默认 `medium`；禁止 `sm` / `md` | Select / DatePicker / TimePicker / Form / Table / Pagination / Modal / Drawer |
+| `data-scui-time-unit` | `meridiem \| hour \| minute \| second` | 时间面板的列类型（恒输出）；刻意不复用 `data-scui-column`（Descriptions 的「一行几列」语义），同名不同义违反 R1（T4-13） | TimePicker / DatePicker（showTime） |
+| `data-scui-index` | `0..n` | 选项在其列中的序号，供方向键定位（T4-13） | TimePicker |
+| `data-scui-hour12` / `data-scui-seconds` | `''`（存在即真） | 时间面板使用 12 小时制 / 带秒列（T4-13） | TimePicker / DatePicker（showTime） |
 | `data-scui-color` | `primary \| neutral \| success \| warning \| danger` | **控件的配色语义**，恒输出（Button 默认 `primary`、Tag 默认 `neutral`）；与 `demos/shared.tsx` 的 `COLORS` 同口径。AGENTS.md 硬约束 3 早就把「颜色」指派给 `-color`，Button 自 T1 起一直在输出，本行是 T3-10 补齐的**登记表缺漏**（此前只写在代码里）。刻意不复用 `data-scui-kind`（反馈语义类型，取值含 `info` / `loading`）或 `data-scui-variant`（Skeleton 骨架形状）——同名不同义违反 R1（T3-10） | Button / Tag |
 | `data-scui-disabled` | `''`（存在即真） | 禁用态，配合原生 `disabled` / `aria-disabled` | 全部 |
 | `data-scui-invalid` | `'true' \| 'false'` | 校验失败；SSR 也输出，避免 hydration 属性差 | Form |
-| `data-scui-open` | `''` | 弹层展开 | Select / DatePicker |
+| `data-scui-open` | `''` | 弹层展开 | Select / DatePicker / TimePicker |
 | `data-scui-loading` | `''`（存在即真） | 加载态：弹层只显示加载提示、触发器置 `aria-busy="true"`；与 `data-scui-open` 同属「存在即真」口径。Table 复用同一口径，落在滚动容器上；Card 同样复用（T3-10），落在卡片根节点上，正文换成组合进来的 `Skeleton`，不自建第二套骨架 | Select / Table / Card |
 | `data-scui-auto-size` | `''`（存在即真） | 自动高度生效中（关闭拖拽手柄，高度由 JS 写内联值） | Input（Textarea） |
 | `data-scui-count` | `''`（存在即真） | 字数统计显示中（页脚留位） | Input（Textarea） |
@@ -90,6 +93,7 @@
 | `date-picker` / `date-input` / `calendar` / `month-label` / `weekdays` | DatePicker | 结构锚点 |
 | `calendar-popup` / `month-prev` / `month-next` / `date-clear` / `date-today` | DatePicker | 结构锚点（T2-10）：全部只在客户端弹层 / 有值时出现，SSR 只输出 `date-picker` 与 `date-input` |
 | `range-picker` / `range-start-input` / `range-end-input` | RangePicker | 结构锚点（T2-11）：三个锚点在 SSR 全部输出（区间是双输入框） |
+| `time-picker` / `time-input` / `time-clear` / `time-popup` / `time-panel` / `time-column` / `time-option` / `time-ok` | TimePicker / DatePicker（showTime） | 结构锚点（T4-13）：SSR 只输出 `time-picker` 与 `time-input`（有值时另有 `time-clear`），面板与按钮只在客户端弹层出现；DatePicker 的 `showTime` 复用 `time-panel` / `time-column` / `time-option`，不另造角色名 |
 | `range-popup` / `range-calendar` / `range-summary` / `range-clear` / `range-popup-clear` | RangePicker | 结构锚点（T2-11）：后四者只在客户端弹层内出现，SSR 零输出；`range-clear` 是输入框右侧清除按钮、`range-popup-clear` 是弹层页脚清除。翻月与表头复用 DatePicker 的 `month-prev` / `month-next` / `month-label` / `weekdays` 角色值（同一语义不另起新名） |
 | `form` / `form-item` / `field-error` / `form-submit` | Form | 结构锚点 |
 | `layout-content` | Layout | 结构锚点（T2-13）：`Content` 渲染成 `<div data-scui-role="layout-content">` 而**不是 `<main>`** —— `main` landmark 只能由页面提供，组件里再渲染一个会让「Layout 嵌进已有 main 的页面」出现两个 main |

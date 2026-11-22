@@ -921,6 +921,37 @@ const cases = [
       ['data-scui-invalid="false"', 1],
     ],
   },
+  {
+    // T4-13：TimePicker 静态骨架。时间列只在客户端展开时挂载，服务端必须缺席；
+    // 三个实例分别覆盖默认 / 带秒+12小时制+清除 / 区间+error+disabled。
+    id: 'T4-13',
+    file: '/src/components/time-picker/__tests__/ssr-entry.tsx',
+    markers: [
+      'lang="zh-CN"',
+      'data-scui-role="time-picker"',
+      'data-scui-role="time-input"',
+      'data-scui-role="time-clear"',
+      'data-scui-size="small"',
+      'data-scui-size="medium"',
+      'data-scui-invalid="false"',
+      'data-scui-invalid="true"',
+      'data-scui-disabled=""',
+      'role="combobox"',
+      'aria-expanded="false"',
+      'aria-label="时间"',
+      'placeholder="HH:mm:ss"',
+      '下午 02:05:30',
+    ],
+    counts: [
+      ['data-scui-role="time-picker"', 3],
+      ['data-scui-role="time-input"', 3],
+      ['data-scui-role="time-panel"', 0],
+      ['data-scui-role="time-clear"', 1],
+      ['data-scui-invalid="false"', 2],
+      ['data-scui-invalid="true"', 1],
+      ['role="combobox"', 3],
+    ],
+  },
 ];
 
 const errors = [];

@@ -52,6 +52,7 @@ import { /* 导出符号 */ } from 'solid-craft/package.json';
 - `./select` → [solid-craft/select](../exports/select.md)
 - `./date-picker` → [solid-craft/date-picker](../exports/date-picker.md)
 - `./range-picker` → [solid-craft/range-picker](../exports/range-picker.md)
+- `./time-picker` → [solid-craft/time-picker](../exports/time-picker.md)
 - `./form` → [solid-craft/form](../exports/form.md)
 - `./table` → [solid-craft/table](../exports/table.md)
 - `./pagination` → [solid-craft/pagination](../exports/pagination.md)

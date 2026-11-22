@@ -1,0 +1,204 @@
+@use 'mixins' as m;
+
+/* TimePicker（T4-13）
+   状态一律 [data-scui-*] 且带 .scui- 静态类作用域，类名只有块与元素两级（无 modifier）。
+   弹层内联在根节点内（position: absolute），与 DatePicker 同一套浮层视觉。 */
+
+:where(.scui-time-picker) {
+  --scui-time-picker-height: 32px;
+  --scui-time-picker-padding: var(--scui-space-3, 12px);
+  --scui-time-picker-border: var(--scui-color-border-strong);
+  --scui-time-picker-accent: var(--scui-color-primary);
+  --scui-time-picker-danger: var(--scui-color-danger);
+  --scui-time-picker-radius: var(--scui-space-1, 4px);
+
+  position: relative;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  inline-size: 100%;
+  max-inline-size: 180px;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+
+  &[data-scui-size='small'] {
+    --scui-time-picker-height: 24px;
+    --scui-time-picker-padding: var(--scui-space-2, 8px);
+  }
+
+  &[data-scui-size='large'] {
+    --scui-time-picker-height: 40px;
+    --scui-time-picker-padding: var(--scui-space-4, 16px);
+  }
+
+  &[data-scui-invalid='true'] .scui-time-picker__input {
+    border-color: var(--scui-time-picker-danger);
+  }
+
+  &[data-scui-open] .scui-time-picker__input {
+    border-color: var(--scui-time-picker-accent);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-time-picker__input) {
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: var(--scui-time-picker-height, 32px);
+  padding-inline: var(--scui-time-picker-padding, 12px);
+  border: 1px solid var(--scui-time-picker-border);
+  border-radius: var(--scui-time-picker-radius, 4px);
+  background: var(--scui-color-bg-surface);
+  color: inherit;
+  font: inherit;
+
+  &::placeholder {
+    color: var(--scui-color-text-tertiary);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--scui-time-picker-accent);
+  }
+
+  &:focus-visible {
+    border-color: var(--scui-time-picker-accent);
+
+    @include m.scui-focus-ring;
+  }
+
+  &:disabled {
+    background: var(--scui-color-bg-surface);
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-time-picker__clear) {
+  position: absolute;
+  inset-inline-end: 8px;
+  inset-block-start: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 18px;
+  block-size: 18px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background: var(--scui-color-bg-subtle);
+  color: var(--scui-color-text-secondary);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
+
+:where(.scui-time-picker__popup) {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: calc(var(--scui-z-index-base, 0) + 1100);
+  inset-block-start: calc(100% + 4px);
+  inset-inline-start: 0;
+  padding: var(--scui-space-2, 8px);
+  border: 1px solid var(--scui-color-border-default);
+  border-radius: var(--scui-time-picker-radius, 4px);
+  background: var(--scui-color-bg-surface);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+  color: var(--scui-color-text-primary);
+  font: inherit;
+}
+
+:where(.scui-time-picker__panel) {
+  display: flex;
+  gap: var(--scui-space-1, 4px);
+}
+
+:where(.scui-time-picker__column) {
+  flex: 1;
+  min-inline-size: 52px;
+}
+
+:where(.scui-time-picker__column-label) {
+  padding-block-end: var(--scui-space-1, 4px);
+  color: var(--scui-color-text-tertiary);
+  font-size: var(--scui-font-size-sm);
+  text-align: center;
+}
+
+:where(.scui-time-picker__options) {
+  max-block-size: 168px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+:where(.scui-time-picker__option) {
+  display: block;
+  inline-size: 100%;
+  padding-block: 3px;
+  border: 0;
+  border-radius: var(--scui-time-picker-radius, 4px);
+  background: transparent;
+  color: var(--scui-color-text-primary);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: var(--scui-color-bg-subtle);
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+
+  &[data-scui-selected] {
+    background: color-mix(
+      in srgb,
+      var(--scui-time-picker-accent) 14%,
+      var(--scui-color-bg-surface)
+    );
+    color: var(--scui-time-picker-accent);
+    font-weight: var(--scui-font-weight-medium);
+  }
+
+  &[data-scui-disabled] {
+    color: var(--scui-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+:where(.scui-time-picker__footer) {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--scui-space-2, 8px);
+  margin-block-start: var(--scui-space-2, 8px);
+  padding-block-start: var(--scui-space-2, 8px);
+  border-block-start: 1px solid var(--scui-color-border-default);
+}
+
+:where(.scui-time-picker__action) {
+  padding: 2px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--scui-time-picker-radius, 4px);
+  background: transparent;
+  color: var(--scui-time-picker-accent);
+  font: inherit;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--scui-time-picker-accent);
+  }
+
+  &:focus-visible {
+    @include m.scui-focus-ring;
+  }
+}
