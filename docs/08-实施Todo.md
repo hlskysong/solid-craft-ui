@@ -11,7 +11,7 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-11（已闭合，§30.61；dist/source 产物补 sourcemap 供精确对行）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 当前任务 ID | **T4-12（已闭合，§30.62；浮层 Content 恢复 pointer-events，修复内容点击穿透关闭）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
 | 下一步 | **M4 只剩 T4-05 `0.1.0` 发布（发布与合并 `main` 均须硬约束 13 逐次授权）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
@@ -179,6 +179,7 @@
 | T4-09 | **交互类补动画 + 选择控件移除点击焦点环**：全库 34 组件仅 9 个有动画，Switch 切换生硬；Switch/Radio/Checkbox 的 `:focus-within` ring 点击即显示蓝框 | T4-08 | 技术负责人 | Aming 实测截图裁决「布局类不动、交互类补动画」+「焦点环完全删除」（2026-11-22）；新增共享 `styles/motion.scss`（8 组关键帧 + reduced-motion mixin），三件套切换改 base/slow 时长 + 回弹曲线 + 选中心跳，浮层（Modal/Drawer/Select/Tooltip/Popconfirm/Message）加进场动画（只用 `opacity`/`scale`/`translate`，绝不碰 Kobalte 定位 `transform`）；选择三件套删 `:focus-within` ring，其余 `:focus-visible`（键盘焦点）保留不动（受硬约束 11 与 2 处 E2E 保护）；E2E 1 条（焦点环 none + 关键帧在册）+ 负向注入实证；`pnpm verify` RC=0，216 张基线 0 漂移（Playwright 全局禁动画，见 §30.59） | [x] |
 | T4-10 | **radio 选中圆点半像素偏位修复**：dot 用 `content-box` 的 50%，medium/large 算出奇数尺寸（7/9px）+ 半像素居中留白（4.5/5.5px），1x 屏光栅化舍入后白点视觉偏 0.5px | T4-09 | 技术负责人 | Aming 实测截图「radio 选中圆点居中写法不对、视觉有偏差」→ 浏览器精确测量确认 medium/large 圆点留白 4.5/5.5px 半像素（small 4px 整数所以看着正）；dot 改为按尺寸档的确定偶数 px（`--scui-radio-current-dot` = 6/8/10），三档留白全落整数（4/4/5px）；Checkbox 用固定 12×12 SVG 勾无同类问题、不在范围；E2E 1 条（三档 dot 偶数 + 留白整数）+ 注入旧写法负向实证（medium/large `integer=false`）；视觉基线 2 张更新（dot 大 1px），见 §30.60 | [x] |
 | T4-11 | **dist/source 产物补 sourcemap（Alt+click 精确对行）**：admin 模板 click-to-ide 跳源码只能近似定位——solid-devtools 注入的是产物行列，擦除 TS 类型致行号漂移（Button 产物 L51 = 源码 L57），无 map 无法精确反查 | T4-10 | 技术负责人 | Aming「需要 sourcemap 才能精确对行，这个要带上」；`build-source.mjs` 给 esbuild transform 开 `sourcemap: 'external'`，140 个 `.jsx` 各配 `.jsx.map`（`sources` 用 `path.relative` 回指 `src`、`sourcesContent` 内嵌、加 `file` 字段 + 产物尾 `sourceMappingURL`）；沿 docs/02「不压缩、保留 sourcemap」既有决策，与 dist/esm 的 `*.js.map` 对齐；仓外 click-to-ide 共享包用 `@jridgewell/trace-mapping` 把产物行列精确反查回源码（10 条契约测试，Button 51:8→57:7，map 缺失回退近似行）；`check-exports` esm<->source parity / publint / attw / tarball / size / check:ci 全 RC=0，见 §30.61 | [x] |
+| T4-12 | **浮层 Content 恢复 pointer-events（设置抽屉一点就关）**：Kobalte modal 给 body 设 `pointer-events:none`、只给 Overlay 放行 `auto`，Modal / Drawer 的 Content 没显式恢复，真实鼠标点抽屉内任意控件都穿到遮罩触发关闭 | T4-11 | 技术负责人 | Aming 实测「页面设置弹层点击选择时直接收起」；DevTools 实测 `body=none / overlay=auto / drawer=none`、色板真实 `pointerdown` 的 target 是 `scui-drawer__overlay` —— 不是冒泡误判，是内容失去指针事件；`modal.scss` / `drawer.scss` 的 Content 显式补 `pointer-events: auto`，并纠正 `overlay.tsx` 与 Drawer 单测里「Kobalte 会给 Content 写 auto」的错误注释；E2E 1 条（computed style 三值 + 真实指针点内容不关闭，脚本 `.click()` 测不出该 bug）；浏览器实测色板/图卡/Switch 真实点击均保持抽屉打开且设置生效；见 §30.62 | [x] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
@@ -6635,3 +6636,50 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 
 `scripts/build-source.mjs`、`docs/08-实施Todo.md`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`。
 产物影响：`packages/core/dist/source/**/*.jsx.map`（140 个新增，随包发布，符合 docs/02 保留 sourcemap 决策）。
+
+---
+
+### 30.62 T4-12 浮层 Content 恢复 pointer-events 结果（2026-11-22）
+
+> Aming 实测：「页面设置弹层在点击选择时会直接收起来，是点击穿透了吗」。
+> 现象出现在仓外 admin-framework/vite 的设置抽屉，但根因在组件库浮层原语的样式接缝，Modal 同样中招。
+
+#### 一、根因实测（不是事件冒泡，是内容失去指针事件）
+
+| 项 | 实测 |
+| --- | --- |
+| 复现路径 | 5173 打开设置抽屉 → 鼠标真实点击「靛紫」色板 → 抽屉立刻关闭；用脚本 `element.click()` 点同一色板却不关（脚本不产生 `pointerdown`，所以此前 E2E 全绿是假安全） |
+| computed style | `document.body.pointer-events = none`（Kobalte modal 运行时写）、`overlay = auto`（Kobalte 写）、**`drawer = none`、`swatch = none`**（没有一层恢复） |
+| 真实指针目标 | 给 document 加 `pointerdown` 捕获监听，点色板时 `event.target.className = scui-drawer__overlay`、`isOverlay = true` —— 点击**直接落在遮罩**上，由 `onMaskPointerDown` 正常发出关闭请求 |
+| 排除冒泡假设 | 遮罩与 Content 是 Portal 下的兄弟节点，内容点击不会冒泡到遮罩；旧注释「遮罩是空 div 不用判 target」的前提是 Kobalte 会给 Content 写 `auto`，实测该前提不成立 |
+| 影响面 | 所有走 `PrimitiveOverlay` 的浮层（Modal / Drawer）：内容区按钮、色板、Radio、Switch 的真实鼠标交互全部失效，一点就关 |
+
+#### 二、修复
+
+1. `packages/core/src/components/drawer/drawer.scss`：`:where(.scui-drawer)` 显式写 `pointer-events: auto`。
+2. `packages/core/src/components/modal/modal.scss`：`:where(.scui-modal)` 同样写 `pointer-events: auto`（同型缺陷，一起修）。
+3. `packages/core/src/primitives/overlay.tsx`：改写 `onMaskPointerDown` 注释，明确「Content 必须在自己的 SCSS 里恢复 auto」这一必要条件，不再声称 Kobalte 代劳。
+4. `packages/core/src/components/drawer/Drawer.test.tsx`：纠正同类错误注释。
+5. `tests/e2e/specs/browser.spec.ts`：新增 1 条 —— 断言 `body=none / overlay=auto / content=auto` 三值，并用 Playwright **真实指针**点 Modal 内容文本、Drawer 内容按钮，断言浮层保持打开且状态生效。脚本 `.click()` 无法暴露本 bug，这是本轮回归测试的关键约束。
+6. 治理文档：本任务行 + 顶部锚点 + 本节；todo-governance `T4-12 → 30.62`；goals 基线重校准。
+
+#### 三、实证链
+
+| 项 | 结果 |
+| --- | --- |
+| 修复前负向实证 | `body=none / overlay=auto / drawer=none`，真实点击色板 `pointerdown.target = scui-drawer__overlay`，`drawerOpen=false` |
+| E2E 回归 | 新增用例 `浮层 Content 恢复 pointer-events，点内容不穿透关闭` **1 passed**；computed style 三值断言成立，真实点内容后浮层仍在 |
+| 浏览器实测（5173） | 修复后 `drawer=auto / swatch=auto`；真实点色板 → 抽屉保持打开、`--scui-color-primary = #722ed1`、靛紫激活；点「混合」图卡 → 保持打开、`data-nav-mode=mix`；点「多标签页」Switch → 保持打开、`.pro-tabs` 消失；重置恢复 side / 蓝 / 有 tabs；关闭按钮正常 |
+| 构建 | `pnpm build` 4/4 tasks 成功，`check-exports` esm<->source parity OK |
+| 视觉基线 | 仅新增 `pointer-events`（不可见属性），0 漂移 |
+
+#### 四、允许写入路径与全链验收
+
+- 允许写入：`packages/core/src/components/drawer/drawer.scss`、`packages/core/src/components/modal/modal.scss`、`packages/core/src/primitives/overlay.tsx`、`packages/core/src/components/drawer/Drawer.test.tsx`、`tests/e2e/specs/browser.spec.ts`、`docs/08-实施Todo.md`（本节 / §4.2 / 顶部锚点）、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（受保护文件基线重校准）。
+- 禁止写入：`docs/01~07`（冻结）、Token（本轮零改动）。
+- 全链验收：`pnpm verify` **RC=0**（26 阶段全绿），机器证据见上方实证链各门禁输出。
+
+#### 五、影响文件
+
+`packages/core/src/components/drawer/drawer.scss`、`packages/core/src/components/modal/modal.scss`、`packages/core/src/primitives/overlay.tsx`、`packages/core/src/components/drawer/Drawer.test.tsx`、`tests/e2e/specs/browser.spec.ts`、`docs/08-实施Todo.md`、`scripts/todo-governance.json`、`scripts/goals.baseline.json`。
+产物影响：`packages/core/dist/styles/*` 重新构建（仅增加 `pointer-events: auto` 声明）。

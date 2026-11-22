@@ -34,6 +34,9 @@
 :where(.scui-drawer) {
   --scui-drawer-size: 378px;
 
+  /* Kobalte modal 给 body 设 pointer-events:none、只给 Overlay 放行 auto；
+     Content 必须自己恢复，否则抽屉内的真实点击会穿到遮罩并触发关闭。 */
+  pointer-events: auto;
   position: fixed;
   inset-block: 0;
   inset-inline: 0;

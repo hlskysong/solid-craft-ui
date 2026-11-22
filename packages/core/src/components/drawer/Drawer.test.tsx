@@ -163,8 +163,8 @@ describe('Drawer：四方向与尺寸', () => {
       </Drawer>
     ));
     await openDrawer();
-    // Kobalte 的 modal 模式自己会给 Content 写 pointer-events: auto，
-    // 不能断言「style 属性为空」，只能断言我们没往里写自定义尺寸变量。
+    // Kobalte modal 只给 Overlay 写 pointer-events: auto，Content 的 auto 由
+    // drawer.scss 提供；这里只断言我们没往内联 style 写自定义尺寸变量。
     expect(content()?.getAttribute('style') ?? '').not.toContain('--scui-drawer-size');
   });
 });

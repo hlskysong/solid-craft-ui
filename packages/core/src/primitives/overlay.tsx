@@ -75,8 +75,10 @@ export function PrimitiveOverlay(props: PrimitiveOverlayProps): JSX.Element {
    *
    * 不判 `event.target === event.currentTarget`：Solid 的 `on*` 走事件委托，
    * 委托 handler 里的 currentTarget 不是遮罩节点，这个判断会永远 return
-   * （jsdom 直接派发时恰好成立，造成「单测绿 / 浏览器红」）。遮罩是空 div、
-   * 没有子元素，落在它上面的 pointerdown 不需要再判目标。
+   * （jsdom 直接派发时恰好成立，造成「单测绿 / 浏览器红」）。
+   * 内容不会误触这里的必要条件：Kobalte modal 给 body 设 `pointer-events:none`、
+   * 只给 Overlay 设 `auto`，因此 Modal / Drawer 的 Content **必须**在自己的
+   * SCSS 里显式写 `pointer-events: auto`；否则内容区点击会穿到遮罩并关闭浮层。
    */
   const onMaskPointerDown = (): void => {
     if (!dismissible() || !maskClosable()) return;

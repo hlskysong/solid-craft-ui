@@ -32,6 +32,9 @@
 :where(.scui-modal) {
   --scui-modal-width: 520px;
 
+  /* Kobalte modal 给 body 设 pointer-events:none、只给 Overlay 放行 auto；
+     Content 必须自己恢复，否则弹窗内的真实点击会穿到遮罩并触发关闭。 */
+  pointer-events: auto;
   position: fixed;
   inset: 0;
   z-index: calc(var(--scui-z-index-base, 0) + 1001);

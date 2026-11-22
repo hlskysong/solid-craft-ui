@@ -450,6 +450,46 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await expect(dialog).toBeVisible();
   });
 
+  // T4-12：Kobalte modal 给 body 设 pointer-events:none、只给 Overlay 放行 auto。
+  // Content 若没显式恢复 auto，真实鼠标点内容会穿到遮罩并关闭浮层 —— 脚本
+  // element.click() 不产生 pointerdown，测不出这个 bug，必须用真实指针。
+  test('浮层 Content 恢复 pointer-events，点内容不穿透关闭', async ({ page }) => {
+    await page.goto('/components/modal/basic?standalone=1');
+    await page.getByRole('button', { name: '打开 small' }).click();
+    const modal = page.getByRole('dialog', { name: '新增设备采购计划' });
+    await expect(modal).toBeVisible();
+
+    const modalPE = await page.evaluate(() => ({
+      body: getComputedStyle(document.body).pointerEvents,
+      overlay: getComputedStyle(
+        document.querySelector('[data-scui-role="modal-overlay"]') as Element,
+      ).pointerEvents,
+      content: getComputedStyle(document.querySelector('[data-scui-role="modal"]') as Element)
+        .pointerEvents,
+    }));
+    expect(modalPE.body).toBe('none');
+    expect(modalPE.overlay).toBe('auto');
+    expect(modalPE.content, 'Modal Content 必须显式恢复 auto').toBe('auto');
+
+    // 真实指针点内容文本：修复前事件穿到遮罩，弹窗会直接关闭
+    await modal.locator('p').first().click();
+    await expect(modal).toBeVisible();
+
+    await page.goto('/components/drawer/open-state?standalone=1');
+    const drawer = page.getByRole('dialog', { name: '打开态视觉基线' });
+    await expect(drawer).toBeVisible();
+    const drawerPE = await page.evaluate(
+      () =>
+        getComputedStyle(document.querySelector('[data-scui-role="drawer"]') as Element)
+          .pointerEvents,
+    );
+    expect(drawerPE, 'Drawer Content 必须显式恢复 auto').toBe('auto');
+
+    await drawer.getByRole('button', { name: 'left', exact: true }).click();
+    await expect(drawer).toBeVisible();
+    await expect(drawer).toHaveAttribute('data-scui-side', 'left');
+  });
+
   // T3-08：四方向不是靠 modifier class 而是靠 data-scui-side 驱动的贴边规则。
   // 只断言属性会漏掉「样式没生效」的假绿，所以直接用 boundingBox 量贴边位置；
   // 收尾再验遮罩关闭后能再次打开，避免受控状态第一次关闭就卡死。
