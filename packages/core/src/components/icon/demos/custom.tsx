@@ -1,3 +1,4 @@
+import { Download, Pencil } from 'solid-craft-icons';
 import { For } from 'solid-js';
 import { Button, Icon } from 'solid-craft';
 import { DemoSection, SIZES } from '../../demos/shared';
@@ -31,15 +32,15 @@ export default function Custom() {
       <DemoSection title="按钮内对齐">
         <Button>
           <Icon size="small">
-            <Triangle />
+            <Download />
           </Icon>
           导出
         </Button>
         <Button variant="outline">
           <Icon size="small">
-            <Triangle />
+            <Pencil />
           </Icon>
-          复制
+          编辑
         </Button>
       </DemoSection>
     </>

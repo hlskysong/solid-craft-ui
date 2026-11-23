@@ -282,9 +282,14 @@ for (const component of catalog.components) {
   }
 }
 
+// T4-18：图标清单从 solid-craft-icons 包的生成物读入，随 docs 生成物一起受 check:docs 校验。
+const iconCatalogPath = join(repoRoot, 'packages', 'icons', 'src', 'generated', 'catalog.json');
+const iconCatalogRaw = readFileSync(iconCatalogPath, 'utf8');
+
 const files = {
   'catalog.json': catalog,
   'search.json': buildSearch(catalog, apis),
+  'icons.json': JSON.parse(iconCatalogRaw),
   ...Object.fromEntries(Object.entries(apis).map(([slug, api]) => [`api/${slug}.json`, api])),
   ...demoSources,
 };

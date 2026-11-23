@@ -766,7 +766,10 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
   test('Card 封面与操作区在 375px 不横向溢出', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 800 });
     await page.goto('/components/card/cover?standalone=1');
+    // 等 Demo 宿主挂载后再数卡片：goto 只等 navigation，SPA 异步挂载时 count() 会拿到 0。
+    await expect(page.getByTestId('demo-root')).toBeVisible();
     const cards = page.locator('[data-scui-role="card"]');
+    await expect(cards.first()).toBeVisible();
     const count = await cards.count();
     expect(count).toBeGreaterThan(0);
     for (let index = 0; index < count; index += 1) {
@@ -1707,5 +1710,54 @@ test.describe('T3-13 Upload：上传 / 删除 / 取消 / 重试 / 表单接入',
     await expect(page).toHaveURL(/\/llms\.txt$/);
     const body = await page.evaluate(() => document.body.innerText.slice(0, 200));
     expect(body).toContain('# solid-craft-ui');
+  });
+
+  test('/icons 图标全量列表：搜索 / 分类 / 点击复制（T4-18）', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.goto('/icons');
+    const gallery = page.getByTestId('page-icons');
+    await expect(gallery).toBeVisible();
+    await expect(gallery.locator('h1')).toHaveText('图标 Icon');
+    // icons.json 按需动态加载（1.6 MB），等网格渲染出来再断言数量。
+    await expect(page.locator('[data-testid^="icon-item-"]').first()).toBeVisible({
+      timeout: 10000,
+    });
+
+    // 全量渲染：2024 实体 / 2317 名字 / 16 分类（数据来自 solid-craft-icons 清单）。
+    await expect(page.getByTestId('icon-count')).toHaveText('2024 个图标');
+    await expect(page.locator('[data-testid^="icon-item-"]')).toHaveCount(2024);
+    await expect(page.locator('.docs-icons-cat')).toHaveCount(16);
+    const lead = await gallery.locator('.docs-lead').innerText();
+    expect(lead).toContain('2024 个实体');
+    expect(lead).toContain('2317 个名字');
+
+    // 搜索：名称 + 别名都能命中（circle-check 命中本体与含该串的图标）。
+    const search = page.getByTestId('icon-search');
+    await search.fill('circle-check');
+    await expect(page.getByTestId('icon-count')).toContainText('个图标');
+    expect(await page.locator('[data-testid^="icon-item-"]').count()).toBeGreaterThanOrEqual(1);
+    await expect(page.getByTestId('icon-item-circle-check')).toBeVisible();
+
+    // 分类：箭头组只显示 arrow-* 图标。
+    await search.fill('');
+    await page.getByTestId('icon-cat-arrows').click();
+    await expect(page.getByTestId('icon-cat-arrows')).toHaveAttribute('data-active', 'true');
+    const firstItem = page.locator('[data-testid^="icon-item-"]').first();
+    expect(await firstItem.getAttribute('data-testid')).toContain('arrow-');
+
+    // 点击复制：写入剪贴板的是真实 import 语句，卡片给短暂成功态。
+    await firstItem.click();
+    await expect(firstItem).toHaveAttribute('data-copied', '1');
+    const copied = await page.evaluate(() => navigator.clipboard.readText());
+    expect(copied).toMatch(/^import \{ \w+ \} from 'solid-craft-icons';$/);
+
+    // 双向文档引用：图标页 → 组件文档，组件文档 → 图标页（T4-18 交叉引用）。
+    const toComponent = page.getByTestId('icon-xref-component').locator('a');
+    await expect(toComponent).toHaveAttribute('href', '/components/icon');
+    await toComponent.click();
+    await expect(page).toHaveURL(/\/components\/icon$/);
+    await expect(page.getByTestId('page-component')).toBeVisible();
+    const toGallery = page.getByTestId('icon-xref-gallery').locator('a');
+    await expect(toGallery).toHaveAttribute('href', '/icons');
   });
 });

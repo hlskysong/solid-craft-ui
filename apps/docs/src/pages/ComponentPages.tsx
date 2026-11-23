@@ -48,6 +48,12 @@ export function ComponentPage() {
             </p>
           </Show>
 
+          <Show when={slug() === 'icon'}>
+            <p class="docs-muted" data-testid="icon-xref-gallery">
+              组件文档演示图标用法；全部图标见 <A href="/icons">图标列表与搜索</A> 页。
+            </p>
+          </Show>
+
           <h2>Demo</h2>
           <p class="docs-muted">共 {item().demos.length} 个 Demo，均可展开源码、复制与打开独立页。</p>
           <For each={item().demos}>

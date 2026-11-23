@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalPassThroughEnv": ["PLAYWRIGHT_USE_SYSTEM_CHROME", "SCUI_E2E_SCOPE"],
+  "globalDependencies": ["scripts/**/*.mjs"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

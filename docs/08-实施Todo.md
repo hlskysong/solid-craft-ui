@@ -11,8 +11,8 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-16（已闭合，§30.66；Tag 对齐 TDesign 四形态 + 配色，R1 保持 color/variant 分语义）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-15 已闭合（§30.65）；T4-14 已闭合（§30.64）；T4-13 已闭合（§30.63）；T4-12 已闭合（§30.62）；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
-| 下一步 | **M4 只剩 T4-05 `0.1.0` 发布（发布与合并 `main` 均须硬约束 13 逐次授权）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
+| 当前任务 ID | **T4-18（已闭合，§30.68；图标全量进包 2024 实体 / 2317 名字 + /icons 列表搜索页）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-17 已闭合（§30.67）；T4-16 已闭合（§30.66，Tag 对齐 TDesign 四形态 + 配色，R1 保持 color/variant 分语义）；T4-15 已闭合（§30.65）；T4-14 已闭合（§30.64）；T4-13 已闭合（§30.63）；T4-12 已闭合（§30.62）；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 下一步 | **M4 只剩 T4-05 `0.1.0` 发布（发布与合并 `main` 均须硬约束 13 逐次授权）；T4-18 图标全量 + /icons 搜索页已落地（§30.68，2024 实体 / 2317 名字 + 预算 5/6）；T4-17 图标包已落地（§30.67，精选集生成 + 预算 5/6）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
@@ -184,6 +184,8 @@
 | T4-14 | **文档站全局禁动画误伤 Spin（组件动画在文档页全部不生效）**：Aming 反馈「Spin 组件没动画」；实测组件库产物 `index.css` 里 `scui-spin-rotate` 关键帧与 `animation` 声明完好，浏览器 `animationName=none` 且 `prefers-reduced-motion: reduce` 为 false | T4-13 | 技术负责人 | 根因是 T1-05 为截图基线加的 `apps/docs/src/styles/base.css` 裸 `* { animation/transition: none !important }`，文档站 T1-06 接管后作用域覆盖整站；收窄为 `.demo-standalone *`（`?standalone=1` 宿主由 `standalone.tsx` 给 `<html>` 加该类），截图链路仍有 CSS + Playwright 双保险；E2E 1 条（普通页 `scui-spin-rotate`/0.8s + 注入旧写法负向实证 + 宿主页 none）；组件库源码/产物/Token 零改动；见 §30.64 | [x] |
 | T4-15 | **文档站新增 `llms.txt` 说明页**：Aming 要求给 UI 库文档站加 llms 页面。T1-14 已有 `llms.txt` / `llms-full.txt` / `public/llms/` 共 161 个静态 md 与 manifest，但站内没有可读入口；新增 `/llms` SPA 页讲清三个产物的用途与用法 | T4-14 | 技术负责人 | 路由 `/llms`，页面落在 `ContentPages.tsx`，侧栏「其他」组加入口；沿用 `/changelog` 先例不进 `catalog.mjs` / `pages.mjs`，避免 docs:generate + generate-llms 的生成物连锁；链接必须带 `rel="external"` 豁免 Solid Router 的 document 级全局 a 点击拦截，否则软导航落到 NotFound；E2E 真实点击断言拿到 text/plain；见 §30.65 | [x] |
 | T4-16 | **Tag 对齐 TDesign：四形态 + 配色同步**：Aming 给 TDesign / Ant Design 两张 Tag 参考图，裁决「完全对齐 TDesign」，追加要求「现在的配色风格也对齐」 | T4-15 | 技术负责人 | 新增 `data-scui-variant`（dark / light / outline / light-outline，默认 dark）四形态，配色走组件级 `--scui-tag-*` 变量取 TDesign 官方色板（截图像素取样校准）；TDesign 原色在 13px 下 success / warning / danger 白字仅 3.1~4.3:1，axe 报 serious，改用同色系深阶把 dark 实底与 light 彩字都抬过 4.5:1；R1 语义保持 color 表配色、variant 表形态，改 check-ci 闸门；详见 §30.66 | [x] |
+| T4-17 | **图标包落地：lucide 精选集生成 + 单图标预算转正**：Aming 问「icon 方案怎么定的」，核对后方案早已定稿（docs/01/02/07 三层）但 `solid-craft-icons` 仍是版本常量占位，裁决「生成」 | T4-16 | 技术负责人 | 新增 `scripts/generate-icons.mjs` 从 lucide-solid 1.69.0 源提取 `__iconData` 生成 **53 个**自包含 Solid TSX（运行时零依赖 lucide、跟随 alias 转发、剔 React `key`、静态 JSX 展开），根导出只含精选集；三链产物 esm/source/types 各 108 文件；单图标 gzip 0.55~0.72 kB（最大 Star 721 B），「单个图标 ≤ 1 KB」从 pending 转正（.size-limit.json 第 5 条 + check-ci 判据 12 改实算），预算 4/6→5/6；SSR 新增 T4-17 入口（36 入口全绿）；零新增组件/依赖、未改冻结 docs/01~07；详见 §30.67 | [x] |
+| T4-18 | **图标全量进包 + 文档站图标列表搜索页**：Aming 问「一共导入多少 icon，TDesign 有 2300+」，裁决「全量 2317 都进包」并仿 TDesign / Ant Design 做列表与搜索 | T4-17 | 技术负责人 | 生成脚本改为全量扫描 lucide 1.69.0 的 2317 个源文件：2024 个实体组件 + 291 个 alias 导出覆盖全部名字；macOS 大小写撞名（letters / letter-s）用 fileName 消歧；根导出新增 ICON_TOTAL / ICON_NAME_TOTAL；生成脚本内接 prettier.format 保证产出即合规。文档站新增 /icons 页：搜索（名称/别名/组件名）+ 16 分类 + 2024 网格 + 点击复制 import 语句，SVG 由 catalog.node 静态展开不 import 2024 组件；icons.json 纳入 generate-docs 147 生成物与 check:docs 门禁。字集零新增（分类标签用已有字），视觉基线零漂移。详见 §30.68 | [x] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
@@ -5411,7 +5413,7 @@ Aming 授权「继续」后按 §4.2 收口：**M3 的 T3-01~T3-14 共 14 项全
 
 1. **体积预算实跑**：`docs/02 §4.6` 的 `Table + Virtual ≤ 35 KB` 含 `docs/05` **Phase 5** 才交付的虚拟滚动，
    本阶段按 `@size-limit/file` 同口径实算 Table 基础链路 **15.34 kB / 35 KB**，余量 **19.66 kB**；
-   未实现的预算行**只报告、不伪造配置**，`.size-limit.json` 保持 4/6 条，**图标包**仍只是占位。
+   未实现的预算行**只报告、不伪造配置**，`.size-limit.json` 保持 4/6 条，**图标包**仍只是占位（**T3-14 当时口径；单个图标预算已于 T4-17 落地转正，见 §30.67**）。
 2. **判据 11 扩面后仍成立**：32 组件 / 108 Demo / 216 张基线逐一对齐；`check:ci` 反向钉住文档里
    的这四个数字，手写错了就红灯。
 3. **文档与 llms 生成物**：`docs:generate` 产出 32 组件 / 108 Demo / 32 API 表 / 616 条搜索索引；
@@ -5428,7 +5430,7 @@ Aming 授权「继续」后按 §4.2 收口：**M3 的 T3-01~T3-14 共 14 项全
 | 清单 | `dist/esm/components/{table,pagination,empty,spin}/*.js`（14 个）+ `dist/styles/components/table.css`（1 个）= **15 个文件** |
 | 实算 | **15339 bytes = 15.34 kB**（`Table.js` 3904 / `table-engine.js` 3053 / `table.css` 2098 / `Pagination.js` 1958 / `pagination-engine.js` 1761 / `Spin.js` 1141 / `Empty.js` 918 / 其余 7 个 index·types 共 506） |
 | 预算 | `docs/02 §4.6` 的 35 KB；**余量 19.66 kB** |
-| 未实现 | `Table + Virtual ≤ 35 KB`（Virtual 属 Phase 5）、`单个图标 ≤ 1 KB`（图标包尚无独立产物）；`.size-limit.json` 仍是 4/6 条 |
+| 未实现 | `Table + Virtual ≤ 35 KB`（Virtual 属 Phase 5）、`单个图标 ≤ 1 KB`（图标包尚无独立产物；**T4-17 已落地，见 §30.67**）；`.size-limit.json` 当时仍是 4/6 条 |
 
 **防漏算**：`table/*.js` 的相对 import 与 `table.scss` 的 `@use` 都必须落在清单四个目录内，
 否则 4q 直接红灯。实测三处 `@use`（`../empty/empty`、`../pagination/pagination`、`../spin/spin`）
@@ -6899,4 +6901,104 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 
 #### 六、治理回写
 - §4.2 T4-16 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-16 → 30.66`；goals 基线重校准。
+- T4-05 `0.1.0` 发布仍保持 `[ ]`。
+
+---
+
+### 30.67 T4-17 图标包落地结果：lucide 精选集生成 + 单图标预算转正（2026-11-23）
+
+> 用户问「icon 方案怎么定的」，核对后方案早已定稿（docs/01 选型 lucide-solid、docs/07 ADR-009 独立包、docs/02 §4.5 精选生成、docs/03 §10 规范），但代码只落地了一半：`solid-craft-icons` 的 `src/index.ts` 只有版本常量占位，`generated/` / `custom/` 仅 `.gitkeep`。用户裁决「生成」，本轮把真正缺的一半补齐。
+
+#### 一、生成方案（沿既有决策，无新决策）
+- `scripts/generate-icons.mjs`：从 `lucide-solid@1.69.0` 的 `dist/source/icons/<name>.jsx` 提取 `__iconData`（name / node / aliases），生成自包含 Solid TSX —— **运行时零依赖 lucide**（lucide 的 ESM 入口是 client-only，直接引用会在 SSR 抛错）。
+- 精选 **53 个**通用图标（UI 语义 / 导航 / 数据 / 状态文件四组），每图标独立模块；根导出 `index.ts` 只含精选集 + `ICONS_PACKAGE_VERSION`，避免 `solid-craft` 拖进全量（docs/02 §4.5）。
+- 两个实现细节：① lucide 部分图标是 alias 转发文件（`circle-alert` → `circle-exclamation-point`），生成器跟随转发；② lucide 节点的 `key` 是 React diff 用，生成时剔除，避免 Solid 透传成无效 DOM 属性。
+- 组件签名 `size`（默认 `1em`）/ `strokeWidth`（默认 1.75）、`currentColor`、圆角端点，与 docs/03 §10 一致；静态 JSX 展开（Solid `template()` 编译），无运行时循环。
+
+#### 二、产物与体积（机器实算）
+| 链 | 产物 | 数量 |
+| --- | --- | --- |
+| ESM | `packages/icons/dist/esm/**/*.js` | 108（53 组件 × js + map + index） |
+| Solid source | `dist/source/*.jsx`（带 sourcemap） | 108 |
+| 类型 | `dist/types/*.d.ts` | 108 |
+
+- 单图标 gzip（level 9）**0.55~0.72 kB**，最大 `Star.js` 721 B —— 全部低于 docs/02 §4.6 的 1 KB 预算。
+- 「单个图标 ≤ 1 KB」从 T3-14 的 pending **转正**：`.size-limit.json` 补第 5 条（path 指向最大图标作上界代表），`pnpm size` 实跑 721 B / 1 KB PASS；`check:ci` 判据 12 从「单个图标禁入配置」改为「已落地必入配置 + 逐文件实算 ≤ 1 KB」，汇总文案同步。预算覆盖 4/6 → **5/6**，唯一未实现只剩 `Table + Virtual`（Phase 5）。
+- §30.48 为 T3-14 历史散文，保留原口径并加指针到本节，不改写历史值。
+
+#### 三、SSR 与门禁
+- 新增 SSR 入口 `packages/core/spikes/icons/ssr.tsx`（T4-17 case），登记进 `ssr-smoke.mjs`，验证 3 个精选图标服务端输出完整 SVG、size / strokeWidth 覆盖与 currentColor 落属性；36 入口全绿（7/7 markers + 1/1 counts，双渲一致 0 warning）。
+- `check:exports` 原本已覆盖 icons 包的三条件产物一致性，无需改动。
+- 未新增组件子路径 / Demo / 视觉基线 / 字集字符（生成物在 `packages/icons`，字集门禁只扫 `apps/docs/src`），零连锁。
+
+#### 四、验收
+| 项 | 结果 |
+| --- | --- |
+| 生成 | `node scripts/generate-icons.mjs` → 53 模块 + index，重复运行字节一致（幂等） |
+| typecheck | `pnpm --filter solid-craft-icons typecheck` RC=0 |
+| build | esm / source / types 三链各 108 文件，sourcemap 齐全 |
+| 体积 | `pnpm size` 5 条全 PASS，单图标 721 B / 1 KB |
+| SSR | `node ssr-smoke.mjs` 36 入口 PASS（T4-17 7 markers + 1 count） |
+| 门禁 | `pnpm check:ci` RC=0，预算 5/6，未实现仅 Table + Virtual |
+| 全链 | `pnpm verify` RC=0（26 阶段） |
+
+#### 五、允许写入路径
+- `scripts/generate-icons.mjs`（新增）、`.size-limit.json`、`scripts/check-ci.mjs`、`packages/icons/src/{index.ts,generated/}`、`packages/icons/dist/*`（构建产物）、`packages/core/spikes/icons/ssr.tsx`（新增）、`packages/core/spikes/shared/ssr-smoke.mjs`、`docs/08-实施Todo.md`、治理三件套。
+- **未改** `docs/01~07`（冻结；§4.6 本就有「单个图标 ≤ 1 KB」行，无需改）、无新增依赖（lucide-solid 1.69.0 早已在 lockfile）。
+
+#### 六、治理回写
+- §4.2 T4-17 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-17 → 30.67`；goals 基线重校准。
+- T4-05 `0.1.0` 发布仍保持 `[ ]`。
+
+---
+
+### 30.68 T4-18 图标全量进包 + 文档站图标列表搜索页验收（2026-11-23）
+
+> Aming 问「一共导入了多少个 icon，我怎么看着数据对不上呢，TDesign 里有 2300+ 图标呢」，并要求仿 TDesign / Ant Design 做列表与搜索。核对口径：lucide-solid 1.69.0 源有 **2317** 个图标文件（与 TDesign 同量级），但 T4-17 按 docs/02 §4.5「根导出只含精选集」只生成了 53 个 —— 数据没错，是方案只落地了精选。Aming 三选一裁决「**全量 2317 都进包**」，本轮推翻精选决策、全量落地并补列表搜索页。
+
+#### 一、全量生成口径（沿既有技术选型，改数量决策）
+- lucide 的 2317 个源文件中 **293 个是无 `__iconData` 的 alias 转发**（esm/types 里无对应产物），跟随到实体后共 **2024 个独立形状** = lucide 官方导出口径。
+- `scripts/generate-icons.mjs` 改为全量扫描：按 `data.name` 去重生成 2024 个实体组件，alias 名作为搜索关键词挂到目标组件；根导出追加 291 个 alias re-export（`CircleAlert` / `Refresh` 等既有消费名保留），**覆盖全部 2317 个名字**。
+- 大小写不敏感文件系统（macOS 默认）撞名：`letters` 与 `letter-s` 转出 `Letters`/`LetterS` 同文件名，用 `FILE_NAME_OVERRIDE = { letters: 'LettersAll' }` 消歧（对外导出名不变）；守卫升级为导出名 + 大小写不敏感文件名双检。
+- 生成器内接 `prettier.format`（读 `.prettierrc.json`），产出即符合仓库规范，避免 2024 个文件反复 `lint:format` 红灯；重复运行字节一致（幂等实测）。
+
+#### 二、文档站图标页（仿 TDesign / Ant Design）
+- 新增独立路由 `/icons`（`IconGallery.tsx`），侧栏「其他」加入口；与 `/llms` / `/changelog` 一样不进 catalog.mjs（不触发生成物 / llms 页连锁）。
+- 交互：搜索框（名称 / 别名 / 组件名，支持粘贴 import 语句）、16 个分类标签、2024 图标网格、点击复制 `import { X } from 'solid-craft-icons'` 并显示成功态；浏览器实测三项全通（搜索 `circle-check` 命中 3、箭头分类 110 个、复制写入剪贴板）。
+- SVG 由 `icons.json` 的 `node` 数组静态展开，**不 import 2024 个组件**，文档站 bundle 不膨胀；`icons.json`（1.6 MB）随生成物受 `check:docs` 校验（146 → 147）。
+- **按需加载（双层）**：`catalog.ts` 不静态 import icons.json（否则 1.6 MB 拖慢全站首屏），改 `loadIconCatalog()` 动态 import + `IconGallery` 内 `createResource`；`App.tsx` 的 /icons 路由再用 `lazy()` 分割，IconGallery 不进首屏模块图。首轮 verify 因静态 import 让 docs.spec 批量路由导航超时（3 例），lazy 化后单跑两批全绿。
+- **E2E 串跑超时的真正根因（第三层）**：文档站 `catalog.ts` eager glob 了全部 Demo 模块，Icon Demo 从包根导入图标；`solid` 条件原指向逐文件 barrel（`dist/source/index.jsx`），Vite dev 把 2024 个实体拆成 2024 个独立请求，且冷启动需逐个 transform。实测首访 **2621 请求 / 其中 2024 个图标模块 / warm 723 ms**，批量路由串跑时累积拖慢到 `page.goto` 超时；此前把 icons.json 静态改动态、/icons 路由 `lazy()` 化只解决了清单体积，未触及这一层，所以单跑能过、全量仍红。
+- **修法：`solid` 条件改分片源码入口**：新增 `scripts/build-icons-flat.mjs`，在 `build-source` 之后把 2024 份已擦除类型的 `dist/source/generated/*.jsx` 合成 `dist/flat-1~4.jsx`（354 / 351 / 351 / 265 KB）+ 统一 re-export 的 `dist/flat.jsx`；`packages/icons/package.json` 的 `solid` 条件改指 `./dist/flat.jsx`。**分片而非单个 1321 KB 大文件**：Babel 对 >500 KB 文件会打 `deoptimised the styling` 性能提示，SSR 冒烟的「0 warning」门禁因此误报（check:ci 首轮实测红灯）；拆 4 片后告警消失，dev 只多 4 个请求。生产构建仍由 Rollup 按具名导出摇树，`import` 条件继续指向逐文件 esm，**单图标体积预算与 esm/source/types 奇偶校验均不变**。
+- **量化实证**：同一诊断脚本（warm dev server）前后对比 —— 请求 2621 → 601、逐文件图标模块 2024 → 0（换成 4 个分片）、首访 723 ms → ~460 ms；三个 Icon Demo 独立页 SVG 数 6 / 8 / 5，运行时错误 0，视觉输出不变。
+- **测试竞态修复**：Card 375px 用例原在 `goto` 后直接 `count()` 未等 SPA 挂载，首屏变慢后暴露为 count=0；按 Playwright 最佳实践补 `expect(demo-root).toBeVisible()` 与 `expect(cards.first()).toBeVisible()`——非本轮功能回归，是既有测试缺陷。
+
+#### 三、门禁与连锁
+- 字集零新增：分类标签用已有字（通讯→消息 / 媒体→影音 / 商业→购物 / 自然→生活），注释改写避开新增汉字，**不重建字体、不重生成 222 张视觉基线**。
+- `.size-limit.json` 第 5 条上界图标从 `Star.js` 改为实测最大 `Hop.js`（944 B / 1 KB）；`check:ci` 逐文件实算自动识别，契约文案随之更新。
+- `check:exports` 三条件产物一致性 PASS（esm/source/types 各 2024 个图标）；`smoke:tarball` 打包全量产物；SSR 冒烟 36 入口不变（精选期登记的三个图标名经 alias 导出仍可用）。
+- E2E 新增 1 条（browser.spec.ts）：`/icons` 全量数量 / 16 分类 / 搜索 / 点击复制真实 import 语句。
+- 类型链：`tones.tsx` 原用 `TONE_ICONS[index()]`，在 `noUncheckedIndexedAccess` 下结果带 `undefined`，全量 verify 的 typecheck 阶段真实红灯；改为按 `tone` 建 `Record` 索引（键来自 `TONES` 字面量），下标访问消失，Demo 视觉不变。改完已重跑 `docs:generate` 保持生成物同源。
+- 构建缓存：`turbo.json` 原先只按包内文件计哈希，根目录 `scripts/**/*.mjs` 改动不会使 build 缓存失效 —— 生成器改成分片后，verify 的 `pnpm build` 仍从缓存还原旧的单文件 `flat.jsx`，SSR 冒烟真实红灯（本轮连续两次误判）。已加 `globalDependencies: ["scripts/**/*.mjs"]`，使任何生成器改动都进哈希；修复后 `pnpm build` 实测产出 4 分片 + 34 KB barrel，`check:ci` 绿。
+- Lint：新增生成器初版触犯 oxlint 的 `restrict-template-expressions`（`never[]` 推断）与 `require-array-sort-compare`，已用 JSDoc 标注数组类型 + 显式比较器修掉；`pnpm lint:oxlint` 0 error。`tests/e2e/specs/browser.spec.ts` 补齐 Prettier 格式。
+
+#### 四、验收
+| 项 | 结果 |
+| --- | --- |
+| 生成 | `node scripts/generate-icons.mjs` → 2024 实体 + 291 alias，幂等 |
+| 命名 | 2317 名字 → 2024 实体，0 导出名撞车 / 0 大小写文件名撞车 |
+| typecheck / lint / format | 全绿（含 2024 个生成 TSX） |
+| build | esm 2024 / source 2025 / types 2031 文件，sourcemap 齐全 |
+| 体积 | `pnpm size` 5 条 PASS，单图标 944 B（Hop.js）/ 1 KB |
+| 文档 | check:docs 147 生成物 / check:llms 163 站点文件一致 |
+| 门禁 | check:ci RC=0（字集 933 零新增、视觉 222 张零漂移） |
+| 浏览器 | /icons 搜索 / 分类 / 复制三项实测通过 |
+| dev 入口 | `dist/flat-1~4.jsx` + `flat.jsx` 覆盖 2024 实体 + 291 alias；首访请求 2621 → 601、逐文件图标模块 2024 → 0；SSR 冒烟 0 warning；Icon Demo 3/3 正常 |
+| 全链 | `pnpm verify` RC=0（26 阶段） |
+
+#### 五、允许写入路径
+- `scripts/generate-icons.mjs`（重写全量）、`scripts/build-icons-flat.mjs`（新增 solid 单文件入口）、`packages/icons/{package.json,src/index.ts,src/generated/}`、`.size-limit.json`、`scripts/generate-docs.mjs`（接入 icons.json）、`apps/docs/src/{App.tsx,components/Shell.tsx,lib/catalog.ts,pages/IconGallery.tsx,generated/icons.json,styles/docs.css,index.html}`、`packages/core/src/components/icon/demos/{basic,tones,custom}.tsx`、`tests/e2e/specs/browser.spec.ts`、`turbo.json`（生成器改动进构建哈希）、`docs/08-实施Todo.md`、治理三件套。
+- **未改** `docs/01~07`（冻结）、tokens、core 组件实现；无新增依赖（prettier 已是 devDep）。
+
+#### 六、治理回写
+- §4.2 T4-18 行 `[x]` + 顶部锚点推进；todo-governance `T4-18 → 30.68` + `taskIds` 同步新增 T4-18（82 → 83，否则 check:todo 结构判据红灯），evidence 区块标题补「验收」关键词；goals 基线重校（todo-governance 受保护）。
 - T4-05 `0.1.0` 发布仍保持 `[ ]`。

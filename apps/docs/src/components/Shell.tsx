@@ -123,6 +123,9 @@ function ShellBody(props: { children?: JSX.Element }) {
               )}
             </For>
             <p class="docs-nav__group">其他</p>
+            <A class="docs-nav__link" href="/icons" activeClass="is-active">
+              图标
+            </A>
             <A class="docs-nav__link" href="/changelog" activeClass="is-active">
               更新记录
             </A>

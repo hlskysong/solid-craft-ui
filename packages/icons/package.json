@@ -16,14 +16,14 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "solid": "./dist/source/index.jsx",
+      "solid": "./dist/flat.jsx",
       "import": "./dist/esm/index.js",
       "default": "./dist/esm/index.js"
     },
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "vite build && node ../../scripts/build-source.mjs packages/icons && tsc -p tsconfig.build.json",
+    "build": "vite build && node ../../scripts/build-source.mjs packages/icons && tsc -p tsconfig.build.json && node ../../scripts/build-icons-flat.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "peerDependencies": {

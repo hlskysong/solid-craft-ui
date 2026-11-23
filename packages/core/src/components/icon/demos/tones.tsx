@@ -1,6 +1,16 @@
-import { For } from 'solid-js';
+import {
+  Activity,
+  Bell,
+  ChartColumn,
+  Folder,
+  House,
+  Loader,
+  Search,
+  Star,
+} from 'solid-craft-icons';
+import { For, type Component } from 'solid-js';
 import { Icon } from 'solid-craft';
-import { DemoSection, DotIcon } from '../../demos/shared';
+import { DemoSection } from '../../demos/shared';
 
 export const demo = {
   title: '语义色与旋转',
@@ -18,29 +28,35 @@ const TONES = [
   'danger',
 ] as const;
 
+/** 按 tone 建索引而不是按下标取数组：`noUncheckedIndexedAccess` 下后者会带 undefined。 */
+const TONE_ICONS: Record<(typeof TONES)[number], Component> = {
+  primary: House,
+  secondary: Search,
+  tertiary: Star,
+  disabled: Folder,
+  success: Activity,
+  warning: Bell,
+  danger: ChartColumn,
+};
+
 export default function Tones() {
   return (
     <>
       <DemoSection title="语义色">
         <For each={TONES}>
-          {(tone) => (
-            <Icon tone={tone} label={`${tone} 图标`}>
-              <DotIcon />
-            </Icon>
-          )}
+          {(tone) => {
+            const Glyph = TONE_ICONS[tone];
+            return (
+              <Icon tone={tone} label={`${tone} 图标`}>
+                <Glyph />
+              </Icon>
+            );
+          }}
         </For>
       </DemoSection>
       <DemoSection title="加载旋转">
         <Icon spin label="正在加载">
-          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-            <path
-              d="M8 1.5A6.5 6.5 0 1 1 1.5 8"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
+          <Loader />
         </Icon>
       </DemoSection>
     </>

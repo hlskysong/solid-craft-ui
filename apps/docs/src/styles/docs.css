@@ -393,3 +393,115 @@
     width: 100%;
   }
 }
+
+/* ===== T4-18 图标列表与搜索页 ===== */
+.docs-icons {
+  max-width: 1180px;
+}
+
+.docs-icons-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-block: 20px 12px;
+}
+
+.docs-icons-search {
+  flex: 1;
+  max-width: 480px;
+  padding: 9px 14px;
+  border: 1px solid var(--scui-color-border-default, #d9d9d9);
+  border-radius: 6px;
+  background: var(--scui-color-bg-container, #fff);
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+}
+
+.docs-icons-search:focus-visible {
+  outline: 2px solid var(--scui-color-primary, #2d66f5);
+  outline-offset: 1px;
+}
+
+.docs-icons-count {
+  color: var(--scui-color-text-tertiary, rgba(0, 0, 0, 0.45));
+  font-size: 13px;
+}
+
+.docs-icons-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-end: 20px;
+}
+
+.docs-icons-cat {
+  padding: 5px 12px;
+  border: 1px solid var(--scui-color-border-default, #d9d9d9);
+  border-radius: 16px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.docs-icons-cat:hover {
+  border-color: var(--scui-color-primary, #2d66f5);
+}
+
+.docs-icons-cat[data-active='true'] {
+  border-color: var(--scui-color-primary, #2d66f5);
+  background: var(--scui-color-primary, #2d66f5);
+  color: #fff;
+}
+
+.docs-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+  gap: 10px;
+}
+
+.docs-icons-item {
+  display: flex;
+  min-height: 92px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 8px;
+  border: 1px solid var(--scui-color-border-default, #e8e8e8);
+  border-radius: 8px;
+  background: var(--scui-color-bg-container, #fff);
+  color: var(--scui-color-text-secondary, rgba(0, 0, 0, 0.75));
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, color 0.15s;
+}
+
+.docs-icons-item:hover {
+  border-color: var(--scui-color-primary, #2d66f5);
+  color: var(--scui-color-primary, #2d66f5);
+  box-shadow: 0 2px 8px rgb(45 102 245 / 12%);
+}
+
+.docs-icons-item[data-copied='1'] {
+  border-color: #0a7a52;
+  color: #0a7a52;
+}
+
+.docs-icons-glyph {
+  display: grid;
+  place-items: center;
+  height: 26px;
+}
+
+.docs-icons-name {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

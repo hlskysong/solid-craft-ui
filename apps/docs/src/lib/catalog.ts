@@ -76,6 +76,30 @@ export interface DemoSourceDoc {
   html: string;
 }
 
+/** T4-18：图标清单（solid-craft-icons 全量），供 /icons 页搜索与网格渲染。 */
+export interface IconEntry {
+  /** lucide 规范名（kebab），如 layout-dashboard。 */
+  name: string;
+  /** 组件导出名（PascalCase），如 LayoutDashboard。 */
+  exportName: string;
+  /** 内部文件名（大小写不同的名字分开写）。 */
+  fileName: string;
+  /** 可用于搜索的别名（含 alias 转发名与 lucide aliases）。 */
+  aliases: string[];
+  /** 分类 id。 */
+  category: string;
+  /** SVG 节点 [tag, attrs]，渲染器据此画静态 SVG（JSON 推断为宽数组）。 */
+  node: (string | Record<string, string>)[][];
+}
+
+export interface IconCatalog {
+  version: string;
+  total: number;
+  nameTotal: number;
+  categories: { id: string; label: string }[];
+  icons: IconEntry[];
+}
+
 type DemoModule = { default: () => JSX.Element };
 
 // Vite 8 的 import.meta.glob 只接受字面量，不能抽成变量（否则 dev 500 / build 静默漏打包）。
@@ -99,6 +123,10 @@ const sourceModules = import.meta.glob<DemoSourceDoc>('../generated/demos/*.json
 // JSON import 由 TS 直接推断结构，用类型注解而非断言（oxlint no-unsafe-type-assertion）。
 export const catalog: Catalog = catalogJson;
 export const searchEntries: SearchEntry[] = searchJson;
+
+/** T4-18：图标清单 1.6 MB，只在 /icons 页按需加载，不拖慢全站首屏。 */
+export const loadIconCatalog = (): Promise<IconCatalog> =>
+  import('../generated/icons.json').then((module) => module.default);
 
 const parseDemoKey = (path: string) => {
   const match = /components\/([^/]+)\/demos\/([^/]+)\.tsx/.exec(path);

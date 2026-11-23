@@ -959,6 +959,22 @@ const cases = [
       ['role="combobox"', 3],
     ],
   },
+  {
+    // T4-17：精选图标包 SSR。图标是构建期静态模板，服务端必须输出完整 SVG，
+    // size / strokeWidth 覆盖与 currentColor 落到真实属性；counts 锁住三个图标根。
+    id: 'T4-17',
+    file: '/spikes/icons/ssr.tsx',
+    markers: [
+      'data-scui-role="icons-page"',
+      'xmlns="http://www.w3.org/2000/svg"',
+      'stroke="currentColor"',
+      'stroke-width="1.75"',
+      'stroke-width="2"',
+      'width="20"',
+      'viewBox="0 0 24 24"',
+    ],
+    counts: [['xmlns="http://www.w3.org/2000/svg"', 3]],
+  },
 ];
 
 const errors = [];

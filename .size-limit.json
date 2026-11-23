@@ -37,5 +37,11 @@
     "path": ["packages/core/dist/esm/**/*.js", "packages/core/dist/styles/**/*.css"],
     "limit": "180 KB",
     "gzip": true
+  },
+  {
+    "name": "单个图标",
+    "path": ["packages/icons/dist/esm/generated/Hop.js"],
+    "limit": "1 KB",
+    "gzip": true
   }
 ]
