@@ -1,0 +1,36 @@
+import { splitProps } from 'solid-js';
+import type { JSX } from 'solid-js';
+
+export interface SwatchBookProps extends JSX.SvgSVGAttributes<SVGSVGElement> {
+  /** 尺寸，默认 1em（跟随父级 font-size；core 的 .scui-icon svg 强制 1em）。 */
+  size?: string | number;
+  /** 线条宽度，默认 1.75（docs/03 §10）。 */
+  strokeWidth?: string | number;
+}
+
+/** 由 lucide-solid v1.69.0 全量生成（name: swatch-book）。 */
+export function SwatchBook(props: SwatchBookProps) {
+  const [local, rest] = splitProps(props, ['size', 'strokeWidth']);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={local.size ?? '1em'}
+      height={local.size ?? '1em'}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width={local.strokeWidth ?? 1.75}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      {...rest}
+    >
+      <path d="M11 17a4 4 0 0 1-8 0V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2Z" />
+      <path d="M16.7 13H19a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7" />
+      <path d="M 7 17h.01" />
+      <path d="m11 8 2.3-2.3a2.4 2.4 0 0 1 3.404.004L18.6 7.6a2.4 2.4 0 0 1 .026 3.434L9.9 19.8" />
+    </svg>
+  );
+}
+
+export default SwatchBook;

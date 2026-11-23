@@ -2,26 +2,112 @@ import { A, useParams } from '@solidjs/router';
 import { For, Show } from 'solid-js';
 import { ApiTable } from '../components/ApiTable';
 import { Demo } from '../components/Demo';
+import { CodeIcon, DropletIcon, FileTextIcon, LayersIcon } from '../components/icons';
 import { catalog, findComponent, findDemo, standalonePath } from '../lib/catalog';
+
+/** 首页组件分组展示序（与侧栏一致；catalog.category 是唯一数据源）。 */
+const HOME_CATEGORIES = ['通用', '布局', '表单', '数据', '反馈'];
+const homeGroups = HOME_CATEGORIES.map((category) => ({
+  category,
+  items: catalog.components.filter((component) => component.category === category),
+})).filter((group) => group.items.length > 0);
+
+const componentTotal = catalog.components.filter((component) => component.slug !== 'overview').length;
+const demoTotal = catalog.components.reduce((total, component) => total + component.demos.length, 0);
+
+/** 首页卖点（全部对应已验收的工程事实，见 docs/08 锚点）。 */
+const FEATURES = [
+  {
+    icon: CodeIcon,
+    title: '同源 Demo',
+    description: '页面渲染的 Demo 与展示的源码来自同一个文件，复制即可运行，不会分叉。',
+  },
+  {
+    icon: FileTextIcon,
+    title: '生成式 API',
+    description: 'oxc-parser 解析 types.ts 与 JSDoc，API 表与 @default 默认值自动生成。',
+  },
+  {
+    icon: DropletIcon,
+    title: 'Design Token',
+    description: 'DTCG 三层 Token，亮 / 暗语义色，7 档 WCAG 对比度在构建期校验。',
+  },
+  {
+    icon: LayersIcon,
+    title: 'SSR 双构建',
+    description: 'esm / source 双产物，Vite / Webpack / Rspack 与真实 SolidStart SSR 实测。',
+  },
+];
 
 export function Home() {
   return (
-    <article class="docs-page" data-testid="page-home">
-      <h1>solid-craft-ui 组件文档</h1>
-      <p class="docs-lead">
-        SolidJS 组件库文档站。Demo 直接来自组件源码，页面展示的源码与实际渲染的模块是同一个文件；
-        API 表由 <code>oxc-parser</code> 解析 <code>types.ts</code> + JSDoc 生成。
-      </p>
-      <section class="docs-cards">
-        <For each={catalog.components.filter((component) => component.slug !== 'overview')}>
-          {(component) => (
-            <A class="docs-card" href={`/components/${component.slug}`}>
-              <strong>{component.title}</strong>
-              <span>{component.description}</span>
-            </A>
+    <article class="docs-page docs-home" data-testid="page-home">
+      <section class="docs-hero">
+        <h1>solid-craft-ui 组件文档</h1>
+        <p class="docs-hero__lead">
+          基于 SolidJS 的企业级组件库。状态由 <code>data-scui-*</code> 驱动，样式由{' '}
+          <code>--scui-*</code> Token 提供；Demo 直接来自组件源码，API 表由类型与 JSDoc 生成。
+        </p>
+        <div class="docs-hero__actions">
+          <A class="docs-cta docs-cta--primary" href="/docs/getting-started">
+            快速开始
+          </A>
+          <A class="docs-cta" href="/components/overview">
+            组件总览
+          </A>
+        </div>
+        <ul class="docs-hero__stats">
+          <li>
+            <strong>{componentTotal}</strong>
+            <span>组件</span>
+          </li>
+          <li>
+            <strong>{demoTotal}</strong>
+            <span>同源 Demo</span>
+          </li>
+          <li>
+            <strong>2000+</strong>
+            <span>图标</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="docs-features" aria-label="特性">
+        <For each={FEATURES}>
+          {(feature) => (
+            <div class="docs-feature">
+              <span class="docs-feature__icon">
+                <feature.icon />
+              </span>
+              <strong>{feature.title}</strong>
+              <p>{feature.description}</p>
+            </div>
           )}
         </For>
       </section>
+
+      <h2>组件</h2>
+      <For each={homeGroups}>
+        {(group) => (
+          <section class="docs-home-group">
+            <h3>
+              {group.category}
+              <span class="docs-nav__count">{group.items.length}</span>
+            </h3>
+            <div class="docs-cards">
+              <For each={group.items}>
+                {(component) => (
+                  <A class="docs-card" href={`/components/${component.slug}`}>
+                    <strong>{component.title}</strong>
+                    <span>{component.description}</span>
+                  </A>
+                )}
+              </For>
+            </div>
+          </section>
+        )}
+      </For>
+
       <h2>基础组件总览</h2>
       <Demo slug="overview" name="basic" />
       <p class="docs-muted">
@@ -40,6 +126,13 @@ export function ComponentPage() {
     <Show when={component()} fallback={<p class="docs-muted">未找到组件：{slug()}</p>}>
       {(item) => (
         <article class="docs-page" data-testid="page-component" data-component={slug()}>
+          <nav class="docs-breadcrumb" aria-label="面包屑">
+            <A href="/">首页</A>
+            <span aria-hidden="true">/</span>
+            <A href="/components/overview">组件</A>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{item().title}</span>
+          </nav>
           <h1>{item().title}</h1>
           <p class="docs-lead">{item().description}</p>
           <Show when={item().exportPath}>
@@ -73,8 +166,8 @@ export function ComponentPage() {
           <section class="docs-section">
             <h2>无障碍</h2>
             <p>
-              键盘路径与 axe 扫描在 <code>tests/e2e/specs/browser.spec.ts</code> 中覆盖；
-              WCAG AA 对比度在 Token 构建期校验（03 §3.1 / §11）。
+              键盘路径与 axe 扫描在 <code>tests/e2e/specs/browser.spec.ts</code> 中覆盖；WCAG AA
+              对比度在 Token 构建期校验（03 §3.1 / §11）。
             </p>
           </section>
         </article>

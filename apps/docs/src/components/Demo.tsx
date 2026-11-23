@@ -9,6 +9,7 @@ import {
   findDemo,
   standalonePath,
 } from '../lib/catalog';
+import { CodeIcon, CopyIcon, ExternalIcon } from './icons';
 
 /**
  * Demo 卡片（02 §12.2）：真实渲染区 + 源码展开 / 复制 + 独立页链接。
@@ -46,6 +47,7 @@ export function Demo(props: { slug: string; name: string }) {
                 data-testid={`source-toggle-${key()}`}
                 onClick={() => setOpen((value) => !value)}
               >
+                <CodeIcon />
                 {open() ? '收起源码' : '查看源码'}
               </button>
               <button
@@ -55,6 +57,7 @@ export function Demo(props: { slug: string; name: string }) {
                 data-testid={`source-copy-${key()}`}
                 onClick={copySource}
               >
+                <CopyIcon />
                 {copied() ? '已复制' : '复制源码'}
               </button>
               <A
@@ -64,6 +67,7 @@ export function Demo(props: { slug: string; name: string }) {
                 rel="noreferrer"
                 data-testid={`standalone-link-${key()}`}
               >
+                <ExternalIcon />
                 独立页
               </A>
             </div>

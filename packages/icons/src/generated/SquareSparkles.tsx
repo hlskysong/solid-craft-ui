@@ -1,0 +1,36 @@
+import { splitProps } from 'solid-js';
+import type { JSX } from 'solid-js';
+
+export interface SquareSparklesProps extends JSX.SvgSVGAttributes<SVGSVGElement> {
+  /** 尺寸，默认 1em（跟随父级 font-size；core 的 .scui-icon svg 强制 1em）。 */
+  size?: string | number;
+  /** 线条宽度，默认 1.75（docs/03 §10）。 */
+  strokeWidth?: string | number;
+}
+
+/** 由 lucide-solid v1.69.0 全量生成（name: square-sparkles）。 */
+export function SquareSparkles(props: SquareSparklesProps) {
+  const [local, rest] = splitProps(props, ['size', 'strokeWidth']);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={local.size ?? '1em'}
+      height={local.size ?? '1em'}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width={local.strokeWidth ?? 1.75}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      {...rest}
+    >
+      <path d="M11 15H7" />
+      <path d="M15.41 2.49a.6.6 0 011.18 0l.63 3.334a1.2 1.2 0 00.956.955l3.334.631a.6.6 0 010 1.18l-3.334.63a1.2 1.2 0 00-.955.956l-.631 3.334a.6.6 0 01-1.18 0l-.63-3.334a1.2 1.2 0 00-.956-.955L10.49 8.59a.6.6 0 010-1.18l3.334-.63a1.2 1.2 0 00.955-.956z" />
+      <path d="M21 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h6" />
+      <path d="M9 13v4" />
+    </svg>
+  );
+}
+
+export default SquareSparkles;

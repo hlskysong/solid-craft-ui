@@ -1,0 +1,41 @@
+import { splitProps } from 'solid-js';
+import type { JSX } from 'solid-js';
+
+export interface SunProps extends JSX.SvgSVGAttributes<SVGSVGElement> {
+  /** 尺寸，默认 1em（跟随父级 font-size；core 的 .scui-icon svg 强制 1em）。 */
+  size?: string | number;
+  /** 线条宽度，默认 1.75（docs/03 §10）。 */
+  strokeWidth?: string | number;
+}
+
+/** 由 lucide-solid v1.69.0 全量生成（name: sun）。 */
+export function Sun(props: SunProps) {
+  const [local, rest] = splitProps(props, ['size', 'strokeWidth']);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={local.size ?? '1em'}
+      height={local.size ?? '1em'}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width={local.strokeWidth ?? 1.75}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      {...rest}
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2" />
+      <path d="M12 20v2" />
+      <path d="m4.93 4.93 1.41 1.41" />
+      <path d="m17.66 17.66 1.41 1.41" />
+      <path d="M2 12h2" />
+      <path d="M20 12h2" />
+      <path d="m6.34 17.66-1.41 1.41" />
+      <path d="m19.07 4.93-1.41 1.41" />
+    </svg>
+  );
+}
+
+export default Sun;

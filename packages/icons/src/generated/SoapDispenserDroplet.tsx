@@ -1,0 +1,36 @@
+import { splitProps } from 'solid-js';
+import type { JSX } from 'solid-js';
+
+export interface SoapDispenserDropletProps extends JSX.SvgSVGAttributes<SVGSVGElement> {
+  /** 尺寸，默认 1em（跟随父级 font-size；core 的 .scui-icon svg 强制 1em）。 */
+  size?: string | number;
+  /** 线条宽度，默认 1.75（docs/03 §10）。 */
+  strokeWidth?: string | number;
+}
+
+/** 由 lucide-solid v1.69.0 全量生成（name: soap-dispenser-droplet）。 */
+export function SoapDispenserDroplet(props: SoapDispenserDropletProps) {
+  const [local, rest] = splitProps(props, ['size', 'strokeWidth']);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={local.size ?? '1em'}
+      height={local.size ?? '1em'}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width={local.strokeWidth ?? 1.75}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      {...rest}
+    >
+      <path d="M10.5 2v4" />
+      <path d="M14 2H7a2 2 0 0 0-2 2" />
+      <path d="M19.29 14.76A6.67 6.67 0 0 1 17 11a6.6 6.6 0 0 1-2.29 3.76c-1.15.92-1.71 2.04-1.71 3.19 0 2.22 1.8 4.05 4 4.05s4-1.83 4-4.05c0-1.16-.57-2.26-1.71-3.19" />
+      <path d="M9.607 21H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h7V7a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" />
+    </svg>
+  );
+}
+
+export default SoapDispenserDroplet;
