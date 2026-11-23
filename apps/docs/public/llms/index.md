@@ -67,7 +67,7 @@ SolidJS 企业级中后台组件库 `solid-craft-ui`（主 npm 包 `solid-craft`
 | [Tooltip 文字提示](exports/tooltip.md) | `solid-craft/tooltip` | 锚定浮层：十二向定位与翻转、打开/关闭延迟、可选箭头；ESC 与焦点归还沿用锚定原语，不重复实现第二套契约，SSR 只输出触发按钮。 |
 | [Popconfirm 气泡确认](exports/popconfirm.md) | `solid-craft/popconfirm` | 锚定确认气泡：onOk 返回 Promise 期间进入 pending 并拦截全部关闭入口，resolve 后关闭、reject 可重试；与 Modal 共用同一套异步协议。 |
 | [Card 卡片](exports/card.md) | `solid-craft/card` | 标题 / 操作区 / 封面 / 正文四块结构，按内容缺席不留空盒子；加载态复用 data-scui-loading 并直接组合 Skeleton，切换前后不抖动，SSR 全量输出静态骨架。 |
-| [Tag 标签](exports/tag.md) | `solid-craft/tag` | 五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。 |
+| [Tag 标签](exports/tag.md) | `solid-craft/tag` | 五档配色沿用 Button 的 data-scui-color，四形态对齐 TDesign 的 data-scui-variant（dark / light / outline / light-outline）；边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。 |
 | [Tabs 标签页](exports/tabs.md) | `solid-craft/tabs` | 线型 / 卡片两档走 data-scui-variant；键盘导航、焦点与 tablist 语义全部由 Kobalte 原语承担，组件层零重复实现；content 惰性工厂让懒加载真的推迟节点创建。 |
 | [Descriptions 详情列表](exports/descriptions.md) | `solid-craft/descriptions` | 详情页键值展示用原生 dl / dt / dd 语义；data-scui-column 派生网格列数、data-scui-span 控制跨列，窄屏强制单列，表头按内容缺席。 |
 | [Upload 上传](exports/upload.md) | `solid-craft/upload` | 点击 / 拖拽共用原生文件入口，customRequest 单点注入传输并回调进度 / 成功 / 失败；文件列表支持删除、取消、重试与错误态，Form.Item 直接把 fileList 当字段值。 |

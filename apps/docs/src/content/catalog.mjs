@@ -257,7 +257,7 @@ export const COMPONENTS = [
     title: 'Tag 标签',
     category: '数据',
     description:
-      '五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。',
+      '五档配色沿用 Button 的 data-scui-color，四形态对齐 TDesign 的 data-scui-variant（dark / light / outline / light-outline）；边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。',
     exportPath: 'solid-craft/tag',
     hasApi: true,
   },

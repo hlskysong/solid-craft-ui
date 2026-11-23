@@ -32,6 +32,26 @@ describe('Tag：颜色与边框', () => {
     });
   }
 
+  it('默认 variant=dark 且恒输出 data-scui-variant', () => {
+    render(() => <Tag>草稿</Tag>);
+    expect(root()?.getAttribute('data-scui-variant')).toBe('dark');
+  });
+
+  for (const variant of ['dark', 'light', 'outline', 'light-outline'] as const) {
+    it(`${variant} 走同一个 data-scui-variant 属性`, () => {
+      render(() => <Tag variant={variant}>{variant}</Tag>);
+      expect(root()?.getAttribute('data-scui-variant')).toBe(variant);
+    });
+  }
+
+  it('variant 是响应式的：切换后属性跟着变', () => {
+    const [variant, setVariant] = createSignal<'dark' | 'outline'>('dark');
+    render(() => <Tag variant={variant()}>状态</Tag>);
+    expect(root()?.getAttribute('data-scui-variant')).toBe('dark');
+    setVariant('outline');
+    expect(root()?.getAttribute('data-scui-variant')).toBe('outline');
+  });
+
   it('bordered 是存在即真：true 输出空串、false 与省略都缺席', () => {
     const [bordered, setBordered] = createSignal(false);
     render(() => <Tag bordered={bordered()}>带边框</Tag>);

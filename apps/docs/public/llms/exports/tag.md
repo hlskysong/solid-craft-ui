@@ -4,7 +4,7 @@
 
 ## 概要
 
-五档配色沿用 Button 的 data-scui-color，边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。
+五档配色沿用 Button 的 data-scui-color，四形态对齐 TDesign 的 data-scui-variant（dark / light / outline / light-outline）；边框复用存在即真的 data-scui-bordered；可关闭按钮恒带无障碍文案，非受控关闭与 Alert 同口径。
 
 ## 条件导出
 
@@ -30,6 +30,7 @@ import { /* 导出符号 */ } from 'solid-craft/tag';
 | 属性 | 类型 | 默认值 | 说明 | 必填 |
 | --- | --- | --- | --- | --- |
 | `color` | `TagColor` | `'neutral'` | 配色，恒输出为 `data-scui-color`。 | 否 |
+| `variant` | `TagVariant` | `'dark'` | 形态，恒输出为 `data-scui-variant`，默认 `dark`。 `outline` / `light-outline` 自带彩边；`dark` / `light` 无边框。 | 否 |
 | `bordered` | `boolean` | `false` | 是否显示外边框；为真时输出存在即真的 `data-scui-bordered`。 边框恒占 1px（无边框时用透明色），切换不抖动。 | 否 |
 | `closable` | `boolean` | `false` | 是否可关闭；为真时尾部多一个带 `aria-label` 的按钮。 | 否 |
 | `closeLabel` | `string` | — | 关闭按钮的无障碍文案。 @default '关闭标签' | 否 |
@@ -59,8 +60,19 @@ import { /* 导出符号 */ } from 'solid-craft/tag';
  */
 import type { JSX } from 'solid-js';
 
-/** 标签配色，默认 `neutral`；与 Button 的 `data-scui-color` 同一套取值。 */
+/** 标签配色，默认 `neutral`（对应 TDesign 的 `default`）；与 Button 的 `data-scui-color` 同一套取值。 */
 export type TagColor = 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+
+/**
+ * 标签形态，默认 `dark`（TDesign 口径）：
+ * - `dark` 实底反白字；
+ * - `light` 浅底彩字；
+ * - `outline` 白底彩边彩字；
+ * - `light-outline` 浅底彩边彩字。
+ *
+ * 走 `data-scui-variant`，与 Skeleton / Tabs 的「视觉变体」同一语义（R1）。
+ */
+export type TagVariant = 'dark' | 'light' | 'outline' | 'light-outline';
 
 /** `<Tag>` 入参。原生属性照常透传到根节点。 */
 export interface TagProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'children' | 'color'> {
@@ -69,6 +81,12 @@ export interface TagProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'chi
    * @default 'neutral'
    */
   color?: TagColor;
+  /**
+   * 形态，恒输出为 `data-scui-variant`，默认 `dark`。
+   * `outline` / `light-outline` 自带彩边；`dark` / `light` 无边框。
+   * @default 'dark'
+   */
+  variant?: TagVariant;
   /**
    * 是否显示外边框；为真时输出存在即真的 `data-scui-bordered`。
    * 边框恒占 1px（无边框时用透明色），切换不抖动。
@@ -91,8 +109,8 @@ export interface TagProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'chi
 
 ## 相关 Demo（完整源码见链接页）
 
-- [五档配色](../demos/tag-basic.md)：data-scui-color 恒输出，取值与 Button 完全同口径；文本恒用深色，配色只影响浅色背景与边框，避免高饱和色铺满整个标签。（源文件 `packages/core/src/components/tag/demos/basic.tsx`）
-- [边框开关](../demos/tag-bordered.md)：data-scui-bordered 存在即真。边框恒占 1px，关闭时只是透明色，因此开关前后标签高度不变、不抖动。（源文件 `packages/core/src/components/tag/demos/bordered.tsx`）
+- [五种配色 × 四种形态](../demos/tag-basic.md)：配色走 data-scui-color（neutral 对应 TDesign 的 default，高饱和色只落在文字或底色）；形态走 data-scui-variant，对齐 dark / light / outline / light-outline 四档。（源文件 `packages/core/src/components/tag/demos/basic.tsx`）
+- [边框开关](../demos/tag-bordered.md)：data-scui-bordered 存在即真，在深色形态上叠加彩边；outline / light-outline 形态自带彩边，无需再开。边框恒占 1px，开关前后不抖动。（源文件 `packages/core/src/components/tag/demos/bordered.tsx`）
 - [可关闭](../demos/tag-closable.md)：关闭是非受控的：组件自己移除 DOM 并发一次 onClose。关闭按钮恒带 aria-label，可用 closeLabel 覆盖。（源文件 `packages/core/src/components/tag/demos/closable.tsx`）
 
 ## 相关规范

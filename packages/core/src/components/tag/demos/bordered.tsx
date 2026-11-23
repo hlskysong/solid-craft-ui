@@ -5,7 +5,7 @@ import { COLORS, DemoSection } from '../../demos/shared';
 export const demo = {
   title: '边框开关',
   description:
-    'data-scui-bordered 存在即真。边框恒占 1px，关闭时只是透明色，因此开关前后标签高度不变、不抖动。',
+    'data-scui-bordered 存在即真，在深色形态上叠加彩边；outline / light-outline 形态自带彩边，无需再开。边框恒占 1px，开关前后不抖动。',
 };
 
 const LABELS: Record<TagColor, string> = {
@@ -22,14 +22,14 @@ export default function TagBorderedDemo() {
       <div class="demo-column">
         <div class="demo-row" data-testid="tag-bordered-on">
           {COLORS.map((color) => (
-            <Tag color={color} bordered data-testid={`tag-on-${color}`}>
+            <Tag color={color} variant="dark" bordered data-testid={`tag-on-${color}`}>
               {LABELS[color]}
             </Tag>
           ))}
         </div>
         <div class="demo-row" data-testid="tag-bordered-off">
           {COLORS.map((color) => (
-            <Tag color={color} data-testid={`tag-off-${color}`}>
+            <Tag color={color} variant="dark" data-testid={`tag-off-${color}`}>
               {LABELS[color]}
             </Tag>
           ))}

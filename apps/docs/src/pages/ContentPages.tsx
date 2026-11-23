@@ -158,6 +158,45 @@ export function Changelog() {
   );
 }
 
+/**
+ * llms.txt 说明页：链接指向 public/ 下的静态产物。
+ * Solid Router 会在 document 上全局拦截同源 a 点击（不只是 <A>），把 /llms.txt 当路由页内导航
+ * 从而落到 NotFound；rel="external" 是它明确允许的例外条件，保证浏览器直接打开拿到 text/plain。
+ */
+export function LlmsPage() {
+  return (
+    <article class="docs-page" data-testid="page-llms">
+      <h1>llms.txt</h1>
+      <p class="docs-lead">给大模型与 AI 工具读的纯文本文档入口，由 generate:llms 生成。</p>
+
+      <section class="docs-section">
+        <h2>三个入口</h2>
+        <ul>
+          <li>
+            <a href="/llms.txt" rel="external">llms.txt</a> — 精简索引，逐条列出指南、组件、API 与 Demo。
+          </li>
+          <li>
+            <a href="/llms-full.txt" rel="external">llms-full.txt</a> — 全量正文，含 API 表、Demo 源码、Token 与 SSR 说明。
+          </li>
+          <li>
+            <a href="/llms/manifest.json" rel="external">llms/manifest.json</a> — 页面清单与 exports 对应。
+          </li>
+        </ul>
+      </section>
+
+      <section class="docs-section">
+        <h2>用法</h2>
+        <p>让工具先读 /llms.txt 建立索引，再按需打开单页；需要完整上下文时直接读 /llms-full.txt。</p>
+        <pre class="docs-code-block">
+          <code>{'curl <站点>/llms.txt'}</code>
+        </pre>
+      </section>
+
+      <p class="docs-muted">产物同时随包发布：llms.txt、llms-full.txt、llms-manifest.json。</p>
+    </article>
+  );
+}
+
 export function NotFound() {
   return (
     <article class="docs-page" data-testid="page-not-found">

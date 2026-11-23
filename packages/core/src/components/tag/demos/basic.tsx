@@ -1,11 +1,11 @@
-import { Tag, type TagColor } from 'solid-craft';
+import { Tag, type TagColor, type TagVariant } from 'solid-craft';
 
 import { COLORS, DemoSection } from '../../demos/shared';
 
 export const demo = {
-  title: '五档配色',
+  title: '五种配色 × 四种形态',
   description:
-    'data-scui-color 恒输出，取值与 Button 完全同口径；文本恒用深色，配色只影响浅色背景与边框，避免高饱和色铺满整个标签。',
+    '配色走 data-scui-color（neutral 对应 TDesign 的 default，高饱和色只落在文字或底色）；形态走 data-scui-variant，对齐 dark / light / outline / light-outline 四档。',
 };
 
 const LABELS: Record<TagColor, string> = {
@@ -16,14 +16,31 @@ const LABELS: Record<TagColor, string> = {
   danger: '已驳回',
 };
 
+const VARIANTS: { value: TagVariant; label: string }[] = [
+  { value: 'dark', label: '深色' },
+  { value: 'light', label: '浅色' },
+  { value: 'outline', label: '描边' },
+  { value: 'light-outline', label: '浅色描边' },
+];
+
 export default function TagBasicDemo() {
   return (
-    <DemoSection title="基础用法">
-      <div class="demo-row">
-        {COLORS.map((color) => (
-          <Tag color={color}>{LABELS[color]}</Tag>
-        ))}
-      </div>
-    </DemoSection>
+    <>
+      {VARIANTS.map((variant) => (
+        <DemoSection title={variant.label}>
+          <div class="demo-row" data-testid={`tag-variant-${variant.value}`}>
+            {COLORS.map((color) => (
+              <Tag
+                color={color}
+                variant={variant.value}
+                data-testid={`tag-${variant.value}-${color}`}
+              >
+                {LABELS[color]}
+              </Tag>
+            ))}
+          </div>
+        </DemoSection>
+      ))}
+    </>
   );
 }

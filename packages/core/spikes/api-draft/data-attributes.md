@@ -48,7 +48,7 @@
 | `data-scui-row-disabled` | `''`（存在即真） | 行选择被禁用：该行控件原生 `disabled`、且不进全选集合；**不改整行文字颜色**（禁用不靠降对比度表达，避免 axe `color-contrast`） | Table（T3-03） |
 | `data-scui-page` | 页码字符串 | 页码按钮定位；值与 `aria-current` 同源，测试与样式只认它，避免按文本抓节点（T3-04） | Pagination |
 | `data-scui-current` | `''`（存在即真） | 「当前位于」：落在页码按钮 / 激活标签上，与 `aria-current="page"`（Pagination）或 `aria-selected="true"`（Tabs，由 Kobalte 输出）**双通道**。不复用 `data-scui-selected`：那表达「列表项被选中」而非「当前位于」，一个属性名只表达一个语义（T3-04）。Tabs 复用同一语义而不另起 `-active`：后者已被 Skeleton 的微光动画占用（T3-11） | Pagination / Tabs |
-| `data-scui-variant` | Skeleton：`text \| card \| table \| button \| avatar`；Tabs：`line \| card` | **组件的视觉变体**；AGENTS 硬约束 3 把「变体」明文指派给 `-variant`，两个组件只是各自枚举不同，语义仍是同一个。形状用枚举而不是 `title` / `avatar` 三个布尔，避免拼出头像 + 表格这类不存在的组合（T3-05）；Tabs 的线型 / 卡片同理（T3-11）。注意 Tag 的**颜色**不能用本属性（那是 `-color`，同名不同义），见 `-color` 行 | Skeleton / Tabs |
+| `data-scui-variant` | Skeleton：`text \| card \| table \| button \| avatar`；Tabs：`line \| card`；Tag：`dark \| light \| outline \| light-outline` | **组件的视觉变体**；AGENTS 硬约束 3 把「变体」明文指派给 `-variant`，三个组件只是各自枚举不同，语义仍是同一个。形状用枚举而不是 `title` / `avatar` 三个布尔，避免拼出头像 + 表格这类不存在的组合（T3-05）；Tabs 的线型 / 卡片同理（T3-11）；Tag 的形态对齐 TDesign 四档（T4-16）。注意 Tag 的**颜色**不能用本属性（那是 `-color`，同名不同义），见 `-color` 行 | Skeleton / Tabs / Tag |
 | `data-scui-active` | `''`（存在即真） | 骨架微光动画开启；`prefers-reduced-motion: reduce` 时动画由 CSS 静止，属性本身仍输出（T3-05） | Skeleton |
 | `data-scui-last` | `''`（存在即真） | 骨架段落 / 卡片正文的**末行**，用于收窄到 60%。不用 `:last-child`：Solid 复用节点时位置语义不可靠（T3-05） | Skeleton |
 | `data-scui-spinning` | `''`（存在即真） | 包裹模式当前处于加载中，与容器 `aria-busy="true"` 同时出现；延迟未到时两者都不输出（T3-05） | Spin |

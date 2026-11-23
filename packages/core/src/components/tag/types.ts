@@ -15,8 +15,19 @@
  */
 import type { JSX } from 'solid-js';
 
-/** 标签配色，默认 `neutral`；与 Button 的 `data-scui-color` 同一套取值。 */
+/** 标签配色，默认 `neutral`（对应 TDesign 的 `default`）；与 Button 的 `data-scui-color` 同一套取值。 */
 export type TagColor = 'primary' | 'neutral' | 'success' | 'warning' | 'danger';
+
+/**
+ * 标签形态，默认 `dark`（TDesign 口径）：
+ * - `dark` 实底反白字；
+ * - `light` 浅底彩字；
+ * - `outline` 白底彩边彩字；
+ * - `light-outline` 浅底彩边彩字。
+ *
+ * 走 `data-scui-variant`，与 Skeleton / Tabs 的「视觉变体」同一语义（R1）。
+ */
+export type TagVariant = 'dark' | 'light' | 'outline' | 'light-outline';
 
 /** `<Tag>` 入参。原生属性照常透传到根节点。 */
 export interface TagProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'children' | 'color'> {
@@ -25,6 +36,12 @@ export interface TagProps extends Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'chi
    * @default 'neutral'
    */
   color?: TagColor;
+  /**
+   * 形态，恒输出为 `data-scui-variant`，默认 `dark`。
+   * `outline` / `light-outline` 自带彩边；`dark` / `light` 无边框。
+   * @default 'dark'
+   */
+  variant?: TagVariant;
   /**
    * 是否显示外边框；为真时输出存在即真的 `data-scui-bordered`。
    * 边框恒占 1px（无边框时用透明色），切换不抖动。

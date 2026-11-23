@@ -1671,4 +1671,32 @@ test.describe('T3-13 Upload：上传 / 删除 / 取消 / 重试 / 表单接入',
     await expect(shot).toBeVisible();
     expect(await shot.evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
   });
+
+  test('/llms 说明页可达，静态产物链接走原生 a 不被 SPA 拦截（T4-15）', async ({
+    page,
+    request,
+  }) => {
+    await page.goto('/llms');
+    const doc = page.getByTestId('page-llms');
+    await expect(doc).toBeVisible();
+    await expect(doc.locator('h1')).toHaveText('llms.txt');
+
+    const nav = page.locator('.docs-sider a[href="/llms"]');
+    await expect(nav).toBeVisible();
+    await expect(nav).toHaveClass(/is-active/);
+
+    for (const href of ['/llms.txt', '/llms-full.txt', '/llms/manifest.json']) {
+      // Solid Router 全局拦截同源 a，rel=external 是官方豁免；丢了就落到 SPA NotFound。
+      await expect(doc.locator(`a[href="${href}"][rel="external"]`)).toHaveCount(1);
+      const response = await request.get(href);
+      expect(response.status(), href).toBe(200);
+      expect(response.headers()['content-type'] ?? '', href).not.toContain('text/html');
+    }
+
+    // 真实点击：若误用路由 A，URL 会变但落到 SPA NotFound；原生 a 才拿到纯文本正文。
+    await doc.locator('a[href="/llms.txt"]').click();
+    await expect(page).toHaveURL(/\/llms\.txt$/);
+    const body = await page.evaluate(() => document.body.innerText.slice(0, 200));
+    expect(body).toContain('# solid-craft-ui');
+  });
 });

@@ -1,9 +1,10 @@
 /**
  * 标签（T3-10）。
  *
- * 一个 `<span>` 加一段文案，尾部可选一个关闭按钮。状态只走三个既有语义：
- * `data-scui-color`（配色，恒输出）、`data-scui-bordered`（存在即真）、
- * 以及 `data-scui-role="tag-close"` 这个结构锚点 —— 可关闭**不需要**新的状态属性，
+ * 一个 `<span>` 加一段文案，尾部可选一个关闭按钮。状态走四个既有语义：
+ * `data-scui-color`（配色，恒输出）、`data-scui-variant`（形态，恒输出，与
+ * Skeleton / Tabs 同义）、`data-scui-bordered`（存在即真），以及
+ * `data-scui-role="tag-close"` 这个结构锚点 —— 可关闭**不需要**新的状态属性，
  * 按钮在不在 DOM 里本身就是状态。
  *
  * 关闭是**非受控**的：组件自己移除 DOM 并发一次 `onClose`。与 Alert 同口径，
@@ -17,10 +18,11 @@ import { createSignal, Show, splitProps, type JSX } from 'solid-js';
 
 import { CSS_PREFIX } from '../../scope';
 import { classNames } from '../../utils/class-names';
-import type { TagColor, TagProps } from './types';
+import type { TagColor, TagProps, TagVariant } from './types';
 
 const TAG_PROPS = [
   'color',
+  'variant',
   'bordered',
   'closable',
   'closeLabel',
@@ -42,6 +44,7 @@ export function Tag(props: TagProps): JSX.Element {
   const [visible, setVisible] = createSignal(true);
 
   const color = (): TagColor => local.color ?? 'neutral';
+  const variant = (): TagVariant => local.variant ?? 'dark';
 
   const close = (): void => {
     if (!visible()) return;
@@ -56,6 +59,7 @@ export function Tag(props: TagProps): JSX.Element {
         class={classNames(`${CSS_PREFIX}tag`, local.class)}
         data-scui-role="tag"
         data-scui-color={color()}
+        data-scui-variant={variant()}
         data-scui-bordered={local.bordered === true ? '' : undefined}
       >
         <span class={`${CSS_PREFIX}tag__content`} data-scui-role="tag-content">

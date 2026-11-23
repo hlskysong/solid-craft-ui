@@ -186,7 +186,7 @@ export type { PopconfirmPlacement, PopconfirmProps } from './components/popconfi
 export { Card } from './components/card';
 export type { CardProps } from './components/card';
 export { Tag } from './components/tag';
-export type { TagColor, TagProps } from './components/tag';
+export type { TagColor, TagProps, TagVariant } from './components/tag';
 export { Tabs } from './components/tabs';
 export type { TabItem, TabsProps, TabsVariant } from './components/tabs';
 export { Descriptions } from './components/descriptions';

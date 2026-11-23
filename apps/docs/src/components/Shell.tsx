@@ -126,6 +126,9 @@ function ShellBody(props: { children?: JSX.Element }) {
             <A class="docs-nav__link" href="/changelog" activeClass="is-active">
               更新记录
             </A>
+            <A class="docs-nav__link" href="/llms" activeClass="is-active">
+              llms.txt
+            </A>
           </nav>
 
           <main class="docs-main" id="main-content">

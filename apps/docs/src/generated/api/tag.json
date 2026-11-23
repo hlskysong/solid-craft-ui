@@ -14,6 +14,13 @@
           "default": "'neutral'"
         },
         {
+          "name": "variant",
+          "type": "TagVariant",
+          "optional": true,
+          "description": "形态，恒输出为 `data-scui-variant`，默认 `dark`。 `outline` / `light-outline` 自带彩边；`dark` / `light` 无边框。",
+          "default": "'dark'"
+        },
+        {
           "name": "bordered",
           "type": "boolean",
           "optional": true,

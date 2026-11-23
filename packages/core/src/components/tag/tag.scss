@@ -1,13 +1,32 @@
 @use 'mixins' as m;
 
-/* Tag（T3-10）
-   五档配色只改 --scui-tag-accent 一个变量，边框 / 浅色背景全部由它派生：
-   docs/03 §4.5 要求「表格中的状态标签用浅色背景 + 深色文本」，所以文本恒用
-   text-primary，不用语义色本身做字色（warning 的浅黄做字色会掉到对比度线下）。
-   边框恒占 1px，bordered 只是把 transparent 换成 accent —— 切换不抖动。 */
+/* Tag（T3-10，T4-16 对齐 TDesign 形态 + 配色）
+   五档色 / 四形态全部走组件级变量 --scui-tag-*（组件命名空间，不进全局 token 管线，
+   只影响 Tag 自身）。色值取自 TDesign 官方色板与 docs 截图像素取样：
+   dark 实底反白字；light 浅底彩字；outline 白底彩边彩字；light-outline 浅底彩边彩字。
+   边框恒占 1px（无边框 transparent），bordered 只是换色，切换不抖动。 */
 
 :where(.scui-tag) {
-  --scui-tag-accent: var(--scui-color-text-secondary);
+  --scui-tag-accent: var(--scui-tag-neutral);
+  --scui-tag-accent-text: var(--scui-tag-neutral-text);
+  --scui-tag-accent-light: var(--scui-tag-neutral-light);
+  --scui-tag-bg: var(--scui-tag-accent);
+  --scui-tag-fg: rgb(255 255 255);
+  --scui-tag-primary: rgb(20 82 217);
+  --scui-tag-primary-text: rgb(0 68 198);
+  --scui-tag-primary-light: rgb(242 243 255);
+  --scui-tag-neutral: rgb(89 89 89);
+  --scui-tag-neutral-text: rgb(89 89 89);
+  --scui-tag-neutral-light: rgb(246 246 246);
+  --scui-tag-success: rgb(10 122 82);
+  --scui-tag-success-text: rgb(0 111 78);
+  --scui-tag-success-light: rgb(227 249 233);
+  --scui-tag-warning: rgb(185 90 10);
+  --scui-tag-warning-text: rgb(150 61 0);
+  --scui-tag-warning-light: rgb(254 241 234);
+  --scui-tag-danger: rgb(178 45 37);
+  --scui-tag-danger-text: rgb(168 38 30);
+  --scui-tag-danger-light: rgb(254 240 237);
 
   display: inline-flex;
   box-sizing: border-box;
@@ -18,29 +37,64 @@
   padding-inline: var(--scui-space-2, 8px);
   border: 1px solid transparent;
   border-radius: var(--scui-radius-1, 4px);
-  background-color: color-mix(in srgb, var(--scui-tag-accent) 14%, var(--scui-color-bg-surface));
-  color: var(--scui-color-text-primary);
+  background-color: var(--scui-tag-bg);
+  color: var(--scui-tag-fg);
   font-size: var(--scui-font-size-sm, 13px);
   line-height: var(--scui-line-height-md, 22px);
 
   &[data-scui-color='primary'] {
-    --scui-tag-accent: var(--scui-color-primary);
+    --scui-tag-accent: var(--scui-tag-primary);
+    --scui-tag-accent-text: var(--scui-tag-primary-text);
+    --scui-tag-accent-light: var(--scui-tag-primary-light);
   }
 
   &[data-scui-color='neutral'] {
-    --scui-tag-accent: var(--scui-color-text-secondary);
+    --scui-tag-accent: var(--scui-tag-neutral);
+    --scui-tag-accent-text: var(--scui-tag-neutral-text);
+    --scui-tag-accent-light: var(--scui-tag-neutral-light);
   }
 
   &[data-scui-color='success'] {
-    --scui-tag-accent: var(--scui-color-success, var(--scui-color-primary));
+    --scui-tag-accent: var(--scui-tag-success);
+    --scui-tag-accent-text: var(--scui-tag-success-text);
+    --scui-tag-accent-light: var(--scui-tag-success-light);
   }
 
   &[data-scui-color='warning'] {
-    --scui-tag-accent: var(--scui-color-warning, var(--scui-color-primary));
+    --scui-tag-accent: var(--scui-tag-warning);
+    --scui-tag-accent-text: var(--scui-tag-warning-text);
+    --scui-tag-accent-light: var(--scui-tag-warning-light);
   }
 
   &[data-scui-color='danger'] {
-    --scui-tag-accent: var(--scui-color-danger, var(--scui-color-primary));
+    --scui-tag-accent: var(--scui-tag-danger);
+    --scui-tag-accent-text: var(--scui-tag-danger-text);
+    --scui-tag-accent-light: var(--scui-tag-danger-light);
+  }
+
+  /* dark 是默认形态，根规则已是实底反白字；显式块只为三层契约完整与宿主可覆盖。 */
+  &[data-scui-variant='dark'] {
+    --scui-tag-bg: var(--scui-tag-accent);
+    --scui-tag-fg: rgb(255 255 255);
+  }
+
+  &[data-scui-variant='light'] {
+    --scui-tag-bg: var(--scui-tag-accent-light);
+    --scui-tag-fg: var(--scui-tag-accent-text);
+  }
+
+  &[data-scui-variant='outline'] {
+    --scui-tag-bg: var(--scui-color-bg-surface);
+    --scui-tag-fg: var(--scui-tag-accent-text);
+
+    border-color: var(--scui-tag-accent);
+  }
+
+  &[data-scui-variant='light-outline'] {
+    --scui-tag-bg: var(--scui-tag-accent-light);
+    --scui-tag-fg: var(--scui-tag-accent-text);
+
+    border-color: var(--scui-tag-accent);
   }
 
   &[data-scui-bordered] {
@@ -64,11 +118,12 @@
   border: 0;
   border-radius: var(--scui-radius-1, 4px);
   background: transparent;
-  color: var(--scui-color-text-secondary);
+  color: var(--scui-tag-fg);
   cursor: pointer;
 
   &:hover {
-    color: var(--scui-color-text-primary);
+    color: var(--scui-tag-fg);
+    opacity: 0.75;
   }
 
   &:focus-visible {
