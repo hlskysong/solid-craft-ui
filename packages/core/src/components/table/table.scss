@@ -24,7 +24,7 @@
 :where(.scui-table__footer) {
   display: flex;
   justify-content: flex-end;
-  padding-block-start: var(--scui-space-3, 12px);
+  padding: var(--scui-space-3, 12px);
 }
 
 :where(.scui-table__empty-cell) {

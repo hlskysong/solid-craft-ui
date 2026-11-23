@@ -12369,7 +12369,7 @@ export default function CrudListDemo() {
           rowKey="id"
           bordered
           pagination={{
-            pageSize: 5,
+            defaultPageSize: 5,
             pageSizeOptions: [5, 10],
             showSizeChanger: true,
             showTotal: (total) => <span>共 {total} 条计划</span>,
@@ -12782,7 +12782,7 @@ export default function PaginationClientDemo() {
           data={rows}
           rowKey="id"
           pagination={{
-            pageSize: 5,
+            defaultPageSize: 5,
             pageSizeOptions: [5, 10, 20],
             showSizeChanger: true,
             showQuickJumper: true,

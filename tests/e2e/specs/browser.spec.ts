@@ -299,6 +299,15 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     await expect(rows.first()).toHaveAttribute('data-scui-row-key', 'A06');
     await expect(page.locator('output')).toContainText('第 2 页 / 每页 5 条 / 共 12 条');
 
+    // 回归：只断言 onChange 文案会假绿 —— 受控 pageSize 传静态值时文案变、行数不变。
+    // 必须断言 DOM 行数真的跟着切换，客户端分页的非受控初值才能被覆盖。
+    // 先回第 1 页：12 条每页 10 条时第 2 页只剩 2 行，回首页才断言得到满页 10 行。
+    await page.locator('[data-scui-page="1"]').click();
+    await page.locator('[data-scui-role="pagination-size"]').selectOption('10');
+    await expect(rows).toHaveCount(10);
+    await expect(rows.first()).toHaveAttribute('data-scui-row-key', 'A01');
+    await expect(page.locator('output')).toContainText('每页 10 条');
+
     const layout = await page.evaluate(() => {
       const scroll = document.querySelector('[data-scui-role="table-scroll"]');
       const footer = document.querySelector('[data-scui-role="table-footer"]');
