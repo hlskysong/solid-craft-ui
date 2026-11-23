@@ -11,7 +11,7 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-13（已闭合，§30.63；新增 TimePicker 子路径 + DatePicker `showTime`，补齐 docs/04 §5.4 的时间选择 P1）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-12 已闭合（§30.62）；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 当前任务 ID | **T4-14（已闭合，§30.64；文档站 Demo 宿主禁动画规则从裸 `*` 收窄到 `.demo-standalone *`，Spin 转圈与 T4-09 进场动画在普通文档页恢复）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-13 已闭合（§30.63）；T4-12 已闭合（§30.62）；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
 | 下一步 | **M4 只剩 T4-05 `0.1.0` 发布（发布与合并 `main` 均须硬约束 13 逐次授权）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
@@ -181,6 +181,7 @@
 | T4-11 | **dist/source 产物补 sourcemap（Alt+click 精确对行）**：admin 模板 click-to-ide 跳源码只能近似定位——solid-devtools 注入的是产物行列，擦除 TS 类型致行号漂移（Button 产物 L51 = 源码 L57），无 map 无法精确反查 | T4-10 | 技术负责人 | Aming「需要 sourcemap 才能精确对行，这个要带上」；`build-source.mjs` 给 esbuild transform 开 `sourcemap: 'external'`，140 个 `.jsx` 各配 `.jsx.map`（`sources` 用 `path.relative` 回指 `src`、`sourcesContent` 内嵌、加 `file` 字段 + 产物尾 `sourceMappingURL`）；沿 docs/02「不压缩、保留 sourcemap」既有决策，与 dist/esm 的 `*.js.map` 对齐；仓外 click-to-ide 共享包用 `@jridgewell/trace-mapping` 把产物行列精确反查回源码（10 条契约测试，Button 51:8→57:7，map 缺失回退近似行）；`check-exports` esm<->source parity / publint / attw / tarball / size / check:ci 全 RC=0，见 §30.61 | [x] |
 | T4-12 | **浮层 Content 恢复 pointer-events（设置抽屉一点就关）**：Kobalte modal 给 body 设 `pointer-events:none`、只给 Overlay 放行 `auto`，Modal / Drawer 的 Content 没显式恢复，真实鼠标点抽屉内任意控件都穿到遮罩触发关闭 | T4-11 | 技术负责人 | Aming 实测「页面设置弹层点击选择时直接收起」；DevTools 实测 `body=none / overlay=auto / drawer=none`、色板真实 `pointerdown` 的 target 是 `scui-drawer__overlay` —— 不是冒泡误判，是内容失去指针事件；`modal.scss` / `drawer.scss` 的 Content 显式补 `pointer-events: auto`，并纠正 `overlay.tsx` 与 Drawer 单测里「Kobalte 会给 Content 写 auto」的错误注释；E2E 1 条（computed style 三值 + 真实指针点内容不关闭，脚本 `.click()` 测不出该 bug）；浏览器实测色板/图卡/Switch 真实点击均保持抽屉打开且设置生效；见 §30.62 | [x] |
 | T4-13 | **时间选择 P1：新增 `TimePicker` 子路径 + DatePicker `showTime`**：Aming 问「datepicker 是不是少了 time 选择器」，确认 `showTime` / `TimePicker` 在 docs/04 §5.4 与第 168 行列为 P1 / v1.0、0.1.0 尚未做；裁决按「完整 P1」补 | T4-12 | 技术负责人 | Aming 在范围选择中选「完整 P1：TimePicker + showTime」；新增 `./time-picker`（时/分/秒列、min·max·disabledTime、12/24 小时、受控非受控、SSR 稳定锚点），DatePicker `showTime` 复用同一时间面板、值 `YYYY-MM-DDTHH:mm[:ss]` 且无 showTime 时保持原 ISO 口径；零新增依赖（时间内核原生算术）；单测 39/39、SSR 35 入口、E2E 3 条、视觉基线 222 张；`data-scui-time-unit` 避开与 Descriptions `data-scui-column` 同名不同义；踩坑与负向实证见 §30.63 | [x] |
+| T4-14 | **文档站全局禁动画误伤 Spin（组件动画在文档页全部不生效）**：Aming 反馈「Spin 组件没动画」；实测组件库产物 `index.css` 里 `scui-spin-rotate` 关键帧与 `animation` 声明完好，浏览器 `animationName=none` 且 `prefers-reduced-motion: reduce` 为 false | T4-13 | 技术负责人 | 根因是 T1-05 为截图基线加的 `apps/docs/src/styles/base.css` 裸 `* { animation/transition: none !important }`，文档站 T1-06 接管后作用域覆盖整站；收窄为 `.demo-standalone *`（`?standalone=1` 宿主由 `standalone.tsx` 给 `<html>` 加该类），截图链路仍有 CSS + Playwright 双保险；E2E 1 条（普通页 `scui-spin-rotate`/0.8s + 注入旧写法负向实证 + 宿主页 none）；组件库源码/产物/Token 零改动；见 §30.64 | [x] |
 
 **推进顺序**：T3-01 →（T3-02 / T3-03 并行）→ T3-06 收口 Table 状态机；T3-04 / T3-05 / T3-10 / T3-11 / T3-13 与 Table 链**可全程并行**（不依赖 Table 内部）；T3-07 → T3-08 → T3-09 是弹层链，越早启动越好（Exit 依赖它）；T3-12 必须等 Table、弹层、反馈、展示四路齐备；T3-14 最后收口。**风险**：Table 是 XL 且与 `Form` / `Select` / `DatePicker` 并列四个高风险项之一（`docs/04 §2.5`），受控状态与内部状态混用最易出 bug，必须靠 `useTableEngine` 单点管理，不要在各子任务里各自存一份状态。
 
@@ -6762,3 +6763,51 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 1. 时区、月/年快选、快捷选项、多选日期、自定义单元格仍在 docs/04 §5.4 P1/P2 范围，本轮未做。
 2. RangePicker 未加 `showTime`（范围时间选择需单独设计值格式），本轮只覆盖 DatePicker 单选。
 3. 时间列面板不接 Portal（与 DatePicker 一致内联定位），窄屏下弹层可能超出视口，未做自适应翻转。
+
+---
+
+### 30.64 T4-14 文档站全局禁动画误伤 Spin 结果（2026-11-23）
+
+> Aming：「Spin 组件没动画」。不靠肉眼猜——先在浏览器读计算样式与 CSSOM，确认是文档站宿主样式的作用域问题，不是组件库产物缺动画、也不是系统减动效偏好。
+
+#### 一、根因实测（三层排除）
+| 层 | 实测 | 结论 |
+| --- | --- | --- |
+| 组件库源码 | `spin.scss` 有 `animation: scui-spin-rotate 0.8s linear infinite` + `@keyframes` + reduced-motion 降级 | 源码没丢 |
+| 构建产物 | `dist/styles/index.css` L5007 / L5045 同样有声明与关键帧（聚合后重复输出两份，非缺陷） | 产物正常 |
+| 浏览器实况 | 普通文档页 `animationName=none`、`duration=0s`、`matchMedia('(prefers-reduced-motion: reduce)').matches=false`；CSSOM 命中 `apps/docs/src/styles/base.css` 的 `* { animation: none !important; transition: none !important }` | **宿主全局规则压过组件声明** |
+
+这条 `*` 规则是 T1-05 为截图基线加的，注释写着「只作用于 Demo 宿主页面」，但选择器实际是裸 `*`，T1-06 文档站接管后作用于整站 —— 不只 Spin，T4-09 补的全部进场动画 / transition 在文档站都看不到。
+
+#### 二、修复
+- `apps/docs/src/styles/base.css`：`*` → `.demo-standalone *`。`?standalone=1` 宿主由 `apps/docs/src/standalone.tsx` 给 `<html>` 加 `.demo-standalone` 类，只有截图宿主仍需冻结动画。
+- 截图稳定性不降级：宿主 CSS 的 `!important` 与 Playwright `expect.toHaveScreenshot({ animations: 'disabled' })` + 全局 `reducedMotion:'reduce'` 仍在，双保险；视觉基线 222 张应零漂移。
+- 组件库源码 / Token / 产物零改动，零新增依赖。
+
+#### 三、验收
+| 项 | 结果 |
+| --- | --- |
+| 浏览器实测（普通页 `/components/spin`） | `animationName='scui-spin-rotate'`、`animationDuration='0.8s'`、`standalone=false` |
+| 浏览器实测（宿主 `/components/spin/basic?standalone=1`） | `animationName='none'`、`standalone=true`，截图链不受影响 |
+| E2E | `browser.spec.ts` 新增 1 条：普通页动画在册 + 注入旧 `* { animation: none !important }` 后变 none（负向实证）+ reload 恢复 + 宿主页 none；`1 passed` |
+| 全链 | 见第六节 `pnpm verify` 结论 |
+
+#### 四、允许写入路径与全链验收
+- 允许写入：`apps/docs/src/styles/base.css`、`tests/e2e/specs/browser.spec.ts`、`docs/08-实施Todo.md`（本节 / §4.2 / 顶部锚点）、`scripts/todo-governance.json`、`scripts/goals.baseline.json`（基线重校准）。
+- 禁止写入：`docs/01~07`（冻结）、Token、组件库源码（本轮无需改组件）。
+- 全链验收：`pnpm verify` **RC=0**（26 阶段全绿）。
+
+#### 五、踩坑
+| 现象 | 根因 | 修法 |
+| --- | --- | --- |
+| 一开始怀疑系统开了「减少动态效果」 | 浏览器 `matchMedia('(prefers-reduced-motion: reduce)').matches = false` 直接排除 | 转查 CSSOM 逐条匹配命中规则 |
+| CSSOM 初筛一度以为「没有规则命中」 | 裸 `*` 选择器在遍历里未进入自定义筛选分支 | 改读 `<style>` 全文，一眼看到 `animation: none !important` |
+| E2E 直接断言会假阴性 | Playwright 全局 `reducedMotion:'reduce'` 触发组件库自身的降级 | 用例内 `page.emulateMedia({ reducedMotion: 'no-preference' })` 覆盖 |
+
+#### 六、治理回写
+- §4.2 T4-14 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-14 → 30.64`；goals 基线重校准。
+- T4-05 `0.1.0` 发布仍保持 `[ ]`，须 Aming 逐次授权。
+
+#### 七、已知边界
+1. 只修文档站宿主 CSS；仓外 `admin-framework` 模板的 Spin 走组件库自身 CSS，实测无同类全局禁动画规则，不在此次范围。
+2. 视觉质量（转圈是否顺滑）需人眼在文档页确认；E2E 只钉「动画未被宿主规则压掉」这一条真链路。

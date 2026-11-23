@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-22",
+  "generatedAt": "2026-11-23",
   "note": "由 pnpm check:goals --update-baseline 生成；受保护文件的任何改动都会让 pnpm verify 失败，改动须人工确认并重跑该命令。",
   "files": {
     "AGENTS.md": "d5659e9afceb3dba57a1f0e35501b74b18c70fccdb6d75d2ef456d19add84185",
@@ -17,6 +17,6 @@
     "scripts/check-todo.mjs": "0d6293790a14c6228d798e01f9b93a047b4d6195f9dc53c2f4e8eb30e7d9cdb4",
     "scripts/naming-legacy.mjs": "f51a922a1e69577768dc5297b3c8d2e84468a1b74539a5e58cee1dd491a542d9",
     "scripts/scope.mjs": "49cb4a450039f3106632affc532890ddb715567a83ae661484104e691441bafc",
-    "scripts/todo-governance.json": "2953ef5d941a8a089899c43457f51200b183a1c1414fa74c625104b4248ff1ef"
+    "scripts/todo-governance.json": "694a0ca9d444e313570f3b1d4349a4d96d1a8ed77e894fdf235c13a9222d8f0b"
   }
 }

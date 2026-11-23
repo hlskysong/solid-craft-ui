@@ -36,7 +36,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-* {
+/*
+ * T4-14：禁动画规则只作用于 ?standalone=1 截图宿主。
+ * 原写法是裸 `*`，作用于整站 —— 用户实测「Spin 组件没动画」：组件库自己的转圈
+ * 关键帧在产物里好好的，但被这条 !important 压成 animation-name: none，
+ * 连带 T4-09 补的全部进场动画 / 动效在文档站都看不到。
+ * 截图宿主由 standalone.tsx 给 <html> 加 .demo-standalone；只有它仍需停掉动画
+ * 保证像素稳定。Playwright 另有全局 animations:'disabled' + reducedMotion:'reduce'
+ * 双保险，因此收窄作用域后视觉基线零漂移。
+ */
+.demo-standalone * {
   /* biome-ignore lint/complexity/noImportantStyles: 截图基线必须压过组件库的 transition 声明 */
   animation: none !important;
   /* biome-ignore lint/complexity/noImportantStyles: 同上，避免 hover / focus 动效造成像素漂移 */

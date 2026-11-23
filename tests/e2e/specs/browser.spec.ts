@@ -1641,4 +1641,34 @@ test.describe('T3-13 Upload：上传 / 删除 / 取消 / 重试 / 表单接入',
       expect(await seriousOf()).toEqual([]);
     }
   });
+
+  test('文档站普通页面保留组件动画，只有 ?standalone=1 截图宿主禁动画（T4-14）', async ({
+    page,
+  }) => {
+    // 全局 use.reducedMotion = 'reduce' 会让组件库自己的 reduce 分支关掉动画；
+    // 这里覆盖成 no-preference，专门验证文档站的 CSS 作用域没有误伤。
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+
+    await page.goto('/components/spin');
+    const normal = page.locator('.scui-spin__indicator').first();
+    await expect(normal).toBeVisible();
+    const normalAnim = await normal.evaluate((el) => getComputedStyle(el).animationName);
+    const normalDuration = await normal.evaluate((el) => getComputedStyle(el).animationDuration);
+    expect(normalAnim).toBe('scui-spin-rotate');
+    expect(normalDuration).toBe('0.8s');
+
+    // 负向实证：把旧写法注回来，确认断言钉的是真链路而不是恰好没被覆盖。
+    await page.addStyleTag({ content: '* { animation: none !important; }' });
+    expect(await normal.evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
+    await page.reload();
+    const restored = page.locator('.scui-spin__indicator').first();
+    expect(await restored.evaluate((el) => getComputedStyle(el).animationName)).toBe(
+      'scui-spin-rotate',
+    );
+
+    await page.goto('/components/spin/basic?standalone=1');
+    const shot = page.locator('.scui-spin__indicator').first();
+    await expect(shot).toBeVisible();
+    expect(await shot.evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
+  });
 });
