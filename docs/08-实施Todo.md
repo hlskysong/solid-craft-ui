@@ -11,9 +11,9 @@
 | --- | --- |
 | 当前目标 | **M3 的 T3-01~T3-14 共 14 项已全部完成并闭合（§30.35~§30.48），M3 Exit 检查通过，M3 里程碑以散文记录闭合、§4 简表 M3 行沿用既有口径保持未勾；M4 已开工：T4-01「CI 视觉门禁受控容差 + 浮层排版结构断言」闭合（§30.50），后续 T4-02 起继续按 `docs/05` Phase 4 拆解（需 Aming 逐次授权）**。分支策略仍为 `dev` 日常开发 / `main` 仅发版合并（§30.34）；M1 于 2026-11-11 闭合（§30.11）、M2 于 2026-11-12 闭合（§30.31）。每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]` |
 | 不可变约束 | `docs/01~07` 冻结（SHA256 基线）、AGENTS.md 16 条硬约束、正式名单点定义 `scripts/scope.mjs`（不得第二套硬编码）、**D-10 齐备 ≠ 授权 publish；真实发布须 Aming 逐次授权**、**CI 用量红线：每次 push 只跑 1 个 job，跨架构矩阵按 `workflow_dispatch` 派发（§30.17，判据 `check:ci` 第 4 条）**、`pnpm verify` 全链 RC=0、**方案 C 已由 Aming 授权并签字闭合（§30.10 / §30.11）：四个 Spike 按可行性实证补勾、T0-03 由 Aming 主持评审、T0-04 依赖列仍「全部 Spike」（重定义依赖列的方案 B 始终未授权）；例外 0/0 且只减不增；Table 的 client-only 仅指增强层，SSR 静态骨架与 SSR-safe 约束不放宽** |
-| 当前任务 ID | **T4-18（已闭合，§30.68；图标全量进包 2024 实体 / 2317 名字 + /icons 列表搜索页）→ 只剩 T4-05 `0.1.0` 发布（等 Aming 授权）**；T4-17 已闭合（§30.67）；T4-16 已闭合（§30.66，Tag 对齐 TDesign 四形态 + 配色，R1 保持 color/variant 分语义）；T4-15 已闭合（§30.65）；T4-14 已闭合（§30.64）；T4-13 已闭合（§30.63）；T4-12 已闭合（§30.62）；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；只剩 T4-05 `0.1.0` 发布等授权。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
-| 下一步 | **M4 只剩 T4-05 `0.1.0` 发布（发布与合并 `main` 均须硬约束 13 逐次授权）；T4-18 图标全量 + /icons 搜索页已落地（§30.68，2024 实体 / 2317 名字 + 预算 5/6）；T4-17 图标包已落地（§30.67，精选集生成 + 预算 5/6）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]`。**另：2026-11-23 Aming 直派「文档站 UI 美化（仿 antd / TDesign）」已落地（apps/docs 局部改动，非 T 序列任务、不勾任务行）：固定顶栏 + 侧栏/内容区独立滚动、组件按 category 分组折叠导航、首页 Hero/特性/分组卡片、搜索 ⌘K + 键盘导航、chrome 随 `--scui-*` Token 明暗切换（main.tsx 引入 tokens 暗色产物，未新增依赖）、窄屏抽屉导航、文档 dir 随方向设置真实镜像；验收：`test:docs` 15/15（axe 0 违规）、`test:visual` 227/227 零漂移、docs typecheck / biome / oxlint / prettier RC=0、`check:docs` 147 一致 / `check:llms` 163 一致。**同日追修：chrome 焦点环 / 页面排版规则越界进组件库子树（`:where` 零特异性被压过，Input 焦点叠出三层边框）——全部加 `:not(:where(.scui- *, [class*='scui-']))` 零特异性隔离守卫，Demo 在文档页内与 standalone 渲染重新同源；探针实证内层控件恢复 `outline: none`，`test:docs` 复跑 15/15。** |
-| 未答决策 | **首次发版合并 `dev` → `main` 的时机**（§30.34 第七节 / 第九节，合并动作须 Aming 逐次授权）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
+| 当前任务 ID | **T4-05（已闭合，§30.69；`0.1.0` 三包发布 + 合并 main 于 2026-11-24 完成，M4 全部任务闭合）**；T4-18（已闭合，§30.68；图标全量进包 2024 实体 / 2317 名字 + /icons 列表搜索页）；T4-17 已闭合（§30.67）；T4-16 已闭合（§30.66，Tag 对齐 TDesign 四形态 + 配色，R1 保持 color/variant 分语义）；T4-15 已闭合（§30.65）；T4-14 已闭合（§30.64）；T4-13 已闭合（§30.63）；T4-12 已闭合（§30.62）；T4-11 已闭合（§30.61）；T4-10 已闭合（§30.60）；T4-09 已闭合（§30.59）；T4-08 已闭合（§30.57）；M4 技术面已全部达标：A11y（108 条 axe + 10 条键盘 + 构建期对比度）/ 双构建（32/32 子路径有 `solid` 产物）/ SolidStart SSR（`smoke:ssr` + `smoke:start-real` 均 0 warning）/ 包质量（size 4 条 / publint / attw / 三端消费 / tarball 全绿）/ 视觉基线 216 张全 light-ltr-default / 31 组件有 API 表 / `pnpm verify` RC=0；33 个 P0 组件全部实现（`InputNumber` 在 `input`、`Message` 在 `app` 子路径）。**T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地（§30.56）；T4-06 试点接入（Vite 版 Ant Design Pro 模板）+ 四项组件库缺口修复已按 Aming 裁决落地（§30.55）；T4-02 Token 已闭合（§30.54）；T4-05 `0.1.0` 发布与合并 main 已于 2026-11-24 完成（§30.69）。** T4-01（§30.50）M3 十四项 T3-01「Table 引擎基座」/ T3-02「排序筛选」/ T3-03「行选择」/ T3-04「`Pagination`」/ T3-05「`Empty` / `Skeleton` / `Spin`」/ T3-06「Table 分页接入 + 空 / 加载态」/ T3-07「`Modal`」/ T3-08「`Drawer`」/ T3-09「`Alert` / `Tooltip` / `Popconfirm`」/ T3-10「`Card` / `Tag`」/ T3-11「`Tabs` / `Descriptions`」/ T3-12「CRUD 列表页组合 Demo」/ T3-13「`Upload`」/ T3-14「体积预算 + M3 Exit 检查」全部完成并闭合（§30.35 / §30.36 / §30.37 / §30.38 / §30.39 / §30.40 / §30.41 / §30.42 / §30.43 / §30.44 / §30.45 / §30.46 / §30.47 / §30.48，evidence `30.35`~`30.48`）；此前 T2-01~T2-13 全部收口（§30.31）、M1 38/38 旧任务全勾（§30.11）；T0-03 评审结论签字在 `packages/core/spikes/api-draft/REVIEW.md` 第 9 节；`dev` 已是 GitHub 默认分支（§30.34 第九节）；T3-01+T3-02 `f782eee`、T3-03 `1f67c23`、T3-04 `830c9bb`、T3-05 `61b9200`、T3-06 `7ac1d6f`、T3-07 `73b4814`、T3-08 `6f67d45`、T3-09 `610fff8`、T3-10 `1be8999`、T3-11 `82c5d28`、T3-12 `7065520`、T3-13 `a636b2f`（12 个提交**均已推送**）；T3-14 提交 `79c9e86`（已推送）；**T4-01 提交 `889f9b5`（已推送，CI run `43779464830` completed / success，实证见 §30.50 第十二节）** |
+| 下一步 | **M4 已闭合（T4-05 `0.1.0` 三包发布 + 合并 main 完成，§30.69）；后续进入 M5/M6（Phase 5 Virtual / 1.0.0）待 Aming 定范围；T4-18 图标全量 + /icons 搜索页已落地（§30.68，2024 实体 / 2317 名字 + 预算 5/6）；T4-17 图标包已落地（§30.67，精选集生成 + 预算 5/6）；试点接入已由 T4-06 完成（§30.55）。T4-02 Token 缺口已按 Aming 三项裁决补齐 —— 字重按 03 §4 拆成 400/500/600 三档（新增 `semibold`，5 个标题类组件改名）、`bg-subtle` 定 `#f5f5f5`/`#262626`、动效补 base 150ms / slow 200ms，并顺手清掉同批 8 个无源变量；`check:ci` 新增「变量有源」判据（0 无源），视觉基线 221 项 0 漂移（§30.54）；T4-07 reset 自动注入 `styles.css` 已按 Aming 裁决落地 —— 归一化进入主入口且排在 token 前，`check:styles` 产物层判据守住，宿主手写 reset 不再需要（§30.56）。** 另：T4-03 README 数字精修、T4-04 Exit 技术面复核已闭合（§30.53）；T4-01 已提交并推送（`889f9b5`），CI run `43779464830` completed / success，容差在 runner 环境成立（§30.50 第十二节）。**另：CI 夜间全量 `44045841394` 的 docs 路由超时已修复（§30.51）——固定路由 / 设计页各 1 条、组件路由 32 页拆 3 批（12/12/8）、独立 Demo 32 页拆 3 批、所有 `page.goto` 统一带 10s 单页超时，docs 用例 8→14 条；本地实测与 `pnpm verify` 均全绿，但「夜间全量转绿」须 push 触发新 run 见证（单独授权项，未 push 前不宣称已绿）。** **另：push run `44116541822`（`88626dd`）的 Upload 取消用例超时已修复（§30.52）——根因是 `patch()` 每 tick 产新对象、`<For>` 按引用 diff 导致整行 `<li>` 每 120ms 重建（探针实测 1.2s 内重建 6 次 → 修复后 0 次），已把行渲染换成 `Index` 并补「进度推进不重建列表行」单测 + `check:ci` 契约；负向 5/5。** 开工前先读本节锚点。M3 里程碑只做散文记录、勾选只发生在 §4.2（§30.48 第三节）；`Table + Virtual ≤ 35 KB` 与「单个图标 ≤ 1 KB」两条预算在 Virtual（Phase 5）/ 图标包真正落地后再实跑校准，本轮 15.34 kB 只证明 Table 基础链路的上界（§30.48 第二节）。门禁仍是「`dev` 增量 / `main`·tag·手动·夜间全量」互补双层（§30.34）；每项完成后回读文件 + 跑对应验收 + 在落地记录点名，才可勾 `[x]`。**另：2026-11-23 Aming 直派「文档站 UI 美化（仿 antd / TDesign）」已落地（apps/docs 局部改动，非 T 序列任务、不勾任务行）：固定顶栏 + 侧栏/内容区独立滚动、组件按 category 分组折叠导航、首页 Hero/特性/分组卡片、搜索 ⌘K + 键盘导航、chrome 随 `--scui-*` Token 明暗切换（main.tsx 引入 tokens 暗色产物，未新增依赖）、窄屏抽屉导航、文档 dir 随方向设置真实镜像；验收：`test:docs` 15/15（axe 0 违规）、`test:visual` 227/227 零漂移、docs typecheck / biome / oxlint / prettier RC=0、`check:docs` 147 一致 / `check:llms` 163 一致。**同日追修：chrome 焦点环 / 页面排版规则越界进组件库子树（`:where` 零特异性被压过，Input 焦点叠出三层边框）——全部加 `:not(:where(.scui- *, [class*='scui-']))` 零特异性隔离守卫，Demo 在文档页内与 standalone 渲染重新同源；探针实证内层控件恢复 `outline: none`，`test:docs` 复跑 15/15。** |
+| 未答决策 | ~~首次发版合并 `dev` → `main` 的时机~~（2026-11-24 已由 Aming 授权执行，§30.69）；D-02 人数与上线时间、D-05 Q9–Q15、npm 侧 trusted publisher 配置与首包发布时机、包名归属（待首包发布锁定）、`@tanstack/solid-virtual` 是否在 M1 启用（R4 可选项，本轮不新增依赖）；**已关闭**：T0-03 API 草案评审（§30.11）、M1 范围收窄、S-03 / S-09 验收重定义、D-04 平台包镜像语义、CI 平台真实 runner 三架构复验（§30.8）、CI Full gate 首次全绿复验、C03 倒改 `pass`、T2 范围裁决（Upload 后移 M3）、`dev` 是否设为 GitHub 默认分支（2026-11-13 已设为 `dev`，§30.34 第九节） |
 
 ---
 
@@ -172,7 +172,7 @@
 | T4-02 | **Token 缺口补齐**：补齐 `--scui-font-weight-regular` / `--scui-font-weight-medium` / `--scui-color-bg-subtle` / `--scui-motion-duration-base` / `--scui-motion-duration-slow` 五个未定义变量，消除静默失效死代码 | T3-14 | 技术负责人 | 依据 `docs/03` §4 字重三档（400/500/600）与 §6 动效三档（fast 120 / base 150 / slow 200）；Aming 裁决「语义正确」→ 新增 `semibold 600` 并把 5 个标题类组件改名，`medium` 归位 500；`bg-subtle` 定 `#f5f5f5`（dark `#262626`）。`tokens.css` **119 → 125**，组件 **14 个 scss** 去 fallback；扫描顺手清掉同批缺口（`--scui-focus-ring` 错名 3 处、`--scui-color-primary-subtle` 自造色改 `color-mix`）；`check:ci` 新增判据 15「变量有源」（**125 定义 / 131 引用 / 0 无源**，两类显式豁免）；计算样式探针 13 个消费点全部读回期望值；`test:visual` **221 项 0 漂移**、`pnpm verify` **RC=0**（**基线未漂是因为色差 <5/255、字重变化低于 `maxDiffPixelRatio 0.002`，不是改动没生效**，见 §30.54） | [x] |
 | T4-03 | **README 对外数字精修**：校正 M2 时期过时数字 | T4-01 | 技术负责人 | 8 个组件子路径 → **32**（= exports 36 减根 / styles / package.json）；25 阶段 → **26**；34 页 → **156 页**；「当前为 8 组」→ 32（**`check:docs` 142 / `check:llms` 159+3 / `check:goals` 15 全部 RC=0**，见 §30.53） | [x] |
 | T4-04 | **M4 Exit 技术面复核**：A11y / 双构建 / SolidStart SSR / 包质量四项逐条核对 | T4-01 | 技术负责人 | A11y 108 条 axe + 10 条键盘 + 构建期对比度；双构建 32/32 子路径有 `solid` 产物；`smoke:ssr` 0 warnings + `smoke:start-real` SSR 0 console warning；size 4 条 / publint / attw / 三端消费 / tarball 全绿（**`pnpm verify` RC=0，26 阶段；31/31 组件有 API 表；216 张基线全 light-ltr-default**，见 §30.53） | [x] |
-| T4-05 | **`0.1.0` 发布**：CHANGELOG、npm 发布、合并 `dev` → `main` | T4-04 / T4-06 | 技术负责人 | `0.1.0` + CHANGELOG 齐备；**合并 `dev` → `main` 与 `pnpm release` 均须 Aming 逐次授权**（硬约束 13）；试点接入部分已由 T4-06 完成，本行只剩发布动作，未授权前保持 `[ ]` | [ ] |
+| T4-05 | **`0.1.0` 发布**：CHANGELOG、npm 发布、合并 `dev` → `main` | T4-04 / T4-06 | 技术负责人 | 2026-11-24 闭合（§30.69）：三包 npm latest 全 `0.1.0`（icons 由 Aming 2FA 补发）、tarball shasum 与 metadata 咬合；`dev` → `main` 经 Aming 授权 fast-forward 合并并推送（`9f8a487`，check:public RC=0）。合并时机由 Aming 逐次授权（硬约束 13），已执行 | [x] |
 | T4-06 | **试点应用接入 + 组件库四项缺口修复**：admin 模板（Vite 版，Ant Design Pro 风）+ 主题属性统一 `data-theme` / 表头 color-mix / 三浮层 z-index / Select 浮层左对齐 | T4-04 | 技术负责人 | 试点页面两页（工作台 + 采购计划 CRUD）浏览器实测通过；四项修复各带实证；新增 2 条 E2E 防复发断言；`pnpm verify` RC=0；仓外 `admin-framework/vite/` 纯前端（见 §30.55） | [x] |
 | T4-07 | **reset 自动注入 `styles.css`**：补齐归一化规则并入主入口，消除「库有 reset.css 但全员漏引」的静默失效 | T4-06 | 技术负责人 | Aming 裁决「自动注入 styles.css」（2026-11-20）；reset 补 box-sizing / margin / font inherit / button 重置（全 `:where()` 零特异性）并拼入 `index.css` 最前，独立 `reset.css` 保留兼容；admin 模板删手写 reset；`check:styles` 产物层新增判据 + 负向实证；契约变更同步 `docs/01~05` / README / llms（见 §30.56） | [x] |
 | T4-08 | **全局 density 链路修复 + admin 模板 click-to-component**：`ConfigProvider density` 写入根节点后组件零消费，表格密度切换假生效 | T4-07 | 技术负责人 | Aming 截图实测「密度紧凑/标准未生效」→ 裁决库级彻底修（2026-11-22）；Table 用 `useContext(ConfigProviderContext)` + `mergeProps` 作 density 兜底（props 显式优先，无 Provider 独立用不抛错）；单测 41/41（4 条新增）+ docs E2E 真样式断言（padding 12→8px）+ 负向实证 1/1 + SHA256 还原一致；admin 模板接入 `solid-devtools` locator（Alt+点击跳源码，需浏览器扩展）；仓外模板不随库提交（见 §30.57） | [x] |
@@ -6760,7 +6760,7 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 #### 七、治理回写
 
 - §4.2 T4-13 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-13 → 30.63`；goals 基线重校准（AGENTS.md 标记行同步）。
-- 既有 T4-05 `0.1.0` 发布仍保持 `[ ]`，须 Aming 逐次授权。
+- T4-05 `0.1.0` 发布当时保持 `[ ]`；2026-11-24 已完成并闭合（§30.69）。
 
 #### 八、已知边界
 
@@ -6810,7 +6810,7 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 
 #### 六、治理回写
 - §4.2 T4-14 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-14 → 30.64`；goals 基线重校准。
-- T4-05 `0.1.0` 发布仍保持 `[ ]`，须 Aming 逐次授权。
+- T4-05 `0.1.0` 发布当时保持 `[ ]`；2026-11-24 已完成并闭合（§30.69）。
 
 #### 七、已知边界
 1. 只修文档站宿主 CSS；仓外 `admin-framework` 模板的 Spin 走组件库自身 CSS，实测无同类全局禁动画规则，不在此次范围。
@@ -6856,7 +6856,7 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 
 #### 七、治理回写
 - §4.2 T4-15 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-15 → 30.65`；goals 基线重校准。
-- T4-05 `0.1.0` 发布仍保持 `[ ]`，须 Aming 逐次授权。
+- T4-05 `0.1.0` 发布当时保持 `[ ]`；2026-11-24 已完成并闭合（§30.69）。
 
 #### 八、已知边界
 1. `text/plain` 响应没有 `charset` 声明，Chrome 在某些系统区域设置下可能按非 UTF-8 解码导致中文乱码；这是 T1-14 产物的既有口径，本轮只补站内入口，未改生成脚本。
@@ -6901,7 +6901,7 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 
 #### 六、治理回写
 - §4.2 T4-16 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-16 → 30.66`；goals 基线重校准。
-- T4-05 `0.1.0` 发布仍保持 `[ ]`。
+- T4-05 `0.1.0` 发布当时保持 `[ ]`；2026-11-24 已完成并闭合（§30.69）。
 
 ---
 
@@ -6948,7 +6948,7 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 
 #### 六、治理回写
 - §4.2 T4-17 勾选 `[x]` + 顶部锚点推进；todo-governance `T4-17 → 30.67`；goals 基线重校准。
-- T4-05 `0.1.0` 发布仍保持 `[ ]`。
+- T4-05 `0.1.0` 发布当时保持 `[ ]`；2026-11-24 已完成并闭合（§30.69）。
 
 ---
 
@@ -7001,4 +7001,39 @@ dot 比旧值大 1px（7→8、9→10），相对外圈比例仍约一半，视�
 
 #### 六、治理回写
 - §4.2 T4-18 行 `[x]` + 顶部锚点推进；todo-governance `T4-18 → 30.68` + `taskIds` 同步新增 T4-18（82 → 83，否则 check:todo 结构判据红灯），evidence 区块标题补「验收」关键词；goals 基线重校（todo-governance 受保护）。
-- T4-05 `0.1.0` 发布仍保持 `[ ]`。
+- T4-05 `0.1.0` 发布当时保持 `[ ]`；2026-11-24 已完成并闭合（§30.69）。
+
+### 30.69 T4-05 `0.1.0` 发布闭合验收（2026-11-24）
+
+#### 一、背景与授权
+- T4-05 原文「CHANGELOG、npm 发布、合并 `dev` → `main`」。此前 CHANGELOG 与 dev 侧发布准备已随 `9f8a487` 完成，但 **npm 实际发布与合并 main 一直挂着等 Aming 逐次授权**（硬约束 13 / D-10 行「放行 ≠ 授权 publish」）。
+- 2026-11-24 Aming 告知「pnpm release 已经执行过了」、随后明确授权「补发」「合并」，本节点按授权逐步执行并逐项验收。
+
+#### 二、发现：icons 漏发（非版本设计差异）
+- 只读核对三包：核心包 `solid-craft` 与 `solid-craft-tokens` 已发 `0.1.0`（10:18:31 / 10:19:34 UTC）；**`solid-craft-icons` 停在 `0.0.0-stage` 占位**，npm 上无 `0.1.0`（404）。
+- 三包是 changesets `fixed` 组同版本、三个 git tag / 三个 CHANGELOG / 本地 version 均齐 ⇒ 是发布动作遗漏或中断，不是版本口径设计。
+- 前置闸门：`check:release --strict` RC=0（843 个 tarball 文件公开内容审计）；changesets `splitByTagStatus` 对已存在 tag 走 `Skipped tags (already exist)`，补发不会报 tag 冲突。
+
+#### 三、补发过程（Node 版本坑 + 2FA）
+- 当前 shell 的 node 是 WorkBuddy 自带 **v22.22.2**，仓库 `.node-version` 要求 **26.12.1**（fnm 已装）。统一用 `fnm exec --using 26.12.1 -- pnpm ...` 执行。
+- AI 发起 `changeset publish` 被 npm 2FA 拦下：`ERR_PNPM_OTP_NON_INTERACTIVE`（非交互终端无法输入验证码，changesets 仅支持 `--otp <code>` 显式传码）。**Aming 本人在交互式终端用 2FA 完成发布**，registry 记录 `0.1.0` 上线时间 `2026-11-24T02:25:25.411Z`。
+
+#### 四、发布验收
+| 项 | 结果 |
+| --- | --- |
+| 三包 latest | `solid-craft` / `solid-craft-icons` / `solid-craft-tokens` 全 `0.1.0`，dist-tag latest 正常 |
+| tarball 完整性 | shasum `199fef11a71f3415e8b3708d14410c063bb9ddeb` 与 registry metadata 完全咬合；1.39 MB |
+| 图标实体 | source / esm 各 4048 文件（2024 实体 × js + map），4 个 flat 分片 + `flat.jsx` barrel 在册 |
+| 随包文件 | `package.json` / `LICENSE` / `CHANGELOG.md` / `dist/{esm,source,types}/index.*` 齐全 |
+| 工作区 | 补发前后 0 改动，三个 tag 在 |
+
+- **CDN 同步插曲**：发布后几分钟内 `registry.npmjs.org/.../solid-craft-icons-0.1.0.tgz` 短暂 404（metadata 已更新、blob 未分发），加 `?nocache=<ts>` 后 200。属同步延迟，非发布失败；避免误判重发。
+
+#### 五、合并 `dev` → `main`
+- 合并前状态：`main` 落后 `dev` **33 提交 / 0 ahead**（无分叉），可 fast-forward 不产生 merge commit；工作区干净。
+- push 前闸门：`pnpm check:public` RC=0（3117 tracked 文件 / 2894 文本零敏感命中 / 7 类危险文件零入库 / `.npmrc` 无凭据 / 4 份 MIT LICENSE）。
+- 执行：`git checkout main && git merge --ff-only dev` → `ca9a5b6..9f8a487` 快进；`git push origin main` RC=0。本地与 `origin/main` SHA 均为 `9f8a487e1ff79eb29090102acdb3f4a82bb0a229`。
+
+#### 六、治理回写
+- §4.2 T4-05 行 `[x]`（CHANGELOG / npm 发布 / 合并 main 三项全闭合）；**§4 里程碑简表 M4 行依 check:ci 判据保持 `[ ]`——里程碑勾选只发生在 §4.2，简表永不勾**；顶部锚点（以 `T4-05` 开头，满足 check:ci 格式判据）/ 当前任务 / 下一步 / 未答决策四处同步清掉「只剩 T4-05 等授权」字样。
+- todo-governance evidence 新增 `T4-05 → 30.69`（本任务在 taskIds 已存在，无需新增项）；goals 基线因受保护的 `08-实施Todo.md` + `todo-governance.json` 改动重校。
