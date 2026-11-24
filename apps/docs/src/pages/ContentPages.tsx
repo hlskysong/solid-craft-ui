@@ -138,16 +138,15 @@ export function Changelog() {
   return (
     <article class="docs-page" data-testid="page-changelog">
       <h1>更新记录</h1>
-      <p class="docs-lead">变更以 Changesets 为准；当前工作区版本 v{catalog.version}。</p>
+      <p class="docs-lead">变更以 Changesets 为准；当前版本 v{catalog.version}。</p>
       <section class="docs-section">
-        <h2>v{catalog.version}（开发中）</h2>
+        <h2>v{catalog.version}</h2>
         <ul>
-          <li>脚手架：pnpm workspace + Turborepo + TypeScript 7 + 双构建（esm / source）。</li>
-          <li>7 个基础组件 + ConfigProvider，全部状态由 data-* 驱动。</li>
-          <li>Token 管线：style-dictionary 5 + colorjs.io，7 档对比度构建期校验。</li>
-          <li>测试设施：Vitest / Playwright + axe / 截图基线三条链。</li>
+          <li>33 个 P0 组件：表单、数据展示、导航、反馈，状态统一由 data-scui-* 驱动。</li>
+          <li>Token 管线：DTCG → CSS 变量 / TS / JSON，亮暗双主题与构建期对比度校验。</li>
+          <li>双构建：dist/esm 与保留 JSX 的 dist/source，每个组件子路径同时提供 types / solid / import。</li>
           <li>消费验证：Vite / Webpack 5 / Rspack 三端 + 真实 SolidStart SSR。</li>
-          <li>文档站：路由、同源 Demo、源码高亮、API 表、搜索。</li>
+          <li>图标包：2024 个组件 / 2317 个名字；文档站提供同源 Demo、API 表、搜索与 llms.txt。</li>
         </ul>
       </section>
       <p class="docs-muted">

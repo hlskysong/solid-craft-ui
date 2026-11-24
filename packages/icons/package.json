@@ -12,7 +12,11 @@
   "bugs": {
     "url": "https://github.com/hlskysong/solid-craft-ui/issues"
   },
-  "files": ["dist", "LICENSE"],
+  "files": [
+    "dist",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
