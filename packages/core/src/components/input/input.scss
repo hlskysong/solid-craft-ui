@@ -27,18 +27,30 @@
   color: var(--scui-color-text-primary);
   transition: border-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
 
-  &:hover:not([data-scui-disabled]) {
+  /* hover 的权重用 :where 归零到与 :focus-within 同级。鼠标点进输入框时
+     hover 恒成立，若 hover 仍是 0,2,0，它会压过 0,1,0 的 focus 规则，
+     蓝色 1px 边框和 2px focus ring 就会同时出现，读成双层边框。 */
+  &:where(:hover):not([data-scui-disabled]) {
     border-color: var(--scui-input-current-accent);
   }
 
   &:focus-within {
-    border-color: var(--scui-input-current-accent);
+    /* 聚焦时让壳自身的 1px 边框让位给 2px focus ring：
+       否则「1px 边框 + 2px offset 的间隙 + 2px outline」会读成双层边框。
+       边框改为透明而不是 0，保持盒模型与控件尺寸不变。 */
+    border-color: transparent;
 
     @include m.scui-focus-ring;
   }
 
   &[data-scui-invalid='true'] {
     border-color: var(--scui-input-current-danger);
+  }
+
+  /* 错误态聚焦时边框已透明，用红色 ring 继续表达错误语义。 */
+  &[data-scui-invalid='true']:focus-within {
+    border-color: transparent;
+    outline-color: var(--scui-input-current-danger);
   }
 
   &[data-scui-disabled] {
@@ -152,18 +164,25 @@
   color: var(--scui-color-text-primary);
   transition: border-color var(--scui-motion-duration-fast, 120ms) var(--scui-motion-ease, ease);
 
-  &:hover:not([data-scui-disabled]) {
+  /* 同 Input：hover 权重归零，避免鼠标点入后 hover 边框压过 focus 规则。 */
+  &:where(:hover):not([data-scui-disabled]) {
     border-color: var(--scui-textarea-current-accent);
   }
 
   &:focus-within {
-    border-color: var(--scui-textarea-current-accent);
+    /* 同 Input：聚焦时隐藏 1px 边框，只保留 2px ring，避免双层边框。 */
+    border-color: transparent;
 
     @include m.scui-focus-ring;
   }
 
   &[data-scui-invalid='true'] {
     border-color: var(--scui-textarea-current-danger);
+  }
+
+  &[data-scui-invalid='true']:focus-within {
+    border-color: transparent;
+    outline-color: var(--scui-textarea-current-danger);
   }
 
   &[data-scui-disabled] {

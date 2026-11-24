@@ -168,6 +168,87 @@ test.describe('浏览器链：交互 / 键盘 / 焦点 / CSS', () => {
     expect(primary).toBe('#2d66f5');
   });
 
+  // Input / Textarea 聚焦双层边框回归：壳自身的 1px 边框 + 2px offset 的 focus ring
+  // 会读成「两层边框」。这里必须走真实鼠标 hover + click：鼠标点进输入框后
+  // `:hover` 恒成立，hover 规则的权重若压过 focus，蓝色 1px 边框会和 2px ring
+  // 同时出现 —— 只用 `input.focus()` 测不到这条路径。
+  // 修复口径：hover 权重降级、聚焦时壳边框 transparent（保持盒模型），
+  // 只留 2px ring；错误态聚焦则把 ring 换成 danger 色，错误语义不丢。
+  test('Input 聚焦单层环：hover + 聚焦后壳边框透明、只留 2px ring，错误态换 danger 色', async ({
+    page,
+  }) => {
+    const readShell = (selector: string) =>
+      page.evaluate((sel) => {
+        const shell = document.querySelector(sel);
+        if (!shell) throw new Error(`未找到 ${sel}`);
+        const style = getComputedStyle(shell);
+        return {
+          borderColor: style.borderColor,
+          outlineStyle: style.outlineStyle,
+          outlineWidth: style.outlineWidth,
+          outlineOffset: style.outlineOffset,
+          outlineColor: style.outlineColor,
+        };
+      }, selector);
+    const transparent = /rgba\(0, 0, 0, 0\)|transparent/;
+
+    await page.goto('/components/input/basic?standalone=1');
+    await expect(page.getByTestId('demo-root')).toBeVisible();
+    const inputShell = '[data-scui-role="input"]';
+    const input = page.locator(`${inputShell} input`).first();
+    const idleBorder = (await readShell(inputShell)).borderColor;
+    expect(idleBorder).not.toMatch(transparent);
+
+    // 纯 hover：边框用 accent 提示可交互，但不应出现 focus ring。
+    await input.hover();
+    await expect
+      .poll(async () => (await readShell(inputShell)).borderColor)
+      .toBe('rgb(45, 102, 245)');
+    expect((await readShell(inputShell)).outlineStyle).toBe('none');
+
+    // hover + 聚焦（真实点击路径）：hover 边框必须让位给 focus ring。
+    await input.click();
+    // border-color 有 120ms 过渡，等它落到终值再断言，避免读到中间帧。
+    await expect.poll(async () => (await readShell(inputShell)).borderColor).toMatch(transparent);
+    const focused = await readShell(inputShell);
+    expect(focused.outlineStyle).toBe('solid');
+    expect(focused.outlineWidth).toBe('2px');
+    expect(focused.outlineOffset).toBe('2px');
+    expect(focused.outlineColor).toBe('rgb(45, 102, 245)');
+
+    // 鼠标移开、焦点仍在：仍只有一层 ring。
+    await page.mouse.move(0, 0);
+    await expect.poll(async () => (await readShell(inputShell)).borderColor).toMatch(transparent);
+
+    await input.blur();
+    await expect.poll(async () => (await readShell(inputShell)).borderColor).toBe(idleBorder);
+
+    // 错误态由组件输出 data-scui-invalid，这里只补属性以锁住 CSS 契约。
+    await page.evaluate(() => {
+      document.querySelector('[data-scui-role="input"]')?.setAttribute('data-scui-invalid', 'true');
+    });
+    await input.hover();
+    await input.click();
+    await expect
+      .poll(async () => (await readShell(inputShell)).outlineColor)
+      .toBe('rgb(220, 38, 38)');
+    expect((await readShell(inputShell)).borderColor).toMatch(transparent);
+
+    await page.goto('/components/input/textarea?standalone=1');
+    await expect(page.getByTestId('demo-root')).toBeVisible();
+    const textareaShell = '[data-scui-role="textarea"]';
+    const textarea = page.locator(`${textareaShell} textarea`).first();
+    await textarea.hover();
+    await textarea.click();
+    await expect
+      .poll(async () => (await readShell(textareaShell)).borderColor)
+      .toMatch(transparent);
+    const focusedTextarea = await readShell(textareaShell);
+    expect(focusedTextarea.outlineStyle).toBe('solid');
+    expect(focusedTextarea.outlineWidth).toBe('2px');
+    expect(focusedTextarea.outlineOffset).toBe('2px');
+  });
+
   // T4-05 修复回归：Select 浮层经 Portal 挂到 body，若 z-index 写成裸 1000，
   // 恰好等于 Modal 遮罩（base+1000）、低于弹窗本体（base+1001），Modal 内的
   // 下拉会被弹窗盖住。这条断言读 CSS 计算值中的层级次序（不是 DOM 顺序），
